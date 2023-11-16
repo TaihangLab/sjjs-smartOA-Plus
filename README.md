@@ -22,36 +22,9 @@
 - 前端Gitee地址(Vue3)：<https://gitee.com/KonBAI-Q/ruoyi-flowable-vue3>
 - 前端GitHub地址(Vue3)：<https://github.com/KonBAI-Q/RuoYi-Flowable-Vue3>
 
-## 在线演示
-演示服务不限制CURD操作，希望大家按需使用，不要恶意添加脏数据或对服务器进行攻击等操作。（将不定期清理数据）
-
-[RuoYi-Flowable-Plus 在线演示](http://159.75.158.189/)
-
-|                 | 账号  | 密码      |
-|---------------- | ----- | -------- |
-| 超管账户         | admin | admin123 |
-| 监控中心（未运行） | ruoyi | 123456   |
-| 任务调度中心      | admin | 123456   |
-
-## 技术交流群
-
-交流1群 [![加入QQ群](https://img.shields.io/badge/QQ群-1007207992-blue.svg?style=flat)](https://jq.qq.com/?_wv=1027\&k=PYDZa1tA) 🈵️</br>
-交流2群 [![加入QQ群](https://img.shields.io/badge/QQ群-725502135-blue.svg?style=flat)](https://jq.qq.com/?_wv=1027&k=J4zeZaKo) </br>
-交流3群 [![加入QQ群](https://img.shields.io/badge/QQ群-860980043-blue.svg?style=flat)](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=NfqIsFMASOvIC6yHYwY6bnaSfdgcD1La&authKey=SeFDA4oFkb%2FkdvnI%2FJ3aJTJZkyzDaz8v8gybpzUATAilnKSCmyKhCE6R2jkXc5e2&noverify=0&group_code=860980043) </br>
-
-
 ## 参与开源
 - 如遇到问题，欢迎提交到 [issues](https://gitee.com/KonBAI-Q/ruoyi-flowable-plus/issues)（请按模版进行填写信息）。
 - 欢迎提交 [PR](https://gitee.com/KonBAI-Q/ruoyi-flowable-plus/pulls) ，注意请提交到 `develop` 开发分支 统一测试发版。
-
-## 特别鸣谢
-- [RuoYi-Vue-Plus](https://gitee.com/dromara/RuoYi-Vue-Plus)
-- [RuoYi-flowable](https://gitee.com/tony2y/RuoYi-flowable)
-- [bpmn-process-designer](https://gitee.com/MiyueSC/bpmn-process-designer)
-
-## 支持项目
-如果项目对你有帮助，请给项目点个Star。也可以通过下方二维码请作者喝一杯奶茶！
-![输入图片说明](http://qiniu-flowable.konbai.work/Collection-Code.jpg)
 
 ## 友情链接
 - [玩转RuoYi-Cloud-Plus - Flowable基础](https://blog.csdn.net/zhaozhiqiang1981/article/details/129240406)：文档包含Flowable基础知识、项目使用说明、源码解析等。（新人必看）
