@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      title: 'RuoYi-Flowable-Plus',
+      title: '数智化管理系统',
       logo: logoImg
     }
   }
