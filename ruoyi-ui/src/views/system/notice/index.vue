@@ -70,53 +70,49 @@
     </el-row>
 
     <el-table v-loading="loading" :data="noticeList" @selection-change="handleSelectionChange">
-  <el-table-column type="selection" width="55" align="center" />
-  <el-table-column label="序号" align="center" prop="noticeId" width="100" />
-  <el-table-column
-    label="公告标题"
-    align="center"
-    prop="noticeTitle"
-    :show-overflow-tooltip="true"
-  >
-  <template slot-scope="scope">
-      <span @click="showNoticeContent(scope.row)">{{ scope.row.noticeTitle }}</span>
-  </template>
-  </el-table-column>
-  <el-table-column label="公告类型" align="center" prop="noticeType" width="100">
-    <template slot-scope="scope">
-      <dict-tag :options="dict.type.sys_notice_type" :value="scope.row.noticeType"/>
-    </template>
-  </el-table-column>
-  <el-table-column label="状态" align="center" prop="status" width="100">
-    <template slot-scope="scope">
-      <dict-tag :options="dict.type.sys_notice_status" :value="scope.row.status"/>
-    </template>
-  </el-table-column>
-  <el-table-column label="创建者" align="center" prop="createBy" width="100" />
-  <el-table-column label="创建时间" align="center" prop="createTime" width="100">
-    <template slot-scope="scope">
-      <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
-    </template>
-  </el-table-column>
-  <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
-    <template slot-scope="scope">
-      <el-button
-        size="mini"
-        type="text"
-        icon="el-icon-edit"
-        @click="handleUpdate(scope.row)"
-        v-hasPermi="['system:notice:edit']"
-      >修改</el-button>
-      <el-button
-        size="mini"
-        type="text"
-        icon="el-icon-delete"
-        @click="handleDelete(scope.row)"
-        v-hasPermi="['system:notice:remove']"
-      >删除</el-button>
-    </template>
-  </el-table-column>
-</el-table>
+      <el-table-column type="selection" width="55" align="center" />
+<!--      <el-table-column label="序号" align="center" prop="noticeId" width="100" />-->
+      <el-table-column
+        label="公告标题"
+        align="center"
+        prop="noticeTitle"
+        :show-overflow-tooltip="true"
+      />
+      <el-table-column label="公告类型" align="center" prop="noticeType" width="150">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.sys_notice_type" :value="scope.row.noticeType"/>
+        </template>
+      </el-table-column>
+      <el-table-column label="状态" align="center" prop="status" width="150">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.sys_notice_status" :value="scope.row.status"/>
+        </template>
+      </el-table-column>
+      <el-table-column label="创建者" align="center" prop="createBy" width="150" />
+      <el-table-column label="创建时间" align="center" prop="createTime" width="150">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" align="center" class-name="big-padding fixed-width" >
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+            @click="handleUpdate(scope.row)"
+            v-hasPermi="['system:notice:edit']"
+          >修改</el-button>
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-delete"
+            @click="handleDelete(scope.row)"
+            v-hasPermi="['system:notice:remove']"
+          >删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
 
     <el-dialog
     :title="selectedNotice.title"
@@ -127,7 +123,7 @@
         <div slot="title" style="text-align: center;">{{ selectedNotice.title }}</div>
         <div v-html="selectedNotice.content"></div>
     </el-dialog>
- 
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -227,28 +223,13 @@ export default {
         noticeType: [
           { required: true, message: "公告类型不能为空", trigger: "change" }
         ]
-      },
-      showNoticeDialog: false,
-      selectedNotice: {
-        title: "",
-        content: "",
-      },
+      }
     };
   },
   created() {
     this.getList();
   },
   methods: {
-     /** 在卡片中显示公告标题和内容 */
-     showNoticeContent(row) {
-      this.loading = true;
-      getNotice(row.noticeId).then((response) => {
-        this.selectedNotice.title = response.data.noticeTitle;
-        this.selectedNotice.content = response.data.noticeContent;
-        this.showNoticeDialog = true;
-        this.loading = false;
-      });
-    },
     /** 查询公告列表 */
     getList() {
       this.loading = true;
@@ -339,9 +320,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.notice-content-card {
-  margin-top: 70px;
-}
-</style>

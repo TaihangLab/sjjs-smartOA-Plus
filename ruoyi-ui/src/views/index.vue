@@ -2,8 +2,8 @@
   <div class="app-container home">
     <el-row :gutter="20">
       <el-col :sm="24" :lg="12" style="padding-left: 20px">
-        <h2>RuoYi-Vue-Plus后台管理框架</h2>
-        <p>
+        <h2>山西数据技术有限公司</h2>
+<!--        <p>
           RuoYi-Vue-Plus 是基于 RuoYi-Vue 针对 分布式集群 场景升级(不兼容原框架)
           <br/>
           * 前端开发框架 Vue、Element UI<br/>
@@ -67,16 +67,16 @@
             @click="goTarget('https://gitee.com/dromara/RuoYi-Vue-Plus/wikis/pages?sort_id=4106467&doc_id=1469725')"
           >更新日志</el-button
           >
-        </p>
+        </p>-->
       </el-col>
 
-      <el-col :sm="24" :lg="12" style="padding-left: 50px">
+<!--      <el-col :sm="24" :lg="12" style="padding-left: 50px">
         <el-row>
           <el-col :span="12">
             <h2>技术选型</h2>
           </el-col>
-        </el-row>
-        <el-row>
+        </el-row>-->
+<!--        <el-row>
           <el-col :span="6">
             <h4>后端技术</h4>
             <ul>
@@ -102,7 +102,7 @@
             </ul>
           </el-col>
         </el-row>
-      </el-col>
+      </el-col>-->
     </el-row>
     <el-divider />
   </div>
