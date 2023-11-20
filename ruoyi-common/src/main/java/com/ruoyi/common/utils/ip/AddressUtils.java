@@ -35,6 +35,8 @@ public class AddressUtils {
         return RegionUtils.getCityInfo(ip);
     }
 
+
+    //获取当前本机IP地址
     public static InetAddress getLocalHostExactAddress() {
         try {
             InetAddress candidateAddress = null;
