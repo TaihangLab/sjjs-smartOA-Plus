@@ -207,9 +207,9 @@ swagger:
     version: '版本号: ${ruoyi-flowable-plus.version}'
     # 作者信息
     contact:
-      name: KonBAI
-      email: 1527468660@qq.com
-      url: https://gitee.com/KonBAI-Q/ruoyi-flowable-plus
+      name: 范佳兴、张业茂、白凌南
+      email: c1111111c@163.com
+      url: https://github.com/fjx13038033078/sjjs-smartOA-Plus
   components:
     # 鉴权方式配置
     security-schemes:
