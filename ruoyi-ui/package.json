@@ -6,8 +6,8 @@
   "license": "MIT",
   "scripts": {
     "predev:pwsh": "npm config set script-shell 'C:\\Program Files\\PowerShell\\7\\pwsh.exe'",
-    "dev:pwsh": "$env:NODE_OPTIONS='--openssl-legacy-provider' && vue-cli-service serve",
-    "dev:dev": "export NODE_OPTIONS='--openssl-legacy-provider' && vue-cli-service serve",
+    "dev:pwsh": "$env:NODE_OPTIONS='--openssl-legacy-provider'; vue-cli-service serve",
+    "dev:bash": "export NODE_OPTIONS='--openssl-legacy-provider' && vue-cli-service serve",
     "build:prod": "vue-cli-service build",
     "preview": "node build/index.js --preview",
     "lint": "eslint --ext .js,.vue src"
