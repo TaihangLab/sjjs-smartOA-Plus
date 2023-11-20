@@ -7,9 +7,10 @@
   "scripts": {
     "add:script-shell": "npm config set script-shell \"C:/Program Files/PowerShell/7/pwsh.exe\"",
     "add:shell" : "npm config set shell \"C:/Program Files/PowerShell/7/pwsh.exe\"",
-    "add:env":"$env:NODE_OPTIONS='--openssl-legacy-provider'",
-    "predev:pwsh": "npm run add:shell & npm run add:script-shell & npm run add:env",
-    "dev:pwsh": "vue-cli-service serve",
+    "add:env":"New-Item -Path Env:\\NODE_OPTIONS -Value '--openssl-legacy-provider'",
+    "predev:pwsh": "npm run add:shell && npm run add:script-shell",
+    "dev:pwsh": "pwsh -command \"(New-Item -Path Env:\\NODE_OPTIONS -Value '--openssl-legacy-provider') &&  vue-cli-service serve\"",
+
     "dev:bash": "export NODE_OPTIONS='--openssl-legacy-provider' && vue-cli-service serve",
     "build:prod": "vue-cli-service build",
     "preview": "node build/index.js --preview",
