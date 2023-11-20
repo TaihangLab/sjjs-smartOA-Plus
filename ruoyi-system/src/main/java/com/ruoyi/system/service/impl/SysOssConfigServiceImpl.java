@@ -50,21 +50,21 @@ public class SysOssConfigServiceImpl implements ISysOssConfigService {
      */
     @Override
     public void init() throws UnknownHostException {
-        String IP = InetAddress.getLocalHost().getHostAddress();
+//        String IP = InetAddress.getLocalHost().getHostAddress();
         List<SysOssConfig> list = baseMapper.selectList();
         // 加载OSS初始化配置
         for (SysOssConfig config : list) {
             String configKey = config.getConfigKey();
 
             // 本地部署minio 才开启这个if
-            if ("minio".equals(configKey) || "image".equals(configKey)) {
-                String endpoint = config.getEndpoint().split(":")[0];
-                if (!IP.equals(endpoint)) {
-                    String newEndpoint = IP + ":9000";
-                    config.setEndpoint(newEndpoint);
-                    log.info(newEndpoint);
-                }
-            }
+//            if ("minio".equals(configKey) || "image".equals(configKey)) {
+//                String endpoint = config.getEndpoint().split(":")[0];
+//                if (!IP.equals(endpoint)) {
+//                    String newEndpoint = IP + ":9000";
+//                    config.setEndpoint(newEndpoint);
+//                    log.info(newEndpoint);
+//                }
+//            }
 
             if ("0".equals(config.getStatus())) {
                 RedisUtils.setCacheObject(OssConstant.DEFAULT_CONFIG_KEY, configKey);
