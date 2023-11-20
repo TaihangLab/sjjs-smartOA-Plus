@@ -5,7 +5,9 @@
   "author": "山西数据技术有限公司",
   "license": "MIT",
   "scripts": {
-    "dev": "vue-cli-service serve",
+    "predev:pwsh": "npm config set script-shell 'C:\\Program Files\\PowerShell\\7\\pwsh.exe'",
+    "dev:pwsh": "$env:NODE_OPTIONS='--openssl-legacy-provider' && vue-cli-service serve",
+    "dev:dev": "export NODE_OPTIONS='--openssl-legacy-provider' && vue-cli-service serve",
     "build:prod": "vue-cli-service build",
     "preview": "node build/index.js --preview",
     "lint": "eslint --ext .js,.vue src"
@@ -58,7 +60,7 @@
     "vue-meta": "2.4.0",
     "vue-router": "3.4.9",
     "vuedraggable": "2.24.3",
-    "vuex": "^3.6.0",
+    "vuex": "3.6.0",
     "xml-js": "1.6.11",
     "bpmn-js-token-simulation": "0.10.0"
   },
