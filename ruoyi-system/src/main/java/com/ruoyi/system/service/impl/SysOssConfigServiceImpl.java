@@ -26,6 +26,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Collection;
 import java.util.List;
 
@@ -47,11 +49,23 @@ public class SysOssConfigServiceImpl implements ISysOssConfigService {
      * 项目启动时，初始化参数到缓存，加载配置类
      */
     @Override
-    public void init() {
+    public void init() throws UnknownHostException {
+        String IP = InetAddress.getLocalHost().getHostAddress();
         List<SysOssConfig> list = baseMapper.selectList();
         // 加载OSS初始化配置
         for (SysOssConfig config : list) {
             String configKey = config.getConfigKey();
+
+            // 本地部署minio 才开启这个if
+            if ("minio".equals(configKey) || "image".equals(configKey)) {
+                String endpoint = config.getEndpoint().split(":")[0];
+                if (!IP.equals(endpoint)) {
+                    String newEndpoint = IP + ":9000";
+                    config.setEndpoint(newEndpoint);
+                    log.info(newEndpoint);
+                }
+            }
+
             if ("0".equals(config.getStatus())) {
                 RedisUtils.setCacheObject(OssConstant.DEFAULT_CONFIG_KEY, configKey);
             }
