@@ -13,6 +13,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.JsonUtils;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.ip.AddressUtils;
 import com.ruoyi.common.utils.redis.CacheUtils;
 import com.ruoyi.common.utils.redis.RedisUtils;
 import com.ruoyi.oss.constant.OssConstant;
@@ -45,26 +46,32 @@ public class SysOssConfigServiceImpl implements ISysOssConfigService {
 
     private final SysOssConfigMapper baseMapper;
 
+    private AddressUtils addressUtils;
+
+
     /**
      * 项目启动时，初始化参数到缓存，加载配置类
      */
     @Override
     public void init() throws UnknownHostException {
-//        String IP = InetAddress.getLocalHost().getHostAddress();
+        String IP = InetAddress.getLocalHost().getHostAddress();
         List<SysOssConfig> list = baseMapper.selectList();
+        String IP = AddressUtils.getLocalHostExactAddress().toString().split("/")[1];
+        log.info("IP"+IP);
         // 加载OSS初始化配置
         for (SysOssConfig config : list) {
             String configKey = config.getConfigKey();
 
             // 本地部署minio 才开启这个if
-//            if ("minio".equals(configKey) || "image".equals(configKey)) {
-//                String endpoint = config.getEndpoint().split(":")[0];
-//                if (!IP.equals(endpoint)) {
-//                    String newEndpoint = IP + ":9000";
-//                    config.setEndpoint(newEndpoint);
-//                    log.info(newEndpoint);
-//                }
-//            }
+
+            if ("minio".equals(configKey) || "image".equals(configKey)) {
+                String endpoint = config.getEndpoint().split(":")[0];
+                if (!IP.equals(endpoint)) {
+                    String newEndpoint = IP + ":9000";
+                    config.setEndpoint(newEndpoint);
+                    log.info("newEndpoint"+newEndpoint);
+                }
+            }
 
             if ("0".equals(config.getStatus())) {
                 RedisUtils.setCacheObject(OssConstant.DEFAULT_CONFIG_KEY, configKey);
