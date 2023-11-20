@@ -80,7 +80,7 @@
   >
   <template slot-scope="scope">
       <span @click="showNoticeContent(scope.row)">{{ scope.row.noticeTitle }}</span>
-    </template>
+  </template>
   </el-table-column>
   <el-table-column label="公告类型" align="center" prop="noticeType" width="100">
     <template slot-scope="scope">
@@ -124,8 +124,8 @@
     width="780px"
     append-to-body
     >
-    <div slot="title" style="text-align: center;">{{ selectedNotice.title }}</div>
-      <div v-html="selectedNotice.content"></div>
+        <div slot="title" style="text-align: center;">{{ selectedNotice.title }}</div>
+        <div v-html="selectedNotice.content"></div>
     </el-dialog>
  
     <pagination
