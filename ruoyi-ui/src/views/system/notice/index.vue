@@ -114,6 +114,16 @@
       </el-table-column>
     </el-table>
 
+    <el-dialog
+    :title="selectedNotice.title"
+    :visible.sync="showNoticeDialog"
+    width="780px"
+    append-to-body
+    >
+        <div slot="title" style="text-align: center;">{{ selectedNotice.title }}</div>
+        <div v-html="selectedNotice.content"></div>
+    </el-dialog>
+
     <pagination
       v-show="total>0"
       :total="total"
