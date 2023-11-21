@@ -22,12 +22,14 @@ import com.ruoyi.oss.factory.OssFactory;
 import com.ruoyi.system.domain.SysOss;
 import com.ruoyi.system.domain.bo.SysOssBo;
 import com.ruoyi.system.domain.vo.SysOssVo;
+import com.ruoyi.system.mapper.SysOssConfigMapper;
 import com.ruoyi.system.mapper.SysOssMapper;
 import com.ruoyi.system.service.ISysOssService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -46,6 +48,8 @@ import java.util.stream.Collectors;
 public class SysOssServiceImpl implements ISysOssService, OssService {
 
     private final SysOssMapper baseMapper;
+
+    private final SysOssConfigMapper sysOssConfigMapper;
 
     @Override
     public TableDataInfo<SysOssVo> queryPageList(SysOssBo bo, PageQuery pageQuery) {
@@ -78,6 +82,13 @@ public class SysOssServiceImpl implements ISysOssService, OssService {
             }
         }
         return String.join(StringUtils.SEPARATOR, list);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateIP(String oldEndPoint, String newEndPoint) {
+        sysOssConfigMapper.updateEndPoint(oldEndPoint, newEndPoint);
+        baseMapper.updateUrl(oldEndPoint, newEndPoint);
     }
 
     private LambdaQueryWrapper<SysOss> buildQueryWrapper(SysOssBo bo) {
@@ -169,4 +180,6 @@ public class SysOssServiceImpl implements ISysOssService, OssService {
         }
         return oss;
     }
+
+
 }

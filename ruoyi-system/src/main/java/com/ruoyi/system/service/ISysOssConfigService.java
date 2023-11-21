@@ -5,6 +5,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.system.domain.bo.SysOssConfigBo;
 import com.ruoyi.system.domain.vo.SysOssConfigVo;
 
+import java.net.UnknownHostException;
 import java.util.Collection;
 
 /**
@@ -19,7 +20,7 @@ public interface ISysOssConfigService {
     /**
      * 初始化OSS配置
      */
-    void init();
+    void init() throws UnknownHostException;
 
     /**
      * 查询单个
