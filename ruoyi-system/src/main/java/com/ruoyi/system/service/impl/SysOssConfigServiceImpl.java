@@ -10,9 +10,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ruoyi.common.constant.CacheNames;
 import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.core.service.OssService;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.JsonUtils;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.ip.AddressUtils;
 import com.ruoyi.common.utils.redis.CacheUtils;
 import com.ruoyi.common.utils.redis.RedisUtils;
 import com.ruoyi.oss.constant.OssConstant;
@@ -20,9 +22,11 @@ import com.ruoyi.system.domain.SysOssConfig;
 import com.ruoyi.system.domain.bo.SysOssConfigBo;
 import com.ruoyi.system.domain.vo.SysOssConfigVo;
 import com.ruoyi.system.mapper.SysOssConfigMapper;
+import com.ruoyi.system.mapper.SysOssMapper;
 import com.ruoyi.system.service.ISysOssConfigService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,7 +39,7 @@ import java.util.List;
  * 对象存储配置Service业务层处理
  *
  * @author Lion Li
- * @author 孤舟烟雨
+ * @author 范佳兴
  * @date 2021-08-13
  */
 @Slf4j
@@ -45,26 +49,33 @@ public class SysOssConfigServiceImpl implements ISysOssConfigService {
 
     private final SysOssConfigMapper baseMapper;
 
+    @Autowired
+    OssService ossService;
+
+
     /**
      * 项目启动时，初始化参数到缓存，加载配置类
      */
     @Override
-    public void init() throws UnknownHostException {
-//        String IP = InetAddress.getLocalHost().getHostAddress();
+    public void init() {
         List<SysOssConfig> list = baseMapper.selectList();
+        String IP = AddressUtils.getLocalHostExactAddress().toString().split("/")[1];
+        log.info("本机IP为{}",IP);
         // 加载OSS初始化配置
         for (SysOssConfig config : list) {
             String configKey = config.getConfigKey();
 
             // 本地部署minio 才开启这个if
-//            if ("minio".equals(configKey) || "image".equals(configKey)) {
-//                String endpoint = config.getEndpoint().split(":")[0];
-//                if (!IP.equals(endpoint)) {
-//                    String newEndpoint = IP + ":9000";
-//                    config.setEndpoint(newEndpoint);
-//                    log.info(newEndpoint);
-//                }
-//            }
+
+            if ("minio".equals(configKey) || "image".equals(configKey)) {
+                String endpoint = config.getEndpoint().split(":")[0];
+                if (!IP.equals(endpoint)) {
+                    String newEndpoint = IP + ":9000";
+                    config.setEndpoint(newEndpoint);
+                    log.info("newEndpoint为{}",newEndpoint);
+                    ossService.updateIP(endpoint+ ":9000", newEndpoint);
+                }
+            }
 
             if ("0".equals(config.getStatus())) {
                 RedisUtils.setCacheObject(OssConstant.DEFAULT_CONFIG_KEY, configKey);

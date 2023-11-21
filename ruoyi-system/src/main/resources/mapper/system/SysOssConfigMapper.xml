@@ -22,6 +22,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime" column="update_time"/>
         <result property="remark" column="remark"/>
     </resultMap>
-
+    <update id="updateEndPoint">
+        UPDATE sys_oss_config
+        SET endpoint=#{newEndPoint}
+        WHERE endpoint=#{oldEndPoint}
+    </update>
 
 </mapper>
