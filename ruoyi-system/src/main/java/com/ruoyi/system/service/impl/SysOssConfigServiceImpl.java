@@ -39,7 +39,7 @@ import java.util.List;
  * 对象存储配置Service业务层处理
  *
  * @author Lion Li
- * @author 孤舟烟雨
+ * @author 范佳兴
  * @date 2021-08-13
  */
 @Slf4j
