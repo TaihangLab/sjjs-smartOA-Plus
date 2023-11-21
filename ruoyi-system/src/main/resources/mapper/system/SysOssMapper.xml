@@ -14,5 +14,9 @@
         <result property="service" column="service"/>
     </resultMap>
 
-
+    <update id="updateUrl">
+        UPDATE sys_oss
+        SET url = REPLACE(url, #{oldEndPoint},#{newEndPoint})
+        WHERE url LIKE CONCAT('%http://', #{oldEndPoint}, '%')
+    </update>
 </mapper>

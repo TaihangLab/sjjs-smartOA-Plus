@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ruoyi.common.constant.CacheNames;
 import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.core.service.OssService;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.JsonUtils;
 import com.ruoyi.common.utils.StringUtils;
@@ -21,9 +22,11 @@ import com.ruoyi.system.domain.SysOssConfig;
 import com.ruoyi.system.domain.bo.SysOssConfigBo;
 import com.ruoyi.system.domain.vo.SysOssConfigVo;
 import com.ruoyi.system.mapper.SysOssConfigMapper;
+import com.ruoyi.system.mapper.SysOssMapper;
 import com.ruoyi.system.service.ISysOssConfigService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,7 +49,8 @@ public class SysOssConfigServiceImpl implements ISysOssConfigService {
 
     private final SysOssConfigMapper baseMapper;
 
-    private AddressUtils addressUtils;
+    @Autowired
+    OssService ossService;
 
 
     /**
@@ -54,10 +58,9 @@ public class SysOssConfigServiceImpl implements ISysOssConfigService {
      */
     @Override
     public void init() throws UnknownHostException {
-        String IP = InetAddress.getLocalHost().getHostAddress();
         List<SysOssConfig> list = baseMapper.selectList();
         String IP = AddressUtils.getLocalHostExactAddress().toString().split("/")[1];
-        log.info("IP"+IP);
+        log.info("本机IP为{}",IP);
         // 加载OSS初始化配置
         for (SysOssConfig config : list) {
             String configKey = config.getConfigKey();
@@ -69,7 +72,8 @@ public class SysOssConfigServiceImpl implements ISysOssConfigService {
                 if (!IP.equals(endpoint)) {
                     String newEndpoint = IP + ":9000";
                     config.setEndpoint(newEndpoint);
-                    log.info("newEndpoint"+newEndpoint);
+                    log.info("newEndpoint为{}",newEndpoint);
+                    ossService.updateIP(endpoint+ ":9000", newEndpoint);
                 }
             }
 
