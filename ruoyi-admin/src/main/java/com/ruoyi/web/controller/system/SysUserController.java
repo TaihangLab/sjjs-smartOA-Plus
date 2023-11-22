@@ -75,6 +75,15 @@ public class SysUserController extends BaseController {
     }
 
     /**
+     * 查询全部用户列表，用于工作流
+     */
+    @SaCheckLogin
+    @GetMapping("/selectAllUser")
+    public TableDataInfo<SysUser> selectAllUser(SysUser user, PageQuery pageQuery) {
+        return userService.selectAllPageUserList(user, pageQuery);
+    }
+
+    /**
      * 导出用户列表
      */
     @Log(title = "用户管理", businessType = BusinessType.EXPORT)
@@ -253,6 +262,15 @@ public class SysUserController extends BaseController {
     @GetMapping("/deptTree")
     public R<List<Tree<Long>>> deptTree(SysDept dept) {
         return R.ok(deptService.selectDeptTreeList(dept));
+    }
+
+    /**
+     * 获取所有部门列表
+     */
+    @SaCheckPermission("system:user:list")
+    @GetMapping("/allDeptTree")
+    public R<List<Tree<Long>>> allDeptTree(SysDept dept) {
+        return R.ok(deptService.selectAllDeptTreeList(dept));
     }
 
 }

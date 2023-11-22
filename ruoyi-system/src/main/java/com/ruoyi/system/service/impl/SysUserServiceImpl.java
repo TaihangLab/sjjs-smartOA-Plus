@@ -60,6 +60,12 @@ public class SysUserServiceImpl implements ISysUserService, UserService {
         return TableDataInfo.build(page);
     }
 
+    @Override
+    public TableDataInfo<SysUser> selectAllPageUserList(SysUser user, PageQuery pageQuery) {
+        Page<SysUser> page = baseMapper.selectAllPageUserList(pageQuery.build(), this.buildQueryWrapper(user));
+        return TableDataInfo.build(page);
+    }
+
     /**
      * 根据条件分页查询用户列表
      *

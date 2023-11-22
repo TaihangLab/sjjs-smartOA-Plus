@@ -27,6 +27,8 @@ public interface ISysDeptService {
      */
     List<Tree<Long>> selectDeptTreeList(SysDept dept);
 
+    List<Tree<Long>> selectAllDeptTreeList(SysDept dept);
+
     /**
      * 构建前端所需要下拉树结构
      *
