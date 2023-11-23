@@ -4,9 +4,12 @@
   </div>
 </template>
 
-<script setup>
+<script>
 import Project from "@/views/project/Project.vue";
 
-components: { Project }
+export default {
+name:"ProjectList",
+components: { Project },
+}
 </script>
 
