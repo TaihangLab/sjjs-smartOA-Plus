@@ -1,29 +1,6 @@
 <template>
     <el-card class="box-card" style="margin: auto;">
         <div>
-            <!-- 搜索框 -->
-            <el-form
-                ref="dataFrom"
-                :inline="true"
-                :model="dataFrom"
-                class="demo-form-inline"
-            >
-                <el-form-item label="项目名称">
-                    <el-input
-                        v-model="dataFrom.name"
-                        clearable
-                        placeholder="项目名称"
-                    ></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-button
-                        icon="el-icon-search"
-                        type="primary"
-                        @click="getDataListByName"
-                    >查询
-                    </el-button>
-                </el-form-item>
-            </el-form>
             <!-- 角色数据表单 -->
             <el-table ref="multipleTable" :data="dataList" border style="width: 100%" :row-style="{height: '50px'}"
                       :cell-style="{padding:'0px'}">
@@ -55,11 +32,25 @@
                     <template v-slot="scope">
                         <el-button
                             size="mini"
-                            type="primary"
+                            type="text"
                             @click="lookEdit(scope.$index, scope.row)"
                         >
-                            查看项目
+                            详情
                         </el-button>
+                        <el-button
+                            size="mini"
+                            type="text"
+                            icon="el-icon-edit"
+                            @click="handleUpdate(scope.row)"
+                            v-hasPermi="['system:role:edit']"
+                        >修改</el-button>
+                        <el-button
+                            size="mini"
+                            type="text"
+                            icon="el-icon-delete"
+                            @click="handleDelete(scope.row)"
+                            v-hasPermi="['system:role:remove']"
+                        >删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -165,7 +156,7 @@
 </template>
 <script>
 export default {
-    name: "Project",
+    name: "ProjectList",
     data() {
         return {
             score: 0, //要修改的评分
