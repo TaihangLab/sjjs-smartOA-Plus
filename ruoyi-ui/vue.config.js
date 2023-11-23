@@ -2,9 +2,11 @@
 const path = require('path')
 
 function resolve(dir) {
+  console.log("path:    ",path.join(__dirname, dir))
   return path.join(__dirname, dir)
 }
 
+resolve("src");
 const CompressionPlugin = require('compression-webpack-plugin')
 
 const name = process.env.VUE_APP_TITLE || '数据技术数智化管理系统' // 网页标题
@@ -35,7 +37,7 @@ module.exports = {
     proxy: {
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       [process.env.VUE_APP_BASE_API]: {
-        target: `http://10.21.12.130:8080`,
+        target: `http://10.21.12.45:8080`,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''

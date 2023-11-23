@@ -97,7 +97,7 @@ export const constantRoutes = [
         path: 'profile',
         component: () => import('@/views/system/user/profile/index'),
         name: 'Profile',
-        meta: { title: '个人中心', icon: 'user' }
+        meta: { title: '个人中心', icon: 'qq' }
       }
     ]
   }
@@ -193,6 +193,27 @@ export const dynamicRoutes = [
         name: 'WorkDetail',
         meta: { title: '流程详情', activeMenu: '/work/own' }
       }
+    ]
+  },
+  {
+    path: '/project',
+    component: Layout,
+    hidden: true,
+    // permissions: ['projct:list:all'],
+    children: [
+      {
+        path: 'all',
+        component: () => import('@/views/project/ProjectList.vue'),
+        name: '项目列表',
+        meta: { title: '项目列表', icon: 'project'}
+      },
+      {
+        path: 'my',
+        component: () => import('@/views/project/MyProject.vue'),
+        name: '我的项目',
+        meta: { title: '我的项目', icon: 'qq' }
+      },
+
     ]
   },
 ]

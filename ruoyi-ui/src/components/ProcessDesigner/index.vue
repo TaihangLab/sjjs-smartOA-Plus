@@ -56,7 +56,7 @@ export default {
       controlForm: {
         processId: this.designerForm.processKey || '',
         processName: this.designerForm.processName || '',
-        simulation: false,
+        simulation: true,
         labelEditing: false,
         labelVisible: false,
         prefix: 'flowable',

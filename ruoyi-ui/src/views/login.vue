@@ -1,7 +1,9 @@
 <template>
   <div class="login">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
-      <h3 class="title">山西数据技术公司数智化管理系统</h3>
+      <div>
+<!--      <img class="logo" src="@/assets/logo/logo.png">-->
+      <h3 class="title">山西数据技术公司数智化管理系统</h3></div>
       <el-form-item prop="username">
         <el-input
           v-model="loginForm.username"
@@ -165,9 +167,15 @@ export default {
   background-size: cover;
 }
 .title {
-  margin: 0px auto 30px auto;
+  margin: 0 auto 30px auto;
   text-align: center;
   color: #707070;
+}
+.logo {
+  width: 50px;
+  height: 50px;
+  display: inline-block;
+  vertical-align: top;
 }
 
 .login-form {
