@@ -58,7 +58,7 @@
     </el-form>
     <!--  底部  -->
     <div class="el-login-footer">
-      <span>Copyright © 2021-2023 KonBAI All Rights Reserved.</span>
+      <span>Copyright © 2023 山西数据技术公司 All Rights Reserved.</span>
     </div>
   </div>
 </template>

@@ -77,6 +77,18 @@ public class SysDeptServiceImpl implements ISysDeptService, DeptService {
     }
 
     /**
+     * 查询所有部门信息
+     *
+     * @param dept 部门信息
+     * @return 部门树信息集合
+     */
+    @Override
+    public List<Tree<Long>> selectAllDeptTreeList(SysDept dept) {
+        List<SysDept> depts = this.baseMapper.selectList();
+        return buildDeptTreeSelect(depts);
+    }
+
+    /**
      * 构建前端所需要下拉树结构
      *
      * @param depts 部门列表

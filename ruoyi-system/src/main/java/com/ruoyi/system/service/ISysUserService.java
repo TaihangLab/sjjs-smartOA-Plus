@@ -16,6 +16,8 @@ public interface ISysUserService {
 
     TableDataInfo<SysUser> selectPageUserList(SysUser user, PageQuery pageQuery);
 
+    TableDataInfo<SysUser> selectAllPageUserList(SysUser user, PageQuery pageQuery);
+
     /**
      * 根据条件分页查询用户列表
      *

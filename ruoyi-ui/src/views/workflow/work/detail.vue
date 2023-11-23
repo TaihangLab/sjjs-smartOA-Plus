@@ -19,7 +19,7 @@
             <el-col :span="20" :offset="2">
               <el-form ref="taskForm" :model="taskForm" :rules="rules" label-width="120px">
                 <el-form-item label="审批意见" prop="comment">
-                  <el-input type="textarea" :rows="5" v-model="taskForm.comment" placeholder="请输入 审批意见" />
+                  <el-input type="textarea" :rows="5" v-model="taskForm.comment" placeholder="请输入 审批意见"/>
                 </el-form-item>
                 <el-form-item label="抄送人" prop="copyUserIds">
                   <el-tag
@@ -30,7 +30,8 @@
                     @close="handleClose('copy', item)">
                     {{ item.nickName }}
                   </el-tag>
-                  <el-button class="button-new-tag" type="primary" icon="el-icon-plus" size="mini" circle @click="onSelectCopyUsers" />
+                  <el-button class="button-new-tag" type="primary" icon="el-icon-plus" size="mini" circle
+                             @click="onSelectCopyUsers"/>
                 </el-form-item>
                 <el-form-item label="指定审批人" prop="copyUserIds">
                   <el-tag
@@ -41,12 +42,13 @@
                     @close="handleClose('next', item)">
                     {{ item.nickName }}
                   </el-tag>
-                  <el-button class="button-new-tag" type="primary" icon="el-icon-plus" size="mini" circle @click="onSelectNextUsers" />
+                  <el-button class="button-new-tag" type="primary" icon="el-icon-plus" size="mini" circle
+                             @click="onSelectNextUsers"/>
                 </el-form-item>
               </el-form>
             </el-col>
           </el-row>
-          <el-row :gutter="10" type="flex" justify="center" >
+          <el-row :gutter="10" type="flex" justify="center">
             <el-col :span="1.5">
               <el-button icon="el-icon-circle-check" type="success" @click="handleComplete">通过</el-button>
             </el-col>
@@ -78,30 +80,34 @@
             </el-col>
           </el-card>
         </div>
-      </el-tab-pane >
+      </el-tab-pane>
 
       <el-tab-pane label="流转记录" name="record">
         <el-card class="box-card" shadow="never">
           <el-col :span="20" :offset="2">
             <div class="block">
               <el-timeline>
-                <el-timeline-item v-for="(item,index) in historyProcNodeList" :key="index" :icon="setIcon(item.endTime)" :color="setColor(item.endTime)">
+                <el-timeline-item v-for="(item,index) in historyProcNodeList" :key="index" :icon="setIcon(item.endTime)"
+                                  :color="setColor(item.endTime)">
                   <p style="font-weight: 700">{{ item.activityName }}</p>
                   <el-card v-if="item.activityType === 'startEvent'" class="box-card" shadow="hover">
                     {{ item.assigneeName }} 在 {{ item.createTime }} 发起流程
                   </el-card>
                   <el-card v-if="item.activityType === 'userTask'" class="box-card" shadow="hover">
                     <el-descriptions :column="5" :labelStyle="{'font-weight': 'bold'}">
-                      <el-descriptions-item label="实际办理">{{ item.assigneeName || '-'}}</el-descriptions-item>
-                      <el-descriptions-item label="候选办理">{{ item.candidate || '-'}}</el-descriptions-item>
-                      <el-descriptions-item label="接收时间">{{ item.createTime || '-'}}</el-descriptions-item>
+                      <el-descriptions-item label="实际办理">{{ item.assigneeName || '-' }}</el-descriptions-item>
+                      <el-descriptions-item label="候选办理">{{ item.candidate || '-' }}</el-descriptions-item>
+                      <el-descriptions-item label="接收时间">{{ item.createTime || '-' }}</el-descriptions-item>
                       <el-descriptions-item label="办结时间">{{ item.endTime || '-' }}</el-descriptions-item>
-                      <el-descriptions-item label="耗时">{{ item.duration || '-'}}</el-descriptions-item>
+                      <el-descriptions-item label="耗时">{{ item.duration || '-' }}</el-descriptions-item>
                     </el-descriptions>
                     <div v-if="item.commentList && item.commentList.length > 0">
                       <div v-for="(comment, index) in item.commentList" :key="index">
                         <el-divider content-position="left">
-                          <el-tag :type="approveTypeTag(comment.type)" size="mini">{{ commentType(comment.type) }}</el-tag>
+                          <el-tag :type="approveTypeTag(comment.type)" size="mini">{{
+                              commentType(comment.type)
+                            }}
+                          </el-tag>
                           <el-tag type="info" effect="plain" size="mini">{{ comment.time }}</el-tag>
                         </el-divider>
                         <span>{{ comment.fullMessage }}</span>
@@ -129,14 +135,15 @@
 
     <!--退回流程-->
     <el-dialog :title="returnTitle" :visible.sync="returnOpen" width="40%" append-to-body>
-      <el-form ref="taskForm" :model="taskForm" label-width="80px" >
+      <el-form ref="taskForm" :model="taskForm" label-width="80px">
         <el-form-item label="退回节点" prop="targetKey">
           <el-radio-group v-model="taskForm.targetKey">
             <el-radio-button
               v-for="item in returnTaskList"
               :key="item.id"
               :label="item.id"
-            >{{item.name}}</el-radio-button>
+            >{{ item.name }}
+            </el-radio-button>
           </el-radio-group>
         </el-form-item>
       </el-form>
@@ -155,7 +162,8 @@
               <span>部门列表</span>
             </div>
             <div class="head-container">
-              <el-input v-model="deptName" placeholder="请输入部门名称" clearable size="small" prefix-icon="el-icon-search"/>
+              <el-input v-model="deptName" placeholder="请输入部门名称" clearable size="small"
+                        prefix-icon="el-icon-search"/>
               <el-tree
                 :data="deptOptions"
                 :props="deptProps"
@@ -177,15 +185,15 @@
                     highlight-current-row
                     @current-change="changeCurrentUser"
                     @selection-change="handleSelectionChange">
-            <el-table-column v-if="userData.type === 'copy' || userData.type === 'next'" width="55" type="selection" />
+            <el-table-column v-if="userData.type === 'copy' || userData.type === 'next'" width="55" type="selection"/>
             <el-table-column v-else width="30">
               <template slot-scope="scope">
-                <el-radio :label="scope.row.userId" v-model="currentUserId">{{''}}</el-radio>
+                <el-radio :label="scope.row.userId" v-model="currentUserId">{{ '' }}</el-radio>
               </template>
             </el-table-column>
-            <el-table-column label="用户名" align="center" prop="nickName" />
-            <el-table-column label="手机" align="center" prop="phonenumber" />
-            <el-table-column label="部门" align="center" prop="dept.deptName" />
+            <el-table-column label="用户名" align="center" prop="nickName"/>
+            <el-table-column label="手机" align="center" prop="phonenumber"/>
+            <el-table-column label="部门" align="center" prop="dept.deptName"/>
           </el-table>
           <pagination
             :total="total"
@@ -204,10 +212,10 @@
 </template>
 
 <script>
-import { detailProcess } from '@/api/workflow/process'
+import {detailProcess} from '@/api/workflow/process'
 import Parser from '@/utils/generator/parser'
-import { complete, delegate, transfer, rejectTask, returnList, returnTask } from '@/api/workflow/task'
-import { selectUser, deptTreeSelect } from '@/api/system/user'
+import {complete, delegate, transfer, rejectTask, returnList, returnTask} from '@/api/workflow/task'
+import {selectUser, deptTreeSelect, selecAlltUser, allDeptTreeSelect} from '@/api/system/user'
 import ProcessViewer from '@/components/ProcessViewer'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import Treeselect from '@riophae/vue-treeselect'
@@ -224,26 +232,40 @@ export default {
     commentType() {
       return val => {
         switch (val) {
-          case '1': return '通过'
-          case '2': return '退回'
-          case '3': return '驳回'
-          case '4': return '委派'
-          case '5': return '转办'
-          case '6': return '终止'
-          case '7': return '撤回'
+          case '1':
+            return '通过'
+          case '2':
+            return '退回'
+          case '3':
+            return '驳回'
+          case '4':
+            return '委派'
+          case '5':
+            return '转办'
+          case '6':
+            return '终止'
+          case '7':
+            return '撤回'
         }
       }
     },
     approveTypeTag() {
       return val => {
         switch (val) {
-          case '1': return 'success'
-          case '2': return 'warning'
-          case '3': return 'danger'
-          case '4': return 'primary'
-          case '5': return 'success'
-          case '6': return 'danger'
-          case '7': return 'info'
+          case '1':
+            return 'success'
+          case '2':
+            return 'warning'
+          case '3':
+            return 'danger'
+          case '4':
+            return 'primary'
+          case '5':
+            return 'success'
+          case '6':
+            return 'danger'
+          case '7':
+            return 'info'
         }
       }
     }
@@ -281,16 +303,16 @@ export default {
       total: 0,
       // 遮罩层
       loading: true,
-      taskForm:{
-        comment:"", // 意见内容
+      taskForm: {
+        comment: "", // 意见内容
         procInsId: "", // 流程实例编号
-        taskId: "" ,// 流程任务编号
+        taskId: "",// 流程任务编号
         copyUserIds: "", // 抄送人Id
         vars: "",
-        targetKey:""
+        targetKey: ""
       },
       rules: {
-        comment: [{ required: true, message: '请输入审批意见', trigger: 'blur' }],
+        comment: [{required: true, message: '请输入审批意见', trigger: 'blur'}],
       },
       currentUserId: null,
       variables: [], // 流程变量数据
@@ -322,7 +344,7 @@ export default {
   methods: {
     initData() {
       this.taskForm.procInsId = this.$route.params && this.$route.params.procInsId;
-      this.taskForm.taskId  = this.$route.query && this.$route.query.taskId;
+      this.taskForm.taskId = this.$route.query && this.$route.query.taskId;
       this.processed = this.$route.query && eval(this.$route.query.processed || false);
       // 流程任务重获取变量表单
       this.getProcessDetails(this.taskForm.procInsId, this.taskForm.taskId);
@@ -330,14 +352,14 @@ export default {
     },
     /** 查询部门下拉树结构 */
     getTreeSelect() {
-      deptTreeSelect().then(response => {
+      allDeptTreeSelect().then(response => {
         this.deptOptions = response.data;
       });
     },
     /** 查询用户列表 */
     getList() {
       this.userLoading = true;
-      selectUser(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
+      selecAlltUser(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
         this.userList = response.rows;
         this.total = response.total;
         this.toggleSelection(this.userMultipleSelection);
@@ -374,7 +396,7 @@ export default {
     },
     toggleSelection(selection) {
       if (selection && selection.length > 0) {
-        this.$nextTick(()=> {
+        this.$nextTick(() => {
           selection.forEach(item => {
             let row = this.userList.find(k => k.userId === item.userId);
             this.$refs.userTable.toggleRowSelection(row);
@@ -490,7 +512,7 @@ export default {
       })
     },
     /** 转办任务 */
-    handleTransfer(){
+    handleTransfer() {
       this.$refs["taskForm"].validate(valid => {
         if (valid) {
           this.userData.type = 'transfer';
@@ -505,7 +527,7 @@ export default {
       this.$refs["taskForm"].validate(valid => {
         if (valid) {
           const _this = this;
-          this.$modal.confirm('拒绝审批单流程会终止，是否继续？').then(function() {
+          this.$modal.confirm('拒绝审批单流程会终止，是否继续？').then(function () {
             return rejectTask(_this.taskForm);
           }).then(res => {
             this.$modal.msgSuccess(res.msg);
@@ -625,6 +647,7 @@ export default {
   display: table;
   content: "";
 }
+
 .clearfix:after {
   clear: both
 }
@@ -640,10 +663,12 @@ export default {
 
 .el-row {
   margin-bottom: 20px;
+
   &:last-child {
     margin-bottom: 0;
   }
 }
+
 .el-col {
   border-radius: 4px;
 }
