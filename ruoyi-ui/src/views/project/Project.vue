@@ -9,26 +9,25 @@
                 </el-table-column>
                 <el-table-column label="项目名称" :resizable="false" align="center"  prop="project.name" width="150">
                 </el-table-column>
-                <el-table-column label="项目类型" :resizable="false" align="center"  prop="project.type" width="110">
+                <el-table-column label="负责人" :resizable="false" align="center"  prop="user.username" width="150">
                 </el-table-column>
-                <el-table-column label="项目审核状态" :resizable="false" align="center"  prop="status" width="120">
-                    <template v-slot="scope">
-                        <span>{{ scope.row.status === null ? "没有分配审核" : scope.row.status }}</span>
-                    </template>
+                <el-table-column label="所属单位" :resizable="false" align="center"  prop="project.name" width="150">
                 </el-table-column>
-                <el-table-column label="项目创建人" :resizable="false" align="center"  prop="user.username" width="150">
+                <el-table-column label="负责人电话" :resizable="false" align="center"  prop="user.username" width="150">
                 </el-table-column>
-                <el-table-column label="创建时间" :resizable="false" align="center"  prop="createTime" width="170">
+                <el-table-column label="经办人" :resizable="false" align="center"  prop="user.username" width="150">
                 </el-table-column>
-                <el-table-column
-                    label="最近一次的修改时间"
-                    :resizable="false"
-                    align="center"
-                    prop="updateTime"
-                    width="180"
-                >
+                <el-table-column label="经办人电话" :resizable="false" align="center"  prop="user.username" width="150">
                 </el-table-column>
-                <el-table-column label="操作" :resizable="false" align="center" min-width="110px">
+                <el-table-column label="项目分类" :resizable="false" align="center"  prop="project.type" width="110">
+                </el-table-column>
+                <el-table-column label="负责人邮箱" :resizable="false" align="center"  prop="user.username" width="150">
+                </el-table-column>
+                <el-table-column label="立项日期" :resizable="false" align="center"  prop="createTime" width="170">
+                </el-table-column>
+                <el-table-column label="开始日期" :resizable="false" align="center"  prop="createTime" width="170">
+                </el-table-column>
+                <el-table-column label="操作" :resizable="false" align="center" min-width="180px" fixed="right">
                     <template v-slot="scope">
                         <el-button
                             size="mini"
@@ -68,13 +67,25 @@
                     <el-descriptions-item label="项目名称">
                         {{ this.formLook.project.name }}
                     </el-descriptions-item>
-                    <el-descriptions-item label="项目类型">
+                    <el-descriptions-item label="负责人">
+                        <el-tag size="small">{{ this.formLook.user.name }}</el-tag>
+                    </el-descriptions-item>
+                    <el-descriptions-item label="所属单位">
+                        {{ this.formLook.project.name }}
+                    </el-descriptions-item>
+                    <el-descriptions-item label="负责人电话">
+                        <el-tag size="small">{{ this.formLook.user.name }}</el-tag>
+                    </el-descriptions-item>
+                    <el-descriptions-item label="经办人">
+                        <el-tag size="small">{{ this.formLook.user.name }}</el-tag>
+                    </el-descriptions-item>
+                    <el-descriptions-item label="经办人电话">
+                        <el-tag size="small">{{ this.formLook.user.name }}</el-tag>
+                    </el-descriptions-item>
+                    <el-descriptions-item label="项目分类">
                         {{ this.formLook.project.type }}
                     </el-descriptions-item>
-                    <el-descriptions-item label="项目状态">
-                        {{ this.formLook.status === null ? "没有分配审核" : this.formLook.status }}
-                    </el-descriptions-item>
-                    <el-descriptions-item label="项目创建人">
+                    <el-descriptions-item label="负责人邮箱">
                         <el-tag size="small">{{ this.formLook.user.name }}</el-tag>
                     </el-descriptions-item>
                     <el-descriptions-item label="项目说明"
@@ -82,7 +93,10 @@
                     </el-descriptions-item>
                 </el-descriptions>
                 <el-descriptions column:2>
-                    <el-descriptions-item label="创建时间"
+                    <el-descriptions-item label="立项日期"
+                    >{{ this.formLook.createTime }}
+                    </el-descriptions-item>
+                    <el-descriptions-item label="开始日期"
                     >{{ this.formLook.createTime }}
                     </el-descriptions-item>
                     <el-descriptions-item label="申请资金"
@@ -114,29 +128,7 @@
                     </el-descriptions-item>
                 </el-descriptions>
 
-                <!--                新增项目状态-->
                 <el-divider></el-divider>
-                <el-descriptions title="项目状态" :column="1">
-                    <el-descriptions-item label="当前状态">
-                        {{ this.formLook.status === null ? "没有分配审核" : this.formLook.status }}
-                    </el-descriptions-item>
-
-                    <el-descriptions-item label="审核信息"
-                                          v-if="this.formLook.status&&this.formLook.status!=='未分配审核'"
-                                          labelStyle="white-space:nowrap;"
-                                          contentStyle="word-break:break-all; white-space:nowrap;overflow: auto;">
-
-                        <el-tag size="small"
-                                v-for="item in auditList"
-                                :type="item.type"
-                                style="margin-right: 5px;"
-                        >
-                            {{ item.name }}:
-                            {{ item.process }}
-                        </el-tag>
-
-                    </el-descriptions-item>
-                </el-descriptions>
             </el-dialog>
 
             <!-- 页号 -->
@@ -224,8 +216,8 @@ export default {
         project: { id: 1, name: '项目A', type: '类型A', money: 1000, remark: 'Lorem ipsum' },
         status: '待审核',
         user: { id: 1, username: '用户1', name: '用户一' },
-        createTime: '2023-01-01 12:00:00',
-        updateTime: '2023-01-02 14:30:00',
+        createTime: '2023-01-01',
+        updateTime: '2023-01-02',
       },
       // 根据需要添加更多的模拟数据
     ];
@@ -233,32 +225,6 @@ export default {
     // 将模拟数据分配给 dataList
     this.dataList = mockData;
   },
-    computed: {
-        auditList() {
-            if (!this.formLook.processList) {
-                return [];
-            }
-            let list = [];
-            for (const i of this.formLook.processList) {
-                let obj = {}
-                switch (i.process) {
-                    case "审核通过":
-                        obj.type = "success";
-                        break;
-                    case "审核未通过":
-                        obj.type = "danger";
-                        break;
-                    case "未审核":
-                        obj.type = "info";
-                        break;
-                }
-                obj.process = i.process;
-                obj.name = i.user.name;
-                list.push(obj)
-            }
-            return list;
-        }
-    },
     methods: {
         //改变数组大小
         sizeChangeHandle(val) {
@@ -347,6 +313,7 @@ export default {
             this.formLook = item;
             console.log(this.formLook)
         },
+       
     },
     mounted() {
         this.getDataList();

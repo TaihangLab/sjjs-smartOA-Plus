@@ -97,7 +97,7 @@ export default {
             this.dataFrom.pageNum = 1;
             this.getDataList();
       },
-        /** 重置按钮操作 */
+      /** 重置按钮操作 */
       resetQuery() {
           this.dateRange = [];
           this.resetForm("dataFrom");
