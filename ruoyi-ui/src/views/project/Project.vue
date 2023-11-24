@@ -62,75 +62,149 @@
                 title="项目详情"
                 width="50%"
             >
-                <el-descriptions title="项目信息">
-                    <el-descriptions-item label="项目编号">
-                        {{ this.formLook.project.id }}
-                    </el-descriptions-item>
-                    <el-descriptions-item label="项目名称">
-                        {{ this.formLook.project.name }}
-                    </el-descriptions-item>
-                    <el-descriptions-item label="负责人">
-                        <el-tag size="small">{{ this.formLook.user.name }}</el-tag>
-                    </el-descriptions-item>
-                    <el-descriptions-item label="所属单位">
-                        {{ this.formLook.project.name }}
-                    </el-descriptions-item>
-                    <el-descriptions-item label="负责人电话">
-                        <el-tag size="small">{{ this.formLook.user.name }}</el-tag>
-                    </el-descriptions-item>
-                    <el-descriptions-item label="经办人">
-                        <el-tag size="small">{{ this.formLook.user.name }}</el-tag>
-                    </el-descriptions-item>
-                    <el-descriptions-item label="经办人电话">
-                        <el-tag size="small">{{ this.formLook.user.name }}</el-tag>
-                    </el-descriptions-item>
-                    <el-descriptions-item label="项目分类">
-                        {{ this.formLook.project.type }}
-                    </el-descriptions-item>
-                    <el-descriptions-item label="负责人邮箱">
-                        <el-tag size="small">{{ this.formLook.user.name }}</el-tag>
-                    </el-descriptions-item>
-                    <el-descriptions-item label="项目说明"
-                    >{{ this.formLook.project.remark }}
-                    </el-descriptions-item>
-                </el-descriptions>
-                <el-descriptions column:2>
-                    <el-descriptions-item label="立项日期"
-                    >{{ this.formLook.createTime }}
-                    </el-descriptions-item>
-                    <el-descriptions-item label="开始日期"
-                    >{{ this.formLook.createTime }}
-                    </el-descriptions-item>
-                    <el-descriptions-item label="申请资金"
-                    >{{ this.formLook.project.money }}
-                    </el-descriptions-item>
-                </el-descriptions>
-                <el-descriptions>
-                    <el-descriptions-item label="最近一次修改时间" prop="updateTime"
-                    >{{ this.formLook.updateTime }}
-                    </el-descriptions-item>
-                </el-descriptions>
+                <el-tabs v-model="activeName" @tab-click="handleClick">
+                    <el-tab-pane label="基本信息" name="first">
+                        <el-radio-group v-model="size">
+                          <el-radio label="">默认</el-radio>
+                          <el-radio label="medium">中等</el-radio>
+                          <el-radio label="small">小型</el-radio>
+                          <el-radio label="mini">超小</el-radio>
+                        </el-radio-group>
 
-                <el-divider></el-divider>
-                <el-descriptions title="项目创建者信息">
-                    <el-descriptions-item label="账号">
-                        {{ this.formLook.user.username }}
-                    </el-descriptions-item>
-                    <el-descriptions-item label="姓名">
-                        <el-tag size="small">{{ this.formLook.user.name }}</el-tag>
-                    </el-descriptions-item>
-                    <el-descriptions-item label="邮箱"
-                    >{{ this.formLook.user.email }}
-                    </el-descriptions-item>
-                    <el-descriptions-item label="手机号码"
-                    >{{ this.formLook.user.mobile }}
-                    </el-descriptions-item>
-                    <el-descriptions-item label="账号状态"
-                    >{{ this.formLook.user.status === 1 ? "正常" : "禁用" }}
-                    </el-descriptions-item>
-                </el-descriptions>
+                        <el-descriptions class="margin-top" title="" :column="2" :size="size" border>
+                          <el-descriptions-item>
+                            <template slot="label">
+                              <i class="el-icon-user"></i>
+                              项目名称
+                            </template>
 
-                <el-divider></el-divider>
+                        </el-descriptions-item>
+                        <el-descriptions-item>
+                          <template slot="label">
+                            <i class="el-icon-mobile-phone"></i>
+                            项目负责人
+                          </template>
+                          18100000000
+                        </el-descriptions-item>
+                        <el-descriptions-item>
+                          <template slot="label">
+                            <i class="el-icon-location-outline"></i>
+                            所属单位
+                          </template>
+                          苏州市
+                        </el-descriptions-item>
+                        <el-descriptions-item>
+                          <template slot="label">
+                            <i class="el-icon-location-outline"></i>
+                            负责人电话
+                          </template>
+                          1234234
+                        </el-descriptions-item>
+                        <el-descriptions-item>
+                          <template slot="label">
+                            <i class="el-icon-office-building"></i>
+                            负责人邮箱
+                          </template>
+                          江
+                        </el-descriptions-item>
+                        <el-descriptions-item>
+                          <template slot="label">
+                            <i class="el-icon-office-building"></i>
+                            经办人
+                          </template>
+                          江
+                        </el-descriptions-item>
+                        <el-descriptions-item>
+                          <template slot="label">
+                            <i class="el-icon-office-building"></i>
+                            经办人电话
+                          </template>
+                          江
+                        </el-descriptions-item>
+                        <el-descriptions-item>
+                          <template slot="label">
+                            <i class="el-icon-office-building"></i>
+                            项目分类
+                          </template>
+                          江
+                        </el-descriptions-item>
+                        <el-descriptions-item>
+                          <template slot="label">
+                            <i class="el-icon-office-building"></i>
+                            项目状态
+                          </template>
+                          江
+                        </el-descriptions-item>
+                        <el-descriptions-item>
+                          <template slot="label">
+                            <i class="el-icon-office-building"></i>
+                            立项日期
+                          </template>
+                          江
+                        </el-descriptions-item>
+                        <el-descriptions-item>
+                          <template slot="label">
+                            <i class="el-icon-office-building"></i>
+                            开始日期
+                          </template>
+                          江
+                        </el-descriptions-item>
+                        <el-descriptions-item>
+                          <template slot="label">
+                            <i class="el-icon-office-building"></i>
+                            计划结项日期
+                          </template>
+                          江
+                        </el-descriptions-item>
+                        <el-descriptions-item>
+                          <template slot="label">
+                            <i class="el-icon-office-building"></i>
+                            实际结项日期
+                          </template>
+                          江
+                        </el-descriptions-item>
+                        </el-descriptions>
+                        <el-descriptions-item>
+                          <template slot="label">
+                            <i class="el-icon-office-building"></i>
+                            批准经费
+                          </template>
+                          江
+                        </el-descriptions-item>
+                        <el-descriptions-item>
+                          <template slot="label">
+                            <i class="el-icon-office-building"></i>
+                            成果形式
+                          </template>
+                          江
+                        </el-descriptions-item>
+                        <el-descriptions-item>
+                          <template slot="label">
+                            <i class="el-icon-office-building"></i>
+                            备注
+                          </template>
+                          江
+                        </el-descriptions-item>
+
+                        <el-descriptions class="margin-top" title="详细信息" :column="2" :size="size" :border="border">
+                          <template slot="extra">
+                            <el-switch v-model="toggleDetails" active-color="#13ce66" inactive-color="#ff4949" />
+                          </template>
+
+                          <!-- 其他详细信息项，使用 v-if 控制显示/隐藏 -->
+                          <el-descriptions-item v-if="toggleDetails" label="统计归属">kooriookami</el-descriptions-item>
+                          <el-descriptions-item v-if="toggleDetails" label="统计年度">18100000000</el-descriptions-item>
+                          <el-descriptions-item v-if="toggleDetails" label="一级学科">苏州市</el-descriptions-item>
+                          <el-descriptions-item v-if="toggleDetails" label="社会经济目标">学校</el-descriptions-item>
+                          <el-descriptions-item v-if="toggleDetails" label="项目来源">江苏省苏州市吴中区吴中大道 1188 号</el-descriptions-item>
+                          <el-descriptions-item v-if="toggleDetails" label="研究类别">江苏省苏州市吴中区吴中大道 1188 号</el-descriptions-item>
+                          <el-descriptions-item v-if="toggleDetails" label="合作形式">江苏省苏州市吴中区吴中大道 1188 号</el-descriptions-item>
+                          <el-descriptions-item v-if="toggleDetails" label="国民经济行业">江苏省苏州市吴中区吴中大道 1188 号</el-descriptions-item>
+                        </el-descriptions>
+                    </el-tab-pane>
+                    <el-tab-pane label="项目成员" name="second">配置管理</el-tab-pane>
+                    <el-tab-pane label="项目经费" name="third">角色管理</el-tab-pane>
+                </el-tabs>
             </el-dialog>
 
             <!-- 页号 -->
@@ -153,6 +227,9 @@ export default {
     name: "ProjectList",
     data() {
         return {
+            size: '',
+            border: true,
+            toggleDetails: true, // 控制详细信息项的显示/隐藏
             score: 0, //要修改的评分
             low_threshold: 4, //低分和中分分界点，此分数包含在低分中
             high_threshold: 7, //低分和高分分界点，此分数包含在高分中
@@ -208,6 +285,7 @@ export default {
             dialogFormVisibleChange: false, //默认关闭编辑用户界面
             dialogFormVisibleLook: false,
             dataListFrom: "getDataList",//当前数据来源于搜索还是全局
+            activeName: 'first',
         };
     },
     created() {
