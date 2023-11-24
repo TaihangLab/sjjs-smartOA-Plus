@@ -92,17 +92,24 @@ export default {
     };
   },
   methods: {
-     /** 搜索按钮操作 */
-     handleQuery() {
-            this.dataFrom.pageNum = 1;
-            this.getDataList();
-      },
-      /** 重置按钮操作 */
-      resetQuery() {
-          this.dateRange = [];
-          this.resetForm("dataFrom");
-          this.handleQuery();
-      },
+      /** 搜索按钮操作 */
+    handleQuery() {
+      this.dataFrom.pageNum = 1;
+      this.getDataList();
+    },
+    /** 重置按钮操作 */
+    resetQuery() {
+  // 清空数据模型中的值
+      this.dataFrom.projectNumber = "";
+      this.dataFrom.projectName = "";
+      this.dataFrom.responsiblePerson = "";
+
+      // 使用 resetFields 方法重置表单
+      this.$refs.dataForm.resetFields();
+
+      // 重置后重新查询
+      this.handleQuery();
+    },
   },
 };
 </script>
