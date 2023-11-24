@@ -3,13 +3,13 @@
     <el-form
       ref="dataForm"
       :inline="true"
-      :model="dataFrom"
+      :model="myProjectFrom"
       class="demo-form-inline"
       style="margin-left: 30px; margin-top: 20px;"
     >
       <el-form-item label="项目编号">
         <el-input
-          v-model="dataFrom.projectNumber"
+          v-model="myProjectFrom.projectNumber"
           clearable
           placeholder="请输入项目编号"
           @keyup.enter.native="handleQuery"
@@ -17,7 +17,7 @@
       </el-form-item>
       <el-form-item label="项目名称">
         <el-input
-          v-model="dataFrom.projectName"
+          v-model="myProjectFrom.projectName"
           clearable
           placeholder="请输入项目名称"
           @keyup.enter.native="handleQuery"
@@ -25,7 +25,7 @@
       </el-form-item>
       <el-form-item label="负责人">
         <el-input
-          v-model="dataFrom.responsiblePerson"
+          v-model="myProjectFrom.responsiblePerson"
           clearable
           placeholder="请输入负责人"
           @keyup.enter.native="handleQuery"
@@ -84,7 +84,7 @@ export default {
   components: { Project },
   data() {
     return {
-      dataFrom: {
+      myProjectFrom: {
         projectNumber: "",
         projectName: "",
         responsiblePerson: "",
@@ -94,15 +94,15 @@ export default {
   methods: {
       /** 搜索按钮操作 */
     handleQuery() {
-      this.dataFrom.pageNum = 1;
+      this.myProjectFrom.pageNum = 1;
       this.getDataList();
     },
     /** 重置按钮操作 */
     resetQuery() {
      // 清空数据模型中的值
-      this.dataFrom.projectNumber = "";
-      this.dataFrom.projectName = "";
-      this.dataFrom.responsiblePerson = "";
+      this.myProjectFrom.projectNumber = "";
+      this.myProjectFrom.projectName = "";
+      this.myProjectFrom.responsiblePerson = "";
 
       // 使用 resetFields 方法重置表单
       this.$refs.dataForm.resetFields();
