@@ -47,6 +47,7 @@
           @click="handleAdd"
           v-hasPermi="['system:role:add']"
         >新增</el-button>
+
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -58,6 +59,7 @@
           @click="handleDelete"
           v-hasPermi="['system:role:remove']"
         >删除</el-button>
+
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -110,6 +112,9 @@ export default {
       // 重置后重新查询
       this.handleQuery();
     },
+  },
+  handleAdd() {
+    console.log();
   },
 };
 </script>
