@@ -59,134 +59,144 @@
             <el-dialog
                 :model="formLook"
                 :visible.sync="dialogFormVisibleLook"
-                title="项目详情"
                 width="50%"
             >
                 <el-tabs v-model="activeName" @tab-click="handleClick">
                     <el-tab-pane label="基本信息" name="first">
                         <el-radio-group v-model="size">
-                          <el-radio label="">默认</el-radio>
+<!--                          <el-radio label="">默认</el-radio>
                           <el-radio label="medium">中等</el-radio>
                           <el-radio label="small">小型</el-radio>
-                          <el-radio label="mini">超小</el-radio>
+                          <el-radio label="mini">超小</el-radio>-->
                         </el-radio-group>
-
-                        <el-descriptions class="margin-top" title="" :column="2" :size="size" border>
-                          <el-descriptions-item>
-                            <template slot="label">
-                              <i class="el-icon-user"></i>
-                              项目名称
-                            </template>
-
-                        </el-descriptions-item>
-                        <el-descriptions-item>
-                          <template slot="label">
-                            <i class="el-icon-mobile-phone"></i>
-                            项目负责人
-                          </template>
-                          18100000000
-                        </el-descriptions-item>
-                        <el-descriptions-item>
-                          <template slot="label">
-                            <i class="el-icon-location-outline"></i>
-                            所属单位
-                          </template>
-                          苏州市
-                        </el-descriptions-item>
-                        <el-descriptions-item>
-                          <template slot="label">
-                            <i class="el-icon-location-outline"></i>
-                            负责人电话
-                          </template>
-                          1234234
-                        </el-descriptions-item>
-                        <el-descriptions-item>
-                          <template slot="label">
-                            <i class="el-icon-office-building"></i>
-                            负责人邮箱
-                          </template>
-                          江
-                        </el-descriptions-item>
-                        <el-descriptions-item>
-                          <template slot="label">
-                            <i class="el-icon-office-building"></i>
-                            经办人
-                          </template>
-                          江
-                        </el-descriptions-item>
-                        <el-descriptions-item>
-                          <template slot="label">
-                            <i class="el-icon-office-building"></i>
-                            经办人电话
-                          </template>
-                          江
-                        </el-descriptions-item>
-                        <el-descriptions-item>
-                          <template slot="label">
-                            <i class="el-icon-office-building"></i>
-                            项目分类
-                          </template>
-                          江
-                        </el-descriptions-item>
-                        <el-descriptions-item>
-                          <template slot="label">
-                            <i class="el-icon-office-building"></i>
-                            项目状态
-                          </template>
-                          江
-                        </el-descriptions-item>
-                        <el-descriptions-item>
-                          <template slot="label">
-                            <i class="el-icon-office-building"></i>
-                            立项日期
-                          </template>
-                          江
-                        </el-descriptions-item>
-                        <el-descriptions-item>
-                          <template slot="label">
-                            <i class="el-icon-office-building"></i>
-                            开始日期
-                          </template>
-                          江
-                        </el-descriptions-item>
-                        <el-descriptions-item>
-                          <template slot="label">
-                            <i class="el-icon-office-building"></i>
-                            计划结项日期
-                          </template>
-                          江
-                        </el-descriptions-item>
-                        <el-descriptions-item>
-                          <template slot="label">
-                            <i class="el-icon-office-building"></i>
-                            实际结项日期
-                          </template>
-                          江
-                        </el-descriptions-item>
+                        <el-descriptions class="margin-top" title="" :column="1" :size="size" labelStyle="width: 15%" contentStyle="width: 75%" :contentStyle="rowCenter" border>
+                            <el-descriptions-item  :contentStyle="rowCenter">
+                              <template slot="label">
+                                <i class="el-icon-user"></i>
+                                项目名称
+                              </template>
+                              动态阈值处理
+                            </el-descriptions-item>
                         </el-descriptions>
-                        <el-descriptions-item>
-                          <template slot="label">
-                            <i class="el-icon-office-building"></i>
-                            批准经费
-                          </template>
-                          江
-                        </el-descriptions-item>
-                        <el-descriptions-item>
-                          <template slot="label">
-                            <i class="el-icon-office-building"></i>
-                            成果形式
-                          </template>
-                          江
-                        </el-descriptions-item>
-                        <el-descriptions-item>
-                          <template slot="label">
-                            <i class="el-icon-office-building"></i>
-                            备注
-                          </template>
-                          江
-                        </el-descriptions-item>
+                        <el-descriptions class="margin-top" title="" :column="2" :size="size" labelStyle="width: 15%" contentStyle="width: 35%" border>
+                            <el-descriptions-item>
+                              <template slot="label" >
+                                <i class="el-icon-mobile-phone"></i>
+                                项目负责人
+                              </template>
+                              18100000000
+                            </el-descriptions-item>
+                            <el-descriptions-item>
+                              <template slot="label">
+                                <i class="el-icon-location-outline"></i>
+                                所属单位
+                              </template>
+                              苏州市
+                            </el-descriptions-item>
+                            <el-descriptions-item>
+                              <template slot="label">
+                                <i class="el-icon-location-outline"></i>
+                                负责人电话
+                              </template>
+                              1234234
+                            </el-descriptions-item>
+                            <el-descriptions-item>
+                              <template slot="label">
+                                <i class="el-icon-office-building"></i>
+                                负责人邮箱
+                              </template>
+                              江
+                            </el-descriptions-item>
+                            <el-descriptions-item>
+                              <template slot="label">
+                                <i class="el-icon-office-building"></i>
+                                经办人
+                              </template>
+                              江
+                            </el-descriptions-item>
+                            <el-descriptions-item>
+                              <template slot="label">
+                                <i class="el-icon-office-building"></i>
+                                经办人电话
+                              </template>
+                              江
+                            </el-descriptions-item>
+                            <el-descriptions-item>
+                              <template slot="label">
+                                <i class="el-icon-office-building"></i>
+                                项目分类
+                              </template>
+                              江
+                            </el-descriptions-item>
+                            <el-descriptions-item>
+                              <template slot="label">
+                                <i class="el-icon-office-building"></i>
+                                项目状态
+                              </template>
+                              江
+                            </el-descriptions-item>
+                            <el-descriptions-item>
+                              <template slot="label">
+                                <i class="el-icon-office-building"></i>
+                                立项日期
+                              </template>
+                              江
+                            </el-descriptions-item>
+                            <el-descriptions-item>
+                              <template slot="label">
+                                <i class="el-icon-office-building"></i>
+                                开始日期
+                              </template>
+                              江
+                            </el-descriptions-item>
+                            <el-descriptions-item>
+                              <template slot="label">
+                                <i class="el-icon-office-building"></i>
+                                计划结项日期
+                              </template>
+                              江
+                            </el-descriptions-item>
+                            <el-descriptions-item>
+                              <template slot="label">
+                                <i class="el-icon-office-building"></i>
+                                实际结项日期
+                              </template>
+                              江
+                            </el-descriptions-item>
+                            <el-descriptions-item>
+                              <template slot="label">
+                                <i class="el-icon-office-building"></i>
+                                批准经费
+                              </template>
+                              江
+                            </el-descriptions-item>
+                            <el-descriptions-item>
+                              <template slot="label">
+                                <i class="el-icon-office-building"></i>
+                                成果形式
+                              </template>
+                              江
+                            </el-descriptions-item>
+                            <el-descriptions-item>
+                              <template slot="label">
+                                <i class="el-icon-office-building"></i>
+                                备注
+                              </template>
+                              江
+                            </el-descriptions-item>
+                        </el-descriptions>
+                        <el-radio-group v-model="size">
+                          <!--                          <el-radio label="">默认</el-radio>
+                                                    <el-radio label="medium">中等</el-radio>
+                                                    <el-radio label="small">小型</el-radio>
+                                                    <el-radio label="mini">超小</el-radio>-->
+                        </el-radio-group>
+                        <el-descriptions class="margin-top" name="first" :column="2" :size="size" :border="border">
 
-                        <el-descriptions class="margin-top" title="详细信息" :column="2" :size="size" :border="border">
+                          <template slot="title">
+                            <span style="font-size: 15px; font-weight: 450;">详细信息</span>
+                          </template>
+
                           <template slot="extra">
                             <el-switch v-model="toggleDetails" active-color="#13ce66" inactive-color="#ff4949" />
                           </template>
@@ -227,6 +237,9 @@ export default {
     name: "ProjectList",
     data() {
         return {
+            rowCenter:{
+              "text-align":"center"
+            },
             size: '',
             border: true,
             toggleDetails: true, // 控制详细信息项的显示/隐藏
@@ -393,10 +406,11 @@ export default {
             this.formLook = item;
             console.log(this.formLook)
         },
-       
+
     },
     mounted() {
         this.getDataList();
     },
 };
 </script>
+
