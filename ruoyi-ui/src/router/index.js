@@ -213,6 +213,12 @@ export const dynamicRoutes = [
         name: '我的项目',
         meta: { title: '我的项目', icon: 'qq' }
       },
+      {
+        path: 'project',
+        component: () => import('@/views/project/Project.vue'),
+        name: '项目',
+        meta: { title: '项目', icon: 'qq' }
+      },
 
     ]
   },
