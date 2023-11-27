@@ -1,34 +1,34 @@
 <template>
   <div>
     <el-form
-      ref="dataForm"
-      :inline="true"
-      :model="myProjectFrom"
-      class="demo-form-inline"
-      style="margin-left: 30px; margin-top: 20px;"
+        ref="dataForm"
+        :inline="true"
+        :model="myProjectFrom"
+        class="demo-form-inline"
+        style="margin-left: 30px; margin-top: 20px;"
     >
       <el-form-item label="项目编号">
         <el-input
-          v-model="myProjectFrom.projectNumber"
-          clearable
-          placeholder="请输入项目编号"
-          @keyup.enter.native="handleQuery"
+            v-model="myProjectFrom.projectNumber"
+            clearable
+            placeholder="请输入项目编号"
+            @keyup.enter.native="handleQuery"
         ></el-input>
       </el-form-item>
       <el-form-item label="项目名称">
         <el-input
-          v-model="myProjectFrom.projectName"
-          clearable
-          placeholder="请输入项目名称"
-          @keyup.enter.native="handleQuery"
+            v-model="myProjectFrom.projectName"
+            clearable
+            placeholder="请输入项目名称"
+            @keyup.enter.native="handleQuery"
         ></el-input>
       </el-form-item>
       <el-form-item label="负责人">
         <el-input
-          v-model="myProjectFrom.responsiblePerson"
-          clearable
-          placeholder="请输入负责人"
-          @keyup.enter.native="handleQuery"
+            v-model="myProjectFrom.responsiblePerson"
+            clearable
+            placeholder="请输入负责人"
+            @keyup.enter.native="handleQuery"
         ></el-input>
       </el-form-item>
       <el-form-item>
@@ -40,52 +40,68 @@
     <el-row :gutter="10" class="mb8" style="margin-left: 20px;">
       <el-col :span="1.5">
         <el-button
-          type="primary"
-          plain
-          icon="el-icon-plus"
-          size="mini"
-          @click="handleAdd"
-          v-hasPermi="['system:role:add']"
-        >新增</el-button>
+            type="primary"
+            plain
+            icon="el-icon-plus"
+            size="mini"
+            @click="handleAdd"
+            v-hasPermi="['system:role:add']"
+        >新增
+        </el-button>
 
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="danger"
-          plain
-          icon="el-icon-delete"
-          size="mini"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['system:role:remove']"
-        >删除</el-button>
+            type="danger"
+            plain
+            icon="el-icon-delete"
+            size="mini"
+            :disabled="multiple"
+            @click="handleDelete"
+            v-hasPermi="['system:role:remove']"
+        >删除
+        </el-button>
 
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['system:role:export']"
-        >导入</el-button>
+            type="warning"
+            plain
+            icon="el-icon-download"
+            size="mini"
+            @click="handleExport"
+            v-hasPermi="['system:role:export']"
+        >导入
+        </el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <Project />
+<!--    新增项目弹出的对话框-->
+    <el-dialog
+        title="新增项目"
+        :visible.sync="newProjectDialogVisible"
+        fullscreen>
+<!--        :before-close="handleClose">-->
+      <NewProject :visible.sync="newProjectDialogVisible"></NewProject>
+
+    </el-dialog>
+
+    <Project/>
+
   </div>
 </template>
 
 <script>
 import Project from "@/views/project/Project.vue";
+import NewProject from "@/views/project/components/NewProject.vue";
 
 export default {
   name: "MyProject",
-  components: { Project },
+  components: {Project, NewProject},
   data() {
     return {
+      newProjectDialogVisible: false,
       myProjectFrom: {
         projectNumber: "",
         projectName: "",
@@ -94,14 +110,18 @@ export default {
     };
   },
   methods: {
-      /** 搜索按钮操作 */
+    // 新增项目
+    handleAdd() {
+      this.newProjectDialogVisible = true;
+    },
+    /** 搜索按钮操作 */
     handleQuery() {
       this.myProjectFrom.pageNum = 1;
       this.getDataList();
     },
     /** 重置按钮操作 */
     resetQuery() {
-     // 清空数据模型中的值
+      // 清空数据模型中的值
       this.myProjectFrom.projectNumber = "";
       this.myProjectFrom.projectName = "";
       this.myProjectFrom.responsiblePerson = "";
@@ -113,8 +133,7 @@ export default {
       this.handleQuery();
     },
   },
-  handleAdd() {
-    console.log();
-  },
+
+
 };
 </script>

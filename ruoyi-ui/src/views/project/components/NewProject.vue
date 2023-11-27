@@ -1,7 +1,5 @@
 <template>
   <el-container>
-
-
     <el-header>
       <el-card shadow="hover">
         <el-steps :active="stepID" finish-status="success" simple>
@@ -23,11 +21,7 @@
         </el-collapse-transition>
 
         <el-collapse-transition>
-        <el-card v-show="stepID===1" header="项目成员" shadow="hover">
-          <el-form-item label-width="125px" label="项目成员">
-            <el-input v-model="newProjectForm.name"></el-input>
-          </el-form-item>
-        </el-card>
+        <ProjectMember v-show="stepID===1" :form="newProjectForm.projectMember"></ProjectMember>
         </el-collapse-transition>
 
         <el-collapse-transition>
@@ -44,7 +38,7 @@
 
         <el-collapse-transition>
           <el-card v-show="stepID===4" header="经费来源" shadow="hover">
-            <el-form-item label-width="125px" label="项目成员">
+            <el-form-item label-width="125px" label="经费来源">
               <el-input v-model="newProjectForm.name"></el-input>
             </el-form-item>
           </el-card>
@@ -52,7 +46,7 @@
 
         <el-collapse-transition>
           <el-card v-show="stepID===5" header="项目指标" shadow="hover">
-            <el-form-item label-width="125px" label="项目成员">
+            <el-form-item label-width="125px" label="项目指标">
               <el-input v-model="newProjectForm.name"></el-input>
             </el-form-item>
           </el-card>
@@ -72,12 +66,15 @@
 <script>
 import ZXFundsDetail from "./ZXFundsDetail.vue";
 import ProjectInfo from "./ProjectInfo.vue";
+import ProjectMember from "@/views/project/components/ProjectMember.vue";
 const TOTAL_STEPS = 6;
 export default {
   name: "NewProject",
+  props:['visible'],
   components: {
     ProjectInfo,
     ZXFundsDetail,
+    ProjectMember,
   },
   data() {
     return {
@@ -85,20 +82,23 @@ export default {
       newProjectForm: {
         projectInfo:{},
         zxFundsDetail: {},
+        projectMember: {},
+
       },
     };
   },
 
   methods: {
     next() {
+      // todo
       if (this.stepID++ > TOTAL_STEPS - 1)
+      {
+        this.$emit("update:visible", false);
         this.stepID = 0;
-      console.log(this.newProjectForm.projectInfo);
+      }
+      console.log(this.newProjectForm.projectInfo.time);
     }
   },
-  mounted() {
-
-  }
 
 }
 </script>
