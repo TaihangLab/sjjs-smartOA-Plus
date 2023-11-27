@@ -64,90 +64,43 @@
                 <el-tabs v-model="activeName" @tab-click="handleClick">
                     <el-tab-pane label="基本信息" name="first">
                         <el-radio-group v-model="size">
-<!--                          <el-radio label="">默认</el-radio>
+<!--                      <el-radio label="">默认</el-radio>
                           <el-radio label="medium">中等</el-radio>
                           <el-radio label="small">小型</el-radio>
                           <el-radio label="mini">超小</el-radio>-->
                         </el-radio-group>
-                        <el-descriptions class="margin-top" title="" :column="1" :size="size" labelStyle="width: 15%" contentStyle="width: 75%" :contentStyle="rowCenter" border>
-                            <el-descriptions-item  :contentStyle="rowCenter">
-                              <template slot="label">
-                                <i class="el-icon-user"></i>
-                                项目名称
-                              </template>
-                              动态阈值处理
+                        <el-descriptions class="margin-top" title="" :column="1" :size="size" labelStyle="width: 18%" contentStyle="width: 75%" :contentStyle="rowCenter" border>
+                            <el-descriptions-item label="项目名称">
+                                {{ this.formLook.project.name }}
                             </el-descriptions-item>
                         </el-descriptions>
-                        <el-descriptions class="margin-top" title="" :column="2" :size="size" labelStyle="width: 15%" contentStyle="width: 35%" border>
-                            <el-descriptions-item>
-                              <template slot="label" >
-                                <i class="el-icon-mobile-phone"></i>
-                                项目负责人
-                              </template>
-                              18100000000
+                        <el-descriptions class="margin-top" title="" :column="2" :size="size" labelStyle="width: 18%" contentStyle="width: 35%" border>
+                            <el-descriptions-item label="负责人">
+                              {{ formLook.user.username }}
                             </el-descriptions-item>
-                            <el-descriptions-item>
-                              <template slot="label">
-                                <i class="el-icon-location-outline"></i>
-                                所属单位
-                              </template>
-                              苏州市
+                            <el-descriptions-item label="所属单位">
+                              {{ formLook.project.organization }}
                             </el-descriptions-item>
-                            <el-descriptions-item>
-                              <template slot="label">
-                                <i class="el-icon-location-outline"></i>
-                                负责人电话
-                              </template>
-                              1234234
+                            <el-descriptions-item label="负责人电话">
+                              {{ formLook.user.username }}
                             </el-descriptions-item>
-                            <el-descriptions-item>
-                              <template slot="label">
-                                <i class="el-icon-office-building"></i>
-                                负责人邮箱
-                              </template>
-                              江
+                            <el-descriptions-item label="负责人邮箱">
+                              {{ formLook.user.username }}
                             </el-descriptions-item>
-                            <el-descriptions-item>
-                              <template slot="label">
-                                <i class="el-icon-office-building"></i>
-                                经办人
-                              </template>
-                              江
+                            <el-descriptions-item label="经办人">
+                              {{ formLook.user.username  }}
                             </el-descriptions-item>
-                            <el-descriptions-item>
-                              <template slot="label">
-                                <i class="el-icon-office-building"></i>
-                                经办人电话
-                              </template>
-                              江
+                            <el-descriptions-item label="经办人电话">
+                              {{ formLook.user.username  }}
                             </el-descriptions-item>
-                            <el-descriptions-item>
-                              <template slot="label">
-                                <i class="el-icon-office-building"></i>
-                                项目分类
-                              </template>
-                              江
+                            <el-descriptions-item label="项目分类">
+                              {{ formLook.project.type }}
                             </el-descriptions-item>
-                            <el-descriptions-item>
-                              <template slot="label">
-                                <i class="el-icon-office-building"></i>
-                                项目状态
-                              </template>
-                              江
+                            <el-descriptions-item label="立项日期">
+                              {{ formLook.createTime }}
                             </el-descriptions-item>
-                            <el-descriptions-item>
-                              <template slot="label">
-                                <i class="el-icon-office-building"></i>
-                                立项日期
-                              </template>
-                              江
-                            </el-descriptions-item>
-                            <el-descriptions-item>
-                              <template slot="label">
-                                <i class="el-icon-office-building"></i>
-                                开始日期
-                              </template>
-                              江
+                            <el-descriptions-item label="开始日期">
+                              {{ formLook.createTime }}
                             </el-descriptions-item>
                             <el-descriptions-item>
                               <template slot="label">
