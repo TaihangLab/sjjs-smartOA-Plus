@@ -34,6 +34,7 @@
                         <el-button
                             size="mini"
                             type="text"
+                            icon="el-icon-tickets"
                             @click="lookEdit(scope.$index, scope.row)"
                         >
                             详情
@@ -57,119 +58,15 @@
             </el-table>
             <!-- 查看打开的界面 -->
             <el-dialog
-                :model="formLook"
-                :visible.sync="dialogFormVisibleLook"
-                width="50%"
+              :model="formLook"
+              :visible.sync="dialogFormVisibleLook"
+              width="50%"
             >
-                <el-tabs v-model="activeName" @tab-click="handleClick">
-                    <el-tab-pane label="基本信息" name="first">
-                        <el-radio-group v-model="size">
-<!--                      <el-radio label="">默认</el-radio>
-                          <el-radio label="medium">中等</el-radio>
-                          <el-radio label="small">小型</el-radio>
-                          <el-radio label="mini">超小</el-radio>-->
-                        </el-radio-group>
-                        <el-descriptions class="margin-top" title="" :column="1" :size="size" labelStyle="width: 18%" contentStyle="width: 75%" :contentStyle="rowCenter" border>
-                            <el-descriptions-item label="项目名称">
-                                {{ this.formLook.project.name }}
-                            </el-descriptions-item>
-                        </el-descriptions>
-                        <el-descriptions class="margin-top" title="" :column="2" :size="size" labelStyle="width: 18%" contentStyle="width: 35%" border>
-                            <el-descriptions-item label="负责人">
-                              {{ formLook.user.username }}
-                            </el-descriptions-item>
-                            <el-descriptions-item label="所属单位">
-                              {{ formLook.project.organization }}
-                            </el-descriptions-item>
-                            <el-descriptions-item label="负责人电话">
-                              {{ formLook.user.username }}
-                            </el-descriptions-item>
-                            <el-descriptions-item label="负责人邮箱">
-                              {{ formLook.user.username }}
-                            </el-descriptions-item>
-                            <el-descriptions-item label="经办人">
-                              {{ formLook.user.username  }}
-                            </el-descriptions-item>
-                            <el-descriptions-item label="经办人电话">
-                              {{ formLook.user.username  }}
-                            </el-descriptions-item>
-                            <el-descriptions-item label="项目分类">
-                              {{ formLook.project.type }}
-                            </el-descriptions-item>
-                            <el-descriptions-item label="立项日期">
-                              {{ formLook.createTime }}
-                            </el-descriptions-item>
-                            <el-descriptions-item label="开始日期">
-                              {{ formLook.createTime }}
-                            </el-descriptions-item>
-                            <el-descriptions-item>
-                              <template slot="label">
-                                <i class="el-icon-office-building"></i>
-                                计划结项日期
-                              </template>
-                              江
-                            </el-descriptions-item>
-                            <el-descriptions-item>
-                              <template slot="label">
-                                <i class="el-icon-office-building"></i>
-                                实际结项日期
-                              </template>
-                              江
-                            </el-descriptions-item>
-                            <el-descriptions-item>
-                              <template slot="label">
-                                <i class="el-icon-office-building"></i>
-                                批准经费
-                              </template>
-                              江
-                            </el-descriptions-item>
-                            <el-descriptions-item>
-                              <template slot="label">
-                                <i class="el-icon-office-building"></i>
-                                成果形式
-                              </template>
-                              江
-                            </el-descriptions-item>
-                            <el-descriptions-item>
-                              <template slot="label">
-                                <i class="el-icon-office-building"></i>
-                                备注
-                              </template>
-                              江
-                            </el-descriptions-item>
-                        </el-descriptions>
-                        <el-radio-group v-model="size">
-                          <!--                          <el-radio label="">默认</el-radio>
-                                                    <el-radio label="medium">中等</el-radio>
-                                                    <el-radio label="small">小型</el-radio>
-                                                    <el-radio label="mini">超小</el-radio>-->
-                        </el-radio-group>
-                        <el-descriptions class="margin-top" name="first" :column="2" :size="size" :border="border">
-
-                          <template slot="title">
-                            <span style="font-size: 15px; font-weight: 450;">详细信息</span>
-                          </template>
-
-                          <template slot="extra">
-                            <el-switch v-model="toggleDetails" active-color="#13ce66" inactive-color="#ff4949" />
-                          </template>
-
-                          <!-- 其他详细信息项，使用 v-if 控制显示/隐藏 -->
-                          <el-descriptions-item v-if="toggleDetails" label="统计归属">kooriookami</el-descriptions-item>
-                          <el-descriptions-item v-if="toggleDetails" label="统计年度">18100000000</el-descriptions-item>
-                          <el-descriptions-item v-if="toggleDetails" label="一级学科">苏州市</el-descriptions-item>
-                          <el-descriptions-item v-if="toggleDetails" label="社会经济目标">学校</el-descriptions-item>
-                          <el-descriptions-item v-if="toggleDetails" label="项目来源">江苏省苏州市吴中区吴中大道 1188 号</el-descriptions-item>
-                          <el-descriptions-item v-if="toggleDetails" label="研究类别">江苏省苏州市吴中区吴中大道 1188 号</el-descriptions-item>
-                          <el-descriptions-item v-if="toggleDetails" label="合作形式">江苏省苏州市吴中区吴中大道 1188 号</el-descriptions-item>
-                          <el-descriptions-item v-if="toggleDetails" label="国民经济行业">江苏省苏州市吴中区吴中大道 1188 号</el-descriptions-item>
-                        </el-descriptions>
-                    </el-tab-pane>
-                    <el-tab-pane label="项目成员" name="second">配置管理</el-tab-pane>
-                    <el-tab-pane label="项目经费" name="third">角色管理</el-tab-pane>
-                </el-tabs>
+               <ProjectDetail 
+               :visible.sync="dialogFormVisibleLook"
+               :formLook="formLook"
+               ></ProjectDetail>
             </el-dialog>
-
             <!-- 页号 -->
             <el-pagination
                 :current-page="pageIndex"
@@ -186,8 +83,13 @@
     </el-card>
 </template>
 <script>
+import ProjectDetail from "@/views/project/components/ProjectDetail.vue";
+
 export default {
     name: "ProjectList",
+    components: {
+    ProjectDetail
+  },
     data() {
         return {
             rowCenter:{
@@ -196,20 +98,9 @@ export default {
             size: '',
             border: true,
             toggleDetails: true, // 控制详细信息项的显示/隐藏
-            score: 0, //要修改的评分
-            low_threshold: 4, //低分和中分分界点，此分数包含在低分中
-            high_threshold: 7, //低分和高分分界点，此分数包含在高分中
-            colors: ["#99A9BF", "#F7BA2A", "#EB5E26"],
             //搜索框
             dataFrom: {
                 name: "",
-            },
-            //提交用户打分
-            Score: {
-                userId: 0,
-                username: "",
-                projectId: 0,
-                score: 0,
             },
             //新增
             form: {
@@ -287,18 +178,6 @@ export default {
             if (this.dataListFrom === "getDataList")
                 this.getDataList();
             else this.getDataListByName();
-        },
-        //用户评分
-        getScore(value) {
-            this.score = value;
-        },
-        //提交用户评分
-        getItemScore(item) {
-            this.Score.score = this.score;
-            this.Score.id = item.projectId;
-            this.$http.post("/project/score", this.Score).then(() => {
-                this.getDataList()
-            });
         },
         //检查创建项目时是否有未填项
         checkItemBeforeInsert() {
