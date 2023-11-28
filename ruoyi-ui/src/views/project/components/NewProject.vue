@@ -21,7 +21,7 @@
         </el-collapse-transition>
 
         <el-collapse-transition>
-        <ProjectMember v-show="stepID===1" :form="newProjectForm.projectMember"></ProjectMember>
+          <ProjectMember v-show="stepID===1" :form="newProjectForm.projectMember"></ProjectMember>
         </el-collapse-transition>
 
         <el-collapse-transition>
@@ -56,6 +56,7 @@
     </el-main>
 
     <el-footer>
+      <el-button v-show="stepID > 0" style="margin-top: 12px;" @click="previous">上一步</el-button>
       <el-button style="margin-top: 12px;" @click="next">下一步</el-button>
     </el-footer>
   </el-container>
@@ -67,10 +68,11 @@
 import ZXFundsDetail from "./ZXFundsDetail.vue";
 import ProjectInfo from "./ProjectInfo.vue";
 import ProjectMember from "@/views/project/components/ProjectMember.vue";
+
 const TOTAL_STEPS = 6;
 export default {
   name: "NewProject",
-  props:['visible'],
+  props: ['visible'],
   components: {
     ProjectInfo,
     ZXFundsDetail,
@@ -80,7 +82,7 @@ export default {
     return {
       stepID: 0,
       newProjectForm: {
-        projectInfo:{},
+        projectInfo: {},
         zxFundsDetail: {},
         projectMember: {},
 
@@ -91,13 +93,17 @@ export default {
   methods: {
     next() {
       // todo
-      if (this.stepID++ > TOTAL_STEPS - 1)
-      {
+      if (this.stepID++ > TOTAL_STEPS - 1) {
         this.$emit("update:visible", false);
         this.stepID = 0;
       }
       console.log(this.newProjectForm.projectInfo.time);
-    }
+    },
+    previous() {
+      if (this.stepID > 0) {
+        this.stepID--;
+      }
+    },
   },
 
 }
@@ -114,6 +120,7 @@ export default {
 :deep(input::-webkit-inner-spin-button) {
   -webkit-appearance: none !important;
 }
+
 :deep(input[type='number']) {
   -moz-appearance: textfield !important;
 }
@@ -124,7 +131,7 @@ export default {
   font-weight: bold;
 }
 
-:deep(.el-form-item__label){
+:deep(.el-form-item__label) {
   font-weight: normal;
 }
 
