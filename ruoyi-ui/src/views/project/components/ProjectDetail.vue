@@ -99,7 +99,7 @@
 </template>
 <script>
 export default {
-    name: "ProjectList",
+    name: "ProjectDetail",
     props: {
     formLook: {
       type: Object,
