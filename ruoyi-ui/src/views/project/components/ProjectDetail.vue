@@ -1,0 +1,151 @@
+<template>
+    <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tab-pane label="基本信息" name="first">
+            <el-radio-group v-model="size">
+            </el-radio-group>
+            <el-descriptions class="margin-top" title="" :column="1" :size="size" labelStyle="width: 18%" contentStyle="width: 75%" :contentStyle="rowCenter" border>
+                <el-descriptions-item label="项目名称">
+                    {{ this.formLook.project.name }}
+                </el-descriptions-item>
+            </el-descriptions>
+            <el-descriptions class="margin-top" title="" :column="2" :size="size" labelStyle="width: 18%" contentStyle="width: 35%" border>
+                <el-descriptions-item label="负责人">
+                    {{ formLook.user.username }}
+                </el-descriptions-item>
+                <el-descriptions-item label="所属单位">
+                    {{ formLook.project.organization }}
+                </el-descriptions-item>
+                <el-descriptions-item label="负责人电话">
+                    {{ formLook.user.username }}
+                </el-descriptions-item>
+                <el-descriptions-item label="负责人邮箱">
+                    {{ formLook.user.username }}
+                </el-descriptions-item>
+                <el-descriptions-item label="经办人">
+                    {{ formLook.user.username  }}
+                </el-descriptions-item>
+                <el-descriptions-item label="经办人电话">
+                    {{ formLook.user.username  }}
+                </el-descriptions-item>
+                <el-descriptions-item label="项目分类">
+                    {{ formLook.project.type }}
+                </el-descriptions-item>
+                <el-descriptions-item label="立项日期">
+                    {{ formLook.createTime }}
+                </el-descriptions-item>
+                <el-descriptions-item label="开始日期">
+                    {{ formLook.createTime }}
+                </el-descriptions-item>
+                <el-descriptions-item>
+                    <template slot="label">
+                    <i class="el-icon-office-building"></i>
+                    计划结项日期
+                    </template>
+                    江
+                </el-descriptions-item>
+                <el-descriptions-item>
+                    <template slot="label">
+                    <i class="el-icon-office-building"></i>
+                    实际结项日期
+                    </template>
+                    江
+                </el-descriptions-item>
+                <el-descriptions-item>
+                    <template slot="label">
+                    <i class="el-icon-office-building"></i>
+                    批准经费
+                    </template>
+                    江
+                </el-descriptions-item>
+                <el-descriptions-item>
+                    <template slot="label">
+                    <i class="el-icon-office-building"></i>
+                    成果形式
+                    </template>
+                    江
+                </el-descriptions-item>
+                <el-descriptions-item>
+                    <template slot="label">
+                    <i class="el-icon-office-building"></i>
+                    备注
+                    </template>
+                    江
+                </el-descriptions-item>
+            </el-descriptions>
+            <el-radio-group v-model="size">
+            </el-radio-group>
+            <el-descriptions class="margin-top" name="first" :column="2" :size="size" :border="border">
+                <template slot="title">
+                <span style="font-size: 15px; font-weight: 450;">详细信息</span>
+                </template>
+                <template slot="extra">
+                <el-switch v-model="toggleDetails" active-color="#13ce66" inactive-color="#ff4949" />
+                </template>
+
+                <!-- 其他详细信息项，使用 v-if 控制显示/隐藏 -->
+                <el-descriptions-item v-if="toggleDetails" label="统计归属">kooriookami</el-descriptions-item>
+                <el-descriptions-item v-if="toggleDetails" label="统计年度">18100000000</el-descriptions-item>
+                <el-descriptions-item v-if="toggleDetails" label="一级学科">苏州市</el-descriptions-item>
+                <el-descriptions-item v-if="toggleDetails" label="社会经济目标">学校</el-descriptions-item>
+                <el-descriptions-item v-if="toggleDetails" label="项目来源">江苏省苏州市吴中区吴中大道 1188 号</el-descriptions-item>
+                <el-descriptions-item v-if="toggleDetails" label="研究类别">江苏省苏州市吴中区吴中大道 1188 号</el-descriptions-item>
+                <el-descriptions-item v-if="toggleDetails" label="合作形式">江苏省苏州市吴中区吴中大道 1188 号</el-descriptions-item>
+                <el-descriptions-item v-if="toggleDetails" label="国民经济行业">江苏省苏州市吴中区吴中大道 1188 号</el-descriptions-item>
+            </el-descriptions>
+        </el-tab-pane>
+        <el-tab-pane label="项目成员" name="second">配置管理</el-tab-pane>
+        <el-tab-pane label="项目经费" name="third">角色管理</el-tab-pane>
+    </el-tabs>
+</template>
+<script>
+export default {
+    name: "ProjectList",
+    props: {
+    formLook: {
+      type: Object,
+      required: true,
+    },
+  },
+    data() {
+        return {
+            rowCenter:{
+              "text-align":"center"
+            },
+            size: '',
+            border: true,
+            toggleDetails: true, // 控制详细信息项的显示/隐藏
+            pageIndex: 1,
+            pageSize: 10,
+            totalPage: 0,
+            begin: 0,
+            end: this.pageSize - 1,
+            dialogFormVisible: false, //默认关闭新建用户界面
+            dialogFormVisibleChange: false, //默认关闭编辑用户界面
+            dialogFormVisibleLook: false,
+            dataListFrom: "getDataList",//当前数据来源于搜索还是全局
+            activeName: 'first',
+        };
+    },
+    methods: {
+        //改变数组大小
+        sizeChangeHandle(val) {
+            this.pageSize = val;
+            this.SizeOrCurrentChangeAfter();
+        },
+        //改变当前页号
+        CurrentChangeHandle(val) {
+            this.pageIndex = val;
+            this.SizeOrCurrentChangeAfter();
+        },
+        //在更改数组大小或者页号前，判断数据来源
+        SizeOrCurrentChangeAfter() {
+            if (this.dataListFrom === "getDataList")
+                this.getDataList();
+            else this.getDataListByName();
+        },
+    },
+    mounted() {
+        this.getDataList();
+    },
+};
+</script>
