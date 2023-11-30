@@ -80,6 +80,14 @@
             >
               <span>这是一段测试信息</span>
             </el-dialog>
+            <!-- 大事记新增打开的界面 -->
+            <el-dialog
+              title="大事记"
+              :visible.sync="eventsDialogVisibleAdd"
+              width="50%"
+            >
+              <span>新增测试信息</span>
+            </el-dialog>
             <!-- 页号 -->
             <el-pagination
                 :current-page="pageIndex"
@@ -155,6 +163,7 @@ export default {
             dialogFormVisibleChange: false, //默认关闭编辑用户界面
             dialogFormVisibleLook: false,
             eventsDialogVisibleLook: false,
+            eventsDialogVisibleAdd: false,
             dataListFrom: "getDataList",//当前数据来源于搜索还是全局
             activeName: 'first',
         };
@@ -255,7 +264,7 @@ export default {
             this.eventsDialogVisibleLook = true; // 处理查看操作
           } else if (command === 'add') {
             // 处理新增操作，可以添加相应的逻辑
-            console.log('执行新增操作');
+            this.eventsDialogVisibleAdd = true;// 处理新增操作
           }
         },
     },
