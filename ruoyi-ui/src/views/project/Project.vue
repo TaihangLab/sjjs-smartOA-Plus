@@ -29,16 +29,14 @@
                 </el-table-column>
                 <el-table-column label="开始日期" :resizable="false" align="center"  prop="createTime" width="170">
                 </el-table-column>
-                <el-table-column label="操作" :resizable="false" align="center" min-width="180px" fixed="right">
+                <el-table-column label="操作" :resizable="false" align="center" min-width="230px" fixed="right">
                     <template v-slot="scope">
                         <el-button
                             size="mini"
                             type="text"
                             icon="el-icon-tickets"
                             @click="lookEdit(scope.$index, scope.row)"
-                        >
-                            详情
-                        </el-button>
+                        >详情</el-button>
                         <el-button
                             size="mini"
                             type="text"
@@ -53,10 +51,17 @@
                             @click="handleDelete(scope.row)"
                             v-hasPermi="['system:role:remove']"
                         >删除</el-button>
+                        <el-dropdown size="mini" @command="handleDropdownCommand">
+                          <el-button size="mini" type="text" icon="el-icon-d-arrow-right">大事记</el-button>
+                          <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item command="view" icon="el-icon-view">查看</el-dropdown-item>
+                            <el-dropdown-item command="add" icon="el-icon-circle-plus-outline">新增</el-dropdown-item>
+                          </el-dropdown-menu>
+                        </el-dropdown>
                     </template>
                 </el-table-column>
             </el-table>
-            <!-- 查看打开的界面 -->
+            <!-- 详情打开的界面 -->
             <el-dialog
               :model="formLook"
               :visible.sync="dialogFormVisibleLook"
@@ -66,6 +71,22 @@
                :visible.sync="dialogFormVisibleLook"
                :formLook="formLook"
                ></ProjectDetail>
+            </el-dialog>
+            <!-- 大事记查看打开的界面 -->
+            <el-dialog
+              title="大事记"
+              :visible.sync="eventsDialogVisibleLook"
+              width="50%"
+            >
+              <span>这是一段测试信息</span>
+            </el-dialog>
+            <!-- 大事记新增打开的界面 -->
+            <el-dialog
+              title="大事记"
+              :visible.sync="eventsDialogVisibleAdd"
+              width="50%"
+            >
+              <span>新增测试信息</span>
             </el-dialog>
             <!-- 页号 -->
             <el-pagination
@@ -141,6 +162,8 @@ export default {
             dialogFormVisible: false, //默认关闭新建用户界面
             dialogFormVisibleChange: false, //默认关闭编辑用户界面
             dialogFormVisibleLook: false,
+            eventsDialogVisibleLook: false,
+            eventsDialogVisibleAdd: false,
             dataListFrom: "getDataList",//当前数据来源于搜索还是全局
             activeName: 'first',
         };
@@ -151,7 +174,6 @@ export default {
       {
         projectId: 1,
         project: { id: 1, name: '项目A', type: '类型A', money: 1000, remark: 'Lorem ipsum' },
-        status: '待审核',
         user: { id: 1, username: '用户1', name: '用户一' },
         createTime: '2023-01-01',
         updateTime: '2023-01-02',
@@ -232,13 +254,19 @@ export default {
             this.dataList = data.dataList
             this.totalPage = data.totalPage
         },
-        //查看按钮
+        //详情按钮
         lookEdit(index, item) {
             this.dialogFormVisibleLook = true;
             this.formLook = item;
-            console.log(this.formLook)
         },
-
+        handleDropdownCommand(command) {
+          if (command === 'view') {
+            this.eventsDialogVisibleLook = true; // 处理查看操作
+          } else if (command === 'add') {
+            // 处理新增操作，可以添加相应的逻辑
+            this.eventsDialogVisibleAdd = true;// 处理新增操作
+          }
+        },
     },
     mounted() {
         this.getDataList();
