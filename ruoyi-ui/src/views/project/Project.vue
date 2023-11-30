@@ -51,15 +51,13 @@
                             @click="handleDelete(scope.row)"
                             v-hasPermi="['system:role:remove']"
                         >删除</el-button>
-                        <el-dropdown size="mini" @command="(command) => handleCommand(command, scope.row)" v-hasPermi="['system:role:edit']">
-                            <el-button size="mini" type="text" icon="el-icon-d-arrow-right">大事记</el-button>
-                            <el-dropdown-menu slot="dropdown">
-                              <el-dropdown-item command="handleDataScope" icon="el-icon-circle-plus-outline"
-                                v-hasPermi="['system:role:edit']">新增</el-dropdown-item>
-                              <el-dropdown-item command="handleAuthUser" icon="el-icon-view"
-                                v-hasPermi="['system:role:edit']">查看</el-dropdown-item>
-                            </el-dropdown-menu>
-                          </el-dropdown>
+                        <el-dropdown size="mini" @command="handleDropdownCommand">
+                          <el-button size="mini" type="text" icon="el-icon-d-arrow-right">大事记</el-button>
+                          <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item command="view" icon="el-icon-view">查看</el-dropdown-item>
+                            <el-dropdown-item command="add" icon="el-icon-circle-plus-outline">新增</el-dropdown-item>
+                          </el-dropdown-menu>
+                        </el-dropdown>
                     </template>
                 </el-table-column>
             </el-table>
@@ -73,6 +71,14 @@
                :visible.sync="dialogFormVisibleLook"
                :formLook="formLook"
                ></ProjectDetail>
+            </el-dialog>
+            <!-- 大事记查看打开的界面 -->
+            <el-dialog
+              title="大事记"
+              :visible.sync="eventsDialogVisibleLook"
+              width="50%"
+            >
+              <span>这是一段测试信息</span>
             </el-dialog>
             <!-- 页号 -->
             <el-pagination
@@ -148,6 +154,7 @@ export default {
             dialogFormVisible: false, //默认关闭新建用户界面
             dialogFormVisibleChange: false, //默认关闭编辑用户界面
             dialogFormVisibleLook: false,
+            eventsDialogVisibleLook: false,
             dataListFrom: "getDataList",//当前数据来源于搜索还是全局
             activeName: 'first',
         };
@@ -238,13 +245,19 @@ export default {
             this.dataList = data.dataList
             this.totalPage = data.totalPage
         },
-        //查看按钮
+        //详情按钮
         lookEdit(index, item) {
             this.dialogFormVisibleLook = true;
             this.formLook = item;
-            console.log(this.formLook)
         },
-
+        handleDropdownCommand(command) {
+          if (command === 'view') {
+            this.eventsDialogVisibleLook = true; // 处理查看操作
+          } else if (command === 'add') {
+            // 处理新增操作，可以添加相应的逻辑
+            console.log('执行新增操作');
+          }
+        },
     },
     mounted() {
         this.getDataList();
