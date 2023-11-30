@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @TableName("project_Info")
-public class ProjectInfo {
+public class ProjectBaseInfo {
     /**
      * 项目ID
      */
