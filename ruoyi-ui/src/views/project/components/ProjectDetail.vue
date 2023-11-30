@@ -102,7 +102,7 @@ export default {
     name: "ProjectDetail",
     props: {
     formLook: {
-      type: Object,
+      type: Object, 
       required: true,
     },
   },

@@ -29,16 +29,14 @@
                 </el-table-column>
                 <el-table-column label="开始日期" :resizable="false" align="center"  prop="createTime" width="170">
                 </el-table-column>
-                <el-table-column label="操作" :resizable="false" align="center" min-width="180px" fixed="right">
+                <el-table-column label="操作" :resizable="false" align="center" min-width="230px" fixed="right">
                     <template v-slot="scope">
                         <el-button
                             size="mini"
                             type="text"
                             icon="el-icon-tickets"
                             @click="lookEdit(scope.$index, scope.row)"
-                        >
-                            详情
-                        </el-button>
+                        >详情</el-button>
                         <el-button
                             size="mini"
                             type="text"
@@ -53,10 +51,19 @@
                             @click="handleDelete(scope.row)"
                             v-hasPermi="['system:role:remove']"
                         >删除</el-button>
+                        <el-dropdown size="mini" @command="(command) => handleCommand(command, scope.row)" v-hasPermi="['system:role:edit']">
+                            <el-button size="mini" type="text" icon="el-icon-d-arrow-right">大事记</el-button>
+                            <el-dropdown-menu slot="dropdown">
+                              <el-dropdown-item command="handleDataScope" icon="el-icon-circle-plus-outline"
+                                v-hasPermi="['system:role:edit']">新增</el-dropdown-item>
+                              <el-dropdown-item command="handleAuthUser" icon="el-icon-view"
+                                v-hasPermi="['system:role:edit']">查看</el-dropdown-item>
+                            </el-dropdown-menu>
+                          </el-dropdown>
                     </template>
                 </el-table-column>
             </el-table>
-            <!-- 查看打开的界面 -->
+            <!-- 详情打开的界面 -->
             <el-dialog
               :model="formLook"
               :visible.sync="dialogFormVisibleLook"
@@ -151,7 +158,6 @@ export default {
       {
         projectId: 1,
         project: { id: 1, name: '项目A', type: '类型A', money: 1000, remark: 'Lorem ipsum' },
-        status: '待审核',
         user: { id: 1, username: '用户1', name: '用户一' },
         createTime: '2023-01-01',
         updateTime: '2023-01-02',
