@@ -1,44 +1,49 @@
 <template>
   <el-card header="项目成员" shadow="hover">
-    <el-form-item label-width="125px" label="项目成员">
-      <el-input v-model="form.name"></el-input>
-    </el-form-item>
-    <el-row :gutter="20">
-      <el-col :span="8">
-        <el-tree
-            :data="deptOptions"
-            :props="defaultProps"
-            :expand-on-click-node="false"
-            :filter-node-method="filterNode"
-            ref="tree"
-            node-key="id"
-            default-expand-all
-            highlight-current
-            @node-click="handleNodeClick"
-        />
-      </el-col>
+    <el-form :model="form" ref="form" label-position="left">
 
-      <el-col :span="16">
-        <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
-          <el-table-column type="selection" width="50" align="center" />
-          <!--          <el-table-column label="用户编号" align="center" key="userId" prop="userId" v-if="columns[0].visible" />-->
-          <el-table-column label="用户名称" align="center" key="userName" prop="userName" v-if="columns[0].visible" :show-overflow-tooltip="true" />
-          <el-table-column label="用户昵称" align="center" key="nickName" prop="nickName" v-if="columns[1].visible" :show-overflow-tooltip="true" />
-          <el-table-column label="部门" align="center" key="deptName" prop="dept.deptName" v-if="columns[2].visible" :show-overflow-tooltip="true" />
+      <el-form-item label-width="125px" label="项目成员">
+        <el-input v-model="form.name"></el-input>
+      </el-form-item>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-tree
+              :data="deptOptions"
+              :props="defaultProps"
+              :expand-on-click-node="false"
+              :filter-node-method="filterNode"
+              ref="tree"
+              node-key="id"
+              default-expand-all
+              highlight-current
+              @node-click="handleNodeClick"
+          />
+        </el-col>
 
-        </el-table>
+        <el-col :span="16">
+          <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
+            <el-table-column type="selection" width="50" align="center"/>
+            <!--          <el-table-column label="用户编号" align="center" key="userId" prop="userId" v-if="columns[0].visible" />-->
+            <el-table-column label="用户名称" align="center" key="userName" prop="userName" v-if="columns[0].visible"
+                             :show-overflow-tooltip="true"/>
+            <el-table-column label="用户昵称" align="center" key="nickName" prop="nickName" v-if="columns[1].visible"
+                             :show-overflow-tooltip="true"/>
+            <el-table-column label="部门" align="center" key="deptName" prop="dept.deptName" v-if="columns[2].visible"
+                             :show-overflow-tooltip="true"/>
 
-        <pagination
-            v-show="total>0"
-            :total="total"
-            :page.sync="queryParams.pageNum"
-            :limit.sync="queryParams.pageSize"
-            @pagination="getList"
-        />
-      </el-col>
-    </el-row>
+          </el-table>
 
+          <pagination
+              v-show="total>0"
+              :total="total"
+              :page.sync="queryParams.pageNum"
+              :limit.sync="queryParams.pageSize"
+              @pagination="getList"
+          />
+        </el-col>
+      </el-row>
 
+    </el-form>
 
   </el-card>
 </template>
@@ -107,7 +112,7 @@ export default {
         // 是否更新已经存在的用户数据
         updateSupport: 0,
         // 设置上传的请求头部
-        headers: { Authorization: "Bearer " + getToken() },
+        headers: {Authorization: "Bearer " + getToken()},
         // 上传的地址
         url: process.env.VUE_APP_BASE_API + "/system/user/importData"
       },
@@ -122,13 +127,13 @@ export default {
       },
       // 列信息
       columns: [
-        { key: 0, label: `用户编号`, visible: true },
-        { key: 1, label: `用户名称`, visible: true },
-        { key: 2, label: `用户昵称`, visible: true },
-        { key: 3, label: `部门`, visible: true },
-        { key: 4, label: `手机号码`, visible: true },
-        { key: 5, label: `状态`, visible: true },
-        { key: 6, label: `创建时间`, visible: true }
+        {key: 0, label: `用户编号`, visible: true},
+        {key: 1, label: `用户名称`, visible: true},
+        {key: 2, label: `用户昵称`, visible: true},
+        {key: 3, label: `部门`, visible: true},
+        {key: 4, label: `手机号码`, visible: true},
+        {key: 5, label: `状态`, visible: true},
+        {key: 6, label: `创建时间`, visible: true}
       ],
 
     }
@@ -181,11 +186,11 @@ export default {
     // 用户状态修改
     handleStatusChange(row) {
       let text = row.status === "0" ? "启用" : "停用";
-      this.$modal.confirm('确认要"' + text + '""' + row.userName + '"用户吗？').then(function() {
+      this.$modal.confirm('确认要"' + text + '""' + row.userName + '"用户吗？').then(function () {
         return changeUserStatus(row.userId, row.status);
       }).then(() => {
         this.$modal.msgSuccess(text + "成功");
-      }).catch(function() {
+      }).catch(function () {
         row.status = row.status === "0" ? "1" : "0";
       });
     },
@@ -278,19 +283,20 @@ export default {
         closeOnClickModal: false,
         inputPattern: /^.{5,20}$/,
         inputErrorMessage: "用户密码长度必须介于 5 和 20 之间"
-      }).then(({ value }) => {
+      }).then(({value}) => {
         resetUserPwd(row.userId, value).then(response => {
           this.$modal.msgSuccess("修改成功，新密码是：" + value);
         });
-      }).catch(() => {});
+      }).catch(() => {
+      });
     },
     /** 分配角色操作 */
-    handleAuthRole: function(row) {
+    handleAuthRole: function (row) {
       const userId = row.userId;
       this.$router.push("/system/user-auth/role/" + userId);
     },
     /** 提交按钮 */
-    submitForm: function() {
+    submitForm: function () {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.userId != undefined) {
@@ -312,14 +318,14 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const userIds = row.userId || this.ids;
-      this.$modal.confirm('是否确认删除用户编号为"' + userIds + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除用户编号为"' + userIds + '"的数据项？').then(function () {
         return delUser(userIds);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
+      }).catch(() => {
+      });
     },
-
 
 
   }
