@@ -80,10 +80,10 @@
 <!--    新增项目弹出的对话框-->
     <el-dialog
         title="新增项目"
-        :visible.sync="newProjectDialogVisible"
+        :visible.sync="isNewProjectDialogVisible"
         fullscreen>
 <!--        :before-close="handleClose">-->
-      <NewProject :visible.sync="newProjectDialogVisible"></NewProject>
+      <NewProject :visible.sync="isNewProjectDialogVisible"></NewProject>
 
     </el-dialog>
 
@@ -101,7 +101,7 @@ export default {
   components: {Project, NewProject},
   data() {
     return {
-      newProjectDialogVisible: false,
+      isNewProjectDialogVisible: false,
       myProjectFrom: {
         projectNumber: "",
         projectName: "",
@@ -112,7 +112,7 @@ export default {
   methods: {
     // 新增项目
     handleAdd() {
-      this.newProjectDialogVisible = true;
+      this.isNewProjectDialogVisible = true;
     },
     /** 搜索按钮操作 */
     handleQuery() {
