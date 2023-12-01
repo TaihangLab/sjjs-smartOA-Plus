@@ -99,23 +99,22 @@
         title="大事记"
         :visible.sync="eventsDialogVisibleAdd"
         width="50%">
-       <addMemorabilia 
+       <AddEvents 
        :visible.sync="eventsDialogVisibleAdd">
-       </addMemorabilia>
+       </AddEvents>
     </el-dialog>
     <Project/>
-
   </div>
 </template>
 
 <script>
 import Project from "@/views/project/Project.vue";
 import NewProject from "@/views/project/components/NewProject.vue";
-import addMemorabilia from "@/views/project/components/addMemorabilia.vue";
+import AddEvents from "@/views/project/components/AddEvents.vue";
 
 export default {
   name: "MyProject",
-  components: {Project, NewProject,addMemorabilia},
+  components: {Project, NewProject,AddEvents},
   data() {
     return {
       newProjectDialogVisible: false,
