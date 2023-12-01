@@ -85,7 +85,11 @@
     <el-divider content-position="left">
       人员和劳务补助费：<el-tag effect="plain">12,123</el-tag>元
     </el-divider>
-    <el-form-item label-width="130px" label="人员和劳务补助费"><el-input v-model="$props.form.a" type="number" ></el-input></el-form-item>
+      <el-row>
+        <el-col :span="8">
+        <el-form-item label-width="130px" label="人员和劳务补助费"><el-input v-model="$props.form.a" type="number" ></el-input></el-form-item>
+        </el-col>
+      </el-row>
     <br>
 
     <el-divider content-position="left">
