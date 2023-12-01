@@ -5,6 +5,7 @@ import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.project.domain.ProjectMilestone;
 import com.ruoyi.project.domain.ProjectTarget;
 import com.ruoyi.project.service.ProjectMilestoneService;
 import com.ruoyi.project.service.ProjectTargetService;
@@ -43,5 +44,13 @@ public class ProjectListController extends BaseController {
         return toAjax(projectTargetService.deleteTargetByProjectId(projectId));
     }
 
-    
+    /**
+     * 根据项目id查询项目大事纪
+     */
+    @SaCheckPermission("project:list:queryMilestone")
+    @GetMapping("/{projectId}")
+    public R<List<ProjectMilestone>> getMilestone(@PathVariable Long projectId){
+        return R.ok(projectMilestoneService.selectMilestoneListByProjectId(projectId));
+    }
+
 }
