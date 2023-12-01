@@ -52,10 +52,9 @@
                             v-hasPermi="['system:role:remove']"
                         >删除</el-button>
                         <el-dropdown size="mini" @command="handleDropdownCommand">
-                          <el-button size="mini" type="text" icon="el-icon-d-arrow-right">大事记</el-button>
+                          <el-button size="mini" type="text" icon="el-icon-reading">大事记</el-button>
                           <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item command="view" icon="el-icon-view">查看</el-dropdown-item>
-                            <el-dropdown-item command="add" icon="el-icon-circle-plus-outline">新增</el-dropdown-item>
                           </el-dropdown-menu>
                         </el-dropdown>
                     </template>
@@ -74,19 +73,12 @@
             </el-dialog>
             <!-- 大事记查看打开的界面 -->
             <el-dialog
-              title="大事记"
               :visible.sync="eventsDialogVisibleLook"
               width="50%"
             >
-              <span>这是一段测试信息</span>
-            </el-dialog>
-            <!-- 大事记新增打开的界面 -->
-            <el-dialog
-              title="大事记"
-              :visible.sync="eventsDialogVisibleAdd"
-              width="50%"
-            >
-              <span>新增测试信息</span>
+              <CheckEvents
+              :visible.sync="eventsDialogVisibleLook"
+              ></CheckEvents>
             </el-dialog>
             <!-- 页号 -->
             <el-pagination
@@ -105,11 +97,13 @@
 </template>
 <script>
 import ProjectDetail from "@/views/project/components/ProjectDetail.vue";
+import CheckEvents from "@/views/project/components/CheckEvents.vue";
 
 export default {
     name: "ProjectList",
     components: {
-    ProjectDetail
+    ProjectDetail,
+    CheckEvents
   },
     data() {
         return {
@@ -163,7 +157,6 @@ export default {
             dialogFormVisibleChange: false, //默认关闭编辑用户界面
             dialogFormVisibleLook: false,
             eventsDialogVisibleLook: false,
-            eventsDialogVisibleAdd: false,
             dataListFrom: "getDataList",//当前数据来源于搜索还是全局
             activeName: 'first',
         };

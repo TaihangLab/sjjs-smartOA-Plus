@@ -87,7 +87,8 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
     }
 
     @Override
-    public List<ProjectTarget> selectMilestoneListByProjectId(Long projectId) {
-        return null;
+    public List<ProjectMilestone> selectMilestoneListByProjectId(Long projectId) {
+        return baseMapper.selectList(new LambdaQueryWrapper<ProjectMilestone>()
+            .eq(ProjectMilestone::getProjectId, projectId));
     }
 }
