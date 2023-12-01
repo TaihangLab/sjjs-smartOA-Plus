@@ -49,9 +49,10 @@ public class ProjectListController extends BaseController {
      */
     //@SaCheckPermission("project:list:queryMilestone")
     @GetMapping("/{projectId}")
-    @ResponseBody
     public R<List<ProjectMilestone>> getMilestone(@PathVariable Long projectId){
         return R.ok(projectMilestoneService.selectMilestoneListByProjectId(projectId));
     }
+
+
 
 }
