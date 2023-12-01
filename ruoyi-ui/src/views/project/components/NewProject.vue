@@ -19,47 +19,47 @@
     <el-main style="margin-top: 20px;">
 
       <el-collapse-transition>
-        <ProjectInfo v-show="stepID===0" :form="projectInfo" ref="projectInfo"></ProjectInfo>
+        <ProjectInfo v-show="stepID===0" :form="projectInfoForm" ref="projectInfo"></ProjectInfo>
       </el-collapse-transition>
 
       <el-collapse-transition>
-        <ProjectMember v-show="stepID===1" :form="projectMember"></ProjectMember>
+        <ProjectMember v-show="stepID===1" :form="projectMemberForm" ref="projectMember"></ProjectMember>
       </el-collapse-transition>
 
       <el-collapse-transition>
-        <ProjectFunds v-show="stepID===2" :form="projectFunds"></ProjectFunds>
+        <ProjectFunds v-show="stepID===2" :form="projectFundsForm" ref="projectFunds"></ProjectFunds>
       </el-collapse-transition>
 
       <el-collapse-transition>
-        <ZXFundsDetail v-show="stepID===3" :form="zxFundsDetail"></ZXFundsDetail>
+        <ZXFundsDetail v-show="stepID===3" :form="zxFundsDetailForm"></ZXFundsDetail>
       </el-collapse-transition>
 
       <el-collapse-transition>
-        <ZCFundsDetail v-show="stepID===4" :form="zcFundsDetail"></ZCFundsDetail>
+        <ZCFundsDetail v-show="stepID===4" :form="zcFundsDetailForm"></ZCFundsDetail>
       </el-collapse-transition>
 
       <el-collapse-transition>
-        <FundsSource v-show="stepID===5" :form="fundsSource"></FundsSource>
+        <FundsSource v-show="stepID===5" :form="fundsSourceForm"></FundsSource>
       </el-collapse-transition>
 
 
       <el-collapse-transition>
-        <ProjectIndicator v-show="stepID===6" :form="projectIndicator"></ProjectIndicator>
+        <ProjectIndicator v-show="stepID===6" :form="projectIndicatorForm"></ProjectIndicator>
       </el-collapse-transition>
 
       <el-collapse-transition>
-        <MainAttachment v-show="stepID===7" :form="mainAttachment"></MainAttachment>
+        <MainAttachment v-show="stepID===7" :form="mainAttachmentForm"></MainAttachment>
       </el-collapse-transition>
 
       <el-collapse-transition>
-        <OtherAttachment v-show="stepID===8" :form="otherAttachment"></OtherAttachment>
+        <OtherAttachment v-show="stepID===8" :form="otherAttachmentForm"></OtherAttachment>
       </el-collapse-transition>
 
     </el-main>
 
     <el-footer>
       <el-button v-show="stepID > 0" style="margin-top: 12px;" @click="previous">上一步</el-button>
-      <el-button style="margin-top: 12px;" @click="next">下一步</el-button>
+      <el-button style="margin-top: 12px;" @click="next">{{ nextButtonText }}</el-button>
       <el-button @click="reset('newProjectForm')">重置</el-button>
     </el-footer>
   </el-container>
@@ -96,25 +96,30 @@ export default {
   data() {
     return {
       stepID: 0,
-      newProjectForm: {},
-      projectInfo: {},
-      zxFundsDetail: {},
-      projectMember: {},
-      zcFundsDetail: {},
-      projectIndicator: {},
-      projectFunds: {},
-      fundsSource: {},
-      otherAttachment: {},
-      mainAttachment: {},
+      nextButtonText:'下一步',
+
+      projectInfoForm: {},
+      zxFundsDetailForm: {},
+      projectMemberForm: {},
+      zcFundsDetailForm: {},
+      projectIndicatorForm: {},
+      projectFundsForm: {},
+      fundsSourceForm: {},
+      otherAttachmentForm: {},
+      mainAttachmentForm: {},
     };
   },
 
   methods: {
     next() {
-      console.log(this.stepID);
       // todo
       if (this.stepID++ >= TOTAL_STEPS - 1) {
-        this.stepID = 0;
+        // this.stepID = 0;
+        this.$emit('update:visible', false);
+        this.reset();
+      }
+      if (this.stepID > TOTAL_STEPS - 2) {
+        this.nextButtonText = '完成';
       }
 
     },
@@ -130,7 +135,8 @@ export default {
       //     this.newProjectForm[sub][item] = "";
       //   }
       // }
-      console.log(this.projectFunds);
+      this.stepID = 0;
+
       // this.$refs.projectInfo.$refs.form111.resetFields()
 
     },
