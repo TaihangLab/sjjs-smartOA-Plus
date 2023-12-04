@@ -1,74 +1,130 @@
 <template>
   <el-card header="项目成员" shadow="hover">
-    <el-form :model="form" ref="form" label-position="left">
+    <el-row :gutter="20" >
+      <el-col :span="4">
+        <el-input
+            v-model="deptName"
+            placeholder="请输入部门名称"
+            clearable
+            size="small"
+            prefix-icon="el-icon-search"
+            style="margin-bottom: 20px"
+        />
+        <el-tree
+            :data="deptOptions"
+            :props="defaultProps"
+            :expand-on-click-node="false"
+            :filter-node-method="filterNode"
+            ref="tree"
+            node-key="id"
+            default-expand-all
+            highlight-current
+            @node-click="handleNodeClick"
+        />
+      </el-col>
 
-      <el-form-item label-width="125px" label="项目成员">
-        <el-input v-model="form.name"></el-input>
-      </el-form-item>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-tree
-              :data="deptOptions"
-              :props="defaultProps"
-              :expand-on-click-node="false"
-              :filter-node-method="filterNode"
-              ref="tree"
-              node-key="id"
-              default-expand-all
-              highlight-current
-              @node-click="handleNodeClick"
-          />
-        </el-col>
+      <el-col :span="15">
+        <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+          <el-form-item label="用户名称" prop="userName">
+            <el-input
+                v-model="queryParams.userName"
+                placeholder="请输入用户名称"
+                clearable
+                style="width: 240px"
+                @keyup.enter.native="handleQuery"
+            />
+          </el-form-item>
+          <el-form-item label="手机号码" prop="phonenumber">
+            <el-input
+                v-model="queryParams.phonenumber"
+                placeholder="请输入手机号码"
+                clearable
+                style="width: 240px"
+                @keyup.enter.native="handleQuery"
+            />
+          </el-form-item>
+          <el-form-item label="状态" prop="status">
+            <el-select
+                v-model="queryParams.status"
+                placeholder="用户状态"
+                clearable
+                style="width: 240px"
+            >
+              <el-option
+                  v-for="dict in dict.type.sys_normal_disable"
+                  :key="dict.value"
+                  :label="dict.label"
+                  :value="dict.value"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="创建时间">
+            <el-date-picker
+                v-model="dateRange"
+                style="width: 240px"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                type="daterange"
+                range-separator="-"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                :default-time="['00:00:00', '23:59:59']"
+            ></el-date-picker>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+            <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+          </el-form-item>
+        </el-form>
 
-        <el-col :span="16">
-          <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
-            <el-table-column type="selection" width="50" align="center"/>
-            <!--          <el-table-column label="用户编号" align="center" key="userId" prop="userId" v-if="columns[0].visible" />-->
-            <el-table-column label="用户名称" align="center" key="userName" prop="userName" v-if="columns[0].visible"
-                             :show-overflow-tooltip="true"/>
-            <el-table-column label="用户昵称" align="center" key="nickName" prop="nickName" v-if="columns[1].visible"
-                             :show-overflow-tooltip="true"/>
-            <el-table-column label="部门" align="center" key="deptName" prop="dept.deptName" v-if="columns[2].visible"
-                             :show-overflow-tooltip="true"/>
 
-          </el-table>
 
-          <pagination
-              v-show="total>0"
-              :total="total"
-              :page.sync="queryParams.pageNum"
-              :limit.sync="queryParams.pageSize"
-              @pagination="getList"
-          />
-        </el-col>
-      </el-row>
+        <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange"
+                  :row-key="(row)=>row.userId">
+          <el-table-column type="selection" width="50" align="center" reserve-selection/>
+          <!--          <el-table-column label="用户编号" align="center" key="userId" prop="userId" v-if="columns[0].visible" />-->
+          <el-table-column label="用户名称" align="center" key="userName" prop="userName" v-if="columns[0].visible"
+                           :show-overflow-tooltip="true"/>
+          <el-table-column label="用户昵称" align="center" key="nickName" prop="nickName" v-if="columns[1].visible"
+                           :show-overflow-tooltip="true"/>
+          <el-table-column label="部门" align="center" key="deptName" prop="dept.deptName" v-if="columns[2].visible"
+                           :show-overflow-tooltip="true"/>
 
-    </el-form>
+        </el-table>
+
+        <pagination
+            v-show="total>0"
+            :total="total"
+            :page.sync="queryParams.pageNum"
+            :limit.sync="queryParams.pageSize"
+            @pagination="getList"
+        />
+      </el-col>
+
+      <el-col :span="4">
+        <el-tag effect="plain" v-for="(item, index) in names" style="display: block;"> {{index + 1}}. {{item}} </el-tag>
+
+      </el-col>
+    </el-row>
 
   </el-card>
 </template>
 
 <script>
-import {
-  listUser,
-  getUser,
-  delUser,
-  addUser,
-  updateUser,
-  resetUserPwd,
-  changeUserStatus,
-  deptTreeSelect
-} from "@/api/system/user";
-import {getToken} from "@/utils/auth";
+import { listUser, getUser, delUser, addUser, updateUser, resetUserPwd, changeUserStatus, deptTreeSelect } from "@/api/system/user";
+import { getToken } from "@/utils/auth";
+import Treeselect from "@riophae/vue-treeselect";
+import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 
 export default {
-  name: "ProjectMember",
+  dicts: ['sys_normal_disable', 'sys_user_sex'],
+  components: { Treeselect },
   props: ['form'],
   data() {
     return {
       loading: true,
       // 选中数组
       ids: [],
+      names: [],
       // 非单个禁用
       single: true,
       // 非多个禁用
@@ -146,6 +202,7 @@ export default {
     // this.getConfigKey("sys.user.initPassword").then(response => {
     //   this.initPassword = response.msg;
     // });
+
   },
 
 
@@ -233,6 +290,8 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.userId);
+      this.$props.form.members = this.ids;
+      this.names =selection.map(item => item.userName)
       this.single = selection.length != 1;
       this.multiple = !selection.length;
     },

@@ -5,6 +5,8 @@
         <el-input v-model="form.funds"></el-input>
       </el-form-item>
 
+      <FileUpload :value="['a','b']"></FileUpload>
+
     </el-form>
   </el-card>
 
@@ -12,8 +14,12 @@
 
 
 <script>
+import FileUpload from "@/components/FileUpload/index.vue";
 export default {
   props: ['form'],
+  components:{
+    FileUpload
+  },
   data() {
     return {
 
