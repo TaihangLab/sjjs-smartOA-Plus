@@ -72,15 +72,6 @@
         >导入
         </el-button>
         <el-col :span="1.5">
-        <el-button
-            type="success"
-            plain
-            icon="el-icon-document-add"
-            size="mini"
-            @click="eventsAdd"
-            v-hasPermi="['system:role:add']"
-        >大事记
-        </el-button>
       </el-col>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
@@ -99,7 +90,7 @@
         title="大事记"
         :visible.sync="eventsDialogVisibleAdd"
         width="50%">
-       <AddEvents 
+       <AddEvents
        :visible.sync="eventsDialogVisibleAdd">
        </AddEvents>
     </el-dialog>

@@ -55,6 +55,7 @@
                           <el-button size="mini" type="text" icon="el-icon-reading">大事记</el-button>
                           <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item command="view" icon="el-icon-view">查看</el-dropdown-item>
+                            <el-dropdown-item command="add" icon="el-icon-document-add">新增</el-dropdown-item>
                           </el-dropdown-menu>
                         </el-dropdown>
                     </template>
@@ -66,7 +67,7 @@
               :visible.sync="dialogFormVisibleLook"
               width="50%"
             >
-               <ProjectDetail 
+               <ProjectDetail
                :visible.sync="dialogFormVisibleLook"
                :formLook="formLook"
                ></ProjectDetail>
@@ -79,6 +80,13 @@
               <CheckEvents
               :visible.sync="eventsDialogVisibleLook"
               ></CheckEvents>
+            </el-dialog>
+            <el-dialog
+              :visible.sync="eventsDialogVisibleAdd"
+              width="50%">
+              <AddEvents
+                :visible.sync="eventsDialogVisibleAdd">
+              </AddEvents>
             </el-dialog>
             <!-- 页号 -->
             <el-pagination
@@ -98,12 +106,13 @@
 <script>
 import ProjectDetail from "@/views/project/components/ProjectDetail.vue";
 import CheckEvents from "@/views/project/components/CheckEvents.vue";
-
+import AddEvents from "@/views/project/components/AddEvents.vue";
 export default {
     name: "ProjectList",
     components: {
     ProjectDetail,
-    CheckEvents
+    CheckEvents,
+    AddEvents,
   },
     data() {
         return {
@@ -157,6 +166,7 @@ export default {
             dialogFormVisibleChange: false, //默认关闭编辑用户界面
             dialogFormVisibleLook: false,
             eventsDialogVisibleLook: false,
+            eventsDialogVisibleAdd: false,
             dataListFrom: "getDataList",//当前数据来源于搜索还是全局
             activeName: 'first',
         };
