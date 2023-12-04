@@ -44,15 +44,17 @@
     </el-timeline>
     <!-- 修改页面弹出框 -->
     <el-dialog
-      title="大事记"
-      :visible.sync="eventsDialogVisibleAdd"
-      width="50%"
+    title="大事记"
+    :visible.sync="eventsDialogVisibleAdd"
+    :lock-scroll="false"
+    :append-to-body="true"
+    width="50%"
     >
       <AddEvents 
         :visible.sync="eventsDialogVisibleAdd"
-        :form="form" 
+        :item="item" 
       ></AddEvents>
-    </el-dialog>
+  </el-dialog>
   </div>
 </template>
 
@@ -62,17 +64,24 @@ import AddEvents from "@/views/project/components/AddEvents.vue";
 import { editMilestone, getMilestone, deleteMilestone } from "@/api/system/milestone";
 
 export default {
+  props: {
+    item: {
+      type: Object,
+      required: true,
+    },
+  },
   components: { AddEvents },
   data() {
     return {
       eventsDialogVisibleAdd: false,
+      localItem: this.item,
       timelineItems: [],
-      form: {}, // 初始化 form 对象
+      formData: {}, // 初始化 form 对象
       title: "" // 初始化 title
     };
   },
   created() {
-    // 获取数据
+  // 获取数据
     request({ url: '/project/list/0', method: 'get' })
       .then((resp) => {
         // 根据 milestoneDate 对 timelineItems 进行排序
@@ -82,37 +91,37 @@ export default {
       })
       .catch((error) => {
         console.error('获取数据时出错：', error);
-      });
-  },
+      })
+    },
+
   methods: {
     editMilestone(item) {
-      // 重置表单数据
-      // this.reset();
-      const milestoneId = item.milestoneId;
-      // 调用后端接口获取指定 milestoneId 的详细信息
-      getMilestone(milestoneId).then((response) => {
-          // 将后端返回的数据填充到表单中
-          this.form = response.data;
-          this.eventsDialogVisibleAdd = true;
-          this.title = "编辑大事记";
-        })
-        .catch((error) => {
-          console.error("获取大事记详情时出错：", error);
-        });
-    },
+    const milestoneId = item.milestoneId;
+    // 调用后端接口获取指定 milestoneId 的详细信息
+    getMilestone(milestoneId)
+    .then((response) => {
+      console.log('后端返回的数据：', response.data);
+      this.formData = response.data;
+      this.eventsDialogVisibleAdd = true;
+      this.title = "编辑大事记";
+    })
+    .catch((error) => {
+      console.error("获取大事记详情时出错：", error);
+    });
+  },
     deleteMilestone(item) {
       // 删除逻辑，可以弹出确认框等
       console.log('删除项目', item);
     },
     reset() {
-      this.form = {
+      this.item = {
         milestoneId: undefined,
         milestoneTitle: undefined,
         milestoneRemark: undefined,
         milestoneDate: undefined, 
         status: "0"
       };
-      this.resetForm("form");
+      this.resetForm("formData");
     },
   },
 };
