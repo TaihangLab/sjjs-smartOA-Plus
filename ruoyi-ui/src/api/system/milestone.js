@@ -8,9 +8,9 @@ export function getMilestone(milestoneId) {
     })
   }
 // 新增公告
-export function addNotice(data) {
+export function addMilestone(data) {
     return request({
-      url: 'project/list/0',
+      url: 'project/my',
       method: 'post',
       data: data
     })
