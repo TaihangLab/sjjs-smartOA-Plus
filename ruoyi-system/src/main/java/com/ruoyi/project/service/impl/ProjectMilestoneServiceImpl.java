@@ -2,11 +2,12 @@ package com.ruoyi.project.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.ruoyi.common.core.service.OssService;
 import com.ruoyi.project.domain.ProjectMilestone;
-import com.ruoyi.project.domain.ProjectTarget;
 import com.ruoyi.project.mapper.ProjectMilestoneMapper;
-import com.ruoyi.project.mapper.ProjectTargetMapper;
+import com.ruoyi.project.mapper.ProjectMilestoneOssMapper;
 import com.ruoyi.project.service.ProjectMilestoneService;
+import com.ruoyi.system.service.ISysOssService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,11 @@ import java.util.List;
 @Service
 public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
 
-    private final ProjectMilestoneMapper baseMapper;
+    private final ProjectMilestoneMapper projectMilestoneMapper;
+
+    private final ProjectMilestoneOssMapper projectMilestoneOssMapper;
+
+    private final ISysOssService iSysOssService;
 
     /**
      * 新增单个项目大事记
@@ -29,7 +34,8 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
         if (projectMilestone == null) {
             return 0;
         }
-        return baseMapper.insert(projectMilestone);
+        //iSysOssService.upload()
+        return projectMilestoneMapper.insert(projectMilestone);
     }
 
     /**
@@ -43,7 +49,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
         if (projectMilestones.isEmpty()) {
             return false;
         }
-        return baseMapper.insertBatch(projectMilestones);
+        return projectMilestoneMapper.insertBatch(projectMilestones);
     }
 
     /**
@@ -54,7 +60,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
      */
     @Override
     public int deleteMilestoneByProjectId(Long projectId) {
-        return baseMapper.delete(new LambdaQueryWrapper<ProjectMilestone>().
+        return projectMilestoneMapper.delete(new LambdaQueryWrapper<ProjectMilestone>().
             eq(ProjectMilestone::getMilestoneId, projectId));
     }
 
@@ -66,7 +72,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
      */
     @Override
     public int deleteProjectMilestone(Long milestoneId) {
-        return baseMapper.delete(new LambdaQueryWrapper<ProjectMilestone>().
+        return projectMilestoneMapper.delete(new LambdaQueryWrapper<ProjectMilestone>().
             eq(ProjectMilestone::getMilestoneId, milestoneId));
     }
 
@@ -77,18 +83,26 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
      * @return 结果
      */
     @Override
-    public int updateMilestoneByProjectId(ProjectMilestone projectMilestone, Long milestoneId) {
+    public int updateMilestone(ProjectMilestone projectMilestone) {
         LambdaUpdateWrapper<ProjectMilestone> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
-        lambdaUpdateWrapper.eq(ProjectMilestone::getMilestoneId, milestoneId);
+        lambdaUpdateWrapper.eq(ProjectMilestone::getMilestoneId, projectMilestone.getMilestoneId());
         lambdaUpdateWrapper.set(ProjectMilestone::getMilestoneRemark, projectMilestone.getMilestoneRemark())
             .set(ProjectMilestone::getMilestoneTitle, projectMilestone.getMilestoneTitle())
             .set(ProjectMilestone::getMilestoneDate,projectMilestone.getMilestoneDate());
-        return baseMapper.update(projectMilestone, lambdaUpdateWrapper);
+        return projectMilestoneMapper.update(projectMilestone, lambdaUpdateWrapper);
     }
 
+    /**
+     * 修改项目大事记
+     *
+     * @param projectId 项目ID
+     * @return 结果
+     */
     @Override
     public List<ProjectMilestone> selectMilestoneListByProjectId(Long projectId) {
-        return baseMapper.selectList(new LambdaQueryWrapper<ProjectMilestone>()
+        return projectMilestoneMapper.selectList(new LambdaQueryWrapper<ProjectMilestone>()
             .eq(ProjectMilestone::getProjectId, projectId));
     }
+
+
 }
