@@ -53,7 +53,9 @@ export default {
     addMilestone() {
       request({ url: '/project/my', method: 'post',data:this.form})
       .then((resp) => {
-        console.log(resp)
+        console.log(resp);
+        this.$modal.msgSuccess("新增成功");
+        this.$emit('close-dialog'); // 触发一个事件通知父组件关闭弹窗
         });
     },
     submitUpload() {
