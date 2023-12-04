@@ -77,9 +77,11 @@
               :visible.sync="eventsDialogVisibleLook"
               width="50%"
             >
-              <CheckEvents
-              :visible.sync="eventsDialogVisibleLook"
-              ></CheckEvents>
+              <div style="max-height: 600px; overflow-y: auto;">
+                <CheckEvents
+                :visible.sync="eventsDialogVisibleLook"
+                ></CheckEvents>
+              </div>
             </el-dialog>
             <el-dialog
               :visible.sync="eventsDialogVisibleAdd"

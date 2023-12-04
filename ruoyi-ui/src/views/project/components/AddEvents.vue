@@ -21,7 +21,7 @@
           size="small" 
           @click="addMilestone"
         >
-          立即创建
+          确定
         </el-button>
       </el-form-item>
     </el-form>
@@ -55,7 +55,7 @@ export default {
       .then((resp) => {
         console.log(resp)
         });
-      },
+    },
     submitUpload() {
       this.$refs.upload.submit();
     },
