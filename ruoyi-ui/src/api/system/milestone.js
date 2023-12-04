@@ -7,7 +7,14 @@ export function getMilestone(milestoneId) {
       method: 'get'
     })
   }
-
+// 新增公告
+export function addNotice(data) {
+    return request({
+      url: 'project/list/0',
+      method: 'post',
+      data: data
+    })
+  }
 // 修改大事记
 export function editMilestone(data) {
     return request({
