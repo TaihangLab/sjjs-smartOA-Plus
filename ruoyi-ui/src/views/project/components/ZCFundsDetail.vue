@@ -1,9 +1,11 @@
 <template>
   <el-card header="经费详情" shadow="hover">
     <el-form :model="form" ref="form" label-position="left">
-    <el-divider content-position="left">
-      设备费：<el-tag effect="plain">12,123</el-tag>元
-    </el-divider>
+      <el-divider content-position="left">
+        设备费
+<!--        <el-tag effect="plain">12,123</el-tag>-->
+        (元)
+      </el-divider>
     <el-row :gutter="10">
       <el-col :span="8">
         <el-form-item label-width="125px" label="购置设备费"><el-input v-model="$props.form.a" type="number" :value="0"></el-input></el-form-item>
@@ -17,15 +19,19 @@
     </el-row>
     <br>
 
-    <el-divider content-position="left">
-      材料费：<el-tag effect="plain">12,123</el-tag>元
-    </el-divider>
+      <el-divider content-position="left">
+        材料费
+<!--        <el-tag effect="plain">12,123</el-tag>-->
+        (元)
+      </el-divider>
     <el-form-item label-width="125px" label="材料费"><el-input v-model="$props.form.a" type="number" ></el-input></el-form-item>
     <br>
 
-    <el-divider content-position="left">
-      科研活动费：<el-tag effect="plain">12,123</el-tag>元
-    </el-divider>
+      <el-divider content-position="left">
+        科研活动费
+<!--        <el-tag effect="plain">12,123</el-tag>-->
+        (元)
+      </el-divider>
     <el-row :gutter="10">
       <el-col :span="8">
         <el-form-item label-width="125px" label="资料费"><el-input v-model="$props.form.a" type="number" ></el-input></el-form-item>
@@ -58,9 +64,11 @@
     </el-row>
     <br>
 
-    <el-divider content-position="left">
-      科研服务费：<el-tag effect="plain">12,123</el-tag>元
-    </el-divider>
+      <el-divider content-position="left">
+        科研服务费
+<!--        <el-tag effect="plain">12,123</el-tag>-->
+        (元)
+      </el-divider>
     <el-row :gutter="10">
       <el-col :span="8">
         <el-form-item label-width="125px" label="专家咨询费"><el-input v-model="$props.form.a" type="number" ></el-input></el-form-item>
@@ -82,15 +90,23 @@
     </el-row>
     <br>
 
-    <el-divider content-position="left">
-      人员和劳务补助费：<el-tag effect="plain">12,123</el-tag>元
-    </el-divider>
-    <el-form-item label-width="130px" label="人员和劳务补助费"><el-input v-model="$props.form.a" type="number" ></el-input></el-form-item>
+      <el-divider content-position="left">
+        人员和劳务补助费
+<!--        <el-tag effect="plain">12,123</el-tag>-->
+        (元)
+      </el-divider>
+      <el-row>
+        <el-col :span="8">
+          <el-form-item label-width="130px" label="人员和劳务补助费"><el-input v-model="$props.form.a" type="number" ></el-input></el-form-item>
+        </el-col>
+      </el-row>
     <br>
 
-    <el-divider content-position="left">
-      间接费用：<el-tag effect="plain">12,123</el-tag>元
-    </el-divider>
+      <el-divider content-position="left">
+        间接费用
+<!--        <el-tag effect="plain">12,123</el-tag>-->
+        (元)
+      </el-divider>
     <el-row :gutter="10">
       <el-col :span="8">
         <el-form-item label-width="125px" label="间接经费"><el-input v-model="$props.form.a" type="number" ></el-input></el-form-item>

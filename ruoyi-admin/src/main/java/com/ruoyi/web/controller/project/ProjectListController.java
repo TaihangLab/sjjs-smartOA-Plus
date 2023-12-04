@@ -47,10 +47,12 @@ public class ProjectListController extends BaseController {
     /**
      * 根据项目id查询项目大事纪
      */
-    @SaCheckPermission("project:list:queryMilestone")
+    //@SaCheckPermission("project:list:queryMilestone")
     @GetMapping("/{projectId}")
     public R<List<ProjectMilestone>> getMilestone(@PathVariable Long projectId){
         return R.ok(projectMilestoneService.selectMilestoneListByProjectId(projectId));
     }
+
+
 
 }

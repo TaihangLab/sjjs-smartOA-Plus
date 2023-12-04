@@ -5,6 +5,8 @@
         <el-input v-model="form.funds"></el-input>
       </el-form-item>
 
+
+
     </el-form>
   </el-card>
 
@@ -12,6 +14,7 @@
 
 
 <script>
+
 export default {
   props: ['form'],
   data() {

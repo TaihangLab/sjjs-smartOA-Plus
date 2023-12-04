@@ -153,6 +153,43 @@ public class SysOssServiceImpl implements ISysOssService, OssService {
         return this.matchingUrl(sysOssVo);
     }
 
+    /**
+     * 上传多个文件
+     * @param files 多个文件数组
+     * @return 结果
+     */
+    @Override
+    public List<SysOssVo> uploadMultipleFiles(MultipartFile[] files) {
+        List<SysOssVo> uploadedFiles = new ArrayList<>();
+
+        for (MultipartFile file : files) {
+            String originalFileName = file.getOriginalFilename();
+            String suffix = StringUtils.substring(originalFileName, originalFileName.lastIndexOf("."));
+
+            OssClient storage = OssFactory.instance();
+            UploadResult uploadResult;
+            try {
+                uploadResult = storage.uploadSuffix(file.getBytes(), suffix, file.getContentType());
+            } catch (IOException e) {
+                throw new ServiceException("Failed to upload file: " + e.getMessage());
+            }
+
+            SysOss oss = new SysOss();
+            oss.setUrl(uploadResult.getUrl());
+            oss.setFileSuffix(suffix);
+            oss.setFileName(uploadResult.getFilename());
+            oss.setOriginalName(originalFileName);
+            oss.setService(storage.getConfigKey());
+            baseMapper.insert(oss);
+
+            SysOssVo sysOssVo = new SysOssVo();
+            BeanCopyUtils.copy(oss, sysOssVo);
+            uploadedFiles.add(matchingUrl(sysOssVo));
+        }
+
+        return uploadedFiles;
+    }
+
     @Override
     public Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid) {
         if (isValid) {
