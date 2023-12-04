@@ -23,7 +23,7 @@ export function editMilestone(data) {
       data: data
     })
   }
-  
+
 // 删除大事记
 export function deleteMilestone(milestoneId) {
 return request({
@@ -31,4 +31,4 @@ return request({
     method: 'delete'
 })
 }
-  
+

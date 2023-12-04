@@ -16,9 +16,9 @@
         <fujian />
       </el-form-item>
       <el-form-item>
-        <el-button 
-          type="primary" 
-          size="small" 
+        <el-button
+          type="primary"
+          size="small"
           @click="addMilestone"
         >
           确定
@@ -42,7 +42,7 @@ export default {
         { name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }
       ],
       form: {
-        projectId: '0', 
+        projectId: '0',
         milestoneTitle: '',
         milestoneRemark: '',
         milestoneDate: '',
