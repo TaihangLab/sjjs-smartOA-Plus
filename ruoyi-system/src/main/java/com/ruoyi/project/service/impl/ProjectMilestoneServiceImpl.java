@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.ruoyi.common.core.service.OssService;
 import com.ruoyi.project.domain.ProjectMilestone;
 import com.ruoyi.project.domain.ProjectMilestoneOss;
+import com.ruoyi.project.domain.bo.ProjectMilestoneBo;
 import com.ruoyi.project.mapper.ProjectMilestoneMapper;
 import com.ruoyi.project.mapper.ProjectMilestoneOssMapper;
 import com.ruoyi.project.service.ProjectMilestoneService;
@@ -30,30 +31,36 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
     /**
      * 新增单个项目大事记
      *
-     * @param projectMilestone 项目指标信息
+     * @param projectMilestoneBo 项目指标信息Bo
      * @return 结果
      */
     @Override
     @Transactional
-    public int insertProjectMilestone(ProjectMilestone projectMilestone, MultipartFile multipartFile) {
-        if (projectMilestone == null) {
+    public int insertProjectMilestone(ProjectMilestoneBo projectMilestoneBo) {
+        if (projectMilestoneBo == null) {
             return 0;
         }
-        if (multipartFile.isEmpty()) {
-            return projectMilestoneMapper.insert(projectMilestone);
-        } else {
-            Long ossId = iSysOssService.upload(multipartFile).getOssId();
-            projectMilestoneMapper.insert(projectMilestone);
-            Long milestoneId = projectMilestone.getMilestoneId();
+        ProjectMilestone projectMilestone = new ProjectMilestone();
+        projectMilestone.setProjectId(projectMilestoneBo.getProjectId());
+        projectMilestone.setMilestoneTitle(projectMilestoneBo.getMilestoneTitle());
+        projectMilestone.setMilestoneRemark(projectMilestoneBo.getMilestoneRemark());
+        projectMilestone.setMilestoneDate(projectMilestoneBo.getMilestoneDate());
 
-            // 创建新的 ProjectMilestoneOss 对象并设置属性值
-            ProjectMilestoneOss milestoneOss = new ProjectMilestoneOss();
-            milestoneOss.setMilestoneId(milestoneId);
-            milestoneOss.setOssId(ossId);
+        // 插入 projectMilestone
+        int insertedRows = projectMilestoneMapper.insert(projectMilestone);
 
-            // 插入项目大事纪 OSS 记录
-            return projectMilestoneOssMapper.insert(milestoneOss);
+        if (insertedRows > 0) {
+            Long milestoneId = projectMilestone.getMilestoneId(); // 获取生成的 milestoneId
+            if (!projectMilestoneBo.getOssIds().isEmpty()) {
+                for (Long ossid : projectMilestoneBo.getOssIds()) {
+                    ProjectMilestoneOss projectMilestoneOss = new ProjectMilestoneOss();
+                    projectMilestoneOss.setMilestoneId(milestoneId);
+                    projectMilestoneOss.setOssId(ossid);
+                    projectMilestoneOssMapper.insert(projectMilestoneOss);
+                }
+            }
         }
+        return insertedRows;
     }
 
     /**

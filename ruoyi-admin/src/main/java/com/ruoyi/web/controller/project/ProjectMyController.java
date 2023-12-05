@@ -6,6 +6,7 @@ import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.project.domain.ProjectMilestone;
+import com.ruoyi.project.domain.bo.ProjectMilestoneBo;
 import com.ruoyi.project.service.ProjectMilestoneService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -24,8 +25,8 @@ public class ProjectMyController extends BaseController {
     //@SaCheckPermission("project:my:targetadd")
     @Log(title = "新增项目大事纪", businessType = BusinessType.INSERT)
     @PostMapping(value = "/targetadd")
-    public R<Void> add(@Validated @RequestPart("projectMilestone") ProjectMilestone projectMilestone, @RequestPart("file") MultipartFile multipartFile) {
-        return toAjax(projectMilestoneService.insertProjectMilestone(projectMilestone,multipartFile));
+    public R<Void> add(@Validated @RequestBody ProjectMilestoneBo projectMilestoneBo) {
+        return toAjax(projectMilestoneService.insertProjectMilestone(projectMilestoneBo));
     }
 
 //    @SaCheckPermission("project:my:targetedit")
