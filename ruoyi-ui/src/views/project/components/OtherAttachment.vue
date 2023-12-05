@@ -5,7 +5,7 @@
         <el-input v-model="form.funds"></el-input>
       </el-form-item>
 
-      <FileUpload :value="['a','b']"></FileUpload>
+      <FileUpload :idList="form.uploadList"></FileUpload>
 
     </el-form>
   </el-card>
@@ -25,6 +25,8 @@ export default {
 
     }
   },
-
+  created() {
+    this.$props.form.uploadList = [];
+  }
 }
 </script>

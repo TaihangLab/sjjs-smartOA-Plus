@@ -118,9 +118,7 @@ export default {
         this.$emit('update:visible', false);
         this.reset();
       }
-      if (this.stepID > TOTAL_STEPS - 2) {
-        this.nextButtonText = '完成';
-      }
+
 
     },
     previous() {
@@ -136,11 +134,20 @@ export default {
       //   }
       // }
       // this.stepID = 0;
-      console.log(this.projectMemberForm.members);
+      console.log(this.otherAttachmentForm);
       // this.$refs.projectInfo.$refs.form111.resetFields()
 
     },
   },
+  watch:{
+    stepID(newid, oldid) {
+      if (newid > TOTAL_STEPS - 2) {
+        this.nextButtonText = '完成';
+      } else {
+        this.nextButtonText = '下一步';
+      }
+    },
+  }
 
 }
 </script>

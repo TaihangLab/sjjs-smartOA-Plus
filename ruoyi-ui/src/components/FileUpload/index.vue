@@ -1,27 +1,30 @@
 <template>
   <div class="upload-file">
     <el-upload
-      multiple
-      :action="uploadFileUrl"
-      :before-upload="handleBeforeUpload"
-      :file-list="fileList"
-      :limit="limit"
-      :on-error="handleUploadError"
-      :on-exceed="handleExceed"
-      :on-success="handleUploadSuccess"
-      :show-file-list="false"
-      :headers="headers"
-      class="upload-file-uploader"
-      ref="fileUpload"
+        multiple
+        :action="uploadFileUrl"
+        :before-upload="handleBeforeUpload"
+        :file-list="fileList"
+        :limit="limit"
+        :on-error="handleUploadError"
+        :on-exceed="handleExceed"
+        :on-success="handleUploadSuccess"
+        :show-file-list="false"
+        :headers="headers"
+        class="upload-file-uploader"
+        ref="fileUpload"
     >
       <!-- 上传按钮 -->
       <el-button size="mini" type="primary">选取文件</el-button>
       <!-- 上传提示 -->
       <div class="el-upload__tip" slot="tip" v-if="showTip">
-        请上传
-        <template v-if="fileSize"> 大小不超过 <b style="color: #f56c6c">{{ fileSize }}MB</b> </template>
-        <template v-if="fileType"> 格式为 <b style="color: #f56c6c">{{ fileType.join("/") }}</b> </template>
-        的文件
+        <template v-if="title">请先下载模板再上传对应文件</template>
+        <template v-else>
+          请上传
+          <template v-if="fileSize"> 大小不超过 <b style="color: #fc8e8e">{{ fileSize }}MB</b></template>
+          <template v-if="fileType"> 格式为 <b style="color: #fc8e8e">{{ fileType.join("/") }}</b></template>
+          的文件
+        </template>
       </div>
     </el-upload>
 
@@ -40,14 +43,23 @@
 </template>
 
 <script>
-import { getToken } from "@/utils/auth";
-import { listByIds, delOss } from "@/api/system/oss";
+import {getToken} from "@/utils/auth";
+import {listByIds, delOss} from "@/api/system/oss";
 
 export default {
   name: "FileUpload",
   props: {
     // 值
     value: [String, Object, Array],
+
+    // 要返回给父组件ossid列表
+    idList: [],
+
+    // 必须对应的文件名
+    title: {
+      type: String,
+      default: '',
+    },
     // 数量限制
     limit: {
       type: Number,
@@ -93,14 +105,14 @@ export default {
           } else {
             await listByIds(val).then(res => {
               list = res.data.map(oss => {
-                oss = { name: oss.originalName, url: oss.url, ossId: oss.ossId };
+                oss = {name: oss.originalName, url: oss.url, ossId: oss.ossId};
                 return oss;
               });
             })
           }
           // 然后将数组转为对象数组
           this.fileList = list.map(item => {
-            item = { name: item.name, url: item.url, ossId: item.ossId };
+            item = {name: item.name, url: item.url, ossId: item.ossId};
             item.uid = item.uid || new Date().getTime() + temp++;
             return item;
           });
@@ -122,6 +134,12 @@ export default {
   methods: {
     // 上传前校检格式和大小
     handleBeforeUpload(file) {
+      if (this.title) {
+        if (this.title !== file.name) {
+          this.$modal.msgError(`上传文件不正确, 请上传指定的${this.title}文件!`);
+          return false;
+        }
+      }
       // 校检文件类型
       if (this.fileType) {
         const fileName = file.name.split('.');
@@ -156,8 +174,15 @@ export default {
     // 上传成功回调
     handleUploadSuccess(res, file) {
       if (res.code === 200) {
-        this.uploadList.push({ name: res.data.fileName, url: res.data.url, ossId: res.data.ossId });
+        this.uploadList.push({name: res.data.fileName, url: res.data.url, ossId: res.data.ossId});
         this.uploadedSuccessfully();
+
+
+        if (this.$props.idList) {
+          this.$props.idList.push({ossId: res.data.ossId, name: res.data.fileName});
+          // this.$emit('update:idList', this.idList);
+        }else
+          console.log("没有传递列表");
       } else {
         this.number--;
         this.$modal.closeLoading();
@@ -172,6 +197,12 @@ export default {
       delOss(ossId);
       this.fileList.splice(index, 1);
       this.$emit("input", this.listToString(this.fileList));
+
+      if (this.$props.idList) {
+        let delId = this.$props.idList.findIndex(item => item.ossId === ossId);
+        this.$props.idList.splice(delId, 1);
+        // this.$emit('update:idList', this.idList);
+      }
     },
     // 上传结束处理
     uploadedSuccessfully() {
@@ -209,18 +240,21 @@ export default {
 .upload-file-uploader {
   margin-bottom: 5px;
 }
+
 .upload-file-list .el-upload-list__item {
   border: 1px solid #e4e7ed;
   line-height: 2;
   margin-bottom: 10px;
   position: relative;
 }
+
 .upload-file-list .ele-upload-list__item-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: inherit;
 }
+
 .ele-upload-list__item-content-action .el-link {
   margin-right: 10px;
 }
