@@ -29,7 +29,7 @@ public class ProjectListController extends BaseController {
      */
     @SaCheckPermission("project:list:addtargetlist")
     @Log(title = "项目列表",businessType = BusinessType.INSERT)
-    @PostMapping
+    @PostMapping("/targetadd")
     public R<Void> addTargetList(@RequestBody List<ProjectTarget> projectTargets){
         return toAjax(projectTargetService.insertProjectTargetList(projectTargets));
     }
@@ -39,7 +39,7 @@ public class ProjectListController extends BaseController {
      */
     @SaCheckPermission("project:list:deletetargetlist")
     @Log(title = "项目列表",businessType = BusinessType.DELETE)
-    @DeleteMapping
+    @DeleteMapping("/targetdelete")
     public R<Void> deleteTargetList(@RequestBody Long projectId){
         return toAjax(projectTargetService.deleteTargetByProjectId(projectId));
     }
@@ -48,7 +48,7 @@ public class ProjectListController extends BaseController {
      * 根据项目id查询项目大事纪
      */
     //@SaCheckPermission("project:list:queryMilestone")
-    @GetMapping("/{projectId}")
+    @GetMapping("/targetlist/{projectId}")
     public R<List<ProjectMilestone>> getMilestone(@PathVariable Long projectId){
         return R.ok(projectMilestoneService.selectMilestoneListByProjectId(projectId));
     }

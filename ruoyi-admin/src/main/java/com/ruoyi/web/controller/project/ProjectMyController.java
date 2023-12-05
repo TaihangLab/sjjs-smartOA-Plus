@@ -7,10 +7,11 @@ import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.project.domain.ProjectMilestone;
 import com.ruoyi.project.service.ProjectMilestoneService;
-import com.ruoyi.system.domain.SysNotice;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Validated
 @RequiredArgsConstructor
@@ -20,19 +21,18 @@ public class ProjectMyController extends BaseController {
 
     private final ProjectMilestoneService projectMilestoneService;
 
-    //@SaCheckPermission("project:my:add")
-    @Log(title = "项目大事纪", businessType = BusinessType.INSERT)
-    @PostMapping
-    public R<Void> add(@Validated @RequestBody ProjectMilestone projectMilestone) {
-        return toAjax(projectMilestoneService.insertProjectMilestone(projectMilestone));
+    //@SaCheckPermission("project:my:targetadd")
+    @Log(title = "新增项目大事纪", businessType = BusinessType.INSERT)
+    @PostMapping(value = "/targetadd")
+    public R<Void> add(@Validated @RequestPart("projectMilestone") ProjectMilestone projectMilestone, @RequestPart("file") MultipartFile multipartFile) {
+        return toAjax(projectMilestoneService.insertProjectMilestone(projectMilestone,multipartFile));
     }
 
-    @SaCheckPermission("project:my:edit")
-    @Log(title = "项目大事纪", businessType = BusinessType.UPDATE)
-    @PutMapping
+//    @SaCheckPermission("project:my:targetedit")
+    @Log(title = "修改项目大事纪", businessType = BusinessType.UPDATE)
+    @PutMapping("/targetedit")
     public R<Void> edit(@Validated @RequestBody ProjectMilestone projectMilestone) {
         return toAjax(projectMilestoneService.updateMilestone(projectMilestone));
     }
-
 
 }

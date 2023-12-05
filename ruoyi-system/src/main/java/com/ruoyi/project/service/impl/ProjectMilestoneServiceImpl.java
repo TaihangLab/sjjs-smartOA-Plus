@@ -1,15 +1,19 @@
 package com.ruoyi.project.service.impl;
 
+import cn.hutool.log.Log;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.ruoyi.common.core.service.OssService;
 import com.ruoyi.project.domain.ProjectMilestone;
+import com.ruoyi.project.domain.ProjectMilestoneOss;
 import com.ruoyi.project.mapper.ProjectMilestoneMapper;
 import com.ruoyi.project.mapper.ProjectMilestoneOssMapper;
 import com.ruoyi.project.service.ProjectMilestoneService;
 import com.ruoyi.system.service.ISysOssService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -30,12 +34,26 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
      * @return 结果
      */
     @Override
-    public int insertProjectMilestone(ProjectMilestone projectMilestone) {
+    @Transactional
+    public int insertProjectMilestone(ProjectMilestone projectMilestone, MultipartFile multipartFile) {
         if (projectMilestone == null) {
             return 0;
         }
-        //iSysOssService.upload()
-        return projectMilestoneMapper.insert(projectMilestone);
+        if (multipartFile.isEmpty()) {
+            return projectMilestoneMapper.insert(projectMilestone);
+        } else {
+            Long ossId = iSysOssService.upload(multipartFile).getOssId();
+            projectMilestoneMapper.insert(projectMilestone);
+            Long milestoneId = projectMilestone.getMilestoneId();
+
+            // 创建新的 ProjectMilestoneOss 对象并设置属性值
+            ProjectMilestoneOss milestoneOss = new ProjectMilestoneOss();
+            milestoneOss.setMilestoneId(milestoneId);
+            milestoneOss.setOssId(ossId);
+
+            // 插入项目大事纪 OSS 记录
+            return projectMilestoneOssMapper.insert(milestoneOss);
+        }
     }
 
     /**
@@ -60,6 +78,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
      */
     @Override
     public int deleteMilestoneByProjectId(Long projectId) {
+
         return projectMilestoneMapper.delete(new LambdaQueryWrapper<ProjectMilestone>().
             eq(ProjectMilestone::getMilestoneId, projectId));
     }
@@ -88,7 +107,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
         lambdaUpdateWrapper.eq(ProjectMilestone::getMilestoneId, projectMilestone.getMilestoneId());
         lambdaUpdateWrapper.set(ProjectMilestone::getMilestoneRemark, projectMilestone.getMilestoneRemark())
             .set(ProjectMilestone::getMilestoneTitle, projectMilestone.getMilestoneTitle())
-            .set(ProjectMilestone::getMilestoneDate,projectMilestone.getMilestoneDate());
+            .set(ProjectMilestone::getMilestoneDate, projectMilestone.getMilestoneDate());
         return projectMilestoneMapper.update(projectMilestone, lambdaUpdateWrapper);
     }
 
