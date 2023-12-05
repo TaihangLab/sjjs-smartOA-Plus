@@ -15,15 +15,14 @@
 
 <script>
 import FileUpload from "@/components/FileUpload/index.vue";
+
 export default {
   props: ['form'],
-  components:{
+  components: {
     FileUpload
   },
   data() {
-    return {
-
-    }
+    return {}
   },
   created() {
     this.$props.form.uploadList = [];

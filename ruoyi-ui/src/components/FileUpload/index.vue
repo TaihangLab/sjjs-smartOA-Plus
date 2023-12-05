@@ -181,7 +181,7 @@ export default {
         if (this.$props.idList) {
           this.$props.idList.push({ossId: res.data.ossId, name: res.data.fileName});
           // this.$emit('update:idList', this.idList);
-        }else
+        } else
           console.log("没有传递列表");
       } else {
         this.number--;
