@@ -36,6 +36,13 @@ public class ProjectMyController extends BaseController {
         return toAjax(projectMilestoneService.deleteProjectMilestone(milestoneId));
     }
 
+    //@SaCheckPermission("project:my:targetdeletebypro")
+    @Log(title = "删除某个项目对应的大事纪", businessType = BusinessType.DELETE)
+    @DeleteMapping (value = "/targetdeletebypro")
+    public R<Void> deleteByPro(@Validated @RequestBody Long projectId) {
+        return toAjax(projectMilestoneService.deleteMilestoneByProjectId(projectId));
+    }
+
 //    @SaCheckPermission("project:my:targetedit")
     @Log(title = "修改项目大事纪", businessType = BusinessType.UPDATE)
     @PutMapping("/targetedit")
