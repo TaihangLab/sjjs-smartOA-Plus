@@ -201,7 +201,7 @@ export default {
       if (this.$props.idList) {
         let delId = this.$props.idList.findIndex(item => item.ossId === ossId);
         this.$props.idList.splice(delId, 1);
-        this.$emit('update:idList', this.idList);
+        // this.$emit('update:idList', this.idList);
       }
     },
     // 上传结束处理

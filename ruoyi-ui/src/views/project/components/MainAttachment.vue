@@ -9,7 +9,7 @@
           <el-card v-for="(title, index) in titles" :header="title" :key="index" style="width: 45vw;margin-bottom: 10px;" shadow="hover">
 
             <el-link style="margin-bottom: 10px;" icon='el-icon-download' type="primary" href="https://element.eleme.io" target="_blank">{{ title }}</el-link>
-            <FileUpload :title="title" :idList.sync="idList" :limit="1"></FileUpload>
+            <FileUpload :title="title" :idList="idList" :limit="1"></FileUpload>
           </el-card>
           </div>
 <!--    </el-form>-->

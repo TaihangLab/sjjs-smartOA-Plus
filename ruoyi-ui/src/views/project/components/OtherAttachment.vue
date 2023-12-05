@@ -5,7 +5,7 @@
         <el-input v-model="form.funds"></el-input>
       </el-form-item>
 
-      <FileUpload :idList.sync="form.uploadList"></FileUpload>
+      <FileUpload :idList="form.uploadList"></FileUpload>
 
     </el-form>
   </el-card>
