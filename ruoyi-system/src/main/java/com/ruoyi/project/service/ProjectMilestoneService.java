@@ -16,7 +16,7 @@ public interface ProjectMilestoneService {
 
     int deleteProjectMilestone(Long milestoneId);
 
-    int updateMilestone(ProjectMilestone projectMilestone);
+    int updateMilestone(ProjectMilestoneBo projectMilestoneBo);
 
     List<ProjectMilestone> selectMilestoneListByProjectId(Long projectId);
 

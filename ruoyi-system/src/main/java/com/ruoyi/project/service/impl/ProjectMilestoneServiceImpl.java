@@ -26,8 +26,6 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
 
     private final ProjectMilestoneOssMapper projectMilestoneOssMapper;
 
-    private final ISysOssService iSysOssService;
-
     /**
      * 新增单个项目大事记
      *
@@ -98,24 +96,53 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
      */
     @Override
     public int deleteProjectMilestone(Long milestoneId) {
-        return projectMilestoneMapper.delete(new LambdaQueryWrapper<ProjectMilestone>().
-            eq(ProjectMilestone::getMilestoneId, milestoneId));
+        // 先检查是否存在与 milestoneId 相关的 ProjectMilestoneOss 记录
+        long count = projectMilestoneOssMapper.selectCount(new LambdaQueryWrapper<ProjectMilestoneOss>()
+            .eq(ProjectMilestoneOss::getMilestoneId, milestoneId));
+
+        // 如果存在相关记录，则执行删除操作；否则直接返回
+        if (count > 0) {
+            projectMilestoneOssMapper.delete(new LambdaQueryWrapper<ProjectMilestoneOss>()
+                .eq(ProjectMilestoneOss::getMilestoneId, milestoneId));
+        }
+
+        // 删除 ProjectMilestone 表中的指定 milestoneId 的记录
+        return projectMilestoneMapper.delete(new LambdaQueryWrapper<ProjectMilestone>()
+            .eq(ProjectMilestone::getMilestoneId, milestoneId));
     }
 
     /**
      * 修改项目大事记
      *
-     * @param projectMilestone 项目大事记信息
+     * @param projectMilestoneBo 项目大事记信息Bo
      * @return 结果
      */
     @Override
-    public int updateMilestone(ProjectMilestone projectMilestone) {
+    public int updateMilestone(ProjectMilestoneBo projectMilestoneBo) {
         LambdaUpdateWrapper<ProjectMilestone> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
-        lambdaUpdateWrapper.eq(ProjectMilestone::getMilestoneId, projectMilestone.getMilestoneId());
-        lambdaUpdateWrapper.set(ProjectMilestone::getMilestoneRemark, projectMilestone.getMilestoneRemark())
-            .set(ProjectMilestone::getMilestoneTitle, projectMilestone.getMilestoneTitle())
-            .set(ProjectMilestone::getMilestoneDate, projectMilestone.getMilestoneDate());
-        return projectMilestoneMapper.update(projectMilestone, lambdaUpdateWrapper);
+        lambdaUpdateWrapper.eq(ProjectMilestone::getMilestoneId, projectMilestoneBo.getMilestoneId());
+        lambdaUpdateWrapper.set(ProjectMilestone::getMilestoneRemark, projectMilestoneBo.getMilestoneRemark())
+            .set(ProjectMilestone::getMilestoneTitle, projectMilestoneBo.getMilestoneTitle())
+            .set(ProjectMilestone::getMilestoneDate, projectMilestoneBo.getMilestoneDate());
+        int updatedRows = projectMilestoneMapper.update(new ProjectMilestone(), lambdaUpdateWrapper);
+        if (updatedRows > 0) {
+            // 删除旧的关联关系
+            Long milestoneId = projectMilestoneBo.getMilestoneId();
+            projectMilestoneOssMapper.delete(new LambdaQueryWrapper<ProjectMilestoneOss>()
+                .eq(ProjectMilestoneOss::getMilestoneId, milestoneId));
+
+            // 插入新的关联关系
+            List<Long> ossIds = projectMilestoneBo.getOssIds();
+            if (!ossIds.isEmpty()) {
+                for (Long ossId : ossIds) {
+                    ProjectMilestoneOss projectMilestoneOss = new ProjectMilestoneOss();
+                    projectMilestoneOss.setMilestoneId(milestoneId);
+                    projectMilestoneOss.setOssId(ossId);
+                    projectMilestoneOssMapper.insert(projectMilestoneOss);
+                }
+            }
+        }
+        return updatedRows;
     }
 
     /**

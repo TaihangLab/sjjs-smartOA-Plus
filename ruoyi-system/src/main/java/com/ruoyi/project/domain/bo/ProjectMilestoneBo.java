@@ -10,6 +10,11 @@ import java.util.List;
 public class ProjectMilestoneBo extends BaseEntity {
 
     /**
+     * 大事记ID
+     */
+    private Long milestoneId;
+
+    /**
      * 项目ID
      */
     private Long projectId;

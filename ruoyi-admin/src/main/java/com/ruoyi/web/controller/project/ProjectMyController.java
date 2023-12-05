@@ -29,11 +29,18 @@ public class ProjectMyController extends BaseController {
         return toAjax(projectMilestoneService.insertProjectMilestone(projectMilestoneBo));
     }
 
+    //@SaCheckPermission("project:my:targetdelete")
+    @Log(title = "删除单条项目大事纪", businessType = BusinessType.DELETE)
+    @DeleteMapping (value = "/targetdelete")
+    public R<Void> delete(@Validated @RequestBody Long milestoneId) {
+        return toAjax(projectMilestoneService.deleteProjectMilestone(milestoneId));
+    }
+
 //    @SaCheckPermission("project:my:targetedit")
     @Log(title = "修改项目大事纪", businessType = BusinessType.UPDATE)
     @PutMapping("/targetedit")
-    public R<Void> edit(@Validated @RequestBody ProjectMilestone projectMilestone) {
-        return toAjax(projectMilestoneService.updateMilestone(projectMilestone));
+    public R<Void> edit(@Validated @RequestBody ProjectMilestoneBo projectMilestoneBo) {
+        return toAjax(projectMilestoneService.updateMilestone(projectMilestoneBo));
     }
 
 }
