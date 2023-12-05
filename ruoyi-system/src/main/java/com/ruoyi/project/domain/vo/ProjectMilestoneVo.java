@@ -5,10 +5,12 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.xss.Xss;
 import com.ruoyi.project.domain.ProjectMilestoneOss;
+import com.ruoyi.system.domain.SysOss;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.List;
 
 public class ProjectMilestoneVo {
 
@@ -38,7 +40,7 @@ public class ProjectMilestoneVo {
     private LocalDate milestoneDate;
 
     /**
-     *大事记对应的ossid
+     * 项目大事纪对应的oss对象
      */
-    private ProjectMilestoneOss projectMilestoneOss;
+    private List<SysOss> sysOsses;
 }

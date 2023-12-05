@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -82,10 +83,32 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
      * @return 结果
      */
     @Override
+    @Transactional
     public int deleteMilestoneByProjectId(Long projectId) {
+        // 1. 根据项目 ID 获取该项目下所有的大事记 ID
+        List<ProjectMilestone> projectMilestones = projectMilestoneMapper.selectList(
+            new LambdaQueryWrapper<ProjectMilestone>()
+                .eq(ProjectMilestone::getProjectId, projectId));
 
-        return projectMilestoneMapper.delete(new LambdaQueryWrapper<ProjectMilestone>().
-            eq(ProjectMilestone::getMilestoneId, projectId));
+        // 如果该项目下没有大事记，则直接返回
+        if (projectMilestones.isEmpty()) {
+            return 0;
+        }
+
+        // 提取大事记 ID 列表
+        List<Long> milestoneIds = projectMilestones.stream()
+            .map(ProjectMilestone::getMilestoneId)
+            .collect(Collectors.toList());
+
+        // 2. 使用大事记 ID 删除每个大事记对应的 OSS 对象
+        if (!milestoneIds.isEmpty()) {
+            projectMilestoneOssMapper.delete(new LambdaQueryWrapper<ProjectMilestoneOss>()
+                .in(ProjectMilestoneOss::getMilestoneId, milestoneIds));
+        }
+
+        // 3. 删除该项目下的所有大事记
+        return projectMilestoneMapper.delete(new LambdaQueryWrapper<ProjectMilestone>()
+            .eq(ProjectMilestone::getProjectId, projectId));
     }
 
     /**
@@ -95,6 +118,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
      * @return 结果
      */
     @Override
+    @Transactional
     public int deleteProjectMilestone(Long milestoneId) {
         // 先检查是否存在与 milestoneId 相关的 ProjectMilestoneOss 记录
         long count = projectMilestoneOssMapper.selectCount(new LambdaQueryWrapper<ProjectMilestoneOss>()
