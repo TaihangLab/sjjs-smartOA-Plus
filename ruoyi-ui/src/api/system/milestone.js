@@ -8,9 +8,9 @@ export function getMilestone(milestoneId) {
     })
   }
 // 新增公告
-export function addNotice(data) {
+export function addMilestone(data) {
     return request({
-      url: 'project/list/0',
+      url: 'project/my',
       method: 'post',
       data: data
     })
@@ -23,7 +23,7 @@ export function editMilestone(data) {
       data: data
     })
   }
-  
+
 // 删除大事记
 export function deleteMilestone(milestoneId) {
 return request({
@@ -31,4 +31,4 @@ return request({
     method: 'delete'
 })
 }
-  
+

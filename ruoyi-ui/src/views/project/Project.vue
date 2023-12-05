@@ -77,15 +77,18 @@
               :visible.sync="eventsDialogVisibleLook"
               width="50%"
             >
-              <CheckEvents
-              :visible.sync="eventsDialogVisibleLook"
-              ></CheckEvents>
+              <div style="max-height: 600px; overflow-y: auto;">
+                <CheckEvents
+                :visible.sync="eventsDialogVisibleLook"
+                ></CheckEvents>
+              </div>
             </el-dialog>
             <el-dialog
               :visible.sync="eventsDialogVisibleAdd"
               width="50%">
               <AddEvents
-                :visible.sync="eventsDialogVisibleAdd">
+                :visible.sync="eventsDialogVisibleAdd"
+                @close-dialog="closeEventsDialog">
               </AddEvents>
             </el-dialog>
             <!-- 页号 -->
@@ -188,6 +191,10 @@ export default {
     this.dataList = mockData;
   },
     methods: {
+        // 关闭弹窗的方法
+        closeEventsDialog() {
+          this.eventsDialogVisibleAdd = false;
+        },
         //改变数组大小
         sizeChangeHandle(val) {
             this.pageSize = val;

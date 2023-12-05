@@ -18,7 +18,6 @@
             size="mini"
             circle
             @click="editMilestone(item)"
-            v-hasPermi="['system:milestone:edit']"
           ></el-button>
           <el-button 
             type="danger"
@@ -26,7 +25,6 @@
             size="mini" 
             circle
             @click="deleteMilestone(item)"
-            v-hasPermi="['system:milestone:remove']"
           ></el-button>
           <el-link
             v-if="item.attachment"
@@ -76,7 +74,7 @@ export default {
       eventsDialogVisibleAdd: false,
       localItem: this.item,
       timelineItems: [],
-      formData: {}, // 初始化 form 对象
+      form: {}, // 初始化 form 对象
       title: "" // 初始化 title
     };
   },
@@ -96,19 +94,19 @@ export default {
 
   methods: {
     editMilestone(item) {
-    const milestoneId = item.milestoneId;
-    // 调用后端接口获取指定 milestoneId 的详细信息
-    getMilestone(milestoneId)
-    .then((response) => {
-      console.log('后端返回的数据：', response.data);
-      this.formData = response.data;
-      this.eventsDialogVisibleAdd = true;
-      this.title = "编辑大事记";
-    })
-    .catch((error) => {
-      console.error("获取大事记详情时出错：", error);
-    });
-  },
+      const milestoneId = item.milestoneId;
+      // 调用后端接口获取指定 milestoneId 的详细信息
+      getMilestone(milestoneId)
+      .then((response) => {
+        console.log('后端返回的数据：', response.data);
+        this.form = response.data;
+        this.eventsDialogVisibleAdd = true;
+        this.title = "编辑大事记";
+      })
+      .catch((error) => {
+        console.error("获取大事记详情时出错：", error);
+      });
+    },
     deleteMilestone(item) {
       // 删除逻辑，可以弹出确认框等
       console.log('删除项目', item);
@@ -119,9 +117,8 @@ export default {
         milestoneTitle: undefined,
         milestoneRemark: undefined,
         milestoneDate: undefined, 
-        status: "0"
       };
-      this.resetForm("formData");
+      this.resetForm("form");
     },
   },
 };
