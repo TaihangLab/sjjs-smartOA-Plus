@@ -18,7 +18,7 @@ export function addMilestone(data) {
 // 修改大事记
 export function editMilestone(data) {
     return request({
-      url: 'project/my',
+      url: 'project/my/targetedit',
       method: 'put',
       data: data
     })
