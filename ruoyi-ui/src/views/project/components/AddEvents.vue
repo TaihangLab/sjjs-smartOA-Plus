@@ -13,7 +13,7 @@
         <el-input type="textarea" v-model="form.milestoneRemark"></el-input>
       </el-form-item>
       <el-form-item label="附件">
-        <fujian :idList="form.ossidList"/>
+        <fujian :idList="ossids"/>
       </el-form-item>
       <el-form-item>
         <el-button
@@ -46,20 +46,22 @@ export default {
       milestoneTitle: '',
       milestoneRemark: '',
       milestoneDate: '',
-      ossidList:[],
+      ossIds:[],
       },
+      ossids:[],
     };
   },
 
   methods: {
     addMilestone() {
+      this.form.ossIds = this.ossids.map(item=>item.ossId);
       request({ url: '/project/my/targetadd', method: 'post',data:this.form})
       .then((resp) => {
         console.log(resp);
         this.$modal.msgSuccess("新增成功");
         this.$emit('close-dialog'); // 触发一个事件通知父组件关闭弹窗
         });
-      // console.log(this.form);
+      console.log(this.form);
     },
     submitUpload() {
       this.$refs.upload.submit();
