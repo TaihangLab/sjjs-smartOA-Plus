@@ -2,18 +2,18 @@
   <el-card header="项目信息" shadow="hover">
     <el-form :model="form" ref="form" label-position="left">
 
-      <el-divider content-position="left">
+      <el-divider content-position="left" class="divider-sum">
         经费总额：
         <el-tag effect="plain" type="warning">{{ jfze }}</el-tag>
         万元
       </el-divider>
 
       <el-divider content-position="left">
-        专项直接X：
-        <el-tag effect="plain" type="warning">{{ zxXY[0] }}</el-tag>
-        万元
+        <span class="divider-span">专项直接X：
+        <el-tag effect="plain">{{ zxXY[0] }}</el-tag>
+        万元</span>
         专项间接Y：
-        <el-tag effect="plain" type="warning">{{ zxXY[1] }}</el-tag>
+        <el-tag effect="plain">{{ zxXY[1] }}</el-tag>
         万元
       </el-divider>
 
@@ -29,6 +29,16 @@
           </el-form-item>
         </el-col>
       </el-row>
+
+
+      <el-divider content-position="left">
+        <span class="divider-span">自筹直接X：
+        <el-tag effect="plain">{{ zcXY[0] }}</el-tag>
+          万元</span>
+        自筹间接Y：
+        <el-tag effect="plain">{{ zcXY[1] }}</el-tag>
+        万元
+      </el-divider>
 
 
       <el-row :gutter="20">
@@ -59,6 +69,10 @@ export default {
   },
   created() {
     this.$props.form.jfze = 0
+    this.$props.form.zxx = 0
+    this.$props.form.zxy = 0
+    this.$props.form.zcx = 0
+    this.$props.form.zcy = 0
 
   },
   methods: {
@@ -89,7 +103,7 @@ export default {
     },
     zxXY: {
       get() {
-        if (!this.form.zxjfze || !this.form.zxsbf)
+        if (this.form.zxjfze === undefined  || this.form.zxsbf===undefined)
           return [0, 0]
         return this.computeXY(this.form.zxjfze, this.form.zxsbf);
       },
@@ -97,7 +111,7 @@ export default {
     },
 
     zcXY() {
-      if (!this.form.zcjfze || !this.form.zcsbf)
+      if (this.form.zcjfze===undefined || this.form.zcsbf===undefined)
         return [0, 0]
       return this.computeXY(this.form.zcjfze, this.form.zcsbf);
     },
@@ -112,7 +126,35 @@ export default {
       },
       deep: true,
     },
+    zxXY:{
+      handler(newv, oldv) {
+        this.$props.form.zxx = newv[0];
+        this.$props.form.zxy = newv[1];
+      },
+      deep: true,
+    },
+    zcXY:{
+      handler(newv, oldv) {
+        this.$props.form.zcx = newv[0];
+        this.$props.form.zcy = newv[1];
+      },
+      deep: true,
+    }
+
+
   }
 
 }
 </script>
+
+<style scoped>
+.divider-sum {
+  margin-bottom: 50px;
+}
+
+.divider-span {
+  margin-right: 20px;
+}
+
+
+</style>

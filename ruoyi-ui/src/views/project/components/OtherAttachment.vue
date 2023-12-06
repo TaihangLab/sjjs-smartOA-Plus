@@ -7,9 +7,6 @@
 
       <FileUpload :idList="form.uploadList"></FileUpload>
 
-      <el-divider></el-divider>
-<!--      <FileUpload :value="['1731940901164343297', '1731884746010451970']"></FileUpload>-->
-      <FileUpload value="1731940901164343297"></FileUpload>
 
     </el-form>
   </el-card>

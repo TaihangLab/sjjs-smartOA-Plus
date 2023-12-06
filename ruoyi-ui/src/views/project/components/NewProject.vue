@@ -134,7 +134,7 @@ export default {
       //   }
       // }
       // this.stepID = 0;
-      console.log(this.mainAttachmentForm);
+      console.log(this.projectFundsForm);
       // this.$refs.projectInfo.$refs.form111.resetFields()
 
     },
