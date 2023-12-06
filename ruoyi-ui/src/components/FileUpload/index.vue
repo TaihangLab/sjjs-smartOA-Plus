@@ -47,6 +47,7 @@
 <script>
 import {getToken} from "@/utils/auth";
 import {listByIds, delOss} from "@/api/system/oss";
+import item from "@/layout/components/Sidebar/Item.vue";
 
 export default {
     name: "FileUpload",
@@ -107,6 +108,13 @@ export default {
                     let list;
                     if (Array.isArray(val)) {
                         list = val;
+                        list.map((item)=>{
+                            if (!item.name)
+                                return item.name = item.originalName;
+                            else
+                                return item;
+                        })
+                        console.log('list',list)
                     } else {
                         await listByIds(val).then(res => {
                             console.log(res);
@@ -126,6 +134,7 @@ export default {
                     this.fileList = [];
                     return [];
                 }
+
             },
             deep: true,
             immediate: true
