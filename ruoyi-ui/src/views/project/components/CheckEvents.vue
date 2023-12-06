@@ -68,7 +68,7 @@
                         <el-input type="textarea" v-model="form.milestoneRemark"></el-input>
                     </el-form-item>
                     <el-form-item label="附件">
-                        <fujian :idList="ossids"/>
+                        <fujian :value="form.sysOsses" :idList="ossids"/>
                     </el-form-item>
                     <el-form-item>
                         <el-button
@@ -122,15 +122,15 @@ export default {
         };
     },
     created() {
-
+        console.log("fujian 组件接收到的附件数据:", this.value);
         // 获取数据
         request({
             url: '/project/list/milestonelist',
             method: 'get',
             params: {
                 projectId: this.projectId
-            }
-        })
+             }
+           })  
             .then((resp) => {
                 console.log((resp));
                 // 根据 milestoneDate 对 timelineItems 进行排序
@@ -150,12 +150,15 @@ export default {
         // this.getDataList();
     },
     methods: {
+
         editMilestone(item) {
+            console.log(item)
             this.form.milestoneTitle = item.milestoneTitle;
             this.form.milestoneRemark = item.milestoneRemark;
             this.form.ossIds = item.ossids || [];
             this.form.milestoneDate = item.milestoneDate;
             this.eventsDialogVisibleEdit = true;
+            this.form.sysOsses = item.sysOsses;
         },
         deleteMilestone(item) {
             const milestoneId = item.milestoneId;
@@ -166,9 +169,6 @@ export default {
                     milestoneId: milestoneId
                 }
             })
-                .then(() => {
-                    this.getDataList();
-                })
         },
         editMilestoneBtn() {
             request({url: '/project/my/milestoneedit', method: 'put', data: this.form})
