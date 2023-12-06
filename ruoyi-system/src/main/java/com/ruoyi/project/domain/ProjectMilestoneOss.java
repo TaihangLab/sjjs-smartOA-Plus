@@ -1,6 +1,5 @@
 package com.ruoyi.project.domain;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -15,11 +14,12 @@ public class ProjectMilestoneOss {
     /**
      * 项目大事纪ID
      */
-    @TableId(type = IdType.INPUT)
+    @TableId
     private Long milestoneId;
 
     /**
      * ossID
      */
+    @TableId
     private Long ossId;
 }

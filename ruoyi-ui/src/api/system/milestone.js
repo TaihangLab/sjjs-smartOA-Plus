@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询大事记详细
 export function getMilestone(milestoneId) {
     return request({
-      url: 'project/list/0' ,
+      url: '/project/list/targetlist/0' ,
       method: 'get'
     })
   }
@@ -18,12 +18,11 @@ export function addMilestone(data) {
 // 修改大事记
 export function editMilestone(data) {
     return request({
-      url: 'project/my',
+      url: 'project/my/targetedit',
       method: 'put',
       data: data
     })
   }
-
 // 删除大事记
 export function deleteMilestone(milestoneId) {
 return request({
