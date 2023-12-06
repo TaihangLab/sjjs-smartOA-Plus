@@ -112,13 +112,13 @@ export default {
             milestoneIds: [],
             title: "",// 初始化 title
             form: {
-                projectId: this.projectId,
-                milestoneTitle: '',
-                milestoneRemark: '',
-                milestoneDate: '',
-                ossIds: [],
-            },
-            ossids: [],
+            projectId: this.projectId,
+            milestoneTitle: '',
+            milestoneRemark: '',
+            milestoneDate: '',
+            ossIds:[],
+          },
+            ossids:[],
         };
     },
     created() {
@@ -147,7 +147,6 @@ export default {
     },
     mounted() {
         console.log("传过来的项目id", this.projectId);
-        // this.getDataList();
     },
     methods: {
 
@@ -171,6 +170,7 @@ export default {
             })
         },
         editMilestoneBtn() {
+            // this.form.ossIds = this.ossids.map(item=>item.ossId);
             request({url: '/project/my/milestoneedit', method: 'put', data: this.form})
                 .then((resp) => {
                     console.log(resp);
