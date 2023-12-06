@@ -52,8 +52,11 @@ export default {
     // 值
     value: [String, Object, Array],
 
-    // 要返回给父组件ossid列表
+    // 要返回给父组件列表[{name, ossid}]
     idList: [],
+
+    // 上传组件要展示的列表
+    // showList: [],
 
     // 必须对应的文件名
     title: {
@@ -104,6 +107,7 @@ export default {
             list = val;
           } else {
             await listByIds(val).then(res => {
+              console.log(res);
               list = res.data.map(oss => {
                 oss = {name: oss.originalName, url: oss.url, ossId: oss.ossId};
                 return oss;
