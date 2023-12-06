@@ -24,7 +24,7 @@
             icon="el-icon-delete"
             size="mini"
             circle
-            @click="deletMilestone(localItem)"
+            @click="deleteMilestone(item)"
           ></el-button>
           <el-link
             v-if="item.attachment"
@@ -40,10 +40,10 @@
         </el-card>
       </el-timeline-item>
     </el-timeline>
-    <!-- 修改页面弹出框 -->
+    <!-- 修改大事记页面弹出框 -->
     <el-dialog
-    title="大事记"
-    :visible.sync="eventsDialogVisibleAdd"
+    title="修改大事记"
+    :visible.sync="eventsDialogVisibleEdit"
     :lock-scroll="false"
     :append-to-body="true"
     width="50%"
@@ -68,13 +68,13 @@
           <el-input type="textarea" v-model="form.milestoneRemark"></el-input>
         </el-form-item>
         <el-form-item label="附件">
-          <fujian :idList="form.ossidList"/>
+          <fujian :idList="ossids"/>
         </el-form-item>
         <el-form-item>
           <el-button
             type="primary"
             size="small"
-            @click="addMilestone"
+            @click="editMilestoneBtn"
           >
             确定
           </el-button>
@@ -88,7 +88,6 @@
 <script>
 import request from '@/utils/request';
 import fujian from "./../../../components/FileUpload/index.vue";
-import { editMilestone, getMilestone } from "@/api/system/milestone";
 
 export default {
   components: {
@@ -99,18 +98,18 @@ export default {
       fileList: [
         { name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }
       ],
-      eventsDialogVisibleAdd: false,
-      localItem: this.item,
+      eventsDialogVisibleEdit: false,
       timelineItems: [],
+      milestoneIds: [],
       title: "" ,// 初始化 title
       form: {
         projectId: '0',
         milestoneTitle: '',
         milestoneRemark: '',
         milestoneDate: '',
-        ossidList:[],
-      },// 初始化 form 对象
-      localItem: {},
+        ossIds:[],
+      },
+      ossids:[],
     };
   },
   created() {
@@ -121,6 +120,9 @@ export default {
         this.timelineItems = resp.data.sort((a, b) => {
           return new Date(a.milestoneDate) - new Date(b.milestoneDate);
         });
+        this.timelineItems.forEach(item => {
+          this.milestoneIds.push(item.milestoneId);
+        });
       })
       .catch((error) => {
         console.error('获取数据时出错：', error);
@@ -128,31 +130,30 @@ export default {
     },
   methods: {
     editMilestone(item) {
-      const milestoneId = item.milestoneId;
-      // 调用后端接口获取指定 milestoneId 的详细信息
-      getMilestone(milestoneId)
-      .then((response) => {
-        console.log('后端返回的数据：', response.data);
-        this.form = response.data;
-        this.eventsDialogVisibleAdd = true;
-        this.title = "编辑大事记";
-      })
-      .catch((error) => {
-        console.error("获取大事记详情时出错：", error);
-      });
+      this.form.milestoneTitle = item.milestoneTitle;
+      this.form.milestoneRemark = item.milestoneRemark;
+      this.form.ossIds = item.ossids || []; 
+      this.form.milestoneDate = item.milestoneDate;
+      this.eventsDialogVisibleEdit = true;
     },
     deleteMilestone(item) {
-      // 删除逻辑，可以弹出确认框等
-      console.log('删除项目', item);
+      const milestoneId = item.milestoneId;
+      request({
+        url: `/project/my/targetdelete`,
+        method: 'delete',
+        params: {
+          milestoneId: milestoneId
+        }
+      })
     },
-    reset() {
-      this.item = {
-        milestoneId: undefined,
-        milestoneTitle: undefined,
-        milestoneRemark: undefined,
-        milestoneDate: undefined,
-      };
-      this.resetForm("form");
+    editMilestoneBtn(){
+      request({ url: '/project/my/targetedit', method: 'put',data:this.form})
+      .then((resp) => {
+        console.log(resp);
+        this.$modal.msgSuccess("修改成功");
+        this.$emit('close-dialog'); 
+        });
+      console.log(this.form);
     },
     submitUpload() {
       this.$refs.upload.submit();
