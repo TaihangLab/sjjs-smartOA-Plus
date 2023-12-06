@@ -5,29 +5,29 @@
             <el-table ref="multipleTable" :data="dataList" border style="width: 100%" :row-style="{height: '50px'}"
                       :cell-style="{padding:'0px'}">
                 <el-table-column type="selection" :resizable="false" align="center" width="40"></el-table-column>
-                <el-table-column label="#" :resizable="false" align="center"  prop="Id" width="80">
+                <el-table-column label="#" :resizable="false" align="center" prop="Id" width="80">
                 </el-table-column>
-                <el-table-column label="项目编号" :resizable="false" align="center"  prop="projectId" width="80">
+                <el-table-column label="项目编号" :resizable="false" align="center" prop="projectId" width="80">
                 </el-table-column>
-                <el-table-column label="项目名称" :resizable="false" align="center"  prop="project.name" width="150">
+                <el-table-column label="项目名称" :resizable="false" align="center" prop="project.name" width="150">
                 </el-table-column>
-                <el-table-column label="负责人" :resizable="false" align="center"  prop="user.username" width="150">
+                <el-table-column label="负责人" :resizable="false" align="center" prop="user.username" width="150">
                 </el-table-column>
-                <el-table-column label="所属单位" :resizable="false" align="center"  prop="project.name" width="150">
+                <el-table-column label="所属单位" :resizable="false" align="center" prop="project.name" width="150">
                 </el-table-column>
-                <el-table-column label="负责人电话" :resizable="false" align="center"  prop="user.username" width="150">
+                <el-table-column label="负责人电话" :resizable="false" align="center" prop="user.username" width="150">
                 </el-table-column>
-                <el-table-column label="经办人" :resizable="false" align="center"  prop="user.username" width="150">
+                <el-table-column label="经办人" :resizable="false" align="center" prop="user.username" width="150">
                 </el-table-column>
-                <el-table-column label="经办人电话" :resizable="false" align="center"  prop="user.username" width="150">
+                <el-table-column label="经办人电话" :resizable="false" align="center" prop="user.username" width="150">
                 </el-table-column>
-                <el-table-column label="项目分类" :resizable="false" align="center"  prop="project.type" width="110">
+                <el-table-column label="项目分类" :resizable="false" align="center" prop="project.type" width="110">
                 </el-table-column>
-                <el-table-column label="负责人邮箱" :resizable="false" align="center"  prop="user.username" width="150">
+                <el-table-column label="负责人邮箱" :resizable="false" align="center" prop="user.username" width="150">
                 </el-table-column>
-                <el-table-column label="立项日期" :resizable="false" align="center"  prop="createTime" width="170">
+                <el-table-column label="立项日期" :resizable="false" align="center" prop="createTime" width="170">
                 </el-table-column>
-                <el-table-column label="开始日期" :resizable="false" align="center"  prop="createTime" width="170">
+                <el-table-column label="开始日期" :resizable="false" align="center" prop="createTime" width="170">
                 </el-table-column>
                 <el-table-column label="操作" :resizable="false" align="center" min-width="230px" fixed="right">
                     <template v-slot="scope">
@@ -36,61 +36,70 @@
                             type="text"
                             icon="el-icon-tickets"
                             @click="lookEdit(scope.$index, scope.row)"
-                        >详情</el-button>
+                        >详情
+                        </el-button>
                         <el-button
                             size="mini"
                             type="text"
                             icon="el-icon-edit"
                             @click="handleUpdate(scope.row)"
                             v-hasPermi="['system:role:edit']"
-                        >修改</el-button>
+                        >修改
+                        </el-button>
                         <el-button
                             size="mini"
                             type="text"
                             icon="el-icon-delete"
                             @click="handleDelete(scope.row)"
                             v-hasPermi="['system:role:remove']"
-                        >删除</el-button>
+                        >删除
+                        </el-button>
                         <el-dropdown size="mini" @command="handleDropdownCommand">
-                          <el-button size="mini" type="text" icon="el-icon-reading">大事记</el-button>
-                          <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item command="view" icon="el-icon-view" :project-id="form.project.projectId">查看</el-dropdown-item>
-                            <el-dropdown-item command="add" icon="el-icon-document-add" :project-id="form.project.projectId">新增</el-dropdown-item>
-                          </el-dropdown-menu>
+                            <el-button size="mini" type="text" icon="el-icon-reading">大事记</el-button>
+                            <el-dropdown-menu v-slot="dropdown">
+                                <el-dropdown-item :command="{'command':'view', 'row':scope.row}" icon="el-icon-view">查看
+                                </el-dropdown-item>
+                                <el-dropdown-item :command="{'command':'add', 'row':scope.row}"
+                                                  icon="el-icon-document-add">新增
+                                </el-dropdown-item>
+                            </el-dropdown-menu>
                         </el-dropdown>
                     </template>
                 </el-table-column>
             </el-table>
             <!-- 详情打开的界面 -->
             <el-dialog
-              :model="formLook"
-              :visible.sync="dialogFormVisibleLook"
-              width="50%"
+                :model="formLook"
+                :visible.sync="dialogFormVisibleLook"
+                width="50%"
             >
-               <ProjectDetail
-               :visible.sync="dialogFormVisibleLook"
-               :formLook="formLook"
-               ></ProjectDetail>
+                <ProjectDetail
+                    :visible.sync="dialogFormVisibleLook"
+                    :formLook="formLook"
+                ></ProjectDetail>
             </el-dialog>
             <!-- 大事记查看打开的界面 -->
             <el-dialog
-              :model="formLook"
-              :visible.sync="eventsDialogVisibleLook"
-              width="50%"
-            >
-              <div style="max-height: 600px; overflow-y: auto;">
-                <CheckEvents
+
                 :visible.sync="eventsDialogVisibleLook"
-                ></CheckEvents>
-              </div>
+                width="50%"
+            >
+                <div style="max-height: 600px; overflow-y: auto;">
+                    <CheckEvents
+                        :projectId="projectId"
+                        :visible.sync="eventsDialogVisibleLook"
+                    ></CheckEvents>
+                </div>
             </el-dialog>
+
+            <!--          新增大事记-->
             <el-dialog
-              :visible.sync="eventsDialogVisibleAdd"
-              width="50%">
-              <AddEvents
                 :visible.sync="eventsDialogVisibleAdd"
-                @close-dialog="closeEventsDialog">
-              </AddEvents>
+                width="50%">
+                <AddEvents
+                    :visible.sync="eventsDialogVisibleAdd"
+                    @close-dialog="closeEventsDialog">
+                </AddEvents>
             </el-dialog>
             <!-- 页号 -->
             <el-pagination
@@ -111,17 +120,19 @@
 import ProjectDetail from "@/views/project/components/ProjectDetail.vue";
 import CheckEvents from "@/views/project/components/CheckEvents.vue";
 import AddEvents from "@/views/project/components/AddEvents.vue";
+
 export default {
     name: "ProjectList",
     components: {
-    ProjectDetail,
-    CheckEvents,
-    AddEvents,
-  },
+        ProjectDetail,
+        CheckEvents,
+        AddEvents,
+    },
     data() {
         return {
-            rowCenter:{
-              "text-align":"center"
+            projectId: -1,
+            rowCenter: {
+                "text-align": "center"
             },
             size: '',
             border: true,
@@ -133,7 +144,7 @@ export default {
             //新增
             form: {
                 project: {
-                    projectId:"",
+                    projectId: "",
                     name: "",
                     content: "",
                     type: "",
@@ -177,25 +188,25 @@ export default {
         };
     },
     created() {
-    // 用于测试目的的模拟数据
-    const mockData = [
-      {
-        projectId: 11,
-        project: { id: 11, name: '项目A', type: '类型A', money: 1000, remark: 'Lorem ipsum' },
-        user: { id: 11, username: '用户1', name: '用户一' },
-        createTime: '2023-01-01',
-        updateTime: '2023-01-02',
-      },
-      // 根据需要添加更多的模拟数据
-    ];
+        // 用于测试目的的模拟数据
+        const mockData = [
+            {
+                projectId: '11',
+                project: {id: 11, name: '项目A', type: '类型A', money: 1000, remark: 'Lorem ipsum'},
+                user: {id: 11, username: '用户1', name: '用户一'},
+                createTime: '2023-01-01',
+                updateTime: '2023-01-02',
+            },
+            // 根据需要添加更多的模拟数据
+        ];
 
-    // 将模拟数据分配给 dataList
-    this.dataList = mockData;
-  },
+        // 将模拟数据分配给 dataList
+        this.dataList = mockData;
+    },
     methods: {
         // 关闭弹窗的方法
         closeEventsDialog() {
-          this.eventsDialogVisibleAdd = false;
+            this.eventsDialogVisibleAdd = false;
         },
         //改变数组大小
         sizeChangeHandle(val) {
@@ -271,14 +282,15 @@ export default {
             this.dialogFormVisibleLook = true;
             this.formLook = item;
         },
-        handleDropdownCommand(command, projectId) {
-            if (command === 'view') {
-            this.eventsDialogVisibleLook = true;
-            this.formLook = { projectId };
-            console.log(this.formLook); // 处理查看操作
-            } else if (command === 'add') {
-            // 处理新增操作，可以添加相应的逻辑
-            this.eventsDialogVisibleAdd = true; // 处理新增操作
+        handleDropdownCommand(command) {
+
+            if (command.command === 'view') {
+                this.eventsDialogVisibleLook = true;
+                this.projectId = command.row.projectId;
+            } else if (command.command === 'add') {
+                // 处理新增操作，可以添加相应的逻辑
+                this.projectId = command.row.projectId;
+                this.eventsDialogVisibleAdd = true; // 处理新增操作
             }
         },
     },
