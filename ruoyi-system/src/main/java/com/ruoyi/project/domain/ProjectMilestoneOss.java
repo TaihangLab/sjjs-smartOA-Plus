@@ -20,6 +20,6 @@ public class ProjectMilestoneOss {
     /**
      * ossID
      */
-    @TableId
+
     private Long ossId;
 }

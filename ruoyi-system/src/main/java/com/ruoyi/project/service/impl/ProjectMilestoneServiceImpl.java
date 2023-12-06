@@ -3,6 +3,7 @@ package com.ruoyi.project.service.impl;
 import cn.hutool.log.Log;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.ruoyi.common.core.service.OssService;
 import com.ruoyi.project.domain.ProjectMilestone;
 import com.ruoyi.project.domain.ProjectMilestoneOss;
@@ -20,7 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -204,12 +207,16 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
                     new LambdaQueryWrapper<ProjectMilestoneOss>().eq(ProjectMilestoneOss::getMilestoneId, milestone.getMilestoneId()))
                 .stream()
                 .map(ProjectMilestoneOss::getOssId)
+                .filter(Objects::nonNull)//过滤掉空值
                 .collect(Collectors.toList());
 
             // 根据 OSS ID 在 SysOss 表中查询 OSS 对象的全部信息
-            List<SysOss> sysOsses = sysOssMapper.selectBatchIds(ossIds);
-
-            milestoneVo.setSysOsses(sysOsses);
+            if (CollectionUtils.isNotEmpty(ossIds)) {
+                List<SysOss> sysOsses = sysOssMapper.selectBatchIds(ossIds);
+                milestoneVo.setSysOsses(sysOsses);
+            } else {
+                milestoneVo.setSysOsses(Collections.emptyList()); // 设置为空列表，避免空指针或 SQL 错误
+            }
 
             milestoneVos.add(milestoneVo);
         }
