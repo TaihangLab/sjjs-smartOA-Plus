@@ -7,6 +7,7 @@ import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.project.domain.ProjectMilestone;
 import com.ruoyi.project.domain.ProjectTarget;
+import com.ruoyi.project.domain.vo.ProjectMilestoneVo;
 import com.ruoyi.project.service.ProjectMilestoneService;
 import com.ruoyi.project.service.ProjectTargetService;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ public class ProjectListController extends BaseController {
      * 根据项目id新增项目指标
      */
     @SaCheckPermission("project:list:addtargetlist")
-    @Log(title = "项目列表",businessType = BusinessType.INSERT)
+    @Log(title = "新增项目指标列表",businessType = BusinessType.INSERT)
     @PostMapping("/targetadd")
     public R<Void> addTargetList(@RequestBody List<ProjectTarget> projectTargets){
         return toAjax(projectTargetService.insertProjectTargetList(projectTargets));
@@ -38,8 +39,8 @@ public class ProjectListController extends BaseController {
      * 根据项目id删除项目指标
      */
     @SaCheckPermission("project:list:deletetargetlist")
-    @Log(title = "项目列表",businessType = BusinessType.DELETE)
-    @DeleteMapping("/targetdelete")
+    @Log(title = "删除项目指标列表",businessType = BusinessType.DELETE)
+    @PostMapping("/targetdelete")
     public R<Void> deleteTargetList(@RequestBody Long projectId){
         return toAjax(projectTargetService.deleteTargetByProjectId(projectId));
     }
@@ -48,11 +49,9 @@ public class ProjectListController extends BaseController {
      * 根据项目id查询项目大事纪
      */
     //@SaCheckPermission("project:list:queryMilestone")
-    @GetMapping("/targetlist/{projectId}")
-    public R<List<ProjectMilestone>> getMilestone(@PathVariable Long projectId){
-        return R.ok(projectMilestoneService.selectMilestoneListByProjectId(projectId));
+    @GetMapping("/milestonelist")
+    public R<List<ProjectMilestoneVo>> getMilestone(@RequestParam Long projectId){
+        return R.ok(projectMilestoneService.selectMilestoneInfoByProjectId(projectId));
     }
-
-
 
 }

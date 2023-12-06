@@ -95,7 +95,7 @@ export default {
   },
   data() {
     return {
-      stepID: 8,
+      stepID: 2,
       nextButtonText:'下一步',
 
       projectInfoForm: {},
@@ -134,7 +134,7 @@ export default {
       //   }
       // }
       // this.stepID = 0;
-      console.log(this.otherAttachmentForm);
+      console.log(this.mainAttachmentForm);
       // this.$refs.projectInfo.$refs.form111.resetFields()
 
     },

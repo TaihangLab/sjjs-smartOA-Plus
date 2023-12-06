@@ -1,10 +1,28 @@
 <template>
   <el-card header="项目信息" shadow="hover">
     <el-form :model="form" ref="form" label-position="left">
-      <el-form-item label-width="125px" label="项目名称" prop="name">
-        <el-input v-model="form.name"></el-input>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label-width="100px" label="项目名称" prop="name">
+            <el-input v-model="form.name"></el-input>
+          </el-form-item>
+        </el-col>
+      <el-col :span="12">
+        <el-form-item label-width="100px" label="项目负责人" prop="name">
+          <el-input v-model="form.name"></el-input>
+        </el-form-item>
+      </el-col>
+
+      </el-row>
+
+      <el-form-item label-width="100px" label="立项时间" prop="time">
+        <el-date-picker
+            v-model="form.time"
+            type="date"
+            value-format="yyyy-MM-dd">
+        </el-date-picker>
       </el-form-item>
-      <el-form-item label-width="125px" label="项目时间" prop="time">
+      <el-form-item label-width="100px" label="项目周期" prop="time">
         <el-date-picker
             v-model="form.time"
             type="daterange"

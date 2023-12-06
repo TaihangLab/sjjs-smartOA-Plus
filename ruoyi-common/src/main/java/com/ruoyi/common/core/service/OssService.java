@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
  *
  * @author Lion Li
  */
-@Service
 public interface OssService {
 
     /**
