@@ -5,15 +5,12 @@ import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.project.domain.ProjectMilestone;
 import com.ruoyi.project.domain.bo.ProjectMilestoneBo;
 import com.ruoyi.project.service.ProjectMilestoneService;
 import lombok.RequiredArgsConstructor;
-import org.flowable.cmmn.model.Milestone;
-import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+
 
 @Validated
 @RequiredArgsConstructor
@@ -25,7 +22,7 @@ public class ProjectMyController extends BaseController {
 
     //@SaCheckPermission("project:my:milestoneadd")
     @Log(title = "新增项目大事纪", businessType = BusinessType.INSERT)
-    @PostMapping(value = "/milestonetadd")
+    @PostMapping(value = "/milestoneadd")
     public R<Void> add(@Validated @RequestBody ProjectMilestoneBo projectMilestoneBo) {
         return toAjax(projectMilestoneService.insertProjectMilestone(projectMilestoneBo));
     }
