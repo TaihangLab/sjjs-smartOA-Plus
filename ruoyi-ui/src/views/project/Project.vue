@@ -80,7 +80,6 @@
             </el-dialog>
             <!-- 大事记查看打开的界面 -->
             <el-dialog
-
                 :visible.sync="eventsDialogVisibleLook"
                 width="50%"
             >
@@ -92,11 +91,12 @@
                 </div>
             </el-dialog>
 
-            <!--          新增大事记-->
+            <!--新增大事记-->
             <el-dialog
                 :visible.sync="eventsDialogVisibleAdd"
                 width="50%">
                 <AddEvents
+                    :projectId="projectId"
                     :visible.sync="eventsDialogVisibleAdd"
                     @close-dialog="closeEventsDialog">
                 </AddEvents>
@@ -283,7 +283,6 @@ export default {
             this.formLook = item;
         },
         handleDropdownCommand(command) {
-
             if (command.command === 'view') {
                 this.eventsDialogVisibleLook = true;
                 this.projectId = command.row.projectId;
