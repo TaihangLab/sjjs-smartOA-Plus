@@ -90,6 +90,12 @@ import request from '@/utils/request';
 import fujian from "./../../../components/FileUpload/index.vue";
 
 export default {
+  props: {
+    projectId: {
+      type: String,
+      default: "11",
+    },
+  },
   components: {
     fujian,
   },
@@ -103,7 +109,7 @@ export default {
       milestoneIds: [],
       title: "" ,// 初始化 title
       form: {
-        projectId: '0',
+        projectId: this.projectId,
         milestoneTitle: '',
         milestoneRemark: '',
         milestoneDate: '',
@@ -114,8 +120,15 @@ export default {
   },
   created() {
   // 获取数据
-    request({ url: '/project/list/targetlist/0', method: 'get' })
+    request({ 
+      url: '/project/list/milestonelist', 
+      method: 'get',
+      params: {
+        projectId: this.projectId
+          }
+        }) 
       .then((resp) => {
+        console.log((resp));
         // 根据 milestoneDate 对 timelineItems 进行排序
         this.timelineItems = resp.data.sort((a, b) => {
           return new Date(a.milestoneDate) - new Date(b.milestoneDate);
@@ -139,15 +152,18 @@ export default {
     deleteMilestone(item) {
       const milestoneId = item.milestoneId;
       request({
-        url: `/project/my/targetdelete`,
+        url: `/project/my/milestonedelete`,
         method: 'delete',
         params: {
           milestoneId: milestoneId
         }
       })
+      .then(() => {
+        this.getDataList();
+      })
     },
     editMilestoneBtn(){
-      request({ url: '/project/my/targetedit', method: 'put',data:this.form})
+      request({ url: '/project/my/milestoneedit', method: 'put',data:this.form})
       .then((resp) => {
         console.log(resp);
         this.$modal.msgSuccess("修改成功");
@@ -173,6 +189,9 @@ export default {
     beforeRemove(file, fileList) {
       return MessageBox.confirm(`确定移除 ${file.name}？`);
     },
+  },
+  mounted() {
+      this.getDataList();
   },
 };
 </script>

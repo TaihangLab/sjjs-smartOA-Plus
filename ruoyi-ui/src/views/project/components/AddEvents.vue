@@ -55,7 +55,7 @@ export default {
   methods: {
     addMilestone() {
       this.form.ossIds = this.ossids.map(item=>item.ossId);
-      request({ url: '/project/my/targetadd', method: 'post',data:this.form})
+      request({ url: '/project/my/milestoneadd', method: 'post',data:this.form})
       .then((resp) => {
         console.log(resp);
         this.$modal.msgSuccess("新增成功");
