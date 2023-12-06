@@ -5,7 +5,7 @@
             <el-table ref="multipleTable" :data="dataList" border style="width: 100%" :row-style="{height: '50px'}"
                       :cell-style="{padding:'0px'}">
                 <el-table-column type="selection" :resizable="false" align="center" width="40"></el-table-column>
-                <el-table-column label="#" :resizable="false" align="center"  prop="projectId" width="80">
+                <el-table-column label="#" :resizable="false" align="center"  prop="Id" width="80">
                 </el-table-column>
                 <el-table-column label="项目编号" :resizable="false" align="center"  prop="projectId" width="80">
                 </el-table-column>
@@ -54,8 +54,8 @@
                         <el-dropdown size="mini" @command="handleDropdownCommand">
                           <el-button size="mini" type="text" icon="el-icon-reading">大事记</el-button>
                           <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item command="view" icon="el-icon-view">查看</el-dropdown-item>
-                            <el-dropdown-item command="add" icon="el-icon-document-add">新增</el-dropdown-item>
+                            <el-dropdown-item command="view" icon="el-icon-view" :project-id="form.project.projectId">查看</el-dropdown-item>
+                            <el-dropdown-item command="add" icon="el-icon-document-add" :project-id="form.project.projectId">新增</el-dropdown-item>
                           </el-dropdown-menu>
                         </el-dropdown>
                     </template>
@@ -74,6 +74,7 @@
             </el-dialog>
             <!-- 大事记查看打开的界面 -->
             <el-dialog
+              :model="formLook"
               :visible.sync="eventsDialogVisibleLook"
               width="50%"
             >
@@ -132,6 +133,7 @@ export default {
             //新增
             form: {
                 project: {
+                    projectId:"",
                     name: "",
                     content: "",
                     type: "",
@@ -178,9 +180,9 @@ export default {
     // 用于测试目的的模拟数据
     const mockData = [
       {
-        projectId: 1,
-        project: { id: 1, name: '项目A', type: '类型A', money: 1000, remark: 'Lorem ipsum' },
-        user: { id: 1, username: '用户1', name: '用户一' },
+        projectId: 11,
+        project: { id: 11, name: '项目A', type: '类型A', money: 1000, remark: 'Lorem ipsum' },
+        user: { id: 11, username: '用户1', name: '用户一' },
         createTime: '2023-01-01',
         updateTime: '2023-01-02',
       },
@@ -269,13 +271,15 @@ export default {
             this.dialogFormVisibleLook = true;
             this.formLook = item;
         },
-        handleDropdownCommand(command) {
-          if (command === 'view') {
-            this.eventsDialogVisibleLook = true; // 处理查看操作
-          } else if (command === 'add') {
+        handleDropdownCommand(command, projectId) {
+            if (command === 'view') {
+            this.eventsDialogVisibleLook = true;
+            this.formLook = { projectId };
+            console.log(this.formLook); // 处理查看操作
+            } else if (command === 'add') {
             // 处理新增操作，可以添加相应的逻辑
-            this.eventsDialogVisibleAdd = true;// 处理新增操作
-          }
+            this.eventsDialogVisibleAdd = true; // 处理新增操作
+            }
         },
     },
     mounted() {

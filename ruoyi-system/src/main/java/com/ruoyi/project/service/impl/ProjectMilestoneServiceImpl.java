@@ -40,7 +40,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
      * @return 结果
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public int insertProjectMilestone(ProjectMilestoneBo projectMilestoneBo) {
         if (projectMilestoneBo == null) {
             return 0;
@@ -89,7 +89,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
      * @return 结果
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public int deleteMilestoneByProjectId(Long projectId) {
         // 1. 根据项目 ID 获取该项目下所有的大事记 ID
         List<ProjectMilestone> projectMilestones = projectMilestoneMapper.selectList(
@@ -124,7 +124,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
      * @return 结果
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public int deleteProjectMilestone(Long milestoneId) {
         // 先检查是否存在与 milestoneId 相关的 ProjectMilestoneOss 记录
         long count = projectMilestoneOssMapper.selectCount(new LambdaQueryWrapper<ProjectMilestoneOss>()
