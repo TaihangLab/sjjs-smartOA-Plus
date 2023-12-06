@@ -7,15 +7,19 @@ import com.ruoyi.common.core.service.OssService;
 import com.ruoyi.project.domain.ProjectMilestone;
 import com.ruoyi.project.domain.ProjectMilestoneOss;
 import com.ruoyi.project.domain.bo.ProjectMilestoneBo;
+import com.ruoyi.project.domain.vo.ProjectMilestoneVo;
 import com.ruoyi.project.mapper.ProjectMilestoneMapper;
 import com.ruoyi.project.mapper.ProjectMilestoneOssMapper;
 import com.ruoyi.project.service.ProjectMilestoneService;
+import com.ruoyi.system.domain.SysOss;
+import com.ruoyi.system.mapper.SysOssMapper;
 import com.ruoyi.system.service.ISysOssService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +30,8 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
     private final ProjectMilestoneMapper projectMilestoneMapper;
 
     private final ProjectMilestoneOssMapper projectMilestoneOssMapper;
+
+    private final SysOssMapper sysOssMapper;
 
     /**
      * 新增单个项目大事记
@@ -170,15 +176,45 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
     }
 
     /**
-     * 修改项目大事记
+     * 查询某一项目对应的所有项目大事记
      *
      * @param projectId 项目ID
-     * @return 结果
+     * @return 结果Vo
      */
     @Override
-    public List<ProjectMilestone> selectMilestoneListByProjectId(Long projectId) {
-        return projectMilestoneMapper.selectList(new LambdaQueryWrapper<ProjectMilestone>()
-            .eq(ProjectMilestone::getProjectId, projectId));
+    public List<ProjectMilestoneVo> selectMilestoneInfoByProjectId(Long projectId) {
+        // 从 ProjectMilestone 表中查找 projectId 和 milestoneId 的对应关系
+        List<ProjectMilestone> milestones = projectMilestoneMapper.selectList(
+            new LambdaQueryWrapper<ProjectMilestone>().eq(ProjectMilestone::getProjectId, projectId));
+
+        List<ProjectMilestoneVo> milestoneVos = new ArrayList<>();
+
+        for (ProjectMilestone milestone : milestones) {
+            // 创建 ProjectMilestoneVo 对象用于存储结果
+            ProjectMilestoneVo milestoneVo = new ProjectMilestoneVo();
+            // 将大事记的基本信息赋值给 milestoneVo
+            milestoneVo.setMilestoneId(milestone.getMilestoneId());
+            milestoneVo.setProjectId(milestone.getProjectId());
+            milestoneVo.setMilestoneTitle(milestone.getMilestoneTitle());
+            milestoneVo.setMilestoneRemark(milestone.getMilestoneRemark());
+            milestoneVo.setMilestoneDate(milestone.getMilestoneDate());
+
+            // 从 ProjectMilestoneOss 表中查找大事记 ID 和 OSS ID 的对应关系
+            List<Long> ossIds = projectMilestoneOssMapper.selectList(
+                    new LambdaQueryWrapper<ProjectMilestoneOss>().eq(ProjectMilestoneOss::getMilestoneId, milestone.getMilestoneId()))
+                .stream()
+                .map(ProjectMilestoneOss::getOssId)
+                .collect(Collectors.toList());
+
+            // 根据 OSS ID 在 SysOss 表中查询 OSS 对象的全部信息
+            List<SysOss> sysOsses = sysOssMapper.selectBatchIds(ossIds);
+
+            milestoneVo.setSysOsses(sysOsses);
+
+            milestoneVos.add(milestoneVo);
+        }
+
+        return milestoneVos;
     }
 
 

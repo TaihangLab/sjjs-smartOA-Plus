@@ -3,6 +3,7 @@ package com.ruoyi.project.service;
 import com.ruoyi.project.domain.ProjectMilestone;
 import com.ruoyi.project.domain.ProjectTarget;
 import com.ruoyi.project.domain.bo.ProjectMilestoneBo;
+import com.ruoyi.project.domain.vo.ProjectMilestoneVo;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -18,6 +19,6 @@ public interface ProjectMilestoneService {
 
     int updateMilestone(ProjectMilestoneBo projectMilestoneBo);
 
-    List<ProjectMilestone> selectMilestoneListByProjectId(Long projectId);
+    List<ProjectMilestoneVo> selectMilestoneInfoByProjectId(Long projectId);
 
 }
