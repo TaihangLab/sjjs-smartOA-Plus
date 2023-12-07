@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class ProjectTargetServiceImpl implements ProjectTargetService {
 
-    private final ProjectTargetMapper baseMapper;
+    private final ProjectTargetMapper projectTargetMapper;
 
     /**
      * 新增项目指标
@@ -27,7 +27,7 @@ public class ProjectTargetServiceImpl implements ProjectTargetService {
         if (projectTarget == null) {
             return 0;
         }
-        return baseMapper.insert(projectTarget);
+        return projectTargetMapper.insert(projectTarget);
     }
 
     /**
@@ -41,7 +41,7 @@ public class ProjectTargetServiceImpl implements ProjectTargetService {
         if (projectTargets.isEmpty()) {
             return false;
         }
-        return baseMapper.insertBatch(projectTargets);
+        return projectTargetMapper.insertBatch(projectTargets);
     }
 
 
@@ -53,7 +53,7 @@ public class ProjectTargetServiceImpl implements ProjectTargetService {
      */
     @Override
     public List<ProjectTarget> selectTargetListByProjectId(Long projectId) {
-        return baseMapper.selectList(new LambdaQueryWrapper<ProjectTarget>()
+        return projectTargetMapper.selectList(new LambdaQueryWrapper<ProjectTarget>()
             .eq(ProjectTarget::getProjectId, projectId));
     }
 
@@ -65,7 +65,7 @@ public class ProjectTargetServiceImpl implements ProjectTargetService {
      */
     @Override
     public int deleteTargetByProjectId(Long projectId) {
-        return baseMapper.delete(new LambdaQueryWrapper<ProjectTarget>().
+        return projectTargetMapper.delete(new LambdaQueryWrapper<ProjectTarget>().
             eq(ProjectTarget::getProjectId, projectId));
     }
 
@@ -76,7 +76,7 @@ public class ProjectTargetServiceImpl implements ProjectTargetService {
      * @return 结果
      */
     public int deleteProjectTarget(Long targetId) {
-        return baseMapper.delete(new LambdaQueryWrapper<ProjectTarget>().
+        return projectTargetMapper.delete(new LambdaQueryWrapper<ProjectTarget>().
             eq(ProjectTarget::getTargetId, targetId));
     }
 
@@ -86,12 +86,12 @@ public class ProjectTargetServiceImpl implements ProjectTargetService {
      * @param projectTarget 项目指标信息
      * @return 结果
      */
-    public int updateProjectTarget(ProjectTarget projectTarget, Long targetId) {
+    public int updateProjectTarget(ProjectTarget projectTarget) {
         LambdaUpdateWrapper<ProjectTarget> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
-        lambdaUpdateWrapper.eq(ProjectTarget::getTargetId, targetId);
+        lambdaUpdateWrapper.eq(ProjectTarget::getTargetId, projectTarget.getTargetId());
         lambdaUpdateWrapper.set(ProjectTarget::getTargetRemark, projectTarget.getTargetRemark())
             .set(ProjectTarget::getTargetName, projectTarget.getTargetName());
-        return baseMapper.update(projectTarget, lambdaUpdateWrapper);
+        return projectTargetMapper.update(projectTarget, lambdaUpdateWrapper);
     }
 
 }
