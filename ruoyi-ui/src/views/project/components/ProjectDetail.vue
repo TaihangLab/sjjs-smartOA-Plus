@@ -1,9 +1,8 @@
 <template>
     <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="基本信息" name="first">
-            <el-radio-group v-model="size">
-            </el-radio-group>
-            <el-descriptions class="margin-top" title="" :column="1" :size="size" labelStyle="width: 18%" contentStyle="width: 75%" :contentStyle="rowCenter" border>
+            <div style="margin-top: 10px;"></div>
+            <el-descriptions class="margin-top" title="" :column="1" :size="size" labelStyle="width: 18%" contentStyle="width: 80%" :contentStyle="rowCenter" border>
                 <el-descriptions-item label="项目名称">
                     {{ this.formLook.project.name }}
                 </el-descriptions-item>
@@ -81,7 +80,6 @@
                 <template slot="extra">
                 <el-switch v-model="toggleDetails" active-color="#13ce66" inactive-color="#ff4949" />
                 </template>
-
                 <!-- 其他详细信息项，使用 v-if 控制显示/隐藏 -->
                 <el-descriptions-item v-if="toggleDetails" label="统计归属">kooriookami</el-descriptions-item>
                 <el-descriptions-item v-if="toggleDetails" label="统计年度">18100000000</el-descriptions-item>
@@ -93,19 +91,35 @@
                 <el-descriptions-item v-if="toggleDetails" label="国民经济行业">江苏省苏州市吴中区吴中大道 1188 号</el-descriptions-item>
             </el-descriptions>
         </el-tab-pane>
-        <el-tab-pane label="项目成员" name="second">配置管理</el-tab-pane>
-        <el-tab-pane label="项目经费" name="third">角色管理</el-tab-pane>
+        <el-tab-pane label="项目成员" name="second">
+            <Member />
+        </el-tab-pane>
+        <el-tab-pane label="项目经费" name="third">
+            <FundsDetail></FundsDetail>
+        </el-tab-pane>
+        <el-tab-pane label="项目来源" name="fourth">
+            <MoneySource></MoneySource>
+        </el-tab-pane>
     </el-tabs>
 </template>
+
 <script>
+import FundsDetail from "./ViewProject/FundsDetail.vue";
+import MoneySource from "./ViewProject/MoneySource.vue";
+import Member from "./ViewProject/Member.vue";
 export default {
     name: "ProjectDetail",
-    props: {
-    formLook: {
-      type: Object, 
-      required: true,
+    components:{
+        FundsDetail,
+        Member,
+        MoneySource,
     },
-  },
+    props: {
+      formLook: {
+        type: Object,
+        required: true,
+      },
+    },
     data() {
         return {
             rowCenter:{
@@ -113,7 +127,7 @@ export default {
             },
             size: '',
             border: true,
-            toggleDetails: true, // 控制详细信息项的显示/隐藏
+            toggleDetails: false, // 控制详细信息项的显示/隐藏
             pageIndex: 1,
             pageSize: 10,
             totalPage: 0,
