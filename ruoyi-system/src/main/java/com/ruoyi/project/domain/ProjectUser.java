@@ -11,7 +11,7 @@ import lombok.Data;
  */
 @Data
 @TableName("project_user")
-public class ProjectMember {
+public class ProjectUser {
 
     /**
      * 项目ID

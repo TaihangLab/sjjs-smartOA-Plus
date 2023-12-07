@@ -9,9 +9,9 @@
                 :icon="item.icon"
                 :style="{ '--icon-color': '#0bbd87'}"
             >
-                <el-card>
+                <el-card style="width: 90%;">
                     <h4>{{ item.milestoneTitle }}</h4>
-                    <p>{{ item.milestoneRemark }} 提交于 {{ item.milestoneDate }}</p>
+                    <p>{{ item.milestoneRemark }} </p>
                     <el-button
                         type="success"
                         icon="el-icon-edit"
@@ -42,18 +42,20 @@
         </el-timeline>
         <!-- 修改大事记页面弹出框 -->
         <el-dialog
+            ref="eventsDialogEdit"
             title="修改大事记"
             :visible.sync="eventsDialogVisibleEdit"
             :lock-scroll="false"
             :append-to-body="true"
             width="50%"
+            v-if="visible"
         >
-            <div id="app">
-                <el-form ref="form" :model="form" label-width="80px">
-                    <el-form-item label="名称">
+            <div id="app" >
+                <el-form ref="form" :rules="rules" :model="form" label-width="80px">
+                    <el-form-item label="名称" prop="name">
                         <el-input v-model="form.milestoneTitle"></el-input>
                     </el-form-item>
-                    <el-form-item label="时间">
+                    <el-form-item label="时间" prop="date">
                         <el-col :span="11">
                             <el-date-picker
                                 type="date"
@@ -64,17 +66,17 @@
                             ></el-date-picker>
                         </el-col>
                     </el-form-item>
-                    <el-form-item label="详请">
+                    <el-form-item label="详请" prop="desc">
                         <el-input type="textarea" v-model="form.milestoneRemark"></el-input>
                     </el-form-item>
                     <el-form-item label="附件">
-                        <fujian :idList="ossids"/>
+                        <fujian :value="form.sysOsses" :idList="ossids"/>
                     </el-form-item>
                     <el-form-item>
                         <el-button
                             type="primary"
                             size="small"
-                            @click="editMilestoneBtn"
+                            @click="editMilestoneBtn()"
                         >
                             确定
                         </el-button>
@@ -108,29 +110,45 @@ export default {
                 }
             ],
             eventsDialogVisibleEdit: false,
+            visible: true,
             timelineItems: [],
             milestoneIds: [],
             title: "",// 初始化 title
             form: {
-                projectId: this.projectId,
-                milestoneTitle: '',
-                milestoneRemark: '',
-                milestoneDate: '',
-                ossIds: [],
+              projectId: this.projectId,
+              milestoneTitle: '',
+              milestoneRemark: '',
+              milestoneDate: '',
+              ossIds:[],
             },
-            ossids: [],
+            ossids:[],
+            rules: {
+              name: [
+                { required: true, message: '请输入名称', trigger: 'blur' },
+              ],
+              date: [
+                { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+              ],
+              desc: [
+                { required: true, message: '请填写详情', trigger: 'blur' }
+              ]
+            }
         };
     },
     created() {
-
+        console.log("fujian 组件接收到的附件数据:", this.value);
         // 获取数据
+        
+    },
+    mounted() {
+        console.log("传过来的项目id", this.projectId);
         request({
             url: '/project/list/milestonelist',
             method: 'get',
             params: {
                 projectId: this.projectId
-            }
-        })
+             }
+           })  
             .then((resp) => {
                 console.log((resp));
                 // 根据 milestoneDate 对 timelineItems 进行排序
@@ -145,17 +163,14 @@ export default {
                 console.error('获取数据时出错：', error);
             })
     },
-    mounted() {
-        console.log("传过来的项目id", this.projectId);
-        // this.getDataList();
-    },
     methods: {
         editMilestone(item) {
+            this.form.milestoneId = item.milestoneId;
             this.form.milestoneTitle = item.milestoneTitle;
             this.form.milestoneRemark = item.milestoneRemark;
-            this.form.ossIds = item.ossids || [];
             this.form.milestoneDate = item.milestoneDate;
             this.eventsDialogVisibleEdit = true;
+            this.form.sysOsses = item.sysOsses;
         },
         deleteMilestone(item) {
             const milestoneId = item.milestoneId;
@@ -166,18 +181,54 @@ export default {
                     milestoneId: milestoneId
                 }
             })
-                .then(() => {
-                    this.getDataList();
-                })
+            .then((resp) => {
+                console.log(resp);
+                this.fetchMilestoneList();
+            })
         },
         editMilestoneBtn() {
-            request({url: '/project/my/milestoneedit', method: 'put', data: this.form})
-                .then((resp) => {
-                    console.log(resp);
-                    this.$modal.msgSuccess("修改成功");
-                    this.$emit('close-dialog');
+            this.form.ossIds = this.ossids.map(item => item.ossId);
+            request({
+                url: '/project/my/milestoneedit',
+                method: 'put',
+                data: this.form,
+            })
+            .then((resp) => {
+                console.log(resp);
+                this.$modal.msgSuccess("修改成功");
+                this.$refs.eventsDialogEdit.close();
+                this.visible = false; 
+                this.fetchMilestoneList();
+            })
+            .catch((error) => {
+                console.error("修改失败", error);
+            });
+        },
+        fetchMilestoneList() {
+        // 重新获取数据逻辑
+        request({
+            url: '/project/list/milestonelist',
+            method: 'get',
+            params: {
+                projectId: this.projectId,
+                },
+            })
+            .then((resp) => {
+                console.log(resp);
+                // 根据 milestoneDate 对 timelineItems 进行排序
+                this.timelineItems = resp.data.sort((a, b) => {
+                    return new Date(a.milestoneDate) - new Date(b.milestoneDate);
                 });
-            console.log(this.form);
+                this.timelineItems.forEach(item => {
+                    this.milestoneIds.push(item.milestoneId);
+                });
+            })
+            .catch((error) => {
+                console.error('获取数据时出错：', error);
+            });
+        },
+        close() {
+            this.$refs.eventsDialogEdit.close();
         },
         submitUpload() {
             this.$refs.upload.submit();

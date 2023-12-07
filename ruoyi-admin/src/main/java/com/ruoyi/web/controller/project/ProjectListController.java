@@ -11,6 +11,7 @@ import com.ruoyi.project.domain.vo.ProjectMilestoneVo;
 import com.ruoyi.project.service.ProjectMilestoneService;
 import com.ruoyi.project.service.ProjectTargetService;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,12 +24,13 @@ import java.util.List;
 public class ProjectListController extends BaseController {
 
     private final ProjectTargetService projectTargetService;
+
     private final ProjectMilestoneService projectMilestoneService;
 
     /**
      * 根据项目id新增项目指标
      */
-    @SaCheckPermission("project:list:addtargetlist")
+//    @SaCheckPermission("project:list:addtargetlist")
     @Log(title = "新增项目指标列表",businessType = BusinessType.INSERT)
     @PostMapping("/targetadd")
     public R<Void> addTargetList(@RequestBody List<ProjectTarget> projectTargets){
@@ -38,10 +40,10 @@ public class ProjectListController extends BaseController {
     /**
      * 根据项目id删除项目指标
      */
-    @SaCheckPermission("project:list:deletetargetlist")
+//    @SaCheckPermission("project:list:deletetargetlist")
     @Log(title = "删除项目指标列表",businessType = BusinessType.DELETE)
-    @PostMapping("/targetdelete")
-    public R<Void> deleteTargetList(@RequestBody Long projectId){
+    @DeleteMapping("/targetdelete")
+    public R<Void> deleteTargetList(@RequestParam Long projectId){
         return toAjax(projectTargetService.deleteTargetByProjectId(projectId));
     }
 

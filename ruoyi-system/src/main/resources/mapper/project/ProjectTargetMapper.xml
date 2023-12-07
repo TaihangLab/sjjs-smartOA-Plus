@@ -4,12 +4,11 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.project.mapper.ProjectTargetMapper">
 
-    <resultMap type="ProjectMilestone" id="ProjectMilestoneResult">
-        <id property="milestoneId" column="milestone_id"/>
+    <resultMap type="ProjectTarget" id="ProjectTargetResult">
+        <id property="targetId" column="target_id"/>
         <result property="projectId" column="project_id"/>
-        <result property="milestoneTitle" column="milestone_title"/>
-        <result property="milestoneRemark" column="milestone_remark"/>
-        <result property="milestoneDate" column="milestone_date"/>
+        <result property="targetRemark" column="target_remark"/>
+        <result property="targetName" column="target_name"/>
     </resultMap>
 
 </mapper>
