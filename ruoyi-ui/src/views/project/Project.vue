@@ -130,7 +130,7 @@ export default {
     },
     data() {
         return {
-            projectId: -1,
+            projectId: '0',
             rowCenter: {
                 "text-align": "center"
             },
@@ -283,7 +283,6 @@ export default {
             this.formLook = item;
         },
         handleDropdownCommand(command) {
-
             if (command.command === 'view') {
                 this.eventsDialogVisibleLook = true;
                 this.projectId = command.row.projectId;

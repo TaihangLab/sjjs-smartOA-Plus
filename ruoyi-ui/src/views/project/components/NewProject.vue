@@ -1,68 +1,69 @@
 <template>
-  <el-container>
-    <el-header>
-      <el-card shadow="hover">
-        <el-steps :active="stepID" finish-status="success" simple>
-          <el-step title="项目信息"></el-step>
-          <el-step title="项目成员"></el-step>
-          <el-step title="项目经费"></el-step>
-          <el-step title="专项经费"></el-step>
-          <el-step title="自筹经费"></el-step>
-          <el-step title="经费来源"></el-step>
-          <el-step title="项目指标"></el-step>
-          <el-step title="正文附件"></el-step>
-          <el-step title="其他附件"></el-step>
-        </el-steps>
-      </el-card>
-    </el-header>
+    <el-container>
+        <el-header>
+            <el-card shadow="hover">
+                <el-steps :active="stepID" finish-status="success" simple>
+                    <el-step title="项目信息"></el-step>
+                    <el-step title="项目成员"></el-step>
+                    <el-step title="项目经费"></el-step>
+                    <el-step title="专项经费"></el-step>
+                    <el-step title="自筹经费"></el-step>
+                    <el-step title="经费来源"></el-step>
+                    <el-step title="项目指标"></el-step>
+                    <el-step title="正文附件"></el-step>
+                    <el-step title="其他附件"></el-step>
+                </el-steps>
+            </el-card>
+        </el-header>
 
-    <el-main style="margin-top: 20px;">
+        <el-main style="margin-top: 20px;">
 
-      <el-collapse-transition>
-        <ProjectInfo v-show="stepID===0" :form="projectInfoForm" ref="projectInfo"></ProjectInfo>
-      </el-collapse-transition>
+            <el-collapse-transition>
+                <ProjectInfo v-show="stepID===0" :form="projectInfoForm" ref="projectInfo"></ProjectInfo>
+            </el-collapse-transition>
 
-      <el-collapse-transition>
-        <ProjectMember v-show="stepID===1" :form="projectMemberForm" ref="projectMember"></ProjectMember>
-      </el-collapse-transition>
+            <el-collapse-transition>
+                <ProjectMember v-show="stepID===1" :form="projectMemberForm" ref="projectMember"></ProjectMember>
+            </el-collapse-transition>
 
-      <el-collapse-transition>
-        <ProjectFunds v-show="stepID===2" :form="projectFundsForm" ref="projectFunds"></ProjectFunds>
-      </el-collapse-transition>
+            <el-collapse-transition>
+                <ProjectFunds v-show="stepID===2" :form="projectFundsForm" ref="projectFunds"></ProjectFunds>
+            </el-collapse-transition>
 
-      <el-collapse-transition>
-        <ZXFundsDetail v-show="stepID===3" :form="zxFundsDetailForm"></ZXFundsDetail>
-      </el-collapse-transition>
+            <el-collapse-transition>
+                <ZXFundsDetail v-show="stepID===3" :form="zxFundsDetailForm" re="zxFundsDetail"></ZXFundsDetail>
+            </el-collapse-transition>
 
-      <el-collapse-transition>
-        <ZCFundsDetail v-show="stepID===4" :form="zcFundsDetailForm"></ZCFundsDetail>
-      </el-collapse-transition>
+            <el-collapse-transition>
+                <ZCFundsDetail v-show="stepID===4" :form="zcFundsDetailForm" ref="zcFundsDetail"></ZCFundsDetail>
+            </el-collapse-transition>
 
-      <el-collapse-transition>
-        <FundsSource v-show="stepID===5" :form="fundsSourceForm"></FundsSource>
-      </el-collapse-transition>
+            <el-collapse-transition>
+                <FundsSource v-show="stepID===5" :form="fundsSourceForm" ref="fundsSource"></FundsSource>
+            </el-collapse-transition>
 
 
-      <el-collapse-transition>
-        <ProjectIndicator v-show="stepID===6" :form="projectIndicatorForm"></ProjectIndicator>
-      </el-collapse-transition>
+            <el-collapse-transition>
+                <ProjectIndicator v-show="stepID===6" :form="projectIndicatorForm" ref="projectIndicator"></ProjectIndicator>
+            </el-collapse-transition>
 
-      <el-collapse-transition>
-        <MainAttachment v-show="stepID===7" :form="mainAttachmentForm"></MainAttachment>
-      </el-collapse-transition>
+            <el-collapse-transition>
+                <MainAttachment v-show="stepID===7" :form="mainAttachmentForm" ref="mainAttachment"></MainAttachment>
+            </el-collapse-transition>
 
-      <el-collapse-transition>
-        <OtherAttachment v-show="stepID===8" :form="otherAttachmentForm"></OtherAttachment>
-      </el-collapse-transition>
+            <el-collapse-transition>
+                <OtherAttachment v-show="stepID===8" :form="otherAttachmentForm" ref="otherAttachment"></OtherAttachment>
+            </el-collapse-transition>
 
-    </el-main>
+        </el-main>
 
-    <el-footer>
-      <el-button v-show="stepID > 0" style="margin-top: 12px;" @click="previous">上一步</el-button>
-      <el-button style="margin-top: 12px;" @click="next">{{ nextButtonText }}</el-button>
-      <el-button @click="reset('newProjectForm')">重置</el-button>
-    </el-footer>
-  </el-container>
+        <el-footer>
+            <el-button v-show="stepID > 0" style="margin-top: 12px;" @click="previous">上一步</el-button>
+            <el-button style="margin-top: 12px;" @click="next">{{ nextButtonText }}</el-button>
+            <el-button @click="reset" type="warning">重置</el-button>
+            <el-button @click="info">log</el-button>
+        </el-footer>
+    </el-container>
 
 </template>
 
@@ -80,74 +81,71 @@ import OtherAttachment from "@/views/project/components/OtherAttachment.vue";
 
 const TOTAL_STEPS = 9;
 export default {
-  name: "NewProject",
-  props: ['visible'],
-  components: {
-    OtherAttachment,
-    MainAttachment,
-    FundsSource,
-    ProjectIndicator,
-    ProjectInfo,
-    ZXFundsDetail,
-    ProjectMember,
-    ZCFundsDetail,
-    ProjectFunds
-  },
-  data() {
-    return {
-      stepID: 2,
-      nextButtonText:'下一步',
-
-      projectInfoForm: {},
-      zxFundsDetailForm: {},
-      projectMemberForm: {},
-      zcFundsDetailForm: {},
-      projectIndicatorForm: {},
-      projectFundsForm: {},
-      fundsSourceForm: {},
-      otherAttachmentForm: {},
-      mainAttachmentForm: {},
-    };
-  },
-
-  methods: {
-    next() {
-      // todo
-      if (this.stepID++ >= TOTAL_STEPS - 1) {
-        // this.stepID = 0;
-        this.$emit('update:visible', false);
-        this.reset();
-      }
-
-
+    name: "NewProject",
+    props: ['visible'],
+    components: {
+        OtherAttachment,
+        MainAttachment,
+        FundsSource,
+        ProjectIndicator,
+        ProjectInfo,
+        ZXFundsDetail,
+        ProjectMember,
+        ZCFundsDetail,
+        ProjectFunds
     },
-    previous() {
-      if (this.stepID > 0) {
-        this.stepID--;
-      }
+    data() {
+        return {
+            stepID: 3,
+            nextButtonText: '下一步',
+
+            projectInfoForm: {},
+            zxFundsDetailForm: {},
+            projectMemberForm: {},
+            zcFundsDetailForm: {},
+            projectIndicatorForm: {},
+            projectFundsForm: {},
+            fundsSourceForm: {},
+            otherAttachmentForm: {},
+            mainAttachmentForm: {},
+        };
     },
 
-    reset() {
-      // for (let sub in this.newProjectForm) {
-      //   for (let item in this.newProjectForm[sub]) {
-      //     this.newProjectForm[sub][item] = "";
-      //   }
-      // }
-      // this.stepID = 0;
-      console.log(this.projectFundsForm);
-      // this.$refs.projectInfo.$refs.form111.resetFields()
+    methods: {
+        next() {
+            // todo
+            if (this.stepID++ >= TOTAL_STEPS - 1) {
+                // this.stepID = 0;
+                this.$emit('update:visible', false);
+                this.reset();
+            }
 
+
+        },
+        previous() {
+            if (this.stepID > 0) {
+                this.stepID--;
+            }
+        },
+        info() {
+            console.log(this.projectInfoForm);
+        },
+
+        reset() {
+            // this.$refs.projectInfo.$refs.form.resetFields()
+            this.$refs.fundsSource.$refs.form.resetFields()
+
+        },
     },
-  },
-  watch:{
-    stepID(newid, oldid) {
-      if (newid > TOTAL_STEPS - 2) {
-        this.nextButtonText = '完成';
-      } else {
-        this.nextButtonText = '下一步';
-      }
-    },
-  }
+    watch: {
+        stepID(newid, oldid) {
+            if (newid > TOTAL_STEPS - 2) {
+                this.nextButtonText = '完成';
+            } else {
+                this.nextButtonText = '下一步';
+            }
+        },
+    }
 
 }
 </script>
@@ -155,27 +153,27 @@ export default {
 
 <style scoped>
 .el-input {
-  width: 150px;
+    width: 150px;
 }
 
 
 :deep(input::-webkit-outer-spin-button),
 :deep(input::-webkit-inner-spin-button) {
-  -webkit-appearance: none !important;
+    -webkit-appearance: none !important;
 }
 
 :deep(input[type='number']) {
-  -moz-appearance: textfield !important;
+    -moz-appearance: textfield !important;
 }
 
 :deep(.is-process),
 .el-divider__text {
-  color: #ff6200;
-  font-weight: bold;
+    color: #ff6200;
+    font-weight: bold;
 }
 
 :deep(.el-form-item__label) {
-  font-weight: normal;
+    font-weight: normal;
 }
 
 
