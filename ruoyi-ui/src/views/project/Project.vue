@@ -81,7 +81,7 @@
             <!-- 大事记查看打开的界面 -->
             <el-dialog
                 :visible.sync="eventsDialogVisibleLook"
-                width="50%"
+                width="30%"
             >
                 <div style="max-height: 600px; overflow-y: auto;">
                     <CheckEvents

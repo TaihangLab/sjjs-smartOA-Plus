@@ -1,15 +1,15 @@
 <template>
   <div id="app">
     <el-form ref="form" :rules="rules" :model="form" label-width="80px">
-      <el-form-item label="名称" prop="name">
+      <el-form-item label="名称" prop="milestoneTitle">
         <el-input v-model="form.milestoneTitle"></el-input>
       </el-form-item>
-      <el-form-item label="时间" prop="date">
+      <el-form-item label="时间" prop="milestoneDate">
         <el-col :span="11">
           <el-date-picker type="date" placeholder="选择日期" v-model="form.milestoneDate" style="width: 100%;" value-format="yyyy-MM-dd"></el-date-picker>
         </el-col>
       </el-form-item>
-      <el-form-item label="详请" prop="desc">
+      <el-form-item label="详请" prop="milestoneRemark">
         <el-input type="textarea" v-model="form.milestoneRemark"></el-input>
       </el-form-item>
       <el-form-item label="附件">
@@ -56,13 +56,13 @@ export default {
         },
         ossids:[],
         rules: {
-          name: [
+          milestoneTitle: [
             { required: true, message: '请输入名称', trigger: 'blur' },
           ],
-          date: [
+          milestoneDate: [
             { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
           ],
-          desc: [
+          milestoneRemark: [
             { required: true, message: '请填写详情', trigger: 'blur' }
           ]
         }
