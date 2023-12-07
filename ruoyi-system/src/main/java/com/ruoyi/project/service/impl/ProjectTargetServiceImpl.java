@@ -75,6 +75,7 @@ public class ProjectTargetServiceImpl implements ProjectTargetService {
      * @param targetId 项目指标ID
      * @return 结果
      */
+    @Override
     public int deleteProjectTarget(Long targetId) {
         return projectTargetMapper.delete(new LambdaQueryWrapper<ProjectTarget>().
             eq(ProjectTarget::getTargetId, targetId));
@@ -86,6 +87,7 @@ public class ProjectTargetServiceImpl implements ProjectTargetService {
      * @param projectTarget 项目指标信息
      * @return 结果
      */
+    @Override
     public int updateProjectTarget(ProjectTarget projectTarget) {
         LambdaUpdateWrapper<ProjectTarget> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         lambdaUpdateWrapper.eq(ProjectTarget::getTargetId, projectTarget.getTargetId());

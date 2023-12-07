@@ -130,7 +130,7 @@ export default {
     },
     data() {
         return {
-            projectId: -1,
+            projectId: '0',
             rowCenter: {
                 "text-align": "center"
             },
