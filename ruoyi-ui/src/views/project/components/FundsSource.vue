@@ -3,7 +3,7 @@
         <el-form :model="form" ref="form" label-position="left">
             <el-collapse v-model="activeNames">
                 <el-collapse-item name="1">
-                    <template #title >申请从专项经费获得的资助</template>
+                    <template #title ><i :class="activeClass">申请从专项经费获得的资助</i> </template>
                     <el-form-item label-width="125px" label="专项经费资助" prop="zxjfzz">
                         <el-input v-model.number="form.zxjfzz" type="number"></el-input>
                     </el-form-item>
@@ -11,7 +11,7 @@
 
 
                 <el-collapse-item name="2">
-                    <template #title>自筹经费来源</template>
+                    <template #title><i :class="activeClass">自筹经费来源</i></template>
                     <el-form-item label-width="125px" label="其他财政拨款" prop="qtczbk">
                         <el-input v-model.number="form.qtczbk" type="number"></el-input>
                     </el-form-item>
@@ -36,7 +36,8 @@ export default {
     props: ['form'],
     data() {
         return {
-            activeNames: ['1','2']
+            activeNames: ['1','2'],
+            activeClass:"el-icon-edit",
         }
     },
 
@@ -46,8 +47,12 @@ export default {
 <style scoped>
 :deep(.el-collapse-item__header) {
     color: #409EFF;
-    font-size: 1.15em;
+    font-size: 0.95em;
+
+    border-radius: 1%;
+    margin-bottom: 10px;
 }
+
 .el-input {
     width: 25vw;
 }

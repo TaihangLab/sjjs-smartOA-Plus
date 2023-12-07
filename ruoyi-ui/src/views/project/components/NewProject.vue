@@ -31,7 +31,7 @@
             </el-collapse-transition>
 
             <el-collapse-transition>
-                <ZXFundsDetail v-show="stepID===3" :form="zxFundsDetailForm" re="zxFundsDetail"></ZXFundsDetail>
+                <ZXFundsDetail v-show="stepID===3" :form="zxFundsDetailForm" ref="zxFundsDetail"></ZXFundsDetail>
             </el-collapse-transition>
 
             <el-collapse-transition>
@@ -59,7 +59,7 @@
 
         <el-footer>
             <el-button v-show="stepID > 0" style="margin-top: 12px;" @click="previous">上一步</el-button>
-            <el-button style="margin-top: 12px;" @click="next">{{ nextButtonText }}</el-button>
+            <el-button style="margin-top: 12px;" @click="next" type="primary">{{ nextButtonText }}</el-button>
             <el-button @click="reset" type="warning">重置</el-button>
             <el-button @click="info">log</el-button>
         </el-footer>
@@ -128,12 +128,12 @@ export default {
             }
         },
         info() {
-            console.log(this.projectInfoForm);
+            console.log(this.zxFundsDetailForm);
         },
 
         reset() {
             // this.$refs.projectInfo.$refs.form.resetFields()
-            this.$refs.fundsSource.$refs.form.resetFields()
+            this.$refs.zxFundsDetail.$refs.form.resetFields()
 
         },
     },
