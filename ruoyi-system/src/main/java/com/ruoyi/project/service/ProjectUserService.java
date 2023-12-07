@@ -12,6 +12,6 @@ public interface ProjectUserService {
 
     int updateProjectUsers(Long projectId, List<Long> userIds);
 
-    List<Long> selectProjectUserByProId(Long projectId);
+    List<String> selectProjectUserByProId(Long projectId);
 
 }
