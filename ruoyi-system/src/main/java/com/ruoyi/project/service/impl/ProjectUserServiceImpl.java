@@ -1,14 +1,12 @@
 package com.ruoyi.project.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.project.domain.ProjectUser;
 import com.ruoyi.project.mapper.ProjectUserMapper;
 import com.ruoyi.project.service.ProjectUserService;
 import com.ruoyi.system.mapper.SysUserMapper;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
