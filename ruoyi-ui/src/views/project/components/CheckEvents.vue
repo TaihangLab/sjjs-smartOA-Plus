@@ -9,9 +9,9 @@
                 :icon="item.icon"
                 :style="{ '--icon-color': '#0bbd87'}"
             >
-                <el-card>
+                <el-card style="width: 90%;">
                     <h4>{{ item.milestoneTitle }}</h4>
-                    <p>{{ item.milestoneRemark }} 提交于 {{ item.milestoneDate }}</p>
+                    <p>{{ item.milestoneRemark }} </p>
                     <el-button
                         type="success"
                         icon="el-icon-edit"
@@ -49,11 +49,11 @@
             width="50%"
         >
             <div id="app">
-                <el-form ref="form" :model="form" label-width="80px">
-                    <el-form-item label="名称">
+                <el-form ref="form" :rules="rules" :model="form" label-width="80px">
+                    <el-form-item label="名称" prop="name">
                         <el-input v-model="form.milestoneTitle"></el-input>
                     </el-form-item>
-                    <el-form-item label="时间">
+                    <el-form-item label="时间" prop="date">
                         <el-col :span="11">
                             <el-date-picker
                                 type="date"
@@ -64,7 +64,7 @@
                             ></el-date-picker>
                         </el-col>
                     </el-form-item>
-                    <el-form-item label="详请">
+                    <el-form-item label="详请" prop="desc">
                         <el-input type="textarea" v-model="form.milestoneRemark"></el-input>
                     </el-form-item>
                     <el-form-item label="附件">
@@ -74,7 +74,7 @@
                         <el-button
                             type="primary"
                             size="small"
-                            @click="editMilestoneBtn"
+                            @click="editMilestoneBtn()"
                         >
                             确定
                         </el-button>
@@ -112,18 +112,33 @@ export default {
             milestoneIds: [],
             title: "",// 初始化 title
             form: {
-            projectId: this.projectId,
-            milestoneTitle: '',
-            milestoneRemark: '',
-            milestoneDate: '',
-            ossIds:[],
-          },
+              projectId: this.projectId,
+              milestoneTitle: '',
+              milestoneRemark: '',
+              milestoneDate: '',
+              ossIds:[],
+            },
             ossids:[],
+            rules: {
+              name: [
+                { required: true, message: '请输入名称', trigger: 'blur' },
+              ],
+              date: [
+                { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+              ],
+              desc: [
+                { required: true, message: '请填写详情', trigger: 'blur' }
+              ]
+            }
         };
     },
     created() {
         console.log("fujian 组件接收到的附件数据:", this.value);
         // 获取数据
+        
+    },
+    mounted() {
+        console.log("传过来的项目id", this.projectId);
         request({
             url: '/project/list/milestonelist',
             method: 'get',
@@ -145,16 +160,11 @@ export default {
                 console.error('获取数据时出错：', error);
             })
     },
-    mounted() {
-        console.log("传过来的项目id", this.projectId);
-    },
     methods: {
-
         editMilestone(item) {
-            console.log(item)
+            this.form.milestoneId = item.milestoneId;
             this.form.milestoneTitle = item.milestoneTitle;
             this.form.milestoneRemark = item.milestoneRemark;
-            this.form.ossIds = item.ossids || [];
             this.form.milestoneDate = item.milestoneDate;
             this.eventsDialogVisibleEdit = true;
             this.form.sysOsses = item.sysOsses;
@@ -170,8 +180,12 @@ export default {
             })
         },
         editMilestoneBtn() {
-            // this.form.ossIds = this.ossids.map(item=>item.ossId);
-            request({url: '/project/my/milestoneedit', method: 'put', data: this.form})
+            this.form.ossIds = this.ossids.map(item=>item.ossId);
+            request({
+              url: '/project/my/milestoneedit', 
+              method: 'put', 
+              data: this.form,
+            })
                 .then((resp) => {
                     console.log(resp);
                     this.$modal.msgSuccess("修改成功");
