@@ -36,6 +36,14 @@ export function getUser(userId) {
   })
 }
 
+export function getUsers(userIds) {
+    const url = '/system/users/' + userIds.join(',');
+    return request({
+        url: url,
+        method: 'get'
+    })
+}
+
 // 新增用户
 export function addUser(data) {
   return request({

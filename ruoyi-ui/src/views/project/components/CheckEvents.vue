@@ -10,8 +10,17 @@
                 :style="{ '--icon-color': '#0bbd87'}"
             >
                 <el-card style="width: 90%;">
-                    <h4>{{ item.milestoneTitle }}</h4>
-                    <p>{{ item.milestoneRemark }} </p>
+                    <h4>名称：{{ item.milestoneTitle }}</h4>
+                    <p>详情：{{ item.milestoneRemark }}</p>
+                    <div v-for="(oss, ossIndex) in item.sysOsses" :key="ossIndex">
+                      附件：
+                      <el-link 
+                      :href="oss.url" target="_blank" 
+                      :underline="false"
+                      >
+                        {{ oss.originalName }}
+                    </el-link>
+                    </div>
                     <el-button
                         type="success"
                         icon="el-icon-edit"
@@ -26,17 +35,6 @@
                         circle
                         @click="deleteMilestone(item)"
                     ></el-button>
-                    <el-link
-                        v-if="item.attachment"
-                        :href="item.attachment"
-                        target="_blank"
-                        type="primary"
-                        icon="el-icon-share"
-                        :underline="false"
-                        style="margin-left: 10px;"
-                    >
-                        附件
-                    </el-link>
                 </el-card>
             </el-timeline-item>
         </el-timeline>
@@ -45,17 +43,17 @@
             ref="eventsDialogEdit"
             title="修改大事记"
             :visible.sync="eventsDialogVisibleEdit"
+            @update:visible="eventsDialogVisibleEdit = arguments[0]"
             :lock-scroll="false"
             :append-to-body="true"
             width="50%"
-            v-if="visible"
         >
             <div id="app" >
                 <el-form ref="form" :rules="rules" :model="form" label-width="80px">
-                    <el-form-item label="名称" prop="name">
+                    <el-form-item label="名称" prop="milestoneTitle">
                         <el-input v-model="form.milestoneTitle"></el-input>
                     </el-form-item>
-                    <el-form-item label="时间" prop="date">
+                    <el-form-item label="时间" prop="milestoneDate">
                         <el-col :span="11">
                             <el-date-picker
                                 type="date"
@@ -66,7 +64,7 @@
                             ></el-date-picker>
                         </el-col>
                     </el-form-item>
-                    <el-form-item label="详请" prop="desc">
+                    <el-form-item label="详请" prop="milestoneRemark">
                         <el-input type="textarea" v-model="form.milestoneRemark"></el-input>
                     </el-form-item>
                     <el-form-item label="附件">
@@ -123,13 +121,13 @@ export default {
             },
             ossids:[],
             rules: {
-              name: [
+              milestoneTitle: [
                 { required: true, message: '请输入名称', trigger: 'blur' },
               ],
-              date: [
+              milestoneDate: [
                 { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
               ],
-              desc: [
+              milestoneRemark: [
                 { required: true, message: '请填写详情', trigger: 'blur' }
               ]
             }
@@ -158,10 +156,12 @@ export default {
                 this.timelineItems.forEach(item => {
                     this.milestoneIds.push(item.milestoneId);
                 });
+                console.log(this.timelineItems);
             })
             .catch((error) => {
                 console.error('获取数据时出错：', error);
             })
+
     },
     methods: {
         editMilestone(item) {
@@ -196,8 +196,7 @@ export default {
             .then((resp) => {
                 console.log(resp);
                 this.$modal.msgSuccess("修改成功");
-                this.$refs.eventsDialogEdit.close();
-                this.visible = false; 
+                this.eventsDialogVisibleEdit = false;
                 this.fetchMilestoneList();
             })
             .catch((error) => {
