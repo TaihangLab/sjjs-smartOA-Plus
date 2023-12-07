@@ -15,7 +15,7 @@ import lombok.Data;
  */
 @TableName(value ="project_funds")
 @Data
-public class ProjectFunds implements Serializable {
+public class ProjectFunds{
     /**
      * 经费id
      */
@@ -227,6 +227,4 @@ public class ProjectFunds implements Serializable {
      */
     private BigDecimal jflyQtzjZc;
 
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
 }

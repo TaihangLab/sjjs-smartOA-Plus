@@ -13,7 +13,7 @@ import lombok.Data;
  */
 @TableName(value ="project_base_info")
 @Data
-public class ProjectBaseInfo implements Serializable {
+public class ProjectBaseInfo{
     /**
      * 项目id
      */
@@ -29,6 +29,11 @@ public class ProjectBaseInfo implements Serializable {
      * 项目名称
      */
     private String projectName;
+
+    /**
+     * 项目负责人
+     */
+    private String projectManager;
 
     /**
      * 项目状态
