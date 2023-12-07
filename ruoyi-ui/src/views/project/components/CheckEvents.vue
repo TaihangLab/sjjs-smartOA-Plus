@@ -42,13 +42,15 @@
         </el-timeline>
         <!-- 修改大事记页面弹出框 -->
         <el-dialog
+            ref="eventsDialogEdit"
             title="修改大事记"
             :visible.sync="eventsDialogVisibleEdit"
             :lock-scroll="false"
             :append-to-body="true"
             width="50%"
+            v-if="visible"
         >
-            <div id="app">
+            <div id="app" >
                 <el-form ref="form" :rules="rules" :model="form" label-width="80px">
                     <el-form-item label="名称" prop="name">
                         <el-input v-model="form.milestoneTitle"></el-input>
@@ -108,6 +110,7 @@ export default {
                 }
             ],
             eventsDialogVisibleEdit: false,
+            visible: true,
             timelineItems: [],
             milestoneIds: [],
             title: "",// 初始化 title
@@ -178,20 +181,54 @@ export default {
                     milestoneId: milestoneId
                 }
             })
+            .then((resp) => {
+                console.log(resp);
+                this.fetchMilestoneList();
+            })
         },
         editMilestoneBtn() {
-            this.form.ossIds = this.ossids.map(item=>item.ossId);
+            this.form.ossIds = this.ossids.map(item => item.ossId);
             request({
-              url: '/project/my/milestoneedit', 
-              method: 'put', 
-              data: this.form,
+                url: '/project/my/milestoneedit',
+                method: 'put',
+                data: this.form,
             })
-                .then((resp) => {
-                    console.log(resp);
-                    this.$modal.msgSuccess("修改成功");
-                    this.$emit('close-dialog');
+            .then((resp) => {
+                console.log(resp);
+                this.$modal.msgSuccess("修改成功");
+                this.$refs.eventsDialogEdit.close();
+                this.visible = false; 
+                this.fetchMilestoneList();
+            })
+            .catch((error) => {
+                console.error("修改失败", error);
+            });
+        },
+        fetchMilestoneList() {
+        // 重新获取数据逻辑
+        request({
+            url: '/project/list/milestonelist',
+            method: 'get',
+            params: {
+                projectId: this.projectId,
+                },
+            })
+            .then((resp) => {
+                console.log(resp);
+                // 根据 milestoneDate 对 timelineItems 进行排序
+                this.timelineItems = resp.data.sort((a, b) => {
+                    return new Date(a.milestoneDate) - new Date(b.milestoneDate);
                 });
-            console.log(this.form);
+                this.timelineItems.forEach(item => {
+                    this.milestoneIds.push(item.milestoneId);
+                });
+            })
+            .catch((error) => {
+                console.error('获取数据时出错：', error);
+            });
+        },
+        close() {
+            this.$refs.eventsDialogEdit.close();
         },
         submitUpload() {
             this.$refs.upload.submit();
