@@ -8,8 +8,10 @@ import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.project.domain.ProjectMilestone;
 import com.ruoyi.project.domain.ProjectTarget;
 import com.ruoyi.project.domain.vo.ProjectMilestoneVo;
+import com.ruoyi.project.domain.vo.ProjectUserVo;
 import com.ruoyi.project.service.ProjectMilestoneService;
 import com.ruoyi.project.service.ProjectTargetService;
+import com.ruoyi.project.service.ProjectUserService;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Delete;
 import org.springframework.validation.annotation.Validated;
@@ -26,6 +28,8 @@ public class ProjectListController extends BaseController {
     private final ProjectTargetService projectTargetService;
 
     private final ProjectMilestoneService projectMilestoneService;
+
+    private final ProjectUserService projectUserService;
 
     /**
      * 根据项目id新增项目指标
@@ -54,6 +58,14 @@ public class ProjectListController extends BaseController {
     @GetMapping("/milestonelist")
     public R<List<ProjectMilestoneVo>> getMilestone(@RequestParam Long projectId){
         return R.ok(projectMilestoneService.selectMilestoneInfoByProjectId(projectId));
+    }
+
+    /**
+     * 根据项目id查询项目成员详细信息
+     */
+    @GetMapping("/projectmembers")
+    public R<List<ProjectUserVo>> getProjectMembers(@RequestParam Long projectId){
+        return R.ok(projectUserService.getUserInfoByProjectId(projectId));
     }
 
 }
