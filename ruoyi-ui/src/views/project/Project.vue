@@ -2,8 +2,8 @@
     <el-card class="box-card" style="margin: auto;">
         <div>
             <!-- 角色数据表单 -->
-            <el-table ref="multipleTable" :data="dataList" border style="width: 100%" :row-style="{height: '50px'}"
-                      :cell-style="{padding:'0px'}">
+            <el-table ref="multipleTable" :data="dataList" border style="width: 100%" :row-style="{ height: '50px' }"
+                :cell-style="{ padding: '0px' }">
                 <el-table-column type="selection" :resizable="false" align="center" width="40"></el-table-column>
                 <el-table-column label="#" :resizable="false" align="center" prop="Id" width="80">
                 </el-table-column>
@@ -31,36 +31,22 @@
                 </el-table-column>
                 <el-table-column label="操作" :resizable="false" align="center" min-width="230px" fixed="right">
                     <template v-slot="scope">
-                        <el-button
-                            size="mini"
-                            type="text"
-                            icon="el-icon-tickets"
-                            @click="lookEdit(scope.$index, scope.row)"
-                        >详情
+                        <el-button size="mini" type="text" icon="el-icon-tickets"
+                            @click="lookEdit(scope.$index, scope.row)">详情
                         </el-button>
-                        <el-button
-                            size="mini"
-                            type="text"
-                            icon="el-icon-edit"
-                            @click="handleUpdate(scope.row)"
-                            v-hasPermi="['system:role:edit']"
-                        >修改
+                        <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
+                            v-hasPermi="['system:role:edit']">修改
                         </el-button>
-                        <el-button
-                            size="mini"
-                            type="text"
-                            icon="el-icon-delete"
-                            @click="handleDelete(scope.row)"
-                            v-hasPermi="['system:role:remove']"
-                        >删除
+                        <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
+                            v-hasPermi="['system:role:remove']">删除
                         </el-button>
                         <el-dropdown size="mini" @command="handleDropdownCommand">
                             <el-button size="mini" type="text" icon="el-icon-reading">大事记</el-button>
                             <el-dropdown-menu v-slot="dropdown">
-                                <el-dropdown-item :command="{'command':'view', 'row':scope.row}" icon="el-icon-view">查看
+                                <el-dropdown-item :command="{ 'command': 'view', 'row': scope.row }" icon="el-icon-view">查看
                                 </el-dropdown-item>
-                                <el-dropdown-item :command="{'command':'add', 'row':scope.row}"
-                                                  icon="el-icon-document-add">新增
+                                <el-dropdown-item :command="{ 'command': 'add', 'row': scope.row }"
+                                    icon="el-icon-document-add">新增
                                 </el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
@@ -68,50 +54,24 @@
                 </el-table-column>
             </el-table>
             <!-- 详情打开的界面 -->
-            <el-dialog
-                :model="formLook"
-                :visible.sync="dialogFormVisibleLook"
-                width="50%"
-            >
-                <ProjectDetail
-                    :visible.sync="dialogFormVisibleLook"
-                    :formLook="formLook"
-                ></ProjectDetail>
+            <el-dialog :model="formLook" :visible.sync="dialogFormVisibleLook" width="50%">
+                <ProjectDetail :visible.sync="dialogFormVisibleLook" :formLook="formLook"></ProjectDetail>
             </el-dialog>
             <!-- 大事记查看打开的界面 -->
-            <el-dialog
-                :visible.sync="eventsDialogVisibleLook"
-                width="30%"
-            >
+            <el-dialog :visible.sync="eventsDialogVisibleLook" width="50%" :key="refreshEventsPage" @open="handleEventsDialogOpen" :modal="false">
                 <div style="max-height: 600px; overflow-y: auto;">
-                    <CheckEvents
-                        :projectId="projectId"
-                        :visible.sync="eventsDialogVisibleLook"
-                    ></CheckEvents>
+                    <CheckEvents :projectId="projectId" :visible.sync="eventsDialogVisibleLook"></CheckEvents>
                 </div>
             </el-dialog>
-
             <!--新增大事记-->
-            <el-dialog
-                :visible.sync="eventsDialogVisibleAdd"
-                width="50%">
-                <AddEvents
-                    :projectId="projectId"
-                    :visible.sync="eventsDialogVisibleAdd"
-                    @close-dialog="closeEventsDialog">
+            <el-dialog :visible.sync="eventsDialogVisibleAdd" width="50%">
+                <AddEvents :projectId="projectId" :visible.sync="eventsDialogVisibleAdd" @close-dialog="closeEventsDialog">
                 </AddEvents>
             </el-dialog>
             <!-- 页号 -->
-            <el-pagination
-                :current-page="pageIndex"
-                :page-size="pageSize"
-                :page-sizes="[5, 10, 20, 50, 100]"
-                :total="totalPage"
-                layout="total ,sizes,prev,pager,next,jumper"
-                style="margin-top: 30px"
-                @size-change="sizeChangeHandle"
-                @current-change="CurrentChangeHandle"
-            >
+            <el-pagination :current-page="pageIndex" :page-size="pageSize" :page-sizes="[5, 10, 20, 50, 100]"
+                :total="totalPage" layout="total ,sizes,prev,pager,next,jumper" style="margin-top: 30px"
+                @size-change="sizeChangeHandle" @current-change="CurrentChangeHandle">
             </el-pagination>
         </div>
     </el-card>
@@ -136,7 +96,10 @@ export default {
             },
             size: '',
             border: true,
+            visible: true,
+            refreshEventsPage: false,
             toggleDetails: true, // 控制详细信息项的显示/隐藏
+            eventsDialogKey: 0,
             //搜索框
             dataFrom: {
                 name: "",
@@ -192,8 +155,8 @@ export default {
         const mockData = [
             {
                 projectId: '11',
-                project: {id: 11, name: '项目A', type: '类型A', money: 1000, remark: 'Lorem ipsum'},
-                user: {id: 11, username: '用户1', name: '用户一'},
+                project: { id: 11, name: '项目A', type: '类型A', money: 1000, remark: 'Lorem ipsum' },
+                user: { id: 11, username: '用户1', name: '用户一' },
                 createTime: '2023-01-01',
                 updateTime: '2023-01-02',
             },
@@ -291,6 +254,10 @@ export default {
                 this.projectId = command.row.projectId;
                 this.eventsDialogVisibleAdd = true; // 处理新增操作
             }
+        },
+        handleEventsDialogOpen() {
+            // 切换刷新标志位
+            this.refreshEventsPage = !this.refreshEventsPage;
         },
     },
     mounted() {
