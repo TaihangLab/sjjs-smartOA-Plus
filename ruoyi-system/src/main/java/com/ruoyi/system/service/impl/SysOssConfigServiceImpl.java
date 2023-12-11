@@ -11,6 +11,7 @@ import com.ruoyi.common.constant.CacheNames;
 import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.core.service.OssService;
+import com.ruoyi.common.core.service.UserService;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.JsonUtils;
 import com.ruoyi.common.utils.StringUtils;
@@ -23,7 +24,9 @@ import com.ruoyi.system.domain.bo.SysOssConfigBo;
 import com.ruoyi.system.domain.vo.SysOssConfigVo;
 import com.ruoyi.system.mapper.SysOssConfigMapper;
 import com.ruoyi.system.mapper.SysOssMapper;
+import com.ruoyi.system.mapper.SysUserMapper;
 import com.ruoyi.system.service.ISysOssConfigService;
+import com.ruoyi.system.service.ISysUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,8 +52,9 @@ public class SysOssConfigServiceImpl implements ISysOssConfigService {
 
     private final SysOssConfigMapper baseMapper;
 
-    @Autowired
-    OssService ossService;
+    private final UserService userService;
+
+    private final OssService ossService;
 
 
     /**
@@ -74,6 +78,8 @@ public class SysOssConfigServiceImpl implements ISysOssConfigService {
                     config.setEndpoint(newEndpoint);
                     log.info("newEndpoint为{}",newEndpoint);
                     ossService.updateIP(endpoint+ ":9000", newEndpoint);
+                    //修改user表中avatar（头像）字段的IP
+                    userService.updateUserAvatarIP(endpoint+ ":9000", newEndpoint);
                 }
             }
 

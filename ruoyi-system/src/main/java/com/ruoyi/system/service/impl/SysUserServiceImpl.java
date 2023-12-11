@@ -54,6 +54,7 @@ public class SysUserServiceImpl implements ISysUserService, UserService {
     private final SysUserRoleMapper userRoleMapper;
     private final SysUserPostMapper userPostMapper;
 
+
     @Override
     public TableDataInfo<SysUser> selectPageUserList(SysUser user, PageQuery pageQuery) {
         Page<SysUser> page = baseMapper.selectPageUserList(pageQuery.build(), this.buildQueryWrapper(user));
@@ -494,6 +495,17 @@ public class SysUserServiceImpl implements ISysUserService, UserService {
         SysUser sysUser = baseMapper.selectOne(new LambdaQueryWrapper<SysUser>()
             .select(SysUser::getNickName).eq(SysUser::getUserId, userId));
         return ObjectUtil.isNull(sysUser) ? null : sysUser.getNickName();
+    }
+
+    /**
+     * 该方法仅用于minIO IP地址可能发生改变的情况下
+     * @param oldEndPoint 旧IP地址
+     * @param newEndPoint 新IP地址
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateUserAvatarIP(String oldEndPoint, String newEndPoint) {
+        baseMapper.updateAvatar(oldEndPoint,newEndPoint);
     }
 
 }
