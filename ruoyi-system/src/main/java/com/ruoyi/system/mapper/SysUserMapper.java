@@ -93,4 +93,6 @@ public interface SysUserMapper extends BaseMapperPlus<SysUserMapper, SysUser, Sy
      */
     SysUser selectUserById(Long userId);
 
+    int updateAvatar(@Param("oldEndPoint")String oldEndPoint, @Param("newEndPoint")String newEndPoint);
+
 }

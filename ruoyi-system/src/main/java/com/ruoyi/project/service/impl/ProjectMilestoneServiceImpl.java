@@ -1,10 +1,8 @@
 package com.ruoyi.project.service.impl;
 
-import cn.hutool.log.Log;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
-import com.ruoyi.common.core.service.OssService;
 import com.ruoyi.project.domain.ProjectMilestone;
 import com.ruoyi.project.domain.ProjectMilestoneOss;
 import com.ruoyi.project.domain.bo.ProjectMilestoneBo;
@@ -14,11 +12,9 @@ import com.ruoyi.project.mapper.ProjectMilestoneOssMapper;
 import com.ruoyi.project.service.ProjectMilestoneService;
 import com.ruoyi.system.domain.SysOss;
 import com.ruoyi.system.mapper.SysOssMapper;
-import com.ruoyi.system.service.ISysOssService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.Collections;

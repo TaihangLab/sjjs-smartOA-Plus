@@ -3,17 +3,20 @@ package com.ruoyi.project.domain;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ruoyi.common.core.domain.BaseEntity;
 import lombok.Data;
+
+import java.util.Date;
 
 /**
  * 项目表
+ * @author bailingnan
  * @TableName project_base_info
  */
 @TableName(value ="project_base_info")
 @Data
-public class ProjectBaseInfo{
+public class ProjectBaseInfo extends BaseEntity {
     /**
      * 项目id
      */
@@ -51,27 +54,21 @@ public class ProjectBaseInfo{
     private String projectType;
 
     /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
      * 立项日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date establishTime;
 
     /**
      * 中期检查日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date midtermDate;
 
     /**
      * 结项日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date completedDate;
 
-    /**
-     * 修改时间
-     */
-    private Date updateTime;
 }

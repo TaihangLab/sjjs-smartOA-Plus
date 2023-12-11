@@ -289,9 +289,11 @@ export default {
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
+        // new
       this.ids = selection.map(item => item.userId);
       this.$props.form.members = this.ids;
       this.names =selection.map(item => item.userName)
+
       this.single = selection.length != 1;
       this.multiple = !selection.length;
     },
