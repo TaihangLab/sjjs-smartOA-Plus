@@ -9,7 +9,7 @@ public interface ProjectTargetService {
 
     int insertProjectTarget(ProjectTarget projectTarget);
 
-    public boolean insertProjectTargetList(List<ProjectTarget> projectTargets);
+    boolean insertProjectTargetList(List<ProjectTarget> projectTargets);
 
     List<ProjectTarget> selectTargetListByProjectId(Long projectId);
 

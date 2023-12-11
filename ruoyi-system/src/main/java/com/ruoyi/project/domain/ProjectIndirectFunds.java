@@ -11,11 +11,10 @@ import lombok.Data;
 /**
  * 项目间接费用表
  * @TableName project_indirect_funds
- * @Author bailingnan
  */
 @TableName(value ="project_indirect_funds")
 @Data
-public class ProjectIndirectFunds {
+public class ProjectIndirectFunds implements Serializable {
     /**
      * 间接费用id
      */
@@ -37,4 +36,6 @@ public class ProjectIndirectFunds {
      */
     private BigDecimal fundsAmount;
 
+    @TableField(exist = false)
+    private static final long serialVersionUID = 1L;
 }
