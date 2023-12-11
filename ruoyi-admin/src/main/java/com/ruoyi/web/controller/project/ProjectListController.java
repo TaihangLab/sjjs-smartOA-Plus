@@ -1,24 +1,26 @@
 package com.ruoyi.web.controller.project;
 
-import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.project.domain.ProjectMilestone;
 import com.ruoyi.project.domain.ProjectTarget;
+import com.ruoyi.project.domain.vo.ProjectFundsVO;
 import com.ruoyi.project.domain.vo.ProjectMilestoneVo;
 import com.ruoyi.project.domain.vo.ProjectUserVo;
-import com.ruoyi.project.service.ProjectMilestoneService;
-import com.ruoyi.project.service.ProjectTargetService;
-import com.ruoyi.project.service.ProjectUserService;
+import com.ruoyi.project.service.*;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.annotations.Delete;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
+/**
+ * The type Project list controller.
+ *
+ * @author bailingnan
+ */
 @Validated
 @RequiredArgsConstructor
 @RestController
@@ -31,8 +33,15 @@ public class ProjectListController extends BaseController {
 
     private final ProjectUserService projectUserService;
 
+    private final ProjectFundsService projectFundsService;
+
+    private final ProjectService projectService;
+
     /**
      * 根据项目id新增项目指标
+     *
+     * @param projectTargets the project targets
+     * @return the r
      */
 //    @SaCheckPermission("project:list:addtargetlist")
     @Log(title = "新增项目指标列表",businessType = BusinessType.INSERT)
@@ -43,6 +52,9 @@ public class ProjectListController extends BaseController {
 
     /**
      * 根据项目id删除项目指标
+     *
+     * @param projectId the project id
+     * @return the r
      */
 //    @SaCheckPermission("project:list:deletetargetlist")
     @Log(title = "删除项目指标列表",businessType = BusinessType.DELETE)
@@ -53,8 +65,11 @@ public class ProjectListController extends BaseController {
 
     /**
      * 根据项目id查询项目大事纪
+     *
+     * @param projectId the project id
+     * @return the r
      */
-    //@SaCheckPermission("project:list:queryMilestone")
+//@SaCheckPermission("project:list:queryMilestone")
     @GetMapping("/milestonelist")
     public R<List<ProjectMilestoneVo>> getMilestone(@RequestParam Long projectId){
         return R.ok(projectMilestoneService.selectMilestoneInfoByProjectId(projectId));
@@ -62,10 +77,32 @@ public class ProjectListController extends BaseController {
 
     /**
      * 根据项目id查询项目成员详细信息
+     *
+     * @param projectId the project id
+     * @return the r
      */
     @GetMapping("/projectmembers")
     public R<List<ProjectUserVo>> getProjectMembers(@RequestParam Long projectId){
         return R.ok(projectUserService.getUserInfoByProjectId(projectId));
+    }
+
+    /**
+     * 获取项目资金信息
+     *
+     * @param projectId 项目ID
+     * @return 项目资金信息
+     */
+    //@SaCheckPermission("project:list:projectfunds")
+    @GetMapping("/projectfundsSelect")
+    public R<ProjectFundsVO> getProjectFunds(@RequestParam @NotNull Long projectId) {
+        return R.ok(projectFundsService.selectProjectFunds(projectId));
+    }
+
+    //@SaCheckPermission("project:list:projectDelete")
+    @GetMapping("/projectDelete")
+    public R<Void> deleteProject(@RequestParam @NotNull Long projectId) {
+        projectService.deleteProject(projectId);
+        return R.ok();
     }
 
 }
