@@ -1,7 +1,8 @@
 <template>
     <div class="block">
         <div class="fixed-container">
-            <el-input placeholder="请输入内容" v-model="input3" class="input-with-select" size="small">
+            <el-input placeholder="请输入内容" v-model="input3" class="input-with-select" size="small" :clearable="true"
+                @input.native="handleInput">
                 <el-select v-model="select" slot="prepend" placeholder="请选择">
                     <el-option label="前" value="1"></el-option>
                     <el-option label="中" value="2"></el-option>
@@ -79,7 +80,8 @@ export default {
         return {
             eventsDialogVisibleEdit: false,
             visible: true,
-            input: '',
+            input3: '',
+            select: '',
             timelineItems: [],
             milestoneIds: [],
             title: "",// 初始化 title
@@ -162,6 +164,7 @@ export default {
                 return;
             }
             this.form.ossIds = this.ossids.map(item => item.ossId);
+
             // 请求修改接口
             request({
                 url: '/project/my/milestoneedit',
@@ -221,6 +224,10 @@ export default {
         },
         beforeRemove(file, fileList) {
             return MessageBox.confirm(`确定移除 ${file.name}？`);
+        },
+        handleInput(event) {
+            // 手动处理输入的值
+            this.input3 = event.target.value;
         },
     },
 
