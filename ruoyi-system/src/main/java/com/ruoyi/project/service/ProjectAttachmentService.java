@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface ProjectAttachmentService {
 
-    int insertProjectMainAttachment(Long projectId);
+    boolean insertProjectMainAttachment(Long projectId, List<Long> ossId);
 
-    int insertProjectOtherAttachment(Long projectId);
+    boolean insertProjectOtherAttachment(Long projectId, List<Long> ossId);
 
     int deleteAllProjrctAttachmentByProID(Long projectId);
 
