@@ -12,10 +12,12 @@
             <result property="projectStatus" column="project_status" jdbcType="CHAR"/>
             <result property="projectInfo" column="project_info" jdbcType="VARCHAR"/>
             <result property="projectType" column="project_type" jdbcType="CHAR"/>
+            <result property="establishTime" column="establish_time" jdbcType="DATE"/>
+            <result property="midtermDate" column="midterm_date" jdbcType="DATE"/>
+            <result property="completedDate" column="completed_date" jdbcType="DATE"/>
+            <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
             <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="establishTime" column="establish_time" jdbcType="TIMESTAMP"/>
-            <result property="midtermDate" column="midterm_date" jdbcType="TIMESTAMP"/>
-            <result property="completedDate" column="completed_date" jdbcType="TIMESTAMP"/>
+            <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
             <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 </mapper>

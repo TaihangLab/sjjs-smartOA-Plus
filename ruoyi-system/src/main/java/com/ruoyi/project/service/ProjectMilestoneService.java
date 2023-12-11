@@ -11,7 +11,7 @@ import java.util.List;
 public interface ProjectMilestoneService {
     int insertProjectMilestone(ProjectMilestoneBo projectMilestoneBo);
 
-    public boolean insertProjectMilestoneList(List<ProjectMilestone> projectMilestones);
+    boolean insertProjectMilestoneList(List<ProjectMilestone> projectMilestones);
 
     int deleteMilestoneByProjectId(Long projectId);
 
