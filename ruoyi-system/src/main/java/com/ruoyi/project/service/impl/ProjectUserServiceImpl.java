@@ -134,7 +134,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         List<ProjectUserVo> projectUserVos = new ArrayList<>();
         for (Long userId : userIds) {
             SysUser user = userIdToUserMap.get(userId);
-            String deptName = deptIdToNameMap.get(user.getDeptId());
+            String deptName = deptIdToNameMap.getOrDefault(user.getDeptId(), "Unknown Dept");
 
             ProjectUserVo projectUserVo = new ProjectUserVo();
             projectUserVo.setNickName(user.getNickName());
