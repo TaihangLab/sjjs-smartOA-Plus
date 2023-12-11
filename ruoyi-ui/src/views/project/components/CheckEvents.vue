@@ -1,5 +1,15 @@
 <template>
     <div class="block">
+        <div class="fixed-container">
+            <el-input placeholder="请输入内容" v-model="input3" class="input-with-select" size="small">
+                <el-select v-model="select" slot="prepend" placeholder="请选择">
+                    <el-option label="前" value="1"></el-option>
+                    <el-option label="中" value="2"></el-option>
+                    <el-option label="后" value="3"></el-option>
+                </el-select>
+                <el-button slot="append" icon="el-icon-search"></el-button>
+            </el-input>
+        </div>
         <el-timeline>
             <el-timeline-item v-for="(item, index) in timelineItems" :key="index" :timestamp="item.milestoneDate"
                 placement="top" :icon="item.icon" :style="{ '--icon-color': '#0bbd87' }">
@@ -69,6 +79,7 @@ export default {
         return {
             eventsDialogVisibleEdit: false,
             visible: true,
+            input: '',
             timelineItems: [],
             milestoneIds: [],
             title: "",// 初始化 title
@@ -145,7 +156,13 @@ export default {
                 })
         },
         editMilestoneBtn() {
+            // 验证关键字段是否为空
+            if (!this.form.milestoneTitle || !this.form.milestoneDate || !this.form.milestoneRemark) {
+                this.$message.error('请填写完整的信息');
+                return;
+            }
             this.form.ossIds = this.ossids.map(item => item.ossId);
+            // 请求修改接口
             request({
                 url: '/project/my/milestoneedit',
                 method: 'put',
@@ -209,3 +226,19 @@ export default {
 
 };
 </script>
+
+<style>
+.fixed-container {
+    position: fixed;
+    left: 50%;
+    /* 水平居中 */
+    margin-top: -25px;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    /* 保证固定部分位于其他内容之上 */
+}
+
+.input-with-select .el-input-group__prepend {
+    background-color: #fff;
+}
+</style>

@@ -58,7 +58,8 @@
                 <ProjectDetail :visible.sync="dialogFormVisibleLook" :formLook="formLook"></ProjectDetail>
             </el-dialog>
             <!-- 大事记查看打开的界面 -->
-            <el-dialog :visible.sync="eventsDialogVisibleLook" width="50%" :key="refreshEventsPage" @open="handleEventsDialogOpen" :modal="false">
+            <el-dialog :visible.sync="eventsDialogVisibleLook" width="50%" :key="refreshEventsPage"
+                @open="handleEventsDialogOpen" :modal="false">
                 <div style="max-height: 600px; overflow-y: auto;">
                     <CheckEvents :projectId="projectId" :visible.sync="eventsDialogVisibleLook"></CheckEvents>
                 </div>

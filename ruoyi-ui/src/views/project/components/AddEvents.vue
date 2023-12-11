@@ -65,6 +65,11 @@ export default {
 
   methods: {
     addMilestone() {
+      // 验证关键字段是否为空
+      if (!this.form.milestoneTitle || !this.form.milestoneDate || !this.form.milestoneRemark) {
+        this.$message.error('请填写完整的信息');
+        return;
+      }
       this.form.ossIds = this.ossids.map(item => item.ossId);
       request({
         url: '/project/my/milestoneadd',
