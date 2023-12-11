@@ -148,7 +148,7 @@
 
     <update id="updateAvatar">
         UPDATE sys_user
-        SET avatar = REPLACE(url, #{oldEndPoint},#{newEndPoint})
+        SET avatar = REPLACE(avatar, #{oldEndPoint},#{newEndPoint})
         WHERE avatar LIKE CONCAT('%http://', #{oldEndPoint}, '%')
     </update>
 

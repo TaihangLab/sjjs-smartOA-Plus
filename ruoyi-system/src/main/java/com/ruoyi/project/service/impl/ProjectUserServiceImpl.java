@@ -13,10 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -77,10 +74,10 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         Map<Long, SysUser> userIdToUserMap = getUsersMapByUserIds(userIds);
 
         // 获取用户的部门ID列表
-        List<Long> deptIds = userIdToUserMap.values().stream().map(SysUser::getDeptId).collect(Collectors.toList());
+        Set<Long> uniqueDeptIds  = userIdToUserMap.values().stream().map(SysUser::getDeptId).collect(Collectors.toSet());
 
         // 根据部门ID列表获取部门名称映射
-        Map<Long, String> deptIdToNameMap = getDeptNameMapByDeptIds(deptIds);
+        Map<Long, String> deptIdToNameMap = getDeptNameMapByDeptIds(new ArrayList<>(uniqueDeptIds));
 
         // 构建 ProjectUserVo 列表
         return buildProjectUserVoList(userIds, userIdToUserMap, deptIdToNameMap);
@@ -137,7 +134,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         List<ProjectUserVo> projectUserVos = new ArrayList<>();
         for (Long userId : userIds) {
             SysUser user = userIdToUserMap.get(userId);
-            String deptName = deptIdToNameMap.get(user.getDeptId());
+            String deptName = deptIdToNameMap.getOrDefault(user.getDeptId(), "Unknown Dept");
 
             ProjectUserVo projectUserVo = new ProjectUserVo();
             projectUserVo.setNickName(user.getNickName());
