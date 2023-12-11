@@ -1,6 +1,7 @@
 package com.ruoyi.project.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.domain.entity.SysDept;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.project.domain.ProjectUser;
@@ -104,7 +105,8 @@ public class ProjectUserServiceImpl implements ProjectUserService {
      */
     private Map<Long, SysUser> getUsersMapByUserIds(List<Long> userIds) {
         LambdaQueryWrapper<SysUser> userQueryWrapper = new LambdaQueryWrapper<>();
-        userQueryWrapper.in(SysUser::getUserId, userIds);
+        userQueryWrapper.in(SysUser::getUserId, userIds)
+            .eq(SysUser::getDelFlag, 0);;
         List<SysUser> sysUsers = sysUserMapper.selectList(userQueryWrapper);
         return sysUsers.stream().collect(Collectors.toMap(SysUser::getUserId, user -> user));
     }
