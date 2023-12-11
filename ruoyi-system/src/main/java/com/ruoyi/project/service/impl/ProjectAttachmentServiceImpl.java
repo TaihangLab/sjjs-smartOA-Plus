@@ -17,10 +17,16 @@ public class ProjectAttachmentServiceImpl implements ProjectAttachmentService {
 
     private final ProjectAttachmentMapper projectAttachmentMapper;
 
+    /**
+     *
+     * @param projectId 项目ID
+     * @param ossIds 文件对象ossId列表
+     * @return 返回值
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean insertProjectMainAttachment(Long projectId, List<Long> ossIds) {
-        if (ossIds.isEmpty()){
+        if (ossIds.isEmpty()) {
             return true;
         }
         List<ProjectAttachment> attachments = new ArrayList<>();
@@ -35,10 +41,16 @@ public class ProjectAttachmentServiceImpl implements ProjectAttachmentService {
         return projectAttachmentMapper.insertBatch(attachments);
     }
 
+    /**
+     *
+     * @param projectId 项目ID
+     * @param ossIds 文件对象ossId列表
+     * @return 返回值
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean insertProjectOtherAttachment(Long projectId, List<Long> ossIds) {
-        if (ossIds.isEmpty()){
+        if (ossIds.isEmpty()) {
             return true;
         }
         List<ProjectAttachment> attachments = new ArrayList<>();
@@ -53,21 +65,37 @@ public class ProjectAttachmentServiceImpl implements ProjectAttachmentService {
         return projectAttachmentMapper.insertBatch(attachments);
     }
 
+    /**
+     *
+     * @param projectId 项目ID
+     * @return 删除行数
+     */
     @Override
     public int deleteAllProjrctAttachmentByProID(Long projectId) {
         return projectAttachmentMapper.delete((new LambdaQueryWrapper<ProjectAttachment>()).
-            eq(ProjectAttachment::getProjectId,projectId));
+            eq(ProjectAttachment::getProjectId, projectId));
     }
 
+
+    /**
+     *
+     * @param projectAttachmentId 项目文件表ID
+     * @return 删除行数
+     */
     @Override
     public int deleteProjectAttachmentById(Long projectAttachmentId) {
         return projectAttachmentMapper.delete((new LambdaQueryWrapper<ProjectAttachment>()).
-            eq(ProjectAttachment::getId,projectAttachmentId));
+            eq(ProjectAttachment::getId, projectAttachmentId));
     }
 
+    /**
+     *
+     * @param projectId 项目ID
+     * @return 返回查询列表
+     */
     @Override
     public List<ProjectAttachment> selectProjectAttachmentByProId(Long projectId) {
         return projectAttachmentMapper.selectList((new LambdaQueryWrapper<ProjectAttachment>()).
-            eq(ProjectAttachment::getProjectId,projectId));
+            eq(ProjectAttachment::getProjectId, projectId));
     }
 }
