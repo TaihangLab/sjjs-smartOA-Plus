@@ -1,13 +1,13 @@
 <template>
-    <el-tabs v-model="activeName" @tab-click="handleClick">
+    <el-tabs v-model="activeName" >
         <el-tab-pane label="基本信息" name="first">
             <div style="margin-top: 10px;"></div>
-            <el-descriptions class="margin-top" title="" :column="1" :size="size" labelStyle="width: 18%" contentStyle="width: 80%" :contentStyle="rowCenter" border>
+            <el-descriptions class="margin-top" title="" :column="1" :size="size" :labelStyle="{width: '18%'}"  :contentStyle="{width: '82%'}" border>
                 <el-descriptions-item label="项目名称">
                     {{ this.formLook.project.name }}
                 </el-descriptions-item>
             </el-descriptions>
-            <el-descriptions class="margin-top" title="" :column="2" :size="size" labelStyle="width: 18%" contentStyle="width: 35%" border>
+            <el-descriptions class="margin-top" title="" :column="2" :size="size" :labelStyle="{width: '18%'}" :contentStyle="{width: '35%'}" border>
                 <el-descriptions-item label="负责人">
                     {{ formLook.user.username }}
                 </el-descriptions-item>
@@ -97,21 +97,31 @@
         <el-tab-pane label="项目经费" name="third">
             <FundsDetail></FundsDetail>
         </el-tab-pane>
-        <el-tab-pane label="项目来源" name="fourth">
+        <el-tab-pane label="专项经费" name="fourth">
+            <SpecialFunds></SpecialFunds>
+        </el-tab-pane>
+        <el-tab-pane label="自筹经费" name="fifth">
+            <SelfFunds></SelfFunds>
+        </el-tab-pane>
+        <el-tab-pane label="项目来源" name="sixth">
             <MoneySource></MoneySource>
         </el-tab-pane>
     </el-tabs>
 </template>
 
 <script>
-import FundsDetail from "./ViewProject/FundsDetail.vue";
+import FundsDetail from "./ViewProject/Funds.vue";
 import MoneySource from "./ViewProject/MoneySource.vue";
 import Member from "./ViewProject/Member.vue";
+import SpecialFunds from "./ViewProject/SpecialFunds.vue";
+import SelfFunds from "./ViewProject/SelfFunds.vue";
 export default {
     name: "ProjectDetail",
     components:{
-        FundsDetail,
         Member,
+        FundsDetail,
+        SpecialFunds,
+        SelfFunds,
         MoneySource,
     },
     props: {

@@ -188,25 +188,6 @@ export default {
                 this.getDataList();
             else this.getDataListByName();
         },
-        //检查创建项目时是否有未填项
-        checkItemBeforeInsert() {
-            if (this.form.project.money === "") {
-                this.$confirm("当前申请资金为0,是否继续创建项目？", "提示", {
-                    confirmButtonText: "确定",
-                    cancelButtonText: "取消",
-                    type: "warning",
-                }).then(() => {
-                    this.handleInsert()
-                }).catch(() => {
-                    this.$message({
-                        type: "info",
-                        message: "已取消创建项目",
-                    });
-                });
-            } else {
-                this.handleInsert()
-            }
-        },
         //新增页面的确认键
         handleInsert() {
             this.$http.post("/item/insert", this.form).then(() => {
