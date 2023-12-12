@@ -18,4 +18,5 @@ public interface ProjectBaseInfoService {
     void deleteProjectBaseInfoById(Long projectId);
 
     TableDataInfo<ProjectBaseInfoVO> queryPageAllList(ProjectBaseInfoBO projectBaseInfoBO, PageQuery pageQuery);
+    TableDataInfo<ProjectBaseInfoVO> queryPageMyList(ProjectBaseInfoBO projectBaseInfoBO, PageQuery pageQuery);
 }
