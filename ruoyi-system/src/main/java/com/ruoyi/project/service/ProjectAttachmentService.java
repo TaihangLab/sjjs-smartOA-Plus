@@ -10,7 +10,7 @@ public interface ProjectAttachmentService {
 
     boolean insertProjectOtherAttachment(Long projectId, List<Long> ossId);
 
-    int deleteAllProjrctAttachmentByProID(Long projectId);
+    void deleteAllProjectAttachmentByProID(Long projectId);
 
     int deleteProjectAttachmentById(Long projectAttachmentId);
 

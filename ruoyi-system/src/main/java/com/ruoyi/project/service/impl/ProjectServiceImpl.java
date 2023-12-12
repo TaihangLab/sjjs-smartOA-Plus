@@ -45,7 +45,7 @@ public class ProjectServiceImpl implements ProjectService {
         //删除指标
         projectTargetService.deleteTargetByProjectId(projectId);
         //删除附件
-        projectAttachmentService.deleteAllProjrctAttachmentByProID(projectId);
+        projectAttachmentService.deleteAllProjectAttachmentByProID(projectId);
         //删除成员
         projectUserService.deleteProjectUsersByProID(projectId);
     }
