@@ -34,20 +34,20 @@
                         <el-button size="mini" type="text" icon="el-icon-tickets"
                             @click="lookEdit(scope.$index, scope.row)">详情
                         </el-button>
-                        <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
-                            v-hasPermi="['system:role:edit']">修改
+                        <el-button size="mini" type="text" icon="el-icon-edit" v-if="buttonType === 1"
+                            @click="handleUpdate(scope.row)">修改
                         </el-button>
-                        <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
-                            v-hasPermi="['system:role:remove']">删除
+                        <el-button size="mini" type="text" icon="el-icon-delete" v-if="buttonType === 1"
+                            @click="handleDelete(scope.row)">删除
                         </el-button>
                         <el-dropdown size="mini" @command="handleDropdownCommand">
                             <el-button size="mini" type="text" icon="el-icon-reading">大事记</el-button>
                             <el-dropdown-menu v-slot="dropdown">
-                                <el-dropdown-item :command="{ 'command': 'view', 'row': scope.row }" icon="el-icon-view">查看
-                                </el-dropdown-item>
-                                <el-dropdown-item :command="{ 'command': 'add', 'row': scope.row }"
-                                    icon="el-icon-document-add">新增
-                                </el-dropdown-item>
+                                <el-dropdown-item :command="{ 'command': 'view', 'row': scope.row }"
+                                    icon="el-icon-view">查看</el-dropdown-item>
+                                <!-- 根据 buttonType 的值有条件地渲染 "新增" 按钮 -->
+                                <el-dropdown-item v-if="buttonType === 1" :command="{ 'command': 'add', 'row': scope.row }"
+                                    icon="el-icon-document-add">新增</el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
                     </template>
@@ -61,7 +61,7 @@
             <el-dialog :visible.sync="eventsDialogVisibleLook" width="50%" :key="refreshEventsPage"
                 @open="handleEventsDialogOpen" :modal="false">
                 <div style="max-height: 600px; overflow-y: auto;">
-                    <CheckEvents :projectId="projectId" :visible.sync="eventsDialogVisibleLook"></CheckEvents>
+                    <CheckEvents :projectId="projectId" :visible.sync="eventsDialogVisibleLook" :buttonType="buttonType"></CheckEvents>
                 </div>
             </el-dialog>
             <!--新增大事记-->
@@ -84,6 +84,7 @@ import AddEvents from "@/views/project/components/AddEvents.vue";
 
 export default {
     name: "ProjectList",
+    props: ['buttonType'],
     components: {
         ProjectDetail,
         CheckEvents,
