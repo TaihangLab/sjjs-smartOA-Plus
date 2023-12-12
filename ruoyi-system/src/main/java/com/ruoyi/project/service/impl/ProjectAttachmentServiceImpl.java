@@ -18,9 +18,8 @@ public class ProjectAttachmentServiceImpl implements ProjectAttachmentService {
     private final ProjectAttachmentMapper projectAttachmentMapper;
 
     /**
-     *
      * @param projectId 项目ID
-     * @param ossIds 文件对象ossId列表
+     * @param ossIds    文件对象ossId列表
      * @return 返回值
      */
     @Override
@@ -42,9 +41,8 @@ public class ProjectAttachmentServiceImpl implements ProjectAttachmentService {
     }
 
     /**
-     *
      * @param projectId 项目ID
-     * @param ossIds 文件对象ossId列表
+     * @param ossIds    文件对象ossId列表
      * @return 返回值
      */
     @Override
@@ -66,19 +64,16 @@ public class ProjectAttachmentServiceImpl implements ProjectAttachmentService {
     }
 
     /**
-     *
      * @param projectId 项目ID
-     * @return 删除行数
      */
     @Override
-    public int deleteAllProjrctAttachmentByProID(Long projectId) {
-        return projectAttachmentMapper.delete((new LambdaQueryWrapper<ProjectAttachment>()).
+    public void deleteAllProjectAttachmentByProID(Long projectId) {
+        projectAttachmentMapper.delete((new LambdaQueryWrapper<ProjectAttachment>()).
             eq(ProjectAttachment::getProjectId, projectId));
     }
 
 
     /**
-     *
      * @param projectAttachmentId 项目文件表ID
      * @return 删除行数
      */
@@ -89,7 +84,6 @@ public class ProjectAttachmentServiceImpl implements ProjectAttachmentService {
     }
 
     /**
-     *
      * @param projectId 项目ID
      * @return 返回查询列表
      */

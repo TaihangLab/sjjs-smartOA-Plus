@@ -1,10 +1,16 @@
 package com.ruoyi.web.controller.project;
 
+import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
+import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.domain.R;
+import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.core.validate.QueryGroup;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.project.domain.ProjectTarget;
+import com.ruoyi.project.domain.bo.ProjectBaseInfoBO;
+import com.ruoyi.project.domain.vo.ProjectBaseInfoVO;
 import com.ruoyi.project.domain.vo.ProjectFundsVO;
 import com.ruoyi.project.domain.vo.ProjectMilestoneVo;
 import com.ruoyi.project.domain.vo.ProjectUserVo;
@@ -36,6 +42,14 @@ public class ProjectListController extends BaseController {
     private final ProjectFundsService projectFundsService;
 
     private final ProjectService projectService;
+
+    private final ProjectBaseInfoService projectBaseInfoService;
+
+    @PostMapping("/getAllList")
+    public TableDataInfo<ProjectBaseInfoVO> getAllProjectList(@RequestBody@Validated(QueryGroup.class)ProjectBaseInfoBO projectBaseInfoBO, PageQuery pageQuery){
+        return projectBaseInfoService.queryPageAllList(projectBaseInfoBO, pageQuery);
+    }
+
 
     /**
      * 根据项目id新增项目指标
@@ -92,14 +106,22 @@ public class ProjectListController extends BaseController {
      * @param projectId 项目ID
      * @return 项目资金信息
      */
-    //@SaCheckPermission("project:list:projectfunds")
+
+    //@SaCheckPermission("project:list:projectfundsSelect")
     @GetMapping("/projectfundsSelect")
     public R<ProjectFundsVO> getProjectFunds(@RequestParam @NotNull Long projectId) {
         return R.ok(projectFundsService.selectProjectFunds(projectId));
     }
 
-    //@SaCheckPermission("project:list:projectDelete")
-    @GetMapping("/projectDelete")
+    /**
+     * Delete project r.
+     *
+     * @param projectId the project id
+     * @return the r
+     */
+
+//@SaCheckPermission("project:list:projectDelete")
+    @GetMapping("/delete")
     public R<Void> deleteProject(@RequestParam @NotNull Long projectId) {
         projectService.deleteProject(projectId);
         return R.ok();

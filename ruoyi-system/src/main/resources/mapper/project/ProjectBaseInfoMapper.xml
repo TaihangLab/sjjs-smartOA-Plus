@@ -11,6 +11,7 @@
             <result property="projectStatus" column="project_status" jdbcType="CHAR"/>
             <result property="projectInfo" column="project_info" jdbcType="VARCHAR"/>
             <result property="projectType" column="project_type" jdbcType="CHAR"/>
+            <result property="startTime" column="start_time" jdbcType="DATE"/>
             <result property="establishTime" column="establish_time" jdbcType="DATE"/>
             <result property="midtermDate" column="midterm_date" jdbcType="DATE"/>
             <result property="completedDate" column="completed_date" jdbcType="DATE"/>
