@@ -94,7 +94,7 @@
        :visible.sync="eventsDialogVisibleAdd">
        </AddEvents>
     </el-dialog>
-    <Project/>
+    <Project :buttonType="1"/>
   </div>
 </template>
 
@@ -122,6 +122,12 @@ export default {
     handleAdd() {
       this.newProjectDialogVisible = true;
     },
+      handleDelete(){
+
+      },
+      handleExport(){
+
+      },
     // 新增大事记
     eventsAdd() {
       this.eventsDialogVisibleAdd = true;

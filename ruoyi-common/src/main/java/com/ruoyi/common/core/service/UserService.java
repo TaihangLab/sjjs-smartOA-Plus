@@ -23,4 +23,6 @@ public interface UserService {
      */
     String selectNickNameById(Long userId);
 
+    void updateUserAvatarIP(String oldEndPoint, String newEndPoint);
+
 }
