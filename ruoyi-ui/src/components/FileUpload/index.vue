@@ -247,6 +247,7 @@ export default {
             }
             return strs != "" ? strs.substr(0, strs.length - 1) : "";
         },
+        // 重置
         reset() {
             this.uploadList = [];
             this.fileList = [];

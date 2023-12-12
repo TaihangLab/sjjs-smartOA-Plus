@@ -272,11 +272,11 @@
                 </el-collapse-item>
             </el-collapse>
 
-            <el-cascader
-                v-model="value"
-                :options="options"
-                :props="{ expandTrigger: 'hover' }"
-                @change="handleChange"></el-cascader>
+<!--            <el-cascader-->
+<!--                v-model="value"-->
+<!--                :options="options"-->
+<!--                :props="{ expandTrigger: 'hover' }"-->
+<!--                @change="handleChange"></el-cascader>-->
         </el-form>
     </el-card>
 
