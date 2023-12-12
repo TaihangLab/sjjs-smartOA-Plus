@@ -94,7 +94,14 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         LambdaQueryWrapper<ProjectUser> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(ProjectUser::getProjectId, projectId);
         List<ProjectUser> projectUsers = projectUserMapper.selectList(queryWrapper);
-        return projectUsers.stream().map(ProjectUser::getUserId).collect(Collectors.toList());
+
+        // 获取与项目相关的 SysUser 对象
+        List<SysUser> sysUsers = projectUsers.stream()
+            .map(ProjectUser::getUserId) // 获取用户 ID 列表
+            .map(userId -> sysUserMapper.selectById(userId)) // 获取对应的 SysUser 对象
+            .filter(sysUser -> sysUser != null && "0".equals(sysUser.getDelFlag())) // 仅保留 delflag = 0 的对象
+            .collect(Collectors.toList());
+        return sysUsers.stream().map(SysUser::getUserId).collect(Collectors.toList());
     }
 
     /**
@@ -105,8 +112,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
      */
     private Map<Long, SysUser> getUsersMapByUserIds(List<Long> userIds) {
         LambdaQueryWrapper<SysUser> userQueryWrapper = new LambdaQueryWrapper<>();
-        userQueryWrapper.in(SysUser::getUserId, userIds)
-            .eq(SysUser::getDelFlag, 0);;
+        userQueryWrapper.in(SysUser::getUserId, userIds);
         List<SysUser> sysUsers = sysUserMapper.selectList(userQueryWrapper);
         return sysUsers.stream().collect(Collectors.toMap(SysUser::getUserId, user -> user));
     }
