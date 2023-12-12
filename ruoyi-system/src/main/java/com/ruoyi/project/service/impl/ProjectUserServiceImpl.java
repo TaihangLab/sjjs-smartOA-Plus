@@ -11,12 +11,13 @@ import com.ruoyi.project.service.ProjectUserService;
 import com.ruoyi.system.mapper.SysDeptMapper;
 import com.ruoyi.system.mapper.SysUserMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class ProjectUserServiceImpl implements ProjectUserService {
@@ -27,6 +28,12 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 
     private final SysDeptMapper sysDeptMapper;
 
+    /**
+     * 添加项目成员
+     * @param projectId
+     * @param userIds
+     * @return
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean insertProjectUsers(Long projectId, List<Long> userIds) {
@@ -40,6 +47,11 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         return projectUserMapper.insertBatch(projectUsers);
     }
 
+    /**
+     * 根据项目ID删除对应成员
+     * @param projectId
+     * @return
+     */
     @Override
     public int deleteProjectUsersByProID(Long projectId) {
         Map<String, Object> columnMap = new HashMap<>();
@@ -47,6 +59,12 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         return projectUserMapper.deleteByMap(columnMap);
     }
 
+    /**
+     * 修改项目成员
+     * @param projectId
+     * @param userIds
+     * @return
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int updateProjectUsers(Long projectId, List<Long> userIds) {
@@ -66,6 +84,11 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         return projectUserMapper.insertBatch(projectUsers) ? projectUsers.size() : 0;
     }
 
+    /**
+     * 根据项目ID获取成员详细信息
+     * @param projectId
+     * @return
+     */
     @Override
     public List<ProjectUserVo> getUserInfoByProjectId(Long projectId) {
         // 获取项目相关的用户ID列表
