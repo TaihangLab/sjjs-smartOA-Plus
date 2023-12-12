@@ -40,7 +40,9 @@
                         <el-button size="mini" type="text" icon="el-icon-delete" v-if="buttonType === 1"
                             @click="handleDelete(scope.row)">删除
                         </el-button>
-                        <el-dropdown size="mini" @command="handleDropdownCommand">
+                        <el-button v-if="buttonType !== 1" size="mini" type="text" icon="el-icon-reading"
+                            @click="handleDropdownCommand({ 'command': 'view', 'row': scope.row })">大事记</el-button>
+                        <el-dropdown v-else size="mini" @command="handleDropdownCommand">
                             <el-button size="mini" type="text" icon="el-icon-reading">大事记</el-button>
                             <el-dropdown-menu v-slot="dropdown">
                                 <el-dropdown-item :command="{ 'command': 'view', 'row': scope.row }"
@@ -61,7 +63,8 @@
             <el-dialog :visible.sync="eventsDialogVisibleLook" width="50%" :key="refreshEventsPage"
                 @open="handleEventsDialogOpen" :modal="false">
                 <div style="max-height: 600px; overflow-y: auto;">
-                    <CheckEvents :projectId="projectId" :visible.sync="eventsDialogVisibleLook" :buttonType="buttonType"></CheckEvents>
+                    <CheckEvents :projectId="projectId" :visible.sync="eventsDialogVisibleLook" :buttonType="buttonType">
+                    </CheckEvents>
                 </div>
             </el-dialog>
             <!--新增大事记-->
