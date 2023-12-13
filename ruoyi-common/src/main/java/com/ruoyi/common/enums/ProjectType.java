@@ -13,7 +13,7 @@ import lombok.Getter;
 public enum ProjectType implements IEnum<String>{
     NATIONAL("0", "国家级"),//国家级
     PROVINCIAL("1", "省部级"),//省部级
-    SELF_BUILT("2", "自建");//自建
+    SELF_BUILT("2", "自有");//自建
 
     @EnumValue
     private final String value;//值
