@@ -47,7 +47,7 @@ public class BoundedQueueController {
         for (int i = 0; i < 11; i++) {
             String data = "data-" + i;
             boolean flag = QueueUtils.addBoundedQueueObject(queueName, data);
-            if (flag == false) {
+            if (!flag) {
                 log.info("通道: {} , 发送数据: {} 失败, 通道已满", queueName, data);
             } else {
                 log.info("通道: {} , 发送数据: {}", queueName, data);
