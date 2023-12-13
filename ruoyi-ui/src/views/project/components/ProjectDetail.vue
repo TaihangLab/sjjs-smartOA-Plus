@@ -38,14 +38,7 @@
                 <el-descriptions-item>
                     <template slot="label">
                     <i class="el-icon-office-building"></i>
-                    计划结项日期
-                    </template>
-                    江
-                </el-descriptions-item>
-                <el-descriptions-item>
-                    <template slot="label">
-                    <i class="el-icon-office-building"></i>
-                    实际结项日期
+                    结项日期
                     </template>
                     江
                 </el-descriptions-item>
