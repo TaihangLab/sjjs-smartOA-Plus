@@ -3,15 +3,10 @@
         <el-header>
             <el-card shadow="hover">
                 <el-steps :active="stepID" finish-status="success" simple>
-                    <el-step title="项目信息"></el-step>
-                    <el-step title="项目成员"></el-step>
-                    <el-step title="项目经费"></el-step>
-                    <el-step title="专项经费"></el-step>
-                    <el-step title="自筹经费"></el-step>
-                    <el-step title="经费来源"></el-step>
-                    <el-step title="项目指标"></el-step>
-                    <el-step title="正文附件"></el-step>
-                    <el-step title="其他附件"></el-step>
+                    <el-step
+                        v-for="(t, index) in titles" :key="index" :title="t"
+                        @click.native="stepID=index"
+                    ></el-step>
                 </el-steps>
             </el-card>
         </el-header>
@@ -23,7 +18,7 @@
             </el-collapse-transition>
 
             <el-collapse-transition>
-                <ProjectMember v-show="stepID===1" :form="projectMemberForm" ref="projectMember"></ProjectMember>
+                <ProjectMember v-show="stepID===1" :myform="projectMemberForm" ref="projectMember"></ProjectMember>
             </el-collapse-transition>
 
             <el-collapse-transition>
@@ -44,7 +39,8 @@
 
 
             <el-collapse-transition>
-                <ProjectIndicator v-show="stepID===6" :form="projectIndicatorForm" ref="projectIndicator"></ProjectIndicator>
+                <ProjectIndicator v-show="stepID===6" :form="projectIndicatorForm"
+                                  ref="projectIndicator"></ProjectIndicator>
             </el-collapse-transition>
 
             <el-collapse-transition>
@@ -52,7 +48,8 @@
             </el-collapse-transition>
 
             <el-collapse-transition>
-                <OtherAttachment v-show="stepID===8" :form="otherAttachmentForm" ref="otherAttachment"></OtherAttachment>
+                <OtherAttachment v-show="stepID===8" :form="otherAttachmentForm"
+                                 ref="otherAttachment"></OtherAttachment>
             </el-collapse-transition>
 
         </el-main>
@@ -97,17 +94,19 @@ export default {
     data() {
         return {
             stepID: 3,
+            isStepHover: false,
+            titles: ["项目信息", "项目成员", "项目经费", "专项经费", "自筹经费", "经费来源", "项目指标", "正文附件", "其他附件"],
             nextButtonText: '下一步',
 
             projectInfoForm: {},
+            projectMemberForm: {members:[],},
+            projectFundsForm: {},
             zxFundsDetailForm: {},
-            projectMemberForm: {},
             zcFundsDetailForm: {},
             projectIndicatorForm: {},
-            projectFundsForm: {},
             fundsSourceForm: {},
-            otherAttachmentForm: {},
             mainAttachmentForm: {},
+            otherAttachmentForm: {},
         };
     },
 
@@ -120,7 +119,6 @@ export default {
                 this.reset();
             }
 
-
         },
         previous() {
             if (this.stepID > 0) {
@@ -128,13 +126,22 @@ export default {
             }
         },
         info() {
-            console.log(this.zxFundsDetailForm);
+            console.log(this.$refs.projectInfo.$refs.form.validate());
+            console.log('projectInfoForm', this.projectInfoForm);
+            // console.log('projectMemberForm', this.projectMemberForm);
+            // console.log('projectFundsForm', this.projectFundsForm);
+            // console.log('zxFundsDetailForm', this.zxFundsDetailForm);
+            // console.log('zcFundsDetailForm', this.zcFundsDetailForm);
+            // console.log('projectIndicatorForm', this.projectIndicatorForm);
+            // console.log('fundsSourceForm', this.fundsSourceForm);
+            // console.log('mainAttachmentForm', this.mainAttachmentForm);
+            // console.log('otherAttachmentForm', this.otherAttachmentForm);
         },
 
         reset() {
             // this.$refs.projectInfo.$refs.form.resetFields()
-            this.$refs.zxFundsDetail.$refs.form.resetFields()
-
+            // this.$refs.zxFundsDetail.$refs.form.resetFields()
+            this.$refs.projectMember.resetFields();
         },
     },
     watch: {
@@ -174,6 +181,10 @@ export default {
 
 :deep(.el-form-item__label) {
     font-weight: normal;
+}
+
+:deep(.el-step__title) {
+    cursor: pointer;
 }
 
 

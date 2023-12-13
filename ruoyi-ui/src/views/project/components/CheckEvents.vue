@@ -1,6 +1,6 @@
 <template>
     <div class="block">
-        <div class="fixed-container">
+        <!-- <div class="fixed-container">
             <el-input placeholder="请输入内容" v-model="input3" class="input-with-select" size="small" :clearable="true"
                 @input.native="handleInput">
                 <el-select v-model="select" slot="prepend" placeholder="请选择">
@@ -10,23 +10,25 @@
                 </el-select>
                 <el-button slot="append" icon="el-icon-search"></el-button>
             </el-input>
-        </div>
+        </div> -->
         <el-timeline>
             <el-timeline-item v-for="(item, index) in timelineItems" :key="index" :timestamp="item.milestoneDate"
                 placement="top" :icon="item.icon" :style="{ '--icon-color': '#0bbd87' }">
-                <el-card style="width: 90%;">
+                <el-card style="width: 90%; display: flex; flex-direction: column;">
                     <h4>名称：{{ item.milestoneTitle }}</h4>
                     <p>详情：{{ item.milestoneRemark }}</p>
-                    <div v-for="(oss, ossIndex) in item.sysOsses" :key="ossIndex">
-                        附件：
-                        <el-link :href="oss.url" target="_blank" :underline="false">
+                    <div class="attachments-container">
+                        <el-link v-for="(oss, ossIndex) in item.sysOsses" :key="ossIndex" :href="oss.url" target="_blank"
+                            :underline="false" class="attachment-item">
                             {{ oss.originalName }}
                         </el-link>
                     </div>
-                    <el-button type="success" icon="el-icon-edit" size="mini" circle
-                        @click="editMilestone(item)"></el-button>
-                    <el-button type="danger" icon="el-icon-delete" size="mini" circle
-                        @click="deleteMilestone(item)"></el-button>
+                    <div style="margin-top: 10px;">
+                        <el-button type="success" icon="el-icon-edit" size="mini" circle @click="editMilestone(item)"
+                            v-if="buttonType === 1"></el-button>
+                        <el-button type="danger" icon="el-icon-delete" size="mini" circle @click="deleteMilestone(item)"
+                            v-if="buttonType === 1"></el-button>
+                    </div>
                 </el-card>
             </el-timeline-item>
         </el-timeline>
@@ -70,6 +72,10 @@ export default {
     props: {
         projectId: {
             type: String,
+            default: "",
+        },
+        buttonType: {
+            type: Number,
             default: "",
         },
     },
@@ -248,4 +254,13 @@ export default {
 .input-with-select .el-input-group__prepend {
     background-color: #fff;
 }
-</style>
+
+.attachments-container {
+    display: flex;
+}
+
+.attachment-item {
+    margin-right: 20px;
+    /* 调整附件之间的间距 */
+}</style>
+

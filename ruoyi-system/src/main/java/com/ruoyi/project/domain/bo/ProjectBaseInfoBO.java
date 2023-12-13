@@ -1,34 +1,39 @@
-package com.ruoyi.project.domain;
+package com.ruoyi.project.domain.bo;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.core.domain.BaseEntity;
+import com.ruoyi.common.core.validate.AddGroup;
+import com.ruoyi.common.core.validate.EditGroup;
 import com.ruoyi.common.enums.ProjectType;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 /**
- * 项目表
  * @author bailingnan
- * @TableName project_base_info
+ * @date 2023/12/12
  */
-@TableName(value ="project_base_info")
 @Data
-public class ProjectBaseInfo extends BaseEntity {
+@EqualsAndHashCode(callSuper = true)
+public class ProjectBaseInfoBO extends BaseEntity {
+
     /**
      * 项目id
      */
     @TableId(type = IdType.AUTO)
+    @NotNull(message ="项目id不能为空",groups={AddGroup.class})
     private Long projectId;
-
     /**
      * 项目名称
      */
-    @NotBlank(message = "项目名称不能为空")
-    @Size(max = 100, message = "项目名称长度不能超过100个字符")
+    @NotBlank(message = "项目名称不能为空",groups={AddGroup.class, EditGroup.class})
+    @Size(max = 100, message = "项目名称长度不能超过100个字符",groups={AddGroup.class, EditGroup.class})
     private String projectName;
 
     /**
@@ -44,7 +49,7 @@ public class ProjectBaseInfo extends BaseEntity {
     /**
      * 项目描述
      */
-    @Size(max = 500, message = "项目描述长度不能超过500个字符")
+    @Size(max = 500, message = "项目描述长度不能超过500个字符",groups={AddGroup.class, EditGroup.class})
     private String projectInfo;
 
     /**
@@ -76,10 +81,11 @@ public class ProjectBaseInfo extends BaseEntity {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate completedDate;
 
-    /**
-     * 是否删除，2删除，0未删除
-     */
-    @TableLogic
-    @TableField(select = false)
-    private Integer deleted;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate establishTimeSta;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate establishTimeEnd;
+
+    private Long userId;
 }

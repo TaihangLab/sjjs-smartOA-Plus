@@ -11,12 +11,13 @@ import com.ruoyi.project.service.ProjectUserService;
 import com.ruoyi.system.mapper.SysDeptMapper;
 import com.ruoyi.system.mapper.SysUserMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class ProjectUserServiceImpl implements ProjectUserService {
@@ -27,6 +28,12 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 
     private final SysDeptMapper sysDeptMapper;
 
+    /**
+     * 添加项目成员
+     * @param projectId
+     * @param userIds
+     * @return
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean insertProjectUsers(Long projectId, List<Long> userIds) {
@@ -40,6 +47,11 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         return projectUserMapper.insertBatch(projectUsers);
     }
 
+    /**
+     * 根据项目ID删除对应成员
+     * @param projectId
+     * @return
+     */
     @Override
     public int deleteProjectUsersByProID(Long projectId) {
         Map<String, Object> columnMap = new HashMap<>();
@@ -47,6 +59,12 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         return projectUserMapper.deleteByMap(columnMap);
     }
 
+    /**
+     * 修改项目成员
+     * @param projectId
+     * @param userIds
+     * @return
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int updateProjectUsers(Long projectId, List<Long> userIds) {
@@ -66,6 +84,11 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         return projectUserMapper.insertBatch(projectUsers) ? projectUsers.size() : 0;
     }
 
+    /**
+     * 根据项目ID获取成员详细信息
+     * @param projectId
+     * @return
+     */
     @Override
     public List<ProjectUserVo> getUserInfoByProjectId(Long projectId) {
         // 获取项目相关的用户ID列表
@@ -94,7 +117,14 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         LambdaQueryWrapper<ProjectUser> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(ProjectUser::getProjectId, projectId);
         List<ProjectUser> projectUsers = projectUserMapper.selectList(queryWrapper);
-        return projectUsers.stream().map(ProjectUser::getUserId).collect(Collectors.toList());
+
+        // 获取与项目相关的 SysUser 对象
+        List<SysUser> sysUsers = projectUsers.stream()
+            .map(ProjectUser::getUserId) // 获取用户 ID 列表
+            .map(userId -> sysUserMapper.selectById(userId)) // 获取对应的 SysUser 对象
+            .filter(sysUser -> sysUser != null && "0".equals(sysUser.getDelFlag())) // 仅保留 delflag = 0 的对象
+            .collect(Collectors.toList());
+        return sysUsers.stream().map(SysUser::getUserId).collect(Collectors.toList());
     }
 
     /**
@@ -105,8 +135,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
      */
     private Map<Long, SysUser> getUsersMapByUserIds(List<Long> userIds) {
         LambdaQueryWrapper<SysUser> userQueryWrapper = new LambdaQueryWrapper<>();
-        userQueryWrapper.in(SysUser::getUserId, userIds)
-            .eq(SysUser::getDelFlag, 0);;
+        userQueryWrapper.in(SysUser::getUserId, userIds);
         List<SysUser> sysUsers = sysUserMapper.selectList(userQueryWrapper);
         return sysUsers.stream().collect(Collectors.toMap(SysUser::getUserId, user -> user));
     }

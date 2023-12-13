@@ -1,6 +1,10 @@
 package com.ruoyi.project.service;
 
+import com.ruoyi.common.core.domain.PageQuery;
+import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.project.domain.ProjectBaseInfo;
+import com.ruoyi.project.domain.bo.ProjectBaseInfoBO;
+import com.ruoyi.project.domain.vo.ProjectBaseInfoVO;
 
 /**
  * @author bailingnan
@@ -12,4 +16,7 @@ public interface ProjectBaseInfoService {
     Long updateProjectBaseInfoById(ProjectBaseInfo projectBaseInfo);
 
     void deleteProjectBaseInfoById(Long projectId);
+
+    TableDataInfo<ProjectBaseInfoVO> queryPageAllList(ProjectBaseInfoBO projectBaseInfoBO, PageQuery pageQuery);
+    TableDataInfo<ProjectBaseInfoVO> queryPageMyList(ProjectBaseInfoBO projectBaseInfoBO, PageQuery pageQuery);
 }

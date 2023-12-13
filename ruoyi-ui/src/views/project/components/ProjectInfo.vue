@@ -3,19 +3,19 @@
         <el-form :model="form" ref="form" label-position="left">
             <el-row :gutter="20">
                 <el-col :span="12">
-                    <el-form-item label-width="100px" label="项目名称" prop="name">
+                    <el-form-item label-width="100px" label="项目名称" prop="name" :rules="[{ required: true, message: '请输入项目名称', trigger: 'blur' }]" >
                         <el-input v-model="form.name"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label-width="100px" label="项目负责人" prop="principal">
+                    <el-form-item label-width="100px" label="项目负责人" prop="principal"  :rules="[{ required: true, message: '请输入项目负责人', trigger: 'blur' }]">
                         <el-input v-model="form.principal"></el-input>
                     </el-form-item>
                 </el-col>
 
             </el-row>
 
-            <el-form-item label-width="100px" label="立项时间" prop="startTime">
+            <el-form-item label-width="100px" label="立项时间" prop="startTime"  :rules="[{ required: true, message: '请输入立项时间', trigger: 'blur' }]">
                 <el-date-picker
                     placeholder="立项时间"
                     v-model="form.startTime"
@@ -24,7 +24,7 @@
                 </el-date-picker>
             </el-form-item>
 
-            <el-form-item label-width="100px" label="项目周期" prop="time">
+            <el-form-item label-width="100px" label="项目周期" prop="time"  :rules="[{ required: true, message: '请输入项目周期', trigger: 'blur' }]">
                 <el-date-picker
                     v-model="form.time"
                     type="daterange"
@@ -35,13 +35,13 @@
                 </el-date-picker>
             </el-form-item>
 
-            <el-form-item label-width="100px" label="项目类型" prop="type">
+            <el-form-item label-width="100px" label="项目类型" prop="type"  :rules="[{ required: true, message: '请输入项目类型', trigger: 'change' }]">
                 <el-select v-model="form.type" clearable placeholder="请选择">
                     <el-option
-                        v-for="(item, index) in projectType"
+                        v-for="(item, index) in projectTypes"
                         :key="index"
-                        :label="item"
-                        :value="item">
+                        :label="item.name"
+                        :value="item.value">
                     </el-option>
                 </el-select>
             </el-form-item>
@@ -57,7 +57,7 @@ export default {
     props: ['form'],
     data() {
         return {
-            projectType: ['国家', '省部', '自主']
+            projectTypes: [{name:'国家', value:0}, {name:'省部', value: 1}, {name:'自主', value: 2}],
         }
     },
 
