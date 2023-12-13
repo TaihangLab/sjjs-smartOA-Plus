@@ -142,12 +142,16 @@ export default {
     },
     methods: {
         editMilestone(item) {
+            console.log("这是修改页面");
             this.form.milestoneId = item.milestoneId;
             this.form.milestoneTitle = item.milestoneTitle;
             this.form.milestoneRemark = item.milestoneRemark;
             this.form.milestoneDate = item.milestoneDate;
             this.eventsDialogVisibleEdit = true;
             this.form.sysOsses = item.sysOsses;
+            // 获取已有的ossids
+            this.ossids = item.sysOsses.map(item => item.ossId);
+            console.log("已有的ossid", this.ossids);
         },
         deleteMilestone(item) {
             const milestoneId = item.milestoneId;
@@ -169,7 +173,9 @@ export default {
                 this.$message.error('请填写完整的信息');
                 return;
             }
-            this.form.ossIds = this.ossids.map(item => item.ossId);
+            console.log("提交修改", this.ossids);
+            // this.form.ossIds = this.ossids.map(item => item.ossId);
+            this.form.ossIds = this.ossids;
 
             // 请求修改接口
             request({
