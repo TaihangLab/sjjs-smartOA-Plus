@@ -24,7 +24,7 @@ public enum ScheduleTypeEnum {
      */
     /*FIX_DELAY(I18nUtil.getString("schedule_type_fix_delay"))*/;
 
-    private String title;
+    private final String title;
 
     ScheduleTypeEnum(String title) {
         this.title = title;
