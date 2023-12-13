@@ -118,18 +118,4 @@ public class ProjectListController extends BaseController {
     public R<ProjectFundsVO> getProjectFunds(@RequestParam @NotNull Long projectId) {
         return R.ok(projectFundsService.selectProjectFunds(projectId));
     }
-
-    /**
-     * Delete project r.
-     *
-     * @param projectId the project id
-     * @return the r
-     */
-//@SaCheckPermission("project:list:projectDelete")
-    @GetMapping("/delete")
-    public R<Void> deleteProject(@RequestParam @NotNull Long projectId) {
-        projectService.deleteProject(projectId);
-        return R.ok();
-    }
-
 }
