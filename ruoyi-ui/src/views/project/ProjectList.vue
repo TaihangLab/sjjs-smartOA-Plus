@@ -7,14 +7,6 @@
       class="demo-form-inline"
       style="margin-left: 30px; margin-top: 20px;"
     >
-      <el-form-item label="项目编号">
-        <el-input
-          v-model="myProjectFrom.projectNumber"
-          clearable
-          placeholder="请输入项目编号"
-          @keyup.enter.native="handleQuery"
-        ></el-input>
-      </el-form-item>
       <el-form-item label="项目名称">
         <el-input
           v-model="myProjectFrom.projectName"
