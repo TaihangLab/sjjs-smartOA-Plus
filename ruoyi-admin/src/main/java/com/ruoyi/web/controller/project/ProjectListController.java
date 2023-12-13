@@ -44,14 +44,17 @@ public class ProjectListController extends BaseController {
 
     private final ProjectBaseInfoService projectBaseInfoService;
 
+    /**
+     * 获取所有项目列表
+     *
+     * @param projectBaseInfoBO 项目基本信息
+     * @param pageQuery         分页查询条件
+     * @return 所有项目列表
+     */
+    //@SaCheckPermission("project:list:getAllList")
     @PostMapping("/getAllList")
     public TableDataInfo<ProjectBaseInfoVO> getAllProjectList(@RequestBody@Validated(QueryGroup.class)ProjectBaseInfoBO projectBaseInfoBO, PageQuery pageQuery){
         return projectBaseInfoService.queryPageAllList(projectBaseInfoBO, pageQuery);
-    }
-
-    @PostMapping("/getMyList")
-    public TableDataInfo<ProjectBaseInfoVO> getMyProjectList(@RequestBody@Validated(QueryGroup.class)ProjectBaseInfoBO projectBaseInfoBO, PageQuery pageQuery){
-        return projectBaseInfoService.queryPageMyList(projectBaseInfoBO, pageQuery);
     }
 
 
