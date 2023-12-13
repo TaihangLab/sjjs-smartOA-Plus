@@ -5,9 +5,7 @@
             <el-table ref="multipleTable" :data="dataList" border style="width: 100%" :row-style="{ height: '50px' }"
                 :cell-style="{ padding: '0px' }">
                 <el-table-column type="selection" :resizable="false" align="center" width="40"></el-table-column>
-                <el-table-column label="#" :resizable="false" align="center" prop="Id" width="80">
-                </el-table-column>
-                <el-table-column label="项目编号" :resizable="false" align="center" prop="projectId" width="80">
+                <el-table-column label="项目编号" :resizable="false" align="center" prop= width="80">
                 </el-table-column>
                 <el-table-column label="项目名称" :resizable="false" align="center" prop="project.name" width="150">
                 </el-table-column>
@@ -16,10 +14,6 @@
                 <el-table-column label="所属单位" :resizable="false" align="center" prop="project.name" width="150">
                 </el-table-column>
                 <el-table-column label="负责人电话" :resizable="false" align="center" prop="user.username" width="150">
-                </el-table-column>
-                <el-table-column label="经办人" :resizable="false" align="center" prop="user.username" width="150">
-                </el-table-column>
-                <el-table-column label="经办人电话" :resizable="false" align="center" prop="user.username" width="150">
                 </el-table-column>
                 <el-table-column label="项目分类" :resizable="false" align="center" prop="project.type" width="110">
                 </el-table-column>
@@ -81,6 +75,7 @@
     </el-card>
 </template>
 <script>
+import request from '@/utils/request';
 import ProjectDetail from "@/views/project/components/ProjectDetail.vue";
 import CheckEvents from "@/views/project/components/CheckEvents.vue";
 import AddEvents from "@/views/project/components/AddEvents.vue";
@@ -96,6 +91,7 @@ export default {
     data() {
         return {
             projectId: '0',
+            projectlist:{},
             rowCenter: {
                 "text-align": "center"
             },
@@ -156,22 +152,27 @@ export default {
         };
     },
     created() {
-        // 用于测试目的的模拟数据
-        const mockData = [
-            {
-                projectId: '11',
-                project: { id: 11, name: '项目A', type: '类型A', money: 1000, remark: 'Lorem ipsum' },
-                user: { id: 11, username: '用户1', name: '用户一' },
-                createTime: '2023-01-01',
-                updateTime: '2023-01-02',
-            },
-            // 根据需要添加更多的模拟数据
-        ];
-
-        // 将模拟数据分配给 dataList
-        this.dataList = mockData;
+        this.getprojectList();
     },
     methods: {
+        /** 查询用户列表 */
+        getprojectList() {
+            request({
+                url: '/project/list/getAllList',
+                method: 'post',
+                data: {
+                    pageNum: this.pageNum,
+                    pageSize: this.pageSize,
+                },
+            })
+                .then((resp) => {
+                    this.projectlist = resp.rows;
+                    console.log('项目', this.projectlist);
+                })
+                .catch((error) => {
+                    console.error('获取数据时出错：', error);
+                });
+        },
         // 关闭弹窗的方法
         closeEventsDialog() {
             this.eventsDialogVisibleAdd = false;
