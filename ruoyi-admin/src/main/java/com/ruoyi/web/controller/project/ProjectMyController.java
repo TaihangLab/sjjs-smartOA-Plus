@@ -1,11 +1,16 @@
 package com.ruoyi.web.controller.project;
 
-import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
+import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.domain.R;
+import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.core.validate.QueryGroup;
 import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.project.domain.bo.ProjectBaseInfoBO;
 import com.ruoyi.project.domain.bo.ProjectMilestoneBo;
+import com.ruoyi.project.domain.vo.ProjectBaseInfoVO;
+import com.ruoyi.project.service.ProjectBaseInfoService;
 import com.ruoyi.project.service.ProjectMilestoneService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -19,6 +24,20 @@ import org.springframework.web.bind.annotation.*;
 public class ProjectMyController extends BaseController {
 
     private final ProjectMilestoneService projectMilestoneService;
+    private final ProjectBaseInfoService projectBaseInfoService;
+
+    /**
+     * 获取我的项目列表
+     *
+     * @param projectBaseInfoBO 项目基本信息
+     * @param pageQuery         分页查询条件
+     * @return 我的项目列表
+     */
+    //@SaCheckPermission("project:my:getMyList")
+    @PostMapping("/getMyList")
+    public TableDataInfo<ProjectBaseInfoVO> getMyProjectList(@RequestBody @Validated(QueryGroup.class) ProjectBaseInfoBO projectBaseInfoBO, PageQuery pageQuery) {
+        return projectBaseInfoService.queryPageMyList(projectBaseInfoBO, pageQuery);
+    }
 
     //@SaCheckPermission("project:my:milestoneadd")
     @Log(title = "新增项目大事纪", businessType = BusinessType.INSERT)

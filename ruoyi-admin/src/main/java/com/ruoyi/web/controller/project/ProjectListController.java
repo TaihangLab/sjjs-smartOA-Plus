@@ -1,6 +1,5 @@
 package com.ruoyi.web.controller.project;
 
-import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.PageQuery;
@@ -45,6 +44,14 @@ public class ProjectListController extends BaseController {
 
     private final ProjectBaseInfoService projectBaseInfoService;
 
+    /**
+     * 获取所有项目列表
+     *
+     * @param projectBaseInfoBO 项目基本信息
+     * @param pageQuery         分页查询条件
+     * @return 所有项目列表
+     */
+    //@SaCheckPermission("project:list:getAllList")
     @PostMapping("/getAllList")
     public TableDataInfo<ProjectBaseInfoVO> getAllProjectList(@RequestBody@Validated(QueryGroup.class)ProjectBaseInfoBO projectBaseInfoBO, PageQuery pageQuery){
         return projectBaseInfoService.queryPageAllList(projectBaseInfoBO, pageQuery);
@@ -106,7 +113,6 @@ public class ProjectListController extends BaseController {
      * @param projectId 项目ID
      * @return 项目资金信息
      */
-
     //@SaCheckPermission("project:list:projectfundsSelect")
     @GetMapping("/projectfundsSelect")
     public R<ProjectFundsVO> getProjectFunds(@RequestParam @NotNull Long projectId) {
@@ -119,7 +125,6 @@ public class ProjectListController extends BaseController {
      * @param projectId the project id
      * @return the r
      */
-
 //@SaCheckPermission("project:list:projectDelete")
     @GetMapping("/delete")
     public R<Void> deleteProject(@RequestParam @NotNull Long projectId) {

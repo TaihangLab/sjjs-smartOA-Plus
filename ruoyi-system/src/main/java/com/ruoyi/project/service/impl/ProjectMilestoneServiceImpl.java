@@ -13,6 +13,7 @@ import com.ruoyi.project.service.ProjectMilestoneService;
 import com.ruoyi.system.domain.SysOss;
 import com.ruoyi.system.mapper.SysOssMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +22,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
@@ -147,6 +148,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
      * @return 结果
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int updateMilestone(ProjectMilestoneBo projectMilestoneBo) {
         LambdaUpdateWrapper<ProjectMilestone> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         lambdaUpdateWrapper.eq(ProjectMilestone::getMilestoneId, projectMilestoneBo.getMilestoneId());
