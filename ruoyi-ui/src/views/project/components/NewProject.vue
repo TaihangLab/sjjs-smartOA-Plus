@@ -1,6 +1,8 @@
 <template>
     <el-container>
         <el-header>
+<!--            <Test></Test>-->
+
             <el-card shadow="hover">
                 <el-steps :active="stepID" finish-status="success" simple>
                     <el-step
@@ -18,8 +20,9 @@
             </el-collapse-transition>
 
             <el-collapse-transition>
-                <ProjectMember v-show="stepID===1" :myform="projectMemberForm" ref="projectMember"
-                               :selectedIdList="['1726485523286900737', '1729072278007623681']"></ProjectMember>
+                <ProjectMember2 v-show="stepID===1" :form="projectMemberForm" ref="projectMember"
+                ></ProjectMember2>
+                <!--                :selectedIdList="['1726485523286900737', '1729072278007623681']"-->
             </el-collapse-transition>
 
             <el-collapse-transition>
@@ -71,12 +74,13 @@ import ZCFundsDetail from "@/views/project/components/ZCFundsDetail.vue";
 import ZXFundsDetail from "./ZXFundsDetail.vue";
 import ProjectInfo from "./ProjectInfo.vue";
 import ProjectMember from "@/views/project/components/ProjectMember.vue";
+import ProjectMember2 from "@/views/project/components/ProjectMember2.vue";
 import ProjectIndicator from "@/views/project/components/ProjectIndicator.vue";
 import ProjectFunds from "@/views/project/components/ProjectFunds.vue";
 import FundsSource from "@/views/project/components/FundsSource.vue";
 import MainAttachment from "@/views/project/components/MainAttachment.vue";
 import OtherAttachment from "@/views/project/components/OtherAttachment.vue";
-
+import Test from "@/views/project/components/Test.vue";
 const TOTAL_STEPS = 9;
 export default {
     name: "NewProject",
@@ -89,18 +93,20 @@ export default {
         ProjectInfo,
         ZXFundsDetail,
         ProjectMember,
+        ProjectMember2,
         ZCFundsDetail,
-        ProjectFunds
+        ProjectFunds,
+        Test
     },
     data() {
         return {
-            stepID: 3,
+            stepID: 1,
             isStepHover: false,
             titles: ["项目信息", "项目成员", "项目经费", "专项经费", "自筹经费", "经费来源", "项目指标", "正文附件", "其他附件"],
             nextButtonText: '下一步',
 
             projectInfoForm: {},
-            projectMemberForm: {members:[],},
+            projectMemberForm: {members: [],},
             projectFundsForm: {},
             zxFundsDetailForm: {},
             zcFundsDetailForm: {},
@@ -127,9 +133,9 @@ export default {
             }
         },
         info() {
-            console.log(this.$refs.projectInfo.$refs.form.validate());
-            console.log('projectInfoForm', this.projectInfoForm);
-            // console.log('projectMemberForm', this.projectMemberForm);
+            // console.log(this.$refs.projectInfo.$refs.form.validate());
+            // console.log('projectInfoForm', this.projectInfoForm);
+            console.log('projectMemberForm', this.projectMemberForm);
             // console.log('projectFundsForm', this.projectFundsForm);
             // console.log('zxFundsDetailForm', this.zxFundsDetailForm);
             // console.log('zcFundsDetailForm', this.zcFundsDetailForm);

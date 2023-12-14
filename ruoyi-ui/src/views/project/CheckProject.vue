@@ -27,6 +27,7 @@
                 v-model="myProjectFrom.responsiblePerson"
                 :options="cascaderOptions"
                 clearable
+                :show-all-levels="false"
                 placeholder="请选择项目成员"
                 @keyup.enter.native="handleQuery"
             ></el-cascader>
