@@ -4,18 +4,24 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ruoyi.project.domain.ProjectAttachment;
 import com.ruoyi.project.mapper.ProjectAttachmentMapper;
 import com.ruoyi.project.service.ProjectAttachmentService;
+import com.ruoyi.system.domain.SysOss;
+import com.ruoyi.system.domain.vo.SysOssVo;
+import com.ruoyi.system.mapper.SysOssMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class ProjectAttachmentServiceImpl implements ProjectAttachmentService {
 
     private final ProjectAttachmentMapper projectAttachmentMapper;
+
+    private final SysOssMapper sysOssMapper;
 
     /**
      * @param projectId 项目ID
@@ -88,8 +94,10 @@ public class ProjectAttachmentServiceImpl implements ProjectAttachmentService {
      * @return 返回查询列表
      */
     @Override
-    public List<ProjectAttachment> selectProjectAttachmentByProId(Long projectId) {
-        return projectAttachmentMapper.selectList((new LambdaQueryWrapper<ProjectAttachment>()).
-            eq(ProjectAttachment::getProjectId, projectId));
+    public List<SysOssVo> selectProjectAttachmentByProId(Long projectId) {
+        List<Long> ossIds = projectAttachmentMapper.selectList((new LambdaQueryWrapper<ProjectAttachment>())
+            .eq(ProjectAttachment::getProjectId, projectId)).stream().map(ProjectAttachment::getOssId).collect(Collectors.toList());
+        List<SysOssVo> sysOssVos = sysOssMapper.selectVoList(new LambdaQueryWrapper<SysOss>().in(!ossIds.isEmpty(), SysOss::getOssId,ossIds));
+        return sysOssVos;
     }
 }

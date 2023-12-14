@@ -1,6 +1,6 @@
 package com.ruoyi.project.service;
 
-import com.ruoyi.project.domain.ProjectAttachment;
+import com.ruoyi.system.domain.vo.SysOssVo;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ public interface ProjectAttachmentService {
 
     int deleteProjectAttachmentById(Long projectAttachmentId);
 
-    List<ProjectAttachment> selectProjectAttachmentByProId(Long projectId);
+    List<SysOssVo> selectProjectAttachmentByProId(Long projectId);
 
 
 }
