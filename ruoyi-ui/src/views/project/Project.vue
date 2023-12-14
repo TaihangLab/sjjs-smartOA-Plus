@@ -14,7 +14,7 @@
                 </el-table-column>
                 <el-table-column label="负责人电话" :resizable="false" align="center" prop="user.username" width="150">
                 </el-table-column>
-                <el-table-column label="项目分类" :resizable="false" align="center" prop="'projectType" width="110">
+                <el-table-column label="项目分类" :resizable="false" align="center" prop="projectType" width="110">
                 </el-table-column>
                 <el-table-column label="负责人邮箱" :resizable="false" align="center" prop="user.username" width="150">
                 </el-table-column>
@@ -133,7 +133,7 @@ export default {
                     money: "",
                     remark: "",
                 },
-            },
+            }, 
             projectList:[],
             pageIndex: 1,
             pageSize: 10,
