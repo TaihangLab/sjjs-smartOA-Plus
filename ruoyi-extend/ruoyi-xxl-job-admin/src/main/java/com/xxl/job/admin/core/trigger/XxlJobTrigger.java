@@ -23,7 +23,7 @@ import java.util.Date;
  * Created by xuxueli on 17/7/13.
  */
 public class XxlJobTrigger {
-    private static Logger logger = LoggerFactory.getLogger(XxlJobTrigger.class);
+    private static final Logger logger = LoggerFactory.getLogger(XxlJobTrigger.class);
 
     /**
      * trigger job
@@ -212,12 +212,11 @@ public class XxlJobTrigger {
             runResult = new ReturnT<String>(ReturnT.FAIL_CODE, ThrowableUtil.toString(e));
         }
 
-        StringBuffer runResultSB = new StringBuffer(I18nUtil.getString("jobconf_trigger_run") + "：");
-        runResultSB.append("<br>address：").append(address);
-        runResultSB.append("<br>code：").append(runResult.getCode());
-        runResultSB.append("<br>msg：").append(runResult.getMsg());
+        String runResultSB = I18nUtil.getString("jobconf_trigger_run") + "：" + "<br>address：" + address +
+            "<br>code：" + runResult.getCode() +
+            "<br>msg：" + runResult.getMsg();
 
-        runResult.setMsg(runResultSB.toString());
+        runResult.setMsg(runResultSB);
         return runResult;
     }
 
