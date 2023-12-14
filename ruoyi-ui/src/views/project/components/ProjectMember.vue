@@ -132,13 +132,14 @@ import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 export default {
     dicts: ['sys_normal_disable', 'sys_user_sex'],
     components: {Treeselect},
-    props: ['myform'],
+    props: ['myform', "selectedIdList"],
     data() {
         return {
             loading: true,
             // 选中数组
             ids: [],
             names: [],
+            members: [],
             // 非单个禁用
             single: true,
             // 非多个禁用
@@ -209,6 +210,10 @@ export default {
         }
     },
 
+    mounted() {
+        console.log("mounted", this.$props.selectedIdList);
+    },
+
 
     created() {
         this.getList();
@@ -216,6 +221,7 @@ export default {
         // this.getConfigKey("sys.user.initPassword").then(response => {
         //   this.initPassword = response.msg;
         // });
+
 
     },
 
@@ -228,12 +234,30 @@ export default {
     },
 
     methods: {
+        // 默认选中用户
+
         /** 查询用户列表 */
         getList() {
             this.loading = true;
             listUser(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
                     this.userList = response.rows;
                     this.total = response.total;
+
+                //  默认选中传递的用户
+                if (this.$props.selectedIdList) {
+                    let indexList = this.userList.map((item,index) => {
+                        console.log("id", item.userId);
+                        if (this.$props.selectedIdList.includes(item.userId)) {
+                            return index;
+                        }
+                    });
+                    indexList.forEach(index => {
+                        if (index)
+                            this.$refs.table.toggleRowSelection(this.userList[index], true);
+                    })
+                }
+
+
                     this.loading = false;
                 }
             );
