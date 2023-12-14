@@ -27,4 +27,9 @@ public class ProjectUser {
      */
     private Long userId;
 
+    /**
+     * 项目成员角色
+     */
+    private String projectUserRole;
+
 }
