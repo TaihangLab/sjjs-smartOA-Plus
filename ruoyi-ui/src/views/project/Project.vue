@@ -2,12 +2,12 @@
     <el-card class="box-card" style="margin: auto;">
         <div>
             <!-- 角色数据表单 -->
-            <el-table ref="multipleTable" :data="dataList" border style="width: 100%" :row-style="{ height: '50px' }"
+            <el-table ref="multipleTable" :data="projectlist" border style="width: 100%" :row-style="{ height: '50px' }"
                 :cell-style="{ padding: '0px' }">
                 <el-table-column type="selection" :resizable="false" align="center" width="40"></el-table-column>
                 <el-table-column label="项目编号" :resizable="false" align="center"  width="80">
                 </el-table-column>
-                <el-table-column label="项目名称" :resizable="false" align="center" prop="project.name" width="150">
+                <el-table-column label="项目名称" :resizable="false" align="center" :prop="projectlist.projectName" width="150">
                 </el-table-column>
                 <el-table-column label="负责人" :resizable="false" align="center" prop="user.username" width="150">
                 </el-table-column>
@@ -91,7 +91,7 @@ export default {
     data() {
         return {
             projectId: '0',
-            projectlist:{},
+            projectlist:[],
             rowCenter: {
                 "text-align": "center"
             },
@@ -136,7 +136,6 @@ export default {
                     remark: "",
                 },
             },
-            dataList: [], //页面展示的数据集合
             pageIndex: 1,
             pageSize: 10,
             totalPage: 0,
