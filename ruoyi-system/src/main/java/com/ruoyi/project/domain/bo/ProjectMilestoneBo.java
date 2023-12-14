@@ -53,4 +53,21 @@ public class ProjectMilestoneBo extends BaseEntity {
      * 大事记对应ossID列表
      */
     private List<Long> ossIds;
+
+    /**
+     * 搜索关键字
+     */
+    private String keyword;
+
+    /**
+     * 搜索大事纪起始时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate milestoneStaTime;
+
+    /**
+     * 搜索大事纪结束时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate milestoneEndTime;
 }

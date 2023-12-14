@@ -21,4 +21,6 @@ public interface ProjectMilestoneService {
 
     List<ProjectMilestoneVo> selectMilestoneInfoByProjectId(Long projectId);
 
+    List<ProjectMilestoneVo> queryMilestoneList(ProjectMilestoneBo projectMilestoneBo);
+
 }
