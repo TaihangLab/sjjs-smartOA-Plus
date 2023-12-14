@@ -105,22 +105,16 @@ export default {
             },
             //新增
             form: {
-                project: {
-                    projectId: "",
-                    name: "",
-                    content: "",
-                    type: "",
-                    money: "",
-                    mobile: "",
-                },
-                user: {
-                    username: "",
-                },
+                    projectName: "",
+                    projectManager: "",
+                    projectStatus: "",
+                    projectInfo: "",
+                    projectType: "",
+                    startTime: "",
+                    establishTime: "",
             },
             //查看
             formLook: {
-                project: {},
-                user: {},
             },
             //编辑
             formChange: {
@@ -227,6 +221,7 @@ export default {
         },
         //详情按钮
         lookEdit(index, item) {
+            console.log('formLook:', this.formLook);
             this.dialogFormVisibleLook = true;
             this.formLook = item;
         },
