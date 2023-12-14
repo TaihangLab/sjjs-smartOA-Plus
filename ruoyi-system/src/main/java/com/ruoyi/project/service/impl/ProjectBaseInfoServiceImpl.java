@@ -1,6 +1,5 @@
 package com.ruoyi.project.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -19,7 +18,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -72,12 +74,7 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
     }
 
     private LambdaQueryWrapper<ProjectBaseInfo> buildMyListQueryWrapper(ProjectBaseInfoBO projectBaseInfoBO){
-        LambdaQueryWrapper<ProjectBaseInfo> lqw= Wrappers.lambdaQuery();
-        lqw.like(StringUtils.isNotBlank(projectBaseInfoBO.getProjectName()),ProjectBaseInfo::getProjectName,projectBaseInfoBO.getProjectName());
-        lqw.eq(projectBaseInfoBO.getProjectType()!=null,ProjectBaseInfo::getProjectType,projectBaseInfoBO.getProjectType());
-        lqw.eq(StringUtils.isNotBlank(projectBaseInfoBO.getProjectStatus()),ProjectBaseInfo::getProjectStatus,projectBaseInfoBO.getProjectStatus());
-        lqw.ge(projectBaseInfoBO.getEstablishTimeSta()!=null,ProjectBaseInfo::getEstablishTime,projectBaseInfoBO.getEstablishTimeSta());
-        lqw.le(projectBaseInfoBO.getEstablishTimeEnd()!=null,ProjectBaseInfo::getEstablishTime,projectBaseInfoBO.getEstablishTimeEnd());
+        LambdaQueryWrapper<ProjectBaseInfo> lqw = buildCommonQueryWrapper(projectBaseInfoBO);
         List<Long> loginProjectIds = Optional.ofNullable(LoginHelper.getUserId())
             .map(this::getProjectIdsByUserId)
             .orElse(Collections.emptyList());
@@ -104,11 +101,16 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
     }
     private LambdaQueryWrapper<ProjectBaseInfo> buildCommonQueryWrapper(ProjectBaseInfoBO projectBaseInfoBO){
         LambdaQueryWrapper<ProjectBaseInfo> lqw= Wrappers.lambdaQuery();
-        lqw.like(StringUtils.isNotBlank(projectBaseInfoBO.getProjectName()),ProjectBaseInfo::getProjectName,projectBaseInfoBO.getProjectName());
-        lqw.eq(projectBaseInfoBO.getProjectType()!=null,ProjectBaseInfo::getProjectType,projectBaseInfoBO.getProjectType());
-        lqw.eq(StringUtils.isNotBlank(projectBaseInfoBO.getProjectStatus()),ProjectBaseInfo::getProjectStatus,projectBaseInfoBO.getProjectStatus());
-        lqw.ge(projectBaseInfoBO.getEstablishTimeSta()!=null,ProjectBaseInfo::getEstablishTime,projectBaseInfoBO.getEstablishTimeSta());
-        lqw.le(projectBaseInfoBO.getEstablishTimeEnd()!=null,ProjectBaseInfo::getEstablishTime,projectBaseInfoBO.getEstablishTimeEnd());
+        log.info("ProjectBaseInfoBO为:{}", projectBaseInfoBO);
+        lqw.like(StringUtils.isNotBlank(projectBaseInfoBO.getAssignedSubjectName()), ProjectBaseInfo::getAssignedSubjectName, projectBaseInfoBO.getAssignedSubjectName());
+        lqw.like(StringUtils.isNotBlank(projectBaseInfoBO.getAssignedSubjectSection()), ProjectBaseInfo::getAssignedSubjectSection, projectBaseInfoBO.getAssignedSubjectSection());
+        //log.info("projectBaseInfoBO.getHasCooperativeUnit()为:{}",projectBaseInfoBO.getHasCooperativeUnit().getValue());
+        lqw.eq(projectBaseInfoBO.getHasCooperativeUnit() != null, ProjectBaseInfo::getHasCooperativeUnit, projectBaseInfoBO.getHasCooperativeUnit());
+        lqw.eq(projectBaseInfoBO.getProjectLevel() != null, ProjectBaseInfo::getProjectLevel, projectBaseInfoBO.getProjectLevel());
+        lqw.ge(projectBaseInfoBO.getProjectEstablishTimeSta() != null, ProjectBaseInfo::getProjectEstablishTime, projectBaseInfoBO.getProjectEstablishTimeSta());
+        lqw.le(projectBaseInfoBO.getProjectEstablishTimeEnd() != null, ProjectBaseInfo::getProjectEstablishTime, projectBaseInfoBO.getProjectEstablishTimeEnd());
+        lqw.ge(projectBaseInfoBO.getProjectScheduledCompletionTimeSta() != null, ProjectBaseInfo::getProjectScheduledCompletionTime, projectBaseInfoBO.getProjectScheduledCompletionTimeSta());
+        lqw.le(projectBaseInfoBO.getProjectScheduledCompletionTimeEnd() != null, ProjectBaseInfo::getProjectScheduledCompletionTime, projectBaseInfoBO.getProjectScheduledCompletionTimeEnd());
         return lqw;
     }
 

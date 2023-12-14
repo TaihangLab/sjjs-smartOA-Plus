@@ -1,6 +1,8 @@
 package com.ruoyi.project.domain.vo;
 
-import com.ruoyi.common.enums.ProjectType;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ruoyi.common.enums.ExistenceState;
+import com.ruoyi.common.enums.ProjectLevel;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -11,17 +13,54 @@ import java.time.LocalDate;
  */
 @Data
 public class ProjectBaseInfoVO {
-    private String projectName;
 
-    private String projectManager;
+    /**
+     * 项目id
+     */
+    private Long projectId;
+    /**
+     * 项目牵头单位
+     */
+    private String leadingUnit;
 
-    private String projectStatus;
+    /**
+     * 承担课题名称
+     */
+    private String assignedSubjectName;
 
-    private String projectInfo;
+    /**
+     * 项目任务书编号
+     */
+    private String projectAssignmentSerialNo;
 
-    private ProjectType projectType;
+    /**
+     * 项目级别，0国家级，1省级，2企业级
+     */
+    private ProjectLevel projectLevel;
 
-    private LocalDate startTime;
+    /**
+     * 负责课题
+     */
+    private String assignedSubjectSection;
 
-    private LocalDate establishTime;
+    /**
+     * 项目推进情况
+     */
+    private String projectProgressStatus;
+
+    /**
+     * 立项日期
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate projectEstablishTime;
+
+    /**
+     * 项目计划验收时间
+     */
+    private LocalDate projectScheduledCompletionTime;
+
+    /**
+     * 有无合作单位，1有，0无
+     */
+    private ExistenceState hasCooperativeUnit;
 }

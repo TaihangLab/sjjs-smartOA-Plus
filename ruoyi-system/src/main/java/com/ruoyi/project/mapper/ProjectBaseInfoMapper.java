@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 /**
 * @author bailingnan
 * @description 针对表【project_base_info(项目表)】的数据库操作Mapper
-* @createDate 2023-12-08 13:31:41
+ * @createDate 2023-12-13 23:08:39
 * @Entity com.ruoyi.project.domain.ProjectBaseInfo
 */
 @Mapper

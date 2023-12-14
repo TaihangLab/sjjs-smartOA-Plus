@@ -18,7 +18,8 @@
             </el-collapse-transition>
 
             <el-collapse-transition>
-                <ProjectMember v-show="stepID===1" :myform="projectMemberForm" ref="projectMember"></ProjectMember>
+                <ProjectMember v-show="stepID===1" :myform="projectMemberForm" ref="projectMember"
+                               :selectedIdList="['1726485523286900737', '1729072278007623681']"></ProjectMember>
             </el-collapse-transition>
 
             <el-collapse-transition>
