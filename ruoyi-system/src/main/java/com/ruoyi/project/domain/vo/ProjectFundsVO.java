@@ -13,11 +13,6 @@ import java.math.BigDecimal;
 @Data
 public class ProjectFundsVO {
     /**
-     * 项目id
-     */
-    private Long projectId;
-
-    /**
      * 设备费_购置设备费_专项_直接
      */
     private BigDecimal sbfGzsbZxZj;

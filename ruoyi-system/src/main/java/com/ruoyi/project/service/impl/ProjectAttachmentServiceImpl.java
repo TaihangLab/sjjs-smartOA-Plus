@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,10 +70,12 @@ public class ProjectAttachmentServiceImpl implements ProjectAttachmentService {
      * @return 返回查询列表
      */
     @Override
-    public List<SysOssVo> selectProjectAttachmentByProId(Long projectId) {
+    public List<SysOssVo> selectSysOssVOListByProId(Long projectId) {
         List<Long> ossIds = projectAttachmentMapper.selectList((new LambdaQueryWrapper<ProjectAttachment>())
             .eq(ProjectAttachment::getProjectId, projectId)).stream().map(ProjectAttachment::getOssId).collect(Collectors.toList());
-        List<SysOssVo> sysOssVos = sysOssMapper.selectVoList(new LambdaQueryWrapper<SysOss>().in(!ossIds.isEmpty(), SysOss::getOssId, ossIds));
-        return sysOssVos;
+        if (ossIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return sysOssMapper.selectVoList(new LambdaQueryWrapper<SysOss>().in(SysOss::getOssId, ossIds));
     }
 }

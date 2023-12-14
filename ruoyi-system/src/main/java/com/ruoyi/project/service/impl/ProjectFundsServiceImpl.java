@@ -1,7 +1,6 @@
 package com.ruoyi.project.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.project.domain.ProjectFunds;
 import com.ruoyi.project.domain.vo.ProjectFundsVO;
 import com.ruoyi.project.mapper.ProjectFundsMapper;
@@ -29,9 +28,8 @@ public class ProjectFundsServiceImpl implements ProjectFundsService {
      * @return
      */
     @Override
-    public ProjectFundsVO selectProjectFunds(Long projectId) {
-        ProjectFundsVO projectFundsVO = new ProjectFundsVO();
-        projectFundsMapper.selectList(new LambdaQueryWrapper<ProjectFunds>().eq(ProjectFunds::getProjectId, projectId)).stream().findFirst().ifPresent(projectFunds -> BeanCopyUtils.copy(projectFunds, projectFundsVO));
+    public ProjectFundsVO selectProjectFundsVOById(Long projectId) {
+        ProjectFundsVO projectFundsVO = projectFundsMapper.selectVoOne(new LambdaQueryWrapper<ProjectFunds>().eq(ProjectFunds::getProjectId, projectId));
         return projectFundsVO;
     }
 

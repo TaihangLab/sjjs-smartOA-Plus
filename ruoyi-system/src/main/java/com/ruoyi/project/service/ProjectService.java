@@ -1,9 +1,6 @@
 package com.ruoyi.project.service;
 
-import com.ruoyi.common.core.domain.PageQuery;
-import com.ruoyi.common.core.page.TableDataInfo;
-import com.ruoyi.project.domain.bo.ProjectBaseInfoBO;
-import com.ruoyi.project.domain.vo.ProjectBaseInfoVO;
+import com.ruoyi.project.domain.vo.ProjectDetailsVO;
 
 /**
  * @author bailingnan
@@ -11,4 +8,6 @@ import com.ruoyi.project.domain.vo.ProjectBaseInfoVO;
  */
 public interface ProjectService {
     void deleteProject(Long projectId);
+
+    ProjectDetailsVO getProjectDetails(Long projectId);
 }
