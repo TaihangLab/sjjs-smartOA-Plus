@@ -3,37 +3,37 @@
         <el-tab-pane label="基本信息" name="first">
             <div style="margin-top: 10px;"></div>
             <el-descriptions class="margin-top" title="" :column="1" :size="size" :labelStyle="{width: '18%'}"  :contentStyle="{width: '82%'}" border>
-                <el-descriptions-item label="项目名称">
-                    {{ this.formLook.project.name }}
+                <el-descriptions-item label="项目牵头单位">
+                    {{ this.formLook.projectName }}
                 </el-descriptions-item>
             </el-descriptions>
             <el-descriptions class="margin-top" title="" :column="2" :size="size" :labelStyle="{width: '18%'}" :contentStyle="{width: '35%'}" border>
-                <el-descriptions-item label="负责人">
-                    {{ formLook.user.username }}
+                <el-descriptions-item label="承担课题名称">
+                    {{ formLook.projectManager }}
                 </el-descriptions-item>
-                <el-descriptions-item label="所属单位">
+                <el-descriptions-item label="项目任务书编号">
                     {{ formLook.project.organization }}
                 </el-descriptions-item>
-                <el-descriptions-item label="负责人电话">
+                <el-descriptions-item label="级别（国家级、省级、企业项目）">
                     {{ formLook.user.username }}
                 </el-descriptions-item>
-                <el-descriptions-item label="负责人邮箱">
-                    {{ formLook.user.username }}
+                <el-descriptions-item label="负责课题">
+                    {{ formLook.projectName }}
                 </el-descriptions-item>
-                <el-descriptions-item label="经办人">
-                    {{ formLook.user.username  }}
+                <el-descriptions-item label="项目推进情况">
+                    {{ formLook.projectName  }}
                 </el-descriptions-item>
-                <el-descriptions-item label="经办人电话">
-                    {{ formLook.user.username  }}
+                <el-descriptions-item label="合作单位">
+                    {{ formLook.projectManager  }}
                 </el-descriptions-item>
                 <el-descriptions-item label="项目分类">
-                    {{ formLook.project.type }}
+                    {{ formLook.projectType }}
                 </el-descriptions-item>
-                <el-descriptions-item label="立项日期">
-                    {{ formLook.createTime }}
+                <el-descriptions-item label="立项时间">
+                    {{ formLook.startTime }}
                 </el-descriptions-item>
-                <el-descriptions-item label="开始日期">
-                    {{ formLook.createTime }}
+                <el-descriptions-item label="项目计划验收时间">
+                    {{ formLook.establishTime }}
                 </el-descriptions-item>
                 <el-descriptions-item>
                     <template slot="label">
@@ -108,6 +108,7 @@ import MoneySource from "./ViewProject/MoneySource.vue";
 import Member from "./ViewProject/Member.vue";
 import SpecialFunds from "./ViewProject/SpecialFunds.vue";
 import SelfFunds from "./ViewProject/SelfFunds.vue";
+
 export default {
     name: "ProjectDetail",
     components:{

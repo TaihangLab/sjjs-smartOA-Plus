@@ -4,23 +4,23 @@
             <el-table ref="multipleTable" :data="projectList" border style="width: 100%" :row-style="{ height: '50px' }"
                 :cell-style="{ padding: '0px' }">
                 <el-table-column type="selection" :resizable="false" align="center" width="40"></el-table-column>
-                <el-table-column label="项目编号" :resizable="false" align="center"  width="80">
+                <el-table-column label="项目牵头单位" :resizable="false" align="center"  width="180">
                 </el-table-column>
-                <el-table-column label="项目名称" :resizable="false" align="center" prop="projectName" width="150">
+                <el-table-column label="承担课题名称" :resizable="false" align="center" prop="projectName" width="150">
                 </el-table-column>
-                <el-table-column label="负责人" :resizable="false" align="center" prop="projectManager" width="150">
+                <el-table-column label="项目任务书编号" :resizable="false" align="center"  width="130">
                 </el-table-column>
-                <el-table-column label="所属单位" :resizable="false" align="center" prop="project.name" width="150">
+                <el-table-column label="级别（国家级、省级、企业项目）" :resizable="false" align="center" prop="projectType" width="110">
                 </el-table-column>
-                <el-table-column label="负责人电话" :resizable="false" align="center" prop="user.username" width="150">
+                <el-table-column label="负责课题" :resizable="false" align="center" prop="projectName" width="150">
                 </el-table-column>
-                <el-table-column label="项目分类" :resizable="false" align="center" prop="projectType" width="110">
+                <el-table-column label="项目推进情况" :resizable="false" align="center" prop="projectName" width="150">
                 </el-table-column>
-                <el-table-column label="负责人邮箱" :resizable="false" align="center" prop="user.username" width="150">
+                <el-table-column label="合作单位" :resizable="false" align="center" prop="projectManager" width="150">
                 </el-table-column>
-                <el-table-column label="立项日期" :resizable="false" align="center" prop="startTime" width="170">
+                <el-table-column label="立项时间" :resizable="false" align="center" prop="startTime" width="170">
                 </el-table-column>
-                <el-table-column label="开始日期" :resizable="false" align="center" prop="establishTime" width="170">
+                <el-table-column label="项目计划验收时间" :resizable="false" align="center" prop="establishTime" width="170">
                 </el-table-column>
                 <el-table-column label="操作" :resizable="false" align="center" min-width="230px" fixed="right">
                     <template v-slot="scope">
@@ -89,7 +89,7 @@ export default {
     },
     data() {
         return {
-            projectId: '0',
+            projectId: '6',
             rowCenter: {
                 "text-align": "center"
             },
