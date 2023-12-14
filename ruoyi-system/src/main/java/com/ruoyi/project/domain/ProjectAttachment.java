@@ -25,14 +25,4 @@ public class ProjectAttachment {
      */
     private Long ossId;
 
-    /**
-     * 项目附件或其他附件
-     */
-    private String attachmentType;
-
-    /**
-     * 是否为模版文件
-     */
-    private boolean template;
-
 }

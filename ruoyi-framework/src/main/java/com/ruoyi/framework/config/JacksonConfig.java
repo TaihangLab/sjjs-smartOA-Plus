@@ -1,5 +1,6 @@
 package com.ruoyi.framework.config;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -41,6 +42,7 @@ public class JacksonConfig {
             builder.modules(javaTimeModule);
             builder.timeZone(TimeZone.getDefault());
             builder.featuresToEnable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
+            builder.featuresToEnable(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL);
             log.info("初始化 jackson 配置");
         };
     }

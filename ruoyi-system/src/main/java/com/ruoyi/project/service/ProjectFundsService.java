@@ -9,7 +9,7 @@ import com.ruoyi.project.domain.vo.ProjectFundsVO;
  */
 public interface ProjectFundsService {
 
-    ProjectFundsVO selectProjectFunds(Long projectId);
+    ProjectFundsVO selectProjectFundsVOById(Long projectId);
     int insertProjectFunds(ProjectFunds projectFunds);
 
 

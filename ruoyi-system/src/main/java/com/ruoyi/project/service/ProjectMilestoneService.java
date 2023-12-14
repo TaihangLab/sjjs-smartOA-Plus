@@ -19,6 +19,6 @@ public interface ProjectMilestoneService {
 
     int updateMilestone(ProjectMilestoneBo projectMilestoneBo);
 
-    List<ProjectMilestoneVo> selectMilestoneInfoByProjectId(Long projectId);
+    List<ProjectMilestoneVo> queryMilestoneList(ProjectMilestoneBo projectMilestoneBo);
 
 }

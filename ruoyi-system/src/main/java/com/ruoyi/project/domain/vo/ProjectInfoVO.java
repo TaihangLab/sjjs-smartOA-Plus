@@ -1,48 +1,34 @@
-package com.ruoyi.project.domain.bo;
+package com.ruoyi.project.domain.vo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.core.domain.BaseEntity;
-import com.ruoyi.common.core.validate.AddGroup;
-import com.ruoyi.common.core.validate.EditGroup;
 import com.ruoyi.common.enums.ConfirmationStatus;
 import com.ruoyi.common.enums.ExistenceState;
 import com.ruoyi.common.enums.ProjectLevel;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 /**
  * @author bailingnan
- * @date 2023/12/12
+ * @date 2023/12/14
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class ProjectBaseInfoBO extends BaseEntity {
-
+public class ProjectInfoVO extends BaseEntity {
     /**
      * 项目id
      */
-    @TableId(type = IdType.AUTO)
-    @NotNull(message = "项目id不能为空", groups = {EditGroup.class})
     private Long projectId;
 
     /**
      * 项目牵头单位
      */
-    @Size(max = 100, message = "项目牵头单位长度不能超过200个字符")
     private String leadingUnit;
 
     /**
      * 承担课题名称
      */
-    @NotBlank(message = "项目名称不能为空",groups={AddGroup.class, EditGroup.class})
-    @Size(max = 200, message = "承担课题名称长度不能超过200个字符")
     private String assignedSubjectName;
 
     /**
@@ -112,13 +98,17 @@ public class ProjectBaseInfoBO extends BaseEntity {
     /**
      * 完成进度
      */
-    @Size(max = 2000, message = "完成进度长度不能超过2000个字符")
     private String completionProgress;
 
     /**
      * 合作单位
      */
     private String collaboratingUnit;
+
+    /**
+     * 涉及专家、团队
+     */
+    private String expertTeam;
 
     /**
      * 有无合作单位，1有，0无
@@ -149,33 +139,4 @@ public class ProjectBaseInfoBO extends BaseEntity {
      * 标准情况
      */
     private String standardDetails;
-
-    /**
-     * 项目参与者
-     */
-    private Long userId;
-    /**
-     * 立项日期开始查询时间
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate projectEstablishTimeSta;
-
-    /**
-     * 立项日期结束查询时间
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate projectEstablishTimeEnd;
-
-    /**
-     * 项目计划验收时间开始时间
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate projectScheduledCompletionTimeSta;
-
-    /**
-     * 项目计划验收时间结束时间
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate projectScheduledCompletionTimeEnd;
-
 }

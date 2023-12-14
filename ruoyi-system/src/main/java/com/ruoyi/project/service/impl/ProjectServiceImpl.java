@@ -1,16 +1,7 @@
 package com.ruoyi.project.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ruoyi.common.core.domain.PageQuery;
-import com.ruoyi.common.core.page.TableDataInfo;
-import com.ruoyi.project.domain.ProjectBaseInfo;
-import com.ruoyi.project.domain.bo.ProjectBaseInfoBO;
-import com.ruoyi.project.domain.vo.ProjectBaseInfoVO;
-import com.ruoyi.project.mapper.ProjectBaseInfoMapper;
+import com.ruoyi.project.domain.vo.ProjectDetailsVO;
 import com.ruoyi.project.service.*;
-import com.ruoyi.system.domain.SysOssConfig;
-import com.ruoyi.system.domain.vo.SysOssConfigVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -38,6 +29,26 @@ public class ProjectServiceImpl implements ProjectService {
     private final ProjectUserService projectUserService;
 
 
+    /**
+     * @param projectId
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ProjectDetailsVO getProjectDetails(Long projectId) {
+        ProjectDetailsVO projectDetailsVO = new ProjectDetailsVO();
+        //项目信息
+        projectDetailsVO.setProjectInfoVO(projectBaseInfoService.selectProjectInfoVOById(projectId));
+        //成员信息
+        projectDetailsVO.setProjectUserVoList(projectUserService.getUserInfoByProjectId(projectId));
+        //经费信息
+        projectDetailsVO.setProjectFundsVO(projectFundsService.selectProjectFundsVOById(projectId));
+        //指标信息
+        projectDetailsVO.setProjectTargetVOList(projectTargetService.selectTargetListByProjectId(projectId));
+        //附件信息
+        projectDetailsVO.setProjectAttachmentVOList(projectAttachmentService.selectSysOssVOListByProId(projectId));
+        return projectDetailsVO;
+    }
     /**
      * 删除项目
      *

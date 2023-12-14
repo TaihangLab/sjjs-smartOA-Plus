@@ -5,6 +5,7 @@ import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.domain.entity.SysDept;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.project.domain.ProjectUser;
+import com.ruoyi.project.domain.bo.ProjectUserBo;
 import com.ruoyi.project.domain.vo.ProjectUserVo;
 import com.ruoyi.project.mapper.ProjectUserMapper;
 import com.ruoyi.project.service.ProjectUserService;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -30,25 +32,27 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 
     /**
      * 添加项目成员
+     *
      * @param projectId
-     * @param userIds
+     * @param projectUserBos
      * @return
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean insertProjectUsers(Long projectId, List<Long> userIds) {
+    public boolean insertProjectUsers(Long projectId, List<ProjectUserBo> projectUserBos) {
         List<ProjectUser> projectUsers = new ArrayList<>();
-        for (Long userId : userIds) {
+        for (ProjectUserBo projectUserBo : projectUserBos) {
             ProjectUser projectUser = new ProjectUser();
             projectUser.setProjectId(projectId);
-            projectUser.setUserId(userId);
-            projectUsers.add(projectUser);
+            projectUser.setUserId(projectUserBo.getUserId());
+            projectUser.setProjectUserRole(projectUserBo.getProjectUserRole());
         }
         return projectUserMapper.insertBatch(projectUsers);
     }
 
     /**
      * 根据项目ID删除对应成员
+     *
      * @param projectId
      * @return
      */
@@ -61,24 +65,25 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 
     /**
      * 修改项目成员
+     *
      * @param projectId
-     * @param userIds
+     * @param projectUserBos
      * @return
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int updateProjectUsers(Long projectId, List<Long> userIds) {
+    public int updateProjectUsers(Long projectId, List<ProjectUserBo> projectUserBos) {
         Map<String, Object> columnMap = new HashMap<>();
         columnMap.put("project_id", projectId);
         projectUserMapper.deleteByMap(columnMap);
 
         // 插入新的用户ID
         List<ProjectUser> projectUsers = new ArrayList<>();
-        for (Long userId : userIds) {
+        for (ProjectUserBo projectUserBo : projectUserBos) {
             ProjectUser projectUser = new ProjectUser();
             projectUser.setProjectId(projectId);
-            projectUser.setUserId(userId);
-            projectUsers.add(projectUser);
+            projectUser.setUserId(projectUserBo.getUserId());
+            projectUser.setProjectUserRole(projectUserBo.getProjectUserRole());
         }
 
         return projectUserMapper.insertBatch(projectUsers) ? projectUsers.size() : 0;
@@ -86,6 +91,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 
     /**
      * 根据项目ID获取成员详细信息
+     *
      * @param projectId
      * @return
      */
@@ -98,7 +104,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         Map<Long, SysUser> userIdToUserMap = getUsersMapByUserIds(userIds);
 
         // 获取用户的部门ID列表
-        Set<Long> uniqueDeptIds  = userIdToUserMap.values().stream().map(SysUser::getDeptId).collect(Collectors.toSet());
+        Set<Long> uniqueDeptIds = userIdToUserMap.values().stream().map(SysUser::getDeptId).collect(Collectors.toSet());
 
         // 根据部门ID列表获取部门名称映射
         Map<Long, String> deptIdToNameMap = getDeptNameMapByDeptIds(new ArrayList<>(uniqueDeptIds));

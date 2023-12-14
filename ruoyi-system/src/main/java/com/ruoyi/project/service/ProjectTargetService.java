@@ -1,6 +1,7 @@
 package com.ruoyi.project.service;
 
 import com.ruoyi.project.domain.ProjectTarget;
+import com.ruoyi.project.domain.vo.ProjectTargetVO;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface ProjectTargetService {
 
     boolean insertProjectTargetList(List<ProjectTarget> projectTargets);
 
-    List<ProjectTarget> selectTargetListByProjectId(Long projectId);
+    List<ProjectTargetVO> selectTargetListByProjectId(Long projectId);
 
     int deleteTargetByProjectId(Long projectId);
 
