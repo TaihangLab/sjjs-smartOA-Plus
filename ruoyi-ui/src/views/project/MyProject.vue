@@ -39,11 +39,12 @@
       <AddEvents :visible.sync="eventsDialogVisibleAdd">
       </AddEvents>
     </el-dialog>
-    <Project :buttonType="1" />
+    <Project :buttonType="1" :myProjectLook="myProjectLook" />
   </div>
 </template>
 
 <script>
+import request from '@/utils/request';
 import Project from "@/views/project/Project.vue";
 import NewProject from "@/views/project/components/NewProject.vue";
 import AddEvents from "@/views/project/components/AddEvents.vue";
@@ -55,6 +56,11 @@ export default {
   components: { Project, NewProject, AddEvents },
   data() {
     return {
+      myProjectLook: {},
+      projectList: [],
+      pageIndex: 1,
+      pageSize: 10,
+      total: 0,
       newProjectDialogVisible: false,
       eventsDialogVisibleAdd: false,
       showSearch: true,
@@ -113,9 +119,28 @@ export default {
     };
   },
   created() {
+    this.getprojectList();
     this.getDeptAndUserList();
   },
   methods: {
+    getprojectList() {
+      request({
+        url: '/project/my/getMyList',
+        method: 'post',
+        data: {
+          pageNum: this.pageNum,
+          pageSize: this.pageSize,
+        },
+      })
+        .then((resp) => {
+          this.myProjectLook = resp.rows;
+          this.total = resp.total;
+          console.log('项目', this.myProjectLook);
+        })
+        .catch((error) => {
+          console.error('获取数据时出错：', error);
+        });
+    },
     async getDeptAndUserList() {
       await this.getDeptTree(); // 等待部门数据加载完成
       await this.getList(); // 等待用户数据加载完成
