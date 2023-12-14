@@ -8,8 +8,6 @@
         <id property="id" column="id"/>
         <result property="projectId" column="project_id"/>
         <result property="ossId" column="oss_id"/>
-        <result property="attachmentType" column="attachment_type"/>
-        <result property="isTemplate" column="is_template"/>
     </resultMap>
 
 </mapper>

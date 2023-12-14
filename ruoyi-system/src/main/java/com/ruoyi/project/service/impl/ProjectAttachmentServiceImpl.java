@@ -30,39 +30,14 @@ public class ProjectAttachmentServiceImpl implements ProjectAttachmentService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean insertProjectMainAttachment(Long projectId, List<Long> ossIds) {
+    public boolean insertProjectAttachment(Long projectId, List<Long> ossIds) {
         if (ossIds.isEmpty()) {
             return true;
         }
         List<ProjectAttachment> attachments = new ArrayList<>();
         for (Long ossId : ossIds) {
             ProjectAttachment projectAttachment = new ProjectAttachment();
-            projectAttachment.setAttachmentType("main");
             projectAttachment.setProjectId(projectId);
-            projectAttachment.setTemplate(false);
-            projectAttachment.setOssId(ossId);
-        }
-
-        return projectAttachmentMapper.insertBatch(attachments);
-    }
-
-    /**
-     * @param projectId 项目ID
-     * @param ossIds    文件对象ossId列表
-     * @return 返回值
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public boolean insertProjectOtherAttachment(Long projectId, List<Long> ossIds) {
-        if (ossIds.isEmpty()) {
-            return true;
-        }
-        List<ProjectAttachment> attachments = new ArrayList<>();
-        for (Long ossId : ossIds) {
-            ProjectAttachment projectAttachment = new ProjectAttachment();
-            projectAttachment.setAttachmentType("other");
-            projectAttachment.setProjectId(projectId);
-            projectAttachment.setTemplate(false);
             projectAttachment.setOssId(ossId);
         }
 
@@ -97,7 +72,7 @@ public class ProjectAttachmentServiceImpl implements ProjectAttachmentService {
     public List<SysOssVo> selectProjectAttachmentByProId(Long projectId) {
         List<Long> ossIds = projectAttachmentMapper.selectList((new LambdaQueryWrapper<ProjectAttachment>())
             .eq(ProjectAttachment::getProjectId, projectId)).stream().map(ProjectAttachment::getOssId).collect(Collectors.toList());
-        List<SysOssVo> sysOssVos = sysOssMapper.selectVoList(new LambdaQueryWrapper<SysOss>().in(!ossIds.isEmpty(), SysOss::getOssId,ossIds));
+        List<SysOssVo> sysOssVos = sysOssMapper.selectVoList(new LambdaQueryWrapper<SysOss>().in(!ossIds.isEmpty(), SysOss::getOssId, ossIds));
         return sysOssVos;
     }
 }
