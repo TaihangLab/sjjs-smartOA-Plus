@@ -39,7 +39,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/joblog")
 public class JobLogController {
-    private static Logger logger = LoggerFactory.getLogger(JobLogController.class);
+    private static final Logger logger = LoggerFactory.getLogger(JobLogController.class);
 
     @Resource
     private XxlJobGroupDao xxlJobGroupDao;

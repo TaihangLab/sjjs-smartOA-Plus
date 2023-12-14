@@ -20,7 +20,7 @@ import java.util.concurrent.*;
  * @author xuxueli 2015-9-1 18:05:56
  */
 public class JobCompleteHelper {
-    private static Logger logger = LoggerFactory.getLogger(JobCompleteHelper.class);
+    private static final Logger logger = LoggerFactory.getLogger(JobCompleteHelper.class);
 
     private static JobCompleteHelper instance = new JobCompleteHelper();
 

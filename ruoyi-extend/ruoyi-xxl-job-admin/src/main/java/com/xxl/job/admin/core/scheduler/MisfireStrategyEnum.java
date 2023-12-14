@@ -17,7 +17,7 @@ public enum MisfireStrategyEnum {
      */
     FIRE_ONCE_NOW(I18nUtil.getString("misfire_strategy_fire_once_now"));
 
-    private String title;
+    private final String title;
 
     MisfireStrategyEnum(String title) {
         this.title = title;
