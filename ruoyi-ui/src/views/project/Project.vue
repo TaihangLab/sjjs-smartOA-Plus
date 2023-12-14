@@ -1,33 +1,26 @@
 <template>
     <el-card class="box-card" style="margin: auto;">
         <div>
-            <!-- 角色数据表单 -->
-            <el-table ref="multipleTable" :data="dataList" border style="width: 100%" :row-style="{ height: '50px' }"
+            <el-table ref="multipleTable" :data="projectList" border style="width: 100%" :row-style="{ height: '50px' }"
                 :cell-style="{ padding: '0px' }">
                 <el-table-column type="selection" :resizable="false" align="center" width="40"></el-table-column>
-                <el-table-column label="#" :resizable="false" align="center" prop="Id" width="80">
+                <el-table-column label="项目牵头单位" :resizable="false" align="center"  width="180">
                 </el-table-column>
-                <el-table-column label="项目编号" :resizable="false" align="center" prop="projectId" width="80">
+                <el-table-column label="承担课题名称" :resizable="false" align="center" prop="projectName" width="150">
                 </el-table-column>
-                <el-table-column label="项目名称" :resizable="false" align="center" prop="project.name" width="150">
+                <el-table-column label="项目任务书编号" :resizable="false" align="center"  width="130">
                 </el-table-column>
-                <el-table-column label="负责人" :resizable="false" align="center" prop="user.username" width="150">
+                <el-table-column label="级别（国家级、省级、企业项目）" :resizable="false" align="center" prop="projectType" width="110">
                 </el-table-column>
-                <el-table-column label="所属单位" :resizable="false" align="center" prop="project.name" width="150">
+                <el-table-column label="负责课题" :resizable="false" align="center" prop="projectName" width="150">
                 </el-table-column>
-                <el-table-column label="负责人电话" :resizable="false" align="center" prop="user.username" width="150">
+                <el-table-column label="项目推进情况" :resizable="false" align="center" prop="projectName" width="150">
                 </el-table-column>
-                <el-table-column label="经办人" :resizable="false" align="center" prop="user.username" width="150">
+                <el-table-column label="合作单位" :resizable="false" align="center" prop="projectManager" width="150">
                 </el-table-column>
-                <el-table-column label="经办人电话" :resizable="false" align="center" prop="user.username" width="150">
+                <el-table-column label="立项时间" :resizable="false" align="center" prop="startTime" width="170">
                 </el-table-column>
-                <el-table-column label="项目分类" :resizable="false" align="center" prop="project.type" width="110">
-                </el-table-column>
-                <el-table-column label="负责人邮箱" :resizable="false" align="center" prop="user.username" width="150">
-                </el-table-column>
-                <el-table-column label="立项日期" :resizable="false" align="center" prop="createTime" width="170">
-                </el-table-column>
-                <el-table-column label="开始日期" :resizable="false" align="center" prop="createTime" width="170">
+                <el-table-column label="项目计划验收时间" :resizable="false" align="center" prop="establishTime" width="170">
                 </el-table-column>
                 <el-table-column label="操作" :resizable="false" align="center" min-width="230px" fixed="right">
                     <template v-slot="scope">
@@ -81,6 +74,7 @@
     </el-card>
 </template>
 <script>
+import request from '@/utils/request';
 import ProjectDetail from "@/views/project/components/ProjectDetail.vue";
 import CheckEvents from "@/views/project/components/CheckEvents.vue";
 import AddEvents from "@/views/project/components/AddEvents.vue";
@@ -95,7 +89,7 @@ export default {
     },
     data() {
         return {
-            projectId: '0',
+            projectId: '6',
             rowCenter: {
                 "text-align": "center"
             },
@@ -111,22 +105,16 @@ export default {
             },
             //新增
             form: {
-                project: {
-                    projectId: "",
-                    name: "",
-                    content: "",
-                    type: "",
-                    money: "",
-                    mobile: "",
-                },
-                user: {
-                    username: "",
-                },
+                    projectName: "",
+                    projectManager: "",
+                    projectStatus: "",
+                    projectInfo: "",
+                    projectType: "",
+                    startTime: "",
+                    establishTime: "",
             },
             //查看
             formLook: {
-                project: {},
-                user: {},
             },
             //编辑
             formChange: {
@@ -139,8 +127,8 @@ export default {
                     money: "",
                     remark: "",
                 },
-            },
-            dataList: [], //页面展示的数据集合
+            }, 
+            projectList:[],
             pageIndex: 1,
             pageSize: 10,
             totalPage: 0,
@@ -156,22 +144,27 @@ export default {
         };
     },
     created() {
-        // 用于测试目的的模拟数据
-        const mockData = [
-            {
-                projectId: '11',
-                project: { id: 11, name: '项目A', type: '类型A', money: 1000, remark: 'Lorem ipsum' },
-                user: { id: 11, username: '用户1', name: '用户一' },
-                createTime: '2023-01-01',
-                updateTime: '2023-01-02',
-            },
-            // 根据需要添加更多的模拟数据
-        ];
-
-        // 将模拟数据分配给 dataList
-        this.dataList = mockData;
+        this.getprojectList();
     },
     methods: {
+        /** 查询用户列表 */
+        getprojectList() {
+            request({
+                url: '/project/list/getAllList',
+                method: 'post',
+                data: {
+                    pageNum: this.pageNum,
+                    pageSize: this.pageSize,
+                },
+            })
+                .then((resp) => {
+                    this.projectList = resp.rows;
+                    console.log('项目', this.projectList);
+                })
+                .catch((error) => {
+                    console.error('获取数据时出错：', error);
+                });
+        },
         // 关闭弹窗的方法
         closeEventsDialog() {
             this.eventsDialogVisibleAdd = false;
@@ -228,6 +221,7 @@ export default {
         },
         //详情按钮
         lookEdit(index, item) {
+            console.log('formLook:', this.formLook);
             this.dialogFormVisibleLook = true;
             this.formLook = item;
         },

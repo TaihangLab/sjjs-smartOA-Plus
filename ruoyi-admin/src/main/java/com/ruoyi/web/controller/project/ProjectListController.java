@@ -10,7 +10,6 @@ import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.project.domain.ProjectTarget;
 import com.ruoyi.project.domain.bo.ProjectBaseInfoBO;
 import com.ruoyi.project.domain.vo.ProjectBaseInfoVO;
-import com.ruoyi.project.domain.vo.ProjectFundsVO;
 import com.ruoyi.project.domain.vo.ProjectMilestoneVo;
 import com.ruoyi.project.domain.vo.ProjectUserVo;
 import com.ruoyi.project.service.*;
@@ -18,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -106,30 +104,4 @@ public class ProjectListController extends BaseController {
     public R<List<ProjectUserVo>> getProjectMembers(@RequestParam Long projectId){
         return R.ok(projectUserService.getUserInfoByProjectId(projectId));
     }
-
-    /**
-     * 获取项目资金信息
-     *
-     * @param projectId 项目ID
-     * @return 项目资金信息
-     */
-    //@SaCheckPermission("project:list:projectfundsSelect")
-    @GetMapping("/projectfundsSelect")
-    public R<ProjectFundsVO> getProjectFunds(@RequestParam @NotNull Long projectId) {
-        return R.ok(projectFundsService.selectProjectFunds(projectId));
-    }
-
-    /**
-     * Delete project r.
-     *
-     * @param projectId the project id
-     * @return the r
-     */
-//@SaCheckPermission("project:list:projectDelete")
-    @GetMapping("/delete")
-    public R<Void> deleteProject(@RequestParam @NotNull Long projectId) {
-        projectService.deleteProject(projectId);
-        return R.ok();
-    }
-
 }

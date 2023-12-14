@@ -4,48 +4,115 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.project.mapper.ProjectFundsMapper">
 
-    <resultMap id="ProjectFundsResult" type="ProjectFunds">
+    <resultMap id="ProjectFundsResult" type="com.ruoyi.project.domain.ProjectFunds">
             <id property="fundsId" column="funds_id" jdbcType="BIGINT"/>
             <result property="projectId" column="project_id" jdbcType="BIGINT"/>
-            <result property="sbfGzsbZx" column="sbf_gzsb_zx" jdbcType="DECIMAL"/>
-            <result property="sbfGzsbZc" column="sbf_gzsb_zc" jdbcType="DECIMAL"/>
-            <result property="sbfSzsbZx" column="sbf_szsb_zx" jdbcType="DECIMAL"/>
-            <result property="sbfSzsbZc" column="sbf_szsb_zc" jdbcType="DECIMAL"/>
-            <result property="sbfSbgzyzlZx" column="sbf_sbgzyzl_zx" jdbcType="DECIMAL"/>
-            <result property="sbfSbgzyzlZc" column="sbf_sbgzyzl_zc" jdbcType="DECIMAL"/>
-            <result property="clfZx" column="clf_zx" jdbcType="DECIMAL"/>
-            <result property="clfZc" column="clf_zc" jdbcType="DECIMAL"/>
-            <result property="kyhdfZlZx" column="kyhdf_zl_zx" jdbcType="DECIMAL"/>
-            <result property="kyhdfZlZc" column="kyhdf_zl_zc" jdbcType="DECIMAL"/>
-            <result property="addkyhdfCshyjgZx" column="addkyhdf_cshyjg_zx" jdbcType="DECIMAL"/>
-            <result property="kyhdfCshyjgZc" column="kyhdf_cshyjg_zc" jdbcType="DECIMAL"/>
-            <result property="kyhdfBgZx" column="kyhdf_bg_zx" jdbcType="DECIMAL"/>
-            <result property="kyhdfBgZc" column="kyhdf_bg_zc" jdbcType="DECIMAL"/>
-            <result property="kyhdfSjybcjZx" column="kyhdf_sjybcj_zx" jdbcType="DECIMAL"/>
-            <result property="kyhdfSjybcjZc" column="kyhdf_sjybcj_zc" jdbcType="DECIMAL"/>
-            <result property="kyhdfYscbZx" column="kyhdf_yscb_zx" jdbcType="DECIMAL"/>
-            <result property="kyhdfYscbZc" column="kyhdf_yscb_zc" jdbcType="DECIMAL"/>
-            <result property="kyhdfZscqswZx" column="kyhdf_zscqsw_zx" jdbcType="DECIMAL"/>
-            <result property="kyhdfZscqswZc" column="kyhdf_zscqsw_zc" jdbcType="DECIMAL"/>
-            <result property="kyhdfRldlZx" column="kyhdf_rldl_zx" jdbcType="DECIMAL"/>
-            <result property="kyhdfRldlZc" column="kyhdf_rldl_zc" jdbcType="DECIMAL"/>
-            <result property="kyhdfClsyZx" column="kyhdf_clsy_zx" jdbcType="DECIMAL"/>
-            <result property="kyhdfClsyZc" column="kyhdf_clsy_zc" jdbcType="DECIMAL"/>
-            <result property="kyfwfZjzxZx" column="kyfwf_zjzx_zx" jdbcType="DECIMAL"/>
-            <result property="kyfwfZjzxZc" column="kyfwf_zjzx_zc" jdbcType="DECIMAL"/>
-            <result property="kyfwfClZx" column="kyfwf_cl_zx" jdbcType="DECIMAL"/>
-            <result property="kyfwfClZc" column="kyfwf_cl_zc" jdbcType="DECIMAL"/>
-            <result property="kyfwfGjhzjlZx" column="kyfwf_gjhzjl_zx" jdbcType="DECIMAL"/>
-            <result property="kyfwfGjhzjlZc" column="kyfwf_gjhzjl_zc" jdbcType="DECIMAL"/>
-            <result property="kyfwfGnxzZx" column="kyfwf_gnxz_zx" jdbcType="DECIMAL"/>
-            <result property="kyfwfGnxzZc" column="kyfwf_gnxz_zc" jdbcType="DECIMAL"/>
-            <result property="ryhlwbzfZx" column="ryhlwbzf_zx" jdbcType="DECIMAL"/>
-            <result property="ryhlwbzfZc" column="ryhlwbzf_zc" jdbcType="DECIMAL"/>
+        <result property="sbfGzsbZxZj" column="sbf_gzsb_zx_zj" jdbcType="DECIMAL"/>
+        <result property="sbfGzsbZcZj" column="sbf_gzsb_zc_zj" jdbcType="DECIMAL"/>
+        <result property="sbfSzsbZxZj" column="sbf_szsb_zx_zj" jdbcType="DECIMAL"/>
+        <result property="sbfSzsbZcZj" column="sbf_szsb_zc_zj" jdbcType="DECIMAL"/>
+        <result property="sbfSbgzyzlZxZj" column="sbf_sbgzyzl_zx_zj" jdbcType="DECIMAL"/>
+        <result property="sbfSbgzyzlZcZj" column="sbf_sbgzyzl_zc_zj" jdbcType="DECIMAL"/>
+        <result property="clfZxZj" column="clf_zx_zj" jdbcType="DECIMAL"/>
+        <result property="clfZcZj" column="clf_zc_zj" jdbcType="DECIMAL"/>
+        <result property="kyhdfZlZxZj" column="kyhdf_zl_zx_zj" jdbcType="DECIMAL"/>
+        <result property="kyhdfZlZcZj" column="kyhdf_zl_zc_zj" jdbcType="DECIMAL"/>
+        <result property="kyhdfCshyjgZxZj" column="kyhdf_cshyjg_zx_zj" jdbcType="DECIMAL"/>
+        <result property="kyhdfCshyjgZcZj" column="kyhdf_cshyjg_zc_zj" jdbcType="DECIMAL"/>
+        <result property="kyhdfBgZxZj" column="kyhdf_bg_zx_zj" jdbcType="DECIMAL"/>
+        <result property="kyhdfBgZcZj" column="kyhdf_bg_zc_zj" jdbcType="DECIMAL"/>
+        <result property="kyhdfSjybcjZxZj" column="kyhdf_sjybcj_zx_zj" jdbcType="DECIMAL"/>
+        <result property="kyhdfSjybcjZcZj" column="kyhdf_sjybcj_zc_zj" jdbcType="DECIMAL"/>
+        <result property="kyhdfYscbZxZj" column="kyhdf_yscb_zx_zj" jdbcType="DECIMAL"/>
+        <result property="kyhdfYscbZcZj" column="kyhdf_yscb_zc_zj" jdbcType="DECIMAL"/>
+        <result property="kyhdfZscqswZxZj" column="kyhdf_zscqsw_zx_zj" jdbcType="DECIMAL"/>
+        <result property="kyhdfZscqswZcZj" column="kyhdf_zscqsw_zc_zj" jdbcType="DECIMAL"/>
+        <result property="kyhdfRldlZxZj" column="kyhdf_rldl_zx_zj" jdbcType="DECIMAL"/>
+        <result property="kyhdfRldlZcZj" column="kyhdf_rldl_zc_zj" jdbcType="DECIMAL"/>
+        <result property="kyhdfClsyZxZj" column="kyhdf_clsy_zx_zj" jdbcType="DECIMAL"/>
+        <result property="kyhdfClsyZcZj" column="kyhdf_clsy_zc_zj" jdbcType="DECIMAL"/>
+        <result property="kyfwfZjzxZxZj" column="kyfwf_zjzx_zx_zj" jdbcType="DECIMAL"/>
+        <result property="kyfwfZjzxZcZj" column="kyfwf_zjzx_zc_zj" jdbcType="DECIMAL"/>
+        <result property="kyfwfClZxZj" column="kyfwf_cl_zx_zj" jdbcType="DECIMAL"/>
+        <result property="kyfwfClZcZj" column="kyfwf_cl_zc_zj" jdbcType="DECIMAL"/>
+        <result property="kyfwfGjhzjlZxZj" column="kyfwf_gjhzjl_zx_zj" jdbcType="DECIMAL"/>
+        <result property="kyfwfGjhzjlZcZj" column="kyfwf_gjhzjl_zc_zj" jdbcType="DECIMAL"/>
+        <result property="kyfwfGnxzZxZj" column="kyfwf_gnxz_zx_zj" jdbcType="DECIMAL"/>
+        <result property="kyfwfGnxzZcZj" column="kyfwf_gnxz_zc_zj" jdbcType="DECIMAL"/>
+        <result property="ryhlwbzfZxZj" column="ryhlwbzf_zx_zj" jdbcType="DECIMAL"/>
+        <result property="ryhlwbzfZcZj" column="ryhlwbzf_zc_zj" jdbcType="DECIMAL"/>
             <result property="jxzcZx" column="jxzc_zx" jdbcType="DECIMAL"/>
             <result property="jxzcZc" column="jxzc_zc" jdbcType="DECIMAL"/>
+        <result property="othersZx" column="others_zx" jdbcType="DECIMAL"/>
+        <result property="othersZc" column="others_zc" jdbcType="DECIMAL"/>
             <result property="jflyZx" column="jfly_zx" jdbcType="DECIMAL"/>
             <result property="jflyQtczbkZc" column="jfly_qtczbk_zc" jdbcType="DECIMAL"/>
             <result property="jflyDwzyhbzjZc" column="jfly_dwzyhbzj_zc" jdbcType="DECIMAL"/>
             <result property="jflyQtzjZc" column="jfly_qtzj_zc" jdbcType="DECIMAL"/>
+        <result property="sbfGzsbZxJj" column="sbf_gzsb_zx_jj" jdbcType="DECIMAL"/>
+        <result property="sbfGzsbZcJj" column="sbf_gzsb_zc_jj" jdbcType="DECIMAL"/>
+        <result property="sbfSzsbZxJj" column="sbf_szsb_zx_jj" jdbcType="DECIMAL"/>
+        <result property="sbfSzsbZcJj" column="sbf_szsb_zc_jj" jdbcType="DECIMAL"/>
+        <result property="sbfSbgzyzlZxJj" column="sbf_sbgzyzl_zx_jj" jdbcType="DECIMAL"/>
+        <result property="sbfSbgzyzlZcJj" column="sbf_sbgzyzl_zc_jj" jdbcType="DECIMAL"/>
+        <result property="clfZxJj" column="clf_zx_jj" jdbcType="DECIMAL"/>
+        <result property="clfZcJj" column="clf_zc_jj" jdbcType="DECIMAL"/>
+        <result property="kyhdfZlZxJj" column="kyhdf_zl_zx_jj" jdbcType="DECIMAL"/>
+        <result property="kyhdfZlZcJj" column="kyhdf_zl_zc_jj" jdbcType="DECIMAL"/>
+        <result property="kyhdfCshyjgZxJj" column="kyhdf_cshyjg_zx_jj" jdbcType="DECIMAL"/>
+        <result property="kyhdfCshyjgZcJj" column="kyhdf_cshyjg_zc_jj" jdbcType="DECIMAL"/>
+        <result property="kyhdfBgZxJj" column="kyhdf_bg_zx_jj" jdbcType="DECIMAL"/>
+        <result property="kyhdfBgZcJj" column="kyhdf_bg_zc_jj" jdbcType="DECIMAL"/>
+        <result property="kyhdfSjybcjZxJj" column="kyhdf_sjybcj_zx_jj" jdbcType="DECIMAL"/>
+        <result property="kyhdfSjybcjZcJj" column="kyhdf_sjybcj_zc_jj" jdbcType="DECIMAL"/>
+        <result property="kyhdfYscbZxJj" column="kyhdf_yscb_zx_jj" jdbcType="DECIMAL"/>
+        <result property="kyhdfYscbZcJj" column="kyhdf_yscb_zc_jj" jdbcType="DECIMAL"/>
+        <result property="kyhdfZscqswZxJj" column="kyhdf_zscqsw_zx_jj" jdbcType="DECIMAL"/>
+        <result property="kyhdfZscqswZcJj" column="kyhdf_zscqsw_zc_jj" jdbcType="DECIMAL"/>
+        <result property="kyhdfRldlZxJj" column="kyhdf_rldl_zx_jj" jdbcType="DECIMAL"/>
+        <result property="kyhdfRldlZcJj" column="kyhdf_rldl_zc_jj" jdbcType="DECIMAL"/>
+        <result property="kyhdfClsyZxJj" column="kyhdf_clsy_zx_jj" jdbcType="DECIMAL"/>
+        <result property="kyhdfClsyZcJj" column="kyhdf_clsy_zc_jj" jdbcType="DECIMAL"/>
+        <result property="kyfwfZjzxZxJj" column="kyfwf_zjzx_zx_jj" jdbcType="DECIMAL"/>
+        <result property="kyfwfZjzxZcJj" column="kyfwf_zjzx_zc_jj" jdbcType="DECIMAL"/>
+        <result property="kyfwfClZxJj" column="kyfwf_cl_zx_jj" jdbcType="DECIMAL"/>
+        <result property="kyfwfClZcJj" column="kyfwf_cl_zc_jj" jdbcType="DECIMAL"/>
+        <result property="kyfwfGjhzjlZxJj" column="kyfwf_gjhzjl_zx_jj" jdbcType="DECIMAL"/>
+        <result property="kyfwfGjhzjlZcJj" column="kyfwf_gjhzjl_zc_jj" jdbcType="DECIMAL"/>
+        <result property="kyfwfGnxzZxJj" column="kyfwf_gnxz_zx_jj" jdbcType="DECIMAL"/>
+        <result property="kyfwfGnxzZcJj" column="kyfwf_gnxz_zc_jj" jdbcType="DECIMAL"/>
+        <result property="ryhlwbzfZxJj" column="ryhlwbzf_zx_jj" jdbcType="DECIMAL"/>
+        <result property="ryhlwbzfZcJj" column="ryhlwbzf_zc_jj" jdbcType="DECIMAL"/>
+        <result property="deleted" column="deleted" jdbcType="TINYINT"/>
     </resultMap>
+
+    <sql id="Base_Column_List">
+        funds_id
+        ,project_id,sbf_gzsb_zx_zj,
+        sbf_gzsb_zc_zj,sbf_szsb_zx_zj,sbf_szsb_zc_zj,
+        sbf_sbgzyzl_zx_zj,sbf_sbgzyzl_zc_zj,clf_zx_zj,
+        clf_zc_zj,kyhdf_zl_zx_zj,kyhdf_zl_zc_zj,
+        kyhdf_cshyjg_zx_zj,kyhdf_cshyjg_zc_zj,kyhdf_bg_zx_zj,
+        kyhdf_bg_zc_zj,kyhdf_sjybcj_zx_zj,kyhdf_sjybcj_zc_zj,
+        kyhdf_yscb_zx_zj,kyhdf_yscb_zc_zj,kyhdf_zscqsw_zx_zj,
+        kyhdf_zscqsw_zc_zj,kyhdf_rldl_zx_zj,kyhdf_rldl_zc_zj,
+        kyhdf_clsy_zx_zj,kyhdf_clsy_zc_zj,kyfwf_zjzx_zx_zj,
+        kyfwf_zjzx_zc_zj,kyfwf_cl_zx_zj,kyfwf_cl_zc_zj,
+        kyfwf_gjhzjl_zx_zj,kyfwf_gjhzjl_zc_zj,kyfwf_gnxz_zx_zj,
+        kyfwf_gnxz_zc_zj,ryhlwbzf_zx_zj,ryhlwbzf_zc_zj,
+        jxzc_zx,jxzc_zc,others_zx,
+        others_zc,jfly_zx,jfly_qtczbk_zc,
+        jfly_dwzyhbzj_zc,jfly_qtzj_zc,sbf_gzsb_zx_jj,
+        sbf_gzsb_zc_jj,sbf_szsb_zx_jj,sbf_szsb_zc_jj,
+        sbf_sbgzyzl_zx_jj,sbf_sbgzyzl_zc_jj,clf_zx_jj,
+        clf_zc_jj,kyhdf_zl_zx_jj,kyhdf_zl_zc_jj,
+        kyhdf_cshyjg_zx_jj,kyhdf_cshyjg_zc_jj,kyhdf_bg_zx_jj,
+        kyhdf_bg_zc_jj,kyhdf_sjybcj_zx_jj,kyhdf_sjybcj_zc_jj,
+        kyhdf_yscb_zx_jj,kyhdf_yscb_zc_jj,kyhdf_zscqsw_zx_jj,
+        kyhdf_zscqsw_zc_jj,kyhdf_rldl_zx_jj,kyhdf_rldl_zc_jj,
+        kyhdf_clsy_zx_jj,kyhdf_clsy_zc_jj,kyfwf_zjzx_zx_jj,
+        kyfwf_zjzx_zc_jj,kyfwf_cl_zx_jj,kyfwf_cl_zc_jj,
+        kyfwf_gjhzjl_zx_jj,kyfwf_gjhzjl_zc_jj,kyfwf_gnxz_zx_jj,
+        kyfwf_gnxz_zc_jj,ryhlwbzf_zx_jj,ryhlwbzf_zc_jj
+    </sql>
 </mapper>

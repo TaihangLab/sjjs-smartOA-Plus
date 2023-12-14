@@ -12,9 +12,12 @@ import com.ruoyi.project.domain.bo.ProjectMilestoneBo;
 import com.ruoyi.project.domain.vo.ProjectBaseInfoVO;
 import com.ruoyi.project.service.ProjectBaseInfoService;
 import com.ruoyi.project.service.ProjectMilestoneService;
+import com.ruoyi.project.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.constraints.NotNull;
 
 
 @Validated
@@ -25,6 +28,7 @@ public class ProjectMyController extends BaseController {
 
     private final ProjectMilestoneService projectMilestoneService;
     private final ProjectBaseInfoService projectBaseInfoService;
+    private final ProjectService projectService;
 
     /**
      * 获取我的项目列表
@@ -67,4 +71,16 @@ public class ProjectMyController extends BaseController {
         return toAjax(projectMilestoneService.updateMilestone(projectMilestoneBo));
     }
 
+    /**
+     * 删除项目
+     *
+     * @param projectId 项目ID
+     * @return 删除结果
+     */
+    //@SaCheckPermission("project:list:projectDelete")
+    @GetMapping("/delete")
+    public R<Void> deleteProject(@RequestParam @NotNull Long projectId) {
+        projectService.deleteProject(projectId);
+        return R.ok();
+    }
 }

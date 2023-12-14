@@ -7,6 +7,7 @@
     <resultMap type="ProjectUser" id="ProjectUserResult">
         <result property="projectId" column="project_id"/>
         <result property="userId" column="user_id"/>
+        <result property="projectUserRole" column="project_user_role"/>
     </resultMap>
 
 </mapper>

@@ -1,6 +1,6 @@
 <template>
     <div class="block">
-        <!-- <div class="fixed-container">
+        <div class="fixed-container">
             <el-input placeholder="请输入内容" v-model="input3" class="input-with-select" size="small" :clearable="true"
                 @input.native="handleInput">
                 <el-select v-model="select" slot="prepend" placeholder="请选择">
@@ -10,7 +10,7 @@
                 </el-select>
                 <el-button slot="append" icon="el-icon-search"></el-button>
             </el-input>
-        </div> -->
+        </div>
         <el-timeline>
             <el-timeline-item v-for="(item, index) in timelineItems" :key="index" :timestamp="item.milestoneDate"
                 placement="top" :icon="item.icon" :style="{ '--icon-color': '#0bbd87' }">

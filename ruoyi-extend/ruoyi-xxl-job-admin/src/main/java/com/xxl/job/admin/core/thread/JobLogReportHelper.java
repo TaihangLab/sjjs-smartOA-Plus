@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  * @author xuxueli 2019-11-22
  */
 public class JobLogReportHelper {
-    private static Logger logger = LoggerFactory.getLogger(JobLogReportHelper.class);
+    private static final Logger logger = LoggerFactory.getLogger(JobLogReportHelper.class);
 
     private static JobLogReportHelper instance = new JobLogReportHelper();
 
