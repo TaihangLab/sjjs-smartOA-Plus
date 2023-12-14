@@ -6,10 +6,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.helper.LoginHelper;
+import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.project.domain.ProjectBaseInfo;
 import com.ruoyi.project.domain.ProjectUser;
 import com.ruoyi.project.domain.bo.ProjectBaseInfoBO;
 import com.ruoyi.project.domain.vo.ProjectBaseInfoVO;
+import com.ruoyi.project.domain.vo.ProjectInfoVO;
 import com.ruoyi.project.mapper.ProjectBaseInfoMapper;
 import com.ruoyi.project.mapper.ProjectUserMapper;
 import com.ruoyi.project.service.ProjectBaseInfoService;
@@ -127,6 +129,21 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
             .collect(Collectors.toList());
     }
 
+
+    /**
+     * @param projectId
+     * @return
+     */
+    @Override
+    public ProjectInfoVO selectProjectInfoVOById(Long projectId) {
+        ProjectInfoVO projectInfoVO = new ProjectInfoVO();
+        ProjectBaseInfo projectBaseInfo = projectBaseInfoMapper.selectById(projectId);
+        if (projectBaseInfo == null) {
+            throw new NoSuchElementException("项目基本信息不存在,projectId为:" + projectId);
+        }
+        BeanCopyUtils.copy(projectBaseInfo, projectInfoVO);
+        return projectInfoVO;
+    }
 
     /**
      * 新增项目基本信息

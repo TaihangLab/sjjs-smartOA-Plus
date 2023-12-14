@@ -3,6 +3,7 @@ package com.ruoyi.project.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.ruoyi.project.domain.ProjectTarget;
+import com.ruoyi.project.domain.vo.ProjectTargetVO;
 import com.ruoyi.project.mapper.ProjectTargetMapper;
 import com.ruoyi.project.service.ProjectTargetService;
 import lombok.RequiredArgsConstructor;
@@ -52,8 +53,8 @@ public class ProjectTargetServiceImpl implements ProjectTargetService {
      * @return 结果
      */
     @Override
-    public List<ProjectTarget> selectTargetListByProjectId(Long projectId) {
-        return projectTargetMapper.selectList(new LambdaQueryWrapper<ProjectTarget>()
+    public List<ProjectTargetVO> selectTargetListByProjectId(Long projectId) {
+        return projectTargetMapper.selectVoList(new LambdaQueryWrapper<ProjectTarget>()
             .eq(ProjectTarget::getProjectId, projectId));
     }
 

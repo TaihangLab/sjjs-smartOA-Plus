@@ -9,7 +9,9 @@ import com.ruoyi.common.core.validate.QueryGroup;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.project.domain.ProjectTarget;
 import com.ruoyi.project.domain.bo.ProjectBaseInfoBO;
+import com.ruoyi.project.domain.bo.ProjectMilestoneBo;
 import com.ruoyi.project.domain.vo.ProjectBaseInfoVO;
+import com.ruoyi.project.domain.vo.ProjectDetailsVO;
 import com.ruoyi.project.domain.vo.ProjectMilestoneVo;
 import com.ruoyi.project.domain.vo.ProjectUserVo;
 import com.ruoyi.project.service.*;
@@ -17,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -55,6 +58,16 @@ public class ProjectListController extends BaseController {
         return projectBaseInfoService.queryPageAllList(projectBaseInfoBO, pageQuery);
     }
 
+    /**
+     * 获取项目详情
+     *
+     * @param projectId 项目ID
+     * @return 返回项目详情对象
+     */
+    @GetMapping("/getDetails")
+    public R<ProjectDetailsVO> getProjectDetails(@RequestParam @NotNull Long projectId) {
+        return R.ok(projectService.getProjectDetails(projectId));
+    }
 
     /**
      * 根据项目id新增项目指标
@@ -85,13 +98,13 @@ public class ProjectListController extends BaseController {
     /**
      * 根据项目id查询项目大事纪
      *
-     * @param projectId the project id
-     * @return the r
+     * @param projectMilestoneBo
+     * @return 结果
      */
-//@SaCheckPermission("project:list:queryMilestone")
-    @GetMapping("/milestonelist")
-    public R<List<ProjectMilestoneVo>> getMilestone(@RequestParam Long projectId){
-        return R.ok(projectMilestoneService.selectMilestoneInfoByProjectId(projectId));
+    //@SaCheckPermission("project:list:queryMilestone")
+    @PostMapping("/milestonequery")
+    public R<List<ProjectMilestoneVo>> queryMilestone(@RequestBody ProjectMilestoneBo projectMilestoneBo){
+        return R.ok(projectMilestoneService.queryMilestoneList(projectMilestoneBo));
     }
 
     /**

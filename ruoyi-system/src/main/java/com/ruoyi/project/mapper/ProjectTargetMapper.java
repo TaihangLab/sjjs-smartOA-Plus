@@ -2,6 +2,7 @@ package com.ruoyi.project.mapper;
 
 import com.ruoyi.common.core.mapper.BaseMapperPlus;
 import com.ruoyi.project.domain.ProjectTarget;
+import com.ruoyi.project.domain.vo.ProjectTargetVO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -10,6 +11,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @author fanjiaxing
  */
 @Mapper
-public interface ProjectTargetMapper extends BaseMapperPlus<ProjectTargetMapper, ProjectTarget, ProjectTarget> {
+public interface ProjectTargetMapper extends BaseMapperPlus<ProjectTargetMapper, ProjectTarget, ProjectTargetVO> {
 
 }
