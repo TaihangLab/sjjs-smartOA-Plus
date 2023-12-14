@@ -1,27 +1,26 @@
 <template>
     <el-card class="box-card" style="margin: auto;">
         <div>
-            <!-- 角色数据表单 -->
-            <el-table ref="multipleTable" :data="dataList" border style="width: 100%" :row-style="{ height: '50px' }"
+            <el-table ref="multipleTable" :data="projectList" border style="width: 100%" :row-style="{ height: '50px' }"
                 :cell-style="{ padding: '0px' }">
                 <el-table-column type="selection" :resizable="false" align="center" width="40"></el-table-column>
                 <el-table-column label="项目编号" :resizable="false" align="center"  width="80">
                 </el-table-column>
-                <el-table-column label="项目名称" :resizable="false" align="center" prop="project.name" width="150">
+                <el-table-column label="项目名称" :resizable="false" align="center" prop="projectName" width="150">
                 </el-table-column>
-                <el-table-column label="负责人" :resizable="false" align="center" prop="user.username" width="150">
+                <el-table-column label="负责人" :resizable="false" align="center" prop="projectManager" width="150">
                 </el-table-column>
                 <el-table-column label="所属单位" :resizable="false" align="center" prop="project.name" width="150">
                 </el-table-column>
                 <el-table-column label="负责人电话" :resizable="false" align="center" prop="user.username" width="150">
                 </el-table-column>
-                <el-table-column label="项目分类" :resizable="false" align="center" prop="project.type" width="110">
+                <el-table-column label="项目分类" :resizable="false" align="center" prop="'projectType" width="110">
                 </el-table-column>
                 <el-table-column label="负责人邮箱" :resizable="false" align="center" prop="user.username" width="150">
                 </el-table-column>
-                <el-table-column label="立项日期" :resizable="false" align="center" prop="createTime" width="170">
+                <el-table-column label="立项日期" :resizable="false" align="center" prop="startTime" width="170">
                 </el-table-column>
-                <el-table-column label="开始日期" :resizable="false" align="center" prop="createTime" width="170">
+                <el-table-column label="开始日期" :resizable="false" align="center" prop="establishTime" width="170">
                 </el-table-column>
                 <el-table-column label="操作" :resizable="false" align="center" min-width="230px" fixed="right">
                     <template v-slot="scope">
@@ -91,7 +90,6 @@ export default {
     data() {
         return {
             projectId: '0',
-            projectlist:{},
             rowCenter: {
                 "text-align": "center"
             },
@@ -136,7 +134,7 @@ export default {
                     remark: "",
                 },
             },
-            dataList: [], //页面展示的数据集合
+            projectList:[],
             pageIndex: 1,
             pageSize: 10,
             totalPage: 0,
@@ -166,8 +164,8 @@ export default {
                 },
             })
                 .then((resp) => {
-                    this.projectlist = resp.rows;
-                    console.log('项目', this.projectlist);
+                    this.projectList = resp.rows;
+                    console.log('项目', this.projectList);
                 })
                 .catch((error) => {
                     console.error('获取数据时出错：', error);
