@@ -179,21 +179,6 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
     }
 
     /**
-     * 查询某一项目对应的所有项目大事记
-     *
-     * @param projectId 项目ID
-     * @return 结果Vo
-     */
-    @Override
-    public List<ProjectMilestoneVo> selectMilestoneInfoByProjectId(Long projectId) {
-        // 从 ProjectMilestone 表中查找 projectId 和 milestoneId 的对应关系
-        List<ProjectMilestone> milestones = projectMilestoneMapper.selectList(
-            new LambdaQueryWrapper<ProjectMilestone>().eq(ProjectMilestone::getProjectId, projectId));
-
-        return buildMilestoneVos(milestones);
-    }
-
-    /**
      * 根据查询条件查询对应的大事纪
      *
      * @param projectMilestoneBo
@@ -205,12 +190,13 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
 
         lambdaQueryWrapper
             .eq(ProjectMilestone::getProjectId, projectMilestoneBo.getProjectId())
-            .and(wrapper -> wrapper
+            //拼一个恒成立的条件，避免sql语句and后无条件导致报错
+            .and(wrapper -> wrapper.apply("1=1")
                 .like(StringUtils.isNotBlank(projectMilestoneBo.getKeyword()), ProjectMilestone::getMilestoneTitle, projectMilestoneBo.getKeyword())
                 .or()
                 .like(StringUtils.isNotBlank(projectMilestoneBo.getKeyword()), ProjectMilestone::getMilestoneRemark, projectMilestoneBo.getKeyword()))
             .ge(projectMilestoneBo.getMilestoneStaTime() != null, ProjectMilestone::getMilestoneDate, projectMilestoneBo.getMilestoneStaTime())
-            .le(projectMilestoneBo.getMilestoneEndTime() != null, ProjectMilestone::getMilestoneDate, projectMilestoneBo.getMilestoneStaTime());
+            .le(projectMilestoneBo.getMilestoneEndTime() != null, ProjectMilestone::getMilestoneDate, projectMilestoneBo.getMilestoneEndTime());
 
         List<ProjectMilestone> projectMilestones = projectMilestoneMapper.selectList(lambdaQueryWrapper);
 
