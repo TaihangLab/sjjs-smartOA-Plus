@@ -3,17 +3,25 @@
     <el-form :model="form" ref="form" label-position="left">
 
       <el-divider content-position="left" class="divider-sum">
-        经费总额：
+          (参考)经费总额：
         <el-tag effect="plain" type="warning">{{ jfze }}</el-tag>
         万元
       </el-divider>
 
+        <el-row :gutter="20">
+            <el-col :span="12">
+                <el-form-item label-width="100px" label="经费总额">
+                    <el-input v-model.number="$props.form.zxjfze" type="number"></el-input>
+                </el-form-item>
+            </el-col>
+        </el-row>
+
       <el-divider content-position="left">
-        <span class="divider-span">专项直接X：
-        <el-tag effect="plain">{{ zxXY[0] }}</el-tag>
+        <span class="divider-span">(参考)专项直接X：
+        <el-tag effect="plain" type="warning">{{ zxXY[0] }}</el-tag>
         万元</span>
         专项间接Y：
-        <el-tag effect="plain">{{ zxXY[1] }}</el-tag>
+        <el-tag effect="plain" type="warning">{{ zxXY[1] }}</el-tag>
         万元
       </el-divider>
 
@@ -32,11 +40,11 @@
 
 
       <el-divider content-position="left">
-        <span class="divider-span">自筹直接X：
-        <el-tag effect="plain">{{ zcXY[0] }}</el-tag>
+        <span class="divider-span">(参考)自筹直接X：
+        <el-tag effect="plain" type="warning">{{ zcXY[0] }}</el-tag>
           万元</span>
         自筹间接Y：
-        <el-tag effect="plain">{{ zcXY[1] }}</el-tag>
+        <el-tag effect="plain" type="warning">{{ zcXY[1] }}</el-tag>
         万元
       </el-divider>
 
@@ -67,14 +75,14 @@ export default {
   data() {
     return {}
   },
-  created() {
-    this.$props.form.jfze = 0
-    this.$props.form.zxx = 0
-    this.$props.form.zxy = 0
-    this.$props.form.zcx = 0
-    this.$props.form.zcy = 0
-
-  },
+  // created() {
+  //   this.$props.form.jfze = 0
+  //   this.$props.form.zxx = 0
+  //   this.$props.form.zxy = 0
+  //   this.$props.form.zcx = 0
+  //   this.$props.form.zcy = 0
+  //
+  // },
   methods: {
     computeXY(ze, sbf) {
       let res = [0, 0];
@@ -101,6 +109,7 @@ export default {
         return this.form.zcjfze + this.form.zxjfze;
       },
     },
+
     zxXY: {
       get() {
         if (this.form.zxjfze === undefined  || this.form.zxsbf===undefined)
@@ -118,42 +127,45 @@ export default {
 
 
   },
-  watch: {
-    jfze: {
-      handler(newv, oldv) {
-        this.$props.form.jfze = newv;
-        console.log("prop.jfze", this.form.jfze);
-      },
-      deep: true,
-    },
-    zxXY:{
-      handler(newv, oldv) {
-        this.$props.form.zxx = newv[0];
-        this.$props.form.zxy = newv[1];
-      },
-      deep: true,
-    },
-    zcXY:{
-      handler(newv, oldv) {
-        this.$props.form.zcx = newv[0];
-        this.$props.form.zcy = newv[1];
-      },
-      deep: true,
-    }
-
-
-  }
+  // watch: {
+  //   jfze: {
+  //     handler(newv, oldv) {
+  //       this.$props.form.jfze = newv;
+  //       console.log("prop.jfze", this.form.jfze);
+  //     },
+  //     deep: true,
+  //   },
+  //   zxXY:{
+  //     handler(newv, oldv) {
+  //       this.$props.form.zxx = newv[0];
+  //       this.$props.form.zxy = newv[1];
+  //     },
+  //     deep: true,
+  //   },
+  //   zcXY:{
+  //     handler(newv, oldv) {
+  //       this.$props.form.zcx = newv[0];
+  //       this.$props.form.zcy = newv[1];
+  //     },
+  //     deep: true,
+  //   }
+  // }
 
 }
 </script>
 
 <style scoped>
 .divider-sum {
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 
 .divider-span {
   margin-right: 20px;
+}
+
+.el-divider__text{
+    font-size: 0.8rem;
+    color: #3e8ee0;
 }
 
 
