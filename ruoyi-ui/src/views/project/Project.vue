@@ -259,5 +259,5 @@ export default {
         this.$set(this, 'projectList', [...this.myProjectLook]);
     },
 };
-</script> 
+</script>  
 
