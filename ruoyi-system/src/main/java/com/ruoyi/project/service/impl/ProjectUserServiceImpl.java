@@ -51,6 +51,16 @@ public class ProjectUserServiceImpl implements ProjectUserService {
     }
 
     /**
+     * @param projectUserList
+     * @return
+     */
+    @Override
+    public boolean insertProjectUsers(List<ProjectUser> projectUserList) {
+        return projectUserMapper.insertBatch(projectUserList);
+    }
+
+
+    /**
      * 根据项目ID删除对应成员
      *
      * @param projectId

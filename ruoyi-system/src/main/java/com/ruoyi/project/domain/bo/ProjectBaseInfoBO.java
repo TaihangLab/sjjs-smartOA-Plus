@@ -126,6 +126,11 @@ public class ProjectBaseInfoBO extends BaseEntity {
     private ExistenceState hasCooperativeUnit;
 
     /**
+     * 涉及专家、团队
+     */
+    private String expertTeam;
+
+    /**
      * 获奖情况（项）
      */
     private String awardDetails;

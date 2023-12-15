@@ -35,6 +35,5 @@ public class ProjectDetailsVO {
     /**
      * 附件信息
      */
-
     private List<SysOssVo> projectAttachmentVOList;
 }

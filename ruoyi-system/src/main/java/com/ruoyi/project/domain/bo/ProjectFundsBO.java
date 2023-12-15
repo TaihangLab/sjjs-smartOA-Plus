@@ -1,17 +1,20 @@
-package com.ruoyi.project.domain.vo;
+package com.ruoyi.project.domain.bo;
 
 import lombok.Data;
 
 import java.math.BigDecimal;
 
 /**
- * 经费
- *
  * @author bailingnan
- * @date 2023/12/11
+ * @date 2023/12/15
  */
 @Data
-public class ProjectFundsVO {
+public class ProjectFundsBO {
+
+    /**
+     * 项目ID
+     */
+    private Long projectId;
     /**
      * 设备费_购置设备费_专项_直接
      */
