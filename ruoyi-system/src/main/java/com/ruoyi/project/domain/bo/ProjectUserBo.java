@@ -4,6 +4,10 @@ import lombok.Data;
 
 @Data
 public class ProjectUserBo {
+    /**
+     * 项目ID
+     */
+    private Long projectId;
 
     /**
      * 用户ID

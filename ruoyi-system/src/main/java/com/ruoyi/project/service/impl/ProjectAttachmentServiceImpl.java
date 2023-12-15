@@ -31,7 +31,7 @@ public class ProjectAttachmentServiceImpl implements ProjectAttachmentService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean insertProjectAttachment(Long projectId, List<Long> ossIds) {
+    public boolean insertProjectAttachmentList(Long projectId, List<Long> ossIds) {
         if (ossIds.isEmpty()) {
             return true;
         }
@@ -43,6 +43,15 @@ public class ProjectAttachmentServiceImpl implements ProjectAttachmentService {
         }
 
         return projectAttachmentMapper.insertBatch(attachments);
+    }
+
+    /**
+     * @param projectAttachmentList
+     * @return
+     */
+    @Override
+    public boolean insertProjectAttachmentList(List<ProjectAttachment> projectAttachmentList) {
+        return projectAttachmentMapper.insertBatch(projectAttachmentList);
     }
 
     /**

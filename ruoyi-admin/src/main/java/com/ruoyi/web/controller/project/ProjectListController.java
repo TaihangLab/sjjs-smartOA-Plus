@@ -64,6 +64,7 @@ public class ProjectListController extends BaseController {
      * @param projectId 项目ID
      * @return 返回项目详情对象
      */
+    //@SaCheckPermission("project:list:getDetails")
     @GetMapping("/getDetails")
     public R<ProjectDetailsVO> getProjectDetails(@RequestParam @NotNull Long projectId) {
         return R.ok(projectService.getProjectDetails(projectId));

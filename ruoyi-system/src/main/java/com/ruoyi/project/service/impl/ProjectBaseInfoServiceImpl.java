@@ -157,7 +157,7 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
             throw new IllegalArgumentException("projectBaseInfo cannot be null");
         }
         int cnt = projectBaseInfoMapper.insert(projectBaseInfo);
-        if (cnt == 0) {
+        if (cnt !=1) {
             log.error("新增失败的projectBaseInfo为:{}", projectBaseInfo);
             throw new RuntimeException("新增项目失败");
         }
