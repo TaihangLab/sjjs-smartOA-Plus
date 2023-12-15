@@ -24,7 +24,7 @@
             <Project :projectListLook="projectListLook" />
         </div>
     </div>
-</template>
+</template> 
 
 <script>
 import request from '@/utils/request';
