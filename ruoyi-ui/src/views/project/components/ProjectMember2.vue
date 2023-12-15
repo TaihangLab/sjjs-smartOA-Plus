@@ -14,15 +14,15 @@
                                v-show="index===form.items.length-1 && isButtonShowList[index]"></el-button>
                 </el-col>
 
-                <el-col :span="6">
+                <el-col :span="10">
                     <el-form-item label-width="80px" label="项目成员">
                         <el-cascader
                             v-model="item.id"
                             :options="cascaderOptions"
                             clearable
-                            :show-all-levels="false"
                             :props="{ expandTrigger: 'hover', emitPath: false }"
                             placeholder="请选择项目成员"
+                            style="width: 30vw"
                         ></el-cascader>
                     </el-form-item>
                 </el-col>
