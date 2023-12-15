@@ -4,23 +4,25 @@
             <el-table ref="multipleTable" :data="projectList" border style="width: 100%" :row-style="{ height: '50px' }"
                 :cell-style="{ padding: '0px' }">
                 <el-table-column type="selection" :resizable="false" align="center" width="40"></el-table-column>
-                <el-table-column label="项目牵头单位" :resizable="false" align="center"  width="180">
+                <el-table-column label="项目牵头单位" :resizable="false" align="center" prop="leadingUnit" width="180">
                 </el-table-column>
-                <el-table-column label="承担课题名称" :resizable="false" align="center" prop="projectName" width="150">
+                <el-table-column label="承担课题名称" :resizable="false" align="center" prop="assignedSubjectName" width="150">
                 </el-table-column>
-                <el-table-column label="项目任务书编号" :resizable="false" align="center"  width="130">
+                <el-table-column label="项目任务书编号" :resizable="false" align="center" prop="projectAssignmentSerialNo"
+                    width="130">
                 </el-table-column>
-                <el-table-column label="级别（国家级、省级、企业项目）" :resizable="false" align="center" prop="projectType" width="110">
+                <el-table-column label="级别（国家级、省级、企业项目）" :resizable="false" align="center" prop="projectLevel" width="110">
                 </el-table-column>
-                <el-table-column label="负责课题" :resizable="false" align="center" prop="projectName" width="150">
+                <el-table-column label="负责课题" :resizable="false" align="center" prop="assignedSubjectSection" width="150">
                 </el-table-column>
-                <el-table-column label="项目推进情况" :resizable="false" align="center" prop="projectName" width="150">
+                <el-table-column label="项目推进情况" :resizable="false" align="center" prop="projectProgressStatus" width="150">
                 </el-table-column>
-                <el-table-column label="合作单位" :resizable="false" align="center" prop="projectManager" width="150">
+                <el-table-column label="合作单位" :resizable="false" align="center" prop="hasCooperativeUnit" width="150">
                 </el-table-column>
-                <el-table-column label="立项时间" :resizable="false" align="center" prop="startTime" width="170">
+                <el-table-column label="立项时间" :resizable="false" align="center" prop="projectEstablishTime" width="170">
                 </el-table-column>
-                <el-table-column label="项目计划验收时间" :resizable="false" align="center" prop="establishTime" width="170">
+                <el-table-column label="项目计划验收时间" :resizable="false" align="center" prop="projectScheduledCompletionTime"
+                    width="170">
                 </el-table-column>
                 <el-table-column label="操作" :resizable="false" align="center" min-width="230px" fixed="right">
                     <template v-slot="scope">
@@ -66,22 +68,33 @@
                 </AddEvents>
             </el-dialog>
             <!-- 页号 -->
-            <el-pagination :current-page="pageIndex" :page-size="pageSize" :page-sizes="[5, 10, 20, 50, 100]"
-                :total="totalPage" layout="total ,sizes,prev,pager,next,jumper" style="margin-top: 30px"
-                @size-change="sizeChangeHandle" @current-change="CurrentChangeHandle">
+            <el-pagination :current-page="pageIndex" :page-size="pageSize" :page-sizes="[5, 10, 20, 50, 100]" :total="total"
+                layout="total ,sizes,prev,pager,next,jumper" style="margin-top: 30px" @size-change="sizeChangeHandle"
+                @current-change="CurrentChangeHandle">
             </el-pagination>
         </div>
     </el-card>
 </template>
 <script>
-import request from '@/utils/request';
 import ProjectDetail from "@/views/project/components/ProjectDetail.vue";
 import CheckEvents from "@/views/project/components/CheckEvents.vue";
 import AddEvents from "@/views/project/components/AddEvents.vue";
 
 export default {
-    name: "ProjectList",
-    props: ['buttonType'],
+    name: "Projec",
+    props: {
+        projectListLook: {
+            type: Array,
+            required: true,
+        },
+        myProjectLook: {
+            type: Array,
+            required: true,
+        },
+        buttonType: {
+            type: Number,
+        }
+    },
     components: {
         ProjectDetail,
         CheckEvents,
@@ -89,7 +102,7 @@ export default {
     },
     data() {
         return {
-            projectId: '6',
+            projectId: '',
             rowCenter: {
                 "text-align": "center"
             },
@@ -105,13 +118,13 @@ export default {
             },
             //新增
             form: {
-                    projectName: "",
-                    projectManager: "",
-                    projectStatus: "",
-                    projectInfo: "",
-                    projectType: "",
-                    startTime: "",
-                    establishTime: "",
+                projectName: "",
+                projectManager: "",
+                projectStatus: "",
+                projectInfo: "",
+                projectType: "",
+                startTime: "",
+                establishTime: "",
             },
             //查看
             formLook: {
@@ -127,11 +140,11 @@ export default {
                     money: "",
                     remark: "",
                 },
-            }, 
-            projectList:[],
+            },
+            projectList: [],
             pageIndex: 1,
             pageSize: 10,
-            totalPage: 0,
+            total: 0,
             begin: 0,
             end: this.pageSize - 1,
             dialogFormVisible: false, //默认关闭新建用户界面
@@ -144,27 +157,9 @@ export default {
         };
     },
     created() {
-        this.getprojectList();
+
     },
     methods: {
-        /** 查询用户列表 */
-        getprojectList() {
-            request({
-                url: '/project/list/getAllList',
-                method: 'post',
-                data: {
-                    pageNum: this.pageNum,
-                    pageSize: this.pageSize,
-                },
-            })
-                .then((resp) => {
-                    this.projectList = resp.rows;
-                    console.log('项目', this.projectList);
-                })
-                .catch((error) => {
-                    console.error('获取数据时出错：', error);
-                });
-        },
         // 关闭弹窗的方法
         closeEventsDialog() {
             this.eventsDialogVisibleAdd = false;
@@ -240,8 +235,24 @@ export default {
             this.refreshEventsPage = !this.refreshEventsPage;
         },
     },
+    watch: {
+        projectListLook: {
+            handler(newVal) {
+                console.log('Watch - projectListLook updated:', newVal);
+                this.projectList = [...newVal];
+            },
+            deep: true,
+        },
+        myProjectLook: {
+            handler(newVal) {
+                console.log('Watch - myProjectLook updated:', newVal);
+                this.projectList = [...newVal];
+            },
+            deep: true,
+        },
+    },
     mounted() {
-        this.getDataList();
+        this.$set(this, 'projectList', [...this.myProjectLook]);
     },
 };
 </script>

@@ -119,10 +119,13 @@ export default {
         console.log("传过来的项目id", this.projectId);
         // 获取数据
         request({
-            url: '/project/list/milestonelist',
-            method: 'get',
-            params: {
-                projectId: this.projectId
+            url: '/project/list/milestonequery',
+            method: 'post',
+            data: {
+                projectId: this.projectId,
+                keyword:this.keyword,
+                milestoneStaTime:this.milestoneStaTime,
+                milestoneEndTime:this.milestoneEndTime
             }
         })
             .then((resp) => {
@@ -267,6 +270,5 @@ export default {
 
 .attachment-item {
     margin-right: 20px;
-    /* 调整附件之间的间距 */
 }</style>
 

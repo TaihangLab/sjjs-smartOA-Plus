@@ -1,43 +1,58 @@
 <template>
     <div>
-        <CheckProject />
-        <Project/>
+        <CheckProject @query-request="handleQueryRequest"/>
+        <div>
+            <Project :projectListLook="projectListLook" />
+        </div>
     </div>
 </template>
 
 <script>
-import CheckProject from "./CheckProject.vue";
+import request from '@/utils/request';
 import Project from "@/views/project/Project.vue";
-import {listUser, deptTreeSelect} from "@/api/system/user";
+import { listUser, deptTreeSelect } from "@/api/system/user";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+import CheckProject from "./CheckProject.vue";
 
 export default {
     name: "ProjectList",
-    components: {CheckProject, Project},
+    components: {CheckProject, Project },
     data() {
         return {
-
+            queryParam: {
+                pageNum: 1,
+                pageSize: 5,
+            },
+            projectListLook: {},
+            total: 0,
         };
     },
-
+    created() {
+        this.getprojectList();
+    },
     methods: {
-        /** 搜索按钮操作 */
-        handleQuery() {
-            this.myProjectFrom.pageNum = 1;
-            this.getDataList();
+        handleQueryRequest(queryParams) {
+            // 执行后端查询等操作
+            if (queryParams && Object.keys(queryParams).length > 0) {
+                this.queryParam = queryParams;
+            }
+            console.log('projectlistquery', this.queryParam);
+            this.getprojectList();
         },
-        /** 重置按钮操作 */
-        resetQuery() {
-            // 清空数据模型中的值
-            this.myProjectFrom.projectNumber = "";
-            this.myProjectFrom.projectName = "";
-            this.myProjectFrom.responsiblePerson = "";
-
-            // 使用 resetFields 方法重置表单
-            this.$refs.dataForm.resetFields();
-
-            // 重置后重新查询
-            this.handleQuery();
+        getprojectList() {
+            request({
+                url: '/project/list/getAllList',
+                method: 'post',
+                data: this.queryParam,
+            })
+                .then((resp) => {
+                    this.projectListLook = resp.rows;
+                    this.total = resp.total;
+                    console.log('项目', this.projectListLook);
+                })
+                .catch((error) => {
+                    console.error('获取数据时出错：', error);
+                });
         },
     },
 }

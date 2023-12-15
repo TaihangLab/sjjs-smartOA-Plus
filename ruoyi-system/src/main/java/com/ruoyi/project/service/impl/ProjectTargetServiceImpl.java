@@ -93,6 +93,7 @@ public class ProjectTargetServiceImpl implements ProjectTargetService {
         LambdaUpdateWrapper<ProjectTarget> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         lambdaUpdateWrapper.eq(ProjectTarget::getTargetId, projectTarget.getTargetId());
         lambdaUpdateWrapper.set(ProjectTarget::getTargetRemark, projectTarget.getTargetRemark())
+            .set(ProjectTarget::getTargetType,projectTarget.getTargetType())
             .set(ProjectTarget::getTargetName, projectTarget.getTargetName());
         return projectTargetMapper.update(projectTarget, lambdaUpdateWrapper);
     }

@@ -8,7 +8,7 @@
     >
         <el-form-item label="承担课题名称">
             <el-input
-                v-model="myProjectFrom.projectName"
+                v-model="queryParams.assignedSubjectName"
                 clearable
                 placeholder="请输入承担课题名称"
                 @keyup.enter.native="handleQuery"
@@ -16,7 +16,7 @@
         </el-form-item>
         <el-form-item label="负责课题">
             <el-input
-                v-model="myProjectFrom.projectTask"
+                v-model="queryParams.assignedSubjectSection"
                 clearable
                 placeholder="请输入负责课题名称"
                 @keyup.enter.native="handleQuery"
@@ -24,7 +24,7 @@
         </el-form-item>
         <el-form-item label="项目成员">
             <el-cascader
-                v-model="myProjectFrom.responsiblePerson"
+                v-model="responsiblePerson"
                 :options="cascaderOptions"
                 clearable
                 :show-all-levels="false"
@@ -32,45 +32,50 @@
                 @keyup.enter.native="handleQuery"
             ></el-cascader>
         </el-form-item>
-        <el-form-item label="有无合作单位">
+        <el-form-item label="合作单位">
             <el-cascader
-                v-model="myProjectFrom.CoCompany"
+                v-model="CoCompany"
                 :options="cocompanyOptions"
                 clearable
                 placeholder="请选择有无合作单位"
                 @keyup.enter.native="handleQuery"
             ></el-cascader>
         </el-form-item>
-        <el-form-item label="立项日期">
+        <el-form-item label="立项时间">
             <el-date-picker
-                v-model="myProjectFrom.projectStartDate"
+                v-model="projectEstablishTime"
                 type="daterange"
                 unlink-panels
                 clearable
                 start-placeholder="请输入查询范围"
                 end-placeholder="如：2000-01-01"
+                value-format="yyyy-MM-dd"
                 @change="getList"
                 :picker-options="pickerOptions"
+                @keyup.enter.native="handleQuery"
             ></el-date-picker>
         </el-form-item>
         <el-form-item label="项目计划验收时间">
             <el-date-picker
-                v-model="myProjectFrom.projectEndDate"
+                v-model="projectScheduledCompletionTime"
                 type="daterange"
                 unlink-panels
                 clearable
                 start-placeholder="请输入查询范围"
                 end-placeholder="如：2000-01-01"
+                value-format="yyyy-MM-dd"
                 @change="getList"
                 :picker-options="pickerOptions"
+                @keyup.enter.native="handleQuery"
             ></el-date-picker>
         </el-form-item>
         <el-form-item label="项目级别">
             <el-cascader
-                v-model="myProjectFrom.projectLevel"
+                v-model="projectLevel"
                 :options="levelOptions"
                 clearable
                 placeholder="请选择项目级别"
+                @keyup.enter.native="handleQuery"
             ></el-cascader>
         </el-form-item>
         <el-form-item>
@@ -80,21 +85,30 @@
     </el-form>
 </template>
 
-
 <script>
 import { listUser, deptTreeSelect } from "@/api/system/user";
 export default {
     name: "CheakProject",
     data() {
         return {
-            myProjectFrom: {
-                projectName: "",
-                responsiblePerson: "",
-                projectStartDate: "",
-                projectLevel: "",
-                projectTask: "",
-                projectEndDate: "",
-                CoCompany: "",
+            showResponsiblePersonData: false,
+            CoCompany:[],
+            projectLevel:[],
+            responsiblePerson: [],
+            projectEstablishTime: [],
+            projectScheduledCompletionTime: [],
+            queryParams: {
+                pageNum: 1,
+                pageSize: 5,
+                assignedSubjectName: undefined,
+                projectLevel: undefined,
+                assignedSubjectSection: undefined,
+                hasCooperativeUnit: undefined,
+                userId: undefined,
+                projectEstablishTimeSta: undefined,
+                projectEstablishTimeEnd: undefined,
+                projectScheduledCompletionTimeSta: undefined,
+                projectScheduledCompletionTimeEnd: undefined,
             },
             levelOptions: [
                 {
@@ -107,17 +121,17 @@ export default {
                 },
                 {
                     value: '2',
-                    label: '企业项目'
+                    label: '企业级'
                 }
             ],
             cocompanyOptions: [
                 {
                     value: '0',
-                    label: '有'
+                    label: '无'
                 },
                 {
                     value: '1',
-                    label: '无'
+                    label: '有'
                 },
             ],
             cascaderOptions: [],
@@ -170,6 +184,33 @@ export default {
         this.getDeptAndUserList();
     },
     methods: {
+        // 处理按钮点击事件
+        handleQuery() {
+            this.queryParams.userId = this.responsiblePerson[this.responsiblePerson.length - 1];
+            this.queryParams.projectEstablishTimeSta = this.projectEstablishTime[0];
+            this.queryParams.projectEstablishTimeEnd = this.projectEstablishTime[1];
+            this.queryParams.projectScheduledCompletionTimeSta = this.projectScheduledCompletionTime[0];
+            this.queryParams.projectScheduledCompletionTimeEnd = this.projectScheduledCompletionTime[1];
+            this.queryParams.hasCooperativeUnit = this.CoCompany[0];
+            this.queryParams.projectLevel = this.projectLevel[0];
+            this.$emit('query-request', this.queryParams);
+        },
+        resetQuery(){
+            this.queryParams = {
+                pageNum: 1,
+                pageSize: 5,
+                assignedSubjectName: undefined,
+                projectLevel: undefined,
+                assignedSubjectSection: undefined,
+                hasCooperativeUnit: undefined,
+                userId: undefined,
+                projectEstablishTimeSta: undefined,
+                projectEstablishTimeEnd: undefined,
+                projectScheduledCompletionTimeSta: undefined,
+                projectScheduledCompletionTimeEnd: undefined,
+            };
+            this.$emit('query-request', this.queryParams);
+        },
         async getDeptAndUserList() {
             console.log('1', this.cascaderOptions);
             await this.getDeptTree(); // 等待部门数据加载完成
@@ -181,6 +222,7 @@ export default {
             const response = await deptTreeSelect();
             this.deptOptions = response.data;
             console.log('1', this.deptOptions);
+
         },
         /** 查询用户列表 */
         async getList() {

@@ -4,64 +4,61 @@
             <div style="margin-top: 10px;"></div>
             <el-descriptions class="margin-top" title="" :column="1" :size="size" :labelStyle="{width: '18%'}"  :contentStyle="{width: '82%'}" border>
                 <el-descriptions-item label="项目牵头单位">
-                    {{ formLook.projectName }}
+                    {{ formLook.leadingUnit }}
                 </el-descriptions-item>
             </el-descriptions>
             <el-descriptions class="margin-top" title="" :column="2" :size="size" :labelStyle="{width: '18%'}" :contentStyle="{width: '35%'}" border>
                 <el-descriptions-item label="承担课题名称">
-                    {{ formLook.projectManager }}
+                    {{ formLook.assignedSubjectSection }}
                 </el-descriptions-item>
                 <el-descriptions-item label="项目任务书编号">
-                    {{ formLook.organization }}
+                    {{ formLook.projectAssignmentSerialNo }}
                 </el-descriptions-item>
                 <el-descriptions-item label="级别（国家级、省级、企业项目）">
-                    {{ formLook.projectType }}
+                    {{ formLook.projectLevel }}
                 </el-descriptions-item>
                 <el-descriptions-item label="负责课题">
-                    {{ formLook.projectName }}
+                    {{ formLook.assignedSubjectSection }}
                 </el-descriptions-item>
                 <el-descriptions-item label="项目推进情况">
-                    {{ formLook.projectName  }}
+                    {{ formLook.projectProgressStatus  }}
                 </el-descriptions-item>
                 <el-descriptions-item label="合作单位">
-                    {{ formLook.projectManager  }}
-                </el-descriptions-item>
-                <el-descriptions-item label="项目分类">
-                    {{ formLook.projectType }}
+                    {{ formLook.hasCooperativeUnit  }}
                 </el-descriptions-item>
                 <el-descriptions-item label="立项时间">
-                    {{ formLook.startTime }}
+                    {{ formLook.projectEstablishTime }}
                 </el-descriptions-item>
                 <el-descriptions-item label="项目计划验收时间">
-                    {{ formLook.establishTime }}
+                    {{ formLook.projectScheduledCompletionTime }}
                 </el-descriptions-item>
                 <el-descriptions-item>
                     <template slot="label">
                     <i class="el-icon-office-building"></i>
                     结项日期
                     </template>
-                    江
+                    
                 </el-descriptions-item>
                 <el-descriptions-item>
                     <template slot="label">
                     <i class="el-icon-office-building"></i>
                     批准经费
                     </template>
-                    江
+                    
                 </el-descriptions-item>
                 <el-descriptions-item>
                     <template slot="label">
                     <i class="el-icon-office-building"></i>
                     成果形式
                     </template>
-                    江
+                    
                 </el-descriptions-item>
                 <el-descriptions-item>
                     <template slot="label">
                     <i class="el-icon-office-building"></i>
                     备注
                     </template>
-                    江
+                    
                 </el-descriptions-item>
             </el-descriptions>
             <el-radio-group v-model="size">
