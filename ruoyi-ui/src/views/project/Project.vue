@@ -1,6 +1,10 @@
 <template>
     <el-card class="box-card" style="margin: auto;">
         <div>
+            <!-- <ul>
+    {{ projectList }}
+    <li v-for="item in projectList" :key="item.id">{{ item.leadingUnit }}</li>
+</ul> -->
             <el-table ref="multipleTable" :data="projectList" border style="width: 100%" :row-style="{ height: '50px' }"
                 :cell-style="{ padding: '0px' }">
                 <el-table-column type="selection" :resizable="false" align="center" width="40"></el-table-column>
@@ -235,35 +239,24 @@ export default {
             this.refreshEventsPage = !this.refreshEventsPage;
         },
     },
-    // mounted() {
-    //     // 判断按钮类型，设置当前数据来源
-    //     if (this.buttonType === 1) {
-    //         this.$set(this, 'projectList', [...this.projectListLook]);
-    //     } else {
-    //         this.$set(this, 'projectList', [...this.myProjectLook]);
-    //     }
-    //     console.log('Current List:', this.projectList);
-    // },
-    // watch: {
-    //     // 监听按钮类型的变化，根据不同类型更新表格数据
-    //     buttonType(newVal) {
-    //         if (newVal === 1) {
-    //             this.$set(this, 'projectList', [...this.projectListLook]);
-    //         } else {
-    //             this.$set(this, 'projectList', [...this.myProjectLook]);
-    //         }
-    //     },
-    // },
-    mounted() {
-        this.$set(this, 'projectList', [...this.projectListLook]);
-    },
     watch: {
         projectListLook: {
             handler(newVal) {
+                console.log('Watch - projectListLook updated:', newVal);
                 this.projectList = [...newVal];
             },
             deep: true,
         },
+        myProjectLook: {
+            handler(newVal) {
+                console.log('Watch - myProjectLook updated:', newVal);
+                this.projectList = [...newVal];
+            },
+            deep: true,
+        },
+    },
+    mounted() {
+        this.$set(this, 'projectList', [...this.myProjectLook]);
     },
 };
 </script>
