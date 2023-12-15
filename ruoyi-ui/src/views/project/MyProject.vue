@@ -37,12 +37,10 @@ export default {
     components: {CheakProject, Project, NewProject, AddEvents},
     data() {
         return {
-            queryParam: {
-                pageNum: 1,
-                pageSize: 5,
-            },
             myProjectLook: {},
             projectList: [],
+            pageIndex: 1,
+            pageSize: 10,
             total: 0,
             newProjectDialogVisible: false,
             eventsDialogVisibleAdd: false,
@@ -53,28 +51,9 @@ export default {
         this.getprojectList();
     },
     methods: {
-        handleQueryRequest(queryParams) {
-            // 执行后端查询等操作
-            if (queryParams && Object.keys(queryParams).length > 0) {
-                this.queryParam = queryParams;
-            }
-            console.log('projectlistquery', this.queryParam);
-            this.getprojectList();
-        },
-        getprojectList() {
-            request({
-                url: '/project/my/getMyList',
-                method: 'post',
-                data: this.queryParam,
-            })
-                .then((resp) => {
-                    this.myProjectLook = resp.rows;
-                    this.total = resp.total;
-                    console.log('项目', this.myProjectLook);
-                })
-                .catch((error) => {
-                    console.error('获取数据时出错：', error);
-                });
+        // 新增项目
+        handleAdd() {
+            this.newProjectDialogVisible = true;
         },
     },
 };

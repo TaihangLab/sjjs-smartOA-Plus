@@ -61,6 +61,7 @@
         <el-footer>
             <el-button v-show="stepID > 0" style="margin-top: 12px;" @click="previous">上一步</el-button>
             <el-button style="margin-top: 12px;" @click="next" type="primary">{{ nextButtonText }}</el-button>
+            <el-button v-show="stepID < 8" style="margin-top: 12px;" @click="submit" type="success">现在提交</el-button>
             <el-button @click="reset" type="warning">重置</el-button>
             <el-button @click="info">log</el-button>
         </el-footer>
@@ -133,7 +134,7 @@ export default {
             }
         },
         info() {
-            // console.log(this.$refs.projectInfo.$refs.form.validate());
+
             // console.log('projectInfoForm', this.projectInfoForm);
             console.log('projectMemberForm', this.projectMemberForm);
             // console.log('projectFundsForm', this.projectFundsForm);
@@ -149,6 +150,9 @@ export default {
             // this.$refs.projectInfo.$refs.form.resetFields()
             // this.$refs.zxFundsDetail.$refs.form.resetFields()
             this.$refs.projectMember.resetFields();
+        },
+        submit() {
+            console.log(this.$refs.projectInfo.$refs.form.validate());
         },
     },
     watch: {
