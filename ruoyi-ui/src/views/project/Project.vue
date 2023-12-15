@@ -11,13 +11,13 @@
                 <el-table-column label="项目任务书编号" :resizable="false" align="center" prop="projectAssignmentSerialNo"
                     width="130">
                 </el-table-column>
-                <el-table-column label="级别（国家级、省级、企业项目）" :resizable="false" align="center" prop="projectLevel" width="110">
+                <el-table-column label="项目级别" :resizable="false" align="center" prop="projectLevel" width="110">
                 </el-table-column>
                 <el-table-column label="负责课题" :resizable="false" align="center" prop="assignedSubjectSection" width="150">
                 </el-table-column>
                 <el-table-column label="项目推进情况" :resizable="false" align="center" prop="projectProgressStatus" width="150">
                 </el-table-column>
-                <el-table-column label="合作单位" :resizable="false" align="center" prop="hasCooperativeUnit" width="150">
+                <el-table-column label="有无合作单位" :resizable="false" align="center" prop="hasCooperativeUnit" width="150">
                 </el-table-column>
                 <el-table-column label="立项时间" :resizable="false" align="center" prop="projectEstablishTime" width="170">
                 </el-table-column>
