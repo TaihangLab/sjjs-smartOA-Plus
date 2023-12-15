@@ -36,4 +36,9 @@ public class ProjectTarget {
     @Size(min = 0, max = 50, message = "指标描述不能超过{max}个字符")
     private String targetRemark;
 
+    /**
+     * 指标分类
+     */
+    private String targetType;
+
 }

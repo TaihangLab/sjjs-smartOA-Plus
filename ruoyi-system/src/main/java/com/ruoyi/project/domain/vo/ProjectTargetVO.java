@@ -17,4 +17,9 @@ public class ProjectTargetVO {
      * 指标描述
      */
     private String targetRemark;
+
+    /**
+     * 指标分类
+     */
+    private String targetType;
 }
