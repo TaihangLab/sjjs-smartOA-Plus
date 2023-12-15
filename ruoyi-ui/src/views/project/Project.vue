@@ -1,16 +1,12 @@
 <template>
     <el-card class="box-card" style="margin: auto;">
         <div>
-            <!-- <ul>
-    {{ projectList }}
-    <li v-for="item in projectList" :key="item.id">{{ item.leadingUnit }}</li>
-</ul> -->
             <el-table ref="multipleTable" :data="projectList" border style="width: 100%" :row-style="{ height: '50px' }"
                 :cell-style="{ padding: '0px' }">
                 <el-table-column type="selection" :resizable="false" align="center" width="40"></el-table-column>
                 <el-table-column label="项目牵头单位" :resizable="false" align="center" prop="leadingUnit" width="180">
                 </el-table-column>
-                <el-table-column label="承担课题名称" :resizable="false" align="center" prop="assignedSubjectSection" width="150">
+                <el-table-column label="承担课题名称" :resizable="false" align="center" prop="assignedSubjectName" width="150">
                 </el-table-column>
                 <el-table-column label="项目任务书编号" :resizable="false" align="center" prop="projectAssignmentSerialNo"
                     width="130">
@@ -259,5 +255,5 @@ export default {
         this.$set(this, 'projectList', [...this.myProjectLook]);
     },
 };
-</script>  
+</script>
 

@@ -523,7 +523,7 @@ export default {
         status: "0",
         remark: undefined,
         postIds: [],
-        roleIds: []
+        roleIds: [],
       };
       this.resetForm("form");
     },
