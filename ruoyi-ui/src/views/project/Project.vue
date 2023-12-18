@@ -159,11 +159,19 @@ export default {
             console.log('sizeChangeHandle:', val);
             this.$set(this.queryParam, 'pageSize', val);
             console.log('Updated pageSize:', this.queryParam.pageSize);
+            this.fetchData();
         },
         CurrentChangeHandle(val) {
             console.log('CurrentChangeHandle:', val);
             this.$set(this.queryParam, 'pageNum', val);
             console.log('Updated pageNum:', this.queryParam.pageNum);
+            this.fetchData();
+        },
+        fetchData() {
+            const requestData = {
+                pageSize: this.queryParam.pageSize,
+                pageNum: this.queryParam.pageNum,
+            };
         },
         //详情按钮
         lookEdit(index, item) {
