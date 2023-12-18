@@ -211,11 +211,11 @@ export default {
             };
             this.$emit('query-request', this.queryParams);
             this.resetForm(this.queryParams);
-            this.responsiblePerson = undefined;
-            this.CoCompany = undefined;
-            this.projectLevel = undefined;
-            this.projectEstablishTime = undefined;
-            this.projectScheduledCompletionTime = undefined;
+            this.responsiblePerson = [];
+            this.CoCompany = [];
+            this.projectLevel = [];
+            this.projectEstablishTime = [];
+            this.projectScheduledCompletionTime = [];
         },
         async getDeptAndUserList() {
             console.log('1', this.cascaderOptions);
