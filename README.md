@@ -1,13 +1,11 @@
 ## 平台简介
-[![Gitee Repo star](https://gitee.com/KonBAI-Q/ruoyi-flowable-plus/badge/star.svg?theme=dark)](https://gitee.com/KonBAI-Q/ruoyi-flowable-plus/stargazers)
-[![GitHub Repo stars](https://img.shields.io/github/stars/KonBAI-Q/RuoYi-Flowable-Plus?style=social)](https://github.com/KonBAI-Q/RuoYi-Flowable-Plus/stargazers)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://gitee.com/KonBAI-Q/ruoyi-flowable-plus/blob/master/LICENSE)
 [![使用IntelliJ IDEA开发维护](https://img.shields.io/badge/IntelliJ%20IDEA-提供支持-blue.svg)](https://www.jetbrains.com)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-2.7-blue.svg)]()
 [![JDK-8+](https://img.shields.io/badge/JDK-8-green.svg)]()
-[![JDK-11](https://img.shields.io/badge/JDK-11-green.svg)]()
 
-- 本项目基于 [RuoYi-Vue-Plus](https://gitee.com/dromara/RuoYi-Vue-Plus) 进行二次开发，采用 `Flowable` 扩展工作流应用场景，支持在线表单设计和丰富的工作流程设计能力。
+- 本项目基于 [RuoYi-Flowable-Plus](https://gitee.com/dromara/RuoYi-Vue-Plus) 进行二次开发，采用 `Flowable`
+  扩展工作流应用场景，支持在线表单设计和丰富的工作流程设计能力。
 - 本项目主要针对`Flowable`工作流场景开发，脚手架功能同步更新 [RuoYi-Vue-Plus](https://gitee.com/dromara/RuoYi-Vue-Plus) 项目。
 - 采用`MIT开源协议`，完全免费给个人及企业使用。
 - 项目处于开发阶段，工作流流程还存在不足。因此，目前仅推荐用于学习、毕业设计等个人使用。
@@ -17,8 +15,9 @@
 - 脚手架文档：[RuoYi-Vue-Plus文档](https://gitee.com/dromara/RuoYi-Vue-Plus/wikis/pages)
 
 ## 项目地址
-- Gitee：<https://gitee.com/KonBAI-Q/ruoyi-flowable-plus>
-- GitHub：<https://github.com/KonBAI-Q/RuoYi-Flowable-Plus>
+
+- Gitee：<https://gitee.com/fjx13038033078/sjjs-smartOA-Plus.git>
+- GitHub：<https://github.com/fjx13038033078/sjjs-smartOA-Plus.git>
 
 ## 在线演示
 演示服务不限制CURD操作，希望大家按需使用，不要恶意添加脏数据或对服务器进行攻击等操作。（将不定期清理数据）
@@ -32,10 +31,6 @@
 | 任务调度中心      | admin | 123456   |
 | 数据监控中心      | ruoyi | 123456   |
 
-
-## 推荐图书
-大家在使用本项目时，推荐结合贺波老师的书[《深入Activiti流程引擎：核心原理与高阶实战》](https://item.m.jd.com/product/13928958.html?gx=RnAomTM2bmCImZxDqYAkVCoIHuIYVqc)，这本书对系统学习和深入掌握Activiti/Flowable的用法非常有帮助。
-![深入Activiti流程引擎：核心原理与高阶实战](http://qiniu-flowable.konbai.work/深入Activiti流程引擎cover.jpg)
 
 
 ## 演示图例

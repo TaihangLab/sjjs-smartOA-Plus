@@ -1,32 +1,20 @@
-package com.ruoyi.project.domain;
+package com.ruoyi.project.domain.bo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * 项目经费表
- * @TableName project_funds
+ * @author bailingnan
+ * @date 2023/12/15
  */
-@TableName(value ="project_funds")
 @Data
-public class ProjectFunds implements Serializable {
-    /**
-     * 经费id
-     */
-    @TableId(type = IdType.AUTO)
-    private Long fundsId;
+public class ProjectFundsBO {
 
     /**
-     * 项目id
+     * 项目ID
      */
     private Long projectId;
-
     /**
      * 设备费_购置设备费_专项_直接
      */
@@ -406,7 +394,4 @@ public class ProjectFunds implements Serializable {
      * 人员和劳务补助费_自筹_间接
      */
     private BigDecimal ryhlwbzfZcJj;
-
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
 }

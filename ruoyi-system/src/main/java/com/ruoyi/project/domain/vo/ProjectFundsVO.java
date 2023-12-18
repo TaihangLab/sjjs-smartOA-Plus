@@ -391,6 +391,4 @@ public class ProjectFundsVO {
      * 人员和劳务补助费_自筹_间接
      */
     private BigDecimal ryhlwbzfZcJj;
-
-
 }

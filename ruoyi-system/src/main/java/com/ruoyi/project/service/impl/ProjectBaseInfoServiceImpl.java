@@ -157,7 +157,7 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
             throw new IllegalArgumentException("projectBaseInfo cannot be null");
         }
         int cnt = projectBaseInfoMapper.insert(projectBaseInfo);
-        if (cnt == 0) {
+        if (cnt !=1) {
             log.error("新增失败的projectBaseInfo为:{}", projectBaseInfo);
             throw new RuntimeException("新增项目失败");
         }
@@ -175,16 +175,15 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
      * @return
      */
     @Override
-    public Long updateProjectBaseInfoById(ProjectBaseInfo projectBaseInfo) {
+    public void updateProjectBaseInfoById(ProjectBaseInfo projectBaseInfo) {
         if (projectBaseInfo == null) {
             throw new IllegalArgumentException("projectBaseInfo cannot be null");
         }
         int cnt = projectBaseInfoMapper.updateById(projectBaseInfo);
-        if (cnt == 0) {
+        if (cnt != 1) {
             log.error("更新失败的projectBaseInfo为:{}", projectBaseInfo);
             throw new RuntimeException("更新项目失败");
         }
-        return projectBaseInfo.getProjectId();
     }
 
     /**

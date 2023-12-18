@@ -41,7 +41,7 @@ public class ProjectBaseInfoBO extends BaseEntity {
     /**
      * 承担课题名称
      */
-    @NotBlank(message = "项目名称不能为空",groups={AddGroup.class, EditGroup.class})
+    @NotBlank(message = "承担课题名称不能为空", groups = {AddGroup.class, EditGroup.class})
     @Size(max = 200, message = "承担课题名称长度不能超过200个字符")
     private String assignedSubjectName;
 
@@ -124,6 +124,11 @@ public class ProjectBaseInfoBO extends BaseEntity {
      * 有无合作单位，1有，0无
      */
     private ExistenceState hasCooperativeUnit;
+
+    /**
+     * 涉及专家、团队
+     */
+    private String expertTeam;
 
     /**
      * 获奖情况（项）

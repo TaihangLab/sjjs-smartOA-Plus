@@ -10,6 +10,8 @@ import java.util.List;
 public interface ProjectUserService {
     boolean insertProjectUsers(Long projectId, List<ProjectUserBo> projectUserBos);
 
+    boolean insertProjectUsers(List<ProjectUser> projectUserList);
+
     int deleteProjectUsersByProID(Long projectId);
 
     int updateProjectUsers(Long projectId, List<ProjectUserBo> projectUserBos);
