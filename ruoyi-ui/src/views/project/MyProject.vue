@@ -8,7 +8,6 @@
             </el-col>
             <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
         </el-row>
-
         <!-- 新增项目弹出的对话框-->
         <el-dialog title="新增项目" :visible.sync="newProjectDialogVisible" fullscreen>
             <!-- :before-close="handleClose">-->
@@ -19,7 +18,7 @@
             <AddEvents :visible.sync="eventsDialogVisibleAdd">
             </AddEvents>
         </el-dialog>
-        <Project :buttonType="1" :myProjectLook="myProjectLook"/>
+        <Project :buttonType="1" :myProjectLook="myProjectLook" :total="total" :queryParam="queryParam"/>
     </div>
 </template>
 
@@ -28,7 +27,6 @@ import request from '@/utils/request';
 import Project from "@/views/project/Project.vue";
 import NewProject from "@/views/project/components/NewProject.vue";
 import AddEvents from "@/views/project/components/AddEvents.vue";
-import {listUser, deptTreeSelect} from "@/api/system/user";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 import CheakProject from "./CheckProject.vue";
 
