@@ -93,7 +93,15 @@ export default {
         },
         buttonType: {
             type: Number,
-        }
+        },
+        total: {
+            type: Number, // 你的数据类型可以根据实际情况进行调整
+            required: true, // 如果希望 total 是必须的，请设置为 true
+        },
+        queryParam: {
+            type: Object,
+            required: true,
+        },
     },
     components: {
         ProjectDetail,
@@ -114,36 +122,19 @@ export default {
             eventsDialogKey: 0,
             //搜索框
             dataFrom: {
-                name: "",
             },
             //新增
             form: {
-                projectName: "",
-                projectManager: "",
-                projectStatus: "",
-                projectInfo: "",
-                projectType: "",
-                startTime: "",
-                establishTime: "",
             },
             //查看
             formLook: {
             },
             //编辑
             formChange: {
-                id: "",
-                project: {
-                    id: "",
-                    name: "",
-                    content: "",
-                    type: "",
-                    money: "",
-                    remark: "",
-                },
             },
             projectList: [],
             pageIndex: 1,
-            pageSize: 10,
+            pageSize: 5,
             total: 0,
             begin: 0,
             end: this.pageSize - 1,
@@ -164,55 +155,15 @@ export default {
         closeEventsDialog() {
             this.eventsDialogVisibleAdd = false;
         },
-        //改变数组大小
         sizeChangeHandle(val) {
-            this.pageSize = val;
-            this.SizeOrCurrentChangeAfter();
+            console.log('sizeChangeHandle:', val);
+            this.$set(this.queryParam, 'pageSize', val);
+            console.log('Updated pageSize:', this.queryParam.pageSize);
         },
-        //改变当前页号
         CurrentChangeHandle(val) {
-            this.pageIndex = val;
-            this.SizeOrCurrentChangeAfter();
-        },
-        //在更改数组大小或者页号前，判断数据来源
-        SizeOrCurrentChangeAfter() {
-            if (this.dataListFrom === "getDataList")
-                this.getDataList();
-            else this.getDataListByName();
-        },
-        //新增页面的确认键
-        handleInsert() {
-            this.$http.post("/item/insert", this.form).then(() => {
-                this.dialogFormVisible = false; //关闭窗口
-                this.getDataList();
-            });
-        },
-        //查询所有数据
-        getDataList() {
-            this.dataListFrom = "getDataList";
-            const pageInfo = this.$getPageInfo(this.pageSize, this.pageIndex)
-            this.$http.post("/item/getList", pageInfo).then((res) => {
-                this.cutDataList(res);
-            });
-        },
-        //查询单条数据
-        getDataListByName() {
-            const name = this.dataFrom.name
-            if (name !== "") {
-                const data = {
-                    name: name,
-                    pageBo: this.$getPageInfo(this.pageSize, this.pageIndex)
-                }
-                this.dataListFrom = "getDataListByName";
-                this.$http.post("/item/getList/search", data).then((res) => {
-                    this.cutDataList(res);
-                });
-            } else this.getDataList();
-        },
-        cutDataList(res) {
-            const data = this.$cutPageDataList(res)
-            this.dataList = data.dataList
-            this.totalPage = data.totalPage
+            console.log('CurrentChangeHandle:', val);
+            this.$set(this.queryParam, 'pageNum', val);
+            console.log('Updated pageNum:', this.queryParam.pageNum);
         },
         //详情按钮
         lookEdit(index, item) {
@@ -249,6 +200,19 @@ export default {
                 this.projectList = [...newVal];
             },
             deep: true,
+        },
+        queryParam: {
+            handler(newVal, oldVal) {
+                // 在这里处理 queryParam 变化的逻辑
+                console.log('queryParam changed:', newVal);
+                const pageSizeChanged = newVal.pageSize !== oldVal.pageSize;
+                const pageNumChanged = newVal.pageNum !== oldVal.pageNum;
+
+                if (pageSizeChanged || pageNumChanged) {
+                    console.log('pageSize or pageNum changed!');
+                }
+            },
+            deep: true, // 深度监测对象内部属性的变化
         },
     },
     mounted() {

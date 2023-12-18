@@ -1,15 +1,13 @@
 <template>
     <div class="block">
-        <div class="fixed-container">
-            <el-input placeholder="请输入内容" v-model="input3" class="input-with-select" size="small" :clearable="true"
-                @input.native="handleInput">
-                <el-select v-model="select" slot="prepend" placeholder="请选择">
-                    <el-option label="前" value="1"></el-option>
-                    <el-option label="中" value="2"></el-option>
-                    <el-option label="后" value="3"></el-option>
-                </el-select>
-                <el-button slot="append" icon="el-icon-search"></el-button>
-            </el-input>
+        <div v-if="timelineItems.length" class="fixed-container">
+            <el-input placeholder="请输入内容" v-model="input3" class="input-with-select" size="mini" :clearable="true"
+                @input.native="handleInput" style="border-radius: 0;"></el-input>
+            <el-date-picker v-model="projectEstablishTime" type="daterange" unlink-panels clearable
+                start-placeholder="请输入查询范围" end-placeholder="如：2000-01-01" value-format="yyyy-MM-dd" @change="getList"
+                :picker-options="pickerOptions" size="mini"></el-date-picker>
+            <el-button type="primary" icon="el-icon-search" @click="handleQuery" size="mini"
+                class="no-border-radius"></el-button>
         </div>
         <el-timeline>
             <el-timeline-item v-for="(item, index) in timelineItems" :key="index" :timestamp="item.milestoneDate"
@@ -88,6 +86,8 @@ export default {
             visible: true,
             input3: '',
             select: '',
+            projectEstablishTime: '',
+            dateRange: [],
             timelineItems: [],
             milestoneIds: [],
             title: "",// 初始化 title
@@ -123,9 +123,9 @@ export default {
             method: 'post',
             data: {
                 projectId: this.projectId,
-                keyword:this.keyword,
-                milestoneStaTime:this.milestoneStaTime,
-                milestoneEndTime:this.milestoneEndTime
+                keyword: this.keyword,
+                milestoneStaTime: this.milestoneStaTime,
+                milestoneEndTime: this.milestoneEndTime
             }
         })
             .then((resp) => {
@@ -179,7 +179,6 @@ export default {
             console.log("提交修改", this.ossids);
             // this.form.ossIds = this.ossids.map(item => item.ossId);
             this.form.ossIds = this.ossids;
-
             // 请求修改接口
             request({
                 url: '/project/my/milestoneedit',
@@ -199,11 +198,14 @@ export default {
         fetchMilestoneList() {
             // 重新获取数据逻辑
             request({
-                url: '/project/list/milestonelist',
-                method: 'get',
-                params: {
+                url: '/project/list/milestonequery',
+                method: 'post',
+                data: {
                     projectId: this.projectId,
-                },
+                    keyword: this.keyword,
+                    milestoneStaTime: this.milestoneStaTime,
+                    milestoneEndTime: this.milestoneEndTime
+                }
             })
                 .then((resp) => {
                     console.log(resp);
@@ -252,16 +254,17 @@ export default {
 <style>
 .fixed-container {
     position: fixed;
-    left: 50%;
-    /* 水平居中 */
+    left: 52%;
+    width: 40%;
     margin-top: -25px;
     transform: translate(-50%, -50%);
     z-index: 999;
-    /* 保证固定部分位于其他内容之上 */
+    display: flex;
+    align-items: center;
 }
 
-.input-with-select .el-input-group__prepend {
-    background-color: #fff;
+.input-with-select {
+    width: 150px;
 }
 
 .attachments-container {
@@ -270,5 +273,7 @@ export default {
 
 .attachment-item {
     margin-right: 20px;
-}</style>
+}
+</style>
+
 
