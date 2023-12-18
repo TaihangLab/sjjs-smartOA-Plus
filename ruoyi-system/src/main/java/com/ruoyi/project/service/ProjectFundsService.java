@@ -12,9 +12,7 @@ public interface ProjectFundsService {
     ProjectFundsVO selectProjectFundsVOById(Long projectId);
     int insertProjectFunds(ProjectFunds projectFunds);
 
-
-    int updateProjectFunds(ProjectFunds projectFunds);
-
-
     void deleteProjectFundsById(Long projectId);
+
+    void saveOrUpdateProjectFunds(ProjectFunds projectFunds, Long projectId);
 }

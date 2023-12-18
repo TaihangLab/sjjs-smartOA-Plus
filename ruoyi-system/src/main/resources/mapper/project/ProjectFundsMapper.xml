@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.project.mapper.ProjectFundsMapper">
 
     <resultMap id="ProjectFundsResult" type="com.ruoyi.project.domain.ProjectFunds">
-            <id property="fundsId" column="funds_id" jdbcType="BIGINT"/>
-            <result property="projectId" column="project_id" jdbcType="BIGINT"/>
+        <id property="fundsId" column="funds_id" jdbcType="BIGINT"/>
+        <result property="projectId" column="project_id" jdbcType="BIGINT"/>
         <result property="sbfGzsbZxZj" column="sbf_gzsb_zx_zj" jdbcType="DECIMAL"/>
         <result property="sbfGzsbZcZj" column="sbf_gzsb_zc_zj" jdbcType="DECIMAL"/>
         <result property="sbfSzsbZxZj" column="sbf_szsb_zx_zj" jdbcType="DECIMAL"/>
@@ -41,14 +41,14 @@
         <result property="kyfwfGnxzZcZj" column="kyfwf_gnxz_zc_zj" jdbcType="DECIMAL"/>
         <result property="ryhlwbzfZxZj" column="ryhlwbzf_zx_zj" jdbcType="DECIMAL"/>
         <result property="ryhlwbzfZcZj" column="ryhlwbzf_zc_zj" jdbcType="DECIMAL"/>
-            <result property="jxzcZx" column="jxzc_zx" jdbcType="DECIMAL"/>
-            <result property="jxzcZc" column="jxzc_zc" jdbcType="DECIMAL"/>
+        <result property="jxzcZx" column="jxzc_zx" jdbcType="DECIMAL"/>
+        <result property="jxzcZc" column="jxzc_zc" jdbcType="DECIMAL"/>
         <result property="othersZx" column="others_zx" jdbcType="DECIMAL"/>
         <result property="othersZc" column="others_zc" jdbcType="DECIMAL"/>
-            <result property="jflyZx" column="jfly_zx" jdbcType="DECIMAL"/>
-            <result property="jflyQtczbkZc" column="jfly_qtczbk_zc" jdbcType="DECIMAL"/>
-            <result property="jflyDwzyhbzjZc" column="jfly_dwzyhbzj_zc" jdbcType="DECIMAL"/>
-            <result property="jflyQtzjZc" column="jfly_qtzj_zc" jdbcType="DECIMAL"/>
+        <result property="jflyZx" column="jfly_zx" jdbcType="DECIMAL"/>
+        <result property="jflyQtczbkZc" column="jfly_qtczbk_zc" jdbcType="DECIMAL"/>
+        <result property="jflyDwzyhbzjZc" column="jfly_dwzyhbzj_zc" jdbcType="DECIMAL"/>
+        <result property="jflyQtzjZc" column="jfly_qtzj_zc" jdbcType="DECIMAL"/>
         <result property="sbfGzsbZxJj" column="sbf_gzsb_zx_jj" jdbcType="DECIMAL"/>
         <result property="sbfGzsbZcJj" column="sbf_gzsb_zc_jj" jdbcType="DECIMAL"/>
         <result property="sbfSzsbZxJj" column="sbf_szsb_zx_jj" jdbcType="DECIMAL"/>
@@ -83,7 +83,6 @@
         <result property="kyfwfGnxzZcJj" column="kyfwf_gnxz_zc_jj" jdbcType="DECIMAL"/>
         <result property="ryhlwbzfZxJj" column="ryhlwbzf_zx_jj" jdbcType="DECIMAL"/>
         <result property="ryhlwbzfZcJj" column="ryhlwbzf_zc_jj" jdbcType="DECIMAL"/>
-        <result property="deleted" column="deleted" jdbcType="TINYINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
