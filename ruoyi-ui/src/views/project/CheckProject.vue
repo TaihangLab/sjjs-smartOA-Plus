@@ -210,6 +210,12 @@ export default {
                 projectScheduledCompletionTimeEnd: undefined,
             };
             this.$emit('query-request', this.queryParams);
+            this.resetForm(this.queryParams);
+            this.responsiblePerson = undefined;
+            this.CoCompany = undefined;
+            this.projectLevel = undefined;
+            this.projectEstablishTime = undefined;
+            this.projectScheduledCompletionTime = undefined;
         },
         async getDeptAndUserList() {
             console.log('1', this.cascaderOptions);
