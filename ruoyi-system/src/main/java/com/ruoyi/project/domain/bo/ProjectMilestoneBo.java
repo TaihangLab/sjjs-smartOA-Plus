@@ -20,7 +20,7 @@ public class ProjectMilestoneBo extends BaseEntity {
     /**
      * 大事记ID
      */
-    @TableId(value = "milestone_id",type = IdType.AUTO)
+
     private Long milestoneId;
 
     /**
