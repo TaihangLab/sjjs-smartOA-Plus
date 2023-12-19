@@ -157,8 +157,7 @@ export default {
         },
         submit() {
             // console.log(this.$refs.projectInfo.$refs.form.validate());
-            let loading = Loading.service({ fullscreen: true, lock: true, text: '少女祈祷中' });
-            setTimeout(() => loading.close(), 3000);
+
         },
     },
     watch: {
