@@ -11,7 +11,7 @@
         <el-row :gutter="20">
             <el-col :span="12">
                 <el-form-item label-width="100px" label="经费总额">
-                    <el-input v-model.number="$props.form.zxjfze" type="number"></el-input>
+                    <el-input v-model.number="$props.form.jfze" type="number"></el-input>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -24,6 +24,19 @@
         <el-tag effect="plain" type="warning">{{ zxXY[1] }}</el-tag>
         万元
       </el-divider>
+
+        <el-row :gutter="20">
+            <el-col :span="12">
+                <el-form-item label-width="100px" label="专项直接X">
+                    <el-input v-model.number="$props.form.zxzjx" type="number"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label-width="100px" label="专项间接Y">
+                    <el-input v-model.number="$props.form.zxjjy" type="number"></el-input>
+                </el-form-item>
+            </el-col>
+        </el-row>
 
       <el-row :gutter="20">
         <el-col :span="12">
@@ -47,6 +60,19 @@
         <el-tag effect="plain" type="warning">{{ zcXY[1] }}</el-tag>
         万元
       </el-divider>
+
+        <el-row :gutter="20">
+            <el-col :span="12">
+                <el-form-item label-width="100px" label="自筹直接X">
+                    <el-input v-model.number="$props.form.zczjx" type="number"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label-width="100px" label="自筹间接Y">
+                    <el-input v-model.number="$props.form.zcjjy" type="number"></el-input>
+                </el-form-item>
+            </el-col>
+        </el-row>
 
 
       <el-row :gutter="20">
