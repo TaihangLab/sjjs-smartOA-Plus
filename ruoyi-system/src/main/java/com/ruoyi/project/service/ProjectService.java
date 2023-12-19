@@ -13,4 +13,6 @@ public interface ProjectService {
     ProjectDetailsVO getProjectDetails(Long projectId);
 
     void addProject(ProjectInfoBO projectInfoBO);
+
+    void updateProject(ProjectInfoBO projectInfoBO);
 }

@@ -2,7 +2,7 @@
     <div>
         <CheckProject @query-request="handleQueryRequest"/>
         <div>
-            <Project :projectListLook="projectListLook" />
+            <Project :projectListLook="projectListLook" :total="total" :queryParam="queryParam" @update-query-param="updateQueryParam"/>
         </div>
     </div>
 </template>
@@ -10,7 +10,6 @@
 <script>
 import request from '@/utils/request';
 import Project from "@/views/project/Project.vue";
-import { listUser, deptTreeSelect } from "@/api/system/user";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 import CheckProject from "./CheckProject.vue";
 
@@ -54,6 +53,9 @@ export default {
                     console.error('获取数据时出错：', error);
                 });
         },
+        updateQueryParam(newQueryParam) {
+      this.queryParam = newQueryParam;
+    },
     },
 }
 </script>

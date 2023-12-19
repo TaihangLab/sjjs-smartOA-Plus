@@ -45,7 +45,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
     @Transactional(rollbackFor = Exception.class)
     public int insertProjectMilestone(ProjectMilestoneBo projectMilestoneBo) {
         if (projectMilestoneBo == null) {
-            return 0;
+            throw new IllegalArgumentException("projectMilestoneBo cannot be null");
         }
         ProjectMilestone projectMilestone = new ProjectMilestone();
         projectMilestone.setProjectId(projectMilestoneBo.getProjectId());
@@ -152,6 +152,9 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int updateMilestone(ProjectMilestoneBo projectMilestoneBo) {
+        if (projectMilestoneBo == null) {
+            throw new IllegalArgumentException("projectMilestoneBo cannot be null");
+        }
         LambdaUpdateWrapper<ProjectMilestone> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         lambdaUpdateWrapper.eq(ProjectMilestone::getMilestoneId, projectMilestoneBo.getMilestoneId());
         lambdaUpdateWrapper.set(ProjectMilestone::getMilestoneRemark, projectMilestoneBo.getMilestoneRemark())

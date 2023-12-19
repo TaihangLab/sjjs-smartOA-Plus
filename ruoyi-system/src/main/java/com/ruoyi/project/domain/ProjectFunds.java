@@ -1,6 +1,9 @@
 package com.ruoyi.project.domain;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -403,13 +406,6 @@ public class ProjectFunds implements Serializable {
      * 人员和劳务补助费_自筹_间接
      */
     private BigDecimal ryhlwbzfZcJj;
-
-    /**
-     * 是否删除，2删除，0未删除
-     */
-    @TableLogic
-    @TableField(select = false)
-    private Integer deleted;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

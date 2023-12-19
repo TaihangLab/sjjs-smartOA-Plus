@@ -19,6 +19,7 @@ public class ProjectMilestone {
     /**
      * 大事纪ID
      */
+    @TableId(value = "milestone_id",type = IdType.AUTO)
     private Long milestoneId;
 
     /**

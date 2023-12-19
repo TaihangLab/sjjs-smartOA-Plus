@@ -15,7 +15,7 @@ public interface ProjectBaseInfoService {
     ProjectInfoVO selectProjectInfoVOById(Long projectId);
     Long insertProjectBaseInfo(ProjectBaseInfo projectBaseInfo);
 
-    Long updateProjectBaseInfoById(ProjectBaseInfo projectBaseInfo);
+    void updateProjectBaseInfoById(ProjectBaseInfo projectBaseInfo);
 
     void deleteProjectBaseInfoById(Long projectId);
 

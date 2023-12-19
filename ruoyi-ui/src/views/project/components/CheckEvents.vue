@@ -1,15 +1,13 @@
 <template>
     <div class="block">
-        <div class="fixed-container">
-            <el-input placeholder="请输入内容" v-model="input3" class="input-with-select" size="small" :clearable="true"
-                @input.native="handleInput">
-                <el-select v-model="select" slot="prepend" placeholder="请选择">
-                    <el-option label="前" value="1"></el-option>
-                    <el-option label="中" value="2"></el-option>
-                    <el-option label="后" value="3"></el-option>
-                </el-select>
-                <el-button slot="append" icon="el-icon-search"></el-button>
-            </el-input>
+        <div v-if="timelineItems.length" class="fixed-container">
+            <el-input placeholder="请输入内容" v-model="searchKeyword" class="input-with-select" size="mini" :clearable="true"
+                @keyup.enter.native="handleQuery" style="border-radius: 0;"></el-input>
+            <el-date-picker v-model="dateRange" type="daterange" unlink-panels clearable start-placeholder="请输入查询范围"
+                end-placeholder="如：2000-01-01" value-format="yyyy-MM-dd" @keyup.enter.native="handleQuery"
+                :picker-options="pickerOptions" size="mini"></el-date-picker>
+            <el-button type="primary" icon="el-icon-search" @click="handleQuery" size="mini"
+                class="no-border-radius"></el-button>
         </div>
         <el-timeline>
             <el-timeline-item v-for="(item, index) in timelineItems" :key="index" :timestamp="item.milestoneDate"
@@ -86,8 +84,13 @@ export default {
         return {
             eventsDialogVisibleEdit: false,
             visible: true,
-            input3: '',
             select: '',
+            keyword: '',
+            searchKeyword: '',
+            milestoneStaTime: '',
+            milestoneEndTime: '',
+            projectEstablishTime: '',
+            dateRange: [],
             timelineItems: [],
             milestoneIds: [],
             title: "",// 初始化 title
@@ -109,23 +112,66 @@ export default {
                 milestoneRemark: [
                     { required: true, message: '请填写详情', trigger: 'blur' }
                 ]
-            }
+            },
+            pickerOptions: {
+                shortcuts: [{
+                    text: '最近一周',
+                    onClick(picker) {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                        picker.$emit('pick', [start, end]);
+                    }
+                }, {
+                    text: '最近一个月',
+                    onClick(picker) {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                        picker.$emit('pick', [start, end]);
+                    }
+                }, {
+                    text: '最近三个月',
+                    onClick(picker) {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                        picker.$emit('pick', [start, end]);
+                    }
+                }, {
+                    text: '最近半年',
+                    onClick(picker) {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 183);
+                        picker.$emit('pick', [start, end]);
+                    }
+                }, {
+                    text: '最近一年',
+                    onClick(picker) {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 365);
+                        picker.$emit('pick', [start, end]);
+                    }
+                }]
+            },
         };
     },
     created() {
         console.log("fujian 组件接收到的附件数据:", this.value);
     },
     mounted() {
-        console.log("传过来的项目id", this.projectId);
+        console.log("传过来的项目id", this.sysOsses);
         // 获取数据
         request({
             url: '/project/list/milestonequery',
             method: 'post',
             data: {
                 projectId: this.projectId,
-                keyword:this.keyword,
-                milestoneStaTime:this.milestoneStaTime,
-                milestoneEndTime:this.milestoneEndTime
+                keyword: this.keyword,
+                milestoneStaTime: this.milestoneStaTime,
+                milestoneEndTime: this.milestoneEndTime
             }
         })
             .then((resp) => {
@@ -154,7 +200,7 @@ export default {
             this.form.sysOsses = item.sysOsses;
             // 获取已有的ossids
             this.ossids = item.sysOsses.map(item => item.ossId);
-            console.log("已有的ossid", this.ossids);
+            console.log("已有的ossid", this.form.ossIds);
         },
         deleteMilestone(item) {
             const milestoneId = item.milestoneId;
@@ -179,7 +225,6 @@ export default {
             console.log("提交修改", this.ossids);
             // this.form.ossIds = this.ossids.map(item => item.ossId);
             this.form.ossIds = this.ossids;
-
             // 请求修改接口
             request({
                 url: '/project/my/milestoneedit',
@@ -197,13 +242,18 @@ export default {
                 });
         },
         fetchMilestoneList() {
+            const combinedSearchData = {
+                projectId: this.projectId,
+                keyword: this.searchKeyword,
+                milestoneStaTime: this.milestoneStaTime,
+                milestoneEndTime: this.milestoneEndTime,
+            };
+            console.log('milestoneStaTime',this.milestoneStaTime)
             // 重新获取数据逻辑
             request({
-                url: '/project/list/milestonelist',
-                method: 'get',
-                params: {
-                    projectId: this.projectId,
-                },
+                url: '/project/list/milestonequery',
+                method: 'post',
+                data: combinedSearchData,
             })
                 .then((resp) => {
                     console.log(resp);
@@ -214,13 +264,30 @@ export default {
                     this.timelineItems.forEach(item => {
                         this.milestoneIds.push(item.milestoneId);
                     });
+                    this.$forceUpdate();
                 })
                 .catch((error) => {
                     console.error('获取数据时出错：', error);
                 });
         },
+        handleQuery() {
+            console.log('this.dateRange[0]',this.dateRange[0])
+            // 设置搜索参数
+            const searchData = {
+                projectId: this.projectId,
+                keyword: this.searchKeyword,
+                milestoneStaTime: this.dateRange[0],
+                milestoneEndTime: this.dateRange[1],
+            };
+            this.milestoneStaTime = this.dateRange[0];
+            this.milestoneEndTime = this.dateRange[1];
+            this.fetchMilestoneList(searchData);
+        },
         close() {
             this.$refs.eventsDialogEdit.close();
+        },
+        mounted() {
+            this.fetchMilestoneList();
         },
         submitUpload() {
             this.$refs.upload.submit();
@@ -252,16 +319,17 @@ export default {
 <style>
 .fixed-container {
     position: fixed;
-    left: 50%;
-    /* 水平居中 */
+    left: 52%;
+    width: 40%;
     margin-top: -25px;
     transform: translate(-50%, -50%);
     z-index: 999;
-    /* 保证固定部分位于其他内容之上 */
+    display: flex;
+    align-items: center;
 }
 
-.input-with-select .el-input-group__prepend {
-    background-color: #fff;
+.input-with-select {
+    width: 150px;
 }
 
 .attachments-container {
@@ -270,5 +338,7 @@ export default {
 
 .attachment-item {
     margin-right: 20px;
-}</style>
+}
+</style>
+
 
