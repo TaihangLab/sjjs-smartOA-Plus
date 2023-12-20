@@ -154,6 +154,7 @@ export default {
     methods: {
         /** 删除按钮操作 */
         handleDelete(row) {
+            const projectId = row.projectId;
             const assignedSubjectSection = row.assignedSubjectSection;
             this.$modal.confirm('负责课题：' + assignedSubjectSection + '，确认删除该数据项？'
             ).then(() =>{
