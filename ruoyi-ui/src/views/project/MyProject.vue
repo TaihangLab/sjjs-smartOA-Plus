@@ -18,7 +18,7 @@
 <!--            <AddEvents :visible.sync="eventsDialogVisibleAdd">-->
 <!--            </AddEvents>-->
 <!--        </el-dialog>-->
-        <Project :key="projectKey" :buttonType="1" :myProjectLook="myProjectLook" :total="total" :queryParam="queryParam" @reloadProjectList="getprojectList"/>
+        <Project  :buttonType="1" :myProjectLook="myProjectLook" :total="total" :queryParam="queryParam" @reloadProjectList="getprojectList"/>
     </div>
 </template>
 
@@ -36,9 +36,13 @@ export default {
     data() {
         return {
             projectKey: 0,
+            queryParams: {
+                pageNum: 2,
+                pageSize: 5,
+            },
             queryParam: {
                 pageNum: 1,
-                pageSize: 5,
+                pageSize: 10,
             },
             myProjectLook: {},
             projectList: [],
@@ -52,23 +56,25 @@ export default {
         this.getprojectList();
     },
     methods: {
-        reloadProjectList(){
+        reloadProjectList(queryParam){
+            this.queryParam = queryParam;
             this.getprojectList(); // 调用原来的获取数据方法
             this.projectKey += 1; // 修改 key 强制组件重新加载
         },
         handleQueryRequest(queryParams) {
             // 执行后端查询等操作
             if (queryParams && Object.keys(queryParams).length > 0) {
-                this.queryParam = queryParams;
+                this.queryParams = queryParams;
             }
-            console.log('projectlistquery', this.queryParam);
+            console.log('projectlistquery', this.queryParams);
             this.getprojectList();
         },
         getprojectList() {
             request({
                 url: '/project/my/getMyList',
                 method: 'post',
-                data: this.queryParam,
+                data: this.queryParams,
+                params: this.queryParam,
             })
                 .then((resp) => {
                     this.myProjectLook = resp.rows;

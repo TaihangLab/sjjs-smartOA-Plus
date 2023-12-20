@@ -68,7 +68,7 @@
                 </AddEvents>
             </el-dialog>
             <!-- 页号 -->
-            <el-pagination :current-page="pageIndex" :page-size="pageSize" :page-sizes="[5, 10, 20, 50, 100]" :total="total"
+            <el-pagination :current-page="this.queryParam.pageNum" :page-size="this.queryParam.pageSize" :page-sizes="[5, 10, 20, 50, 100]" :total="total"
                 layout="total ,sizes,prev,pager,next,jumper" style="margin-top: 30px" @size-change="sizeChangeHandle"
                 @current-change="CurrentChangeHandle">
             </el-pagination>
@@ -99,10 +99,7 @@ export default {
             type: Number, // 你的数据类型可以根据实际情况进行调整
             required: true, // 如果希望 total 是必须的，请设置为 true
         },
-        queryParam: {
-            type: Object,
-            required: true,
-        },
+
     },
     components: {
         ProjectDetail,
@@ -111,6 +108,10 @@ export default {
     },
     data() {
         return {
+            queryParam: {
+                pageNum: 1,
+                pageSize: 10,
+            },
             projectId: '',
             rowCenter: {
                 "text-align": "center"
@@ -194,10 +195,9 @@ export default {
             this.fetchData();
         },
         fetchData() {
-            const requestData = {
-                pageSize: this.queryParam.pageSize,
-                pageNum: this.queryParam.pageNum,
-            };
+            // this.$emit('update-query-param', this.queryParam);
+            // this.$emit('reloadProjectList', this.queryParam);
+            this.$parent.reloadProjectList(this.queryParam);
         },
         //详情按钮
         lookEdit(index, item) {
