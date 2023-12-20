@@ -52,7 +52,9 @@
             </el-table>
             <!-- 详情打开的界面 -->
             <el-dialog :model="formLook" :visible.sync="dialogFormVisibleLook" width="50%">
-                <ProjectDetail :visible.sync="dialogFormVisibleLook" :formLook="formLook"></ProjectDetail>
+                <div class="dialog-content">
+                    <ProjectDetail :visible.sync="dialogFormVisibleLook" :formLook="formLook"></ProjectDetail>
+                </div>
             </el-dialog>
             <!-- 大事记查看打开的界面 -->
             <el-dialog :visible.sync="eventsDialogVisibleLook" width="50%" :key="refreshEventsPage"
@@ -68,9 +70,9 @@
                 </AddEvents>
             </el-dialog>
             <!-- 页号 -->
-            <el-pagination :current-page="this.queryParam.pageNum" :page-size="this.queryParam.pageSize" :page-sizes="[5, 10, 20, 50, 100]" :total="total"
-                layout="total ,sizes,prev,pager,next,jumper" style="margin-top: 30px" @size-change="sizeChangeHandle"
-                @current-change="CurrentChangeHandle">
+            <el-pagination :current-page="this.queryParam.pageNum" :page-size="this.queryParam.pageSize"
+                :page-sizes="[5, 10, 20, 50, 100]" :total="total" layout="total ,sizes,prev,pager,next,jumper"
+                style="margin-top: 30px" @size-change="sizeChangeHandle" @current-change="CurrentChangeHandle">
             </el-pagination>
         </div>
     </el-card>
@@ -158,7 +160,7 @@ export default {
             const projectId = row.projectId;
             const assignedSubjectSection = row.assignedSubjectSection;
             this.$modal.confirm('负责课题：' + assignedSubjectSection + '，确认删除该数据项？'
-            ).then(() =>{
+            ).then(() => {
                 return this.deleteUser(projectId);
             }).then(() => {
                 this.$emit('reloadProjectList');
@@ -183,20 +185,14 @@ export default {
             this.eventsDialogVisibleAdd = false;
         },
         sizeChangeHandle(val) {
-            console.log('sizeChangeHandle:', val);
             this.$set(this.queryParam, 'pageSize', val);
-            console.log('Updated pageSize:', this.queryParam.pageSize);
             this.fetchData();
         },
         CurrentChangeHandle(val) {
-            console.log('CurrentChangeHandle:', val);
             this.$set(this.queryParam, 'pageNum', val);
-            console.log('Updated pageNum:', this.queryParam.pageNum);
             this.fetchData();
         },
         fetchData() {
-            // this.$emit('update-query-param', this.queryParam);
-            // this.$emit('reloadProjectList', this.queryParam);
             this.$parent.reloadProjectList(this.queryParam);
         },
         //详情按钮
@@ -255,3 +251,9 @@ export default {
 };
 </script>
 
+<style scoped>
+.dialog-content {
+  max-height: 600px; /* 适当设置最大高度 */
+  overflow-y: auto; /* 添加垂直滚动条 */
+}
+</style>
