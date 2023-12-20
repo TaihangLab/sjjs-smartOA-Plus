@@ -66,7 +66,7 @@ export default {
             if (queryParams && Object.keys(queryParams).length > 0) {
                 this.queryParams = queryParams;
             }
-            console.log('projectlistquery', this.queryParams);
+            this.queryParam.pageNum = 1;
             this.getprojectList();
         },
         getprojectList() {
@@ -79,7 +79,6 @@ export default {
                 .then((resp) => {
                     this.myProjectLook = resp.rows;
                     this.total = resp.total;
-                    console.log('项目', this.myProjectLook);
                 })
                 .catch((error) => {
                     console.error('获取数据时出错：', error);
