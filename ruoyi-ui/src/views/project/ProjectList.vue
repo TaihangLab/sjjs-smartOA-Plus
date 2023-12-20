@@ -44,6 +44,7 @@ export default {
             if (queryParams && Object.keys(queryParams).length > 0) {
                 this.queryParams = queryParams;
             }
+            this.queryParam.pageNum = 1;
             console.log('projectlistquery', this.queryParams);
             this.getprojectList();
         },
