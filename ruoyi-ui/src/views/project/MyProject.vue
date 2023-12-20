@@ -18,7 +18,7 @@
 <!--            <AddEvents :visible.sync="eventsDialogVisibleAdd">-->
 <!--            </AddEvents>-->
 <!--        </el-dialog>-->
-        <Project :buttonType="1" :myProjectLook="myProjectLook" :total="total" :queryParam="queryParam"/>
+        <Project :key="projectKey" :buttonType="1" :myProjectLook="myProjectLook" :total="total" :queryParam="queryParam" @reloadProjectList="getprojectList"/>
     </div>
 </template>
 
@@ -35,6 +35,7 @@ export default {
     components: {CheakProject, Project, NewProject, AddEvents},
     data() {
         return {
+            projectKey: 0,
             queryParam: {
                 pageNum: 1,
                 pageSize: 5,
@@ -51,6 +52,10 @@ export default {
         this.getprojectList();
     },
     methods: {
+        reloadProjectList(){
+            this.getprojectList(); // 调用原来的获取数据方法
+            this.projectKey += 1; // 修改 key 强制组件重新加载
+        },
         handleQueryRequest(queryParams) {
             // 执行后端查询等操作
             if (queryParams && Object.keys(queryParams).length > 0) {

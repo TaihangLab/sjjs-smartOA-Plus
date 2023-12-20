@@ -154,11 +154,12 @@ export default {
     methods: {
         /** 删除按钮操作 */
         handleDelete(row) {
-            const projectId = row.projectId;
-            this.$modal.confirm('是否确认删除用户编号为"' + projectId + '"的数据项？').then(() =>{
+            const assignedSubjectSection = row.assignedSubjectSection;
+            this.$modal.confirm('负责课题：' + assignedSubjectSection + '，确认删除该数据项？'
+            ).then(() =>{
                 return this.deleteUser(projectId);
             }).then(() => {
-
+                this.$emit('reloadProjectList');
                 this.$modal.msgSuccess("删除成功");
             }).catch(() => {
                 // 删除失败的处理逻辑
