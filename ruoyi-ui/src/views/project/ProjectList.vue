@@ -19,7 +19,11 @@ export default {
     data() {
         return {
             queryParam: {
-                pageNum: 1,
+                pageNum: 2,
+                pageSize: 5,
+            },
+            queryPara: {
+                pageNum: 2,
                 pageSize: 5,
             },
             projectListLook: {},
@@ -39,10 +43,12 @@ export default {
             this.getprojectList();
         },
         getprojectList() {
+            console.log('参数', this.queryParam);
             request({
                 url: '/project/list/getAllList',
                 method: 'post',
                 data: this.queryParam,
+                // params: this.queryPara,
             })
                 .then((resp) => {
                     this.projectListLook = resp.rows;
@@ -54,8 +60,8 @@ export default {
                 });
         },
         updateQueryParam(newQueryParam) {
-      this.queryParam = newQueryParam;
-    },
+            this.queryPara = newQueryParam;
+        },
     },
 }
 </script>

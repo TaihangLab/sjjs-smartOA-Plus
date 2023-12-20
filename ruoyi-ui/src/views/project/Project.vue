@@ -76,12 +76,13 @@
     </el-card>
 </template>
 <script>
+import request from '@/utils/request';
 import ProjectDetail from "@/views/project/components/ProjectDetail.vue";
 import CheckEvents from "@/views/project/components/CheckEvents.vue";
 import AddEvents from "@/views/project/components/AddEvents.vue";
 
 export default {
-    name: "Projec",
+    name: "Project",
     props: {
         projectListLook: {
             type: Array,
@@ -151,6 +152,29 @@ export default {
 
     },
     methods: {
+        /** 删除按钮操作 */
+        handleDelete(row) {
+            const projectId = row.projectId;
+            this.$modal.confirm('是否确认删除用户编号为"' + projectId + '"的数据项？').then(() =>{
+                return this.deleteUser(projectId);
+            }).then(() => {
+
+                this.$modal.msgSuccess("删除成功");
+            }).catch(() => {
+                // 删除失败的处理逻辑
+                console.error('删除失败');
+            });
+        },
+        // 删除用户
+        deleteUser(projectId) {
+            console.log('删除项目', projectId);
+            return request({
+                url: '/project/my/delete',
+                method: 'get',
+                data: [],
+                params: { projectId: projectId }
+            })
+        },
         // 关闭弹窗的方法
         closeEventsDialog() {
             this.eventsDialogVisibleAdd = false;

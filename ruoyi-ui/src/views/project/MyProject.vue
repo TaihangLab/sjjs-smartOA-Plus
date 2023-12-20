@@ -13,11 +13,11 @@
             <!-- :before-close="handleClose">-->
             <NewProject :visible.sync="newProjectDialogVisible"></NewProject>
         </el-dialog>
-        <!-- 大事记新增打开的界面 -->
-        <el-dialog title="大事记" :visible.sync="eventsDialogVisibleAdd" width="50%">
-            <AddEvents :visible.sync="eventsDialogVisibleAdd">
-            </AddEvents>
-        </el-dialog>
+<!--        &lt;!&ndash; 大事记新增打开的界面 &ndash;&gt;-->
+<!--        <el-dialog title="大事记" :visible.sync="eventsDialogVisibleAdd" width="50%">-->
+<!--            <AddEvents :visible.sync="eventsDialogVisibleAdd">-->
+<!--            </AddEvents>-->
+<!--        </el-dialog>-->
         <Project :buttonType="1" :myProjectLook="myProjectLook" :total="total" :queryParam="queryParam"/>
     </div>
 </template>
