@@ -82,7 +82,10 @@ import FundsSource from "@/views/project/components/FundsSource.vue";
 import MainAttachment from "@/views/project/components/MainAttachment.vue";
 import OtherAttachment from "@/views/project/components/OtherAttachment.vue";
 import Test from "@/views/project/components/Test.vue";
+import {Loading} from "element-ui";
+
 const TOTAL_STEPS = 9;
+
 export default {
     name: "NewProject",
     props: ['visible'],
@@ -122,9 +125,9 @@ export default {
         next() {
             // todo
             if (this.stepID++ >= TOTAL_STEPS - 1) {
-                // this.stepID = 0;
+
                 this.$emit('update:visible', false);
-                this.reset();
+                // this.reset();
             }
 
         },
@@ -138,21 +141,23 @@ export default {
             // console.log('projectInfoForm', this.projectInfoForm);
             console.log('projectMemberForm', this.projectMemberForm);
             // console.log('projectFundsForm', this.projectFundsForm);
-            // console.log('zxFundsDetailForm', this.zxFundsDetailForm);
+            console.log('zxFundsDetailForm', this.zxFundsDetailForm);
             // console.log('zcFundsDetailForm', this.zcFundsDetailForm);
             // console.log('projectIndicatorForm', this.projectIndicatorForm);
             // console.log('fundsSourceForm', this.fundsSourceForm);
             // console.log('mainAttachmentForm', this.mainAttachmentForm);
-            // console.log('otherAttachmentForm', this.otherAttachmentForm);
+            console.log('otherAttachmentForm', this.otherAttachmentForm);
         },
 
         reset() {
             // this.$refs.projectInfo.$refs.form.resetFields()
             // this.$refs.zxFundsDetail.$refs.form.resetFields()
-            this.$refs.projectMember.resetFields();
+            // this.$refs.projectMember.reset();
+            // this.stepID = 0;
         },
         submit() {
-            console.log(this.$refs.projectInfo.$refs.form.validate());
+            // console.log(this.$refs.projectInfo.$refs.form.validate());
+
         },
     },
     watch: {

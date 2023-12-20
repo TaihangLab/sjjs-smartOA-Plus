@@ -15,7 +15,7 @@
                 </el-col>
 
                 <el-col :span="10">
-                    <el-form-item label-width="80px" label="项目成员">
+                    <el-form-item label-width="80px" label="项目成员" prop="id">
                         <el-cascader
                             v-model="item.id"
                             :options="cascaderOptions"
@@ -28,7 +28,7 @@
                 </el-col>
 
                 <el-col :span="6" :offset="1">
-                    <el-form-item label-width="80px" label="成员角色">
+                    <el-form-item label-width="80px" label="成员角色" prop="role">
                         <el-select v-model="item.role" clearable placeholder="请选择">
                             <el-option
                                 v-for="item in roleOptions"
@@ -54,10 +54,14 @@
 
 <script setup>
 
-import {reactive, ref} from "vue";
-import { listUser, deptTreeSelect } from "@/api/system/user";
+import {getCurrentInstance, reactive, ref} from "vue";
+import {listUser, deptTreeSelect} from "@/api/system/user";
 
+const { proxy } = getCurrentInstance();
 const props = defineProps(["form"]);
+defineExpose({
+    reset,
+})
 
 
 const roleOptions = [{label:"项目负责人", value:0},{label:"公司负责人", value:1},{label:"部门负责人", value:2},{label:"科研管理负责人", value:3},{label:"普通成员", value:4},]
@@ -78,8 +82,15 @@ function remove(index) {
     isButtonShowList.value.splice(index, 1);
 }
 
+function reset() {
+    props.form.items = [{id: '', role: ''}];
+    proxy.$forceUpdate();
 
-// 用户级联
+}
+
+
+
+// 用户级联下拉框
 const member = ref("");
 let cascaderOptions = ref([]);
 let deptData = ref({});
