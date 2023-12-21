@@ -254,6 +254,7 @@ export default {
                 url: '/project/list/milestonequery',
                 method: 'post',
                 data: combinedSearchData,
+                params: this.queryPara,
             })
                 .then((resp) => {
                     console.log(resp);
@@ -271,7 +272,6 @@ export default {
                 });
         },
         handleQuery() {
-            console.log('this.dateRange[0]',this.dateRange[0])
             // 设置搜索参数
             const searchData = {
                 projectId: this.projectId,
