@@ -108,14 +108,4 @@ public class ProjectListController extends BaseController {
         return R.ok(projectMilestoneService.queryMilestoneList(projectMilestoneBo));
     }
 
-    /**
-     * 根据项目id查询项目成员详细信息
-     *
-     * @param projectId the project id
-     * @return the r
-     */
-    @GetMapping("/projectmembers")
-    public R<List<ProjectUserVo>> getProjectMembers(@RequestParam Long projectId){
-        return R.ok(projectUserService.getUserInfoByProjectId(projectId));
-    }
 }

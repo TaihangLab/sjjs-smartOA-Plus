@@ -28,4 +28,9 @@ public class ProjectUserVo {
      * 部门名称
      */
     private String deptName;
+
+    /**
+     * 项目成员角色
+     */
+    private String projectUserRole;
 }
