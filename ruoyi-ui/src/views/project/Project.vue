@@ -52,7 +52,9 @@
             </el-table>
             <!-- 详情打开的界面 -->
             <el-dialog :model="formLook" :visible.sync="dialogFormVisibleLook" width="50%">
-                <ProjectDetail :visible.sync="dialogFormVisibleLook" :formLook="formLook"></ProjectDetail>
+                <div class="dialog-content">
+                    <ProjectDetail :visible.sync="dialogFormVisibleLook" :formLook="formLook"></ProjectDetail>
+                </div>
             </el-dialog>
             <!-- 大事记查看打开的界面 -->
             <el-dialog :visible.sync="eventsDialogVisibleLook" width="50%" :key="refreshEventsPage"
@@ -68,20 +70,21 @@
                 </AddEvents>
             </el-dialog>
             <!-- 页号 -->
-            <el-pagination :current-page="pageIndex" :page-size="pageSize" :page-sizes="[5, 10, 20, 50, 100]" :total="total"
-                layout="total ,sizes,prev,pager,next,jumper" style="margin-top: 30px" @size-change="sizeChangeHandle"
-                @current-change="CurrentChangeHandle">
+            <el-pagination :current-page="this.queryParam.pageNum" :page-size="this.queryParam.pageSize"
+                :page-sizes="[5, 10, 20, 50, 100]" :total="total" layout="total ,sizes,prev,pager,next,jumper"
+                style="margin-top: 30px" @size-change="sizeChangeHandle" @current-change="CurrentChangeHandle">
             </el-pagination>
         </div>
     </el-card>
 </template>
 <script>
+import request from '@/utils/request';
 import ProjectDetail from "@/views/project/components/ProjectDetail.vue";
 import CheckEvents from "@/views/project/components/CheckEvents.vue";
 import AddEvents from "@/views/project/components/AddEvents.vue";
 
 export default {
-    name: "Projec",
+    name: "Project",
     props: {
         projectListLook: {
             type: Array,
@@ -98,10 +101,7 @@ export default {
             type: Number, // 你的数据类型可以根据实际情况进行调整
             required: true, // 如果希望 total 是必须的，请设置为 true
         },
-        queryParam: {
-            type: Object,
-            required: true,
-        },
+
     },
     components: {
         ProjectDetail,
@@ -110,6 +110,10 @@ export default {
     },
     data() {
         return {
+            queryParam: {
+                pageNum: 1,
+                pageSize: 10,
+            },
             projectId: '',
             rowCenter: {
                 "text-align": "center"
@@ -151,27 +155,45 @@ export default {
 
     },
     methods: {
+        /** 删除按钮操作 */
+        handleDelete(row) {
+            const projectId = row.projectId;
+            const assignedSubjectSection = row.assignedSubjectSection;
+            this.$modal.confirm('负责课题：' + assignedSubjectSection + '，确认删除该数据项？'
+            ).then(() => {
+                return this.deleteUser(projectId);
+            }).then(() => {
+                this.$emit('reloadProjectList');
+                this.$modal.msgSuccess("删除成功");
+            }).catch(() => {
+                // 删除失败的处理逻辑
+                console.error('删除失败');
+            });
+        },
+        // 删除用户
+        deleteUser(projectId) {
+            console.log('删除项目', projectId);
+            return request({
+                url: '/project/my/delete',
+                method: 'get',
+                data: [],
+                params: { projectId: projectId }
+            })
+        },
         // 关闭弹窗的方法
         closeEventsDialog() {
             this.eventsDialogVisibleAdd = false;
         },
         sizeChangeHandle(val) {
-            console.log('sizeChangeHandle:', val);
             this.$set(this.queryParam, 'pageSize', val);
-            console.log('Updated pageSize:', this.queryParam.pageSize);
             this.fetchData();
         },
         CurrentChangeHandle(val) {
-            console.log('CurrentChangeHandle:', val);
             this.$set(this.queryParam, 'pageNum', val);
-            console.log('Updated pageNum:', this.queryParam.pageNum);
             this.fetchData();
         },
         fetchData() {
-            const requestData = {
-                pageSize: this.queryParam.pageSize,
-                pageNum: this.queryParam.pageNum,
-            };
+            this.$parent.reloadProjectList(this.queryParam);
         },
         //详情按钮
         lookEdit(index, item) {
@@ -229,3 +251,9 @@ export default {
 };
 </script>
 
+<style scoped>
+.dialog-content {
+  max-height: 600px; /* 适当设置最大高度 */
+  overflow-y: auto; /* 添加垂直滚动条 */
+}
+</style>

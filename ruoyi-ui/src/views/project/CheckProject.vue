@@ -193,6 +193,7 @@ export default {
             this.queryParams.projectScheduledCompletionTimeEnd = this.projectScheduledCompletionTime[1];
             this.queryParams.hasCooperativeUnit = this.CoCompany[0];
             this.queryParams.projectLevel = this.projectLevel[0];
+            console.log('qwe', this.queryParams);
             this.$emit('query-request', this.queryParams);
         },
         resetQuery(){

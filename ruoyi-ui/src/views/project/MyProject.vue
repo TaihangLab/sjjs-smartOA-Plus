@@ -13,12 +13,12 @@
             <!-- :before-close="handleClose">-->
             <NewProject :visible.sync="newProjectDialogVisible"></NewProject>
         </el-dialog>
-        <!-- 大事记新增打开的界面 -->
-        <el-dialog title="大事记" :visible.sync="eventsDialogVisibleAdd" width="50%">
-            <AddEvents :visible.sync="eventsDialogVisibleAdd">
-            </AddEvents>
-        </el-dialog>
-        <Project :buttonType="1" :myProjectLook="myProjectLook" :total="total" :queryParam="queryParam"/>
+<!--        &lt;!&ndash; 大事记新增打开的界面 &ndash;&gt;-->
+<!--        <el-dialog title="大事记" :visible.sync="eventsDialogVisibleAdd" width="50%">-->
+<!--            <AddEvents :visible.sync="eventsDialogVisibleAdd">-->
+<!--            </AddEvents>-->
+<!--        </el-dialog>-->
+        <Project  :buttonType="1" :myProjectLook="myProjectLook" :total="total" :queryParam="queryParam" @reloadProjectList="getprojectList"/>
     </div>
 </template>
 
@@ -35,9 +35,14 @@ export default {
     components: {CheakProject, Project, NewProject, AddEvents},
     data() {
         return {
+            projectKey: 0,
+            queryParams: {
+                pageNum: 2,
+                pageSize: 5,
+            },
             queryParam: {
                 pageNum: 1,
-                pageSize: 5,
+                pageSize: 10,
             },
             myProjectLook: {},
             projectList: [],
@@ -51,24 +56,29 @@ export default {
         this.getprojectList();
     },
     methods: {
+        reloadProjectList(queryParam){
+            this.queryParam = queryParam;
+            this.getprojectList(); // 调用原来的获取数据方法
+            this.projectKey += 1; // 修改 key 强制组件重新加载
+        },
         handleQueryRequest(queryParams) {
             // 执行后端查询等操作
             if (queryParams && Object.keys(queryParams).length > 0) {
-                this.queryParam = queryParams;
+                this.queryParams = queryParams;
             }
-            console.log('projectlistquery', this.queryParam);
+            this.queryParam.pageNum = 1;
             this.getprojectList();
         },
         getprojectList() {
             request({
                 url: '/project/my/getMyList',
                 method: 'post',
-                data: this.queryParam,
+                data: this.queryParams,
+                params: this.queryParam,
             })
                 .then((resp) => {
                     this.myProjectLook = resp.rows;
                     this.total = resp.total;
-                    console.log('项目', this.myProjectLook);
                 })
                 .catch((error) => {
                     console.error('获取数据时出错：', error);

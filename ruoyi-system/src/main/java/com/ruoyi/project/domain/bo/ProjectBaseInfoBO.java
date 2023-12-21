@@ -9,6 +9,7 @@ import com.ruoyi.common.core.validate.EditGroup;
 import com.ruoyi.common.enums.ConfirmationStatus;
 import com.ruoyi.common.enums.ExistenceState;
 import com.ruoyi.common.enums.ProjectLevel;
+import com.ruoyi.common.enums.ProjectStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -44,6 +45,11 @@ public class ProjectBaseInfoBO extends BaseEntity {
     @NotBlank(message = "承担课题名称不能为空", groups = {AddGroup.class, EditGroup.class})
     @Size(max = 200, message = "承担课题名称长度不能超过200个字符")
     private String assignedSubjectName;
+
+    /**
+     * 项目联系人
+     */
+    private String projectContact;
 
     /**
      * 项目任务书编号
@@ -107,7 +113,7 @@ public class ProjectBaseInfoBO extends BaseEntity {
     /**
      * 项目推进情况
      */
-    private String projectProgressStatus;
+    private ProjectStatus projectProgressStatus;
 
     /**
      * 完成进度

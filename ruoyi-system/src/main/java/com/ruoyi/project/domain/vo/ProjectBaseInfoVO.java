@@ -3,6 +3,7 @@ package com.ruoyi.project.domain.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.enums.ExistenceState;
 import com.ruoyi.common.enums.ProjectLevel;
+import com.ruoyi.common.enums.ProjectStatus;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -29,6 +30,11 @@ public class ProjectBaseInfoVO {
     private String assignedSubjectName;
 
     /**
+     * 项目联系人
+     */
+    private String projectContact;
+
+    /**
      * 项目任务书编号
      */
     private String projectAssignmentSerialNo;
@@ -46,7 +52,7 @@ public class ProjectBaseInfoVO {
     /**
      * 项目推进情况
      */
-    private String projectProgressStatus;
+    private ProjectStatus projectProgressStatus;
 
     /**
      * 立项日期

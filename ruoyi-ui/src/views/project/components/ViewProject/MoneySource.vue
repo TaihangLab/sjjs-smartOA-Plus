@@ -1,8 +1,7 @@
 <template>
     <div>
         <div style="margin-top: 10px;"></div>
-        <!-- 你的专项经费详细信息 -->
-            <!-- 这里放置专项经费的详细信息 -->
+        <!-- 这里放置专项经费的详细信息 -->
         <el-descriptions class="margin-top" :column="3"  border>
             <el-descriptions-item labelStyle="font-weight: 550;" :span="3">
                 <template slot="label">
