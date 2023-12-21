@@ -3,6 +3,7 @@ package com.ruoyi.project.domain;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.ruoyi.common.enums.ProjectUserRole;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -30,6 +31,6 @@ public class ProjectUser {
     /**
      * 项目成员角色
      */
-    private String projectUserRole;
+    private ProjectUserRole projectUserRole;
 
 }

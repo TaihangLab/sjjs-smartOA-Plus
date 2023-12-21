@@ -1,9 +1,11 @@
 package com.ruoyi.project.domain.vo;
 
+import com.ruoyi.common.core.domain.BaseEntity;
+import com.ruoyi.common.enums.ProjectUserRole;
 import lombok.Data;
 
 @Data
-public class ProjectUserVo {
+public class ProjectUserVo extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,5 +34,5 @@ public class ProjectUserVo {
     /**
      * 项目成员角色
      */
-    private String projectUserRole;
+    private ProjectUserRole projectUserRole;
 }
