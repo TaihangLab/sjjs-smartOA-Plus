@@ -38,7 +38,13 @@ public class ProjectInfoBO {
 
     /**
      * 附件信息
-     */@Valid
+     */
+    @Valid
     private List<ProjectAttachmentBO> projectAttachmentBOList;
 
+    /**
+     * 计划信息
+     */
+    @Valid
+    private List<ProjectPlanBO> projectPlanBOList;
 }
