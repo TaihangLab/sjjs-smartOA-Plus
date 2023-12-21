@@ -83,6 +83,7 @@ import MainAttachment from "@/views/project/components/MainAttachment.vue";
 import OtherAttachment from "@/views/project/components/OtherAttachment.vue";
 import Test from "@/views/project/components/Test.vue";
 import {Loading} from "element-ui";
+import request from "@/utils/request";
 
 const TOTAL_STEPS = 9;
 
@@ -138,7 +139,7 @@ export default {
         },
         info() {
 
-            // console.log('projectInfoForm', this.projectInfoForm);
+            console.log('projectInfoForm', this.projectInfoForm);
             console.log('projectMemberForm', this.projectMemberForm);
             // console.log('projectFundsForm', this.projectFundsForm);
             console.log('zxFundsDetailForm', this.zxFundsDetailForm);
@@ -153,11 +154,34 @@ export default {
             // this.$refs.projectInfo.$refs.form.resetFields()
             // this.$refs.zxFundsDetail.$refs.form.resetFields()
             // this.$refs.projectMember.reset();
+            this.$refs.zxFundsDetail.reset();
             // this.stepID = 0;
         },
         submit() {
             // console.log(this.$refs.projectInfo.$refs.form.validate());
-
+            request({
+                url: '/project/my/add',
+                method: 'post',
+                data:{
+                    "projectBaseInfoBO": {
+                        "leadingUnit": this.projectInfoForm.leadingUnit,
+                        "assignedSubjectName": this.projectInfoForm.subjectName,
+                        "projectAssignmentSerialNo": "projectAssignmentSerialNo_83d276638a9c",
+                        "projectSource": "projectSource_5270cbf89039",
+                        "projectLevel": "NATIONAL",
+                        "hasLeadingRole": "EXIST",
+                        "assignedSubjectSection": "assignedSubjectSection_5063888311da",
+                        "subjectAssignmentSerialNo": "subjectAssignmentSerialNo_97f0d416c568",
+                        "projectEstablishTime": "2023-12-15",
+                        "projectScheduledCompletionTime": "2023-12-15",
+                        "projectDuration": 0,
+                    }
+                }
+            }).then(resp=>{
+                console.log(resp);
+            })
+            // let loading = Loading.service({ fullscreen: true, lock: true, text: '少女祈祷中' });
+            // setTimeout(() => loading.close(), 3000);
         },
     },
     watch: {
