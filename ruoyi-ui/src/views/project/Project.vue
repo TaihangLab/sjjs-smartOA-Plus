@@ -195,8 +195,6 @@ export default {
             this.fetchData();
         },
         fetchData() {
-            // this.$emit('update-query-param', this.queryParam);
-            // this.$emit('reloadProjectList', this.queryParam);
             this.$parent.reloadProjectList(this.queryParam);
         },
         //详情按钮

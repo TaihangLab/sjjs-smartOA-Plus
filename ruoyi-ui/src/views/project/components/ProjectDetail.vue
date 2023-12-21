@@ -37,28 +37,28 @@
                     <i class="el-icon-office-building"></i>
                     结项日期
                     </template>
-                    
+
                 </el-descriptions-item>
                 <el-descriptions-item>
                     <template slot="label">
                     <i class="el-icon-office-building"></i>
                     批准经费
                     </template>
-                    
+
                 </el-descriptions-item>
                 <el-descriptions-item>
                     <template slot="label">
                     <i class="el-icon-office-building"></i>
                     成果形式
                     </template>
-                    
+
                 </el-descriptions-item>
                 <el-descriptions-item>
                     <template slot="label">
                     <i class="el-icon-office-building"></i>
                     备注
                     </template>
-                    
+
                 </el-descriptions-item>
             </el-descriptions>
             <el-radio-group v-model="size">
@@ -82,7 +82,7 @@
             </el-descriptions>
         </el-tab-pane>
         <el-tab-pane label="项目成员" name="second">
-            <Member />
+            <Member :projectid="formLook.projectId"/>
         </el-tab-pane>
         <el-tab-pane label="项目经费" name="third">
             <FundsDetail></FundsDetail>
