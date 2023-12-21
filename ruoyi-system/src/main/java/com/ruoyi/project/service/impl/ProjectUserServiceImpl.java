@@ -1,9 +1,9 @@
 package com.ruoyi.project.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.domain.entity.SysDept;
 import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.enums.ProjectUserRole;
 import com.ruoyi.project.domain.ProjectUser;
 import com.ruoyi.project.domain.bo.ProjectUserBo;
 import com.ruoyi.project.domain.vo.ProjectUserVo;
@@ -111,7 +111,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         List<Long> userIds = getUserIdsByProjectId(projectId);
 
         //根据用户ID获取用户在项目中角色的映射
-        Map<Long, String> projectRolesMap = getProjectRolesByProjectId(projectId);
+        Map<Long, ProjectUserRole> projectRolesMap = getProjectRolesByProjectId(projectId);
 
         // 根据用户ID列表获取用户信息
         Map<Long, SysUser> userIdToUserMap = getUsersMapByUserIds(userIds);
@@ -152,13 +152,13 @@ public class ProjectUserServiceImpl implements ProjectUserService {
      * @param projectId
      * @return
      */
-    private Map<Long, String> getProjectRolesByProjectId(Long projectId) {
+    private Map<Long, ProjectUserRole> getProjectRolesByProjectId(Long projectId) {
         LambdaQueryWrapper<ProjectUser> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(ProjectUser::getProjectId, projectId);
         List<ProjectUser> projectUsers = projectUserMapper.selectList(queryWrapper);
 
         // 创建一个 Map 来存储用户ID和项目角色的映射
-        Map<Long, String> userIdToProjectUserRoleMap = projectUsers.stream()
+        Map<Long, ProjectUserRole> userIdToProjectUserRoleMap = projectUsers.stream()
             .collect(Collectors.toMap(ProjectUser::getUserId, ProjectUser::getProjectUserRole));
 
         return userIdToProjectUserRoleMap;
@@ -204,12 +204,12 @@ public class ProjectUserServiceImpl implements ProjectUserService {
      * @param deptIdToNameMap 部门名称映射（ID -> 部门名称）
      * @return ProjectUserVo 列表
      */
-    private List<ProjectUserVo> buildProjectUserVoList(List<Long> userIds, Map<Long, SysUser> userIdToUserMap, Map<Long, String> deptIdToNameMap,Map<Long, String> userIdToProjectUserRoleMap) {
+    private List<ProjectUserVo> buildProjectUserVoList(List<Long> userIds, Map<Long, SysUser> userIdToUserMap, Map<Long, String> deptIdToNameMap, Map<Long, ProjectUserRole> userIdToProjectUserRoleMap) {
         List<ProjectUserVo> projectUserVos = new ArrayList<>();
         for (Long userId : userIds) {
             SysUser user = userIdToUserMap.get(userId);
             String deptName = deptIdToNameMap.getOrDefault(user.getDeptId(), "Unknown Dept");
-            String projectUserRole = userIdToProjectUserRoleMap.getOrDefault(userId, "Unknown Role");
+            ProjectUserRole projectUserRole = userIdToProjectUserRoleMap.getOrDefault(userId, ProjectUserRole.UNKNOW);
 
             ProjectUserVo projectUserVo = new ProjectUserVo();
             projectUserVo.setNickName(user.getNickName());
