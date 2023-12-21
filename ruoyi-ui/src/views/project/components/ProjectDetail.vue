@@ -86,15 +86,21 @@
                             号</el-descriptions-item>
                     </el-descriptions>
                 </el-tab-pane>
-                <el-tab-pane label="项目成员" name="second">
+                <el-tab-pane label="项目计划" name="second">
+                    
+                </el-tab-pane>
+                <el-tab-pane label="项目指标" name="third">
+                    
+                </el-tab-pane>
+                <el-tab-pane label="项目成员" name="fourth">
                     <Member :projectid="formLook.projectId"/>
                 </el-tab-pane>
-                <el-tab-pane label="项目经费" name="third">
+                <el-tab-pane label="项目经费" name="fifth">
                     <FundsDetail></FundsDetail>
                 </el-tab-pane>
-                <el-tab-pane label="项目来源" name="sixth">
+                <!-- <el-tab-pane label="项目来源" name="fifth">
                     <MoneySource></MoneySource>
-                </el-tab-pane>
+                </el-tab-pane> -->
             </el-tabs>
         </div>
     </div>

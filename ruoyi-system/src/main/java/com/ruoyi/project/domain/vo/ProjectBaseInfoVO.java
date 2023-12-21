@@ -29,6 +29,11 @@ public class ProjectBaseInfoVO {
     private String assignedSubjectName;
 
     /**
+     * 项目联系人
+     */
+    private String projectContact;
+
+    /**
      * 项目任务书编号
      */
     private String projectAssignmentSerialNo;
