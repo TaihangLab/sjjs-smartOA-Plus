@@ -45,7 +45,7 @@ CREATE TABLE `project_base_info` (
 CREATE TABLE `project_user` (
                                 `project_id` bigint NOT NULL COMMENT '项目id',
                                 `user_id` bigint NOT NULL COMMENT '项目人员id',
-                                `project_user_role` varchar(5) NOT NULL COMMENT '项目成员角色',
+                                `project_user_role` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '项目成员角色，0：项目负责人；1：公司负责人；2：部门负责人；3：科研管理负责人；4：普通成员；5：未知角色',
                                 PRIMARY KEY (`project_id`,`user_id`,`project_user_role`),
                                 KEY `project_user_project_id_index` (`project_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='项目和成员关联表';
