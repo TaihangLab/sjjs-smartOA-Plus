@@ -41,7 +41,7 @@ CREATE TABLE `project_base_info` (
 -- ----------------------------
 -- 2、项目成员表
 -- ----------------------------
-
+DROP TABLE IF EXISTS `project_user`;
 CREATE TABLE `project_user` (
                                 `project_id` bigint NOT NULL COMMENT '项目id',
                                 `user_id` bigint NOT NULL COMMENT '项目人员id',
@@ -148,11 +148,12 @@ DROP TABLE IF EXISTS `project_target`;
 CREATE TABLE `project_target` (
                                   `target_id` bigint NOT NULL AUTO_INCREMENT COMMENT '指标id',
                                   `project_id` bigint NOT NULL COMMENT '项目id',
-                                  `target_type` varchar(2) DEFAULT NULL COMMENT '指标分类',
-                                  `target_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '指标名称',
-                                  `target_remark` varchar(100) DEFAULT NULL COMMENT '指标描述',
-                                  PRIMARY KEY (`target_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='项目指标';
+                                  `target_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '指标名称',
+                                  `midterm_target` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '中期指标值/状态',
+                                  `end_target` varchar(200) DEFAULT NULL COMMENT '结束时指标值/状态',
+                                  PRIMARY KEY (`target_id`),
+                                  KEY `project_target_project_id_index` (`project_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1737287645603508227 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='项目指标';
 
 -- ----------------------------
 -- 5、项目附件表
