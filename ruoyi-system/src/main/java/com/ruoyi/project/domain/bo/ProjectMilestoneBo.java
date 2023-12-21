@@ -1,7 +1,5 @@
 package com.ruoyi.project.domain.bo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.core.domain.BaseEntity;
 import com.ruoyi.common.xss.Xss;
@@ -20,7 +18,6 @@ public class ProjectMilestoneBo extends BaseEntity {
     /**
      * 大事记ID
      */
-
     private Long milestoneId;
 
     /**

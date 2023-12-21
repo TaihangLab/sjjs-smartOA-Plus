@@ -151,6 +151,9 @@ public class ProjectUserServiceImpl implements ProjectUserService {
      */
     private Map<Long, SysUser> getUsersMapByUserIds(List<Long> userIds) {
         LambdaQueryWrapper<SysUser> userQueryWrapper = new LambdaQueryWrapper<>();
+        if (userIds.isEmpty()){
+            return Collections.emptyMap();
+        }
         userQueryWrapper.in(SysUser::getUserId, userIds);
         List<SysUser> sysUsers = sysUserMapper.selectList(userQueryWrapper);
         return sysUsers.stream().collect(Collectors.toMap(SysUser::getUserId, user -> user));
@@ -164,6 +167,9 @@ public class ProjectUserServiceImpl implements ProjectUserService {
      */
     private Map<Long, String> getDeptNameMapByDeptIds(List<Long> deptIds) {
         LambdaQueryWrapper<SysDept> deptQueryWrapper = new LambdaQueryWrapper<>();
+        if (deptIds.isEmpty()){
+            return Collections.emptyMap();
+        }
         deptQueryWrapper.in(SysDept::getDeptId, deptIds);
         List<SysDept> departments = sysDeptMapper.selectList(deptQueryWrapper);
         return departments.stream().collect(Collectors.toMap(SysDept::getDeptId, SysDept::getDeptName));
