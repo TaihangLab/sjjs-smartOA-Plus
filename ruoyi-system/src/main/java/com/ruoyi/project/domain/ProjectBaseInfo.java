@@ -6,6 +6,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
 import com.ruoyi.common.enums.ConfirmationStatus;
 import com.ruoyi.common.enums.ExistenceState;
 import com.ruoyi.common.enums.ProjectLevel;
+import com.ruoyi.common.enums.ProjectStatus;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -105,7 +106,7 @@ public class ProjectBaseInfo extends BaseEntity {
     /**
      * 项目推进情况
      */
-    private String projectProgressStatus;
+    private ProjectStatus projectProgressStatus;
 
     /**
      * 完成进度

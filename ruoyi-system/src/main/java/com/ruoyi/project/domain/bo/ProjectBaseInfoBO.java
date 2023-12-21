@@ -9,6 +9,7 @@ import com.ruoyi.common.core.validate.EditGroup;
 import com.ruoyi.common.enums.ConfirmationStatus;
 import com.ruoyi.common.enums.ExistenceState;
 import com.ruoyi.common.enums.ProjectLevel;
+import com.ruoyi.common.enums.ProjectStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -112,7 +113,7 @@ public class ProjectBaseInfoBO extends BaseEntity {
     /**
      * 项目推进情况
      */
-    private String projectProgressStatus;
+    private ProjectStatus projectProgressStatus;
 
     /**
      * 完成进度
