@@ -8,6 +8,7 @@
             <id property="projectId" column="project_id" jdbcType="BIGINT"/>
         <result property="leadingUnit" column="leading_unit" jdbcType="VARCHAR"/>
         <result property="assignedSubjectName" column="assigned_subject_name" jdbcType="VARCHAR"/>
+        <result property="projectContact" column="project_contact" jdbcType="VARCHAR"/>
         <result property="projectAssignmentSerialNo" column="project_assignment_serial_no" jdbcType="VARCHAR"/>
         <result property="projectSource" column="project_source" jdbcType="VARCHAR"/>
         <result property="projectLevel" column="project_level" jdbcType="CHAR"/>
