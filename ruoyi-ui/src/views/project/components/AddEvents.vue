@@ -70,9 +70,8 @@ export default {
         this.$message.error('请填写完整的信息');
         return;
       }
-      console.log('this.ossids.map(item => item.ossId)',this.ossids.map(item => item.ossId))
       this.form.ossIds = this.ossids;
-      console.log('this.ossids',this.ossids);
+      console.log('this.form',this.form);
       request({
         url: '/project/my/milestoneadd',
         method: 'post',
@@ -85,8 +84,7 @@ export default {
           this.$emit('close-dialog'); // 触发一个事件通知父组件关闭弹窗
           this.getDataList(); // 刷新数据
           this.$refs.fujian.reset();
-          this.$forceUpdate(); 
-          this.reset();
+
         })
         .catch(error => {
           console.error("Error while adding milestone:", error);
@@ -103,6 +101,7 @@ export default {
         milestoneDate: '',
         ossIds: [],
       },
+        this.fileList = [];
         this.$refs.fujian.reset();
     },
     submitUpload() {
