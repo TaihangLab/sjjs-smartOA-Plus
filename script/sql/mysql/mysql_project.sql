@@ -192,3 +192,20 @@ CREATE TABLE `project_milestone_oss` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='大事记和文件关联表';
 
 
+-- ----------------------------
+-- 8、项目计划表
+-- ----------------------------
+DROP TABLE IF EXISTS `project_plan`;
+create table project_plan
+(
+    stage_id         bigint auto_increment comment '阶段id'
+        primary key,
+    project_id       bigint        not null comment '项目Id',
+    stage_start_date date          null comment '阶段开始日期',
+    stage_end_date   date          null comment '阶段结束日期',
+    stage_task       varchar(3000) null comment '阶段任务'
+)
+    comment '项目计划表';
+
+create index project_plan_project_id_index
+    on project_plan (project_id);
