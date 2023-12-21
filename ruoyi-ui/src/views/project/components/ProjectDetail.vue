@@ -185,7 +185,7 @@
                     </el-descriptions>
                 </el-tab-pane>
                 <el-tab-pane label="项目成员" name="second">
-                    <Member />
+                    <Member :projectid="formLook.projectId"/>
                 </el-tab-pane>
                 <el-tab-pane label="项目经费" name="third">
                     <FundsDetail></FundsDetail>
@@ -237,7 +237,7 @@ export default {
         };
     },
     methods: {
-        //改变数组大小
+        //改变数组大小 
         sizeChangeHandle(val) {
             this.pageSize = val;
             this.SizeOrCurrentChangeAfter();
