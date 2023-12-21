@@ -158,7 +158,7 @@
             </el-collapse>
 
 
-            <el-divider><i class="el-icon-caret-right"></i>间接费用<i class="el-icon-caret-left"></i></el-divider>
+            <el-divider><i class="el-icon-caret-right"></i>间接经费<i class="el-icon-caret-left"></i></el-divider>
             <el-collapse v-model="activeNames2">
                 <el-collapse-item name="1">
                     <template #title><i :class="activeClass">设备费</i>
@@ -331,12 +331,16 @@
 
 <script setup>
 import {fundsAdd} from "@/views/project/components/utils";
-import {ref, watchEffect} from "vue";
+import {getCurrentInstance, ref, watchEffect} from "vue";
 import {Message} from "element-ui";
 
+const { proxy } = getCurrentInstance();
 const props = defineProps({
     form: Object,
-})
+});
+defineExpose({reset});
+
+
 // 折叠面板的初始化激活项
 const activeNames = ref([]);
 const activeNames2 = ref([]);
@@ -352,7 +356,14 @@ watchEffect(()=>{
     if (fundsAdd(props.form.gzsbf_zj + props.form.szsbf_zj + props.form.sbgzyzlf_zj) > props.form.sbf_zj) {
         showError();
     }
-})
+});
+
+function reset() {
+    for (let key in props.form) {
+        props.form[key] = undefined;
+    }
+
+}
 
 </script>
 
