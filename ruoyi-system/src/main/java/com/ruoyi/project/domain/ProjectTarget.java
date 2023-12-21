@@ -2,6 +2,7 @@ package com.ruoyi.project.domain;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.ruoyi.common.core.domain.BaseEntity;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -9,7 +10,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @TableName("project_target")
-public class ProjectTarget {
+public class ProjectTarget extends BaseEntity {
 
     /**
      * 指标ID
@@ -25,20 +26,16 @@ public class ProjectTarget {
     /**
      * 指标名称
      */
-    @NotBlank(message = "指标描述不能为空")
-    @Size(min = 0, max = 10, message = "指标描述不能超过{max}个字符")
     private String targetName;
 
     /**
-     * 指标描述
+     * 中期指标值/状态
      */
-    @NotBlank(message = "指标描述不能为空")
-    @Size(min = 0, max = 50, message = "指标描述不能超过{max}个字符")
-    private String targetRemark;
+    private String midtermTarget;
 
     /**
-     * 指标分类
+     * 完成时指标值/状态
      */
-    private String targetType;
+    private String endTarget;
 
 }

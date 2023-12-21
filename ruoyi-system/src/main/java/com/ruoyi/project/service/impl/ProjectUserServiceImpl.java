@@ -51,6 +51,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
     }
 
     /**
+     * 添加项目成员
      * @param projectUserList
      * @return
      */
@@ -143,7 +144,6 @@ public class ProjectUserServiceImpl implements ProjectUserService {
             .map(userId -> sysUserMapper.selectById(userId)) // 获取对应的 SysUser 对象
             .filter(sysUser -> sysUser != null && "0".equals(sysUser.getDelFlag())) // 仅保留 delflag = 0 的对象
             .collect(Collectors.toList());
-        log.info("sysUsers:"+sysUsers.stream().map(SysUser::getUserId).collect(Collectors.toSet()));
 
         return sysUsers.stream().map(SysUser::getUserId).collect(Collectors.toSet());
     }
@@ -162,7 +162,6 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         LambdaQueryWrapper<ProjectUser> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.in(ProjectUser::getUserId, memberIds).eq(ProjectUser::getProjectId,projectId);
         List<ProjectUser> projectUsers = projectUserMapper.selectList(queryWrapper);
-        log.info("projectUsers:"+projectUsers);
 
         Map<Long, List<ProjectUserRole>> userIdToProjectUserRolesMap = new HashMap<>();
         for (ProjectUser projectUser : projectUsers) {
