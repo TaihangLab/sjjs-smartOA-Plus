@@ -108,10 +108,10 @@ public class ProjectUserServiceImpl implements ProjectUserService {
     @Override
     public List<ProjectUserVo> getUserInfoByProjectId(Long projectId) {
         // 获取项目相关的用户ID列表
-        List<Long> userIds = getUserIdsByProjectId(projectId);
+        Set<Long> userIds = getUserIdsByProjectId(projectId);
 
         //根据用户ID获取用户在项目中角色的映射
-        Map<Long, ProjectUserRole> projectRolesMap = getProjectRolesByProjectId(projectId);
+        Map<Long, List<ProjectUserRole>> projectRolesMap = getProjectRolesByMemberIds(projectId,userIds);
 
         // 根据用户ID列表获取用户信息
         Map<Long, SysUser> userIdToUserMap = getUsersMapByUserIds(userIds);
@@ -123,7 +123,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         Map<Long, String> deptIdToNameMap = getDeptNameMapByDeptIds(new ArrayList<>(uniqueDeptIds));
 
         // 构建 ProjectUserVo 列表
-        return buildProjectUserVoList(userIds, userIdToUserMap, deptIdToNameMap,projectRolesMap);
+        return buildProjectUserVoList(userIds, userIdToUserMap, deptIdToNameMap, projectRolesMap);
     }
 
     /**
@@ -132,7 +132,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
      * @param projectId 项目ID
      * @return 用户ID列表
      */
-    private List<Long> getUserIdsByProjectId(Long projectId) {
+    private Set<Long> getUserIdsByProjectId(Long projectId) {
         LambdaQueryWrapper<ProjectUser> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(ProjectUser::getProjectId, projectId);
         List<ProjectUser> projectUsers = projectUserMapper.selectList(queryWrapper);
@@ -143,25 +143,34 @@ public class ProjectUserServiceImpl implements ProjectUserService {
             .map(userId -> sysUserMapper.selectById(userId)) // 获取对应的 SysUser 对象
             .filter(sysUser -> sysUser != null && "0".equals(sysUser.getDelFlag())) // 仅保留 delflag = 0 的对象
             .collect(Collectors.toList());
+        log.info("sysUsers:"+sysUsers.stream().map(SysUser::getUserId).collect(Collectors.toSet()));
 
-        return sysUsers.stream().map(SysUser::getUserId).collect(Collectors.toList());
+        return sysUsers.stream().map(SysUser::getUserId).collect(Collectors.toSet());
     }
 
     /**
-     * 根据项目ID列表获取项目成员角色映射
-     * @param projectId
-     * @return
+     * 根据项目成员ID集合获取项目成员角色映射
+     *
+     * @param memberIds 项目成员ID集合
+     * @return 映射，其中键是用户ID，值是用户在项目中的角色列表
      */
-    private Map<Long, ProjectUserRole> getProjectRolesByProjectId(Long projectId) {
+    private Map<Long, List<ProjectUserRole>> getProjectRolesByMemberIds(Long projectId,Set<Long> memberIds) {
+        if (memberIds == null || memberIds.isEmpty()) {
+            return Collections.emptyMap();
+        }
+
         LambdaQueryWrapper<ProjectUser> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(ProjectUser::getProjectId, projectId);
+        queryWrapper.in(ProjectUser::getUserId, memberIds).eq(ProjectUser::getProjectId,projectId);
         List<ProjectUser> projectUsers = projectUserMapper.selectList(queryWrapper);
+        log.info("projectUsers:"+projectUsers);
 
-        // 创建一个 Map 来存储用户ID和项目角色的映射
-        Map<Long, ProjectUserRole> userIdToProjectUserRoleMap = projectUsers.stream()
-            .collect(Collectors.toMap(ProjectUser::getUserId, ProjectUser::getProjectUserRole));
+        Map<Long, List<ProjectUserRole>> userIdToProjectUserRolesMap = new HashMap<>();
+        for (ProjectUser projectUser : projectUsers) {
+            userIdToProjectUserRolesMap.computeIfAbsent(projectUser.getUserId(), k -> new ArrayList<>())
+                .add(projectUser.getProjectUserRole());
+        }
 
-        return userIdToProjectUserRoleMap;
+        return userIdToProjectUserRolesMap;
     }
 
     /**
@@ -170,9 +179,9 @@ public class ProjectUserServiceImpl implements ProjectUserService {
      * @param userIds 用户ID列表
      * @return 用户信息映射（ID -> 用户信息）
      */
-    private Map<Long, SysUser> getUsersMapByUserIds(List<Long> userIds) {
+    private Map<Long, SysUser> getUsersMapByUserIds(Set<Long> userIds) {
         LambdaQueryWrapper<SysUser> userQueryWrapper = new LambdaQueryWrapper<>();
-        if (userIds.isEmpty()){
+        if (userIds.isEmpty()) {
             return Collections.emptyMap();
         }
         userQueryWrapper.in(SysUser::getUserId, userIds);
@@ -188,7 +197,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
      */
     private Map<Long, String> getDeptNameMapByDeptIds(List<Long> deptIds) {
         LambdaQueryWrapper<SysDept> deptQueryWrapper = new LambdaQueryWrapper<>();
-        if (deptIds.isEmpty()){
+        if (deptIds.isEmpty()) {
             return Collections.emptyMap();
         }
         deptQueryWrapper.in(SysDept::getDeptId, deptIds);
@@ -204,19 +213,19 @@ public class ProjectUserServiceImpl implements ProjectUserService {
      * @param deptIdToNameMap 部门名称映射（ID -> 部门名称）
      * @return ProjectUserVo 列表
      */
-    private List<ProjectUserVo> buildProjectUserVoList(List<Long> userIds, Map<Long, SysUser> userIdToUserMap, Map<Long, String> deptIdToNameMap, Map<Long, ProjectUserRole> userIdToProjectUserRoleMap) {
+    private List<ProjectUserVo> buildProjectUserVoList(Set<Long> userIds, Map<Long, SysUser> userIdToUserMap, Map<Long, String> deptIdToNameMap, Map<Long, List<ProjectUserRole>> userIdToProjectUserRolesMap) {
         List<ProjectUserVo> projectUserVos = new ArrayList<>();
         for (Long userId : userIds) {
             SysUser user = userIdToUserMap.get(userId);
             String deptName = deptIdToNameMap.getOrDefault(user.getDeptId(), "Unknown Dept");
-            ProjectUserRole projectUserRole = userIdToProjectUserRoleMap.getOrDefault(userId, ProjectUserRole.UNKNOW);
+            List<ProjectUserRole> projectUserRoles = userIdToProjectUserRolesMap.getOrDefault(userId, Collections.singletonList(ProjectUserRole.UNKNOWN));
 
             ProjectUserVo projectUserVo = new ProjectUserVo();
             projectUserVo.setNickName(user.getNickName());
             projectUserVo.setEmail(user.getEmail());
             projectUserVo.setPhonenumber(user.getPhonenumber());
             projectUserVo.setDeptName(deptName);
-            projectUserVo.setProjectUserRole(projectUserRole); // 设置项目成员角色
+            projectUserVo.setProjectUserRoles(projectUserRoles); // 设置项目成员角色
 
             projectUserVos.add(projectUserVo);
         }
