@@ -2,6 +2,9 @@ package com.ruoyi.project.domain.vo;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 /**
  * @author bailingnan
  * @date 2023/12/14
@@ -14,12 +17,13 @@ public class ProjectTargetVO {
     private String targetName;
 
     /**
-     * 指标描述
+     * 中期指标值/状态
      */
-    private String targetRemark;
+    private String midtermTarget;
 
     /**
-     * 指标分类
+     * 完成时指标值/状态
      */
-    private String targetType;
+    private String endTarget;
+
 }

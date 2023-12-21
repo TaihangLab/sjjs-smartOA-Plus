@@ -18,7 +18,4 @@ public interface ProjectTargetService {
 
     int deleteProjectTarget(Long targetId);
 
-    int updateProjectTarget(ProjectTarget projectTarget);
-
-
 }

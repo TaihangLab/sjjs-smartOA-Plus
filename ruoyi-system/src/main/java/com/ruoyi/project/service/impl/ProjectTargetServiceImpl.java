@@ -82,20 +82,4 @@ public class ProjectTargetServiceImpl implements ProjectTargetService {
             eq(ProjectTarget::getTargetId, targetId));
     }
 
-    /**
-     * 修改项目指标
-     *
-     * @param projectTarget 项目指标信息
-     * @return 结果
-     */
-    @Override
-    public int updateProjectTarget(ProjectTarget projectTarget) {
-        LambdaUpdateWrapper<ProjectTarget> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
-        lambdaUpdateWrapper.eq(ProjectTarget::getTargetId, projectTarget.getTargetId());
-        lambdaUpdateWrapper.set(ProjectTarget::getTargetRemark, projectTarget.getTargetRemark())
-            .set(ProjectTarget::getTargetType,projectTarget.getTargetType())
-            .set(ProjectTarget::getTargetName, projectTarget.getTargetName());
-        return projectTargetMapper.update(projectTarget, lambdaUpdateWrapper);
-    }
-
 }

@@ -2,6 +2,9 @@ package com.ruoyi.project.domain.bo;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 /**
  * @author bailingnan
  * @date 2023/12/15
@@ -15,15 +18,21 @@ public class ProjectTargetBO {
     /**
      * 指标名称
      */
+    @NotBlank(message = "指标名称不能为空")
+    @Size(min = 0, max = 50, message = "指标描述不能超过{max}个字符")
     private String targetName;
 
     /**
-     * 指标描述
+     * 中期指标值/状态
      */
-    private String targetRemark;
+    @NotBlank(message = "中期指标不能为空")
+    @Size(min = 0, max = 200, message = "中期指标不能超过{max}个字符")
+    private String midtermTarget;
 
     /**
-     * 指标分类
+     * 完成时指标值/状态
      */
-    private String targetType;
+    @NotBlank(message = "结束时指标不能为空")
+    @Size(min = 0, max = 200, message = "结束时指标不能超过{max}个字符")
+    private String endTarget;
 }
