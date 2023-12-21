@@ -11,7 +11,7 @@
         <result property="projectContact" column="project_contact" jdbcType="VARCHAR"/>
         <result property="projectAssignmentSerialNo" column="project_assignment_serial_no" jdbcType="VARCHAR"/>
         <result property="projectSource" column="project_source" jdbcType="VARCHAR"/>
-        <result property="projectLevel" column="project_level" jdbcType="CHAR"/>
+        <result property="projectLevel" column="project_level" jdbcType="TINYINT"/>
         <result property="hasLeadingRole" column="has_leading_role" jdbcType="TINYINT"/>
         <result property="assignedSubjectSection" column="assigned_subject_section" jdbcType="VARCHAR"/>
         <result property="subjectAssignmentSerialNo" column="subject_assignment_serial_no" jdbcType="VARCHAR"/>
@@ -20,7 +20,7 @@
         <result property="projectDuration" column="project_duration" jdbcType="INTEGER"/>
         <result property="projectDescription" column="project_description" jdbcType="VARCHAR"/>
         <result property="significanceAndNecessity" column="significance_and_necessity" jdbcType="VARCHAR"/>
-        <result property="projectProgressStatus" column="project_progress_status" jdbcType="VARCHAR"/>
+        <result property="projectProgressStatus" column="project_progress_status" jdbcType="TINYINT"/>
         <result property="completionProgress" column="completion_progress" jdbcType="VARCHAR"/>
         <result property="collaboratingUnit" column="collaborating_unit" jdbcType="VARCHAR"/>
         <result property="expertTeam" column="expert_team" jdbcType="VARCHAR"/>

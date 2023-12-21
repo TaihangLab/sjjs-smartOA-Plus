@@ -10,21 +10,21 @@ import lombok.Getter;
  * @date 2023/12/12
  */
 @Getter
-public enum ProjectLevel implements IEnum<String> {
+public enum ProjectLevel implements IEnum<Integer> {
     //国家级
-    NATIONAL("0", "国家级"),
+    NATIONAL(0, "国家级"),
     //省部级
-    PROVINCIAL("1", "省级"),
+    PROVINCIAL(1, "省级"),
     //自建
-    ENTERPRISE("2", "企业级");
+    ENTERPRISE(2, "企业级");
 
     @EnumValue
     //值
-    private final String value;
+    private final Integer value;
     //描述
     private final String description;
 
-    ProjectLevel(String value, String description) {
+    ProjectLevel(Integer value, String description) {
         this.value = value;
         this.description = description;
     }
