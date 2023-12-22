@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @TableName("project_target")
-public class ProjectTarget extends BaseEntity {
+public class ProjectTarget {
 
     /**
      * 指标ID
