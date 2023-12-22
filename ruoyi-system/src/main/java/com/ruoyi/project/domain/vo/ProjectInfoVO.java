@@ -1,6 +1,7 @@
 package com.ruoyi.project.domain.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ruoyi.common.constant.DateConstants;
 import com.ruoyi.common.core.domain.BaseEntity;
 import com.ruoyi.common.enums.ConfirmationStatus;
 import com.ruoyi.common.enums.ExistenceState;
@@ -64,13 +65,13 @@ public class ProjectInfoVO extends BaseEntity {
     /**
      * 立项日期
      */
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = DateConstants.YYYY_MM_DD)
     private LocalDate projectEstablishTime;
 
     /**
      * 项目计划验收时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = DateConstants.YYYY_MM_DD)
     private LocalDate projectScheduledCompletionTime;
 
     /**

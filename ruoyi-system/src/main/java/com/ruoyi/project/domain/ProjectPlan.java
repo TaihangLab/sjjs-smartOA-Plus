@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ruoyi.common.constant.DateConstants;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -32,12 +33,12 @@ public class ProjectPlan implements Serializable {
     /**
      * 阶段开始日期
      */
-    @JsonFormat(pattern = "yyyy-MM")
+    @JsonFormat(pattern = DateConstants.YYYY_MM)
     private LocalDate stageStartDate;
     /**
      * 阶段结束日期
      */
-    @JsonFormat(pattern = "yyyy-MM")
+    @JsonFormat(pattern = DateConstants.YYYY_MM)
     private LocalDate stageEndDate;
     /**
      * 阶段任务

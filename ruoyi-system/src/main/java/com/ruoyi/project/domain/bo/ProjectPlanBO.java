@@ -1,6 +1,7 @@
 package com.ruoyi.project.domain.bo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ruoyi.common.constant.DateConstants;
 import lombok.Data;
 
 import java.time.YearMonth;
@@ -19,13 +20,13 @@ public class ProjectPlanBO {
     /**
      * 阶段开始日期
      */
-    @JsonFormat(pattern = "yyyy-MM")
+    @JsonFormat(pattern = DateConstants.YYYY_MM)
     private YearMonth stageStartDate;
 
     /**
      * 阶段结束日期
      */
-    @JsonFormat(pattern = "yyyy-MM")
+    @JsonFormat(pattern = DateConstants.YYYY_MM)
     private YearMonth stageEndDate;
 
     /**

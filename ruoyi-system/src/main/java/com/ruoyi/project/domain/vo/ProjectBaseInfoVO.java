@@ -1,6 +1,7 @@
 package com.ruoyi.project.domain.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ruoyi.common.constant.DateConstants;
 import com.ruoyi.common.enums.ExistenceState;
 import com.ruoyi.common.enums.ProjectLevel;
 import com.ruoyi.common.enums.ProjectStatus;
@@ -57,7 +58,7 @@ public class ProjectBaseInfoVO {
     /**
      * 立项日期
      */
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = DateConstants.YYYY_MM_DD)
     private LocalDate projectEstablishTime;
 
     /**
