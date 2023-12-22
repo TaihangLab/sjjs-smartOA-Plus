@@ -7,7 +7,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class ProjectUserVo extends BaseEntity {
+public class ProjectUserVo {
 
     private static final long serialVersionUID = 1L;
 
@@ -15,7 +15,6 @@ public class ProjectUserVo extends BaseEntity {
      * 用户姓名
      */
     private String nickName;
-
 
     /**
      * 用户邮箱
@@ -26,7 +25,6 @@ public class ProjectUserVo extends BaseEntity {
      * 手机号码
      */
     private String phonenumber;
-
 
     /**
      * 部门名称
