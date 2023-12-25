@@ -4,6 +4,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
 import com.ruoyi.common.enums.ProjectUserRole;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
