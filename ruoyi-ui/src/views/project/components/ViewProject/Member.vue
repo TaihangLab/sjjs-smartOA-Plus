@@ -5,8 +5,8 @@
             <el-table-column label="用户名称" align="center" prop="nickName" v-if="columns[0].visible" :show-overflow-tooltip="true" />
             <el-table-column label="邮箱" align="center" prop="email" v-if="columns[1].visible" :show-overflow-tooltip="true" />
             <el-table-column label="手机号码" align="center" prop="phonenumber" v-if="columns[2].visible" :show-overflow-tooltip="true" />
-            <el-table-column label="所属部门" align="center" prop="deptName" v-if="columns[3].visible" width="120" />
-            <el-table-column label="项目角色" align="center" prop="projectUserRole" v-if="columns[4].visible" width="120" />
+            <el-table-column label="所属部门" align="center" prop="deptName" v-if="columns[3].visible" :show-overflow-tooltip="true" />
+            <el-table-column label="项目角色" align="center" prop="projectUserRole" v-if="columns[4].visible" :show-overflow-tooltip="true" />
         </el-table>
     </div>
 </template>
