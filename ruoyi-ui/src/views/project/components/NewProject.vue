@@ -134,7 +134,7 @@ export default {
         next() {
             // todo
             if (this.stepID++ >= TOTAL_STEPS - 1) {
-
+                console.log("sda")
                 this.$emit('update:visible', false);
                 // this.reset();
             }
