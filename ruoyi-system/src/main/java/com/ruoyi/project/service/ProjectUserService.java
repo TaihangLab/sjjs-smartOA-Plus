@@ -18,4 +18,6 @@ public interface ProjectUserService {
 
     List<ProjectUserVo> getUserInfoByProjectId(Long projectId);
 
+    String findProLeaderNameById(Long projectId);
+
 }

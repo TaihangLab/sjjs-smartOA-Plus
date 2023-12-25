@@ -36,4 +36,9 @@ public class ProjectDetailsVO {
      * 附件信息
      */
     private List<SysOssVo> projectAttachmentVOList;
+
+    /**
+     * 计划信息
+     */
+    private List<ProjectPlanVO> projectPlanVOList;
 }

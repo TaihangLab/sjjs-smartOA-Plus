@@ -7,9 +7,9 @@
     <resultMap type="ProjectTarget" id="ProjectTargetResult">
         <id property="targetId" column="target_id"/>
         <result property="projectId" column="project_id"/>
-        <result property="targetType" column="target_type"/>
-        <result property="targetRemark" column="target_remark"/>
         <result property="targetName" column="target_name"/>
+        <result property="midtermTarget" column="target_remark"/>
+        <result property="endTarget" column="target_remark"/>
     </resultMap>
 
 </mapper>

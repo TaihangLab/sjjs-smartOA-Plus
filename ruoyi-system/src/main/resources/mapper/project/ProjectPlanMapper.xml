@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.mapper.ProjectPlanMapper">
+
+    <resultMap id="ProjectPlanResult" type="com.ruoyi.project.domain.ProjectPlan">
+        <id property="stageId" column="stage_id" jdbcType="BIGINT"/>
+        <result property="projectId" column="project_id" jdbcType="BIGINT"/>
+        <result property="stageStartDate" column="stage_start_date" jdbcType="DATE"/>
+        <result property="stageEndDate" column="stage_end_date" jdbcType="DATE"/>
+        <result property="stageTask" column="stage_task" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        stage_id,project_id,stage_start_date,
+        stage_end_date,stage_task
+    </sql>
+</mapper>

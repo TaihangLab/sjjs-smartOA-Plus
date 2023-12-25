@@ -3,6 +3,7 @@ package com.ruoyi.project.domain.bo;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ruoyi.common.constant.DateConstants;
 import com.ruoyi.common.core.domain.BaseEntity;
 import com.ruoyi.common.core.validate.AddGroup;
 import com.ruoyi.common.core.validate.EditGroup;
@@ -84,13 +85,13 @@ public class ProjectBaseInfoBO extends BaseEntity {
     /**
      * 立项日期
      */
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = DateConstants.YYYY_MM_DD)
     private LocalDate projectEstablishTime;
 
     /**
      * 项目计划验收时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = DateConstants.YYYY_MM_DD)
     private LocalDate projectScheduledCompletionTime;
 
     /**
@@ -168,25 +169,25 @@ public class ProjectBaseInfoBO extends BaseEntity {
     /**
      * 立项日期开始查询时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = DateConstants.YYYY_MM_DD)
     private LocalDate projectEstablishTimeSta;
 
     /**
      * 立项日期结束查询时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = DateConstants.YYYY_MM_DD)
     private LocalDate projectEstablishTimeEnd;
 
     /**
      * 项目计划验收时间开始时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = DateConstants.YYYY_MM_DD)
     private LocalDate projectScheduledCompletionTimeSta;
 
     /**
      * 项目计划验收时间结束时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = DateConstants.YYYY_MM_DD)
     private LocalDate projectScheduledCompletionTimeEnd;
 
 }

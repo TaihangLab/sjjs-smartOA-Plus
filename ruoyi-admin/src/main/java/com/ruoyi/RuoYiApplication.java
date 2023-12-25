@@ -18,7 +18,7 @@ public class RuoYiApplication {
         SpringApplication application = new SpringApplication(RuoYiApplication.class);
         application.setApplicationStartup(new BufferingApplicationStartup(2048));
         application.run(args);
-        System.out.println("(♥◠‿◠)ﾉﾞ  RuoYi-Flowable-Plus启动成功   ლ(´ڡ`ლ)ﾞ");
+        System.out.println("欢迎访问数据技术数智化办公系统");
     }
 
 }

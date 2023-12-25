@@ -2,6 +2,7 @@ package com.ruoyi.project.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.ruoyi.common.utils.BeanCopyUtils;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.project.domain.*;
 import com.ruoyi.project.domain.bo.*;
 import com.ruoyi.project.domain.vo.ProjectDetailsVO;
@@ -35,6 +36,8 @@ public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectUserService projectUserService;
 
+    private final projectPlanService projectPlanService;
+
 
     /**
      * @param projectId
@@ -54,6 +57,8 @@ public class ProjectServiceImpl implements ProjectService {
         projectDetailsVO.setProjectTargetVOList(projectTargetService.selectTargetListByProjectId(projectId));
         //附件信息
         projectDetailsVO.setProjectAttachmentVOList(projectAttachmentService.selectSysOssVOListByProId(projectId));
+        //计划信息
+        projectDetailsVO.setProjectPlanVOList(projectPlanService.selectProjectPlanVOListByProjectId(projectId));
         return projectDetailsVO;
     }
 
@@ -74,6 +79,7 @@ public class ProjectServiceImpl implements ProjectService {
         insertProjectFunds(projectInfoBO.getProjectFundsBO(), projectId);
         insertProjectTargets(projectInfoBO.getProjectTargetBOList(), projectId);
         insertProjectAttachments(projectInfoBO.getProjectAttachmentBOList(), projectId);
+        insertProjectPlanList(projectInfoBO.getProjectPlanBOList(), projectId);
     }
 
     private ProjectBaseInfo copyAndInsertProjectBaseInfo(ProjectBaseInfoBO projectBaseInfoBO) {
@@ -122,9 +128,25 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
+    private void insertProjectPlanList(List<ProjectPlanBO> projectPlanBOList, Long projectId) {
+        if (projectPlanBOList != null && !projectPlanBOList.isEmpty()) {
+            List<ProjectPlan> projectPlanList = projectPlanBOList.stream()
+                .map(bo -> projectPlanDateConverter(bo, projectId))
+                .collect(Collectors.toList());
+            projectPlanService.insertProjectPlanList(projectPlanList);
+        }
+    }
+
     private <T, R> R setProjectIdAndCopy(T bo, Long projectId, Class<R> clazz) {
         BeanUtil.setProperty(bo, "projectId", projectId);
         return BeanCopyUtils.copy(bo, clazz);
+    }
+
+    private ProjectPlan projectPlanDateConverter(ProjectPlanBO bo, Long projectId) {
+        ProjectPlan projectPlan = setProjectIdAndCopy(bo, projectId, ProjectPlan.class);
+        projectPlan.setStageStartDate(DateUtils.yearMonthToLocalDate(bo.getStageStartDate()));
+        projectPlan.setStageEndDate(DateUtils.yearMonthToLocalDate(bo.getStageEndDate()));
+        return projectPlan;
     }
 
     /**
@@ -142,6 +164,7 @@ public class ProjectServiceImpl implements ProjectService {
         updateProjectFunds(projectInfoBO.getProjectFundsBO(), projectId);
         updateProjectTargets(projectInfoBO.getProjectTargetBOList(), projectId);
         updateProjectAttachments(projectInfoBO.getProjectAttachmentBOList(), projectId);
+        updateProjectPlanList(projectInfoBO.getProjectPlanBOList(), projectId);
     }
 
     private void copyAndUpdateProjectBaseInfo(ProjectBaseInfoBO projectBaseInfoBO) {
@@ -189,6 +212,16 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
+    private void updateProjectPlanList(List<ProjectPlanBO> projectPlanBOList, Long projectId) {
+        projectPlanService.deleteProjectPlanByProjectId(projectId);
+        if (projectPlanBOList != null && !projectPlanBOList.isEmpty()) {
+            List<ProjectPlan> projectPlanList = projectPlanBOList.stream()
+                .map(bo -> projectPlanDateConverter(bo, projectId))
+                .collect(Collectors.toList());
+            projectPlanService.insertProjectPlanList(projectPlanList);
+        }
+    }
+
 
     /**
      * 删除项目
@@ -210,5 +243,7 @@ public class ProjectServiceImpl implements ProjectService {
         projectAttachmentService.deleteAllProjectAttachmentByProID(projectId);
         //删除成员
         projectUserService.deleteProjectUsersByProID(projectId);
+        //删除计划
+        projectPlanService.deleteProjectPlanByProjectId(projectId);
     }
 }
