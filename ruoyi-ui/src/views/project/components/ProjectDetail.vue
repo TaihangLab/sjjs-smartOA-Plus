@@ -7,35 +7,56 @@
                     <el-descriptions-item label="基本信息" :span="2"></el-descriptions-item>
                     <el-descriptions class="margin-top" title="" :column="2" :size="size" :labelStyle="{ width: '18%' }"
                         :contentStyle="{ width: '32%' }" border>
-                        <el-descriptions-item label="项目名称">{{ this.projectdetails.projectInfoVO.assignedSubjectName }}</el-descriptions-item>
-                        <el-descriptions-item label="项目任务书编号">{{ this.projectdetails.projectInfoVO.projectAssignmentSerialNo }}</el-descriptions-item>
-                        <el-descriptions-item label="负责课题">{{ this.projectdetails.projectInfoVO.assignedSubjectSection }}</el-descriptions-item>
-                        <el-descriptions-item label="课题任务书编号">{{ this.projectdetails.projectInfoVO.subjectAssignmentSerialNo }}</el-descriptions-item>
-                        <el-descriptions-item label="项目牵头单位">{{ this.projectdetails.projectInfoVO.leadingUnit }}</el-descriptions-item>
-                        <el-descriptions-item label="是否牵头单位">{{ this.projectdetails.projectInfoVO.hasLeadingRole }}</el-descriptions-item>
-                        <el-descriptions-item label="项目负责人">{{ this.projectdetails.projectInfoVO.projectLeader}}</el-descriptions-item>
-                        <el-descriptions-item label="项目专员/联系人">{{ this.projectdetails.projectInfoVO.projectContact }}</el-descriptions-item>
-                        <el-descriptions-item label="项目级别">{{ this.projectdetails.projectInfoVO.projectLevel }}</el-descriptions-item>
-                        <el-descriptions-item label="项目来源">{{ this.projectdetails.projectInfoVO.projectSource }}</el-descriptions-item>
-                        <el-descriptions-item label="立项时间">{{ this.projectdetails.projectInfoVO.projectEstablishTime }}</el-descriptions-item>
-                        <el-descriptions-item label="项目计划验收时间">{{ this.projectdetails.projectInfoVO.projectScheduledCompletionTime }}</el-descriptions-item>
-                        <el-descriptions-item label="项目执行时间（年）">{{ this.projectdetails.projectInfoVO.projectDuration }}</el-descriptions-item>
-                        <el-descriptions-item label="项目推进情况">{{ this.projectdetails.projectInfoVO.projectProgressStatus }}</el-descriptions-item>
-                        <el-descriptions-item label="合作单位">{{ this.projectdetails.projectInfoVO.collaboratingUnit }}</el-descriptions-item>
-                        <el-descriptions-item label="涉及专家、团队">{{ this.projectdetails.projectInfoVO.expertTeam }}</el-descriptions-item>
+                        <el-descriptions-item label="项目名称">{{ this.projectdetails.projectInfoVO.assignedSubjectName
+                        }}</el-descriptions-item>
+                        <el-descriptions-item label="项目任务书编号">{{ this.projectdetails.projectInfoVO.projectAssignmentSerialNo
+                        }}</el-descriptions-item>
+                        <el-descriptions-item label="负责课题">{{ this.projectdetails.projectInfoVO.assignedSubjectSection
+                        }}</el-descriptions-item>
+                        <el-descriptions-item label="课题任务书编号">{{ this.projectdetails.projectInfoVO.subjectAssignmentSerialNo
+                        }}</el-descriptions-item>
+                        <el-descriptions-item label="项目牵头单位">{{ this.projectdetails.projectInfoVO.leadingUnit
+                        }}</el-descriptions-item>
+                        <el-descriptions-item label="是否牵头单位">{{ this.projectdetails.projectInfoVO.hasLeadingRole
+                        }}</el-descriptions-item>
+                        <el-descriptions-item label="项目负责人">{{
+                            this.projectdetails.projectInfoVO.projectLeader }}</el-descriptions-item>
+                        <el-descriptions-item label="项目专员/联系人">{{ this.projectdetails.projectInfoVO.projectContact
+                        }}</el-descriptions-item>
+                        <el-descriptions-item label="项目级别">{{ this.projectdetails.projectInfoVO.projectLevel
+                        }}</el-descriptions-item>
+                        <el-descriptions-item label="项目来源">{{ this.projectdetails.projectInfoVO.projectSource
+                        }}</el-descriptions-item>
+                        <el-descriptions-item label="立项时间">{{ this.projectdetails.projectInfoVO.projectEstablishTime
+                        }}</el-descriptions-item>
+                        <el-descriptions-item label="项目计划验收时间">{{
+                            this.projectdetails.projectInfoVO.projectScheduledCompletionTime }}</el-descriptions-item>
+                        <el-descriptions-item label="项目执行时间（年）">{{ this.projectdetails.projectInfoVO.projectDuration
+                        }}</el-descriptions-item>
+                        <el-descriptions-item label="项目推进情况">{{ this.projectdetails.projectInfoVO.projectProgressStatus
+                        }}</el-descriptions-item>
+                        <el-descriptions-item label="合作单位">{{ this.projectdetails.projectInfoVO.collaboratingUnit
+                        }}</el-descriptions-item>
+                        <el-descriptions-item label="涉及专家、团队">{{ this.projectdetails.projectInfoVO.expertTeam
+                        }}</el-descriptions-item>
                     </el-descriptions>
                     <el-collapse v-model="activeNames">
                         <el-collapse-item style="font-size: 20px;" name="1">
                             <template slot="title">
                                 <span style="font-size: 14px;">项目成果情况</span>
                             </template>
-                            <el-descriptions class="margin-top" title="" :column="2" :size="size" :labelStyle="{ width: '18%' }"
-                                             :contentStyle="{ width: '32%' }" border>
-                                <el-descriptions-item label="获奖情况（项）">{{ this.projectdetails.projectInfoVO.awardDetails }}</el-descriptions-item>
-                                <el-descriptions-item label="论文情况（项）">{{ this.projectdetails.projectInfoVO.publicationDetails }}</el-descriptions-item>
-                                <el-descriptions-item label="专利情况">{{ this.projectdetails.projectInfoVO.patentDetails }}</el-descriptions-item>
-                                <el-descriptions-item label="软著情况">{{ this.projectdetails.projectInfoVO.softwareCopyrightDetails }}</el-descriptions-item>
-                                <el-descriptions-item label="标准情况">{{ this.projectdetails.projectInfoVO.standardDetails }}</el-descriptions-item>
+                            <el-descriptions class="margin-top" title="" :column="2" :size="size"
+                                :labelStyle="{ width: '18%' }" :contentStyle="{ width: '32%' }" border>
+                                <el-descriptions-item label="获奖情况（项）">{{ this.projectdetails.projectInfoVO.awardDetails
+                                }}</el-descriptions-item>
+                                <el-descriptions-item label="论文情况（项）">{{
+                                    this.projectdetails.projectInfoVO.publicationDetails }}</el-descriptions-item>
+                                <el-descriptions-item label="专利情况">{{ this.projectdetails.projectInfoVO.patentDetails
+                                }}</el-descriptions-item>
+                                <el-descriptions-item label="软著情况">{{
+                                    this.projectdetails.projectInfoVO.softwareCopyrightDetails }}</el-descriptions-item>
+                                <el-descriptions-item label="标准情况">{{ this.projectdetails.projectInfoVO.standardDetails
+                                }}</el-descriptions-item>
                             </el-descriptions>
                         </el-collapse-item>
                         <el-collapse-item style="font-size: 20px;" name="2">
@@ -47,20 +68,17 @@
                     </el-collapse>
                 </el-tab-pane>
                 <el-tab-pane label="项目计划" name="second">
-
+                    <ProjectPlan :projectplan="this.projectdetails.projectPlanVOList"></ProjectPlan>
                 </el-tab-pane>
                 <el-tab-pane label="项目指标" name="third">
-
+                    <ProjectIndicators></ProjectIndicators>
                 </el-tab-pane>
                 <el-tab-pane label="项目成员" name="fourth">
-                    <Member :projectid="formLook.projectId"/>
+                    <Member :projectid="formLook.projectId" />
                 </el-tab-pane>
                 <el-tab-pane label="项目经费" name="fifth">
                     <FundsDetail :projectfund="this.projectdetails.projectFundsVO"></FundsDetail>
                 </el-tab-pane>
-                <!-- <el-tab-pane label="项目来源" name="fifth">
-                    <MoneySource></MoneySource>
-                </el-tab-pane> -->
             </el-tabs>
         </div>
     </div>
@@ -68,8 +86,9 @@
 
 <script>
 import FundsDetail from "./ViewProject/Funds.vue";
-import MoneySource from "./ViewProject/MoneySource.vue";
 import Member from "./ViewProject/Member.vue";
+import ProjectPlan from "./ViewProject/ProjectPlan.vue";
+import ProjectIndicators from "./ViewProject/ProjectIndicators.vue";
 import request from '@/utils/request';
 
 export default {
@@ -77,7 +96,8 @@ export default {
     components: {
         Member,
         FundsDetail,
-        MoneySource,
+        ProjectPlan,
+        ProjectIndicators
     },
     props: {
         formLook: {
@@ -105,7 +125,7 @@ export default {
             activeName: 'first',
             activeNames: [],
             projectdetails: undefined,
-            projectdescription:undefined,
+            projectdescription: undefined,
         };
     },
     created() {
@@ -120,7 +140,7 @@ export default {
         },
     },
     methods: {
-        projectdetail(){
+        projectdetail() {
             console.log("传过来的项目详情", this.$props.formLook.projectId);
             this.activeNames = [];
             // 使用正确的用户列表接口，假设接口为 /user/list
@@ -167,11 +187,12 @@ export default {
 };
 </script>
 
-<style>
-.sticky-container {
-  position: sticky;
-  top: 0;
-  z-index: 1000; /* 使容器在最上层 */
-  background-color: #fff; /* 设置容器背景颜色 */
-}
-</style>
+<style>.sticky-container {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    /* 使容器在最上层 */
+    background-color: #fff;
+    /* 设置容器背景颜色 */
+}</style>
+
