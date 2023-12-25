@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ruoyi.common.core.domain.entity.SysDept;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.enums.ProjectUserRole;
+import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.project.domain.ProjectUser;
 import com.ruoyi.project.domain.bo.ProjectUserBo;
 import com.ruoyi.project.domain.vo.ProjectBaseInfoVO;
@@ -222,11 +223,9 @@ public class ProjectUserServiceImpl implements ProjectUserService {
             List<ProjectUserRole> projectUserRoles = userIdToProjectUserRolesMap.getOrDefault(userId, Collections.singletonList(ProjectUserRole.UNKNOWN));
 
             ProjectUserVo projectUserVo = new ProjectUserVo();
-            projectUserVo.setNickName(user.getNickName());
-            projectUserVo.setEmail(user.getEmail());
-            projectUserVo.setPhonenumber(user.getPhonenumber());
             projectUserVo.setDeptName(deptName);
             projectUserVo.setProjectUserRoles(projectUserRoles); // 设置项目成员角色
+            BeanCopyUtils.copy(user,projectUserVo);
 
             projectUserVos.add(projectUserVo);
         }
