@@ -6,7 +6,7 @@
                 <el-table-column type="selection" :resizable="false" align="center" width="40"></el-table-column>
                 <el-table-column label="项目牵头单位" :resizable="false" align="center" prop="leadingUnit" width="180">
                 </el-table-column>
-                <el-table-column label="承担课题名称" :resizable="false" align="center" prop="assignedSubjectName" width="150">
+                <el-table-column label="项目名称" :resizable="false" align="center" prop="assignedSubjectName" width="150">
                 </el-table-column>
                 <el-table-column label="项目任务书编号" :resizable="false" align="center" prop="projectAssignmentSerialNo"
                     width="130">
@@ -197,7 +197,6 @@ export default {
         },
         //详情按钮
         lookEdit(index, item) {
-            console.log('formLook:', this.formLook);
             this.dialogFormVisibleLook = true;
             this.formLook = item;
         },

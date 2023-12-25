@@ -6,11 +6,11 @@
         class="demo-form-inline"
         style="margin-left: 30px; margin-top: 20px;"
     >
-        <el-form-item label="承担课题名称">
+        <el-form-item label="项目名称">
             <el-input
                 v-model="queryParams.assignedSubjectName"
                 clearable
-                placeholder="请输入承担课题名称"
+                placeholder="请输入项目名称"
                 @keyup.enter.native="handleQuery"
             ></el-input>
         </el-form-item>
