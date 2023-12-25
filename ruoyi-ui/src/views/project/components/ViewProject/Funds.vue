@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-collapse v-model="activeNames" @change="handleChange">
+        <el-collapse v-if="this.$props.projectfund && Object.keys(this.$props.projectfund).length > 0" v-model="activeNames" @change="handleChange">
             <el-collapse-item name="1">
                 <template slot="title">
                     <span>项目经费</span>
@@ -751,6 +751,9 @@
                 </el-descriptions>
             </el-collapse-item>
         </el-collapse>
+        <div v-else class="no-data-message" style="color: #909399; font-size: 14px; text-align: center;">
+            暂无数据
+        </div>
     </div>
 </template>
 
