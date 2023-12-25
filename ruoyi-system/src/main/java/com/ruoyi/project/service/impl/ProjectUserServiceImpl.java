@@ -220,7 +220,8 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         for (Long userId : userIds) {
             SysUser user = userIdToUserMap.get(userId);
             String deptName = deptIdToNameMap.getOrDefault(user.getDeptId(), "Unknown Dept");
-            List<ProjectUserRole> projectUserRoles = userIdToProjectUserRolesMap.getOrDefault(userId, Collections.singletonList(ProjectUserRole.UNKNOWN));
+            List<ProjectUserRole> projectUserRoles = userIdToProjectUserRolesMap.getOrDefault(userId, Collections.singletonList(ProjectUserRole.UNKNOWN))
+                .stream().filter(projectUserRole -> !projectUserRole.equals(ProjectUserRole.PROJECT_ENTRY_OPERATOR)).collect(Collectors.toList());
 
             ProjectUserVo projectUserVo = new ProjectUserVo();
             projectUserVo.setDeptName(deptName);
