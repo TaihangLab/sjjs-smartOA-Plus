@@ -48,11 +48,15 @@
             </el-collapse-transition>
 
             <el-collapse-transition>
-                <MainAttachment v-show="stepID===7" :form="mainAttachmentForm" ref="mainAttachment"></MainAttachment>
+                <ProjectPlan v-show="stepID===7" :form="projectPlanForm" ref="projectPlanForm"></ProjectPlan>
             </el-collapse-transition>
 
             <el-collapse-transition>
-                <OtherAttachment v-show="stepID===8" :form="otherAttachmentForm"
+                <MainAttachment v-show="stepID===8" :form="mainAttachmentForm" ref="mainAttachment"></MainAttachment>
+            </el-collapse-transition>
+
+            <el-collapse-transition>
+                <OtherAttachment v-show="stepID===9" :form="otherAttachmentForm"
                                  ref="otherAttachment"></OtherAttachment>
             </el-collapse-transition>
 
@@ -81,16 +85,19 @@ import ProjectFunds from "@/views/project/components/ProjectFunds.vue";
 import FundsSource from "@/views/project/components/FundsSource.vue";
 import MainAttachment from "@/views/project/components/MainAttachment.vue";
 import OtherAttachment from "@/views/project/components/OtherAttachment.vue";
-import Test from "@/views/project/components/Test.vue";
+import ProjectPlan from "@/views/project/components/ProjectPlan.vue";
+
 import {Loading} from "element-ui";
 import request from "@/utils/request";
+import {addProject} from "@/views/project/components/project";
 
-const TOTAL_STEPS = 9;
+const TOTAL_STEPS = 10;
 
 export default {
     name: "NewProject",
     props: ['visible'],
     components: {
+        ProjectPlan,
         OtherAttachment,
         MainAttachment,
         FundsSource,
@@ -101,13 +108,13 @@ export default {
         ProjectMember2,
         ZCFundsDetail,
         ProjectFunds,
-        Test
+
     },
     data() {
         return {
             stepID: 1,
             isStepHover: false,
-            titles: ["项目信息", "项目成员", "项目经费", "专项经费", "自筹经费", "经费来源", "项目指标", "正文附件", "其他附件"],
+            titles: ["项目信息", "项目成员", "项目经费", "专项经费", "自筹经费", "经费来源", "项目指标", "项目计划", "正文附件", "其他附件"],
             nextButtonText: '下一步',
 
             projectInfoForm: {},
@@ -116,6 +123,7 @@ export default {
             zxFundsDetailForm: {},
             zcFundsDetailForm: {},
             projectIndicatorForm: {},
+            projectPlanForm: {},
             fundsSourceForm: {},
             mainAttachmentForm: {},
             otherAttachmentForm: {},
@@ -144,7 +152,8 @@ export default {
             // console.log('projectFundsForm', this.projectFundsForm);
             console.log('zxFundsDetailForm', this.zxFundsDetailForm);
             // console.log('zcFundsDetailForm', this.zcFundsDetailForm);
-            // console.log('projectIndicatorForm', this.projectIndicatorForm);
+            console.log('projectIndicatorForm', this.projectIndicatorForm);
+            console.log('projectPlanForm', this.projectPlanForm);
             // console.log('fundsSourceForm', this.fundsSourceForm);
             // console.log('mainAttachmentForm', this.mainAttachmentForm);
             console.log('otherAttachmentForm', this.otherAttachmentForm);
@@ -154,31 +163,18 @@ export default {
             // this.$refs.projectInfo.$refs.form.resetFields()
             // this.$refs.zxFundsDetail.$refs.form.resetFields()
             // this.$refs.projectMember.reset();
-            this.$refs.zxFundsDetail.reset();
-            // this.stepID = 0;
+            // this.$refs.zxFundsDetail.reset();
+            this.stepID = 0;
         },
         submit() {
             // console.log(this.$refs.projectInfo.$refs.form.validate());
-            request({
-                url: '/project/my/add',
-                method: 'post',
-                data:{
-                    "projectBaseInfoBO": {
-                        "leadingUnit": this.projectInfoForm.leadingUnit,
-                        "assignedSubjectName": this.projectInfoForm.subjectName,
-                        "projectAssignmentSerialNo": "projectAssignmentSerialNo_83d276638a9c",
-                        "projectSource": "projectSource_5270cbf89039",
-                        "projectLevel": "NATIONAL",
-                        "hasLeadingRole": "EXIST",
-                        "assignedSubjectSection": "assignedSubjectSection_5063888311da",
-                        "subjectAssignmentSerialNo": "subjectAssignmentSerialNo_97f0d416c568",
-                        "projectEstablishTime": "2023-12-15",
-                        "projectScheduledCompletionTime": "2023-12-15",
-                        "projectDuration": 0,
-                    }
-                }
-            }).then(resp=>{
-                console.log(resp);
+            addProject(this.projectInfoForm).then(resp=>{
+                this.$message({
+                    message: '恭喜你，项目新增成功',
+                    type: 'success'
+                });
+            }, error => {
+                this.$message.error('错了哦，服务器返回了一条错误信息\n'+error);
             })
             // let loading = Loading.service({ fullscreen: true, lock: true, text: '少女祈祷中' });
             // setTimeout(() => loading.close(), 3000);

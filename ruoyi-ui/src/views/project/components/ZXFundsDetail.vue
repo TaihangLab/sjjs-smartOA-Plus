@@ -330,7 +330,7 @@
 
 
 <script setup>
-import {fundsAdd} from "@/views/project/components/utils";
+import {addFunds} from "@/views/project/components/utils";
 import {getCurrentInstance, ref, watchEffect} from "vue";
 import {Message} from "element-ui";
 
@@ -353,7 +353,7 @@ const showError = ()=>Message({
 });
 
 watchEffect(()=>{
-    if (fundsAdd(props.form.gzsbf_zj + props.form.szsbf_zj + props.form.sbgzyzlf_zj) > props.form.sbf_zj) {
+    if (addFunds(props.form.gzsbf_zj + props.form.szsbf_zj + props.form.sbgzyzlf_zj) > props.form.sbf_zj) {
         showError();
     }
 });
