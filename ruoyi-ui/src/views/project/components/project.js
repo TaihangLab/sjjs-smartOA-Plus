@@ -1,6 +1,10 @@
 import request from "@/utils/request";
 
-export function addProject(projectInfoForm,) {
+export function addProject(projectInfoForm, projectMemberForm) {
+    const  members = projectMemberForm.items.map(value => {
+        return {userId:value.id, projectUserRole: value.role}
+    })
+    console.log(members);
     return request({
         url: '/project/my/add',
         method: 'post',
@@ -28,7 +32,8 @@ export function addProject(projectInfoForm,) {
                 "patentDetails": projectInfoForm.patentStatus,
                 "softwareCopyrightDetails": projectInfoForm.rzStatus,
                 "standardDetails": projectInfoForm.standardStatus,
-            }
+            },
+            "projectUserBoList": members
         }
     })
 }

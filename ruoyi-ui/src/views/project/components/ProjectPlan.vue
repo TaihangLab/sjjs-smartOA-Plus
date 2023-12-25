@@ -18,13 +18,13 @@
                     <el-form-item label-width="80px" label="时间范围" prop="id">
                         <el-date-picker
                             v-model="item.date"
-                            type="daterange"
+                            type="monthrange"
                             align="right"
                             unlink-panels
                             range-separator="至"
                             start-placeholder="开始日期"
                             end-placeholder="结束日期"
-                            value-format="yyyy-MM-dd"
+                            value-format="yyyy-MM"
                             :picker-options="pickerOptions">
                         </el-date-picker>
                     </el-form-item>

@@ -66,7 +66,7 @@ defineExpose({
 
 const roleOptions = [{label:"项目负责人", value:0},{label:"公司负责人", value:1},{label:"部门负责人", value:2},{label:"科研管理负责人", value:3},{label:"普通成员", value:4},]
 
-props.form.items = [{id: '', role: ''}];
+props.form.items = [{id: undefined, role: undefined}];
 const isButtonShowList = ref([false]);
 const id = ref(1);
 const list = ref([]);
@@ -83,7 +83,7 @@ function remove(index) {
 }
 
 function reset() {
-    props.form.items = [{id: '', role: ''}];
+    props.form.items = [{id: undefined, role: undefined}];
     proxy.$forceUpdate();
 
 }

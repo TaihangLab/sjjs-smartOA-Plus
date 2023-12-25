@@ -168,7 +168,8 @@ export default {
         },
         submit() {
             // console.log(this.$refs.projectInfo.$refs.form.validate());
-            addProject(this.projectInfoForm).then(resp=>{
+            addProject(this.projectInfoForm, this.projectMemberForm).then(resp=>{
+                console.log(resp)
                 this.$message({
                     message: '恭喜你，项目新增成功',
                     type: 'success'

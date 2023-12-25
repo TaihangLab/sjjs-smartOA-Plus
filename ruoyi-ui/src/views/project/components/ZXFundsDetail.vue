@@ -108,8 +108,8 @@
                     <template #title><i :class="activeClass">科研服务费</i></template>
                     <el-row :gutter="10">
                         <el-col :span="8">
-                            <el-form-item label-width="125px" label="科研活动费">
-                                <el-input v-model.number="$props.form.kyhdf_zj" type="number"></el-input>
+                            <el-form-item label-width="125px" label="科研服务费">
+                                <el-input v-model.number="$props.form.kyfwf_zj" type="number"></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -263,8 +263,8 @@
                     <template #title><i :class="activeClass">科研服务费</i></template>
                     <el-row :gutter="10">
                         <el-col :span="8">
-                            <el-form-item label-width="125px" label="科研活动费">
-                                <el-input v-model.number="$props.form.kyhdf_jj" type="number"></el-input>
+                            <el-form-item label-width="125px" label="科研服务费">
+                                <el-input v-model.number="$props.form.kyfwf_jj" type="number"></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
