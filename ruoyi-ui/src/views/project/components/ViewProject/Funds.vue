@@ -41,12 +41,6 @@
                     <span style="font-size: 12px; color: #F56C6C;">（万元）</span>
                 </template>
                 <div style="margin-top: 10px;"></div>
-                <el-col :span="24">
-                    <el-row class="header-row" type="flex" justify="center" align="middle"
-                        style="color: #909399; border: 1px solid #E4E7ED; padding: 10px;">
-                        专项经费
-                    </el-row>
-                </el-col>
                 <el-descriptions class="margin-top" :column="3" border>
                     <el-descriptions-item labelStyle="font-weight: 550;" :span="3">
                         <template slot="label">
@@ -376,12 +370,6 @@
                     <span style="font-size: 12px; color: #F56C6C;">（万元）</span>
                 </template>
                 <div style="margin-top: 10px;"></div>
-                <el-col :span="24">
-                    <el-row class="header-row" type="flex" justify="center" align="middle"
-                        style="color: #909399; border: 1px solid #E4E7ED; padding: 10px;">
-                        自筹经费
-                    </el-row>
-                </el-col>
                 <el-descriptions class="margin-top" :column="3" border>
                     <el-descriptions-item labelStyle="font-weight: 550;" :span="3">
                         <template slot="label">
