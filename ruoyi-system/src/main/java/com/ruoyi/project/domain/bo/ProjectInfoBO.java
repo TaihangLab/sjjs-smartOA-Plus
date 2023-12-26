@@ -40,7 +40,8 @@ public class ProjectInfoBO {
      * 附件信息
      */
     @Valid
-    private List<ProjectAttachmentBO> projectAttachmentBOList;
+    //private List<ProjectAttachmentBO> projectAttachmentBOList;
+    private List<Long> ossIdList;
 
     /**
      * 计划信息

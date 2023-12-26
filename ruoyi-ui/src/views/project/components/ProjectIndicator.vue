@@ -8,6 +8,7 @@
           v-for="(item, index) in form.items"
           :key="index"
           justify="center"
+          :gutter="10"
           type="flex">
 
         <el-col :span="1" style="text-align: center;" >
@@ -21,19 +22,34 @@
           </el-form-item>
         </el-col>
 
-        <el-col :span="15" :offset="1">
-          <el-form-item label-width="80px" label="指标描述">
+        <el-col :span="8">
+          <el-form-item label-width="80px" label="中期指标">
             <el-input
                 @input="input"
                 type="textarea"
                 :autosize="{ minRows: 1, maxRows: 4}"
-                maxlength="200"
+                maxlength="500"
                 show-word-limit
-                v-model="item.description">
+                v-model="item.midterm">
             </el-input>
           </el-form-item>
-
         </el-col>
+
+          <el-col :span="8">
+              <el-form-item label-width="80px" label="完成指标">
+                  <el-input
+                      @input="input"
+                      type="textarea"
+                      :autosize="{ minRows: 1, maxRows: 4}"
+                      maxlength="500"
+                      show-word-limit
+                      v-model="item.finish">
+                  </el-input>
+              </el-form-item>
+          </el-col>
+
+
+
         <el-col :span="1" style="text-align: center;">
           <el-button icon="el-icon-remove" circle type="danger" plain @click="remove(index)" v-show="form.items.length!==1&&isButtonShowList[index]"></el-button>
 
@@ -58,12 +74,12 @@ export default {
     }
   },
   created() {
-    this.$props.form.items = [{title: '', description: ''}]
+    this.$props.form.items = [{title: '', midterm: '', finish:''}]
   },
   methods: {
     add() {
       this.$props.form.items.push({
-        title: '', description: ''
+        title: '', midterm: '', finish:''
       });
       this.isButtonShowList.push(false);
       this.$forceUpdate();

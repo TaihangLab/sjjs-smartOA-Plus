@@ -13,6 +13,61 @@ import java.math.BigDecimal;
 @Data
 public class ProjectFundsVO {
     /**
+     * 项目经费总额
+     */
+    private BigDecimal totalFundsAll;
+
+    /**
+     * 专项经费总额
+     */
+    private BigDecimal totalFundsZx;
+
+    /**
+     * 专项设备费
+     */
+    private BigDecimal sbfZx;
+
+    /**
+     * 专项直接费用
+     */
+    private BigDecimal totalFundsZxZj;
+
+    /**
+     * 专项间接费用
+     */
+    private BigDecimal totalFundsZxJj;
+
+    /**
+     * 自筹经费总额
+     */
+    private BigDecimal totalFundsZc;
+
+    /**
+     * 自筹设备费
+     */
+    private BigDecimal sbfZc;
+
+    /**
+     * 自筹直接费用
+     */
+    private BigDecimal totalFundsZcZj;
+
+    /**
+     * 自筹间接费用
+     */
+    private BigDecimal totalFundsZcJj;
+
+    /**
+     * 设备费_专项_直接
+     */
+    private BigDecimal sbfZxZj;
+
+    /**
+     * 设备费_自筹_直接
+     */
+    private BigDecimal sbfZcZj;
+
+    /**
      * 设备费_购置设备费_专项_直接
      */
     private BigDecimal sbfGzsbZxZj;
@@ -51,6 +106,16 @@ public class ProjectFundsVO {
      * 材料费_自筹_直接
      */
     private BigDecimal clfZcZj;
+
+    /**
+     * 科研活动费_专项_直接
+     */
+    private BigDecimal kyhdfZxZj;
+
+    /**
+     * 科研活动费_自筹_直接
+     */
+    private BigDecimal kyhdfZcZj;
 
     /**
      * 科研活动费_资料费_专项_直接
@@ -133,6 +198,16 @@ public class ProjectFundsVO {
     private BigDecimal kyhdfClsyZcZj;
 
     /**
+     * 科研服务费_专项_直接
+     */
+    private BigDecimal kyfwfZxZj;
+
+    /**
+     * 科研服务费_自筹_直接
+     */
+    private BigDecimal kyfwfZcZj;
+
+    /**
      * 科研服务费_专家咨询费_专项_直接
      */
     private BigDecimal kyfwfZjzxZxZj;
@@ -151,6 +226,16 @@ public class ProjectFundsVO {
      * 科研服务费_差旅费_自筹_直接
      */
     private BigDecimal kyfwfClZcZj;
+
+    /**
+     * 科研服务费_会议/会务费_专项_直接
+     */
+    private BigDecimal kyfwfHyhwZxZj;
+
+    /**
+     * 科研服务费_会议/会务费_自筹_直接
+     */
+    private BigDecimal kyfwfHyhwZcZj;
 
     /**
      * 科研服务费_国际合作交流_直接
@@ -208,6 +293,11 @@ public class ProjectFundsVO {
     private BigDecimal jflyZx;
 
     /**
+     * 经费来源_自筹
+     */
+    private BigDecimal jflyZc;
+
+    /**
      * 经费来源_其他财政拨款_自筹
      */
     private BigDecimal jflyQtczbkZc;
@@ -221,6 +311,16 @@ public class ProjectFundsVO {
      * 经费来源_其他资金_自筹
      */
     private BigDecimal jflyQtzjZc;
+
+    /**
+     * 设备费_专项_间接
+     */
+    private BigDecimal sbfZxJj;
+
+    /**
+     * 设备费_自筹_间接
+     */
+    private BigDecimal sbfZcJj;
 
     /**
      * 设备费_购置设备费_专项_间接
@@ -261,6 +361,16 @@ public class ProjectFundsVO {
      * 材料费_自筹_间接
      */
     private BigDecimal clfZcJj;
+
+    /**
+     * 科研活动费_专项_间接
+     */
+    private BigDecimal kyhdfZxJj;
+
+    /**
+     * 科研活动费_自筹_间接
+     */
+    private BigDecimal kyhdfZcJj;
 
     /**
      * 科研活动费_资料费_专项_间接
@@ -343,6 +453,16 @@ public class ProjectFundsVO {
     private BigDecimal kyhdfClsyZcJj;
 
     /**
+     * 科研服务费_专项_间接
+     */
+    private BigDecimal kyfwfZxJj;
+
+    /**
+     * 科研服务费_自筹_间接
+     */
+    private BigDecimal kyfwfZcJj;
+
+    /**
      * 科研服务费_专家咨询费_专项_间接
      */
     private BigDecimal kyfwfZjzxZxJj;
@@ -361,6 +481,16 @@ public class ProjectFundsVO {
      * 科研服务费_差旅费_自筹_间接
      */
     private BigDecimal kyfwfClZcJj;
+
+    /**
+     * 科研服务费_会议/会务费_专项_间接
+     */
+    private BigDecimal kyfwfHyhwZxJj;
+
+    /**
+     * 科研服务费_会议/会务费_自筹_间接
+     */
+    private BigDecimal kyfwfHyhwZcJj;
 
     /**
      * 科研服务费_国际合作交流_间接

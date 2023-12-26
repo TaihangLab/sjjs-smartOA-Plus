@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ruoyi.common.core.domain.entity.SysDept;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.enums.ProjectUserRole;
+import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.project.domain.ProjectUser;
 import com.ruoyi.project.domain.bo.ProjectUserBo;
 import com.ruoyi.project.domain.vo.ProjectBaseInfoVO;
@@ -219,14 +220,13 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         for (Long userId : userIds) {
             SysUser user = userIdToUserMap.get(userId);
             String deptName = deptIdToNameMap.getOrDefault(user.getDeptId(), "Unknown Dept");
-            List<ProjectUserRole> projectUserRoles = userIdToProjectUserRolesMap.getOrDefault(userId, Collections.singletonList(ProjectUserRole.UNKNOWN));
+            List<ProjectUserRole> projectUserRoles = userIdToProjectUserRolesMap.getOrDefault(userId, Collections.singletonList(ProjectUserRole.UNKNOWN))
+                .stream().filter(projectUserRole -> !projectUserRole.equals(ProjectUserRole.PROJECT_ENTRY_OPERATOR)).collect(Collectors.toList());
 
             ProjectUserVo projectUserVo = new ProjectUserVo();
-            projectUserVo.setNickName(user.getNickName());
-            projectUserVo.setEmail(user.getEmail());
-            projectUserVo.setPhonenumber(user.getPhonenumber());
             projectUserVo.setDeptName(deptName);
             projectUserVo.setProjectUserRoles(projectUserRoles); // 设置项目成员角色
+            BeanCopyUtils.copy(user,projectUserVo);
 
             projectUserVos.add(projectUserVo);
         }

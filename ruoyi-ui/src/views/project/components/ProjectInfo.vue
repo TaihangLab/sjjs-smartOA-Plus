@@ -31,12 +31,6 @@
                         <el-input v-model="form.source"></el-input>
                     </el-form-item>
                 </el-col>
-                <!--                <el-col :span="8">-->
-                <!--                    <el-form-item label-width="120px" label="项目负责人" prop="principal"-->
-                <!--                                  :rules="[{ required: true, message: '请输入 项目负责人', trigger: 'blur' }]">-->
-                <!--                        <el-input v-model="form.principal"></el-input>-->
-                <!--                    </el-form-item>-->
-                <!--                </el-col>-->
                 <el-col :span="8">
                     <el-form-item label-width="120px" label="负责课题" prop="subjectName"
                                   :rules="[{ required: true, message: '请输入 负责课题名称', trigger: 'blur' }]">
@@ -53,9 +47,9 @@
 
             <el-row :gutter="20" type="flex" justify="left">
                 <el-col :span="8">
-                    <el-form-item label-width="120px" label="项目专员" prop="process"
+                    <el-form-item label-width="120px" label="项目专员" prop="contact"
                                   :rules="[{ required: true, message: '请输入 项目专员', trigger: 'blur' }]">
-                        <el-input v-model="form.process"></el-input>
+                        <el-input v-model="form.contact"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="8">

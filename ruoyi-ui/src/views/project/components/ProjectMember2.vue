@@ -83,7 +83,7 @@ function remove(index) {
 }
 
 function reset() {
-    props.form.items = [{id: '', role: ''}];
+    props.form.items = [{id: undefined, role: undefined}];
     proxy.$forceUpdate();
 
 }
@@ -104,7 +104,6 @@ async function getDeptAndUserList() {
     //  等待用户数据加载完成
     const userResp = await listUser();
     userList.value = userResp.rows;
-    console.log("deptData", deptData);
 
     cascaderOptions.value = adaptData(deptData);
 }

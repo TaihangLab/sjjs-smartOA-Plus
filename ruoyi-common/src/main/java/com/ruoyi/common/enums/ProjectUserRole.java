@@ -15,7 +15,9 @@ public enum ProjectUserRole implements IEnum<String> {
     DEPARTMENT_LEADER("2", "部门负责人"),
     RESEARCH_MANAGER("3", "科研管理负责人"),
     ORDINARY_MEMBER("4", "普通成员"),
-    UNKNOWN("5", "未知角色");
+    UNKNOWN("5", "未知角色"),
+    PROJECT_ENTRY_OPERATOR("6", "项目录入者");
+
 
     @EnumValue
     private final String value;

@@ -1,6 +1,8 @@
 package com.ruoyi.project.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.ruoyi.common.enums.ProjectUserRole;
+import com.ruoyi.common.helper.LoginHelper;
 import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.project.domain.*;
@@ -12,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -78,7 +81,7 @@ public class ProjectServiceImpl implements ProjectService {
         insertProjectUsers(projectInfoBO.getProjectUserBoList(), projectId);
         insertProjectFunds(projectInfoBO.getProjectFundsBO(), projectId);
         insertProjectTargets(projectInfoBO.getProjectTargetBOList(), projectId);
-        insertProjectAttachments(projectInfoBO.getProjectAttachmentBOList(), projectId);
+        insertProjectAttachments(projectInfoBO.getOssIdList(), projectId);
         insertProjectPlanList(projectInfoBO.getProjectPlanBOList(), projectId);
     }
 
@@ -95,12 +98,17 @@ public class ProjectServiceImpl implements ProjectService {
 
 
     private void insertProjectUsers(List<ProjectUserBo> projectUserBOList, Long projectId) {
-        if (projectUserBOList != null && !projectUserBOList.isEmpty()) {
-            List<ProjectUser> projectUserList = projectUserBOList.stream()
-                .map(bo -> setProjectIdAndCopy(bo, projectId, ProjectUser.class))
-                .collect(Collectors.toList());
-            projectUserService.insertProjectUsers(projectUserList);
+        if (projectUserBOList == null) {
+            projectUserBOList = new ArrayList<>();
         }
+        ProjectUserBo projectLoginUserBo = new ProjectUserBo();
+        projectLoginUserBo.setUserId(LoginHelper.getUserId());
+        projectLoginUserBo.setProjectUserRole(ProjectUserRole.PROJECT_ENTRY_OPERATOR);
+        projectUserBOList.add(projectLoginUserBo);
+        List<ProjectUser> projectUserList = projectUserBOList.stream()
+            .map(bo -> setProjectIdAndCopy(bo, projectId, ProjectUser.class))
+            .collect(Collectors.toList());
+        projectUserService.insertProjectUsers(projectUserList);
     }
 
     private void insertProjectFunds(ProjectFundsBO projectFundsBO, Long projectId) {
@@ -119,13 +127,24 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
-    private void insertProjectAttachments(List<ProjectAttachmentBO> projectAttachmentBOList, Long projectId) {
-        if (projectAttachmentBOList != null && !projectAttachmentBOList.isEmpty()) {
-            List<ProjectAttachment> projectAttachmentList = projectAttachmentBOList.stream()
-                .map(bo -> setProjectIdAndCopy(bo, projectId, ProjectAttachment.class))
+    private void insertProjectAttachments(List<Long> ossIdList, Long projectId) {
+        if (ossIdList != null && !ossIdList.isEmpty()) {
+            List<ProjectAttachment> projectAttachmentList = ossIdList.stream()
+                .map(ossId -> {
+                    ProjectAttachment projectAttachment = new ProjectAttachment();
+                    projectAttachment.setProjectId(projectId);
+                    projectAttachment.setOssId(ossId);
+                    return projectAttachment;
+                })
                 .collect(Collectors.toList());
             projectAttachmentService.insertProjectAttachmentList(projectAttachmentList);
         }
+        //if (projectAttachmentBOList != null && !projectAttachmentBOList.isEmpty()) {
+        //    List<ProjectAttachment> projectAttachmentList = projectAttachmentBOList.stream()
+        //        .map(bo -> setProjectIdAndCopy(bo, projectId, ProjectAttachment.class))
+        //        .collect(Collectors.toList());
+        //    projectAttachmentService.insertProjectAttachmentList(projectAttachmentList);
+        //}
     }
 
     private void insertProjectPlanList(List<ProjectPlanBO> projectPlanBOList, Long projectId) {
@@ -163,7 +182,7 @@ public class ProjectServiceImpl implements ProjectService {
         updateProjectUsers(projectInfoBO.getProjectUserBoList(), projectId);
         updateProjectFunds(projectInfoBO.getProjectFundsBO(), projectId);
         updateProjectTargets(projectInfoBO.getProjectTargetBOList(), projectId);
-        updateProjectAttachments(projectInfoBO.getProjectAttachmentBOList(), projectId);
+        updateProjectAttachments(projectInfoBO.getOssIdList(), projectId);
         updateProjectPlanList(projectInfoBO.getProjectPlanBOList(), projectId);
     }
 
@@ -202,11 +221,16 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
-    private void updateProjectAttachments(List<ProjectAttachmentBO> projectAttachmentBOList, Long projectId) {
+    private void updateProjectAttachments(List<Long> ossIdList, Long projectId) {
         projectAttachmentService.deleteAllProjectAttachmentByProID(projectId);
-        if (projectAttachmentBOList != null && !projectAttachmentBOList.isEmpty()) {
-            List<ProjectAttachment> projectAttachmentList = projectAttachmentBOList.stream()
-                .map(bo -> setProjectIdAndCopy(bo, projectId, ProjectAttachment.class))
+        if (ossIdList != null && !ossIdList.isEmpty()) {
+            List<ProjectAttachment> projectAttachmentList = ossIdList.stream()
+                .map(ossId -> {
+                    ProjectAttachment projectAttachment = new ProjectAttachment();
+                    projectAttachment.setProjectId(projectId);
+                    projectAttachment.setOssId(ossId);
+                    return projectAttachment;
+                })
                 .collect(Collectors.toList());
             projectAttachmentService.insertProjectAttachmentList(projectAttachmentList);
         }

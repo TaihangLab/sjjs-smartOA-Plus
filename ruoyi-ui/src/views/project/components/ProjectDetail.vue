@@ -29,8 +29,8 @@
                         }}</el-descriptions-item>
                         <el-descriptions-item label="立项时间">{{ this.projectdetails.projectInfoVO.projectEstablishTime
                         }}</el-descriptions-item>
-                        <el-descriptions-item label="项目计划验收时间">{{
-                            this.projectdetails.projectInfoVO.projectScheduledCompletionTime }}</el-descriptions-item>
+                        <el-descriptions-item label="项目计划验收时间">{{this.projectdetails.projectInfoVO.projectScheduledCompletionTime
+                        }}</el-descriptions-item>
                         <el-descriptions-item label="项目执行时间（年）">{{ this.projectdetails.projectInfoVO.projectDuration
                         }}</el-descriptions-item>
                         <el-descriptions-item label="项目推进情况">{{ this.projectdetails.projectInfoVO.projectProgressStatus
@@ -39,6 +39,13 @@
                         }}</el-descriptions-item>
                         <el-descriptions-item label="涉及专家、团队">{{ this.projectdetails.projectInfoVO.expertTeam
                         }}</el-descriptions-item>
+                        <el-descriptions-item label="项目经费总额" >{{ this.projectdetails.projectFundsVO.totalFundsAll
+                            }}</el-descriptions-item>
+                        <el-descriptions-item >{{ }}</el-descriptions-item>
+                        <el-descriptions-item label="专项经费">{{ this.projectdetails.projectFundsVO.totalFundsZx
+                            }}</el-descriptions-item>
+                        <el-descriptions-item label="自筹经费">{{ this.projectdetails.projectFundsVO.totalFundsZc
+                            }}</el-descriptions-item>
                     </el-descriptions>
                     <el-collapse v-model="activeNames">
                         <el-collapse-item style="font-size: 20px;" name="1">
@@ -63,7 +70,7 @@
                             <template slot="title">
                                 <span style="font-size: 14px;">项目简介</span>
                             </template>
-                            <el-input v-model="projectdescription" readonly></el-input>
+                            <div class="unselectable-textbox" style="font-size: 14px; color: #606266;">{{ projectdescription }}</div>
                         </el-collapse-item>
                     </el-collapse>
                 </el-tab-pane>
@@ -71,7 +78,7 @@
                     <ProjectPlan :projectplan="this.projectdetails.projectPlanVOList"></ProjectPlan>
                 </el-tab-pane>
                 <el-tab-pane label="项目指标" name="third">
-                    <ProjectIndicators></ProjectIndicators>
+                    <ProjectIndicators :projectTarget="this.projectdetails.projectTargetVOList"></ProjectIndicators>
                 </el-tab-pane>
                 <el-tab-pane label="项目成员" name="fourth">
                     <Member :projectid="formLook.projectId" />
@@ -187,12 +194,28 @@ export default {
 };
 </script>
 
-<style>.sticky-container {
+<style>
+.sticky-container {
     position: sticky;
     top: 0;
     z-index: 1000;
     /* 使容器在最上层 */
     background-color: #fff;
     /* 设置容器背景颜色 */
-}</style>
+}
+
+.unselectable-textbox {
+ -webkit-user-select: none; /* Safari 3.1+ */
+ -moz-user-select: none; /* Firefox 2+ */
+ -ms-user-select: none; /* IE 10+ */
+ user-select: none; /* Standard syntax */
+ /* 添加其他样式以模拟文本框的外观 */
+ border: 1.5px solid #dcdfe6;
+ padding: 11px;
+ color: #606266;
+ line-height: 1.5;
+ border-radius: 4px;
+}
+
+</style>
 

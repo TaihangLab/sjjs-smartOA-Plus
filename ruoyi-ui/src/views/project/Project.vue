@@ -3,17 +3,17 @@
         <div>
             <el-table ref="multipleTable" :data="projectList" border style="width: 100%" :row-style="{ height: '50px' }"
                 :cell-style="{ padding: '0px' }">
-                <el-table-column type="selection" :resizable="false" align="center" width="40"></el-table-column>
-                <el-table-column label="项目牵头单位" :resizable="false" align="center" prop="leadingUnit" width="180">
+<!--                <el-table-column type="selection" :resizable="false" align="center" width="40"></el-table-column>-->
+                <el-table-column label="项目任务书编号" :resizable="false" align="center" prop="projectAssignmentSerialNo"
+                                 width="130">
                 </el-table-column>
                 <el-table-column label="项目名称" :resizable="false" align="center" prop="assignedSubjectName" width="150">
                 </el-table-column>
-                <el-table-column label="项目任务书编号" :resizable="false" align="center" prop="projectAssignmentSerialNo"
-                    width="130">
+                <el-table-column label="负责课题" :resizable="false" align="center" prop="assignedSubjectSection" width="150">
+                </el-table-column>
+                <el-table-column label="项目牵头单位" :resizable="false" align="center" prop="leadingUnit" width="180">
                 </el-table-column>
                 <el-table-column label="项目级别" :resizable="false" align="center" prop="projectLevel" width="110">
-                </el-table-column>
-                <el-table-column label="负责课题" :resizable="false" align="center" prop="assignedSubjectSection" width="150">
                 </el-table-column>
                 <el-table-column label="项目推进情况" :resizable="false" align="center" prop="projectProgressStatus" width="150">
                 </el-table-column>
@@ -252,7 +252,7 @@ export default {
 
 <style scoped>
 .dialog-content {
-  max-height: 600px; /* 适当设置最大高度 */
+  max-height: 700px; /* 适当设置最大高度 */
   overflow-y: auto; /* 添加垂直滚动条 */
 }
 </style>
