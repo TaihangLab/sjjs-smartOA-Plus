@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ruoyi.common.core.domain.entity.SysDept;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.enums.ProjectUserRole;
+import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.project.domain.ProjectUser;
 import com.ruoyi.project.domain.bo.ProjectUserBo;
+import com.ruoyi.project.domain.vo.ProjectBaseInfoVO;
 import com.ruoyi.project.domain.vo.ProjectUserVo;
 import com.ruoyi.project.mapper.ProjectUserMapper;
 import com.ruoyi.project.service.ProjectUserService;
@@ -52,6 +54,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 
     /**
      * 添加项目成员
+     *
      * @param projectUserList
      * @return
      */
@@ -112,7 +115,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         Set<Long> userIds = getUserIdsByProjectId(projectId);
 
         //根据用户ID获取用户在项目中角色的映射
-        Map<Long, List<ProjectUserRole>> projectRolesMap = getProjectRolesByMemberIds(projectId,userIds);
+        Map<Long, List<ProjectUserRole>> projectRolesMap = getProjectRolesByMemberIds(projectId, userIds);
 
         // 根据用户ID列表获取用户信息
         Map<Long, SysUser> userIdToUserMap = getUsersMapByUserIds(userIds);
@@ -154,13 +157,13 @@ public class ProjectUserServiceImpl implements ProjectUserService {
      * @param memberIds 项目成员ID集合
      * @return 映射，其中键是用户ID，值是用户在项目中的角色列表
      */
-    private Map<Long, List<ProjectUserRole>> getProjectRolesByMemberIds(Long projectId,Set<Long> memberIds) {
+    private Map<Long, List<ProjectUserRole>> getProjectRolesByMemberIds(Long projectId, Set<Long> memberIds) {
         if (memberIds == null || memberIds.isEmpty()) {
             return Collections.emptyMap();
         }
 
         LambdaQueryWrapper<ProjectUser> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.in(ProjectUser::getUserId, memberIds).eq(ProjectUser::getProjectId,projectId);
+        queryWrapper.in(ProjectUser::getUserId, memberIds).eq(ProjectUser::getProjectId, projectId);
         List<ProjectUser> projectUsers = projectUserMapper.selectList(queryWrapper);
 
         Map<Long, List<ProjectUserRole>> userIdToProjectUserRolesMap = new HashMap<>();
@@ -217,17 +220,35 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         for (Long userId : userIds) {
             SysUser user = userIdToUserMap.get(userId);
             String deptName = deptIdToNameMap.getOrDefault(user.getDeptId(), "Unknown Dept");
-            List<ProjectUserRole> projectUserRoles = userIdToProjectUserRolesMap.getOrDefault(userId, Collections.singletonList(ProjectUserRole.UNKNOWN));
+            List<ProjectUserRole> projectUserRoles = userIdToProjectUserRolesMap.getOrDefault(userId, Collections.singletonList(ProjectUserRole.UNKNOWN))
+                .stream().filter(projectUserRole -> !projectUserRole.equals(ProjectUserRole.PROJECT_ENTRY_OPERATOR)).collect(Collectors.toList());
 
             ProjectUserVo projectUserVo = new ProjectUserVo();
-            projectUserVo.setNickName(user.getNickName());
-            projectUserVo.setEmail(user.getEmail());
-            projectUserVo.setPhonenumber(user.getPhonenumber());
             projectUserVo.setDeptName(deptName);
             projectUserVo.setProjectUserRoles(projectUserRoles); // 设置项目成员角色
+            BeanCopyUtils.copy(user,projectUserVo);
 
             projectUserVos.add(projectUserVo);
         }
         return projectUserVos;
+    }
+
+    /**
+     * 根据项目ID查找项目负责人姓名
+     *
+     * @param projectId
+     * @return
+     */
+    public String findProLeaderNameById(Long projectId) {
+        List<ProjectUserVo> projectUserVos = getUserInfoByProjectId(projectId);
+        for (ProjectUserVo projectUserVo : projectUserVos) {
+            List<ProjectUserRole> roles = projectUserVo.getProjectUserRoles();
+            for (ProjectUserRole role : roles) {
+                if (ProjectUserRole.PROJECT_LEADER == role) {
+                    return projectUserVo.getNickName();
+                }
+            }
+        }
+        return "";
     }
 }

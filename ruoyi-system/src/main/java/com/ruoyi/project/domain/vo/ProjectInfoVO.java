@@ -63,6 +63,11 @@ public class ProjectInfoVO extends BaseEntity {
     private String subjectAssignmentSerialNo;
 
     /**
+     * 项目负责人
+     */
+    private String projectLeader;
+
+    /**
      * 立项日期
      */
     @JsonFormat(pattern = DateConstants.YYYY_MM_DD)

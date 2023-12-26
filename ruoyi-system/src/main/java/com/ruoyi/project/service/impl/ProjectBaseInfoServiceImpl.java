@@ -15,6 +15,7 @@ import com.ruoyi.project.domain.vo.ProjectInfoVO;
 import com.ruoyi.project.mapper.ProjectBaseInfoMapper;
 import com.ruoyi.project.mapper.ProjectUserMapper;
 import com.ruoyi.project.service.ProjectBaseInfoService;
+import com.ruoyi.project.service.ProjectUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -37,6 +38,8 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
     private final ProjectBaseInfoMapper projectBaseInfoMapper;
 
     private final ProjectUserMapper projectUserMapper;
+
+    private final ProjectUserService projectUserService;
 
     /**
      * @param projectBaseInfoBO
@@ -61,48 +64,50 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
         Page<ProjectBaseInfoVO> result = projectBaseInfoMapper.selectVoPage(pageQuery.build(), lqw);
         return TableDataInfo.build(result);
     }
-    private LambdaQueryWrapper<ProjectBaseInfo> buildAllListQueryWrapper(ProjectBaseInfoBO projectBaseInfoBO){
-        LambdaQueryWrapper<ProjectBaseInfo> lqw= buildCommonQueryWrapper(projectBaseInfoBO);
-        if(projectBaseInfoBO.getUserId()==null){
+
+    private LambdaQueryWrapper<ProjectBaseInfo> buildAllListQueryWrapper(ProjectBaseInfoBO projectBaseInfoBO) {
+        LambdaQueryWrapper<ProjectBaseInfo> lqw = buildCommonQueryWrapper(projectBaseInfoBO);
+        if (projectBaseInfoBO.getUserId() == null) {
             return lqw;
         }
-        List<Long> projectIdList=getProjectIdsByUserId(projectBaseInfoBO.getUserId());
-        if(projectIdList.isEmpty()){
+        List<Long> projectIdList = getProjectIdsByUserId(projectBaseInfoBO.getUserId());
+        if (projectIdList.isEmpty()) {
             lqw.apply("0=1");
-        }else{
-            lqw.in(ProjectBaseInfo::getProjectId,projectIdList);
+        } else {
+            lqw.in(ProjectBaseInfo::getProjectId, projectIdList);
         }
         return lqw;
     }
 
-    private LambdaQueryWrapper<ProjectBaseInfo> buildMyListQueryWrapper(ProjectBaseInfoBO projectBaseInfoBO){
+    private LambdaQueryWrapper<ProjectBaseInfo> buildMyListQueryWrapper(ProjectBaseInfoBO projectBaseInfoBO) {
         LambdaQueryWrapper<ProjectBaseInfo> lqw = buildCommonQueryWrapper(projectBaseInfoBO);
         List<Long> loginProjectIds = Optional.ofNullable(LoginHelper.getUserId())
             .map(this::getProjectIdsByUserId)
             .orElse(Collections.emptyList());
-        if(loginProjectIds.isEmpty()){
+        if (loginProjectIds.isEmpty()) {
             lqw.apply("0=1");
             return lqw;
         }
-        if(projectBaseInfoBO.getUserId()==null){
-            lqw.in(ProjectBaseInfo::getProjectId,loginProjectIds);
+        if (projectBaseInfoBO.getUserId() == null) {
+            lqw.in(ProjectBaseInfo::getProjectId, loginProjectIds);
             return lqw;
         }
-        List<Long> userProjectIds=getProjectIdsByUserId(projectBaseInfoBO.getUserId());
-        if(userProjectIds.isEmpty()){
+        List<Long> userProjectIds = getProjectIdsByUserId(projectBaseInfoBO.getUserId());
+        if (userProjectIds.isEmpty()) {
             lqw.apply("0=1");
             return lqw;
         }
-        List<Long> projectIds=getIntersection(loginProjectIds,userProjectIds);
-        if(projectIds.isEmpty()){
+        List<Long> projectIds = getIntersection(loginProjectIds, userProjectIds);
+        if (projectIds.isEmpty()) {
             lqw.apply("0=1");
-        }else{
-            lqw.in(ProjectBaseInfo::getProjectId,projectIds);
+        } else {
+            lqw.in(ProjectBaseInfo::getProjectId, projectIds);
         }
         return lqw;
     }
-    private LambdaQueryWrapper<ProjectBaseInfo> buildCommonQueryWrapper(ProjectBaseInfoBO projectBaseInfoBO){
-        LambdaQueryWrapper<ProjectBaseInfo> lqw= Wrappers.lambdaQuery();
+
+    private LambdaQueryWrapper<ProjectBaseInfo> buildCommonQueryWrapper(ProjectBaseInfoBO projectBaseInfoBO) {
+        LambdaQueryWrapper<ProjectBaseInfo> lqw = Wrappers.lambdaQuery();
         log.info("ProjectBaseInfoBO为:{}", projectBaseInfoBO);
         lqw.like(StringUtils.isNotBlank(projectBaseInfoBO.getAssignedSubjectName()), ProjectBaseInfo::getAssignedSubjectName, projectBaseInfoBO.getAssignedSubjectName());
         lqw.like(StringUtils.isNotBlank(projectBaseInfoBO.getAssignedSubjectSection()), ProjectBaseInfo::getAssignedSubjectSection, projectBaseInfoBO.getAssignedSubjectSection());
@@ -113,6 +118,7 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
         lqw.le(projectBaseInfoBO.getProjectEstablishTimeEnd() != null, ProjectBaseInfo::getProjectEstablishTime, projectBaseInfoBO.getProjectEstablishTimeEnd());
         lqw.ge(projectBaseInfoBO.getProjectScheduledCompletionTimeSta() != null, ProjectBaseInfo::getProjectScheduledCompletionTime, projectBaseInfoBO.getProjectScheduledCompletionTimeSta());
         lqw.le(projectBaseInfoBO.getProjectScheduledCompletionTimeEnd() != null, ProjectBaseInfo::getProjectScheduledCompletionTime, projectBaseInfoBO.getProjectScheduledCompletionTimeEnd());
+        lqw.orderByDesc(ProjectBaseInfo::getCreateTime);
         return lqw;
     }
 
@@ -141,6 +147,9 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
         if (projectBaseInfo == null) {
             throw new NoSuchElementException("项目基本信息不存在,projectId为:" + projectId);
         }
+        //调用projectUserService单独返回项目负责人名称
+        projectInfoVO.setProjectLeader(projectUserService.findProLeaderNameById(projectId));
+
         BeanCopyUtils.copy(projectBaseInfo, projectInfoVO);
         return projectInfoVO;
     }
@@ -157,7 +166,7 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
             throw new IllegalArgumentException("projectBaseInfo cannot be null");
         }
         int cnt = projectBaseInfoMapper.insert(projectBaseInfo);
-        if (cnt !=1) {
+        if (cnt != 1) {
             log.error("新增失败的projectBaseInfo为:{}", projectBaseInfo);
             throw new RuntimeException("新增项目失败");
         }
