@@ -16,6 +16,7 @@
 import * as echarts from 'echarts';
 import {onMounted, onUnmounted} from "vue";
 
+console.log()
 let chartIns;
 onMounted(()=>{
     chartIns = initChart();
