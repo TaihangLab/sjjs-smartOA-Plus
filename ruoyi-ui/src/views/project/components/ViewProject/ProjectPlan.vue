@@ -17,7 +17,7 @@
                 </el-descriptions-item>
             </el-descriptions>
             <div style="margin-bottom: 20px;">
-                <hr style="margin: 20px 0; border: 1px solid #ccc;">
+                <hr style="margin: 20px 0; border: 1px solid #E4E7ED;">
             </div>
         </div>
     </div>
