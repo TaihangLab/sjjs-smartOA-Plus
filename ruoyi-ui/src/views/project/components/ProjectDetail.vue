@@ -29,8 +29,8 @@
                         }}</el-descriptions-item>
                         <el-descriptions-item label="立项时间">{{ this.projectdetails.projectInfoVO.projectEstablishTime
                         }}</el-descriptions-item>
-                        <el-descriptions-item label="项目计划验收时间">{{
-                            this.projectdetails.projectInfoVO.projectScheduledCompletionTime }}</el-descriptions-item>
+                        <el-descriptions-item label="项目计划验收时间">{{this.projectdetails.projectInfoVO.projectScheduledCompletionTime
+                        }}</el-descriptions-item>
                         <el-descriptions-item label="项目执行时间（年）">{{ this.projectdetails.projectInfoVO.projectDuration
                         }}</el-descriptions-item>
                         <el-descriptions-item label="项目推进情况">{{ this.projectdetails.projectInfoVO.projectProgressStatus
@@ -39,6 +39,13 @@
                         }}</el-descriptions-item>
                         <el-descriptions-item label="涉及专家、团队">{{ this.projectdetails.projectInfoVO.expertTeam
                         }}</el-descriptions-item>
+                        <el-descriptions-item label="项目经费总额" >{{ this.projectdetails.projectFundsVO.totalFundsAll
+                            }}</el-descriptions-item>
+                        <el-descriptions-item >{{ }}</el-descriptions-item>
+                        <el-descriptions-item label="专项经费">{{ this.projectdetails.projectFundsVO.totalFundsZx
+                            }}</el-descriptions-item>
+                        <el-descriptions-item label="自筹经费">{{ this.projectdetails.projectFundsVO.totalFundsZc
+                            }}</el-descriptions-item>
                     </el-descriptions>
                     <el-collapse v-model="activeNames">
                         <el-collapse-item style="font-size: 20px;" name="1">

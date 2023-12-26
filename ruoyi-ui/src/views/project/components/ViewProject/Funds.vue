@@ -5,7 +5,7 @@
             <el-collapse-item name="1">
                 <template slot="title">
                     <span>项目经费</span>
-                    <span style="font-size: 12px; color: #F56C6C;">（万元）</span>
+                    <span style="font-size: 12px; color: #F56C6C;">（单位：万元）</span>
                 </template>
                 <div style="margin-top: 10px;"></div>
                 <el-descriptions class="margin-top" :column="4" border>
@@ -13,33 +13,62 @@
                         <template slot="label">
                             项目经费总额
                         </template>
+                        {{ this.$props.projectfund.totalFundsAll}}
                     </el-descriptions-item>
                     <el-descriptions-item labelStyle="text-align: center; " :contentStyle="{ width: '10%' }">
                         <template slot="label">
                             专项经费
                         </template>
+                        {{ this.$props.projectfund.totalFundsZx}}
                     </el-descriptions-item>
                     <el-descriptions-item labelStyle="text-align: center; " :contentStyle="{ width: '10%' }">
                         <template slot="label">
                             专项设备费
                         </template>
+                        {{ this.$props.projectfund.sbfZx}}
+                    </el-descriptions-item>
+                    <el-descriptions-item labelStyle="text-align: center; " :contentStyle="{ width: '10%' }">
+                        <template slot="label">
+                            专项直接经费
+                        </template>
+                        {{ this.$props.projectfund.totalFundsZxZj}}
+                    </el-descriptions-item>
+                    <el-descriptions-item labelStyle="text-align: center; " :contentStyle="{ width: '10%' }">
+                        <template slot="label">
+                            专项间接经费
+                        </template>
+                        {{ this.$props.projectfund.totalFundsZxJj}}
                     </el-descriptions-item>
                     <el-descriptions-item labelStyle="text-align: center; " :contentStyle="{ width: '10%' }">
                         <template slot="label">
                             自筹经费
                         </template>
+                        {{ this.$props.projectfund.totalFundsZc}}
                     </el-descriptions-item>
                     <el-descriptions-item labelStyle="text-align: center; " :contentStyle="{ width: '10%' }">
                         <template slot="label">
                             自筹设备费
                         </template>
+                        {{ this.$props.projectfund.sbfZc}}
+                    </el-descriptions-item>
+                    <el-descriptions-item labelStyle="text-align: center; " :contentStyle="{ width: '10%' }">
+                        <template slot="label">
+                            自筹直接经费
+                        </template>
+                        {{ this.$props.projectfund.totalFundsZcZj}}
+                    </el-descriptions-item>
+                    <el-descriptions-item labelStyle="text-align: center; " :contentStyle="{ width: '10%' }">
+                        <template slot="label">
+                            自筹间接经费
+                        </template>
+                        {{ this.$props.projectfund.totalFundsZcJj}}
                     </el-descriptions-item>
                 </el-descriptions>
             </el-collapse-item>
             <el-collapse-item name="2">
                 <template slot="title">
                     <span>专项经费</span>
-                    <span style="font-size: 12px; color: #F56C6C;">（万元）</span>
+                    <span style="font-size: 12px; color: #F56C6C;">（单位：万元）</span>
                 </template>
                 <div style="margin-top: 10px;"></div>
                 <el-descriptions class="margin-top" :column="3" border>
@@ -47,11 +76,13 @@
                         <template slot="label">
                             (一) {{ "\xa0\xa0" }} 直接费用
                         </template>
+                        {{ this.$props.projectfund.totalFundsZxZj}}
                     </el-descriptions-item>
                     <el-descriptions-item labelStyle="font-weight: 550;" :span="3">
                         <template slot="label">
                             {{ "\xa0\xa0\xa0" }}1.设备费
                         </template>
+                        {{ this.$props.projectfund.sbfZxZj}}
                     </el-descriptions-item>
                     <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
                         contentStyle="width: 15%">
@@ -84,7 +115,7 @@
                         <template slot="label">
                             {{ "\xa0\xa0\xa0" }}3.科研活动费
                         </template>
-                        {{  }}
+                        {{ this.$props.projectfund.kyhdfZxZj }}
                     </el-descriptions-item>
                     <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
                         contentStyle="width: 15%">
@@ -151,7 +182,7 @@
                         <template slot="label">
                             {{ "\xa0\xa0\xa0" }}4.科研服务费
                         </template>
-                        {{  }}
+                        {{ this.$props.projectfund.kyfwfZxZj }}
                     </el-descriptions-item>
                     <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
                                           contentStyle="width: 15%">
@@ -170,9 +201,9 @@
                     <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
                                           contentStyle="width: 15%">
                         <template slot="label">
-                            会议会务费
+                            会议/会务费
                         </template>
-                        {{  }}
+                        {{ this.$props.projectfund.kyfwfHyhwZxZj }}
                     </el-descriptions-item>
                     <el-descriptions-item labelStyle="width: 15%; text-align: center;  width: auto;"
                                           contentStyle="width: 15%">
@@ -203,13 +234,13 @@
                         <template slot="label">
                             (二) {{ "\xa0\xa0" }} 间接费用
                         </template>
-                        {{  }}
+                        {{ this.$props.projectfund.totalFundsZxJj}}
                     </el-descriptions-item>
                     <el-descriptions-item labelStyle="font-weight: 550;" :span="3">
                         <template slot="label">
                             {{ "\xa0\xa0\xa0" }}1.设备费
                         </template>
-                        {{  }}
+                        {{ this.$props.projectfund.sbfZxJj }}
                     </el-descriptions-item>
                     <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
                         contentStyle="width: 15%">
@@ -242,7 +273,7 @@
                         <template slot="label">
                             {{ "\xa0\xa0\xa0" }}3.科研活动费
                         </template>
-                        {{  }}
+                        {{ this.$props.projectfund.kyhdfZxJj }}
                     </el-descriptions-item>
                     <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
                         contentStyle="width: 15%">
@@ -309,7 +340,7 @@
                         <template slot="label">
                             {{ "\xa0\xa0\xa0" }}4.科研服务费
                         </template>
-                        {{  }}
+                        {{ this.$props.projectfund.kyfwfZxJj }}
                     </el-descriptions-item>
                     <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
                                           contentStyle="width: 15%">
@@ -328,9 +359,9 @@
                     <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
                                           contentStyle="width: 15%">
                         <template slot="label">
-                            会议会务费
+                            会议/会务费
                         </template>
-                        {{  }}
+                        {{ this.$props.projectfund.kyfwfHyhwZxJj }}
                     </el-descriptions-item>
                     <el-descriptions-item labelStyle="width: 15%; text-align: center;  width: auto;"
                                           contentStyle="width: 15%">
@@ -368,7 +399,7 @@
             <el-collapse-item name="3">
                 <template slot="title">
                     <span>自筹经费</span>
-                    <span style="font-size: 12px; color: #F56C6C;">（万元）</span>
+                    <span style="font-size: 12px; color: #F56C6C;">（单位：万元）</span>
                 </template>
                 <div style="margin-top: 10px;"></div>
                 <el-descriptions class="margin-top" :column="3" border>
@@ -376,13 +407,13 @@
                         <template slot="label">
                             (一) {{ "\xa0\xa0" }} 直接费用
                         </template>
-                        {{  }}
+                        {{ this.$props.projectfund.totalFundsZcZj }}
                     </el-descriptions-item>
                     <el-descriptions-item labelStyle="font-weight: 550;" :span="3">
                         <template slot="label">
                             {{ "\xa0\xa0\xa0" }}1.设备费
                         </template>
-                        {{  }}
+                        {{ this.$props.projectfund.sbfZcZj }}
                     </el-descriptions-item>
                     <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
                         contentStyle="width: 15%">
@@ -415,7 +446,7 @@
                         <template slot="label">
                             {{ "\xa0\xa0\xa0" }}3.科研活动费
                         </template>
-                        {{  }}
+                        {{ this.$props.projectfund.kyhdfZcZj }}
                     </el-descriptions-item>
                     <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
                         contentStyle="width: 15%">
@@ -482,7 +513,7 @@
                         <template slot="label">
                             {{ "\xa0\xa0\xa0" }}4.科研服务费
                         </template>
-                        {{  }}
+                        {{ this.$props.projectfund.kyfwfZcZj }}
                     </el-descriptions-item>
                     <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
                                           contentStyle="width: 15%">
@@ -501,9 +532,9 @@
                     <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
                                           contentStyle="width: 15%">
                         <template slot="label">
-                            会议会务费
+                            会议/会务费
                         </template>
-                        {{  }}
+                        {{ this.$props.projectfund.kyfwfHyhwZcZj }}
                     </el-descriptions-item>
                     <el-descriptions-item labelStyle="width: 15%; text-align: center;  width: auto;"
                                           contentStyle="width: 15%">
@@ -534,13 +565,13 @@
                         <template slot="label">
                             (二) {{ "\xa0\xa0" }} 间接费用
                         </template>
-                        {{  }}
+                        {{ this.$props.projectfund.totalFundsZcJj }}
                     </el-descriptions-item>
                     <el-descriptions-item labelStyle="font-weight: 550;" :span="3">
                         <template slot="label">
                             {{ "\xa0\xa0\xa0" }}1.设备费
                         </template>
-                        {{  }}
+                        {{ this.$props.projectfund.sbfZcJj }}
                     </el-descriptions-item>
                     <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
                         contentStyle="width: 15%">
@@ -573,7 +604,7 @@
                         <template slot="label">
                             {{ "\xa0\xa0\xa0" }}3.科研活动费
                         </template>
-                        {{  }}
+                        {{ this.$props.projectfund.kyhdfZcJj }}
                     </el-descriptions-item>
                     <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
                         contentStyle="width: 15%">
@@ -640,7 +671,7 @@
                         <template slot="label">
                             {{ "\xa0\xa0\xa0" }}4.科研服务费
                         </template>
-                        {{  }}
+                        {{ this.$props.projectfund.kyfwfZcJj }}
                     </el-descriptions-item>
                     <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
                                           contentStyle="width: 15%">
@@ -659,9 +690,9 @@
                     <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
                                           contentStyle="width: 15%">
                         <template slot="label">
-                            会议会务费
+                            会议/会务费
                         </template>
-                        {{  }}
+                        {{ this.$props.projectfund.kyfwfHyhwZcJj }}
                     </el-descriptions-item>
                     <el-descriptions-item labelStyle="width: 15%; text-align: center;  width: auto;"
                                           contentStyle="width: 15%">
@@ -699,7 +730,7 @@
             <el-collapse-item name="4">
                 <template slot="title">
                     <span>经费来源</span>
-                    <span style="font-size: 12px; color: #F56C6C;">（万元）</span>
+                    <span style="font-size: 12px; color: #F56C6C;">（单位：万元）</span>
                 </template>
                 <div style="margin-top: 10px;"></div>
                 <!-- 这里放置专项经费的详细信息 -->
@@ -714,7 +745,7 @@
                         <template slot="label">
                             {{ "\xa0\xa0" }}(二) {{ "\xa0\xa0" }} 自筹经费来源
                         </template>
-                        {{  }}
+                        {{ this.$props.projectfund.jflyZc }}
                     </el-descriptions-item>
                     <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
                         contentStyle="width: 15%">
