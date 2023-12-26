@@ -146,7 +146,8 @@ export function addProject(projectInfoForm, projectMemberForm,
                 "kyfwfGnxzZxJj": 0,
                 "kyfwfGnxzZcJj": 0,
                 "ryhlwbzfZxJj": 0,
-                "ryhlwbzfZcJj": 0
+                "ryhlwbzfZcJj": 0,
+                "a":1211
             },
             "projectUserBoList": members,
             "projectTargetBOList": indicators,
