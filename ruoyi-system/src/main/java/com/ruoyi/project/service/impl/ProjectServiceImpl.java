@@ -1,6 +1,8 @@
 package com.ruoyi.project.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.ruoyi.common.enums.ProjectUserRole;
+import com.ruoyi.common.helper.LoginHelper;
 import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.project.domain.*;
@@ -12,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -95,12 +98,19 @@ public class ProjectServiceImpl implements ProjectService {
 
 
     private void insertProjectUsers(List<ProjectUserBo> projectUserBOList, Long projectId) {
-        if (projectUserBOList != null && !projectUserBOList.isEmpty()) {
-            List<ProjectUser> projectUserList = projectUserBOList.stream()
-                .map(bo -> setProjectIdAndCopy(bo, projectId, ProjectUser.class))
-                .collect(Collectors.toList());
-            projectUserService.insertProjectUsers(projectUserList);
+        if (projectUserBOList == null) {
+            projectUserBOList = new ArrayList<>();
         }
+        ProjectUserBo projectLoginUserBo = new ProjectUserBo();
+        projectLoginUserBo.setUserId(LoginHelper.getUserId());
+        projectLoginUserBo.setProjectUserRole(ProjectUserRole.PROJECT_ENTRY_OPERATOR);
+        log.info("角色为{}", ProjectUserRole.PROJECT_ENTRY_OPERATOR);
+        log.info("角色为{}", ProjectUserRole.PROJECT_ENTRY_OPERATOR.getValue());
+        projectUserBOList.add(projectLoginUserBo);
+        List<ProjectUser> projectUserList = projectUserBOList.stream()
+            .map(bo -> setProjectIdAndCopy(bo, projectId, ProjectUser.class))
+            .collect(Collectors.toList());
+        projectUserService.insertProjectUsers(projectUserList);
     }
 
     private void insertProjectFunds(ProjectFundsBO projectFundsBO, Long projectId) {
