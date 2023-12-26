@@ -1,191 +1,94 @@
 <template>
-  <div class="app-container home">
-    <el-row :gutter="20">
-      <el-col :sm="24" :lg="12" style="padding-left: 20px">
-        <h2>山西数据技术有限公司</h2>
-<!--        <p>
-          RuoYi-Vue-Plus 是基于 RuoYi-Vue 针对 分布式集群 场景升级(不兼容原框架)
-          <br/>
-          * 前端开发框架 Vue、Element UI<br/>
-          * 后端开发框架 Spring Boot<br/>
-          * 容器框架 Undertow 基于 XNIO 的高性能容器<br/>
-          * 权限认证框架 Sa-Token、Jwt 支持多终端认证系统<br/>
-          * 关系数据库 MySQL 适配 8.X 最低 5.7<br/>
-          * 关系数据库 Oracle 适配 11g 12c<br/>
-          * 关系数据库 PostgreSQL 适配 13 14<br/>
-          * 关系数据库 SQLServer 适配 2017 2019<br/>
-          * 缓存数据库 Redis 适配 6.X 最低 4.X<br/>
-          * 数据库框架 Mybatis-Plus 快速 CRUD 增加开发效率<br/>
-          * 数据库框架 p6spy 更强劲的 SQL 分析<br/>
-          * 多数据源框架 dynamic-datasource 支持主从与多种类数据库异构<br/>
-          * 序列化框架 Jackson 统一使用 jackson 高效可靠<br/>
-          * Redis客户端 Redisson 性能强劲、API丰富<br/>
-          * 分布式限流 Redisson 全局、请求IP、集群ID 多种限流<br/>
-          * 分布式锁 Lock4j 注解锁、工具锁 多种多样<br/>
-          * 分布式幂等 Redisson 拦截重复提交<br/>
-          * 分布式链路追踪 SkyWalking 支持链路追踪、网格分析、度量聚合、可视化<br/>
-          * 分布式任务调度 Xxl-Job 高性能 高可靠 易扩展<br/>
-          * 分布式文件存储 Minio 本地存储<br/>
-          * 分布式云存储 七牛、阿里、腾讯 云存储<br/>
-          * 监控框架 SpringBoot-Admin 全方位服务监控<br/>
-          * 校验框架 Validation 增强接口安全性 严谨性<br/>
-          * Excel框架 Alibaba EasyExcel 性能优异 扩展性强<br/>
-          * 文档框架 SpringDoc、javadoc 无注解零入侵基于java注释<br/>
-          * 工具类框架 Hutool、Lombok 减少代码冗余 增加安全性<br/>
-          * 代码生成器 适配MP、SpringDoc规范化代码 一键生成前后端代码<br/>
-          * 部署方式 Docker 容器编排 一键部署业务集群<br/>
-          * 国际化 SpringMessage Spring标准国际化方案<br/>
-        </p>
-        <p>
-          <b>当前版本:</b> <span>v{{ version }}</span>
-        </p>
-        <p>
-          <el-tag type="danger">&yen;免费开源</el-tag>
-        </p>
-        <p>
-          <el-button
-            type="primary"
-            size="mini"
-            icon="el-icon-cloudy"
-            plain
-            @click="goTarget('https://gitee.com/dromara/RuoYi-Vue-Plus')"
-            >访问码云</el-button
-          >
-          <el-button
-            type="primary"
-            size="mini"
-            icon="el-icon-cloudy"
-            plain
-            @click="goTarget('https://github.com/dromara/RuoYi-Vue-Plus')"
-          >访问GitHub</el-button
-          >
-          <el-button
-            type="primary"
-            size="mini"
-            icon="el-icon-cloudy"
-            plain
-            @click="goTarget('https://gitee.com/dromara/RuoYi-Vue-Plus/wikis/pages?sort_id=4106467&doc_id=1469725')"
-          >更新日志</el-button
-          >
-        </p>-->
-      </el-col>
+    <div class="app-container home">
+        <div id="curtain">
 
-<!--      <el-col :sm="24" :lg="12" style="padding-left: 50px">
-        <el-row>
-          <el-col :span="12">
-            <h2>技术选型</h2>
-          </el-col>
-        </el-row>-->
-<!--        <el-row>
-          <el-col :span="6">
-            <h4>后端技术</h4>
-            <ul>
-              <li>SpringBoot</li>
-              <li>Sa-Token</li>
-              <li>JWT</li>
-              <li>MyBatis</li>
-              <li>Druid</li>
-              <li>Jackson</li>
-              <li>...</li>
-            </ul>
-          </el-col>
-          <el-col :span="6">
-            <h4>前端技术</h4>
-            <ul>
-              <li>Vue</li>
-              <li>Vuex</li>
-              <li>Element-ui</li>
-              <li>Axios</li>
-              <li>Sass</li>
-              <li>Quill</li>
-              <li>...</li>
-            </ul>
-          </el-col>
-        </el-row>
-      </el-col>-->
-    </el-row>
-    <el-divider />
-  </div>
+            <h1 data-heading="数">数据技术</h1>
+        </div>
+
+    </div>
 </template>
 
 <script>
 export default {
-  name: "Index",
-  data() {
-    return {
-      // 版本号
-      version: "0.8.3",
-    };
-  },
-  methods: {
-    goTarget(href) {
-      window.open(href, "_blank");
+    name: "Index",
+    data() {
+        return {
+            // 版本号
+            version: "0.8.3",
+        };
     },
-  },
+    methods: {
+        goTarget(href) {
+            window.open(href, "_blank");
+        },
+    },
 };
 </script>
 
 <style scoped lang="scss">
-.home {
-  blockquote {
-    padding: 10px 20px;
-    margin: 0 0 20px;
-    font-size: 17.5px;
-    border-left: 5px solid #eee;
-  }
-  hr {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    border: 0;
-    border-top: 1px solid #eee;
-  }
-  .col-item {
-    margin-bottom: 20px;
-  }
 
-  ul {
-    padding: 0;
-    margin: 0;
-  }
+$h1: rgba(49, 48, 48, 0.8);
+$blue: #98b5cc;
+$yellow: #f63e3e;
+$outline: rgba(#fff, .4);
+$shadow: rgba($yellow, .5);
+#curtain {
 
-  font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 13px;
-  color: #676a6c;
-  overflow-x: hidden;
-
-  ul {
-    list-style-type: none;
-  }
-
-  h4 {
-    margin-top: 0px;
-  }
-
-  h2 {
-    margin-top: 10px;
-    font-size: 26px;
-    font-weight: 100;
-  }
-
-  p {
-    margin-top: 10px;
-
-    b {
-      font-weight: 700;
-    }
-  }
-
-  .update-log {
-    ol {
-      display: block;
-      list-style-type: decimal;
-      margin-block-start: 1em;
-      margin-block-end: 1em;
-      margin-inline-start: 0;
-      margin-inline-end: 0;
-      padding-inline-start: 40px;
-    }
-  }
+    background: linear-gradient(45deg, #e1efff 9%, #409EFF 100%);
+    width: 100%;
+    height: 15vh;
+    border-radius: 30px;
 }
+
+h1 {
+    font-family: '阿里妈妈东方大楷 Regular', sans-serif;
+    font-size: 5vw;
+    text-align: center;
+    line-height: 1;
+    margin: 0;
+    top: 12%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    color: $h1;
+    letter-spacing: 1rem;
+
+    &:before {
+        content: attr(data-heading);
+        position: absolute;
+        overflow: hidden;
+        color: $yellow;
+        width: 100%;
+        z-index: 5;
+        text-shadow: none;
+        left: 0%;
+        text-align: left;
+        animation: flicker 3s linear infinite;
+    }
+}
+
+@keyframes flicker {
+    0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+        opacity: .99;
+        text-shadow: -1px -1px 0 $outline, 1px -1px 0 $outline,
+        -1px 1px 0 $outline, 1px 1px 0 $outline,
+        0 -2px 8px, 0 0 2px, 0 0 5px #ff7e00,
+        0 0 5px #ff4444, 0 0 2px #ff7e00, 0 2px 3px #000;
+    }
+    20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+        opacity: 0.4;
+        text-shadow: none;
+    }
+}
+
+@font-face {
+    font-family: "阿里妈妈东方大楷 Regular";
+    font-weight: 400;
+    src: url("../assets/fonts/AlimamaDongFangDaKai-Regular.woff2") format("woff2"),
+    url("../assets/fonts/AlimamaDongFangDaKai-Regular.woff") format("woff");
+    font-display: swap;
+}
+
+
 </style>
 
