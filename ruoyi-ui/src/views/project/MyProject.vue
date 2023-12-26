@@ -1,6 +1,6 @@
 <template>
     <div>
-        <CheakProject @query-request="handleQueryRequest"></CheakProject>
+        <CheakProject @query-request="handleQueryRequest" v-show="showSearch"></CheakProject>
         <el-row :gutter="10" class="mb8" style="margin-left: 20px;margin-top: 10px;">
             <el-col :span="1.5">
                 <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增
@@ -10,14 +10,8 @@
         </el-row>
         <!-- 新增项目弹出的对话框-->
         <el-dialog title="新增项目" :visible.sync="newProjectDialogVisible" fullscreen>
-            <!-- :before-close="handleClose">-->
             <NewProject :visible.sync="newProjectDialogVisible"></NewProject>
         </el-dialog>
-<!--        &lt;!&ndash; 大事记新增打开的界面 &ndash;&gt;-->
-<!--        <el-dialog title="大事记" :visible.sync="eventsDialogVisibleAdd" width="50%">-->
-<!--            <AddEvents :visible.sync="eventsDialogVisibleAdd">-->
-<!--            </AddEvents>-->
-<!--        </el-dialog>-->
         <Project  :buttonType="1" :myProjectLook="myProjectLook" :total="total" :queryParam="queryParam" @reloadProjectList="getprojectList"/>
     </div>
 </template>
