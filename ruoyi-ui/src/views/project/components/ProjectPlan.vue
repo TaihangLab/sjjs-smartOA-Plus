@@ -66,12 +66,12 @@ defineExpose({
 })
 
 
-props.form.items = [{date: null, task: ''}];
+props.form.items = [{date: undefined, task: ''}];
 const isButtonShowList = ref([false]);
 
 function add() {
     props.form.items.push({
-        date: undefined, task: undefined
+        date: undefined, task: ''
     });
     isButtonShowList.value.push(false);
     // $forceUpdate();

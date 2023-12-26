@@ -55,7 +55,7 @@ export default {
         // 值
         value: [String, Object, Array],
 
-        // 要返回给父组件列表[{name, ossid}]
+        // 要返回给父组件列表
         idList: [],
 
         // 上传组件要展示的列表

@@ -1,7 +1,7 @@
 <template>
     <el-container>
         <el-header>
-<!--            <Test></Test>-->
+            <!--            <Test></Test>-->
 
             <el-card shadow="hover">
                 <el-steps :active="stepID" finish-status="success" simple>
@@ -134,7 +134,7 @@ export default {
         next() {
             // todo
             if (this.stepID++ >= TOTAL_STEPS - 1) {
-                console.log("sda")
+                this.submit();
                 this.$emit('update:visible', false);
                 // this.reset();
             }
@@ -149,13 +149,13 @@ export default {
 
             console.log('projectInfoForm', this.projectInfoForm);
             console.log('projectMemberForm', this.projectMemberForm);
-            // console.log('projectFundsForm', this.projectFundsForm);
+            console.log('projectFundsForm', this.projectFundsForm);
             console.log('zxFundsDetailForm', this.zxFundsDetailForm);
-            // console.log('zcFundsDetailForm', this.zcFundsDetailForm);
+            console.log('zcFundsDetailForm', this.zcFundsDetailForm);
+            console.log('fundsSourceForm', this.fundsSourceForm);
             console.log('projectIndicatorForm', this.projectIndicatorForm);
             console.log('projectPlanForm', this.projectPlanForm);
-            // console.log('fundsSourceForm', this.fundsSourceForm);
-            // console.log('mainAttachmentForm', this.mainAttachmentForm);
+            console.log('mainAttachmentForm', this.mainAttachmentForm);
             console.log('otherAttachmentForm', this.otherAttachmentForm);
         },
 
@@ -168,15 +168,20 @@ export default {
         },
         submit() {
             // console.log(this.$refs.projectInfo.$refs.form.validate());
-            addProject(this.projectInfoForm, this.projectMemberForm).then(resp=>{
-                console.log(resp)
-                this.$message({
-                    message: '恭喜你，项目新增成功',
-                    type: 'success'
-                });
-            }, error => {
-                this.$message.error('错了哦，服务器返回了一条错误信息\n'+error);
-            })
+            addProject(this.projectInfoForm, this.projectMemberForm,
+                this.projectFundsForm, this.zxFundsDetailForm,
+                this.zcFundsDetailForm, this.fundsSourceForm,
+                this.projectIndicatorForm, this.projectPlanForm,
+                this.otherAttachmentForm)
+                .then(resp => {
+                    console.log(resp)
+                    this.$message({
+                        message: '恭喜你，项目新增成功',
+                        type: 'success'
+                    });
+                }, error => {
+                    this.$message.error('错了哦，服务器返回了一条错误信息\n' + error);
+                })
             // let loading = Loading.service({ fullscreen: true, lock: true, text: '少女祈祷中' });
             // setTimeout(() => loading.close(), 3000);
         },

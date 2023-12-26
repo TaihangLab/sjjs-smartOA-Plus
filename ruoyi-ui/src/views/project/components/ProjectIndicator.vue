@@ -74,12 +74,12 @@ export default {
     }
   },
   created() {
-    this.$props.form.items = [{title: undefined, midterm: undefined, finish:undefined}]
+    this.$props.form.items = [{title: '', midterm: '', finish:''}]
   },
   methods: {
     add() {
       this.$props.form.items.push({
-        title: undefined, midterm: undefined, finish:undefined
+        title: '', midterm: '', finish:''
       });
       this.isButtonShowList.push(false);
       this.$forceUpdate();
