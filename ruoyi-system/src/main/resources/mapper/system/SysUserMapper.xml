@@ -14,6 +14,7 @@
         <result property="phonenumber" column="phonenumber"/>
         <result property="sex" column="sex"/>
         <result property="jobTitle" column="job_title"/>
+        <result property="diploma" column="diploma"/>
         <result property="avatar" column="avatar"/>
         <result property="password" column="password"/>
         <result property="status" column="status"/>
@@ -60,6 +61,7 @@
                u.password,
                u.sex,
                u.job_title,
+               u.diploma,
                u.status,
                u.del_flag,
                u.login_ip,
@@ -96,6 +98,7 @@
                u.phonenumber,
                u.sex,
                u.job_title,
+               u.diploma,
             u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark, d.dept_name, d.leader
         from sys_user u
             left join sys_dept d on u.dept_id = d.dept_id
@@ -112,6 +115,7 @@
                u.phonenumber,
                u.sex,
                u.job_title,
+               u.diploma,
                u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark, d.dept_name, d.leader
         from sys_user u
                  left join sys_dept d on u.dept_id = d.dept_id
@@ -128,6 +132,7 @@
                u.phonenumber,
                u.sex,
                u.job_title,
+               u.diploma,
             u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark, d.dept_name, d.leader
         from sys_user u
             left join sys_dept d on u.dept_id = d.dept_id

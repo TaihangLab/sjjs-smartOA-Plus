@@ -296,6 +296,36 @@
           </el-col>
         </el-row>
         <el-row>
+          <el-col :span="12">
+            <el-form-item label="职称">
+              <el-select v-model="form.jobTitle"  placeholder="请选择职称">
+                <el-option
+                  v-for="item in jobtitleoptions"
+                  :key="item.jobtitleId"
+                  :label="item.jobtitleName"
+                  :value="item.jobtitleId"
+                  :disabled="item.status == 1"
+                  >
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="学历">
+              <el-select v-model="form.diploma"  placeholder="请选择学历">
+                <el-option
+                  v-for="item in diplomaoptions"
+                  :key="item.diplomaId"
+                  :label="item.diplomaName"
+                  :value="item.diplomaId"
+                  :disabled="item.status == 1"
+                  >
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="24">
             <el-form-item label="备注">
               <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
@@ -383,6 +413,38 @@ export default {
       postOptions: [],
       // 角色选项
       roleOptions: [],
+      // 职称选项
+      jobtitleoptions: [{
+          jobtitleId: '0',
+          jobtitleName: '正高级'
+        }, {
+          jobtitleId: '1',
+          jobtitleName: '副高级'
+        }, {
+          jobtitleId: '2',
+          jobtitleName: '中级'
+        }, {
+          jobtitleId: '3',
+          jobtitleName: '初级'
+        }, {
+          jobtitleId: '4',
+          jobtitleName: '无'
+        }],
+        // 学历选项
+        diplomaoptions: [{
+          diplomaId: '0',
+          diplomaName: '博士研究生'
+        }, {
+          diplomaId: '1',
+          diplomaName: '硕士研究生'
+        }, {
+          diplomaId: '2',
+          diplomaName: '本科'
+        }, {
+          diplomaId: '3',
+          diplomaName: '专科'
+        }],
+        value: '',
       // 表单参数
       form: {},
       defaultProps: {
@@ -524,6 +586,8 @@ export default {
         remark: undefined,
         postIds: [],
         roleIds: [],
+        jobtitleIds:[],
+        diplomaIds:[]
       };
       this.resetForm("form");
     },
@@ -565,6 +629,8 @@ export default {
       getUser().then(response => {
         this.postOptions = response.data.posts;
         this.roleOptions = response.data.roles;
+        this.jobtitleOptions = response.data.jobtitles;
+        this.diplomaOptions = response.data.diplomas;
         this.open = true;
         this.title = "添加用户";
         this.form.password = this.initPassword;
@@ -578,8 +644,12 @@ export default {
         this.form = response.data.user;
         this.postOptions = response.data.posts;
         this.roleOptions = response.data.roles;
+        this.jobtitleOptions = response.data.jobtitles;
+        this.diplomaOptions = response.data.diplomas;
         this.$set(this.form, "postIds", response.data.postIds);
         this.$set(this.form, "roleIds", response.data.roleIds);
+        this.$set(this.form, "jobtitleOptions", response.data.jobtitleOptions);
+        this.$set(this.form, "diplomaOptions", response.data.diplomaOptions);
         this.open = true;
         this.title = "修改用户";
         this.form.password = "";

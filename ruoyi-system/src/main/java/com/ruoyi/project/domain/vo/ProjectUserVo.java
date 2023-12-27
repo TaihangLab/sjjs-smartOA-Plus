@@ -1,5 +1,6 @@
 package com.ruoyi.project.domain.vo;
 
+import com.ruoyi.common.enums.DiplomaType;
 import com.ruoyi.common.enums.JobTitle;
 import com.ruoyi.common.enums.ProjectUserRole;
 import lombok.Data;
@@ -10,15 +11,21 @@ import java.util.List;
 public class ProjectUserVo {
 
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 用户姓名
+     */
+    private String nickName;
+
     /**
      * 用户职称
      */
     private JobTitle jobTitle;
 
     /**
-     * 用户姓名
+     * 用户学历
      */
-    private String nickName;
+    private DiplomaType diploma;
 
     /**
      * 用户邮箱
