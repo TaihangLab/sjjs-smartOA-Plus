@@ -20,208 +20,213 @@ import Layout from '@/layout'
  * roles: ['admin', 'common']       // 访问路由的角色权限
  * permissions: ['a:a:a', 'b:b:b']  // 访问路由的菜单权限
  * meta : {
-    noCache: true                   // 如果设置为true，则不会被 <keep-alive> 缓存(默认 false)
-    title: 'title'                  // 设置该路由在侧边栏和面包屑中展示的名字
-    icon: 'svg-name'                // 设置该路由的图标，对应路径src/assets/icons/svg
-    breadcrumb: false               // 如果设置为false，则不会在breadcrumb面包屑中显示
-    activeMenu: '/system/user'      // 当路由设置了该属性，则会高亮相对应的侧边栏。
-  }
+ noCache: true                   // 如果设置为true，则不会被 <keep-alive> 缓存(默认 false)
+ title: 'title'                  // 设置该路由在侧边栏和面包屑中展示的名字
+ icon: 'svg-name'                // 设置该路由的图标，对应路径src/assets/icons/svg
+ breadcrumb: false               // 如果设置为false，则不会在breadcrumb面包屑中显示
+ activeMenu: '/system/user'      // 当路由设置了该属性，则会高亮相对应的侧边栏。
+ }
  */
 
 // 公共路由
 export const constantRoutes = [
-  {
-    path: '/redirect',
-    component: Layout,
-    hidden: true,
-    children: [
-      {
-        path: '/redirect/:path(.*)',
-        component: () => import('@/views/redirect')
-      }
-    ]
-  },
-  {
-    path: '/login',
-    component: () => import('@/views/login'),
-    hidden: true
-  },
-  {
-    path: '/register',
-    component: () => import('@/views/register'),
-    hidden: true
-  },
-  {
-    path: '/404',
-    component: () => import('@/views/error/404'),
-    hidden: true
-  },
-  {
-    path: '/401',
-    component: () => import('@/views/error/401'),
-    hidden: true
-  },
-  {
-    path: '',
-    component: Layout,
-    redirect: 'index',
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/index'),
-        name: 'Index',
-        meta: { title: '首页', icon: 'dashboard', affix: true }
-      }
-    ]
-  },
-  {
-    path: '/tool',
-    component: Layout,
-    hidden: true,
-    children: [
-      {
-        path: 'build/index',
-        component: () => import('@/views/tool/build/index'),
-        name: 'FormBuild',
-        meta: { title: '表单设计', icon: '' }
-      }
-    ]
-  },
-  {
-    path: '/user',
-    component: Layout,
-    hidden: true,
-    redirect: 'noredirect',
-    children: [
-      {
-        path: 'profile',
-        component: () => import('@/views/system/user/profile/index'),
-        name: 'Profile',
-        meta: { title: '个人中心', icon: 'qq' }
-      }
-    ]
-  }
+    {
+        path: '/redirect',
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: '/redirect/:path(.*)',
+                component: () => import('@/views/redirect')
+            }
+        ]
+    },
+    {
+        path: '/login',
+        component: () => import('@/views/login'),
+        hidden: true
+    },
+    {
+        path: '/register',
+        component: () => import('@/views/register'),
+        hidden: true
+    },
+    {
+        path: '/404',
+        component: () => import('@/views/error/404'),
+        hidden: true
+    },
+    {
+        path: '/401',
+        component: () => import('@/views/error/401'),
+        hidden: true
+    },
+    {
+        path: '',
+        component: Layout,
+        redirect: 'index',
+        children: [
+            {
+                path: 'index',
+                component: () => import('@/views/index'),
+                name: 'Index',
+                meta: {title: '首页', icon: 'dashboard', affix: true}
+            }
+        ]
+    },
+    {
+        path: '/tool',
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: 'build/index',
+                component: () => import('@/views/tool/build/index'),
+                name: 'FormBuild',
+                meta: {title: '表单设计', icon: ''}
+            }
+        ]
+    },
+    {
+        path: '/user',
+        component: Layout,
+        hidden: true,
+        redirect: 'noredirect',
+        children: [
+            {
+                path: 'profile',
+                component: () => import('@/views/system/user/profile/index'),
+                name: 'Profile',
+                meta: {title: '个人中心', icon: 'qq'}
+            }
+        ]
+    }
 ]
 
 // 动态路由，基于用户权限动态去加载
 export const dynamicRoutes = [
-  {
-    path: '/system/user-auth',
-    component: Layout,
-    hidden: true,
-    permissions: ['system:user:edit'],
-    children: [
-      {
-        path: 'role/:userId(\\d+)',
-        component: () => import('@/views/system/user/authRole'),
-        name: 'AuthRole',
-        meta: { title: '分配角色', activeMenu: '/system/user' }
-      }
-    ]
-  },
-  {
-    path: '/system/role-auth',
-    component: Layout,
-    hidden: true,
-    permissions: ['system:role:edit'],
-    children: [
-      {
-        path: 'user/:roleId(\\d+)',
-        component: () => import('@/views/system/role/authUser'),
-        name: 'AuthUser',
-        meta: { title: '分配用户', activeMenu: '/system/role' }
-      }
-    ]
-  },
-  {
-    path: '/system/dict-data',
-    component: Layout,
-    hidden: true,
-    permissions: ['system:dict:list'],
-    children: [
-      {
-        path: 'index/:dictId(\\d+)',
-        component: () => import('@/views/system/dict/data'),
-        name: 'Data',
-        meta: { title: '字典数据', activeMenu: '/system/dict' }
-      }
-    ]
-  },
-  {
-    path: '/system/oss-config',
-    component: Layout,
-    hidden: true,
-    permissions: ['system:oss:list'],
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/system/oss/config'),
-        name: 'OssConfig',
-        meta: { title: '配置管理', activeMenu: '/system/oss' }
-      }
-    ]
-  },
-  {
-    path: '/tool/gen-edit',
-    component: Layout,
-    hidden: true,
-    permissions: ['tool:gen:edit'],
-    children: [
-      {
-        path: 'index/:tableId(\\d+)',
-        component: () => import('@/views/tool/gen/editTable'),
-        name: 'GenEdit',
-        meta: { title: '修改生成配置', activeMenu: '/tool/gen' }
-      }
-    ]
-  },
-  {
-    path: '/workflow/process',
-    component: Layout,
-    hidden: true,
-    permissions: ['workflow:process:query'],
-    children: [
-      {
-        path: 'start/:deployId([\\w|\\-]+)',
-        component: () => import('@/views/workflow/work/start'),
-        name: 'WorkStart',
-        meta: { title: '发起流程', icon: '' }
-      },
-      {
-        path: 'detail/:procInsId([\\w|\\-]+)',
-        component: () => import('@/views/workflow/work/detail'),
-        name: 'WorkDetail',
-        meta: { title: '流程详情', activeMenu: '/work/own' }
-      }
-    ]
-  },
-  {
-    path: '/project',
-    component: Layout,
-    hidden: true,
-    // permissions: ['projct:list:all'],
-    children: [
-      {
-        path: 'all',
-        component: () => import('@/views/project/ProjectList.vue'),
-        name: '项目列表',
-        meta: { title: '项目列表', icon: 'project'}
-      },
-      {
-        path: 'my',
-        component: () => import('@/views/project/MyProject.vue'),
-        name: '我的项目',
-        meta: { title: '我的项目', icon: 'qq' }
-      },
-      {
-        path: 'project',
-        component: () => import('@/views/project/Project.vue'),
-        name: '项目',
-        meta: { title: '项目', icon: 'qq' }
-      },
-
-    ]
-  },
+    {
+        path: '/system/user-auth',
+        component: Layout,
+        hidden: true,
+        permissions: ['system:user:edit'],
+        children: [
+            {
+                path: 'role/:userId(\\d+)',
+                component: () => import('@/views/system/user/authRole'),
+                name: 'AuthRole',
+                meta: {title: '分配角色', activeMenu: '/system/user'}
+            }
+        ]
+    },
+    {
+        path: '/system/role-auth',
+        component: Layout,
+        hidden: true,
+        permissions: ['system:role:edit'],
+        children: [
+            {
+                path: 'user/:roleId(\\d+)',
+                component: () => import('@/views/system/role/authUser'),
+                name: 'AuthUser',
+                meta: {title: '分配用户', activeMenu: '/system/role'}
+            }
+        ]
+    },
+    {
+        path: '/system/dict-data',
+        component: Layout,
+        hidden: true,
+        permissions: ['system:dict:list'],
+        children: [
+            {
+                path: 'index/:dictId(\\d+)',
+                component: () => import('@/views/system/dict/data'),
+                name: 'Data',
+                meta: {title: '字典数据', activeMenu: '/system/dict'}
+            }
+        ]
+    },
+    {
+        path: '/system/oss-config',
+        component: Layout,
+        hidden: true,
+        permissions: ['system:oss:list'],
+        children: [
+            {
+                path: 'index',
+                component: () => import('@/views/system/oss/config'),
+                name: 'OssConfig',
+                meta: {title: '配置管理', activeMenu: '/system/oss'}
+            }
+        ]
+    },
+    {
+        path: '/tool/gen-edit',
+        component: Layout,
+        hidden: true,
+        permissions: ['tool:gen:edit'],
+        children: [
+            {
+                path: 'index/:tableId(\\d+)',
+                component: () => import('@/views/tool/gen/editTable'),
+                name: 'GenEdit',
+                meta: {title: '修改生成配置', activeMenu: '/tool/gen'}
+            }
+        ]
+    },
+    {
+        path: '/workflow/process',
+        component: Layout,
+        hidden: true,
+        permissions: ['workflow:process:query'],
+        children: [
+            {
+                path: 'start/:deployId([\\w|\\-]+)',
+                component: () => import('@/views/workflow/work/start'),
+                name: 'WorkStart',
+                meta: {title: '发起流程', icon: ''}
+            },
+            {
+                path: 'detail/:procInsId([\\w|\\-]+)',
+                component: () => import('@/views/workflow/work/detail'),
+                name: 'WorkDetail',
+                meta: {title: '流程详情', activeMenu: '/work/own'}
+            }
+        ]
+    },
+    {
+        path: '/project',
+        component: Layout,
+        hidden: true,
+        // permissions: ['projct:list:all'],
+        children: [
+            {
+                path: 'all',
+                component: () => import('@/views/project/ProjectList.vue'),
+                name: '项目列表',
+                meta: {title: '项目列表', icon: 'project'}
+            },
+            {
+                path: 'my',
+                component: () => import('@/views/project/MyProject.vue'),
+                name: '我的项目',
+                meta: {title: '我的项目', icon: 'qq'}
+            },
+            {
+                path: 'member',
+                component: () => import('@/views/project/Members.vue'),
+                name: '成员列表',
+                meta: {title: '成员列表', icon: 'members'}
+            },
+            {
+                path: 'project',
+                component: () => import('@/views/project/Project.vue'),
+                name: '项目',
+                meta: {title: '项目', icon: 'qq'}
+            },
+        ]
+    },
 ]
 
 // 防止连续点击多次路由报错
@@ -229,16 +234,16 @@ let routerPush = Router.prototype.push;
 let routerReplace = Router.prototype.replace;
 // push
 Router.prototype.push = function push(location) {
-  return routerPush.call(this, location).catch(err => err)
+    return routerPush.call(this, location).catch(err => err)
 }
 // replace
 Router.prototype.replace = function push(location) {
-  return routerReplace.call(this, location).catch(err => err)
+    return routerReplace.call(this, location).catch(err => err)
 }
 
 export default new Router({
-  base: process.env.VUE_APP_CONTEXT_PATH,
-  mode: 'history', // 去掉url中的#
-  scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes
+    base: process.env.VUE_APP_CONTEXT_PATH,
+    mode: 'history', // 去掉url中的#
+    scrollBehavior: () => ({y: 0}),
+    routes: constantRoutes
 })
