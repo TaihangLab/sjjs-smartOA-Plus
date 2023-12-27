@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ruoyi.common.annotation.Sensitive;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.core.domain.BaseEntity;
+import com.ruoyi.common.enums.DiplomaType;
 import com.ruoyi.common.enums.JobTitle;
 import com.ruoyi.common.enums.SensitiveStrategy;
 import com.ruoyi.common.xss.Xss;
@@ -85,6 +86,11 @@ public class SysUser extends BaseEntity {
      * 用户职称
      */
     private JobTitle jobTitle;
+
+    /**
+     * 用户学历
+     */
+    private DiplomaType diploma;
 
     /**
      * 用户头像
