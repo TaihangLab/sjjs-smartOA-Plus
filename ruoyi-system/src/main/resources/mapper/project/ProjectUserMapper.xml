@@ -10,4 +10,23 @@
         <result property="projectUserRole" column="project_user_role"/>
     </resultMap>
 
+    <select id="getProjectLevelCountByUserId" resultType="map" parameterType="Long">
+        SELECT pbi.project_level, COUNT(*) AS count
+        FROM project_base_info pbi
+            INNER JOIN project_user pu ON pbi.project_id = pu.project_id
+        WHERE pu.user_id = #{userId}
+        GROUP BY pbi.project_level
+    </select>
+
+    <!-- 获取项目级别和对应的数量 -->
+    <select id="getNowProjectLevelCountByUserId" resultType="map" parameterType="Long">
+        SELECT pbi.project_level, COUNT(*) AS count
+        FROM project_base_info pbi
+            INNER JOIN project_user pu ON pbi.project_id = pu.project_id
+        WHERE NOW() &gt;= pbi.project_establish_time AND NOW() &lt;= pbi.project_scheduled_completion_time
+        AND pu.user_id = #{userId}
+        GROUP BY pbi.project_level
+    </select>
+
+
 </mapper>

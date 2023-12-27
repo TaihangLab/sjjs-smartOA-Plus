@@ -12,16 +12,22 @@ import lombok.Getter;
  */
 @Getter
 public enum JobTitle implements IEnum<Integer> {
-    //正高级
-    SENIOR(0, "正高级"),
-    //副高级
-    DEPUTY(1, "副高级"),
-    //中级
-    MIDDLE(2, "中级"),
-    //初级
-    PRIMARY(3, "初级"),
-    //无
-    NONE(4, "无");
+    //正高级工程师
+    SENIOR_ENGINEER(0, "正高级工程师"),
+    //副高级工程师
+    ASSOCIATE_SENIOR_ENGINEER(1, "副高级工程师"),
+    //中级工程师
+    MIDDLE_ENGINEER(2, "中级工程师"),
+    //初级工程师
+    JUNIOR_ENGINEER(3, "初级工程师"),
+    //研究员
+    RESEARCHER(4, "研究员"),
+    //副研究员
+    ASSOCIATE_RESEARCHER(5, "副研究员"),
+    //助理研究员
+    ASSISTANT_RESEARCHER(6, "助理研究员"),
+    //研究实习员
+    RESEARCH_INTERN(7, "研究实习员");
 
     @EnumValue
     private final Integer value;

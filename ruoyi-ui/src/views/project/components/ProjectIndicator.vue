@@ -23,7 +23,7 @@
         </el-col>
 
         <el-col :span="8">
-          <el-form-item label-width="80px" label="中期指标">
+          <el-form-item label-width="120px" label="中期指标值/状态">
             <el-input
                 @input="input"
                 type="textarea"
@@ -36,7 +36,7 @@
         </el-col>
 
           <el-col :span="8">
-              <el-form-item label-width="80px" label="完成指标">
+              <el-form-item label-width="120px" label="完成指标值/状态">
                   <el-input
                       @input="input"
                       type="textarea"
