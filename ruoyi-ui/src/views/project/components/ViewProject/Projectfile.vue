@@ -7,7 +7,14 @@
             <el-table-column :label="'文件格式'" align="center" prop="fileSuffix" :show-overflow-tooltip="true" >
                 <template slot-scope="scope">
                     <div>
-                        <el-tag type="success" size="mini">{{ scope.row.fileSuffix }}</el-tag>
+                        <el-tag v-if="scope.row.fileSuffix === '.pdf'" type="success" size="mini">{{ scope.row.fileSuffix }}</el-tag>
+                        <el-tag v-else-if="scope.row.fileSuffix === '.docx'" type="warning" size="mini">{{ scope.row.fileSuffix }}</el-tag>
+                        <el-tag v-else-if="scope.row.fileSuffix === '.doc'" type="warning" size="mini">{{ scope.row.fileSuffix }}</el-tag>
+                        <el-tag v-else-if="scope.row.fileSuffix === '.xls'" size="mini">{{ scope.row.fileSuffix }}</el-tag>
+                        <el-tag v-else-if="scope.row.fileSuffix === '.xlsx'" size="mini">{{ scope.row.fileSuffix }}</el-tag>
+                        <el-tag v-else-if="scope.row.fileSuffix === '.ppt'" type="danger" size="mini">{{ scope.row.fileSuffix }}</el-tag>
+                        <el-tag v-else-if="scope.row.fileSuffix === '.pptx'" type="danger" size="mini">{{ scope.row.fileSuffix }}</el-tag>
+                        <el-tag v-else type="info" size="mini">{{ scope.row.fileSuffix }}</el-tag>
                     </div>
                 </template>
             </el-table-column>
@@ -15,7 +22,7 @@
             <el-table-column :label="'上传时间'" align="center" prop="createTime" :show-overflow-tooltip="true" />
             <el-table-column :label="'操作'" align="center">
                 <template slot-scope="scope">
-                    <el-link  :href="scope.row.url" target="_blank" :underline="false">
+                    <el-link :href="scope.row.url" target="_blank" :underline="false">
                         <i class="el-icon-download custom-icon"></i>
                     </el-link>
                 </template>
