@@ -1,14 +1,18 @@
 package com.ruoyi.project.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.domain.entity.SysDept;
 import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.enums.ProjectLevel;
 import com.ruoyi.common.enums.ProjectUserRole;
 import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.project.domain.ProjectUser;
 import com.ruoyi.project.domain.bo.ProjectUserBo;
-import com.ruoyi.project.domain.vo.ProjectBaseInfoVO;
 import com.ruoyi.project.domain.vo.ProjectUserVo;
+import com.ruoyi.project.mapper.ProjectBaseInfoMapper;
 import com.ruoyi.project.mapper.ProjectUserMapper;
 import com.ruoyi.project.service.ProjectUserService;
 import com.ruoyi.system.mapper.SysDeptMapper;
@@ -31,6 +35,8 @@ public class ProjectUserServiceImpl implements ProjectUserService {
     private final SysUserMapper sysUserMapper;
 
     private final SysDeptMapper sysDeptMapper;
+
+    private final ProjectBaseInfoMapper projectBaseInfoMapper;
 
     /**
      * 添加项目成员
@@ -226,7 +232,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
             ProjectUserVo projectUserVo = new ProjectUserVo();
             projectUserVo.setDeptName(deptName);
             projectUserVo.setProjectUserRoles(projectUserRoles); // 设置项目成员角色
-            BeanCopyUtils.copy(user,projectUserVo);
+            BeanCopyUtils.copy(user, projectUserVo);
 
             projectUserVos.add(projectUserVo);
         }
@@ -251,4 +257,91 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         }
         return "";
     }
+
+    /**
+     * 分页查询项目成员Vo
+     * @param projectUserBo
+     * @param pageQuery
+     * @return
+     */
+    public TableDataInfo<ProjectUserVo> queryPageAllList(ProjectUserBo projectUserBo, PageQuery pageQuery) {
+        projectUserBo = Optional.ofNullable(projectUserBo).orElseGet(ProjectUserBo::new);
+        List<SysUser> userList = getUserListByQuery(projectUserBo, pageQuery);
+        List<ProjectUserVo> projectUserVoList = userList.stream()
+            .map(this::createProjectUserVo)
+            .collect(Collectors.toList());
+        return TableDataInfo.build(projectUserVoList);
+    }
+
+    private List<SysUser> getUserListByQuery(ProjectUserBo projectUserBo, PageQuery pageQuery) {
+        LambdaQueryWrapper<SysUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(projectUserBo.getUserId() != null, SysUser::getUserId, projectUserBo.getUserId());
+        Page<SysUser> result = sysUserMapper.selectPage(pageQuery.build(), lambdaQueryWrapper);
+        return result.getRecords();
+    }
+
+    // 创建 ProjectUserVo 对象
+    private ProjectUserVo createProjectUserVo(SysUser user) {
+        ProjectUserVo projectUserVo = new ProjectUserVo();
+        BeanCopyUtils.copy(user, projectUserVo);
+        setProjectLevelCount(projectUserVo, user.getUserId(), false);
+        setProjectLevelCount(projectUserVo, user.getUserId(), true);
+        return projectUserVo;
+    }
+
+    // 设置项目级别计数
+    private void setProjectLevelCount(ProjectUserVo projectUserVo, Long userId, boolean isCurrent) {
+        List<Map<String, Object>> mapList = isCurrent ? getNowProjectLevelCountByUserId(userId)
+            : getProjectLevelCountByUserId(userId);
+        Map<ProjectLevel, Integer> projectLevelCountMap = processProjectLevelCount(mapList);
+        setProjectLevelDataToVo(projectUserVo, projectLevelCountMap, isCurrent);
+    }
+
+    // 获取用户对应的项目级别计数数据
+    private List<Map<String, Object>> getProjectLevelCountByUserId(Long userId) {
+        return projectUserMapper.getProjectLevelCountByUserId(userId);
+    }
+
+    //获取用户对应的当前项目级别计数数据
+    private List<Map<String, Object>> getNowProjectLevelCountByUserId(Long userId) {
+        return projectUserMapper.getNowProjectLevelCountByUserId(userId);
+    }
+
+    // 处理项目级别计数数据
+    private Map<ProjectLevel, Integer> processProjectLevelCount(List<Map<String, Object>> mapList) {
+        Map<ProjectLevel, Integer> projectLevelCountMap = new HashMap<>();
+        for (Map<String, Object> map : mapList) {
+            Integer projectLevelValue = (Integer) map.get("project_level");
+            Long countLong = (Long) map.get("count");
+            Integer count = countLong != null ? countLong.intValue() : null;
+
+            ProjectLevel level = Arrays.stream(ProjectLevel.values())
+                .filter(e -> e.getValue().equals(projectLevelValue))
+                .findFirst()
+                .orElse(null);
+
+            if (level != null) {
+                projectLevelCountMap.put(level, count);
+            }
+        }
+        return projectLevelCountMap;
+    }
+
+    // 将项目级别计数数据设置到 ProjectUserVo 对象中
+    private void setProjectLevelDataToVo(ProjectUserVo projectUserVo,
+                                         Map<ProjectLevel, Integer> projectLevelCountMap,
+                                         boolean isCurrent) {
+        if (isCurrent) {
+            projectUserVo.setUserNationNumNow(projectLevelCountMap.getOrDefault(ProjectLevel.NATIONAL, 0));
+            projectUserVo.setUserProvincialNumNow(projectLevelCountMap.getOrDefault(ProjectLevel.PROVINCIAL, 0));
+            projectUserVo.setUserEnterpriseNumNow(projectLevelCountMap.getOrDefault(ProjectLevel.ENTERPRISE, 0));
+            projectUserVo.setUserProjectNumNow(projectLevelCountMap.values().stream().mapToInt(Integer::intValue).sum());
+        } else {
+            projectUserVo.setUserNationNum(projectLevelCountMap.getOrDefault(ProjectLevel.NATIONAL, 0));
+            projectUserVo.setUserProvincialNum(projectLevelCountMap.getOrDefault(ProjectLevel.PROVINCIAL, 0));
+            projectUserVo.setUserEnterpriseNum(projectLevelCountMap.getOrDefault(ProjectLevel.ENTERPRISE, 0));
+            projectUserVo.setUserProjectNum(projectLevelCountMap.values().stream().mapToInt(Integer::intValue).sum());
+        }
+    }
+
 }
