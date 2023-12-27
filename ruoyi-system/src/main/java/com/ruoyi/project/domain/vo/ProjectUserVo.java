@@ -1,10 +1,10 @@
 package com.ruoyi.project.domain.vo;
 
-import com.ruoyi.common.core.domain.BaseEntity;
+import com.ruoyi.common.enums.DiplomaType;
+import com.ruoyi.common.enums.JobTitle;
 import com.ruoyi.common.enums.ProjectUserRole;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.util.List;
 
 @Data
@@ -16,6 +16,16 @@ public class ProjectUserVo {
      * 用户姓名
      */
     private String nickName;
+
+    /**
+     * 用户职称
+     */
+    private JobTitle jobTitle;
+
+    /**
+     * 用户学历
+     */
+    private DiplomaType diploma;
 
     /**
      * 用户邮箱

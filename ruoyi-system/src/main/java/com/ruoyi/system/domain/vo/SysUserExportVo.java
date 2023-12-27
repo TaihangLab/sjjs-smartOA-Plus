@@ -3,6 +3,8 @@ package com.ruoyi.system.domain.vo;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.ruoyi.common.annotation.ExcelDictFormat;
 import com.ruoyi.common.convert.ExcelDictConvert;
+import com.ruoyi.common.enums.DiplomaType;
+import com.ruoyi.common.enums.JobTitle;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -56,6 +58,20 @@ public class SysUserExportVo implements Serializable {
     @ExcelProperty(value = "用户性别", converter = ExcelDictConvert.class)
     @ExcelDictFormat(dictType = "sys_user_sex")
     private String sex;
+
+    /**
+     * 用户职称
+     */
+    @ExcelProperty(value = "用户职称", converter = ExcelDictConvert.class)
+    @ExcelDictFormat(dictType = "sys_user_job_title")
+    private JobTitle jobTitle;
+
+    /**
+     * 用户学历
+     */
+    @ExcelProperty(value = "用户学历", converter = ExcelDictConvert.class)
+    @ExcelDictFormat(dictType = "sys_user_diploma")
+    private DiplomaType diploma;
 
     /**
      * 帐号状态（0正常 1停用）

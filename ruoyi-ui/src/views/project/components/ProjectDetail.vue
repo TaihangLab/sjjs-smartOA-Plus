@@ -86,6 +86,9 @@
                 <el-tab-pane label="项目经费" name="fifth">
                     <FundsDetail :projectfund="this.projectdetails.projectFundsVO"></FundsDetail>
                 </el-tab-pane>
+                <el-tab-pane label="项目附件" name="sixth">
+                    <Projectfile :projectfile="this.projectdetails.projectAttachmentVOList"></Projectfile>
+                </el-tab-pane>
             </el-tabs>
         </div>
     </div>
@@ -97,10 +100,12 @@ import Member from "./ViewProject/Member.vue";
 import ProjectPlan from "./ViewProject/ProjectPlan.vue";
 import ProjectIndicators from "./ViewProject/ProjectIndicators.vue";
 import request from '@/utils/request';
+import Projectfile from "./ViewProject/Projectfile.vue";
 
 export default {
     name: "ProjectDetail",
     components: {
+        Projectfile,
         Member,
         FundsDetail,
         ProjectPlan,
@@ -211,7 +216,7 @@ export default {
  user-select: none; /* Standard syntax */
  /* 添加其他样式以模拟文本框的外观 */
  border: 1.5px solid #dcdfe6;
- padding: 11px;
+ padding: 20px;
  color: #606266;
  line-height: 1.5;
  border-radius: 4px;

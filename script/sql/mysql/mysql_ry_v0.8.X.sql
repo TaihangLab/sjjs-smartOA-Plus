@@ -47,6 +47,8 @@ create table sys_user (
   user_type         varchar(10)     default 'sys_user'         comment '用户类型（sys_user系统用户）',
   email             varchar(50)     default ''                 comment '用户邮箱',
   phonenumber       varchar(11)     default ''                 comment '手机号码',
+  job_title   tinyint                         null comment '用户职称，0正高级，1副高级，2中级，3初级，4无',
+  diploma     tinyint                         null comment '学历，0博士研究生，1硕士研究生，2本科，3专科',
   sex               char(1)         default '0'                comment '用户性别（0男 1女 2未知）',
   avatar            varchar(100)    default ''                 comment '头像地址',
   password          varchar(100)    default ''                 comment '密码',

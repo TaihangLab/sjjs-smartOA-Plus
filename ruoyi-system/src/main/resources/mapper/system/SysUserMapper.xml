@@ -13,6 +13,8 @@
         <result property="email" column="email"/>
         <result property="phonenumber" column="phonenumber"/>
         <result property="sex" column="sex"/>
+        <result property="jobTitle" column="job_title"/>
+        <result property="diploma" column="diploma"/>
         <result property="avatar" column="avatar"/>
         <result property="password" column="password"/>
         <result property="status" column="status"/>
@@ -58,6 +60,8 @@
                u.phonenumber,
                u.password,
                u.sex,
+               u.job_title,
+               u.diploma,
                u.status,
                u.del_flag,
                u.login_ip,
@@ -85,7 +89,16 @@
     </sql>
 
     <select id="selectPageUserList" resultMap="SysUserResult">
-        select u.user_id, u.dept_id, u.nick_name, u.user_name, u.email, u.avatar, u.phonenumber, u.sex,
+        select u.user_id,
+               u.dept_id,
+               u.nick_name,
+               u.user_name,
+               u.email,
+               u.avatar,
+               u.phonenumber,
+               u.sex,
+               u.job_title,
+               u.diploma,
             u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark, d.dept_name, d.leader
         from sys_user u
             left join sys_dept d on u.dept_id = d.dept_id
@@ -93,7 +106,16 @@
     </select>
 
     <select id="selectAllPageUserList" resultMap="SysUserResult">
-        select u.user_id, u.dept_id, u.nick_name, u.user_name, u.email, u.avatar, u.phonenumber, u.sex,
+        select u.user_id,
+               u.dept_id,
+               u.nick_name,
+               u.user_name,
+               u.email,
+               u.avatar,
+               u.phonenumber,
+               u.sex,
+               u.job_title,
+               u.diploma,
                u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark, d.dept_name, d.leader
         from sys_user u
                  left join sys_dept d on u.dept_id = d.dept_id
@@ -101,7 +123,16 @@
     </select>
 
     <select id="selectUserList" resultMap="SysUserResult">
-        select u.user_id, u.dept_id, u.nick_name, u.user_name, u.email, u.avatar, u.phonenumber, u.sex,
+        select u.user_id,
+               u.dept_id,
+               u.nick_name,
+               u.user_name,
+               u.email,
+               u.avatar,
+               u.phonenumber,
+               u.sex,
+               u.job_title,
+               u.diploma,
             u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark, d.dept_name, d.leader
         from sys_user u
             left join sys_dept d on u.dept_id = d.dept_id
