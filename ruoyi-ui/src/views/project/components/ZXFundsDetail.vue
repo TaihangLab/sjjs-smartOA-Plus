@@ -7,6 +7,9 @@
 
                 <el-collapse-item name="1">
                     <template #title><i :class="activeClass">设备费</i>
+<!--                        <el-form-item @click.native.stop="" label-width="125px" label="设备费">-->
+<!--                            <el-input @click.native.stop="" v-model.number="$props.form.sbf_zj" type="number"></el-input>-->
+<!--                        </el-form-item>-->
                     </template>
                     <el-row :gutter="10">
                         <el-col :span="8">
