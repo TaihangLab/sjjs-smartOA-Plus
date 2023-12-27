@@ -4,7 +4,7 @@
         <el-table v-loading="loading" :data="transformedUserList"  style=" margin: 0; padding: 0;">
             <el-table-column label="用户名称" align="center" prop="nickName" v-if="columns[0].visible" :show-overflow-tooltip="true" />
             <el-table-column label="职称" align="center" prop="jobTitle" v-if="columns[1].visible" :show-overflow-tooltip="true" />
-            <el-table-column label="邮箱" align="center" prop="email" v-if="columns[2].visible" :show-overflow-tooltip="true" />
+            <el-table-column label="学历" align="center" prop="diploma" v-if="columns[2].visible" :show-overflow-tooltip="true" />
             <el-table-column label="手机号码" align="center" prop="phonenumber" v-if="columns[3].visible" :show-overflow-tooltip="true" />
             <el-table-column label="所属部门" align="center" prop="deptName" v-if="columns[4].visible" :show-overflow-tooltip="true" />
             <el-table-column label="项目角色" align="center" prop="projectUserRole" v-if="columns[5].visible" :show-overflow-tooltip="true" />
@@ -32,7 +32,7 @@ export default {
             columns: [
                 { key: 0, label: `用户名称`, visible: true },
                 { key: 1, label: `职称`, visible: true },
-                { key: 2, label: `邮箱`, visible: true },
+                { key: 2, label: `学历`, visible: true },
                 { key: 3, label: `电话号码`, visible: true },
                 { key: 4, label: `所属部门`, visible: true },
                 { key: 5, label: `项目角色`, visible: true },
@@ -77,7 +77,7 @@ export default {
                     result.push({
                         nickName: user.nickName,
                         jobTitle: user.jobTitle,
-                        email: user.email,
+                        diploma: user.diploma,
                         phonenumber: user.phonenumber,
                         deptName: user.deptName,
                         projectUserRole: role,
