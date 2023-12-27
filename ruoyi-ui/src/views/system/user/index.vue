@@ -296,6 +296,22 @@
           </el-col>
         </el-row>
         <el-row>
+          <el-col :span="12">
+            <el-form-item label="职称">
+              <el-select v-model="form.jobTitle"  placeholder="请选择职称">
+                <el-option
+                  v-for="item in jobtitleoptions"
+                  :key="item.jobtitleId"
+                  :label="item.jobtitleName"
+                  :value="item.jobtitleId"
+                  :disabled="item.status == 1"
+                  >
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="24">
             <el-form-item label="备注">
               <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
@@ -383,6 +399,24 @@ export default {
       postOptions: [],
       // 角色选项
       roleOptions: [],
+      // 职称选项
+      jobtitleoptions: [{
+        jobtitleId: '0',
+        jobtitleName: '正高级'
+        }, {
+          jobtitleId: '1',
+          jobtitleName: '副高级'
+        }, {
+          jobtitleId: '2',
+          jobtitleName: '中级'
+        }, {
+          jobtitleId: '3',
+          jobtitleName: '初级'
+        }, {
+          jobtitleId: '4',
+          jobtitleName: '无'
+        }],
+        value: '',
       // 表单参数
       form: {},
       defaultProps: {
@@ -524,6 +558,7 @@ export default {
         remark: undefined,
         postIds: [],
         roleIds: [],
+        jobtitleIds:[],
       };
       this.resetForm("form");
     },
@@ -565,6 +600,7 @@ export default {
       getUser().then(response => {
         this.postOptions = response.data.posts;
         this.roleOptions = response.data.roles;
+        this.jobtitleOptions = response.data.jobtitles;
         this.open = true;
         this.title = "添加用户";
         this.form.password = this.initPassword;
@@ -578,8 +614,10 @@ export default {
         this.form = response.data.user;
         this.postOptions = response.data.posts;
         this.roleOptions = response.data.roles;
+        this.jobtitleOptions = response.data.jobtitles;
         this.$set(this.form, "postIds", response.data.postIds);
         this.$set(this.form, "roleIds", response.data.roleIds);
+        this.$set(this.form, "jobtitleOptions", response.data.jobtitleOptions);
         this.open = true;
         this.title = "修改用户";
         this.form.password = "";

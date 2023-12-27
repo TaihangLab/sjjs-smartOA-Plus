@@ -15,7 +15,7 @@
             <el-table-column :label="'上传时间'" align="center" prop="createTime" :show-overflow-tooltip="true" />
             <el-table-column :label="'操作'" align="center">
                 <template slot-scope="scope">
-                    <el-link :href="scope.row.url" target="_blank" :underline="false" class="attachment-item">
+                    <el-link  :href="scope.row.url" target="_blank" :underline="false">
                         <i class="el-icon-download custom-icon"></i>
                     </el-link>
                 </template>
