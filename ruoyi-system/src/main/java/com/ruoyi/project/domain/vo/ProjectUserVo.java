@@ -13,6 +13,11 @@ public class ProjectUserVo {
     private static final long serialVersionUID = 1L;
 
     /**
+     * ID
+     */
+    private Long userId;
+
+    /**
      * 用户姓名
      */
     private String nickName;
