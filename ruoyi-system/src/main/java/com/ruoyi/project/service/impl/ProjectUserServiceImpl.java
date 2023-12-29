@@ -9,9 +9,12 @@ import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.ProjectLevel;
 import com.ruoyi.common.enums.ProjectUserRole;
 import com.ruoyi.common.utils.BeanCopyUtils;
+import com.ruoyi.project.domain.ProjectBaseInfo;
 import com.ruoyi.project.domain.ProjectUser;
 import com.ruoyi.project.domain.bo.ProjectUserBo;
+import com.ruoyi.project.domain.vo.ProjectUserDetailVo;
 import com.ruoyi.project.domain.vo.ProjectUserVo;
+import com.ruoyi.project.mapper.ProjectBaseInfoMapper;
 import com.ruoyi.project.mapper.ProjectUserMapper;
 import com.ruoyi.project.service.ProjectUserService;
 import com.ruoyi.system.mapper.SysDeptMapper;
@@ -19,8 +22,8 @@ import com.ruoyi.system.mapper.SysUserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -34,6 +37,8 @@ public class ProjectUserServiceImpl implements ProjectUserService {
     private final SysUserMapper sysUserMapper;
 
     private final SysDeptMapper sysDeptMapper;
+
+    private final ProjectBaseInfoMapper projectBaseInfoMapper;
 
     /**
      * 添加项目成员
@@ -307,6 +312,40 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         }
     }
 
+    /**
+     * 根据userId查询对应的各类型项目详情
+     *
+     * @param userId
+     * @return
+     */
+    public ProjectUserDetailVo getProjectUserDetailById(Long userId) {
+        Set<Long> projectIds = projectUserMapper.selectList(new LambdaQueryWrapper<ProjectUser>()
+                .eq(ProjectUser::getUserId, userId))
+            .stream()
+            .filter(projectUser -> !projectUser.getProjectUserRole().equals(ProjectUserRole.PROJECT_ENTRY_OPERATOR))
+            .map(ProjectUser::getProjectId)
+            .collect(Collectors.toSet());
+
+        if (projectIds.isEmpty()) {
+            return new ProjectUserDetailVo();
+        }
+
+        List<ProjectBaseInfo> projectBaseInfos = projectBaseInfoMapper.selectList(new LambdaQueryWrapper<ProjectBaseInfo>()
+            .in(ProjectBaseInfo::getProjectId, projectIds)
+            .le(ProjectBaseInfo::getProjectEstablishTime, LocalDate.now())
+            .ge(ProjectBaseInfo::getProjectScheduledCompletionTime, LocalDate.now()));
+
+        Map<ProjectLevel, List<ProjectBaseInfo>> classifiedProjects = projectBaseInfos.stream()
+            .collect(Collectors.groupingBy(ProjectBaseInfo::getProjectLevel));
+
+        ProjectUserDetailVo projectUserDetailVo = new ProjectUserDetailVo();
+        projectUserDetailVo.setNationProjectBaseInfos(classifiedProjects.getOrDefault(ProjectLevel.NATIONAL, Collections.emptyList()));
+        projectUserDetailVo.setProvincialProjectBaseInfos(classifiedProjects.getOrDefault(ProjectLevel.PROVINCIAL, Collections.emptyList()));
+        projectUserDetailVo.setEnterpriseProjectBaseInfos(classifiedProjects.getOrDefault(ProjectLevel.ENTERPRISE, Collections.emptyList()));
+
+        return projectUserDetailVo;
+
+    }
 
 
 }

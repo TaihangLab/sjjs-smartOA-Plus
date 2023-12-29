@@ -1,5 +1,5 @@
 <template>
-    <div class="block">
+    <div class="block" v-if="$props.timelineItems && $props.timelineItems.length > 0">
         <div v-if="timelineItems.length" class="fixed-container">
             <el-input placeholder="请输入内容" v-model="searchKeyword" class="input-with-select" size="mini" :clearable="true"
                 @keyup.enter.native="handleQuery" style="border-radius: 0;"></el-input>
@@ -59,6 +59,9 @@
                 </el-form>
             </div>
         </el-dialog>
+    </div>
+    <div v-else class="no-data-message" style="color: #909399; font-size: 14px; text-align: center;">
+        暂无大事记
     </div>
 </template>
 

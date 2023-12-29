@@ -7,6 +7,7 @@ import com.ruoyi.project.domain.ProjectUser;
 import com.ruoyi.project.domain.bo.ProjectBaseInfoBO;
 import com.ruoyi.project.domain.bo.ProjectUserBo;
 import com.ruoyi.project.domain.vo.ProjectBaseInfoVO;
+import com.ruoyi.project.domain.vo.ProjectUserDetailVo;
 import com.ruoyi.project.domain.vo.ProjectUserVo;
 import org.apache.catalina.User;
 
@@ -24,5 +25,7 @@ public interface ProjectUserService {
     String findProLeaderNameById(Long projectId);
 
     TableDataInfo<ProjectUserVo> queryPageAllList(ProjectUserBo projectUserBo, PageQuery pageQuery);
+
+    ProjectUserDetailVo getProjectUserDetailById(Long userId);
 
 }
