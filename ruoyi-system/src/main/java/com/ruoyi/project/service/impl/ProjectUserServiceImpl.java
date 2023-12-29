@@ -12,7 +12,6 @@ import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.project.domain.ProjectUser;
 import com.ruoyi.project.domain.bo.ProjectUserBo;
 import com.ruoyi.project.domain.vo.ProjectUserVo;
-import com.ruoyi.project.mapper.ProjectBaseInfoMapper;
 import com.ruoyi.project.mapper.ProjectUserMapper;
 import com.ruoyi.project.service.ProjectUserService;
 import com.ruoyi.system.mapper.SysDeptMapper;
@@ -35,8 +34,6 @@ public class ProjectUserServiceImpl implements ProjectUserService {
     private final SysUserMapper sysUserMapper;
 
     private final SysDeptMapper sysDeptMapper;
-
-    private final ProjectBaseInfoMapper projectBaseInfoMapper;
 
     /**
      * 添加项目成员
@@ -260,6 +257,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 
     /**
      * 分页查询项目成员Vo
+     *
      * @param projectUserBo
      * @param pageQuery
      * @return
@@ -273,11 +271,30 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         return TableDataInfo.build(projectUserVoList);
     }
 
+
+    //获取当页显示的用户列表
     private List<SysUser> getUserListByQuery(ProjectUserBo projectUserBo, PageQuery pageQuery) {
         LambdaQueryWrapper<SysUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.eq(projectUserBo.getUserId() != null, SysUser::getUserId, projectUserBo.getUserId());
+
+        if (projectUserBo != null) {
+            if (projectUserBo.getUserId() != null) {
+                lambdaQueryWrapper.eq(SysUser::getUserId, projectUserBo.getUserId());
+            }
+            if (projectUserBo.getProjectId() != null) {
+                Set<Long> userIds = getProjectUserIdsByProjectId(projectUserBo.getProjectId());
+                lambdaQueryWrapper.in(SysUser::getUserId, userIds);
+            }
+        }
+
         Page<SysUser> result = sysUserMapper.selectPage(pageQuery.build(), lambdaQueryWrapper);
         return result.getRecords();
+    }
+
+    //通过projectId获取对应的userId
+    private Set<Long> getProjectUserIdsByProjectId(Long projectId) {
+        LambdaQueryWrapper<ProjectUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(ProjectUser::getProjectId,projectId);
+        return projectUserMapper.selectList(lambdaQueryWrapper).stream().map(ProjectUser::getUserId).collect(Collectors.toSet());
     }
 
     // 创建 ProjectUserVo 对象
