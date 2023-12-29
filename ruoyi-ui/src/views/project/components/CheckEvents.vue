@@ -162,7 +162,7 @@ export default {
         console.log("fujian 组件接收到的附件数据:", this.value);
     },
     mounted() {
-        console.log("传过来的项目id", this.sysOsses);
+        console.log("传过来的项目id", this.projectId);
         // 获取数据
         request({
             url: '/project/list/milestonequery',

@@ -7,9 +7,12 @@
         <div id="main">
 
         </div>
-
+        <p class="underline decoration-sky-500 text-cyan-400 font-bold text-4xl">
+            Uno CSS egg
+        </p>
 
     </div>
+
 </template>
 
 <script setup>
@@ -143,7 +146,7 @@ $shadow: rgba($yellow, .5);
 #curtain {
     background: linear-gradient(45deg, rgb(182, 182, 182) 9%, rgb(56, 56, 56) 100%);
     width: 100%;
-    height: 15vh;
+    height: 14vh;
     border-radius: 30px;
 }
 
@@ -153,7 +156,7 @@ h1 {
     text-align: center;
     line-height: 1;
     margin: 0;
-    top: 12%;
+    top: 11%;
     left: 50%;
     transform: translate(-50%, -50%);
     position: absolute;
@@ -168,7 +171,7 @@ h1 {
         width: 100%;
         z-index: 5;
         text-shadow: none;
-        left: 0%;
+        left: 0;
         text-align: left;
         animation: flicker 3s linear infinite;
     }
