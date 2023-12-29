@@ -1,14 +1,8 @@
-
-
-let projectMemberForm = {
-    items : [{id: undefined, role:undefined}]
+let form = {
 }
+let src = {
+    a: 1,
 
-
-console.log(projectMemberForm.items)
-
-const members = projectMemberForm.items.map(value => {
-    return {userId: value.id, projectUserRole: value.role}
-});
-
-console.log(members)
+}
+Object.assign(form, src);
+console.log(form)

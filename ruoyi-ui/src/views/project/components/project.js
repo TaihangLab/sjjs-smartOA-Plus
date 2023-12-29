@@ -1,14 +1,16 @@
 import request from "@/utils/request";
 import {filterList} from "@/views/project/components/utils";
+import Vue from "vue";
 
-export function addProject(projectInfoForm, projectMemberForm, projectFundsForm, zxFundsDetailForm, zcFundsDetailForm, fundsSourceForm, projectIndicatorForm, projectPlanForm, otherAttachmentForm) {
-    const members = filterList(projectMemberForm.items).map(value => {
+export function addProject(projectInfoForm, projectMemberForm, projectFundsForm, zxFundsDetailForm, zcFundsDetailForm,
+                           fundsSourceForm, projectIndicatorForm, projectPlanForm, otherAttachmentForm) {
+    const members    = filterList(projectMemberForm.items).map(value => {
         return {userId: value.id, projectUserRole: value.role}
     });
     const indicators = filterList(projectIndicatorForm.items).map(value => {
         return {targetName: value.title, midtermTarget: value.midterm, endTarget: value.finish}
     });
-    const plans = filterList(projectPlanForm.items, "date").map(value => {
+    const plans      = filterList(projectPlanForm.items, "date").map(value => {
         return {stageStartDate: value.date[0], stageEndDate: value.date[1], stageTask: value.task}
     })
     console.log(otherAttachmentForm.uploadList);
@@ -147,5 +149,33 @@ export function addProject(projectInfoForm, projectMemberForm, projectFundsForm,
             "projectPlanBOList"  : plans,
             "ossIdList"          : otherAttachmentForm.uploadList,
         }
+    })
+}
+
+export function getProject(projectId, projectInfoForm, projectMemberForm, projectFundsForm, zxFundsDetailForm,
+                           zcFundsDetailForm, fundsSourceForm, projectIndicatorForm, projectPlanForm,
+                           otherAttachmentForm) {
+    console.log("projectFundsForm", projectFundsForm);
+    request({
+        url: "/project/list/getDetails", method: "get", params: {projectId}
+    }).then(resp => {
+        const {
+                  projectInfoVO,
+                  projectUserVoList,
+                  projectFundsVO,
+                  projectTargetVOList,
+                  projectAttachmentVOList,
+                  projectPlanVOList
+              } = resp.data;
+
+        // projectFundsForm.jfze = projectFundsVO.totalFundsAll
+        // projectFundsForm.zxjfze = projectFundsVO.totalFundsZx
+        // projectFundsForm.zxsbf  = projectFundsVO.sbfZx
+        // projectFundsForm.zxzjx  = projectFundsVO.totalFundsZxZj
+        // projectFundsForm.zxjjy  = projectFundsVO.totalFundsZxJj
+        // projectFundsForm.zcjfze = projectFundsVO.totalFundsZc
+        // projectFundsForm.zcsbf  = projectFundsVO.sbfZc
+        // projectFundsForm.zczjx  = projectFundsVO.totalFundsZcZj
+        // projectFundsForm.zcjjy  = projectFundsVO.totalFundsZcJj
     })
 }
