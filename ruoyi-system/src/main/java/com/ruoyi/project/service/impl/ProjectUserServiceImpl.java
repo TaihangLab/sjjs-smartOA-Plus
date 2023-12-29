@@ -281,20 +281,13 @@ public class ProjectUserServiceImpl implements ProjectUserService {
                 lambdaQueryWrapper.eq(SysUser::getUserId, projectUserBo.getUserId());
             }
             if (projectUserBo.getProjectId() != null) {
-                Set<Long> userIds = getProjectUserIdsByProjectId(projectUserBo.getProjectId());
+                Set<Long> userIds = getUserIdsByProjectId(projectUserBo.getProjectId());
                 lambdaQueryWrapper.in(SysUser::getUserId, userIds);
             }
         }
 
         Page<SysUser> result = sysUserMapper.selectPage(pageQuery.build(), lambdaQueryWrapper);
         return result.getRecords();
-    }
-
-    //通过projectId获取对应的userId
-    private Set<Long> getProjectUserIdsByProjectId(Long projectId) {
-        LambdaQueryWrapper<ProjectUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.eq(ProjectUser::getProjectId,projectId);
-        return projectUserMapper.selectList(lambdaQueryWrapper).stream().map(ProjectUser::getUserId).collect(Collectors.toSet());
     }
 
     // 创建 ProjectUserVo 对象
