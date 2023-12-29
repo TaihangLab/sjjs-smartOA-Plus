@@ -27,12 +27,14 @@ public class ProjectUserController {
 
     /**
      * 获取全部用户列表
+     *
      * @param projectUserBo 成员基本信息
-     * @param pageQuery 分页信息
+     * @param pageQuery     分页信息
      * @return
      */
     @PostMapping("/getAllList")
-    public TableDataInfo<ProjectUserVo> getAllProjectList(@RequestBody @Validated(QueryGroup.class) ProjectUserBo projectUserBo, PageQuery pageQuery){
+    public TableDataInfo<ProjectUserVo> getAllProjectList(@RequestBody @Validated(QueryGroup.class) ProjectUserBo projectUserBo,
+                                                          PageQuery pageQuery) {
         return projectUserService.queryPageAllList(projectUserBo, pageQuery);
     }
 }

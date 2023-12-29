@@ -12,7 +12,6 @@ import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.project.domain.ProjectUser;
 import com.ruoyi.project.domain.bo.ProjectUserBo;
 import com.ruoyi.project.domain.vo.ProjectUserVo;
-import com.ruoyi.project.mapper.ProjectBaseInfoMapper;
 import com.ruoyi.project.mapper.ProjectUserMapper;
 import com.ruoyi.project.service.ProjectUserService;
 import com.ruoyi.system.mapper.SysDeptMapper;
@@ -35,28 +34,6 @@ public class ProjectUserServiceImpl implements ProjectUserService {
     private final SysUserMapper sysUserMapper;
 
     private final SysDeptMapper sysDeptMapper;
-
-    private final ProjectBaseInfoMapper projectBaseInfoMapper;
-
-    /**
-     * 添加项目成员
-     *
-     * @param projectId
-     * @param projectUserBos
-     * @return
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public boolean insertProjectUsers(Long projectId, List<ProjectUserBo> projectUserBos) {
-        List<ProjectUser> projectUsers = new ArrayList<>();
-        for (ProjectUserBo projectUserBo : projectUserBos) {
-            ProjectUser projectUser = new ProjectUser();
-            projectUser.setProjectId(projectId);
-            projectUser.setUserId(projectUserBo.getUserId());
-            projectUser.setProjectUserRole(projectUserBo.getProjectUserRole());
-        }
-        return projectUserMapper.insertBatch(projectUsers);
-    }
 
     /**
      * 添加项目成员
@@ -81,32 +58,6 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         Map<String, Object> columnMap = new HashMap<>();
         columnMap.put("project_id", projectId);
         return projectUserMapper.deleteByMap(columnMap);
-    }
-
-    /**
-     * 修改项目成员
-     *
-     * @param projectId
-     * @param projectUserBos
-     * @return
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public int updateProjectUsers(Long projectId, List<ProjectUserBo> projectUserBos) {
-        Map<String, Object> columnMap = new HashMap<>();
-        columnMap.put("project_id", projectId);
-        projectUserMapper.deleteByMap(columnMap);
-
-        // 插入新的用户ID
-        List<ProjectUser> projectUsers = new ArrayList<>();
-        for (ProjectUserBo projectUserBo : projectUserBos) {
-            ProjectUser projectUser = new ProjectUser();
-            projectUser.setProjectId(projectId);
-            projectUser.setUserId(projectUserBo.getUserId());
-            projectUser.setProjectUserRole(projectUserBo.getProjectUserRole());
-        }
-
-        return projectUserMapper.insertBatch(projectUsers) ? projectUsers.size() : 0;
     }
 
     /**
@@ -260,6 +211,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 
     /**
      * 分页查询项目成员Vo
+     *
      * @param projectUserBo
      * @param pageQuery
      * @return
@@ -273,9 +225,20 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         return TableDataInfo.build(projectUserVoList);
     }
 
+    //获取当页显示的用户列表
     private List<SysUser> getUserListByQuery(ProjectUserBo projectUserBo, PageQuery pageQuery) {
         LambdaQueryWrapper<SysUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.eq(projectUserBo.getUserId() != null, SysUser::getUserId, projectUserBo.getUserId());
+
+        if (projectUserBo != null) {
+            if (projectUserBo.getUserId() != null) {
+                lambdaQueryWrapper.eq(SysUser::getUserId, projectUserBo.getUserId());
+            }
+            if (projectUserBo.getProjectId() != null) {
+                Set<Long> userIds = getUserIdsByProjectId(projectUserBo.getProjectId());
+                lambdaQueryWrapper.in(SysUser::getUserId, userIds);
+            }
+        }
+
         Page<SysUser> result = sysUserMapper.selectPage(pageQuery.build(), lambdaQueryWrapper);
         return result.getRecords();
     }
@@ -343,5 +306,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
             projectUserVo.setUserProjectNum(projectLevelCountMap.values().stream().mapToInt(Integer::intValue).sum());
         }
     }
+
+
 
 }

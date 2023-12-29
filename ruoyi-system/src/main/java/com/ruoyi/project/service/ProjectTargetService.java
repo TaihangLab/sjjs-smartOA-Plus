@@ -7,9 +7,6 @@ import java.util.List;
 
 public interface ProjectTargetService {
 
-
-    int insertProjectTarget(ProjectTarget projectTarget);
-
     boolean insertProjectTargetList(List<ProjectTarget> projectTargets);
 
     List<ProjectTargetVO> selectTargetListByProjectId(Long projectId);

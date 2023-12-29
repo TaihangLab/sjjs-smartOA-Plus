@@ -14,13 +14,10 @@ import java.util.List;
 import java.util.Map;
 
 public interface ProjectUserService {
-    boolean insertProjectUsers(Long projectId, List<ProjectUserBo> projectUserBos);
 
     boolean insertProjectUsers(List<ProjectUser> projectUserList);
 
     int deleteProjectUsersByProID(Long projectId);
-
-    int updateProjectUsers(Long projectId, List<ProjectUserBo> projectUserBos);
 
     List<ProjectUserVo> getUserInfoByProjectId(Long projectId);
 

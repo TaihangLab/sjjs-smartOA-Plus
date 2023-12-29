@@ -11,7 +11,7 @@
         <el-row :gutter="20">
             <el-col :span="12">
                 <el-form-item label-width="100px" label="经费总额">
-                    <el-input v-model.number="$props.form.jfze" type="number"></el-input>
+                    <el-input v-model="$props.form.jfze" type="number"></el-input>
                 </el-form-item>
             </el-col>
         </el-row>
@@ -101,14 +101,9 @@ export default {
   data() {
     return {}
   },
-  // created() {
-  //   this.$props.form.jfze = 0
-  //   this.$props.form.zxx = 0
-  //   this.$props.form.zxy = 0
-  //   this.$props.form.zcx = 0
-  //   this.$props.form.zcy = 0
-  //
-  // },
+  mounted() {
+
+  },
   methods: {
     computeXY(ze, sbf) {
       let res = [0, 0];
