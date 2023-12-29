@@ -3,6 +3,7 @@
 [![使用IntelliJ IDEA开发维护](https://img.shields.io/badge/IntelliJ%20IDEA-提供支持-blue.svg)](https://www.jetbrains.com)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-2.7-blue.svg)]()
 [![JDK-8+](https://img.shields.io/badge/JDK-8-green.svg)]()
+[![JDK-11](https://img.shields.io/badge/JDK-11-green.svg)]()
 
 - 本项目基于 [RuoYi-Flowable-Plus](https://gitee.com/dromara/RuoYi-Vue-Plus) 进行二次开发，采用 `Flowable`
   扩展工作流应用场景，支持在线表单设计和丰富的工作流程设计能力。
@@ -31,6 +32,14 @@
 | 任务调度中心      | admin | 123456   |
 | 数据监控中心      | ruoyi | 123456   |
 
+## 特别鸣谢
+- [RuoYi-Vue-Plus](https://gitee.com/dromara/RuoYi-Vue-Plus) 
+- [RuoYi-flowable](https://gitee.com/tony2y/RuoYi-flowable) 
+- [bpmn-process-designer](https://gitee.com/MiyueSC/bpmn-process-designer)
+
+## 友情链接
+- [玩转RuoYi-Cloud-Plus - Flowable基础](https://blog.csdn.net/zhaozhiqiang1981/article/details/129240406)：文档包含Flowable基础知识、项目使用说明、源码解析等。（新人必看）
+- [基于若依的Flowable工作流实战](https://space.bilibili.com/400188320/channel/collectiondetail?sid=1002899)：Flowable视频学习专栏，项目基本覆盖了Flowable的方方面面，也拓展了很多为了达到生产级别项目而附加的表结构，工具类等知识点！
 
 
 ## 演示图例

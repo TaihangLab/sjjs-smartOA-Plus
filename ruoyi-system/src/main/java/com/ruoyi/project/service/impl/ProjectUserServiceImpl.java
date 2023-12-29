@@ -1,13 +1,16 @@
 package com.ruoyi.project.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.domain.entity.SysDept;
 import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.enums.ProjectLevel;
 import com.ruoyi.common.enums.ProjectUserRole;
 import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.project.domain.ProjectUser;
 import com.ruoyi.project.domain.bo.ProjectUserBo;
-import com.ruoyi.project.domain.vo.ProjectBaseInfoVO;
 import com.ruoyi.project.domain.vo.ProjectUserVo;
 import com.ruoyi.project.mapper.ProjectUserMapper;
 import com.ruoyi.project.service.ProjectUserService;
@@ -35,26 +38,6 @@ public class ProjectUserServiceImpl implements ProjectUserService {
     /**
      * 添加项目成员
      *
-     * @param projectId
-     * @param projectUserBos
-     * @return
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public boolean insertProjectUsers(Long projectId, List<ProjectUserBo> projectUserBos) {
-        List<ProjectUser> projectUsers = new ArrayList<>();
-        for (ProjectUserBo projectUserBo : projectUserBos) {
-            ProjectUser projectUser = new ProjectUser();
-            projectUser.setProjectId(projectId);
-            projectUser.setUserId(projectUserBo.getUserId());
-            projectUser.setProjectUserRole(projectUserBo.getProjectUserRole());
-        }
-        return projectUserMapper.insertBatch(projectUsers);
-    }
-
-    /**
-     * 添加项目成员
-     *
      * @param projectUserList
      * @return
      */
@@ -75,32 +58,6 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         Map<String, Object> columnMap = new HashMap<>();
         columnMap.put("project_id", projectId);
         return projectUserMapper.deleteByMap(columnMap);
-    }
-
-    /**
-     * 修改项目成员
-     *
-     * @param projectId
-     * @param projectUserBos
-     * @return
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public int updateProjectUsers(Long projectId, List<ProjectUserBo> projectUserBos) {
-        Map<String, Object> columnMap = new HashMap<>();
-        columnMap.put("project_id", projectId);
-        projectUserMapper.deleteByMap(columnMap);
-
-        // 插入新的用户ID
-        List<ProjectUser> projectUsers = new ArrayList<>();
-        for (ProjectUserBo projectUserBo : projectUserBos) {
-            ProjectUser projectUser = new ProjectUser();
-            projectUser.setProjectId(projectId);
-            projectUser.setUserId(projectUserBo.getUserId());
-            projectUser.setProjectUserRole(projectUserBo.getProjectUserRole());
-        }
-
-        return projectUserMapper.insertBatch(projectUsers) ? projectUsers.size() : 0;
     }
 
     /**
@@ -226,7 +183,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
             ProjectUserVo projectUserVo = new ProjectUserVo();
             projectUserVo.setDeptName(deptName);
             projectUserVo.setProjectUserRoles(projectUserRoles); // 设置项目成员角色
-            BeanCopyUtils.copy(user,projectUserVo);
+            BeanCopyUtils.copy(user, projectUserVo);
 
             projectUserVos.add(projectUserVo);
         }
@@ -251,4 +208,105 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         }
         return "";
     }
+
+    /**
+     * 分页查询项目成员Vo
+     *
+     * @param projectUserBo
+     * @param pageQuery
+     * @return
+     */
+    public TableDataInfo<ProjectUserVo> queryPageAllList(ProjectUserBo projectUserBo, PageQuery pageQuery) {
+        projectUserBo = Optional.ofNullable(projectUserBo).orElseGet(ProjectUserBo::new);
+        List<SysUser> userList = getUserListByQuery(projectUserBo, pageQuery);
+        List<ProjectUserVo> projectUserVoList = userList.stream()
+            .map(this::createProjectUserVo)
+            .collect(Collectors.toList());
+        return TableDataInfo.build(projectUserVoList);
+    }
+
+    //获取当页显示的用户列表
+    private List<SysUser> getUserListByQuery(ProjectUserBo projectUserBo, PageQuery pageQuery) {
+        LambdaQueryWrapper<SysUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+
+        if (projectUserBo != null) {
+            if (projectUserBo.getUserId() != null) {
+                lambdaQueryWrapper.eq(SysUser::getUserId, projectUserBo.getUserId());
+            }
+            if (projectUserBo.getProjectId() != null) {
+                Set<Long> userIds = getUserIdsByProjectId(projectUserBo.getProjectId());
+                lambdaQueryWrapper.in(SysUser::getUserId, userIds);
+            }
+        }
+
+        Page<SysUser> result = sysUserMapper.selectPage(pageQuery.build(), lambdaQueryWrapper);
+        return result.getRecords();
+    }
+
+    // 创建 ProjectUserVo 对象
+    private ProjectUserVo createProjectUserVo(SysUser user) {
+        ProjectUserVo projectUserVo = new ProjectUserVo();
+        BeanCopyUtils.copy(user, projectUserVo);
+        setProjectLevelCount(projectUserVo, user.getUserId(), false);
+        setProjectLevelCount(projectUserVo, user.getUserId(), true);
+        return projectUserVo;
+    }
+
+    // 设置项目级别计数
+    private void setProjectLevelCount(ProjectUserVo projectUserVo, Long userId, boolean isCurrent) {
+        List<Map<String, Object>> mapList = isCurrent ? getNowProjectLevelCountByUserId(userId)
+            : getProjectLevelCountByUserId(userId);
+        Map<ProjectLevel, Integer> projectLevelCountMap = processProjectLevelCount(mapList);
+        setProjectLevelDataToVo(projectUserVo, projectLevelCountMap, isCurrent);
+    }
+
+    // 获取用户对应的项目级别计数数据
+    private List<Map<String, Object>> getProjectLevelCountByUserId(Long userId) {
+        return projectUserMapper.getProjectLevelCountByUserId(userId);
+    }
+
+    //获取用户对应的当前项目级别计数数据
+    private List<Map<String, Object>> getNowProjectLevelCountByUserId(Long userId) {
+        return projectUserMapper.getNowProjectLevelCountByUserId(userId);
+    }
+
+    // 处理项目级别计数数据
+    private Map<ProjectLevel, Integer> processProjectLevelCount(List<Map<String, Object>> mapList) {
+        Map<ProjectLevel, Integer> projectLevelCountMap = new HashMap<>();
+        for (Map<String, Object> map : mapList) {
+            Integer projectLevelValue = (Integer) map.get("project_level");
+            Long countLong = (Long) map.get("count");
+            Integer count = countLong != null ? countLong.intValue() : null;
+
+            ProjectLevel level = Arrays.stream(ProjectLevel.values())
+                .filter(e -> e.getValue().equals(projectLevelValue))
+                .findFirst()
+                .orElse(null);
+
+            if (level != null) {
+                projectLevelCountMap.put(level, count);
+            }
+        }
+        return projectLevelCountMap;
+    }
+
+    // 将项目级别计数数据设置到 ProjectUserVo 对象中
+    private void setProjectLevelDataToVo(ProjectUserVo projectUserVo,
+                                         Map<ProjectLevel, Integer> projectLevelCountMap,
+                                         boolean isCurrent) {
+        if (isCurrent) {
+            projectUserVo.setUserNationNumNow(projectLevelCountMap.getOrDefault(ProjectLevel.NATIONAL, 0));
+            projectUserVo.setUserProvincialNumNow(projectLevelCountMap.getOrDefault(ProjectLevel.PROVINCIAL, 0));
+            projectUserVo.setUserEnterpriseNumNow(projectLevelCountMap.getOrDefault(ProjectLevel.ENTERPRISE, 0));
+            projectUserVo.setUserProjectNumNow(projectLevelCountMap.values().stream().mapToInt(Integer::intValue).sum());
+        } else {
+            projectUserVo.setUserNationNum(projectLevelCountMap.getOrDefault(ProjectLevel.NATIONAL, 0));
+            projectUserVo.setUserProvincialNum(projectLevelCountMap.getOrDefault(ProjectLevel.PROVINCIAL, 0));
+            projectUserVo.setUserEnterpriseNum(projectLevelCountMap.getOrDefault(ProjectLevel.ENTERPRISE, 0));
+            projectUserVo.setUserProjectNum(projectLevelCountMap.values().stream().mapToInt(Integer::intValue).sum());
+        }
+    }
+
+
+
 }

@@ -18,20 +18,6 @@ public class ProjectTargetServiceImpl implements ProjectTargetService {
     private final ProjectTargetMapper projectTargetMapper;
 
     /**
-     * 新增项目指标
-     *
-     * @param projectTarget 项目指标信息
-     * @return 结果
-     */
-    @Override
-    public int insertProjectTarget(ProjectTarget projectTarget) {
-        if (projectTarget == null) {
-            return 0;
-        }
-        return projectTargetMapper.insert(projectTarget);
-    }
-
-    /**
      * 新增多个项目指标
      *
      * @param projectTargets 项目指标信息列表

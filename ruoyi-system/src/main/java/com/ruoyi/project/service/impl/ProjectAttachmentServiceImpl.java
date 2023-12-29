@@ -63,17 +63,6 @@ public class ProjectAttachmentServiceImpl implements ProjectAttachmentService {
             eq(ProjectAttachment::getProjectId, projectId));
     }
 
-
-    /**
-     * @param projectAttachmentId 项目文件表ID
-     * @return 删除行数
-     */
-    @Override
-    public int deleteProjectAttachmentById(Long projectAttachmentId) {
-        return projectAttachmentMapper.delete((new LambdaQueryWrapper<ProjectAttachment>()).
-            eq(ProjectAttachment::getId, projectAttachmentId));
-    }
-
     /**
      * @param projectId 项目ID
      * @return 返回查询列表
