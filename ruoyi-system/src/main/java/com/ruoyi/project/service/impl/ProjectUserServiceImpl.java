@@ -38,26 +38,6 @@ public class ProjectUserServiceImpl implements ProjectUserService {
     /**
      * 添加项目成员
      *
-     * @param projectId
-     * @param projectUserBos
-     * @return
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public boolean insertProjectUsers(Long projectId, List<ProjectUserBo> projectUserBos) {
-        List<ProjectUser> projectUsers = new ArrayList<>();
-        for (ProjectUserBo projectUserBo : projectUserBos) {
-            ProjectUser projectUser = new ProjectUser();
-            projectUser.setProjectId(projectId);
-            projectUser.setUserId(projectUserBo.getUserId());
-            projectUser.setProjectUserRole(projectUserBo.getProjectUserRole());
-        }
-        return projectUserMapper.insertBatch(projectUsers);
-    }
-
-    /**
-     * 添加项目成员
-     *
      * @param projectUserList
      * @return
      */
@@ -78,32 +58,6 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         Map<String, Object> columnMap = new HashMap<>();
         columnMap.put("project_id", projectId);
         return projectUserMapper.deleteByMap(columnMap);
-    }
-
-    /**
-     * 修改项目成员
-     *
-     * @param projectId
-     * @param projectUserBos
-     * @return
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public int updateProjectUsers(Long projectId, List<ProjectUserBo> projectUserBos) {
-        Map<String, Object> columnMap = new HashMap<>();
-        columnMap.put("project_id", projectId);
-        projectUserMapper.deleteByMap(columnMap);
-
-        // 插入新的用户ID
-        List<ProjectUser> projectUsers = new ArrayList<>();
-        for (ProjectUserBo projectUserBo : projectUserBos) {
-            ProjectUser projectUser = new ProjectUser();
-            projectUser.setProjectId(projectId);
-            projectUser.setUserId(projectUserBo.getUserId());
-            projectUser.setProjectUserRole(projectUserBo.getProjectUserRole());
-        }
-
-        return projectUserMapper.insertBatch(projectUsers) ? projectUsers.size() : 0;
     }
 
     /**
@@ -271,7 +225,6 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         return TableDataInfo.build(projectUserVoList);
     }
 
-
     //获取当页显示的用户列表
     private List<SysUser> getUserListByQuery(ProjectUserBo projectUserBo, PageQuery pageQuery) {
         LambdaQueryWrapper<SysUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
@@ -353,5 +306,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
             projectUserVo.setUserProjectNum(projectLevelCountMap.values().stream().mapToInt(Integer::intValue).sum());
         }
     }
+
+
 
 }
