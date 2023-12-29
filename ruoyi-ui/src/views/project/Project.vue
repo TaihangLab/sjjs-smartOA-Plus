@@ -51,9 +51,9 @@
                 </el-table-column>
             </el-table>
             <!-- 详情打开的界面 -->
-            <el-dialog :model="formLook" :visible.sync="dialogFormVisibleLook" width="50%">
+            <el-dialog :model="formLook" v-if="dialogFormVisibleLook" :visible.sync="dialogFormVisibleLook" width="50%" >
                 <div class="dialog-content">
-                    <ProjectDetail :visible.sync="dialogFormVisibleLook" :formLook="formLook"></ProjectDetail>
+                    <ProjectDetail  :visible.sync="dialogFormVisibleLook" :formLook="formLook"></ProjectDetail>
                 </div>
             </el-dialog>
             <!-- 大事记查看打开的界面 -->

@@ -205,6 +205,7 @@ export default {
                     loading.close();
                 })
             this.$emit('update:visible', false);
+            location.reload();
         },
     },
     watch  : {
