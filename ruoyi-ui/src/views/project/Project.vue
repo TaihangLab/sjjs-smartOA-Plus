@@ -75,10 +75,8 @@
                 style="margin-top: 30px" @size-change="sizeChangeHandle" @current-change="CurrentChangeHandle">
             </el-pagination>
             <!-- 修改项目弹出的对话框-->
-            <el-dialog title="新增项目" :visible.sync="newProjectDialogVisible" fullscreen
-                       :key="refreshUpdateDialog"
-                       @open="handleUpdateDialogOpen"
-            >
+            <el-dialog title="修改项目" :visible.sync="newProjectDialogVisible" fullscreen
+                       :key="refreshUpdateDialog">
                 <NewProject :visible.sync="newProjectDialogVisible" :updateId="updateId"></NewProject>
             </el-dialog>
         </div>
@@ -167,10 +165,7 @@ export default {
 
     },
     methods: {
-        handleUpdateDialogOpen() {
 
-            console.log(this.refreshUpdateDialog)
-        },
         handleUpdate(row) {
             this.updateId = row.projectId;
             this.refreshUpdateDialog = ! this.refreshUpdateDialog;

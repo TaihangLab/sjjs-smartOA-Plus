@@ -155,6 +155,13 @@ export default {
         projectdetail() {
             console.log("传过来的项目详情", this.$props.formLook.projectId);
             this.activeNames = [];
+            const loading = this.$loading({
+                lock: true,
+                text: '少女祈祷中',
+                spinner: 'el-icon-loading',
+                fullscreen: true,
+                background: 'rgba(200, 200, 200, 0.9)'
+            });
             // 使用正确的用户列表接口，假设接口为 /user/list
             request({
                 url: '/project/list/getDetails',
@@ -167,12 +174,13 @@ export default {
                     // 处理获取的用户数据
                     console.log('项目成员resp:', resp);
                     this.projectdetails = resp.data;
-                    this.loading = false; // 关闭 loading 遮罩层
                     this.projectdescription = this.projectdetails.projectInfoVO.projectDescription;
+                    loading.close();
+
                 })
                 .catch((error) => {
                     console.error('获取用户数据时出错：', error);
-                    this.loading = false; // 处理错误，关闭 loading 遮罩层
+                    loading.close();
                 });
         },
         //改变数组大小
