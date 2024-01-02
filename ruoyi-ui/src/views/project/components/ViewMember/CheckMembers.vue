@@ -8,18 +8,17 @@
                 </template>
                 <el-table ref="multipleTable" :data="this.projectListLook.nationProjectBaseInfos" border style="width: 100%" :row-style="{ height: '50px' }"
                           :cell-style="{ padding: '0px' }">
-                    <el-table-column label="项目任务书编号" :resizable="false" align="center" prop="projectAssignmentSerialNo"
-                                     width="150">
+                    <el-table-column label="项目任务书编号" :resizable="false" align="center" prop="projectAssignmentSerialNo">
                     </el-table-column>
-                    <el-table-column label="项目名称" :resizable="false" align="center" prop="assignedSubjectName" width="150">
+                    <el-table-column label="项目名称" :resizable="false" align="center" prop="assignedSubjectName">
                     </el-table-column>
-                    <el-table-column label="负责课题" :resizable="false" align="center" prop="assignedSubjectSection" width="150">
+                    <el-table-column label="负责课题" :resizable="false" align="center" prop="assignedSubjectSection">
                     </el-table-column>
-                    <el-table-column label="项目牵头单位" :resizable="false" align="center" prop="leadingUnit" width="150">
+                    <el-table-column label="项目牵头单位" :resizable="false" align="center" prop="leadingUnit">
                     </el-table-column>
-                    <el-table-column label="立项时间" :resizable="false" align="center" prop="projectEstablishTime" width="150">
+                    <el-table-column label="立项时间" :resizable="false" align="center" prop="projectEstablishTime">
                     </el-table-column>
-                    <el-table-column label="项目计划验收时间" :resizable="false" align="center" prop="projectScheduledCompletionTime" width="150">
+                    <el-table-column label="项目计划验收时间" :resizable="false" align="center" prop="projectScheduledCompletionTime">
                     </el-table-column>
                 </el-table>
             </el-collapse-item>
@@ -29,18 +28,17 @@
                 </template>
                 <el-table ref="multipleTable" :data="this.projectListLook.provincialProjectBaseInfos" border style="width: 100%" :row-style="{ height: '50px' }"
                           :cell-style="{ padding: '0px' }">
-                    <el-table-column label="项目任务书编号" :resizable="false" align="center" prop="projectAssignmentSerialNo"
-                                     width="150">
+                    <el-table-column label="项目任务书编号" :resizable="false" align="center" prop="projectAssignmentSerialNo">
                     </el-table-column>
-                    <el-table-column label="项目名称" :resizable="false" align="center" prop="assignedSubjectName" width="150">
+                    <el-table-column label="项目名称" :resizable="false" align="center" prop="assignedSubjectName">
                     </el-table-column>
-                    <el-table-column label="负责课题" :resizable="false" align="center" prop="assignedSubjectSection" width="150">
+                    <el-table-column label="负责课题" :resizable="false" align="center" prop="assignedSubjectSection">
                     </el-table-column>
-                    <el-table-column label="项目牵头单位" :resizable="false" align="center" prop="leadingUnit" width="150">
+                    <el-table-column label="项目牵头单位" :resizable="false" align="center" prop="leadingUnit">
                     </el-table-column>
-                    <el-table-column label="立项时间" :resizable="false" align="center" prop="projectEstablishTime" width="150">
+                    <el-table-column label="立项时间" :resizable="false" align="center" prop="projectEstablishTime">
                     </el-table-column>
-                    <el-table-column label="项目计划验收时间" :resizable="false" align="center" prop="projectScheduledCompletionTime" width="150">
+                    <el-table-column label="项目计划验收时间" :resizable="false" align="center" prop="projectScheduledCompletionTime">
                     </el-table-column>
                 </el-table>
             </el-collapse-item>
@@ -50,18 +48,17 @@
                 </template>
                 <el-table ref="multipleTable" :data="this.projectListLook.enterpriseProjectBaseInfos" border style="width: 100%" :row-style="{ height: '50px' }"
                           :cell-style="{ padding: '0px' }">
-                    <el-table-column label="项目任务书编号" :resizable="false" align="center" prop="projectAssignmentSerialNo"
-                                     width="150">
+                    <el-table-column label="项目任务书编号" :resizable="false" align="center" prop="projectAssignmentSerialNo">
                     </el-table-column>
-                    <el-table-column label="项目名称" :resizable="false" align="center" prop="assignedSubjectName" width="150">
+                    <el-table-column label="项目名称" :resizable="false" align="center" prop="assignedSubjectName" >
                     </el-table-column>
-                    <el-table-column label="负责课题" :resizable="false" align="center" prop="assignedSubjectSection" width="150">
+                    <el-table-column label="负责课题" :resizable="false" align="center" prop="assignedSubjectSection" >
                     </el-table-column>
-                    <el-table-column label="项目牵头单位" :resizable="false" align="center" prop="leadingUnit" width="150">
+                    <el-table-column label="项目牵头单位" :resizable="false" align="center" prop="leadingUnit" >
                     </el-table-column>
-                    <el-table-column label="立项时间" :resizable="false" align="center" prop="projectEstablishTime" width="150">
+                    <el-table-column label="立项时间" :resizable="false" align="center" prop="projectEstablishTime" >
                     </el-table-column>
-                    <el-table-column label="项目计划验收时间" :resizable="false" align="center" prop="projectScheduledCompletionTime" width="150">
+                    <el-table-column label="项目计划验收时间" :resizable="false" align="center" prop="projectScheduledCompletionTime" >
                     </el-table-column>
                 </el-table>
             </el-collapse-item>
@@ -86,7 +83,7 @@ export default {
             params:{
                 userId: undefined,
             },
-            projectListLook: undefined,
+            projectListLook: [],
         };
     },
     created() {
