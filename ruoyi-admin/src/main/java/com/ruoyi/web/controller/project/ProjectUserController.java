@@ -34,6 +34,7 @@ public class ProjectUserController {
      * @param pageQuery     分页信息
      * @return
      */
+    //@SaCheckPermission("project:user:getAllList")
     @PostMapping("/getAllList")
     public TableDataInfo<ProjectUserVo> getAllProjectList(@RequestBody @Validated(QueryGroup.class) ProjectUserBo projectUserBo,
                                                           PageQuery pageQuery) {
@@ -46,6 +47,7 @@ public class ProjectUserController {
      * @param userId
      * @return
      */
+    //@SaCheckPermission("project:user:getDetails")
     @GetMapping("/getDetails")
     public R<ProjectUserDetailVo> getProjectUserDetailVo(@RequestParam @NotNull Long userId) {
         return R.ok(projectUserService.getProjectUserDetailById(userId));

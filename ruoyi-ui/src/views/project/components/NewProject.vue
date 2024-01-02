@@ -132,7 +132,7 @@ export default {
             nextButtonText: '下一步',
 
             projectInfoForm     : {},
-            projectMemberForm   : {members: [],},
+            projectMemberForm   : {members: [],items:[]},
             projectFundsForm    : {},
             zxFundsDetailForm   : {},
             zcFundsDetailForm   : {},
