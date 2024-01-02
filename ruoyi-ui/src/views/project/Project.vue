@@ -30,7 +30,7 @@
                             @click="lookEdit(scope.$index, scope.row)">详情
                         </el-button>
                         <el-button size="mini" type="text" icon="el-icon-edit" v-if="buttonType === 1"
-                            @click="handleUpdate(scope.$index, scope.row)">修改
+                            @click="handleUpdate(scope.row)">修改
                         </el-button>
                         <el-button size="mini" type="text" icon="el-icon-delete" v-if="buttonType === 1"
                             @click="handleDelete(scope.row)">删除
@@ -163,9 +163,10 @@ export default {
     },
 
     methods: {
-
+        // hry
         handleUpdate(row) {
             this.updateId = row.projectId;
+            console.log(this.updateId);
             this.refreshUpdateDialog = ! this.refreshUpdateDialog;
             this.newProjectDialogVisible = true;
         },

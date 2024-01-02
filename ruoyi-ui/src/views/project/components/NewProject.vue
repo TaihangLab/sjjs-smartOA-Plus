@@ -175,15 +175,16 @@ export default {
 
         reset() {
             console.log("刷新111")
-            for (const key in this.projectInfoForm) {
-                console.log("刷新")
-                Vue.set(this.projectInfoForm, key, "");
-            }
-            console.log(this.projectInfoForm)
+            // for (const key in this.projectInfoForm) {
+            //     console.log("刷新")
+            //     Vue.set(this.projectInfoForm, key, "");
+            // }
+            // console.log(this.projectInfoForm)
             // this.$refs.zxFundsDetail.$refs.form.resetFields()
-            // this.$refs.projectMember.reset();
+            this.$refs.projectMember.reset();
             // this.$refs.zxFundsDetail.reset();
-            this.stepID = 0;
+
+            // this.stepID = 0;
         },
         submit() {
             // console.log(this.$refs.projectInfo.$refs.form.validate());
