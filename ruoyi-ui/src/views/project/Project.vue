@@ -188,7 +188,9 @@ export default {
             return request({
                 url: '/project/my/delete',
                 method: 'get',
-                data: [],
+                params: {
+                    projectId: projectId,
+                },
             })
         },
         // 关闭弹窗的方法

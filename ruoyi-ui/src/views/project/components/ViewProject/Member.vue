@@ -13,7 +13,7 @@
             <el-table-column label="所属部门" align="center" prop="deptName" v-if="columns[4].visible"
                 :show-overflow-tooltip="true" />
             <el-table-column label="项目角色" align="center" prop="projectUserRole" v-if="columns[5].visible"
-                :show-overflow-tooltip="true" />
+                             :formatter="formatProjectUserRole" :show-overflow-tooltip="true" />
         </el-table>
     </div>
 </template>
@@ -47,6 +47,15 @@ export default {
                 { key: 4, label: `所属部门`, visible: true },
                 { key: 5, label: `项目角色`, visible: true },
             ],
+            roleMappings: {
+                0: '项目负责人',
+                1: '公司负责人',
+                2: '部门负责人',
+                3: '科研管理负责人',
+                4: '普通成员',
+                5: '未知角色',
+                6: '填报人',
+            },
         };
     },
     created() {
@@ -57,6 +66,10 @@ export default {
         projectid: 'projectpepole',
     },
     methods: {
+        formatProjectUserRole(row, column, cellValue) {
+            // 使用映射关系来获取对应的文字描述
+            return this.roleMappings[cellValue] || cellValue;
+        },
         projectpepole() {
             // 使用正确的用户列表接口，假设接口为 /user/list
             request({

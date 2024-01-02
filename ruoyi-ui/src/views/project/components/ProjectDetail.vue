@@ -204,7 +204,6 @@ export default {
     },
     methods: {
         projectdetail() {
-            console.log("传过来的项目详情", this.$props.formLook.projectId);
             this.activeNames = [];
             const loading = this.$loading({
                 lock: true,
@@ -223,7 +222,6 @@ export default {
             })
                 .then((resp) => {
                     // 处理获取的用户数据
-                    console.log('项目成员resp:', resp);
                     this.projectdetails = resp.data;
                     this.projectdescription = this.projectdetails.projectInfoVO.projectDescription;
                     loading.close();
