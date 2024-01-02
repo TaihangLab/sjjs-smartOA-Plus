@@ -65,7 +65,7 @@
             </el-dialog>
             <!--新增大事记-->
             <el-dialog :visible.sync="eventsDialogVisibleAdd" width="50%">
-                <AddEvents :projectId="projectId" :visible.sync="eventsDialogVisibleAdd" @close-dialog="closeEventsDialog">
+                <AddEvents :projectId="projectId.toString()" :visible.sync="eventsDialogVisibleAdd" @close-dialog="closeEventsDialog">
                 </AddEvents>
             </el-dialog>
             <!-- 页号 -->
