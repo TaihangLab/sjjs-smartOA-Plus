@@ -59,7 +59,7 @@
             <!-- 大事记查看打开的界面 -->
             <el-dialog :visible.sync="eventsDialogVisibleLook" width="50%" v-if="eventsDialogVisibleLook" :key="refreshEventsPage" @open="handleEventsDialogOpen" :modal="false">
                 <div style="max-height: 600px; overflow-y: auto;">
-                    <CheckEvents :projectId="projectId" :visible.sync="eventsDialogVisibleLook" :buttonType="buttonType">
+                    <CheckEvents :projectId="projectId.toString()" :visible.sync="eventsDialogVisibleLook" :buttonType="buttonType">
                     </CheckEvents>
                 </div>
             </el-dialog>

@@ -416,19 +416,28 @@ export default {
       // 职称选项
       jobtitleoptions: [{
           jobtitleId: '0',
-          jobtitleName: '正高级'
+          jobtitleName: '正高级工程师'
         }, {
           jobtitleId: '1',
-          jobtitleName: '副高级'
+          jobtitleName: '副高级工程师'
         }, {
           jobtitleId: '2',
-          jobtitleName: '中级'
+          jobtitleName: '中级工程师'
         }, {
           jobtitleId: '3',
-          jobtitleName: '初级'
+          jobtitleName: '初级工程师'
         }, {
           jobtitleId: '4',
-          jobtitleName: '无'
+          jobtitleName: '研究员'
+        }, {
+          jobtitleId: '5',
+          jobtitleName: '副研究员'
+        }, {
+          jobtitleId: '6',
+          jobtitleName: '助理研究员'
+        }, {
+          jobtitleId: '7',
+          jobtitleName: '研究实习员'
         }],
         // 学历选项
         diplomaoptions: [{

@@ -74,7 +74,7 @@ export default {
     props: {
         projectId: {
             type: String,
-            default: "",
+            required: true
         },
         buttonType: {
             type: Number,
