@@ -3,9 +3,9 @@
         <div>
             <el-table ref="multipleTable" :data="projectList" border style="width: 100%" :row-style="{ height: '50px' }"
                 :cell-style="{ padding: '0px' }">
-                <!--                <el-table-column type="selection" :resizable="false" align="center" width="40"></el-table-column>-->
+<!--                <el-table-column type="selection" :resizable="false" align="center" width="40"></el-table-column>-->
                 <el-table-column label="项目任务书编号" :resizable="false" align="center" prop="projectAssignmentSerialNo"
-                    width="130">
+                                 width="130">
                 </el-table-column>
                 <el-table-column label="项目名称" :resizable="false" align="center" prop="assignedSubjectName" width="150">
                 </el-table-column>
@@ -30,7 +30,7 @@
                             @click="lookEdit(scope.$index, scope.row)">详情
                         </el-button>
                         <el-button size="mini" type="text" icon="el-icon-edit" v-if="buttonType === 1"
-                            @click="handleUpdate(scope.$index, scope.row)">修改
+                            @click="handleUpdate(scope.row)">修改
                         </el-button>
                         <el-button size="mini" type="text" icon="el-icon-delete" v-if="buttonType === 1"
                             @click="handleDelete(scope.row)">删除
@@ -51,13 +51,14 @@
                 </el-table-column>
             </el-table>
             <!-- 详情打开的界面 -->
-            <el-dialog :model="formLook" v-show="dialogFormVisibleLook" :visible.sync="dialogFormVisibleLook" width="50%">
+            <el-dialog :model="formLook" v-if="dialogFormVisibleLook" :visible.sync="dialogFormVisibleLook" width="50%" >
                 <div class="dialog-content">
-                    <ProjectDetail :visible.sync="dialogFormVisibleLook" :formLook="formLook"></ProjectDetail>
+                    <ProjectDetail  :visible.sync="dialogFormVisibleLook" :formLook="formLook"></ProjectDetail>
                 </div>
             </el-dialog>
             <!-- 大事记查看打开的界面 -->
-            <el-dialog :visible.sync="eventsDialogVisibleLook" width="50%" v-if="eventsDialogVisibleLook" :key="refreshEventsPage" @open="handleEventsDialogOpen" :modal="false">
+            <el-dialog :visible.sync="eventsDialogVisibleLook" width="50%" :key="refreshEventsPage"
+                @open="handleEventsDialogOpen" :modal="false">
                 <div style="max-height: 600px; overflow-y: auto;">
                     <CheckEvents :projectId="projectId" :visible.sync="eventsDialogVisibleLook" :buttonType="buttonType">
                     </CheckEvents>
@@ -69,12 +70,13 @@
                 </AddEvents>
             </el-dialog>
             <!-- 页号 -->
-            <el-pagination :current-page="queryParam.pageNum" :page-size="queryParam.pageSize"
-                :page-sizes="[5, 10, 20, 50, 100]" :total="total" layout="total, sizes, prev, pager, next, jumper"
+            <el-pagination :current-page="this.queryParam.pageNum" :page-size="this.queryParam.pageSize"
+                :page-sizes="[5, 10, 20, 50, 100]" :total="total" layout="total ,sizes,prev,pager,next,jumper"
                 style="margin-top: 30px" @size-change="sizeChangeHandle" @current-change="CurrentChangeHandle">
             </el-pagination>
             <!-- 修改项目弹出的对话框-->
-            <el-dialog title="修改项目" :visible.sync="newProjectDialogVisible" fullscreen :key="refreshUpdateDialog">
+            <el-dialog title="修改项目" :visible.sync="newProjectDialogVisible" fullscreen
+                       :key="refreshUpdateDialog">
                 <NewProject :visible.sync="newProjectDialogVisible" :updateId="updateId"></NewProject>
             </el-dialog>
         </div>
@@ -117,7 +119,7 @@ export default {
         return {
             refreshUpdateDialog: false,
             updateId: '',
-            newProjectDialogVisible: false,
+            newProjectDialogVisible:false,
             queryParam: {
                 pageNum: 1,
                 pageSize: 10,
@@ -147,6 +149,7 @@ export default {
             projectList: [],
             pageIndex: 1,
             pageSize: 5,
+            total: 0,
             begin: 0,
             end: this.pageSize - 1,
             dialogFormVisible: false, //默认关闭新建用户界面
@@ -160,10 +163,11 @@ export default {
     },
 
     methods: {
-
+        // hry
         handleUpdate(row) {
             this.updateId = row.projectId;
-            this.refreshUpdateDialog = !this.refreshUpdateDialog;
+            console.log(this.updateId);
+            this.refreshUpdateDialog = ! this.refreshUpdateDialog;
             this.newProjectDialogVisible = true;
         },
         /** 删除按钮操作 */
@@ -261,9 +265,7 @@ export default {
 
 <style scoped>
 .dialog-content {
-    max-height: 700px;
-    /* 适当设置最大高度 */
-    overflow-y: auto;
-    /* 添加垂直滚动条 */
+  max-height: 700px; /* 适当设置最大高度 */
+  overflow-y: auto; /* 添加垂直滚动条 */
 }
 </style>
