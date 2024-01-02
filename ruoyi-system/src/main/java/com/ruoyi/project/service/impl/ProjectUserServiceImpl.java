@@ -182,8 +182,8 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         for (Long userId : userIds) {
             SysUser user = userIdToUserMap.get(userId);
             String deptName = deptIdToNameMap.getOrDefault(user.getDeptId(), "Unknown Dept");
-            List<ProjectUserRole> projectUserRoles = userIdToProjectUserRolesMap.getOrDefault(userId, Collections.singletonList(ProjectUserRole.UNKNOWN))
-                .stream().filter(projectUserRole -> !projectUserRole.equals(ProjectUserRole.PROJECT_ENTRY_OPERATOR)).collect(Collectors.toList());
+            List<String> projectUserRoles = userIdToProjectUserRolesMap.getOrDefault(userId, Collections.singletonList(ProjectUserRole.UNKNOWN))
+                .stream().filter(projectUserRole -> !projectUserRole.equals(ProjectUserRole.PROJECT_ENTRY_OPERATOR)).map(ProjectUserRole::getValue).collect(Collectors.toList());
 
             ProjectUserVo projectUserVo = new ProjectUserVo();
             projectUserVo.setDeptName(deptName);
@@ -201,15 +201,15 @@ public class ProjectUserServiceImpl implements ProjectUserService {
      * @param projectId
      * @return
      */
+    @Override
     public String findProLeaderNameById(Long projectId) {
         List<ProjectUserVo> projectUserVos = getUserInfoByProjectId(projectId);
         for (ProjectUserVo projectUserVo : projectUserVos) {
-            List<ProjectUserRole> roles = projectUserVo.getProjectUserRoles();
-            for (ProjectUserRole role : roles) {
-                if (ProjectUserRole.PROJECT_LEADER == role) {
-                    return projectUserVo.getNickName();
-                }
+            List<String> roles = projectUserVo.getProjectUserRoles();
+            if (roles.stream().anyMatch(role -> ProjectUserRole.PROJECT_LEADER.getValue().equals(role))) {
+                return projectUserVo.getNickName();
             }
+
         }
         return "";
     }
@@ -255,6 +255,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
      * @param pageQuery
      * @return
      */
+    @Override
     public TableDataInfo<ProjectUserVo> queryPageAllList(ProjectUserBo projectUserBo, PageQuery pageQuery) {
         projectUserBo = Optional.ofNullable(projectUserBo).orElseGet(ProjectUserBo::new);
         Page<SysUser> userPage = getUserListByQuery(projectUserBo, pageQuery);
@@ -352,6 +353,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
      * @param userId
      * @return
      */
+    @Override
     public ProjectUserDetailVo getProjectUserDetailById(Long userId) {
         Set<Long> projectIds = projectUserMapper.selectList(new LambdaQueryWrapper<ProjectUser>()
                 .eq(ProjectUser::getUserId, userId))
