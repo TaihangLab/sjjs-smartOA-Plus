@@ -50,18 +50,15 @@ module.exports = {
     },
     css             : {
         // unocss
-        extract: {
-            filename: '[name].[hash:9].css',
-        },
+        // extract: {
+        //     filename: '[name].[hash:9].css',
+        // },
 
         loaderOptions: {
             sass   : {
                 sassOptions: {outputStyle: "expanded"}
             },
 
-            // postcss: {
-            //     plugins: [require('tailwindcss'), require('autoprefixer')]
-            // }
         }
     },
     configureWebpack: {

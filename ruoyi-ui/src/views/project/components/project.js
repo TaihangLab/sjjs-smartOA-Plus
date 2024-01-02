@@ -5,7 +5,7 @@ import Vue from "vue";
 export function addProject(projectInfoForm, projectMemberForm, projectFundsForm, zxFundsDetailForm, zcFundsDetailForm,
                            fundsSourceForm, projectIndicatorForm, projectPlanForm, otherAttachmentForm) {
     const members    = filterList(projectMemberForm.items).map(value => {
-        return {userId: value.id, projectUserRole: value.role}
+        return {userId: value.id, projectUserRoleList: value.role}
     });
     const indicators = filterList(projectIndicatorForm.items).map(value => {
         return {targetName: value.title, midtermTarget: value.midterm, endTarget: value.finish}
