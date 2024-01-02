@@ -4,7 +4,7 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.project.mapper.IntellectualPropertyMapper">
 
-    <resultMap id="IntellectualPropertyResult" type="com.ruoyi.project.domain.IntellectualProperty">
+    <resultMap id="IntellectualPropertyResult" type="com.ruoyi.ip.domin.IntellectualProperty">
         <id property="ipId" column="ip_id" jdbcType="BIGINT"/>
         <result property="ossId" column="oss_id" jdbcType="BIGINT"/>
         <result property="projectId" column="project_id" jdbcType="BIGINT"/>
@@ -12,6 +12,11 @@
         <result property="ipType" column="ip_type" jdbcType="TINYINT"/>
         <result property="ipStatus" column="ip_status" jdbcType="TINYINT"/>
         <result property="ipDate" column="ip_date" jdbcType="DATE"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="deleted" column="deleted" jdbcType="TINYINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
