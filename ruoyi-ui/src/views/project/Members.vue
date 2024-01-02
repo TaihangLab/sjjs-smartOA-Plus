@@ -68,9 +68,9 @@
                     </div>
                 </el-dialog>
             </div>
-            <el-pagination :current-page="this.queryParam.pageNum" :page-size="this.queryParam.pageSize"
-                           :page-sizes="[5, 10, 20, 50, 100]" :total="total" layout="total ,sizes,prev,pager,next,jumper"
-                           style="margin-top: 30px" @size-change="sizeChangeHandle" @current-change="CurrentChangeHandle">
+            <el-pagination :current-page="queryParam.pageNum" :page-size="queryParam.pageSize"
+               :page-sizes="[5, 10, 20, 50, 100]" :total="total" layout="total ,sizes,prev,pager,next,jumper"
+               style="margin-top: 30px" @size-change="sizeChangeHandle" @current-change="CurrentChangeHandle">
             </el-pagination>
         </el-card>
     </div>
@@ -84,7 +84,7 @@ export default {
     components: {CheckProject},
     data(){
         return {
-            total: undefined,
+            total: 0,
             responsiblePerson: [],
             cascaderOptions: [],
             memberslist: undefined,
@@ -96,6 +96,8 @@ export default {
                 pageNum: 1,
                 pageSize: 10,
             },
+            myProjectFrom: {},
+            formLook: {}
         };
     },
     created() {
@@ -189,7 +191,7 @@ export default {
             this.fetchData();
         },
         fetchData() {
-            this.$parent.reloadProjectList(this.queryParam);
+            this.getDeptAndUserList(); 
         },
     },
 

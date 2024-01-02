@@ -182,8 +182,8 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         for (Long userId : userIds) {
             SysUser user = userIdToUserMap.get(userId);
             String deptName = deptIdToNameMap.getOrDefault(user.getDeptId(), "Unknown Dept");
-            List<ProjectUserRole> projectUserRoles = userIdToProjectUserRolesMap.getOrDefault(userId, Collections.singletonList(ProjectUserRole.UNKNOWN))
-                .stream().filter(projectUserRole -> !projectUserRole.equals(ProjectUserRole.PROJECT_ENTRY_OPERATOR)).collect(Collectors.toList());
+            List<String> projectUserRoles = userIdToProjectUserRolesMap.getOrDefault(userId, Collections.singletonList(ProjectUserRole.UNKNOWN))
+                .stream().filter(projectUserRole -> !projectUserRole.equals(ProjectUserRole.PROJECT_ENTRY_OPERATOR)).map(ProjectUserRole::getValue).collect(Collectors.toList());
 
             ProjectUserVo projectUserVo = new ProjectUserVo();
             projectUserVo.setDeptName(deptName);
@@ -201,15 +201,15 @@ public class ProjectUserServiceImpl implements ProjectUserService {
      * @param projectId
      * @return
      */
+    @Override
     public String findProLeaderNameById(Long projectId) {
         List<ProjectUserVo> projectUserVos = getUserInfoByProjectId(projectId);
         for (ProjectUserVo projectUserVo : projectUserVos) {
-            List<ProjectUserRole> roles = projectUserVo.getProjectUserRoles();
-            for (ProjectUserRole role : roles) {
-                if (ProjectUserRole.PROJECT_LEADER == role) {
-                    return projectUserVo.getNickName();
-                }
+            List<String> roles = projectUserVo.getProjectUserRoles();
+            if (roles.stream().anyMatch(role -> ProjectUserRole.PROJECT_LEADER.getValue().equals(role))) {
+                return projectUserVo.getNickName();
             }
+
         }
         return "";
     }
@@ -221,17 +221,53 @@ public class ProjectUserServiceImpl implements ProjectUserService {
      * @param pageQuery
      * @return
      */
-    public TableDataInfo<ProjectUserVo> queryPageAllList(ProjectUserBo projectUserBo, PageQuery pageQuery) {
-        projectUserBo = Optional.ofNullable(projectUserBo).orElseGet(ProjectUserBo::new);
-        List<SysUser> userList = getUserListByQuery(projectUserBo, pageQuery);
-        List<ProjectUserVo> projectUserVoList = userList.stream()
-            .map(this::createProjectUserVo)
-            .collect(Collectors.toList());
-        return TableDataInfo.build(projectUserVoList);
-    }
+//    public TableDataInfo<ProjectUserVo> queryPageAllList(ProjectUserBo projectUserBo, PageQuery pageQuery) {
+//        projectUserBo = Optional.ofNullable(projectUserBo).orElseGet(ProjectUserBo::new);
+//        List<SysUser> userList = getUserListByQuery(projectUserBo, pageQuery);
+//        List<ProjectUserVo> projectUserVoList = userList.stream()
+//            .map(this::createProjectUserVo)
+//            .collect(Collectors.toList());
+//        return TableDataInfo.build(projectUserVoList);
+//    }
 
     //获取当页显示的用户列表
-    private List<SysUser> getUserListByQuery(ProjectUserBo projectUserBo, PageQuery pageQuery) {
+//    private List<SysUser> getUserListByQuery(ProjectUserBo projectUserBo, PageQuery pageQuery) {
+//        LambdaQueryWrapper<SysUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+//
+//        if (projectUserBo != null) {
+//            if (projectUserBo.getUserId() != null) {
+//                lambdaQueryWrapper.eq(SysUser::getUserId, projectUserBo.getUserId());
+//            }
+//            if (projectUserBo.getProjectId() != null) {
+//                Set<Long> userIds = getUserIdsByProjectId(projectUserBo.getProjectId());
+//                lambdaQueryWrapper.in(SysUser::getUserId, userIds);
+//            }
+//        }
+//
+//        Page<SysUser> result = sysUserMapper.selectPage(pageQuery.build(), lambdaQueryWrapper);
+//        return result.getRecords();
+//    }
+
+    /**
+     * 分页查询项目成员Vo
+     *
+     * @param projectUserBo
+     * @param pageQuery
+     * @return
+     */
+    @Override
+    public TableDataInfo<ProjectUserVo> queryPageAllList(ProjectUserBo projectUserBo, PageQuery pageQuery) {
+        projectUserBo = Optional.ofNullable(projectUserBo).orElseGet(ProjectUserBo::new);
+        Page<SysUser> userPage = getUserListByQuery(projectUserBo, pageQuery);
+        List<ProjectUserVo> projectUserVoList = userPage.getRecords().stream()
+            .map(this::createProjectUserVo)
+            .collect(Collectors.toList());
+
+        // 现在使用 userPage.getTotal() 获取总记录数
+        return new TableDataInfo<>(projectUserVoList, userPage.getTotal());
+    }
+
+    private Page<SysUser> getUserListByQuery(ProjectUserBo projectUserBo, PageQuery pageQuery) {
         LambdaQueryWrapper<SysUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
 
         if (projectUserBo != null) {
@@ -244,8 +280,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
             }
         }
 
-        Page<SysUser> result = sysUserMapper.selectPage(pageQuery.build(), lambdaQueryWrapper);
-        return result.getRecords();
+        return sysUserMapper.selectPage(pageQuery.build(), lambdaQueryWrapper);
     }
 
     // 创建 ProjectUserVo 对象
@@ -318,6 +353,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
      * @param userId
      * @return
      */
+    @Override
     public ProjectUserDetailVo getProjectUserDetailById(Long userId) {
         Set<Long> projectIds = projectUserMapper.selectList(new LambdaQueryWrapper<ProjectUser>()
                 .eq(ProjectUser::getUserId, userId))
