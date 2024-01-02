@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.ruoyi.common.core.domain.PageQuery;
+import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.project.domain.ProjectMilestone;
 import com.ruoyi.project.domain.ProjectMilestoneOss;
 import com.ruoyi.project.domain.bo.ProjectMilestoneBo;
@@ -12,16 +15,14 @@ import com.ruoyi.project.mapper.ProjectMilestoneMapper;
 import com.ruoyi.project.mapper.ProjectMilestoneOssMapper;
 import com.ruoyi.project.service.ProjectMilestoneService;
 import com.ruoyi.system.domain.SysOss;
+import com.ruoyi.system.domain.vo.SysOssVo;
 import com.ruoyi.system.mapper.SysOssMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -48,10 +49,11 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
             throw new IllegalArgumentException("projectMilestoneBo cannot be null");
         }
         ProjectMilestone projectMilestone = new ProjectMilestone();
-        projectMilestone.setProjectId(projectMilestoneBo.getProjectId());
-        projectMilestone.setMilestoneTitle(projectMilestoneBo.getMilestoneTitle());
-        projectMilestone.setMilestoneRemark(projectMilestoneBo.getMilestoneRemark());
-        projectMilestone.setMilestoneDate(projectMilestoneBo.getMilestoneDate());
+//        projectMilestone.setProjectId(projectMilestoneBo.getProjectId());
+//        projectMilestone.setMilestoneTitle(projectMilestoneBo.getMilestoneTitle());
+//        projectMilestone.setMilestoneRemark(projectMilestoneBo.getMilestoneRemark());
+//        projectMilestone.setMilestoneDate(projectMilestoneBo.getMilestoneDate());
+        BeanCopyUtils.copy(projectMilestoneBo,projectMilestone);
 
         // 插入 projectMilestone
         int insertedRows = projectMilestoneMapper.insert(projectMilestone);
@@ -218,11 +220,12 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
         for (ProjectMilestone milestone : milestones) {
             ProjectMilestoneVo milestoneVo = new ProjectMilestoneVo();
             // 创建 ProjectMilestoneVo 对象用于存储结果
-            milestoneVo.setMilestoneId(milestone.getMilestoneId());
-            milestoneVo.setProjectId(milestone.getProjectId());
-            milestoneVo.setMilestoneTitle(milestone.getMilestoneTitle());
-            milestoneVo.setMilestoneRemark(milestone.getMilestoneRemark());
-            milestoneVo.setMilestoneDate(milestone.getMilestoneDate());
+//            milestoneVo.setMilestoneId(milestone.getMilestoneId());
+//            milestoneVo.setProjectId(milestone.getProjectId());
+//            milestoneVo.setMilestoneTitle(milestone.getMilestoneTitle());
+//            milestoneVo.setMilestoneRemark(milestone.getMilestoneRemark());
+//            milestoneVo.setMilestoneDate(milestone.getMilestoneDate());
+            BeanCopyUtils.copy(milestone,milestoneVo);
 
             List<Long> ossIds = projectMilestoneOssMapper.selectList(
                     new LambdaQueryWrapper<ProjectMilestoneOss>().eq(ProjectMilestoneOss::getMilestoneId, milestone.getMilestoneId()))
@@ -242,6 +245,13 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
         }
 
         return milestoneVos;
+    }
+
+    public TableDataInfo<SysOssVo> queryPageAllList(ProjectMilestoneBo projectMilestoneBo, PageQuery pageQuery){
+        projectMilestoneBo = Optional.ofNullable(projectMilestoneBo).orElseGet(ProjectMilestoneBo::new);
+
+
+        return null;
     }
 
 }
