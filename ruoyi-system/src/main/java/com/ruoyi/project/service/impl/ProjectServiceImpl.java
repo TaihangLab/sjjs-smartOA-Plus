@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -103,12 +104,25 @@ public class ProjectServiceImpl implements ProjectService {
         }
         ProjectUserBo projectLoginUserBo = new ProjectUserBo();
         projectLoginUserBo.setUserId(LoginHelper.getUserId());
-        projectLoginUserBo.setProjectUserRole(ProjectUserRole.PROJECT_ENTRY_OPERATOR);
+        projectLoginUserBo.setProjectUserRoleList(Collections.singletonList(ProjectUserRole.PROJECT_ENTRY_OPERATOR));
         projectUserBOList.add(projectLoginUserBo);
-        List<ProjectUser> projectUserList = projectUserBOList.stream()
-            .map(bo -> setProjectIdAndCopy(bo, projectId, ProjectUser.class))
-            .collect(Collectors.toList());
+        List<ProjectUser> projectUserList = projectUserListConverter(projectUserBOList, projectId);
         projectUserService.insertProjectUsers(projectUserList);
+    }
+
+    private List<ProjectUser> projectUserListConverter(List<ProjectUserBo> projectUserBOList, Long projectId) {
+        return projectUserBOList.stream()
+            .flatMap(projectUserBo -> {
+                return projectUserBo.getProjectUserRoleList().stream()
+                    .map(projectUserRole -> {
+                        ProjectUser projectUser = new ProjectUser();
+                        projectUser.setProjectId(projectId);
+                        projectUser.setUserId(projectUserBo.getUserId());
+                        projectUser.setProjectUserRole(projectUserRole);
+                        return projectUser;
+                    });
+            })
+            .collect(Collectors.toList());
     }
 
     private void insertProjectFunds(ProjectFundsBO projectFundsBO, Long projectId) {
@@ -195,9 +209,7 @@ public class ProjectServiceImpl implements ProjectService {
     private void updateProjectUsers(List<ProjectUserBo> projectUserBOList, Long projectId) {
         projectUserService.deleteProjectUsersByProID(projectId);
         if (projectUserBOList != null && !projectUserBOList.isEmpty()) {
-            List<ProjectUser> projectUserList = projectUserBOList.stream()
-                .map(bo -> setProjectIdAndCopy(bo, projectId, ProjectUser.class))
-                .collect(Collectors.toList());
+            List<ProjectUser> projectUserList = projectUserListConverter(projectUserBOList, projectId);
             projectUserService.insertProjectUsers(projectUserList);
         }
     }
