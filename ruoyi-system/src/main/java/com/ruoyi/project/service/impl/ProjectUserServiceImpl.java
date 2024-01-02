@@ -214,13 +214,6 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         return "";
     }
 
-    /**
-     * 分页查询项目成员Vo
-     *
-     * @param projectUserBo
-     * @param pageQuery
-     * @return
-     */
 //    public TableDataInfo<ProjectUserVo> queryPageAllList(ProjectUserBo projectUserBo, PageQuery pageQuery) {
 //        projectUserBo = Optional.ofNullable(projectUserBo).orElseGet(ProjectUserBo::new);
 //        List<SysUser> userList = getUserListByQuery(projectUserBo, pageQuery);
