@@ -30,7 +30,7 @@
                             @click="lookEdit(scope.$index, scope.row)">详情
                         </el-button>
                         <el-button size="mini" type="text" icon="el-icon-edit" v-if="buttonType === 1"
-                            @click="handleUpdate(scope.row)">修改
+                            @click="handleUpdate(scope.$index, scope.row)">修改
                         </el-button>
                         <el-button size="mini" type="text" icon="el-icon-delete" v-if="buttonType === 1"
                             @click="handleDelete(scope.row)">删除
@@ -151,9 +151,7 @@ export default {
             activeName: 'first',
         };
     },
-    created() {
 
-    },
     methods: {
         /** 删除按钮操作 */
         handleDelete(row) {
@@ -177,7 +175,6 @@ export default {
                 url: '/project/my/delete',
                 method: 'get',
                 data: [],
-                params: { projectId: projectId }
             })
         },
         // 关闭弹窗的方法
