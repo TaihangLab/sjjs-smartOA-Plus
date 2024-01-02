@@ -9,7 +9,7 @@
                 justify="center"
                 type="flex">
 
-                <el-col :span="1" style="text-align: center;" >
+                <el-col :span="1"  class="text-center">
                     <el-button icon="el-icon-circle-plus" circle type="success" plain @click="add"
                                v-show="index===form.items.length-1 && isButtonShowList[index]"></el-button>
                 </el-col>
@@ -22,7 +22,8 @@
                             clearable
                             :props="{ expandTrigger: 'hover', emitPath: false }"
                             placeholder="请选择项目成员"
-                            class="w-5/6"
+                            style="width: 25vw"
+
 
                         ></el-cascader>
                     </el-form-item>
@@ -31,7 +32,7 @@
                 <el-col :span="8">
                     <el-form-item label-width="80px" label="成员角色" prop="role">
                         <el-select v-model="item.role" multiple placeholder="请选择" @change="$forceUpdate()"
-                        class="w-full"
+                        style="width: 23vw;"
                         >
                             <el-option
                                 v-for="item in roleOptions"
@@ -144,7 +145,8 @@ function adaptUserData(data) {
     font-size: 2rem;
 }
 
-:deep(.el-icon-circle-plus) {
+
+:deep(i) {
 
 }
 </style>

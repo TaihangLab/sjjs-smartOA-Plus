@@ -1,4 +1,4 @@
-import "uno.css"
+// import "uno.css"
 import Vue from 'vue'
 
 import Cookies from 'js-cookie'

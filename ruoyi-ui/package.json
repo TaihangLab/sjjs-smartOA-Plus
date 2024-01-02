@@ -70,6 +70,7 @@
         "xml-js": "1.6.11"
     },
     "devDependencies": {
+        "@unocss/preset-attributify": "^0.58.2",
         "@unocss/preset-uno": "^0.58.2",
         "@vue/cli-plugin-babel": "4.4.6",
         "@vue/cli-plugin-eslint": "4.4.6",
