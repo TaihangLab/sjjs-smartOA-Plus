@@ -59,13 +59,13 @@
             <!-- 大事记查看打开的界面 -->
             <el-dialog :visible.sync="eventsDialogVisibleLook" width="50%" v-if="eventsDialogVisibleLook" :key="refreshEventsPage" @open="handleEventsDialogOpen" :modal="false">
                 <div style="max-height: 600px; overflow-y: auto;">
-                    <CheckEvents :projectId="projectId" :visible.sync="eventsDialogVisibleLook" :buttonType="buttonType">
+                    <CheckEvents :projectId="projectId.toString()" :visible.sync="eventsDialogVisibleLook" :buttonType="buttonType">
                     </CheckEvents>
                 </div>
             </el-dialog>
             <!--新增大事记-->
             <el-dialog :visible.sync="eventsDialogVisibleAdd" width="50%">
-                <AddEvents :projectId="projectId" :visible.sync="eventsDialogVisibleAdd" @close-dialog="closeEventsDialog">
+                <AddEvents :projectId="projectId.toString()" :visible.sync="eventsDialogVisibleAdd" @close-dialog="closeEventsDialog">
                 </AddEvents>
             </el-dialog>
             <!-- 页号 -->

@@ -10,7 +10,7 @@
                 class="no-border-radius"></el-button>
         </div>
         <el-timeline v-if="timelineItems.length">
-            <el-timeline-item v-for="(item, index) in timelineItems" :key="index" :timestamp="item.milestoneDate"
+            <el-timeline-item v-for="item in timelineItems" :key="item.milestoneId" :timestamp="item.milestoneDate"
                 placement="top" :icon="item.icon" :style="{ '--icon-color': '#0bbd87' }">
                 <el-card style="width: 90%; display: flex; flex-direction: column;">
                     <h4>名称：{{ item.milestoneTitle }}</h4>
@@ -74,7 +74,7 @@ export default {
     props: {
         projectId: {
             type: String,
-            default: "",
+            required: true
         },
         buttonType: {
             type: Number,
