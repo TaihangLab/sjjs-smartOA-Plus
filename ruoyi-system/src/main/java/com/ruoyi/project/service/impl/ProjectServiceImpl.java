@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author bailingnan
@@ -113,7 +114,11 @@ public class ProjectServiceImpl implements ProjectService {
     private List<ProjectUser> projectUserListConverter(List<ProjectUserBo> projectUserBOList, Long projectId) {
         return projectUserBOList.stream()
             .flatMap(projectUserBo -> {
-                return projectUserBo.getProjectUserRoleList().stream()
+                List<ProjectUserRole> roles = projectUserBo.getProjectUserRoleList();
+                if (roles == null || roles.isEmpty()) {
+                    return Stream.empty();
+                }
+                return roles.stream()
                     .map(projectUserRole -> {
                         ProjectUser projectUser = new ProjectUser();
                         projectUser.setProjectId(projectId);
@@ -124,6 +129,7 @@ public class ProjectServiceImpl implements ProjectService {
             })
             .collect(Collectors.toList());
     }
+
 
     private void insertProjectFunds(ProjectFundsBO projectFundsBO, Long projectId) {
         if (projectFundsBO != null) {
