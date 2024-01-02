@@ -34,6 +34,7 @@
 <script>
 import request from '@/utils/request';
 import data from "../../../system/dict/data.vue";
+
 export default {
     props: {
         projectfile: {
@@ -44,26 +45,26 @@ export default {
     name: "file",
     data() {
         return {
-
+            loading: false, 
         };
     },
     watch: {
         projectfile: {
             handler() {
                 // 在属性变化时调用获取详情的方法
-                this.transformedfile();
+                this.transformedFile; // 调用计算属性而不是方法
             },
             deep: true,
         },
     },
     methods: {
-
+        // 可以在这里定义其他方法...
     },
     computed: {
         data() {
-            return data
+            return data;
         },
-        transformedfile() {
+        transformedFile() { // 修改计算属性的名称
             // 对用户列表进行数据重构
             const result = [];
             this.projectfile.forEach((file) => {
