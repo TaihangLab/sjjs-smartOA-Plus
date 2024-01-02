@@ -6,7 +6,7 @@
         class="demo-form-inline"
         style="margin-left: 30px; margin-top: 20px;"
     >
-        <el-form-item label="项目名称">
+        <el-form-item label="项目名称" >
             <el-input
                 v-model="queryParams.assignedSubjectName"
                 clearable
@@ -14,7 +14,7 @@
                 @keyup.enter.native="handleQuery"
             ></el-input>
         </el-form-item>
-        <el-form-item label="负责课题">
+        <el-form-item label="负责课题" >
             <el-input
                 v-model="queryParams.assignedSubjectSection"
                 clearable
@@ -22,7 +22,7 @@
                 @keyup.enter.native="handleQuery"
             ></el-input>
         </el-form-item>
-        <el-form-item label="项目成员">
+        <el-form-item label="项目成员" >
             <el-cascader
                 v-model="responsiblePerson"
                 :options="cascaderOptions"
@@ -32,7 +32,7 @@
                 @keyup.enter.native="handleQuery"
             ></el-cascader>
         </el-form-item>
-        <el-form-item label="合作单位">
+        <el-form-item label="合作单位" >
             <el-cascader
                 v-model="CoCompany"
                 :options="cocompanyOptions"
@@ -41,7 +41,7 @@
                 @keyup.enter.native="handleQuery"
             ></el-cascader>
         </el-form-item>
-        <el-form-item label="立项时间">
+        <el-form-item label="立项时间" >
             <el-date-picker
                 v-model="projectEstablishTime"
                 type="daterange"
@@ -55,7 +55,7 @@
                 @keyup.enter.native="handleQuery"
             ></el-date-picker>
         </el-form-item>
-        <el-form-item label="项目计划验收时间">
+        <el-form-item label="项目计划验收时间" >
             <el-date-picker
                 v-model="projectScheduledCompletionTime"
                 type="daterange"
@@ -69,7 +69,7 @@
                 @keyup.enter.native="handleQuery"
             ></el-date-picker>
         </el-form-item>
-        <el-form-item label="项目级别">
+        <el-form-item label="项目级别" >
             <el-cascader
                 v-model="projectLevel"
                 :options="levelOptions"

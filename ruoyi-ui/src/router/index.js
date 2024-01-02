@@ -214,7 +214,7 @@ export const dynamicRoutes = [
                 meta: {title: '我的项目', icon: 'qq'}
             },
             {
-                path: 'member',
+                path: 'members',
                 component: () => import('@/views/project/Members.vue'),
                 name: '成员列表',
                 meta: {title: '成员列表', icon: 'members'}
