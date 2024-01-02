@@ -2,7 +2,7 @@
     <div>
         <CheckProject @query-request="handleQueryRequest" />
         <div>
-            <Project :projectListLook="projectListLook" :myProjectLook="myProjectLook" :total="total"
+            <Project :projectListLook="projectListLook" :myProjectLook="myProjectLook" :total="total" :key="projectListKey"
                 :queryParam="queryParam" @update-query-param="updateQueryParam" @reloadProjectList="getprojectList" />
         </div>
     </div>
@@ -31,6 +31,7 @@ export default {
             total: 0,
             myProjectFrom: {},
             myProjectLook: [],
+            projectListKey: 1,
         };
     },
     created() {
