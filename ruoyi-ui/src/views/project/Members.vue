@@ -3,7 +3,6 @@
         <el-form
             ref="dataForm"
             :inline="true"
-            :model="myProjectFrom"
             class="demo-form-inline"
             style="margin-left: 30px; margin-top: 20px;"
         >
@@ -56,15 +55,15 @@
                     </el-table-column>
                     <el-table-column label="操作" :resizable="false" align="center" min-width="100px" fixed="right">
                         <template v-slot="scope">
-                            <el-button size="mini" type="text" icon="el-icon-tickets" @click="lookMembers()">详情</el-button>
+                            <el-button size="mini" type="text" icon="el-icon-tickets" @click="lookMembers(scope.row.userId)">详情</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
 
                 <!-- 详情打开的界面 -->
-                <el-dialog :model="formLook" :visible.sync="dialogMembersLook" width="50%">
+                <el-dialog :visible.sync="dialogMembersLook" width="50%">
                     <div class="dialog-content">
-                        <ProjectDetail :formLook="formLook"></ProjectDetail>
+                        <CheckMembers :memberid="this.memberid"></CheckMembers>
                     </div>
                 </el-dialog>
             </div>
@@ -80,13 +79,15 @@ import { listUser, deptTreeSelect } from "@/api/system/user";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 import request from '@/utils/request';
 import CheckProject from "./CheckProject.vue";
+import CheckMembers from "@/views/project/components/ViewMember/CheckMembers.vue";
 export default {
-    components: {CheckProject},
+    components: {CheckMembers, CheckProject},
     data(){
         return {
             total: undefined,
             responsiblePerson: [],
             cascaderOptions: [],
+            memberid: undefined,
             memberslist: undefined,
             dialogMembersLook: false,
             datas: {
@@ -160,8 +161,9 @@ export default {
             this.checkmembers();
         },
         //详情按钮
-        lookMembers() {
+        lookMembers(userId) {
             this.dialogMembersLook = true;
+            this.memberid = userId;
         },
         // 查看用户列表
         checkmembers() {

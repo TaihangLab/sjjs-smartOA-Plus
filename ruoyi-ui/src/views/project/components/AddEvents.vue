@@ -82,7 +82,6 @@ export default {
           this.$modal.msgSuccess("新增成功");
           this.$emit('milestoneAdded');
           this.$emit('close-dialog'); // 触发一个事件通知父组件关闭弹窗
-          this.getDataList(); // 刷新数据
           this.$refs.fujian.reset();
 
         })
