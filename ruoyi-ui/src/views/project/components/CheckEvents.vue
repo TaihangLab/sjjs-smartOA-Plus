@@ -9,7 +9,7 @@
             <el-button type="primary" icon="el-icon-search" @click="handleQuery" size="mini"
                 class="no-border-radius"></el-button>
         </div>
-        <el-timeline>
+        <el-timeline v-if="timelineItems.length">
             <el-timeline-item v-for="(item, index) in timelineItems" :key="index" :timestamp="item.milestoneDate"
                 placement="top" :icon="item.icon" :style="{ '--icon-color': '#0bbd87' }">
                 <el-card style="width: 90%; display: flex; flex-direction: column;">
@@ -30,6 +30,9 @@
                 </el-card>
             </el-timeline-item>
         </el-timeline>
+        <div v-else class="no-data-message" style="color: #909399; font-size: 14px; text-align: center;">
+            暂无大事记数据
+        </div>
         <!-- 修改大事记页面弹出框 -->
         <el-dialog ref="eventsDialogEdit" title="修改大事记" :visible.sync="eventsDialogVisibleEdit"
             @update:visible="eventsDialogVisibleEdit = arguments[0]" :lock-scroll="false" :append-to-body="true"
@@ -162,7 +165,7 @@ export default {
         console.log("fujian 组件接收到的附件数据:", this.value);
     },
     mounted() {
-        console.log("传过来的项目id", this.sysOsses);
+        console.log("传过来的项目id", this.projectId);
         // 获取数据
         request({
             url: '/project/list/milestonequery',
@@ -248,7 +251,7 @@ export default {
                 milestoneStaTime: this.milestoneStaTime,
                 milestoneEndTime: this.milestoneEndTime,
             };
-            console.log('milestoneStaTime',this.milestoneStaTime)
+            console.log('milestoneStaTime', this.milestoneStaTime)
             // 重新获取数据逻辑
             request({
                 url: '/project/list/milestonequery',

@@ -13,8 +13,6 @@ public interface ProjectAttachmentService {
 
     void deleteAllProjectAttachmentByProID(Long projectId);
 
-    int deleteProjectAttachmentById(Long projectAttachmentId);
-
     List<SysOssVo> selectSysOssVOListByProId(Long projectId);
 
 

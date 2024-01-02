@@ -51,9 +51,9 @@
                 </el-table-column>
             </el-table>
             <!-- 详情打开的界面 -->
-            <el-dialog :model="formLook" :visible.sync="dialogFormVisibleLook" width="50%">
+            <el-dialog :model="formLook" v-if="dialogFormVisibleLook" :visible.sync="dialogFormVisibleLook" width="50%" >
                 <div class="dialog-content">
-                    <ProjectDetail :visible.sync="dialogFormVisibleLook" :formLook="formLook"></ProjectDetail>
+                    <ProjectDetail  :visible.sync="dialogFormVisibleLook" :formLook="formLook"></ProjectDetail>
                 </div>
             </el-dialog>
             <!-- 大事记查看打开的界面 -->
@@ -74,6 +74,11 @@
                 :page-sizes="[5, 10, 20, 50, 100]" :total="total" layout="total ,sizes,prev,pager,next,jumper"
                 style="margin-top: 30px" @size-change="sizeChangeHandle" @current-change="CurrentChangeHandle">
             </el-pagination>
+            <!-- 修改项目弹出的对话框-->
+            <el-dialog title="修改项目" :visible.sync="newProjectDialogVisible" fullscreen
+                       :key="refreshUpdateDialog">
+                <NewProject :visible.sync="newProjectDialogVisible" :updateId="updateId"></NewProject>
+            </el-dialog>
         </div>
     </el-card>
 </template>
@@ -82,6 +87,7 @@ import request from '@/utils/request';
 import ProjectDetail from "@/views/project/components/ProjectDetail.vue";
 import CheckEvents from "@/views/project/components/CheckEvents.vue";
 import AddEvents from "@/views/project/components/AddEvents.vue";
+import NewProject from "@/views/project/components/NewProject.vue";
 
 export default {
     name: "Project",
@@ -104,12 +110,16 @@ export default {
 
     },
     components: {
+        NewProject,
         ProjectDetail,
         CheckEvents,
         AddEvents,
     },
     data() {
         return {
+            refreshUpdateDialog: false,
+            updateId: '',
+            newProjectDialogVisible:false,
             queryParam: {
                 pageNum: 1,
                 pageSize: 10,
@@ -153,6 +163,12 @@ export default {
     },
 
     methods: {
+
+        handleUpdate(row) {
+            this.updateId = row.projectId;
+            this.refreshUpdateDialog = ! this.refreshUpdateDialog;
+            this.newProjectDialogVisible = true;
+        },
         /** 删除按钮操作 */
         handleDelete(row) {
             const projectId = row.projectId;
@@ -170,7 +186,6 @@ export default {
         },
         // 删除用户
         deleteUser(projectId) {
-            console.log('删除项目', projectId);
             return request({
                 url: '/project/my/delete',
                 method: 'get',

@@ -88,7 +88,7 @@
 
                 <el-col :span="8">
                     <el-form-item label-width="120px" label="验收时间" prop="endTime"
-                                  :rules="[{ required: true, message: '请选择 验收时间', trigger: 'blur' }]">
+                                  :rules="[{ required: true, message: '请选择 验收时间', trigger: 'change' }]">
                         <el-date-picker
                             placeholder="验收时间"
                             v-model="form.endTime"
@@ -176,7 +176,7 @@
                 </el-col>
 
                 <el-col :span="12">
-                    <el-form-item label-width="120px" label="完成进度" prop="standardStatus">
+                    <el-form-item label-width="120px" label="完成进度" prop="completionProgress">
                         <el-input type="textarea" v-model="form.completionProgress"></el-input>
                     </el-form-item>
                 </el-col>

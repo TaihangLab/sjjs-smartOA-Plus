@@ -9,8 +9,10 @@ import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.ProjectLevel;
 import com.ruoyi.common.enums.ProjectUserRole;
 import com.ruoyi.common.utils.BeanCopyUtils;
+import com.ruoyi.project.domain.ProjectBaseInfo;
 import com.ruoyi.project.domain.ProjectUser;
 import com.ruoyi.project.domain.bo.ProjectUserBo;
+import com.ruoyi.project.domain.vo.ProjectUserDetailVo;
 import com.ruoyi.project.domain.vo.ProjectUserVo;
 import com.ruoyi.project.mapper.ProjectBaseInfoMapper;
 import com.ruoyi.project.mapper.ProjectUserMapper;
@@ -20,8 +22,8 @@ import com.ruoyi.system.mapper.SysUserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -37,26 +39,6 @@ public class ProjectUserServiceImpl implements ProjectUserService {
     private final SysDeptMapper sysDeptMapper;
 
     private final ProjectBaseInfoMapper projectBaseInfoMapper;
-
-    /**
-     * 添加项目成员
-     *
-     * @param projectId
-     * @param projectUserBos
-     * @return
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public boolean insertProjectUsers(Long projectId, List<ProjectUserBo> projectUserBos) {
-        List<ProjectUser> projectUsers = new ArrayList<>();
-        for (ProjectUserBo projectUserBo : projectUserBos) {
-            ProjectUser projectUser = new ProjectUser();
-            projectUser.setProjectId(projectId);
-            projectUser.setUserId(projectUserBo.getUserId());
-            projectUser.setProjectUserRole(projectUserBo.getProjectUserRole());
-        }
-        return projectUserMapper.insertBatch(projectUsers);
-    }
 
     /**
      * 添加项目成员
@@ -81,32 +63,6 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         Map<String, Object> columnMap = new HashMap<>();
         columnMap.put("project_id", projectId);
         return projectUserMapper.deleteByMap(columnMap);
-    }
-
-    /**
-     * 修改项目成员
-     *
-     * @param projectId
-     * @param projectUserBos
-     * @return
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public int updateProjectUsers(Long projectId, List<ProjectUserBo> projectUserBos) {
-        Map<String, Object> columnMap = new HashMap<>();
-        columnMap.put("project_id", projectId);
-        projectUserMapper.deleteByMap(columnMap);
-
-        // 插入新的用户ID
-        List<ProjectUser> projectUsers = new ArrayList<>();
-        for (ProjectUserBo projectUserBo : projectUserBos) {
-            ProjectUser projectUser = new ProjectUser();
-            projectUser.setProjectId(projectId);
-            projectUser.setUserId(projectUserBo.getUserId());
-            projectUser.setProjectUserRole(projectUserBo.getProjectUserRole());
-        }
-
-        return projectUserMapper.insertBatch(projectUsers) ? projectUsers.size() : 0;
     }
 
     /**
@@ -260,6 +216,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 
     /**
      * 分页查询项目成员Vo
+     *
      * @param projectUserBo
      * @param pageQuery
      * @return
@@ -273,9 +230,20 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         return TableDataInfo.build(projectUserVoList);
     }
 
+    //获取当页显示的用户列表
     private List<SysUser> getUserListByQuery(ProjectUserBo projectUserBo, PageQuery pageQuery) {
         LambdaQueryWrapper<SysUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.eq(projectUserBo.getUserId() != null, SysUser::getUserId, projectUserBo.getUserId());
+
+        if (projectUserBo != null) {
+            if (projectUserBo.getUserId() != null) {
+                lambdaQueryWrapper.eq(SysUser::getUserId, projectUserBo.getUserId());
+            }
+            if (projectUserBo.getProjectId() != null) {
+                Set<Long> userIds = getUserIdsByProjectId(projectUserBo.getProjectId());
+                lambdaQueryWrapper.in(SysUser::getUserId, userIds);
+            }
+        }
+
         Page<SysUser> result = sysUserMapper.selectPage(pageQuery.build(), lambdaQueryWrapper);
         return result.getRecords();
     }
@@ -343,5 +311,41 @@ public class ProjectUserServiceImpl implements ProjectUserService {
             projectUserVo.setUserProjectNum(projectLevelCountMap.values().stream().mapToInt(Integer::intValue).sum());
         }
     }
+
+    /**
+     * 根据userId查询对应的各类型项目详情
+     *
+     * @param userId
+     * @return
+     */
+    public ProjectUserDetailVo getProjectUserDetailById(Long userId) {
+        Set<Long> projectIds = projectUserMapper.selectList(new LambdaQueryWrapper<ProjectUser>()
+                .eq(ProjectUser::getUserId, userId))
+            .stream()
+            .filter(projectUser -> !projectUser.getProjectUserRole().equals(ProjectUserRole.PROJECT_ENTRY_OPERATOR))
+            .map(ProjectUser::getProjectId)
+            .collect(Collectors.toSet());
+
+        if (projectIds.isEmpty()) {
+            return new ProjectUserDetailVo();
+        }
+
+        List<ProjectBaseInfo> projectBaseInfos = projectBaseInfoMapper.selectList(new LambdaQueryWrapper<ProjectBaseInfo>()
+            .in(ProjectBaseInfo::getProjectId, projectIds)
+            .le(ProjectBaseInfo::getProjectEstablishTime, LocalDate.now())
+            .ge(ProjectBaseInfo::getProjectScheduledCompletionTime, LocalDate.now()));
+
+        Map<ProjectLevel, List<ProjectBaseInfo>> classifiedProjects = projectBaseInfos.stream()
+            .collect(Collectors.groupingBy(ProjectBaseInfo::getProjectLevel));
+
+        ProjectUserDetailVo projectUserDetailVo = new ProjectUserDetailVo();
+        projectUserDetailVo.setNationProjectBaseInfos(classifiedProjects.getOrDefault(ProjectLevel.NATIONAL, Collections.emptyList()));
+        projectUserDetailVo.setProvincialProjectBaseInfos(classifiedProjects.getOrDefault(ProjectLevel.PROVINCIAL, Collections.emptyList()));
+        projectUserDetailVo.setEnterpriseProjectBaseInfos(classifiedProjects.getOrDefault(ProjectLevel.ENTERPRISE, Collections.emptyList()));
+
+        return projectUserDetailVo;
+
+    }
+
 
 }

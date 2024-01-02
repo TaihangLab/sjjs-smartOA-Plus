@@ -243,3 +243,48 @@ create table project_plan
 
 create index project_plan_project_id_index
     on project_plan (project_id);
+-- ----------------------------
+-- 9、知识产权表
+-- ----------------------------
+DROP TABLE IF EXISTS `intellectual_property`;
+create table intellectual_property
+(
+    ip_id      bigint auto_increment comment '知识产权id'
+        primary key,
+    oss_id     bigint                  not null comment '对象存储id',
+    project_id bigint                  null comment '项目id',
+    ip_name    varchar(255) default '' not null comment '知识产权名',
+    ip_type    tinyint                 not null comment '知识产权类别,国内发明专利0、软件著作权1、论文2、标准3',
+    ip_status  tinyint                 null comment '知识产权状态,专利受理0，专利授权1，软著已获取2，标准正在申报3，标准已通过4，论文已发表5',
+    ip_date    date                    not null comment '获得日期',
+    constraint intellectual_property_pk
+        unique (oss_id)
+)
+    comment '知识产权表';
+
+create index intellectual_property_oss_id_ip_name_index
+    on intellectual_property (oss_id, ip_name);
+
+-- ----------------------------
+-- 9、知识产权和存储对象关联表
+-- ----------------------------
+DROP TABLE IF EXISTS `ip_oss`;
+create table ip_oss
+(
+    ip_id  tinyint not null comment '知识产权id',
+    oss_id tinyint not null comment '存储对象id',
+    primary key (ip_id, oss_id)
+)
+    comment '知识产权和存储对象关联表';
+-- ----------------------------
+-- 9、知识产权和用户关联表
+-- ----------------------------
+DROP TABLE IF EXISTS `ip_user`;
+create table ip_user
+(
+    ip_id   bigint not null comment '知识产权id',
+    user_id bigint not null comment '成员id',
+    primary key (ip_id, user_id)
+)
+    comment '知识产权和用户关联表';
+

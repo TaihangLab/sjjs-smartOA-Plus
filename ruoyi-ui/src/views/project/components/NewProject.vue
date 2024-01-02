@@ -89,13 +89,14 @@ import ProjectPlan from "@/views/project/components/ProjectPlan.vue";
 
 import {Loading} from "element-ui";
 import request from "@/utils/request";
-import {addProject} from "@/views/project/components/project";
+import {addProject, getProject} from "@/views/project/components/project";
+import Vue from "vue";
 
 const TOTAL_STEPS = 10;
 
 export default {
-    name: "NewProject",
-    props: ['visible'],
+    name      : "NewProject",
+    props     : ['visible', "updateId"],
     components: {
         ProjectPlan,
         OtherAttachment,
@@ -110,23 +111,36 @@ export default {
         ProjectFunds,
 
     },
+    mounted() {
+        if (this.$props.updateId) {
+            console.log("获取到的ID为：", this.updateId);
+            getProject(this.updateId, this.projectInfoForm, this.projectMemberForm,
+                this.projectFundsForm, this.zxFundsDetailForm,
+                this.zcFundsDetailForm, this.fundsSourceForm,
+                this.projectIndicatorForm, this.projectPlanForm,
+                this.otherAttachmentForm)
+            // console.log(this.projectFundsForm);
+            // this.$refs.projectInfo.$forceUpdate();
+        }
+
+    },
     data() {
         return {
-            stepID: 1,
-            isStepHover: false,
-            titles: ["项目信息", "项目成员", "项目经费", "专项经费", "自筹经费", "经费来源", "项目指标", "项目计划", "正文附件", "其他附件"],
+            stepID        : 1,
+            isStepHover   : false,
+            titles        : ["项目信息", "项目成员", "项目经费", "专项经费", "自筹经费", "经费来源", "项目指标", "项目计划", "正文附件", "其他附件"],
             nextButtonText: '下一步',
 
-            projectInfoForm: {},
-            projectMemberForm: {members: [],},
-            projectFundsForm: {},
-            zxFundsDetailForm: {},
-            zcFundsDetailForm: {},
+            projectInfoForm     : {},
+            projectMemberForm   : {members: [],},
+            projectFundsForm    : {},
+            zxFundsDetailForm   : {},
+            zcFundsDetailForm   : {},
             projectIndicatorForm: {},
-            projectPlanForm: {},
-            fundsSourceForm: {},
-            mainAttachmentForm: {},
-            otherAttachmentForm: {},
+            projectPlanForm     : {},
+            fundsSourceForm     : {},
+            mainAttachmentForm  : {},
+            otherAttachmentForm : {},
         };
     },
 
@@ -135,7 +149,7 @@ export default {
             // todo
             if (this.stepID++ >= TOTAL_STEPS - 1) {
                 this.submit();
-                this.$emit('update:visible', false);
+                // this.$emit('update:visible', false);
                 // this.reset();
             }
 
@@ -160,7 +174,12 @@ export default {
         },
 
         reset() {
-            // this.$refs.projectInfo.$refs.form.resetFields()
+            console.log("刷新111")
+            for (const key in this.projectInfoForm) {
+                console.log("刷新")
+                Vue.set(this.projectInfoForm, key, "");
+            }
+            console.log(this.projectInfoForm)
             // this.$refs.zxFundsDetail.$refs.form.resetFields()
             // this.$refs.projectMember.reset();
             // this.$refs.zxFundsDetail.reset();
@@ -168,6 +187,7 @@ export default {
         },
         submit() {
             // console.log(this.$refs.projectInfo.$refs.form.validate());
+            const loading = Loading.service({fullscreen: true, lock: true, text: '少女祈祷中'});
             addProject(this.projectInfoForm, this.projectMemberForm,
                 this.projectFundsForm, this.zxFundsDetailForm,
                 this.zcFundsDetailForm, this.fundsSourceForm,
@@ -177,16 +197,18 @@ export default {
                     console.log(resp)
                     this.$message({
                         message: '恭喜你，项目新增成功',
-                        type: 'success'
+                        type   : 'success'
                     });
+                    loading.close();
                 }, error => {
                     this.$message.error('错了哦，服务器返回了一条错误信息\n' + error);
+                    loading.close();
                 })
-            // let loading = Loading.service({ fullscreen: true, lock: true, text: '少女祈祷中' });
-            // setTimeout(() => loading.close(), 3000);
+            this.$emit('update:visible', false);
+            location.reload();
         },
     },
-    watch: {
+    watch  : {
         stepID(newid, oldid) {
             if (newid > TOTAL_STEPS - 2) {
                 this.nextButtonText = '完成';
