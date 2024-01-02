@@ -97,6 +97,9 @@ export default {
             responsiblePerson: [],
             projectEstablishTime: [],
             projectScheduledCompletionTime: [],
+            myProjectFrom: {},
+            myProjectLook: {},
+            projectListLook: {},
             queryParams: {
                 pageNum: 1,
                 pageSize: 5,

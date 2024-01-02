@@ -39,7 +39,7 @@ module.exports = {
         proxy           : {
             // detail: https://cli.vuejs.org/config/#devserver-proxy
             [process.env.VUE_APP_BASE_API]: {
-                target      : `http://10.21.12.160:8080`,
+                target      : `http://10.21.12.86:8080`,
                 changeOrigin: true,
                 pathRewrite : {
                     ['^' + process.env.VUE_APP_BASE_API]: ''
@@ -50,18 +50,15 @@ module.exports = {
     },
     css             : {
         // unocss
-        extract: {
-            filename: '[name].[hash:9].css',
-        },
+        // extract: {
+        //     filename: '[name].[hash:9].css',
+        // },
 
         loaderOptions: {
             sass   : {
                 sassOptions: {outputStyle: "expanded"}
             },
 
-            // postcss: {
-            //     plugins: [require('tailwindcss'), require('autoprefixer')]
-            // }
         }
     },
     configureWebpack: {
