@@ -94,8 +94,7 @@ export function addProject(projectInfoForm, projectMemberForm, projectFundsForm,
                 "ryhlwbzfZcZj"   : zcFundsDetailForm.rylwbzf_zj,
                 "jxzcZx"         : zxFundsDetailForm.jxzc_jj,
                 "jxzcZc"         : zcFundsDetailForm.jxzc_jj,
-                "othersZx"       : 0,
-                "othersZc"       : 0,
+
                 "jflyZx"         : fundsSourceForm.zxjfzz,
                 "jflyZc"         : fundsSourceForm.zcjf,
                 "jflyQtczbkZc"   : fundsSourceForm.qtczbk,
@@ -167,7 +166,12 @@ export function getProject(projectId, projectInfoForm, projectMemberForm, projec
                   projectAttachmentVOList,
                   projectPlanVOList
               } = resp.data;
-
+        console.log(projectUserVoList);
+        const members    = projectUserVoList.map(value => {
+            return {id: value.userId, role: value.projectUserRoles}
+        });
+        const members2 = [{id:1, role:[1,2,3]}]
+        Vue.set(projectMemberForm, "items", members);
         // projectFundsForm.jfze = projectFundsVO.totalFundsAll
         // projectFundsForm.zxjfze = projectFundsVO.totalFundsZx
         // projectFundsForm.zxsbf  = projectFundsVO.sbfZx

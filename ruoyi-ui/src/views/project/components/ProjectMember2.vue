@@ -22,14 +22,17 @@
                             clearable
                             :props="{ expandTrigger: 'hover', emitPath: false }"
                             placeholder="请选择项目成员"
-                            style="width: 30vw"
+                            class="w-5/6"
+
                         ></el-cascader>
                     </el-form-item>
                 </el-col>
 
-                <el-col :span="6" :offset="1">
+                <el-col :span="8">
                     <el-form-item label-width="80px" label="成员角色" prop="role">
-                        <el-select v-model="item.role" clearable placeholder="请选择">
+                        <el-select v-model="item.role" multiple placeholder="请选择" @change="$forceUpdate()"
+                        class="w-full"
+                        >
                             <el-option
                                 v-for="item in roleOptions"
                                 :key="item.value"
@@ -42,7 +45,6 @@
                 </el-col>
                 <el-col :span="1" style="text-align: center;">
                     <el-button icon="el-icon-remove" circle type="danger" plain @click="remove(index)" v-show="form.items.length!==1&&isButtonShowList[index]"></el-button>
-
                 </el-col>
             </el-row>
         </el-form>
