@@ -131,7 +131,7 @@
                     <ProjectIndicators :projectTarget="this.projectdetails.projectTargetVOList"></ProjectIndicators>
                 </el-tab-pane>
                 <el-tab-pane label="项目成员" name="fourth">
-                    <Member :projectid="String(formLook.projectId)" />
+                    <Member :projectid="formLook.projectId" />
                 </el-tab-pane>
                 <el-tab-pane label="项目经费" name="fifth">
                     <FundsDetail :projectfund="this.projectdetails.projectFundsVO"></FundsDetail>

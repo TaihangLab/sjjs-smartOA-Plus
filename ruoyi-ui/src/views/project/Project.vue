@@ -51,14 +51,13 @@
                 </el-table-column>
             </el-table>
             <!-- 详情打开的界面 -->
-            <el-dialog :model="formLook" v-if="dialogFormVisibleLook" :visible.sync="dialogFormVisibleLook" width="50%" >
+            <el-dialog :model="formLook" v-show="dialogFormVisibleLook" :visible.sync="dialogFormVisibleLook" width="50%" >
                 <div class="dialog-content">
                     <ProjectDetail  :visible.sync="dialogFormVisibleLook" :formLook="formLook"></ProjectDetail>
                 </div>
             </el-dialog>
             <!-- 大事记查看打开的界面 -->
-            <el-dialog :visible.sync="eventsDialogVisibleLook" width="50%" :key="refreshEventsPage"
-                @open="handleEventsDialogOpen" :modal="false">
+            <el-dialog :visible.sync="eventsDialogVisibleLook" width="50%" v-if="eventsDialogVisibleLook" :key="refreshEventsPage" @open="handleEventsDialogOpen" :modal="false">
                 <div style="max-height: 600px; overflow-y: auto;">
                     <CheckEvents :projectId="projectId" :visible.sync="eventsDialogVisibleLook" :buttonType="buttonType">
                     </CheckEvents>
@@ -149,7 +148,6 @@ export default {
             projectList: [],
             pageIndex: 1,
             pageSize: 5,
-            total: 0,
             begin: 0,
             end: this.pageSize - 1,
             dialogFormVisible: false, //默认关闭新建用户界面
