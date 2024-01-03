@@ -28,7 +28,7 @@
                         }}
                         </el-descriptions-item>
                         <el-descriptions-item label="是否牵头单位">{{
-                            this.projectdetails.projectInfoVO.hasLeadingRole
+                            this.hasLeading[this.projectdetails.projectInfoVO.hasLeadingRole]
                         }}
                         </el-descriptions-item>
                         <el-descriptions-item label="项目负责人">{{
@@ -40,7 +40,7 @@
                         }}
                         </el-descriptions-item>
                         <el-descriptions-item label="项目级别">{{
-                            this.projectdetails.projectInfoVO.projectLevel
+                            this.projectLevel[this.projectdetails.projectInfoVO.projectLevel]
                         }}
                         </el-descriptions-item>
                         <el-descriptions-item label="项目来源">{{
@@ -60,7 +60,7 @@
                         }}
                         </el-descriptions-item>
                         <el-descriptions-item label="项目推进情况">{{
-                            this.projectdetails.projectInfoVO.projectProgressStatus
+                            this.projectProgressStatus[this.projectdetails.projectInfoVO.projectProgressStatus]
                         }}
                         </el-descriptions-item>
                         <el-descriptions-item label="合作单位">{{
@@ -86,34 +86,34 @@
                         </el-descriptions-item>
                     </el-descriptions>
                     <el-collapse v-model="activeNames">
-                        <el-collapse-item style="font-size: 20px;" name="1">
-                            <template slot="title">
-                                <span style="font-size: 14px;">项目成果情况</span>
-                            </template>
-                            <el-descriptions class="margin-top" title="" :column="2" :size="size"
-                                :labelStyle="{ width: '18%' }" :contentStyle="{ width: '32%' }" border>
-                                <el-descriptions-item label="获奖情况（项）">{{
-                                    this.projectdetails.projectInfoVO.awardDetails
-                                }}
-                                </el-descriptions-item>
-                                <el-descriptions-item label="论文情况（项）">{{
-                                    this.projectdetails.projectInfoVO.publicationDetails
-                                }}
-                                </el-descriptions-item>
-                                <el-descriptions-item label="专利情况">{{
-                                    this.projectdetails.projectInfoVO.patentDetails
-                                }}
-                                </el-descriptions-item>
-                                <el-descriptions-item label="软著情况">{{
-                                    this.projectdetails.projectInfoVO.softwareCopyrightDetails
-                                }}
-                                </el-descriptions-item>
-                                <el-descriptions-item label="标准情况">{{
-                                    this.projectdetails.projectInfoVO.standardDetails
-                                }}
-                                </el-descriptions-item>
-                            </el-descriptions>
-                        </el-collapse-item>
+<!--                        <el-collapse-item style="font-size: 20px;" name="1">-->
+<!--                            <template slot="title">-->
+<!--                                <span style="font-size: 14px;">项目成果情况</span>-->
+<!--                            </template>-->
+<!--                            <el-descriptions class="margin-top" title="" :column="2" :size="size"-->
+<!--                                :labelStyle="{ width: '18%' }" :contentStyle="{ width: '32%' }" border>-->
+<!--                                <el-descriptions-item label="获奖情况（项）">{{-->
+<!--                                    this.projectdetails.projectInfoVO.awardDetails-->
+<!--                                }}-->
+<!--                                </el-descriptions-item>-->
+<!--                                <el-descriptions-item label="论文情况（项）">{{-->
+<!--                                    this.projectdetails.projectInfoVO.publicationDetails-->
+<!--                                }}-->
+<!--                                </el-descriptions-item>-->
+<!--                                <el-descriptions-item label="专利情况">{{-->
+<!--                                    this.projectdetails.projectInfoVO.patentDetails-->
+<!--                                }}-->
+<!--                                </el-descriptions-item>-->
+<!--                                <el-descriptions-item label="软著情况">{{-->
+<!--                                    this.projectdetails.projectInfoVO.softwareCopyrightDetails-->
+<!--                                }}-->
+<!--                                </el-descriptions-item>-->
+<!--                                <el-descriptions-item label="标准情况">{{-->
+<!--                                    this.projectdetails.projectInfoVO.standardDetails-->
+<!--                                }}-->
+<!--                                </el-descriptions-item>-->
+<!--                            </el-descriptions>-->
+<!--                        </el-collapse-item>-->
                         <el-collapse-item style="font-size: 20px;" name="2">
                             <template slot="title">
                                 <span style="font-size: 14px;">项目简介</span>
@@ -169,6 +169,25 @@ export default {
     },
     data() {
         return {
+            hasLeading: {
+                0: '否',
+                1: '是',
+            },
+            projectLevel: {
+                0: '国家级',
+                1: '省部级',
+                2: '企业级',
+            },
+            projectProgressStatus: {
+                0: '正在需求申报',
+                1: '已完成需求申报',
+                2: '正在项目申报',
+                3: '已完成项目申报',
+                4: '已签订任务书并推进中',
+                5: '已完成中期评审',
+                6: '已完成验收',
+                7: '未通过评审',
+            },
             rowCenter: {
                 "text-align": "center"
             },

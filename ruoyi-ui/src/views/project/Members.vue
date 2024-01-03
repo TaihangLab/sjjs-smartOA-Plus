@@ -28,7 +28,7 @@
                           :cell-style="{ padding: '0px' }">
                     <!--                <el-table-column type="selection" :resizable="false" align="center" width="40"></el-table-column>-->
                     <el-table-column label="姓名" :resizable="false" align="center" prop="nickName"
-                                     width="120">
+                                     width="120"> 
                     </el-table-column>
                     <el-table-column label="职称" :resizable="false" align="center" prop="jobTitle" width="120">
                     </el-table-column>

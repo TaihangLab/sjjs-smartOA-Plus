@@ -2,7 +2,6 @@
     <div>
         <div style="margin-top: 10px;"></div>
         <el-table v-loading="loading" :data="transformedFile" style="margin: 0; padding: 0;">
-            <!-- el-table-column 改用插值语法传递 label -->
             <el-table-column :label="'文件名称'" align="center" prop="originalName" :show-overflow-tooltip="true" />
             <el-table-column :label="'文件格式'" align="center" prop="fileSuffix" :show-overflow-tooltip="true" >
                 <template slot-scope="scope">

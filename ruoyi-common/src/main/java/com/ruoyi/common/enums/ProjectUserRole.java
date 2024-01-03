@@ -29,6 +29,6 @@ public enum ProjectUserRole implements IEnum<String> {
     }
     @Override
     public String toString(){
-        return this.description;
+        return this.value;
     }
 }

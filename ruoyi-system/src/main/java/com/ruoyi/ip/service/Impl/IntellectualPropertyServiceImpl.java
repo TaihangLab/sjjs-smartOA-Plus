@@ -61,4 +61,24 @@ public class IntellectualPropertyServiceImpl implements IntellectualPropertyServ
         ipUserService.deleteIpUserByIpId(ipId);
         ipOssService.deleteIpOssByIpId(ipId);
     }
+
+    /**
+     * @param intellectualPropertyBO
+     */
+    @Override
+    public void updateIntellectualProperty(IntellectualPropertyBO intellectualPropertyBO) {
+        if (intellectualPropertyBO == null) {
+            throw new IllegalArgumentException("intellectualPropertyBO can not be null");
+        }
+        IntellectualProperty intellectualProperty = new IntellectualProperty();
+        BeanCopyUtils.copy(intellectualPropertyBO, intellectualProperty);
+        int cnt = intellectualPropertyMapper.updateById(intellectualProperty);
+        if (cnt != 1) {
+            log.error("更新知识产权失败 intellectualPropertyBO:{}", intellectualPropertyBO);
+            throw new RuntimeException("更新知识产权失败");
+        }
+        Long ipId = intellectualProperty.getIpId();
+        ipUserService.updateIpUserByIpId(ipId, intellectualPropertyBO.getUserIdList());
+        ipOssService.updateIpOssByIpId(ipId, intellectualPropertyBO.getOssIdList());
+    }
 }

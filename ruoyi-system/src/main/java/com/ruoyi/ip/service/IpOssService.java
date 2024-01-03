@@ -10,4 +10,6 @@ public interface IpOssService {
     void insertIpOssList(Long ipId, List<Long> ossIdList);
 
     void deleteIpOssByIpId(Long ipId);
+
+    void updateIpOssByIpId(Long ipId, List<Long> ossIdList);
 }

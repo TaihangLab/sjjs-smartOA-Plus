@@ -10,4 +10,7 @@ public interface IntellectualPropertyService {
     void insertIntellectualProperty(IntellectualPropertyBO intellectualPropertyBO);
 
     void deleteIntellectualProperty(Long ipId);
+
+    void updateIntellectualProperty(IntellectualPropertyBO intellectualPropertyBO);
+
 }
