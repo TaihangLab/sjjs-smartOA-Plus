@@ -10,4 +10,6 @@ public interface IpUserService {
     void insertIpUserList(Long ipId, List<Long> userIdList);
 
     void deleteIpUserByIpId(Long ipId);
+
+    void updateIpUserByIpId(Long ipId, List<Long> userIdList);
 }

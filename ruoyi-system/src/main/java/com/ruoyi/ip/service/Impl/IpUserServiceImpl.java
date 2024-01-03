@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author bailingnan
@@ -47,5 +48,49 @@ public class IpUserServiceImpl implements IpUserService {
     @Override
     public void deleteIpUserByIpId(Long ipId) {
         ipUserMapper.delete(new LambdaQueryWrapper<IpUser>().eq(IpUser::getIpId, ipId));
+    }
+
+    /**
+     * @param ipId
+     * @param userIdList
+     */
+    @Override
+    public void updateIpUserByIpId(Long ipId, List<Long> userIdList) {
+        if (ipId == null) {
+            throw new IllegalArgumentException("ipId can not be null");
+        }
+        List<Long> oldUserIdList = ipUserMapper.selectList(new LambdaQueryWrapper<IpUser>().eq(IpUser::getIpId, ipId)).stream().map(IpUser::getUserId).collect(Collectors.toList());
+        if (userIdList == null || userIdList.isEmpty()) {
+            if (oldUserIdList.isEmpty()) {
+                return;
+            } else {
+                ipUserMapper.delete(new LambdaQueryWrapper<IpUser>().eq(IpUser::getIpId, ipId));
+                return;
+            }
+        } else {
+            if (oldUserIdList.isEmpty()) {
+                ipUserMapper.insertBatch(userIdList.stream().map(userId -> {
+                    IpUser ipUser = new IpUser();
+                    ipUser.setIpId(ipId);
+                    ipUser.setUserId(userId);
+                    return ipUser;
+                }).collect(Collectors.toList()));
+                return;
+            }
+        }
+        List<Long> addUserIdList = userIdList.stream().filter(userId -> !oldUserIdList.contains(userId)).collect(Collectors.toList());
+        List<Long> delUserIdList = oldUserIdList.stream().filter(userId -> !userIdList.contains(userId)).collect(Collectors.toList());
+        if (!addUserIdList.isEmpty()) {
+            List<IpUser> ipUserList = addUserIdList.stream().map(userId -> {
+                IpUser ipUser = new IpUser();
+                ipUser.setIpId(ipId);
+                ipUser.setUserId(userId);
+                return ipUser;
+            }).collect(Collectors.toList());
+            ipUserMapper.insertBatch(ipUserList);
+        }
+        if (!delUserIdList.isEmpty()) {
+            ipUserMapper.delete(new LambdaQueryWrapper<IpUser>().eq(IpUser::getIpId, ipId).in(IpUser::getUserId, delUserIdList));
+        }
     }
 }
