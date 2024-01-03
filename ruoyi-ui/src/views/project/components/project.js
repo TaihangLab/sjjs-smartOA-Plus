@@ -7,13 +7,13 @@ export function addProject(projectInfoForm, projectMemberForm, projectFundsForm,
     const members    = filterList(projectMemberForm.items).map(value => {
         return {userId: value.id, projectUserRoleList: value.role}
     });
-    const indicators = filterList(projectIndicatorForm.items).map(value => {
+    const indicators = filterList(projectIndicatorForm.items, 'title').map(value => {
         return {targetName: value.title, midtermTarget: value.midterm, endTarget: value.finish}
     });
     const plans      = filterList(projectPlanForm.items, "date").map(value => {
         return {stageStartDate: value.date[0], stageEndDate: value.date[1], stageTask: value.task}
     })
-    console.log(otherAttachmentForm.uploadList);
+    console.log(indicators);
     return request({
         url: '/project/my/add', method: 'post', data: {
             "projectBaseInfoBO"  : {
@@ -166,12 +166,19 @@ export function getProject(projectId, projectInfoForm, projectMemberForm, projec
                   projectAttachmentVOList,
                   projectPlanVOList
               } = resp.data;
-        console.log(projectUserVoList);
-        const members    = projectUserVoList.map(value => {
+
+        const members = projectUserVoList.map(value => {
             return {id: value.userId, role: value.projectUserRoles}
         });
-        const members2 = [{id:1, role:[1,2,3]}]
-        Vue.set(projectMemberForm, "items", members);
+        if (members.length > 0)
+            Vue.set(projectMemberForm, "items", members);
+
+        const indicators = projectTargetVOList.map(value => {
+            return {title: value.targetName, midterm: value.midtermTarget, finish: value.endTarget}
+        });
+        if (indicators.length > 0)
+            Vue.set(projectIndicatorForm, "items", indicators);
+        console.log(indicators);
         // projectFundsForm.jfze = projectFundsVO.totalFundsAll
         // projectFundsForm.zxjfze = projectFundsVO.totalFundsZx
         // projectFundsForm.zxsbf  = projectFundsVO.sbfZx
