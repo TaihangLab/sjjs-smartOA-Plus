@@ -71,7 +71,7 @@ const roleOptions = [{label:"项目负责人", value:'0'},{label:"公司负责�
 
 
 onMounted(()=>{
-    props.form.items = [{id: '', role: ''}];
+    proxy.$set(props.form, "items", [{id: '', role: ''}]);
 })
 
 const isButtonShowList = ref([false]);

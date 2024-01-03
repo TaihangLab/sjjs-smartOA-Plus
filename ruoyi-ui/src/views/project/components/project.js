@@ -13,7 +13,7 @@ export function addProject(projectInfoForm, projectMemberForm, projectFundsForm,
     const plans      = filterList(projectPlanForm.items, "date").map(value => {
         return {stageStartDate: value.date[0], stageEndDate: value.date[1], stageTask: value.task}
     })
-    console.log(indicators);
+    console.log(plans);
     return request({
         url: '/project/my/add', method: 'post', data: {
             "projectBaseInfoBO"  : {
@@ -34,11 +34,11 @@ export function addProject(projectInfoForm, projectMemberForm, projectFundsForm,
                 "completionProgress"            : projectInfoForm.completionProgress,
                 "collaboratingUnit"             : projectInfoForm.coopUnit,
                 "expertTeam"                    : projectInfoForm.expertTeam,
-                "awardDetails"                  : projectInfoForm.awardStatus,
-                "publicationDetails"            : projectInfoForm.paperStatus,
-                "patentDetails"                 : projectInfoForm.patentStatus,
-                "softwareCopyrightDetails"      : projectInfoForm.rzStatus,
-                "standardDetails"               : projectInfoForm.standardStatus,
+                // "awardDetails"                  : projectInfoForm.awardStatus,
+                // "publicationDetails"            : projectInfoForm.paperStatus,
+                // "patentDetails"                 : projectInfoForm.patentStatus,
+                // "softwareCopyrightDetails"      : projectInfoForm.rzStatus,
+                // "standardDetails"               : projectInfoForm.standardStatus,
             },
             "projectFundsBO"     : {
                 "totalFundsAll"  : projectFundsForm.jfze,
@@ -50,6 +50,7 @@ export function addProject(projectInfoForm, projectMemberForm, projectFundsForm,
                 "sbfZc"          : projectFundsForm.zcsbf,
                 "totalFundsZcZj" : projectFundsForm.zczjx,
                 "totalFundsZcJj" : projectFundsForm.zcjjy,
+
                 "sbfZxZj"        : zxFundsDetailForm.sbf_zj,
                 "sbfZcZj"        : zcFundsDetailForm.sbf_zj,
                 "sbfGzsbZxZj"    : zxFundsDetailForm.gzsbf_zj,
@@ -100,6 +101,7 @@ export function addProject(projectInfoForm, projectMemberForm, projectFundsForm,
                 "jflyQtczbkZc"   : fundsSourceForm.qtczbk,
                 "jflyDwzyhbzjZc" : fundsSourceForm.zyhbzj,
                 "jflyQtzjZc"     : fundsSourceForm.qtzj,
+
                 "sbfZxJj"        : zxFundsDetailForm.sbf_jj,
                 "sbfZcJj"        : zcFundsDetailForm.sbf_jj,
                 "sbfGzsbZxJj"    : zxFundsDetailForm.gzsbf_jj,
@@ -167,6 +169,10 @@ export function getProject(projectId, projectInfoForm, projectMemberForm, projec
                   projectPlanVOList
               } = resp.data;
 
+        console.log("指标", projectTargetVOList);
+        console.log("计划", projectPlanVOList);
+        console.log("附件", projectAttachmentVOList);
+
         const members = projectUserVoList.map(value => {
             return {id: value.userId, role: value.projectUserRoles}
         });
@@ -178,15 +184,93 @@ export function getProject(projectId, projectInfoForm, projectMemberForm, projec
         });
         if (indicators.length > 0)
             Vue.set(projectIndicatorForm, "items", indicators);
-        console.log(indicators);
-        // projectFundsForm.jfze = projectFundsVO.totalFundsAll
-        // projectFundsForm.zxjfze = projectFundsVO.totalFundsZx
-        // projectFundsForm.zxsbf  = projectFundsVO.sbfZx
-        // projectFundsForm.zxzjx  = projectFundsVO.totalFundsZxZj
-        // projectFundsForm.zxjjy  = projectFundsVO.totalFundsZxJj
-        // projectFundsForm.zcjfze = projectFundsVO.totalFundsZc
-        // projectFundsForm.zcsbf  = projectFundsVO.sbfZc
-        // projectFundsForm.zczjx  = projectFundsVO.totalFundsZcZj
-        // projectFundsForm.zcjjy  = projectFundsVO.totalFundsZcJj
+
+        const plans = projectPlanVOList.map(value => {
+            return {date: [value.stageStartDate, value.stageEndDate], task: value.stageTask}
+        });
+        if (plans.length > 0)
+            Vue.set(projectPlanForm, "items", plans);
+
+        Vue.set(otherAttachmentForm, "value", projectAttachmentVOList);
+
+        Vue.set(projectInfoForm, "leadingUnit", projectInfoVO.leadingUnit);
+        Vue.set(projectInfoForm, "name", projectInfoVO.assignedSubjectName);
+        Vue.set(projectInfoForm, "contact", projectInfoVO.projectContact);
+        Vue.set(projectInfoForm, "projectNumber", projectInfoVO.projectAssignmentSerialNo);
+        Vue.set(projectInfoForm, "source", projectInfoVO.projectSource);
+        Vue.set(projectInfoForm, "level", projectInfoVO.projectLevel);
+        Vue.set(projectInfoForm, "isLeadingUnit", projectInfoVO.hasLeadingRole);
+        Vue.set(projectInfoForm, "subjectName", projectInfoVO.assignedSubjectSection);
+        Vue.set(projectInfoForm, "subjectNumber", projectInfoVO.subjectAssignmentSerialNo);
+        Vue.set(projectInfoForm, "startTime", projectInfoVO.projectEstablishTime);
+        Vue.set(projectInfoForm, "endTime", projectInfoVO.projectScheduledCompletionTime);
+        Vue.set(projectInfoForm, "duration", projectInfoVO.projectDuration);
+        Vue.set(projectInfoForm, "meaning", projectInfoVO.significanceAndNecessity);
+        Vue.set(projectInfoForm, "progressStatus", projectInfoVO.projectProgressStatus);
+        Vue.set(projectInfoForm, "completionProgress", projectInfoVO.completionProgress);
+        Vue.set(projectInfoForm, "coopUnit", projectInfoVO.collaboratingUnit);
+        Vue.set(projectInfoForm, "expertTeam", projectInfoVO.expertTeam);
+        // Vue.set(projectInfoForm, "awardStatus", projectInfoVO.awardDetails);
+        // Vue.set(projectInfoForm, "paperStatus", projectInfoVO.publicationDetails);
+        // Vue.set(projectInfoForm, "patentStatus", projectInfoVO.patentDetails);
+        // Vue.set(projectInfoForm, "rzStatus", projectInfoVO.softwareCopyright);
+        // Vue.set(projectInfoForm, "standardStatus", projectInfoVO.standardDetails);
+
+        Vue.set(projectFundsForm, "jfze", projectFundsVO.totalFundsAll);
+        Vue.set(projectFundsForm, "zxjfze", projectFundsVO.totalFundsZx);
+        Vue.set(projectFundsForm, "zxsbf", projectFundsVO.sbfZx);
+        Vue.set(projectFundsForm, "zxzjx", projectFundsVO.totalFundsZxZj);
+        Vue.set(projectFundsForm, "zxjjy", projectFundsVO.totalFundsZxJj);
+        Vue.set(projectFundsForm, "zcjfze", projectFundsVO.totalFundsZc);
+        Vue.set(projectFundsForm, "zcsbf", projectFundsVO.sbfZc);
+        Vue.set(projectFundsForm, "zczjx", projectFundsVO.totalFundsZcZj);
+        Vue.set(projectFundsForm, "zcjjy", projectFundsVO.totalFundsZcJj);
+
+        Vue.set(zxFundsDetailForm, "sbf_zj", projectFundsVO.sbfZxZj);
+        Vue.set(zcFundsDetailForm, "sbf_zj", projectFundsVO.sbfZcZj);
+        Vue.set(zxFundsDetailForm, "gzsbf_zj", projectFundsVO.sbfGzsbZxZj);
+        Vue.set(zcFundsDetailForm, "gzsbf_zj", projectFundsVO.sbfGzsbZcZj);
+        Vue.set(zxFundsDetailForm, "szsbf_zj", projectFundsVO.sbfSzsbZxZj);
+        Vue.set(zcFundsDetailForm, "szsbf_zj", projectFundsVO.sbfSzsbZcZj);
+        Vue.set(zxFundsDetailForm, "sbgzyzlf_zj", projectFundsVO.sbfSbgzyzlZxZj);
+        Vue.set(zcFundsDetailForm, "sbgzyzlf_zj", projectFundsVO.sbfSbgzyzlZcZj);
+        Vue.set(zxFundsDetailForm, "clf_zj", projectFundsVO.clfZxZj);
+        Vue.set(zcFundsDetailForm, "clf_zj", projectFundsVO.clfZcZj);
+        Vue.set(zxFundsDetailForm, "kyhdf_zj", projectFundsVO.kyhdfZxZj);
+        Vue.set(zcFundsDetailForm, "kyhdf_zj", projectFundsVO.kyhdfZcZj);
+        Vue.set(zxFundsDetailForm, "zlf_zj", projectFundsVO.kyhdfZlZxZj);
+        Vue.set(zcFundsDetailForm, "zlf_zj", projectFundsVO.kyhdfZlZcZj);
+        Vue.set(zxFundsDetailForm, "cshyjgf_zj", projectFundsVO.kyhdfCshyjgZxZj);
+        Vue.set(zcFundsDetailForm, "cshyjgf_zj", projectFundsVO.kyhdfCshyjgZcZj);
+        Vue.set(zxFundsDetailForm, "bgf_zj", projectFundsVO.kyhdfBgZxZj);
+        Vue.set(zcFundsDetailForm, "bgf_zj", projectFundsVO.kyhdfBgZcZj);
+        Vue.set(zxFundsDetailForm, "sjybcjf_zj", projectFundsVO.kyhdfSjybcjZxZj);
+        Vue.set(zcFundsDetailForm, "sjybcjf_zj", projectFundsVO.kyhdfSjybcjZcZj);
+        Vue.set(zxFundsDetailForm, "yscbf_zj", projectFundsVO.kyhdfYscbZxZj);
+        Vue.set(zcFundsDetailForm, "yscbf_zj", projectFundsVO.kyhdfYscbZcZj);
+        Vue.set(zxFundsDetailForm, "zscqswf_zj", projectFundsVO.kyhdfZscqswZxZj);
+        Vue.set(zcFundsDetailForm, "zscqswf_zj", projectFundsVO.kyhdfZscqswZcZj);
+        Vue.set(zxFundsDetailForm, "rldlf_zj", projectFundsVO.kyhdfRldlZxZj);
+        Vue.set(zcFundsDetailForm, "rldlf_zj", projectFundsVO.kyhdfRldlZcZj);
+        Vue.set(zxFundsDetailForm, "clsyf_zj", projectFundsVO.kyhdfClsyZxZj);
+        Vue.set(zcFundsDetailForm, "clsyf_zj", projectFundsVO.kyhdfClsyZcZj);
+        Vue.set(zxFundsDetailForm, "kyfwf_zj", projectFundsVO.kyfwfZxZj);
+        Vue.set(zcFundsDetailForm, "kyfwf_zj", projectFundsVO.kyfwfZcZj);
+        Vue.set(zxFundsDetailForm, "zjzxf_zj", projectFundsVO.kyfwfZjzxZxZj);
+        Vue.set(zcFundsDetailForm, "zjzxf_zj", projectFundsVO.kyfwfZjzxZcZj);
+        Vue.set(zxFundsDetailForm, "chlf_zj", projectFundsVO.kyfwfClZxZj);
+        Vue.set(zcFundsDetailForm, "chlf_zj", projectFundsVO.kyfwfClZcZj);
+        Vue.set(zxFundsDetailForm, "hyhwf_zj", projectFundsVO.kyfwfHyhwZxZj);
+        Vue.set(zcFundsDetailForm, "hyhwf_zj", projectFundsVO.kyfwfHyhwZcZj);
+        Vue.set(zxFundsDetailForm, "gjhzjlf_zj", projectFundsVO.kyfwfGjhzjlZxZj);
+        Vue.set(zcFundsDetailForm, "gjhzjlf_zj", projectFundsVO.kyfwfGjhzjlZcZj);
+        Vue.set(zxFundsDetailForm, "gnxzf_zj", projectFundsVO.kyfwfGnxzZxZj);
+        Vue.set(zcFundsDetailForm, "gnxzf_zj", projectFundsVO.kyfwfGnxzZcZj);
+        Vue.set(zxFundsDetailForm, "rylwbzf_zj", projectFundsVO.ryhlwbzfZxZj);
+        Vue.set(zcFundsDetailForm, "rylwbzf_zj", projectFundsVO.ryhlwbzfZcZj);
+        Vue.set(zxFundsDetailForm, "jxzc_jj", projectFundsVO.jxzcZx);
+        Vue.set(zcFundsDetailForm, "jxzc_jj", projectFundsVO.jxzcZc);
+
+
     })
 }

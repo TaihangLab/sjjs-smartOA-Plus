@@ -2,7 +2,6 @@ package com.ruoyi.framework.config;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
@@ -12,7 +11,6 @@ import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilde
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -35,7 +33,7 @@ public class JacksonConfig {
             javaTimeModule.addSerializer(Long.class, BigNumberSerializer.INSTANCE);
             javaTimeModule.addSerializer(Long.TYPE, BigNumberSerializer.INSTANCE);
             javaTimeModule.addSerializer(BigInteger.class, BigNumberSerializer.INSTANCE);
-            javaTimeModule.addSerializer(BigDecimal.class, ToStringSerializer.instance);
+            //javaTimeModule.addSerializer(BigDecimal.class, ToStringSerializer.instance);
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(formatter));
             javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(formatter));

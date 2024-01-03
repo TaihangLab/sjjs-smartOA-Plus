@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.NoSuchElementException;
+
 /**
  * @author bailingnan
  * @date 2024/1/2
@@ -26,7 +28,7 @@ public class IntellectualPropertyServiceImpl implements IntellectualPropertyServ
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void addIntellectualProperty(IntellectualPropertyBO intellectualPropertyBO) {
+    public void insertIntellectualProperty(IntellectualPropertyBO intellectualPropertyBO) {
         if (intellectualPropertyBO == null) {
             throw new IllegalArgumentException("intellectualPropertyBO can not be null");
         }
@@ -41,7 +43,22 @@ public class IntellectualPropertyServiceImpl implements IntellectualPropertyServ
         if (ipId == null) {
             throw new IllegalStateException("获取知识产权Id失败");
         }
-        ipOssService.addIpOssList(ipId, intellectualPropertyBO.getOssIdList());
-        ipUserService.addIpUserList(ipId, intellectualPropertyBO.getUserIdList());
+        ipOssService.insertIpOssList(ipId, intellectualPropertyBO.getOssIdList());
+        ipUserService.insertIpUserList(ipId, intellectualPropertyBO.getUserIdList());
+    }
+
+    /**
+     * @param ipId
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteIntellectualProperty(Long ipId) {
+        int cnt = intellectualPropertyMapper.deleteById(ipId);
+        if (cnt != 1) {
+            log.error("删除知识产权失败 ipId:{}", ipId);
+            throw new NoSuchElementException("删除知识产权失败,ipId为:" + ipId);
+        }
+        ipUserService.deleteIpUserByIpId(ipId);
+        ipOssService.deleteIpOssByIpId(ipId);
     }
 }

@@ -208,7 +208,7 @@ export default {
                     loading.close();
                 })
             this.$emit('update:visible', false);
-            // setTimeout(() => location.reload(), 1000);
+            setTimeout(() => location.reload(), 900);
         },
     },
     watch  : {

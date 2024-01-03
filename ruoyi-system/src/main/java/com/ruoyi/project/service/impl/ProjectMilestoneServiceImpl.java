@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.utils.BeanCopyUtils;
@@ -247,11 +248,26 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
         return milestoneVos;
     }
 
+
+    /**
+     * 分页查询项目附件（大事记附件）
+     * @param projectMilestoneBo
+     * @param pageQuery
+     * @return
+     */
     public TableDataInfo<SysOssVo> queryPageAllList(ProjectMilestoneBo projectMilestoneBo, PageQuery pageQuery){
         projectMilestoneBo = Optional.ofNullable(projectMilestoneBo).orElseGet(ProjectMilestoneBo::new);
+        LambdaQueryWrapper<ProjectMilestoneOss> milestoneOssLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        milestoneOssLambdaQueryWrapper.eq(ProjectMilestoneOss::getMilestoneId,projectMilestoneBo.getMilestoneId());
 
-
-        return null;
+        List<Long> ossIds = projectMilestoneOssMapper.selectList(null)
+            .stream()
+            .map(ProjectMilestoneOss::getOssId)
+            .collect(Collectors.toList());
+        LambdaQueryWrapper<SysOss> ossLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        ossLambdaQueryWrapper.in(SysOss::getOssId,ossIds);
+        Page<SysOssVo> voPage = sysOssMapper.selectVoPage(pageQuery.build(),ossLambdaQueryWrapper);
+        return TableDataInfo.build(voPage);
     }
 
 }
