@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -183,8 +184,10 @@ public class ProjectServiceImpl implements ProjectService {
 
     private ProjectPlan projectPlanDateConverter(ProjectPlanBO bo, Long projectId) {
         ProjectPlan projectPlan = setProjectIdAndCopy(bo, projectId, ProjectPlan.class);
-        projectPlan.setStageStartDate(DateUtils.yearMonthToLocalDate(bo.getStageStartDate()));
-        projectPlan.setStageEndDate(DateUtils.yearMonthToLocalDate(bo.getStageEndDate()));
+        Optional.ofNullable(bo.getStageStartDate())
+            .ifPresent(date -> projectPlan.setStageStartDate(DateUtils.yearMonthToLocalDate(date)));
+        Optional.ofNullable(bo.getStageEndDate())
+            .ifPresent(endDate -> projectPlan.setStageEndDate(DateUtils.yearMonthToLocalDate(endDate)));
         return projectPlan;
     }
 
