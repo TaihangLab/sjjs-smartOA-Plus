@@ -94,7 +94,7 @@ public class ProjectServiceImpl implements ProjectService {
 
         ProjectBaseInfo projectBaseInfo = new ProjectBaseInfo();
         BeanCopyUtils.copy(projectBaseInfoBO, projectBaseInfo);
-        projectBaseInfoService.addProjectBaseInfo(projectBaseInfo);
+        projectBaseInfoService.insertProjectBaseInfo(projectBaseInfo);
         return projectBaseInfo;
     }
 

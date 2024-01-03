@@ -7,5 +7,7 @@ import com.ruoyi.ip.domin.bo.IntellectualPropertyBO;
  * @date 2023/12/29
  */
 public interface IntellectualPropertyService {
-    void addIntellectualProperty(IntellectualPropertyBO intellectualPropertyBO);
+    void insertIntellectualProperty(IntellectualPropertyBO intellectualPropertyBO);
+
+    void deleteIntellectualProperty(Long ipId);
 }
