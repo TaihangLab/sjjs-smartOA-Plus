@@ -13,9 +13,9 @@
                 </el-table-column>
                 <el-table-column label="项目牵头单位" :resizable="false" align="center" prop="leadingUnit" width="180">
                 </el-table-column>
-                <el-table-column label="项目级别" :resizable="false" align="center" prop="projectLevel" width="110">
+                <el-table-column label="项目级别" :resizable="false" align="center" prop="projectLevel" :formatter="projectLevelss" width="110">
                 </el-table-column>
-                <el-table-column label="项目推进情况" :resizable="false" align="center" prop="projectProgressStatus" width="150">
+                <el-table-column label="项目推进情况" :resizable="false" align="center" prop="projectProgressStatus" :formatter="projectProgressStatuss" width="150">
                 </el-table-column>
                 <el-table-column label="有无合作单位" :resizable="false" align="center" prop="hasCooperativeUnit" width="150">
                 </el-table-column>
@@ -116,6 +116,29 @@ export default {
     },
     data() {
         return {
+            hasLeading: {
+                0: '否',
+                1: '是',
+            },
+            hasLeading: {
+                0: '否',
+                1: '是',
+            },
+            projectLevel: {
+                0: '国家级',
+                1: '省部级',
+                2: '企业级',
+            },
+            projectProgressStatus: {
+                0: '正在需求申报',
+                1: '已完成需求申报',
+                2: '正在项目申报',
+                3: '已完成项目申报',
+                4: '已签订任务书并推进中',
+                5: '已完成中期评审',
+                6: '已完成验收',
+                7: '未通过评审',
+            },
             refreshUpdateDialog: false,
             updateId: '',
             newProjectDialogVisible:false,
@@ -161,6 +184,14 @@ export default {
     },
 
     methods: {
+        projectLevelss(row, column, cellValue) {
+            // 使用映射关系来获取对应的文字描述
+            return this.projectLevel[cellValue] || cellValue;
+        },
+        projectProgressStatuss(row, column, cellValue) {
+            // 使用映射关系来获取对应的文字描述
+            return this.projectProgressStatus[cellValue] || cellValue;
+        },
         // hry
         handleUpdate(row) {
             this.updateId = row.projectId;
