@@ -1,5 +1,6 @@
 package com.ruoyi.ip.service.Impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ruoyi.ip.domin.IpOss;
 import com.ruoyi.ip.service.IpOssService;
 import com.ruoyi.project.mapper.IpOssMapper;
@@ -25,7 +26,7 @@ public class IpOssServiceImpl implements IpOssService {
      * @param ossIdList
      */
     @Override
-    public void addIpOssList(Long ipId, List<Long> ossIdList) {
+    public void insertIpOssList(Long ipId, List<Long> ossIdList) {
         if (ipId == null) {
             throw new IllegalArgumentException("ipId can not be null");
         }
@@ -39,5 +40,13 @@ public class IpOssServiceImpl implements IpOssService {
             return ipOss;
         }).collect(Collectors.toList());
         ipOssMapper.insertBatch(ipOssList);
+    }
+
+    /**
+     * @param ipId
+     */
+    @Override
+    public void deleteIpOssByIpId(Long ipId) {
+        ipOssMapper.delete(new LambdaQueryWrapper<IpOss>().eq(IpOss::getIpId, ipId));
     }
 }

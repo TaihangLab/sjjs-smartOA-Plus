@@ -158,7 +158,7 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
      * @return
      */
     @Override
-    public Long addProjectBaseInfo(ProjectBaseInfo projectBaseInfo) {
+    public Long insertProjectBaseInfo(ProjectBaseInfo projectBaseInfo) {
         if (projectBaseInfo == null) {
             throw new IllegalArgumentException("projectBaseInfo cannot be null");
         }
@@ -200,7 +200,7 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
     @Override
     public void deleteProjectBaseInfoById(Long projectId) {
         int cnt = projectBaseInfoMapper.deleteById(projectId);
-        if (cnt == 0) {
+        if (cnt != 1) {
             log.error("删除失败的projectId为:{}", projectId);
             throw new NoSuchElementException("删除项目基本信息失败,projectId为:" + projectId);
         }

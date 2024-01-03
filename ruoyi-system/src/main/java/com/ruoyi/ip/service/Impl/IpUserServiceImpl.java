@@ -1,5 +1,6 @@
 package com.ruoyi.ip.service.Impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ruoyi.ip.domin.IpUser;
 import com.ruoyi.ip.service.IpUserService;
 import com.ruoyi.project.mapper.IpUserMapper;
@@ -24,7 +25,7 @@ public class IpUserServiceImpl implements IpUserService {
      * @param userIdList
      */
     @Override
-    public void addIpUserList(Long ipId, List<Long> userIdList) {
+    public void insertIpUserList(Long ipId, List<Long> userIdList) {
         if (ipId == null) {
             throw new IllegalArgumentException("ipId can not be null");
         }
@@ -38,5 +39,13 @@ public class IpUserServiceImpl implements IpUserService {
             return ipUser;
         }).collect(java.util.stream.Collectors.toList());
         ipUserMapper.insertBatch(ipUserList);
+    }
+
+    /**
+     * @param ipId
+     */
+    @Override
+    public void deleteIpUserByIpId(Long ipId) {
+        ipUserMapper.delete(new LambdaQueryWrapper<IpUser>().eq(IpUser::getIpId, ipId));
     }
 }

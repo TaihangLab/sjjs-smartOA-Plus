@@ -7,5 +7,7 @@ import java.util.List;
  * @date 2024/1/2
  */
 public interface IpUserService {
-    void addIpUserList(Long ipId, List<Long> userIdList);
+    void insertIpUserList(Long ipId, List<Long> userIdList);
+
+    void deleteIpUserByIpId(Long ipId);
 }

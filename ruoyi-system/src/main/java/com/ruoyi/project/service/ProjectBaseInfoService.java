@@ -17,7 +17,7 @@ import java.util.Map;
 public interface ProjectBaseInfoService {
     ProjectInfoVO selectProjectInfoVOById(Long projectId);
 
-    Long addProjectBaseInfo(ProjectBaseInfo projectBaseInfo);
+    Long insertProjectBaseInfo(ProjectBaseInfo projectBaseInfo);
 
     void updateProjectBaseInfoById(ProjectBaseInfo projectBaseInfo);
 

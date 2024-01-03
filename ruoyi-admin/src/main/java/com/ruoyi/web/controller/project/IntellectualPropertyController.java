@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +32,14 @@ public class IntellectualPropertyController {
     //@SaCheckPermission("project:ip:add")
     @PostMapping("/add")
     public R<Void> addIntellectualProperty(@RequestBody @Validated(AddGroup.class) IntellectualPropertyBO intellectualPropertyBO) {
-        intellectualPropertyService.addIntellectualProperty(intellectualPropertyBO);
+        intellectualPropertyService.insertIntellectualProperty(intellectualPropertyBO);
+        return R.ok();
+    }
+
+    //@SaCheckPermission("project:ip:delete")
+    @GetMapping("/delete")
+    public R<Void> deleteIntellectualProperty(@RequestParam @NotNull Long ipId) {
+        intellectualPropertyService.deleteIntellectualProperty(ipId);
         return R.ok();
     }
 
