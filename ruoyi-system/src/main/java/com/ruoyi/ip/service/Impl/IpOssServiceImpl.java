@@ -49,4 +49,47 @@ public class IpOssServiceImpl implements IpOssService {
     public void deleteIpOssByIpId(Long ipId) {
         ipOssMapper.delete(new LambdaQueryWrapper<IpOss>().eq(IpOss::getIpId, ipId));
     }
+
+    /**
+     * @param ipId
+     * @param ossIdList
+     */
+    @Override
+    public void updateIpOssByIpId(Long ipId, List<Long> ossIdList) {
+        if (ipId == null) {
+            throw new IllegalArgumentException("ipId can not be null");
+        }
+        List<Long> oldOssIdList = ipOssMapper.selectList(new LambdaQueryWrapper<IpOss>().eq(IpOss::getIpId, ipId)).stream().map(IpOss::getOssId).collect(Collectors.toList());
+        if (ossIdList == null || ossIdList.isEmpty()) {
+            if (oldOssIdList.isEmpty()) {
+                return;
+            } else {
+                ipOssMapper.delete(new LambdaQueryWrapper<IpOss>().eq(IpOss::getIpId, ipId));
+                return;
+            }
+        } else {
+            if (oldOssIdList.isEmpty()) {
+                ipOssMapper.insertBatch(ossIdList.stream().map(ossId -> {
+                    IpOss ipOss = new IpOss();
+                    ipOss.setIpId(ipId);
+                    ipOss.setOssId(ossId);
+                    return ipOss;
+                }).collect(Collectors.toList()));
+                return;
+            }
+        }
+        List<Long> addOssIdList = ossIdList.stream().filter(ossId -> !oldOssIdList.contains(ossId)).collect(Collectors.toList());
+        List<Long> delOssIdList = oldOssIdList.stream().filter(ossId -> !ossIdList.contains(ossId)).collect(Collectors.toList());
+        if (!addOssIdList.isEmpty()) {
+            ipOssMapper.insertBatch(addOssIdList.stream().map(ossId -> {
+                IpOss ipOss = new IpOss();
+                ipOss.setIpId(ipId);
+                ipOss.setOssId(ossId);
+                return ipOss;
+            }).collect(Collectors.toList()));
+        }
+        if (!delOssIdList.isEmpty()) {
+            ipOssMapper.delete(new LambdaQueryWrapper<IpOss>().eq(IpOss::getIpId, ipId).in(IpOss::getOssId, delOssIdList));
+        }
+    }
 }
