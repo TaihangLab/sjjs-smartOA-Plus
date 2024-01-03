@@ -169,6 +169,7 @@ export function getProject(projectId, projectInfoForm, projectMemberForm, projec
                   projectPlanVOList
               } = resp.data;
 
+        console.log("项目", projectInfoVO);
         console.log("指标", projectTargetVOList);
         console.log("计划", projectPlanVOList);
         console.log("附件", projectAttachmentVOList);
@@ -272,5 +273,6 @@ export function getProject(projectId, projectInfoForm, projectMemberForm, projec
         Vue.set(zcFundsDetailForm, "jxzc_jj", projectFundsVO.jxzcZc);
 
 
-    })
+
+    });
 }
