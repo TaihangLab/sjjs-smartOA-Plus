@@ -63,6 +63,8 @@
 
 
 <script>
+import Vue from "vue";
+
 export default {
   props: ['form'],
   data() {
@@ -73,8 +75,8 @@ export default {
 
     }
   },
-  created() {
-    this.$props.form.items = [{title: '', midterm: '', finish:''}]
+  mounted() {
+    Vue.set(this.$props.form, "items", [{title: '', midterm: '', finish:''}]);
   },
   methods: {
     add() {

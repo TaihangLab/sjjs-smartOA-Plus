@@ -66,7 +66,7 @@ defineExpose({
 })
 
 
-props.form.items = [{date: undefined, task: ''}];
+proxy.$set(props.form, "items", [{date: [], task: ''}]);
 const isButtonShowList = ref([false]);
 
 function add() {

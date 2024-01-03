@@ -13,7 +13,7 @@ export function addProject(projectInfoForm, projectMemberForm, projectFundsForm,
     const plans      = filterList(projectPlanForm.items, "date").map(value => {
         return {stageStartDate: value.date[0], stageEndDate: value.date[1], stageTask: value.task}
     })
-    console.log(indicators);
+    console.log(plans);
     return request({
         url: '/project/my/add', method: 'post', data: {
             "projectBaseInfoBO"  : {
@@ -167,6 +167,9 @@ export function getProject(projectId, projectInfoForm, projectMemberForm, projec
                   projectPlanVOList
               } = resp.data;
 
+        console.log("指标", projectTargetVOList);
+        console.log("计划", projectPlanVOList);
+
         const members = projectUserVoList.map(value => {
             return {id: value.userId, role: value.projectUserRoles}
         });
@@ -178,7 +181,13 @@ export function getProject(projectId, projectInfoForm, projectMemberForm, projec
         });
         if (indicators.length > 0)
             Vue.set(projectIndicatorForm, "items", indicators);
-        console.log(indicators);
+
+        const plans = projectPlanVOList.map(value => {
+            return {date: [value.stageStartDate, value.stageEndDate], task: value.stageTask}
+        });
+        if (plans.length > 0)
+            Vue.set(projectPlanForm, "items", plans);
+
         // projectFundsForm.jfze = projectFundsVO.totalFundsAll
         // projectFundsForm.zxjfze = projectFundsVO.totalFundsZx
         // projectFundsForm.zxsbf  = projectFundsVO.sbfZx
