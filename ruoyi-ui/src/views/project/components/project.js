@@ -50,6 +50,7 @@ export function addProject(projectInfoForm, projectMemberForm, projectFundsForm,
                 "sbfZc"          : projectFundsForm.zcsbf,
                 "totalFundsZcZj" : projectFundsForm.zczjx,
                 "totalFundsZcJj" : projectFundsForm.zcjjy,
+
                 "sbfZxZj"        : zxFundsDetailForm.sbf_zj,
                 "sbfZcZj"        : zcFundsDetailForm.sbf_zj,
                 "sbfGzsbZxZj"    : zxFundsDetailForm.gzsbf_zj,
@@ -100,6 +101,7 @@ export function addProject(projectInfoForm, projectMemberForm, projectFundsForm,
                 "jflyQtczbkZc"   : fundsSourceForm.qtczbk,
                 "jflyDwzyhbzjZc" : fundsSourceForm.zyhbzj,
                 "jflyQtzjZc"     : fundsSourceForm.qtzj,
+
                 "sbfZxJj"        : zxFundsDetailForm.sbf_jj,
                 "sbfZcJj"        : zcFundsDetailForm.sbf_jj,
                 "sbfGzsbZxJj"    : zxFundsDetailForm.gzsbf_jj,
@@ -223,5 +225,52 @@ export function getProject(projectId, projectInfoForm, projectMemberForm, projec
         Vue.set(projectFundsForm, "zcsbf", projectFundsVO.sbfZc);
         Vue.set(projectFundsForm, "zczjx", projectFundsVO.totalFundsZcZj);
         Vue.set(projectFundsForm, "zcjjy", projectFundsVO.totalFundsZcJj);
+
+        Vue.set(zxFundsDetailForm, "sbf_zj", projectFundsVO.sbfZxZj);
+        Vue.set(zcFundsDetailForm, "sbf_zj", projectFundsVO.sbfZcZj);
+        Vue.set(zxFundsDetailForm, "gzsbf_zj", projectFundsVO.sbfGzsbZxZj);
+        Vue.set(zcFundsDetailForm, "gzsbf_zj", projectFundsVO.sbfGzsbZcZj);
+        Vue.set(zxFundsDetailForm, "szsbf_zj", projectFundsVO.sbfSzsbZxZj);
+        Vue.set(zcFundsDetailForm, "szsbf_zj", projectFundsVO.sbfSzsbZcZj);
+        Vue.set(zxFundsDetailForm, "sbgzyzlf_zj", projectFundsVO.sbfSbgzyzlZxZj);
+        Vue.set(zcFundsDetailForm, "sbgzyzlf_zj", projectFundsVO.sbfSbgzyzlZcZj);
+        Vue.set(zxFundsDetailForm, "clf_zj", projectFundsVO.clfZxZj);
+        Vue.set(zcFundsDetailForm, "clf_zj", projectFundsVO.clfZcZj);
+        Vue.set(zxFundsDetailForm, "kyhdf_zj", projectFundsVO.kyhdfZxZj);
+        Vue.set(zcFundsDetailForm, "kyhdf_zj", projectFundsVO.kyhdfZcZj);
+        Vue.set(zxFundsDetailForm, "zlf_zj", projectFundsVO.kyhdfZlZxZj);
+        Vue.set(zcFundsDetailForm, "zlf_zj", projectFundsVO.kyhdfZlZcZj);
+        Vue.set(zxFundsDetailForm, "cshyjgf_zj", projectFundsVO.kyhdfCshyjgZxZj);
+        Vue.set(zcFundsDetailForm, "cshyjgf_zj", projectFundsVO.kyhdfCshyjgZcZj);
+        Vue.set(zxFundsDetailForm, "bgf_zj", projectFundsVO.kyhdfBgZxZj);
+        Vue.set(zcFundsDetailForm, "bgf_zj", projectFundsVO.kyhdfBgZcZj);
+        Vue.set(zxFundsDetailForm, "sjybcjf_zj", projectFundsVO.kyhdfSjybcjZxZj);
+        Vue.set(zcFundsDetailForm, "sjybcjf_zj", projectFundsVO.kyhdfSjybcjZcZj);
+        Vue.set(zxFundsDetailForm, "yscbf_zj", projectFundsVO.kyhdfYscbZxZj);
+        Vue.set(zcFundsDetailForm, "yscbf_zj", projectFundsVO.kyhdfYscbZcZj);
+        Vue.set(zxFundsDetailForm, "zscqswf_zj", projectFundsVO.kyhdfZscqswZxZj);
+        Vue.set(zcFundsDetailForm, "zscqswf_zj", projectFundsVO.kyhdfZscqswZcZj);
+        Vue.set(zxFundsDetailForm, "rldlf_zj", projectFundsVO.kyhdfRldlZxZj);
+        Vue.set(zcFundsDetailForm, "rldlf_zj", projectFundsVO.kyhdfRldlZcZj);
+        Vue.set(zxFundsDetailForm, "clsyf_zj", projectFundsVO.kyhdfClsyZxZj);
+        Vue.set(zcFundsDetailForm, "clsyf_zj", projectFundsVO.kyhdfClsyZcZj);
+        Vue.set(zxFundsDetailForm, "kyfwf_zj", projectFundsVO.kyfwfZxZj);
+        Vue.set(zcFundsDetailForm, "kyfwf_zj", projectFundsVO.kyfwfZcZj);
+        Vue.set(zxFundsDetailForm, "zjzxf_zj", projectFundsVO.kyfwfZjzxZxZj);
+        Vue.set(zcFundsDetailForm, "zjzxf_zj", projectFundsVO.kyfwfZjzxZcZj);
+        Vue.set(zxFundsDetailForm, "chlf_zj", projectFundsVO.kyfwfClZxZj);
+        Vue.set(zcFundsDetailForm, "chlf_zj", projectFundsVO.kyfwfClZcZj);
+        Vue.set(zxFundsDetailForm, "hyhwf_zj", projectFundsVO.kyfwfHyhwZxZj);
+        Vue.set(zcFundsDetailForm, "hyhwf_zj", projectFundsVO.kyfwfHyhwZcZj);
+        Vue.set(zxFundsDetailForm, "gjhzjlf_zj", projectFundsVO.kyfwfGjhzjlZxZj);
+        Vue.set(zcFundsDetailForm, "gjhzjlf_zj", projectFundsVO.kyfwfGjhzjlZcZj);
+        Vue.set(zxFundsDetailForm, "gnxzf_zj", projectFundsVO.kyfwfGnxzZxZj);
+        Vue.set(zcFundsDetailForm, "gnxzf_zj", projectFundsVO.kyfwfGnxzZcZj);
+        Vue.set(zxFundsDetailForm, "rylwbzf_zj", projectFundsVO.ryhlwbzfZxZj);
+        Vue.set(zcFundsDetailForm, "rylwbzf_zj", projectFundsVO.ryhlwbzfZcZj);
+        Vue.set(zxFundsDetailForm, "jxzc_jj", projectFundsVO.jxzcZx);
+        Vue.set(zcFundsDetailForm, "jxzc_jj", projectFundsVO.jxzcZc);
+
+
     })
 }
