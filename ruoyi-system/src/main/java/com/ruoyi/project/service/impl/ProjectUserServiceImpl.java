@@ -182,8 +182,8 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         for (Long userId : userIds) {
             SysUser user = userIdToUserMap.get(userId);
             String deptName = deptIdToNameMap.getOrDefault(user.getDeptId(), "Unknown Dept");
-            List<String> projectUserRoles = userIdToProjectUserRolesMap.getOrDefault(userId, Collections.singletonList(ProjectUserRole.UNKNOWN))
-                .stream().filter(projectUserRole -> !projectUserRole.equals(ProjectUserRole.PROJECT_ENTRY_OPERATOR)).map(ProjectUserRole::getValue).collect(Collectors.toList());
+            List<ProjectUserRole> projectUserRoles = userIdToProjectUserRolesMap.getOrDefault(userId, Collections.singletonList(ProjectUserRole.UNKNOWN))
+                .stream().filter(projectUserRole -> !projectUserRole.equals(ProjectUserRole.PROJECT_ENTRY_OPERATOR)).collect(Collectors.toList());
             if (projectUserRoles.isEmpty()) {
                 continue;
             }
@@ -208,7 +208,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
     public String findProLeaderNameById(Long projectId) {
         List<ProjectUserVo> projectUserVos = getUserInfoByProjectId(projectId);
         for (ProjectUserVo projectUserVo : projectUserVos) {
-            List<String> roles = projectUserVo.getProjectUserRoles();
+            List<ProjectUserRole> roles = projectUserVo.getProjectUserRoles();
             if (roles.stream().anyMatch(role -> ProjectUserRole.PROJECT_LEADER.getValue().equals(role))) {
                 return projectUserVo.getNickName();
             }
