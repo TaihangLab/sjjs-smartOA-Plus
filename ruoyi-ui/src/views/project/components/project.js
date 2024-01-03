@@ -169,6 +169,7 @@ export function getProject(projectId, projectInfoForm, projectMemberForm, projec
 
         console.log("指标", projectTargetVOList);
         console.log("计划", projectPlanVOList);
+        console.log("附件", projectAttachmentVOList);
 
         const members = projectUserVoList.map(value => {
             return {id: value.userId, role: value.projectUserRoles}
@@ -187,6 +188,12 @@ export function getProject(projectId, projectInfoForm, projectMemberForm, projec
         });
         if (plans.length > 0)
             Vue.set(projectPlanForm, "items", plans);
+
+        // const ossIds = projectAttachmentVOList.map(value => {
+        //     return value.ossId
+        // });
+
+        Vue.set(otherAttachmentForm, "value", projectAttachmentVOList);
 
         // projectFundsForm.jfze = projectFundsVO.totalFundsAll
         // projectFundsForm.zxjfze = projectFundsVO.totalFundsZx

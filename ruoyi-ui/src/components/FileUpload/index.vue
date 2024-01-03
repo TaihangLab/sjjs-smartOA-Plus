@@ -59,7 +59,7 @@ export default {
         idList: [],
 
         // 上传组件要展示的列表
-        // showList: [],
+        showList: [],
 
         // 必须对应的文件名
         title: {
@@ -114,7 +114,6 @@ export default {
                             else
                                 return item;
                         })
-                        console.log('list',list)
                     } else {
                         await listByIds(val).then(res => {
                             console.log(res);
@@ -138,13 +137,24 @@ export default {
             },
             deep: true,
             immediate: true
-        }
+        },
+        // idList: {
+        //     handler(newValue) {
+        //         if (this.$props.idList)
+        //             this.fileList = this.$props.idList;
+        //         console.log(this.fileList);
+        //     },
+        //     immediate:true
+        // }
     },
     computed: {
         // 是否显示提示
         showTip() {
             return this.isShowTip && (this.fileType || this.fileSize);
         },
+    },
+    mounted() {
+
     },
     methods: {
         // 上传前校检格式和大小
