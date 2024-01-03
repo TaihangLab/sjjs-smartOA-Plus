@@ -76,7 +76,7 @@ export default {
     }
   },
   mounted() {
-    Vue.set(this.$props.form, "items", [{title: '', midterm: '', finish:''}]);
+    Vue.set(this.$props.form, "items", [{title: undefined, midterm: '', finish:''}]);
   },
   methods: {
     add() {
