@@ -34,11 +34,11 @@ export function addProject(projectInfoForm, projectMemberForm, projectFundsForm,
                 "completionProgress"            : projectInfoForm.completionProgress,
                 "collaboratingUnit"             : projectInfoForm.coopUnit,
                 "expertTeam"                    : projectInfoForm.expertTeam,
-                "awardDetails"                  : projectInfoForm.awardStatus,
-                "publicationDetails"            : projectInfoForm.paperStatus,
-                "patentDetails"                 : projectInfoForm.patentStatus,
-                "softwareCopyrightDetails"      : projectInfoForm.rzStatus,
-                "standardDetails"               : projectInfoForm.standardStatus,
+                // "awardDetails"                  : projectInfoForm.awardStatus,
+                // "publicationDetails"            : projectInfoForm.paperStatus,
+                // "patentDetails"                 : projectInfoForm.patentStatus,
+                // "softwareCopyrightDetails"      : projectInfoForm.rzStatus,
+                // "standardDetails"               : projectInfoForm.standardStatus,
             },
             "projectFundsBO"     : {
                 "totalFundsAll"  : projectFundsForm.jfze,
@@ -189,20 +189,39 @@ export function getProject(projectId, projectInfoForm, projectMemberForm, projec
         if (plans.length > 0)
             Vue.set(projectPlanForm, "items", plans);
 
-        // const ossIds = projectAttachmentVOList.map(value => {
-        //     return value.ossId
-        // });
-
         Vue.set(otherAttachmentForm, "value", projectAttachmentVOList);
 
-        // projectFundsForm.jfze = projectFundsVO.totalFundsAll
-        // projectFundsForm.zxjfze = projectFundsVO.totalFundsZx
-        // projectFundsForm.zxsbf  = projectFundsVO.sbfZx
-        // projectFundsForm.zxzjx  = projectFundsVO.totalFundsZxZj
-        // projectFundsForm.zxjjy  = projectFundsVO.totalFundsZxJj
-        // projectFundsForm.zcjfze = projectFundsVO.totalFundsZc
-        // projectFundsForm.zcsbf  = projectFundsVO.sbfZc
-        // projectFundsForm.zczjx  = projectFundsVO.totalFundsZcZj
-        // projectFundsForm.zcjjy  = projectFundsVO.totalFundsZcJj
+        Vue.set(projectInfoForm, "leadingUnit", projectInfoVO.leadingUnit);
+        Vue.set(projectInfoForm, "name", projectInfoVO.assignedSubjectName);
+        Vue.set(projectInfoForm, "contact", projectInfoVO.projectContact);
+        Vue.set(projectInfoForm, "projectNumber", projectInfoVO.projectAssignmentSerialNo);
+        Vue.set(projectInfoForm, "source", projectInfoVO.projectSource);
+        Vue.set(projectInfoForm, "level", projectInfoVO.projectLevel);
+        Vue.set(projectInfoForm, "isLeadingUnit", projectInfoVO.hasLeadingRole);
+        Vue.set(projectInfoForm, "subjectName", projectInfoVO.assignedSubjectSection);
+        Vue.set(projectInfoForm, "subjectNumber", projectInfoVO.subjectAssignmentSerialNo);
+        Vue.set(projectInfoForm, "startTime", projectInfoVO.projectEstablishTime);
+        Vue.set(projectInfoForm, "endTime", projectInfoVO.projectScheduledCompletionTime);
+        Vue.set(projectInfoForm, "duration", projectInfoVO.projectDuration);
+        Vue.set(projectInfoForm, "meaning", projectInfoVO.significanceAndNecessity);
+        Vue.set(projectInfoForm, "progressStatus", projectInfoVO.projectProgressStatus);
+        Vue.set(projectInfoForm, "completionProgress", projectInfoVO.completionProgress);
+        Vue.set(projectInfoForm, "coopUnit", projectInfoVO.collaboratingUnit);
+        Vue.set(projectInfoForm, "expertTeam", projectInfoVO.expertTeam);
+        // Vue.set(projectInfoForm, "awardStatus", projectInfoVO.awardDetails);
+        // Vue.set(projectInfoForm, "paperStatus", projectInfoVO.publicationDetails);
+        // Vue.set(projectInfoForm, "patentStatus", projectInfoVO.patentDetails);
+        // Vue.set(projectInfoForm, "rzStatus", projectInfoVO.softwareCopyright);
+        // Vue.set(projectInfoForm, "standardStatus", projectInfoVO.standardDetails);
+
+        Vue.set(projectFundsForm, "jfze", projectFundsVO.totalFundsAll);
+        Vue.set(projectFundsForm, "zxjfze", projectFundsVO.totalFundsZx);
+        Vue.set(projectFundsForm, "zxsbf", projectFundsVO.sbfZx);
+        Vue.set(projectFundsForm, "zxzjx", projectFundsVO.totalFundsZxZj);
+        Vue.set(projectFundsForm, "zxjjy", projectFundsVO.totalFundsZxJj);
+        Vue.set(projectFundsForm, "zcjfze", projectFundsVO.totalFundsZc);
+        Vue.set(projectFundsForm, "zcsbf", projectFundsVO.sbfZc);
+        Vue.set(projectFundsForm, "zczjx", projectFundsVO.totalFundsZcZj);
+        Vue.set(projectFundsForm, "zcjjy", projectFundsVO.totalFundsZcJj);
     })
 }
