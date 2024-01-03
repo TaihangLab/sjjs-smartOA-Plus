@@ -220,6 +220,12 @@ export const dynamicRoutes = [
                 meta: {title: '成员列表', icon: 'members'}
             },
             {
+                path: 'projectAttachments',
+                component: () => import('@/views/project/ProjectAttachments.vue'),
+                name: '项目附件',
+                meta: {title: '项目附件', icon: 'clipboard'}
+            },
+            {
                 path: 'project',
                 component: () => import('@/views/project/Project.vue'),
                 name: '项目',
