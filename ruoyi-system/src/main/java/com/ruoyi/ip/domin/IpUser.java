@@ -1,4 +1,4 @@
-package com.ruoyi.project.domain;
+package com.ruoyi.ip.domin;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -8,22 +8,22 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * 知识产权和存储对象关联表
+ * 知识产权和用户关联表
  *
- * @TableName ip_oss
+ * @TableName ip_user
  */
-@TableName(value = "ip_oss")
+@TableName(value = "ip_user")
 @Data
-public class IpOss implements Serializable {
+public class IpUser implements Serializable {
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
     /**
      * 知识产权id
      */
     @TableId
-    private Integer ipId;
+    private Long ipId;
     /**
-     * 存储对象id
+     * 成员id
      */
-    private Integer ossId;
+    private Long userId;
 }

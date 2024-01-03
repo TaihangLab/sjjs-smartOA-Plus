@@ -184,6 +184,9 @@ public class ProjectUserServiceImpl implements ProjectUserService {
             String deptName = deptIdToNameMap.getOrDefault(user.getDeptId(), "Unknown Dept");
             List<String> projectUserRoles = userIdToProjectUserRolesMap.getOrDefault(userId, Collections.singletonList(ProjectUserRole.UNKNOWN))
                 .stream().filter(projectUserRole -> !projectUserRole.equals(ProjectUserRole.PROJECT_ENTRY_OPERATOR)).map(ProjectUserRole::getValue).collect(Collectors.toList());
+            if (projectUserRoles.isEmpty()) {
+                continue;
+            }
 
             ProjectUserVo projectUserVo = new ProjectUserVo();
             projectUserVo.setDeptName(deptName);

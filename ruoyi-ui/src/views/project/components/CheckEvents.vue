@@ -10,7 +10,7 @@
                 class="no-border-radius"></el-button>
         </div>
         <el-timeline v-if="timelineItems.length">
-            <el-timeline-item v-for="(item, index) in timelineItems" :key="index" :timestamp="item.milestoneDate"
+            <el-timeline-item v-for="item in timelineItems" :key="item.milestoneId" :timestamp="item.milestoneDate"
                 placement="top" :icon="item.icon" :style="{ '--icon-color': '#0bbd87' }">
                 <el-card style="width: 90%; display: flex; flex-direction: column;">
                     <h4>名称：{{ item.milestoneTitle }}</h4>
@@ -24,7 +24,7 @@
                     <div style="margin-top: 10px;">
                         <el-button type="success" icon="el-icon-edit" size="mini" circle @click="editMilestone(item)"
                             v-if="buttonType === 1"></el-button>
-                        <el-button type="danger" icon="el-icon-delete" size="mini" circle @click="deleteMilestone(item)"
+                        <el-button type="danger" icon="el-icon-delete" size="mini" circle @click="confirmDeleteMilestone(item)"
                             v-if="buttonType === 1"></el-button>
                     </div>
                 </el-card>
@@ -68,12 +68,13 @@
 <script>
 import request from '@/utils/request';
 import fujian from "./../../../components/FileUpload/index.vue";
+import { MessageBox, Message } from 'element-ui';
 
 export default {
     props: {
         projectId: {
             type: String,
-            default: "",
+            required: true
         },
         buttonType: {
             type: Number,
@@ -218,6 +219,20 @@ export default {
                     console.log(resp);
                     this.fetchMilestoneList();
                 })
+        },
+        confirmDeleteMilestone(item) {
+            MessageBox.confirm('确定删除该大事记吗？', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+            })
+                .then(() => {
+                    // 用户点击确定按钮时执行删除逻辑
+                    this.deleteMilestone(item);
+                })
+                .catch(() => {
+                    // 用户点击取消按钮时不执行任何操作
+                });
         },
         editMilestoneBtn() {
             // 验证关键字段是否为空

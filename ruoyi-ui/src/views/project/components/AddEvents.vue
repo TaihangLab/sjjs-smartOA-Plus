@@ -6,7 +6,7 @@
       </el-form-item>
       <el-form-item label="时间" prop="milestoneDate">
         <el-col :span="11">
-          <el-date-picker type="date" placeholder="选择日期" v-model="form.milestoneDate" style="width: 100%;"
+          <el-date-picker  type="date" placeholder="选择日期" v-model="form.milestoneDate" style="width: 100%;"
             value-format="yyyy-MM-dd"></el-date-picker>
         </el-col>
       </el-form-item>
@@ -33,7 +33,7 @@ export default {
   props: {
     projectId: {
       type: String,
-      default: "",
+      required: true,
     },
   },
   components: {
@@ -82,7 +82,6 @@ export default {
           this.$modal.msgSuccess("新增成功");
           this.$emit('milestoneAdded');
           this.$emit('close-dialog'); // 触发一个事件通知父组件关闭弹窗
-          this.getDataList(); // 刷新数据
           this.$refs.fujian.reset();
 
         })

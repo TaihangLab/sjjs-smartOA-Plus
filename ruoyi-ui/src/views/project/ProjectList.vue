@@ -1,8 +1,9 @@
 <template>
     <div>
-        <CheckProject @query-request="handleQueryRequest"/>
+        <CheckProject @query-request="handleQueryRequest" />
         <div>
-            <Project :projectListLook="projectListLook" :total="total" :queryParam="queryParam" @update-query-param="updateQueryParam" @reloadProjectList="getprojectList"/>
+            <Project :projectListLook="projectListLook" :myProjectLook="myProjectLook" :total="total" :key="projectListKey"
+                :queryParam="queryParam" @update-query-param="updateQueryParam" @reloadProjectList="getprojectList" />
         </div>
     </div>
 </template>
@@ -15,7 +16,7 @@ import CheckProject from "./CheckProject.vue";
 
 export default {
     name: "ProjectList",
-    components: {CheckProject, Project },
+    components: { CheckProject, Project },
     data() {
         return {
             queryParams: {
@@ -26,15 +27,18 @@ export default {
                 pageNum: 1,
                 pageSize: 10,
             },
-            projectListLook: {},
+            projectListLook: [],
             total: 0,
+            myProjectFrom: {},
+            myProjectLook: [],
+            projectListKey: 1,
         };
     },
     created() {
         this.getprojectList();
     },
     methods: {
-        reloadProjectList(queryParam){
+        reloadProjectList(queryParam) {
             this.queryParam = queryParam;
             this.getprojectList(); // 调用原来的获取数据方法
             this.projectKey += 1; // 修改 key 强制组件重新加载
