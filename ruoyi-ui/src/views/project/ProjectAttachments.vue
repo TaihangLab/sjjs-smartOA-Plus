@@ -2,11 +2,14 @@
     <div>
         <el-form ref="dataForm" :inline="true" class="demo-form-inline" style="margin-left: 30px; margin-top: 20px;">
             <el-form-item label="附件名称">
-            
+
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
                 <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+                <el-button type="success" icon="el-icon-download" size="mini" @click="handleBatchDownload">
+                    批量下载
+                </el-button>
             </el-form-item>
         </el-form>
 
@@ -14,6 +17,7 @@
             <div>
                 <el-table ref="multipleTable" :data="attachmentslist" border style="width: 100%"
                     :row-style="{ height: '50px' }" :cell-style="{ padding: '0px' }">
+                    <el-table-column type="selection" width="50" align="center" />
                     <el-table-column label="文件名称" :resizable="false" align="center" :show-overflow-tooltip="true"
                         width="300">
                         <template slot-scope="scope">
@@ -68,6 +72,7 @@
 <script>
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 import request from '@/utils/request';
+import JSZip from "jszip";
 
 export default {
     data() {
@@ -83,7 +88,8 @@ export default {
                 pageSize: 10,
             },
             myProjectFrom: {},
-            formLook: {}
+            formLook: {},
+            zipFileName: "sxctc",
         };
     },
     created() {
@@ -121,10 +127,8 @@ export default {
                 params: this.queryParam,
             })
                 .then((resp) => {
-                    console.log('请求成功，响应数据：', resp);
                     this.attachmentslist = resp.rows;
                     this.total = resp.total;
-                    console.log('请求成功，响应数据：', resp);
                 })
                 .catch((error) => {
                     console.error('获取用户数据时出错：', error);
@@ -141,8 +145,38 @@ export default {
         fetchData() {
             this.getAttachmentsList();
         },
-    },
+        async handleBatchDownload() {
+            const selectedAttachments = this.$refs.multipleTable.selection;
 
+            if (selectedAttachments && selectedAttachments.length > 0) {
+                const zip = new JSZip();
+                const folderName = "";
+                selectedAttachments.forEach((attachment, index) => {
+                    const fileName = `${folderName}/${this.encodeChineseFileName(attachment.originalName, index, attachment.fileSuffix)}`;
+                    zip.file(fileName, this.downloadFile(attachment.url));
+                });
+                zip.generateAsync({ type: "blob" }).then((content) => {
+                    const link = document.createElement("a");
+                    const timestamp = new Date().getTime();
+                    const chineseFileName = encodeURIComponent(this.zipFileName);
+                    const zipFileName = `${folderName}_${chineseFileName}_${timestamp}.zip`;
+                    link.href = URL.createObjectURL(content);
+                    link.download = zipFileName;
+                    link.click();
+                });
+            } else {
+                this.$message.warning("请选择要下载的附件");
+            }
+            this.handleDialogClose();
+        },
+        encodeChineseFileName(originalName, index, fileSuffix) {
+            const sanitizedFileName = originalName.replace(/[\/\\:*?"<>|]/g, "_");
+            return `${sanitizedFileName}_${index}${fileSuffix}`;
+        },
+        downloadFile(url) {
+            return fetch(url).then((response) => response.blob());
+        },
+    },
 };
 </script>
 <style>
