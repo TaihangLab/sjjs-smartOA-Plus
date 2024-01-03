@@ -21,10 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -203,9 +200,32 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
     @Override
     public void deleteProjectBaseInfoById(Long projectId) {
         int cnt = projectBaseInfoMapper.deleteById(projectId);
-        if (cnt == 0) {
+        if (cnt != 1) {
             log.error("删除失败的projectId为:{}", projectId);
             throw new NoSuchElementException("删除项目基本信息失败,projectId为:" + projectId);
         }
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public List<Map<String, Object>> getProjectIdAndNameMapping() {
+        LambdaQueryWrapper<ProjectBaseInfo> lqw = Wrappers.lambdaQuery();
+        lqw.select(ProjectBaseInfo::getProjectId, ProjectBaseInfo::getAssignedSubjectName);
+        List<ProjectBaseInfo> projectBaseInfoList = projectBaseInfoMapper.selectList(lqw);
+        List<Map<String, Object>> projectIdAndNameMapping = projectBaseInfoList.stream()
+            .map(projectBaseInfo -> {
+                Map<String, Object> map = new HashMap<>();
+                map.put("label", projectBaseInfo.getAssignedSubjectName());
+                map.put("value", projectBaseInfo.getProjectId());
+                return map;
+            })
+            .collect(Collectors.toList());
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("label", "无关联项目");
+        map.put("value", -1);
+        projectIdAndNameMapping.add(map);
+        return projectIdAndNameMapping;
     }
 }

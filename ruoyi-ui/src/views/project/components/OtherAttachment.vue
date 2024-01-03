@@ -3,7 +3,7 @@
 
         <el-row type="flex" justify="center">
 
-        <FileUpload :idList="form.uploadList"></FileUpload>
+            <FileUpload :idList="form.uploadList" :value="form.value"></FileUpload>
         </el-row>
 
     </el-card>
@@ -23,7 +23,8 @@ export default {
         return {}
     },
     created() {
-        this.$props.form.uploadList = [];
+        this.$set(this.$props.form, "uploadList", []);
+        this.$set(this.$props.form, "value", []);
     },
     methods: {}
 }

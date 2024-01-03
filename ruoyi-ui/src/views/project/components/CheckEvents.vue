@@ -307,30 +307,7 @@ export default {
         mounted() {
             this.fetchMilestoneList();
         },
-        submitUpload() {
-            this.$refs.upload.submit();
-        },
-        onSubmit() {
-            console.log('submit!');
-        },
-        handleRemove(file, fileList) {
-            console.log(file, fileList);
-        },
-        handlePreview(file) {
-            console.log(file);
-        },
-        handleExceed(files, fileList) {
-            Message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-        },
-        beforeRemove(file, fileList) {
-            return MessageBox.confirm(`确定移除 ${file.name}？`);
-        },
-        handleInput(event) {
-            // 手动处理输入的值
-            this.input3 = event.target.value;
-        },
     },
-
 };
 </script>
 

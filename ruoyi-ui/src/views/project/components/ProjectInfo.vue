@@ -124,36 +124,36 @@
                 </el-col>
             </el-row>
 
-            <el-row :gutter="20" type="flex" justify="left">
-                <el-col :span="8">
-                    <el-form-item label-width="120px" label="获奖情况" prop="awardStatus">
-                        <el-input v-model="form.awardStatus"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                    <el-form-item label-width="120px" label="论文情况" prop="paperStatus">
-                        <el-input v-model="form.paperStatus"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                    <el-form-item label-width="120px" label="专利情况" prop="patentStatus">
-                        <el-input v-model="form.patentStatus"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
+<!--            <el-row :gutter="20" type="flex" justify="left">-->
+<!--                <el-col :span="8">-->
+<!--                    <el-form-item label-width="120px" label="获奖情况" prop="awardStatus">-->
+<!--                        <el-input v-model="form.awardStatus"></el-input>-->
+<!--                    </el-form-item>-->
+<!--                </el-col>-->
+<!--                <el-col :span="8">-->
+<!--                    <el-form-item label-width="120px" label="论文情况" prop="paperStatus">-->
+<!--                        <el-input v-model="form.paperStatus"></el-input>-->
+<!--                    </el-form-item>-->
+<!--                </el-col>-->
+<!--                <el-col :span="8">-->
+<!--                    <el-form-item label-width="120px" label="专利情况" prop="patentStatus">-->
+<!--                        <el-input v-model="form.patentStatus"></el-input>-->
+<!--                    </el-form-item>-->
+<!--                </el-col>-->
+<!--            </el-row>-->
 
-            <el-row :gutter="20" type="flex" justify="left">
-                <el-col :span="8">
-                    <el-form-item label-width="120px" label="软著情况" prop="rzStatus">
-                        <el-input v-model="form.rzStatus"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                    <el-form-item label-width="120px" label="标准情况" prop="standardStatus">
-                        <el-input v-model="form.standardStatus"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
+<!--            <el-row :gutter="20" type="flex" justify="left">-->
+<!--                <el-col :span="8">-->
+<!--                    <el-form-item label-width="120px" label="软著情况" prop="rzStatus">-->
+<!--                        <el-input v-model="form.rzStatus"></el-input>-->
+<!--                    </el-form-item>-->
+<!--                </el-col>-->
+<!--                <el-col :span="8">-->
+<!--                    <el-form-item label-width="120px" label="标准情况" prop="standardStatus">-->
+<!--                        <el-input v-model="form.standardStatus"></el-input>-->
+<!--                    </el-form-item>-->
+<!--                </el-col>-->
+<!--            </el-row>-->
 
             <el-row :gutter="20" type="flex" justify="left">
                 <el-col :span="12">

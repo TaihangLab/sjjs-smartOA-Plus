@@ -77,6 +77,19 @@ public class ProjectMyController extends BaseController {
         return R.ok();
     }
 
+    /**
+     * 删除项目
+     *
+     * @param projectId 项目ID
+     * @return 删除结果
+     */
+    //@SaCheckPermission("project:my:delete")
+    @GetMapping("/delete")
+    public R<Void> deleteProject(@RequestParam @NotNull Long projectId) {
+        projectService.deleteProject(projectId);
+        return R.ok();
+    }
+
 
     //@SaCheckPermission("project:my:milestoneadd")
     @Log(title = "新增项目大事纪", businessType = BusinessType.INSERT)
@@ -104,19 +117,6 @@ public class ProjectMyController extends BaseController {
     @PutMapping("/milestoneedit")
     public R<Void> edit(@Validated @RequestBody ProjectMilestoneBo projectMilestoneBo) {
         return toAjax(projectMilestoneService.updateMilestone(projectMilestoneBo));
-    }
-
-    /**
-     * 删除项目
-     *
-     * @param projectId 项目ID
-     * @return 删除结果
-     */
-    //@SaCheckPermission("project:my:delete")
-    @GetMapping("/delete")
-    public R<Void> deleteProject(@RequestParam @NotNull Long projectId) {
-        projectService.deleteProject(projectId);
-        return R.ok();
     }
 
 }

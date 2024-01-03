@@ -1,9 +1,7 @@
-package com.ruoyi.project.domain;
+package com.ruoyi.ip.domin;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+import com.ruoyi.common.core.domain.BaseEntity;
 import com.ruoyi.common.enums.IntellectualPropertyStatus;
 import com.ruoyi.common.enums.IntellectualPropertyType;
 import lombok.Data;
@@ -19,7 +17,7 @@ import java.time.LocalDate;
  */
 @TableName(value = "intellectual_property")
 @Data
-public class IntellectualProperty implements Serializable {
+public class IntellectualProperty extends BaseEntity implements Serializable {
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
     /**
@@ -52,4 +50,10 @@ public class IntellectualProperty implements Serializable {
      * 获得日期
      */
     private LocalDate ipDate;
+    /**
+     * 是否删除
+     */
+    @TableLogic
+    @TableField(select = false)
+    private Integer deleted;
 }
