@@ -249,21 +249,20 @@ create index project_plan_project_id_index
 DROP TABLE IF EXISTS `intellectual_property`;
 create table intellectual_property
 (
-    ip_id      bigint auto_increment comment '知识产权id'
+    ip_id        bigint auto_increment comment '知识产权id'
         primary key,
-    oss_id     bigint                  not null comment '对象存储id',
-    project_id bigint                  null comment '项目id',
-    ip_name    varchar(255) default '' not null comment '知识产权名',
-    ip_type    tinyint                 not null comment '知识产权类别,国内发明专利0、软件著作权1、论文2、标准3',
-    ip_status  tinyint                 null comment '知识产权状态,专利受理0，专利授权1，软著已获取2，标准正在申报3，标准已通过4，论文已发表5',
-    ip_date    date                    not null comment '获得日期',
-    constraint intellectual_property_pk
-        unique (oss_id)
+    project_id   bigint       default -1 not null comment '项目id,没有关联项目默认为-1',
+    ip_name      varchar(255) default '' not null comment '知识产权名',
+    ip_type      tinyint                 not null comment '知识产权类别,国内发明专利0、软件著作权1、论文2、标准3',
+    ip_status    tinyint                 null comment '知识产权状态,专利受理0，专利授权1，软著已获取2，标准正在申报3，标准已通过4，论文已发表5',
+    ip_date      date                    not null comment '获得日期',
+    create_time  datetime                null comment '创建时间',
+    update_time  datetime                null comment '更新时间',
+    create_by    varchar(100) default '' null comment '创建人',
+    `update_ by` varchar(100) default '' null comment '更新人',
+    deleted      tinyint      default 0  null comment '是否删除，2删除，0未删除'
 )
     comment '知识产权表';
-
-create index intellectual_property_oss_id_ip_name_index
-    on intellectual_property (oss_id, ip_name);
 
 -- ----------------------------
 -- 9、知识产权和存储对象关联表
@@ -271,8 +270,8 @@ create index intellectual_property_oss_id_ip_name_index
 DROP TABLE IF EXISTS `ip_oss`;
 create table ip_oss
 (
-    ip_id  tinyint not null comment '知识产权id',
-    oss_id tinyint not null comment '存储对象id',
+    ip_id  bigint not null comment '知识产权id',
+    oss_id bigint not null comment '存储对象id',
     primary key (ip_id, oss_id)
 )
     comment '知识产权和存储对象关联表';

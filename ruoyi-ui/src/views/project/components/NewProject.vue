@@ -91,6 +91,7 @@ import {Loading} from "element-ui";
 import request from "@/utils/request";
 import {addProject, getProject} from "@/views/project/components/project";
 import Vue from "vue";
+import {resetObject} from "@/views/project/components/utils";
 
 const TOTAL_STEPS = 10;
 
@@ -119,6 +120,7 @@ export default {
                 this.zcFundsDetailForm, this.fundsSourceForm,
                 this.projectIndicatorForm, this.projectPlanForm,
                 this.otherAttachmentForm)
+
             // console.log(this.projectFundsForm);
             // this.$refs.projectInfo.$forceUpdate();
         }
@@ -175,6 +177,7 @@ export default {
 
         reset() {
             console.log("刷新111")
+            resetObject(this.projectInfoForm)
             // for (const key in this.projectInfoForm) {
             //     console.log("刷新")
             //     Vue.set(this.projectInfoForm, key, "");
@@ -195,7 +198,6 @@ export default {
                 this.projectIndicatorForm, this.projectPlanForm,
                 this.otherAttachmentForm)
                 .then(resp => {
-                    console.log(resp)
                     this.$message({
                         message: '恭喜你，项目新增成功',
                         type   : 'success'
@@ -206,7 +208,7 @@ export default {
                     loading.close();
                 })
             this.$emit('update:visible', false);
-            location.reload();
+            // setTimeout(() => location.reload(), 1000);
         },
     },
     watch  : {
