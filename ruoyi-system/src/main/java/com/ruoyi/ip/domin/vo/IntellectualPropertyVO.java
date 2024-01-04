@@ -2,18 +2,16 @@ package com.ruoyi.ip.domin.vo;
 
 import com.ruoyi.common.enums.IntellectualPropertyStatus;
 import com.ruoyi.common.enums.IntellectualPropertyType;
-import com.ruoyi.system.domain.vo.SysOssVo;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.List;
 
 /**
  * @author bailingnan
- * @date 2024/1/3
+ * @date 2024/1/4
  */
 @Data
-public class IntellectualPropertyDetailVO {
+public class IntellectualPropertyVO {
     /**
      * 知识产权id
      */
@@ -27,6 +25,7 @@ public class IntellectualPropertyDetailVO {
      * 关联项目名称
      */
     private String assignedSubjectName;
+
     /**
      * 知识产权名
      */
@@ -43,14 +42,4 @@ public class IntellectualPropertyDetailVO {
      * 获得日期
      */
     private LocalDate ipDate;
-    /**
-     * 知识产权成员列表
-     */
-    private List<IpUserVO> ipUserVOList;
-
-    /**
-     * 知识产权附件列表
-     */
-    private List<SysOssVo> sysOssVoList;
-
 }

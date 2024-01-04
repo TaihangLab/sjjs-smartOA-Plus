@@ -1,7 +1,8 @@
-package com.ruoyi.project.mapper;
+package com.ruoyi.ip.mapper;
 
 import com.ruoyi.common.core.mapper.BaseMapperPlus;
 import com.ruoyi.ip.domin.IntellectualProperty;
+import com.ruoyi.ip.domin.vo.IntellectualPropertyVO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -11,7 +12,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @Entity com.ruoyi.ip.domin.IntellectualProperty
  */
 @Mapper
-public interface IntellectualPropertyMapper extends BaseMapperPlus<IntellectualPropertyMapper, IntellectualProperty, IntellectualProperty> {
+public interface IntellectualPropertyMapper extends BaseMapperPlus<IntellectualPropertyMapper, IntellectualProperty, IntellectualPropertyVO> {
 
 }
 

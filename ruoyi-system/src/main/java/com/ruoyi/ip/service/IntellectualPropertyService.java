@@ -1,7 +1,10 @@
 package com.ruoyi.ip.service;
 
+import com.ruoyi.common.core.domain.PageQuery;
+import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.ip.domin.bo.IntellectualPropertyBO;
 import com.ruoyi.ip.domin.vo.IntellectualPropertyDetailVO;
+import com.ruoyi.ip.domin.vo.IntellectualPropertyVO;
 
 /**
  * @author bailingnan
@@ -15,4 +18,6 @@ public interface IntellectualPropertyService {
     void updateIntellectualProperty(IntellectualPropertyBO intellectualPropertyBO);
 
     IntellectualPropertyDetailVO getIntellectualPropertyDetail(Long ipId);
+
+    TableDataInfo<IntellectualPropertyVO> queryIntellectualPropertVOList(IntellectualPropertyBO intellectualPropertyBO, PageQuery pageQuery);
 }

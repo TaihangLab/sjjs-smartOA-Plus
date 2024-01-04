@@ -2,6 +2,7 @@ package com.ruoyi.system.domain.vo;
 
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -58,6 +59,5 @@ public class SysOssVo {
      * 所属大事记名
      */
     private String milestoneTitle;
-
 
 }

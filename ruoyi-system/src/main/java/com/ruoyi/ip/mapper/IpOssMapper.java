@@ -1,4 +1,4 @@
-package com.ruoyi.project.mapper;
+package com.ruoyi.ip.mapper;
 
 import com.ruoyi.common.core.mapper.BaseMapperPlus;
 import com.ruoyi.ip.domin.IpOss;

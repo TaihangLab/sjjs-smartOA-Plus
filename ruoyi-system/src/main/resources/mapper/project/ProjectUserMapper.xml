@@ -12,19 +12,20 @@
 
     <!-- 获取历史所有项目级别和对应的数量 -->
     <select id="getProjectLevelCountByUserId" resultType="map" parameterType="Long">
-        SELECT pbi.project_level, COUNT(*) AS count
+        SELECT pbi.project_level, COUNT(DISTINCT pbi.project_id, pu.user_id) AS count
         FROM project_base_info pbi
             INNER JOIN project_user pu ON pbi.project_id = pu.project_id
-        WHERE pu.user_id = #{userId}
+        WHERE pu.user_id = #{userId} AND pu.project_user_role &lt;> 6
         GROUP BY pbi.project_level
     </select>
 
-    <!-- 获取当前正在进行中的项目级别和对应的数量 (&gt;= >= ), (&lt; <= )-->
+    <!-- 获取当前正在进行中的项目级别和对应的数量 (&gt; > ), (&lt; < )-->
     <select id="getNowProjectLevelCountByUserId" resultType="map" parameterType="Long">
-        SELECT pbi.project_level, COUNT(*) AS count
+        SELECT pbi.project_level, COUNT(DISTINCT pbi.project_id, pu.user_id) AS count
         FROM project_base_info pbi
             INNER JOIN project_user pu ON pbi.project_id = pu.project_id
         WHERE CURDATE() &gt;= pbi.project_establish_time AND CURDATE() &lt;= pbi.project_scheduled_completion_time
+        AND pu.project_user_role &lt;> 6
         AND pu.user_id = #{userId}
         GROUP BY pbi.project_level
     </select>

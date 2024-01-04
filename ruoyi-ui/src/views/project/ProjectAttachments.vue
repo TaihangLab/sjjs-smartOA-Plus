@@ -24,9 +24,9 @@
                             {{ scope.row.originalName.replace(/\..+$/, '') }}
                         </template>
                     </el-table-column>
-                    <el-table-column :label="'文件格式'" align="center" prop="fileSuffix" :show-overflow-tooltip="true">
+                    <el-table-column :label="'文件格式'" align="center" prop="fileSuffix" :show-overflow-tooltip="true" width="120">
                         <template slot-scope="scope">
-                            <div>
+                            <div width="120">
                                 <el-tag v-if="scope.row.fileSuffix === '.pdf'" type="success" size="mini">{{
                                     scope.row.fileSuffix }}</el-tag>
                                 <el-tag v-else-if="scope.row.fileSuffix === '.docx'" type="warning" size="mini">{{
@@ -47,9 +47,7 @@
                     </el-table-column>
                     <el-table-column label="上传人" :resizable="false" align="center" prop="createBy" width="120">
                     </el-table-column>
-                    <el-table-column label="所属项目" :resizable="false" align="center" prop="milestoneTitle" width="200">
-                    </el-table-column>
-                    <el-table-column label="所属大事记" :resizable="false" align="center" prop="milestoneTitle" width="200">
+                    <el-table-column label="所属大事记" :resizable="false" align="center" prop="milestoneTitle" width="300">
                     </el-table-column>
                     <el-table-column label="大事记上传时间" :resizable="false" align="center" prop="createTime" width="170">
                     </el-table-column>
@@ -90,6 +88,7 @@ export default {
             myProjectFrom: {},
             formLook: {},
             zipFileName: "sxctc",
+            handleQuery:"",
         };
     },
     created() {

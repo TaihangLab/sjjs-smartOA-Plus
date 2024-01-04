@@ -28,11 +28,11 @@
                           :cell-style="{ padding: '0px' }">
                     <!--                <el-table-column type="selection" :resizable="false" align="center" width="40"></el-table-column>-->
                     <el-table-column label="姓名" :resizable="false" align="center" prop="nickName"
-                                     width="120"> 
+                                     width="120">
                     </el-table-column>
-                    <el-table-column label="职称" :resizable="false" align="center" prop="jobTitle" width="120">
+                    <el-table-column label="职称" :resizable="false" align="center" prop="jobTitle" :formatter="jobTitles" width="120">
                     </el-table-column>
-                    <el-table-column label="学历" :resizable="false" align="center" prop="diploma" width="120">
+                    <el-table-column label="学历" :resizable="false" align="center" prop="diploma" :formatter="diplomas" width="120">
                     </el-table-column>
                     <el-table-column label="当前参与项目数" :resizable="false" align="center" prop="userProjectNumNow" width="150">
                     </el-table-column>
@@ -84,6 +84,22 @@ export default {
     components: {CheckMembers, CheckProject},
     data(){
         return {
+            jobTitle: {
+                0: '正高级工程师',
+                1: '副高级工程师',
+                2: '中级工程师',
+                3: '初级工程师',
+                4: '研究员',
+                5: '副研究员',
+                6: '助理研究员',
+                7: '研究实习员',
+            },
+            diploma: {
+                0: '博士研究生',
+                1: '硕士研究生',
+                2: '本科',
+                3: '专科',
+            },
             total: 0,
             responsiblePerson: [],
             cascaderOptions: [],
@@ -105,6 +121,14 @@ export default {
         this.getDeptAndUserList();
     },
     methods: {
+        jobTitles(row, column, cellValue) {
+            // 使用映射关系来获取对应的文字描述
+            return this.jobTitle[cellValue] || cellValue;
+        },
+        diplomas(row, column, cellValue) {
+            // 使用映射关系来获取对应的文字描述
+            return this.diploma[cellValue] || cellValue;
+        },
         async getDeptAndUserList() {
             // this.queryParam.pageNum = 1;
             // this.queryParam.pageSize = 10;
@@ -200,7 +224,7 @@ export default {
             this.fetchData();
         },
         fetchData() {
-            this.getDeptAndUserList(); 
+            this.getDeptAndUserList();
         },
     },
 

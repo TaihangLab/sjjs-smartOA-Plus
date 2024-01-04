@@ -1,10 +1,14 @@
 package com.ruoyi.web.controller.ip;
 
+import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.domain.R;
+import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.core.validate.AddGroup;
 import com.ruoyi.common.core.validate.EditGroup;
+import com.ruoyi.common.core.validate.QueryGroup;
 import com.ruoyi.ip.domin.bo.IntellectualPropertyBO;
 import com.ruoyi.ip.domin.vo.IntellectualPropertyDetailVO;
+import com.ruoyi.ip.domin.vo.IntellectualPropertyVO;
 import com.ruoyi.ip.service.IntellectualPropertyService;
 import com.ruoyi.project.service.ProjectBaseInfoService;
 import lombok.RequiredArgsConstructor;
@@ -85,6 +89,19 @@ public class IntellectualPropertyController {
     }
 
     /**
+     * 查询知识产权列表
+     *
+     * @param intellectualPropertyBO 查询条件
+     * @param pageQuery              分页查询参数
+     * @return 查询结果的TableDataInfo对象
+     */
+    //@SaCheckPermission("ip:list")
+    @PostMapping("/list")
+    public TableDataInfo<IntellectualPropertyVO> queryIntellectualPropertVOList(@RequestBody @Validated(QueryGroup.class) IntellectualPropertyBO intellectualPropertyBO, PageQuery pageQuery) {
+        return intellectualPropertyService.queryIntellectualPropertVOList(intellectualPropertyBO, pageQuery);
+    }
+
+    /**
      * 获取项目ID和名称映射关系
      *
      * @return 映射关系列表
@@ -93,6 +110,15 @@ public class IntellectualPropertyController {
     @GetMapping("/getProjectMapping")
     public R<List<Map<String, Object>>> getProjectIdAndNameMapping() {
         return R.ok(projectBaseInfoService.getProjectIdAndNameMapping());
+    }
+
+    /**
+     * 获取项目树结构 项目类型->项目名
+     * @return
+     */
+    @GetMapping("/getProjectTree")
+    public R<List<Map<String, Object>>> getProjectTreeMapping() {
+        return R.ok(projectBaseInfoService.getProjectTreeMapping());
     }
 
 }

@@ -31,9 +31,9 @@
                             this.hasLeading[this.projectdetails.projectInfoVO.hasLeadingRole]
                         }}
                         </el-descriptions-item>
-                        <el-descriptions-item label="项目负责人">{{
-                            this.projectdetails.projectInfoVO.projectLeader
-                        }}
+                        <el-descriptions-item label="项目负责人" v-if="this.projectLeaders">{{
+                            this.projectLeaders.nickName
+                            }}
                         </el-descriptions-item>
                         <el-descriptions-item label="项目专员/联系人">{{
                             this.projectdetails.projectInfoVO.projectContact
@@ -207,10 +207,8 @@ export default {
             activeNames: [],
             projectdetails: undefined,
             projectdescription: undefined,
+            projectLeaders: undefined,
         };
-    },
-    created() {
-        this.projectdetail();
     },
     watch: {
         'formLook.projectId': {
@@ -243,8 +241,9 @@ export default {
                     // 处理获取的用户数据
                     this.projectdetails = resp.data;
                     this.projectdescription = this.projectdetails.projectInfoVO.projectDescription;
+                    this.projectLeaders = this.projectdetails.projectUserVoList.find(member => member.projectUserRoles.includes("0"));
+                    console.log('xmfzr', this.projectLeaders);
                     loading.close();
-
                 })
                 .catch((error) => {
                     console.error('获取用户数据时出错：', error);

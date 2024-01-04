@@ -222,6 +222,12 @@ export const dynamicRoutes = [
             {
                 path: 'projectAttachments',
                 component: () => import('@/views/project/ProjectAttachments.vue'),
+                name: '知识产权',
+                meta: {title: '知识产权', icon: 'el-icon-monitor'}
+            },
+            {
+                path: 'intellectualProperty',
+                component: () => import('@/views/project/IntellectualProperty.vue'),
                 name: '项目附件',
                 meta: {title: '项目附件', icon: 'clipboard'}
             },

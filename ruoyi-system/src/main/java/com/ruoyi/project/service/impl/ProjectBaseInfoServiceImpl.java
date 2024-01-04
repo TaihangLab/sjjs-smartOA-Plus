@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.enums.ProjectLevel;
 import com.ruoyi.common.helper.LoginHelper;
 import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.project.domain.ProjectBaseInfo;
@@ -24,6 +25,9 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.ruoyi.common.constant.IpConstants.UNASSOCIATED_PROJECT_CODE;
+import static com.ruoyi.common.constant.IpConstants.UNASSOCIATED_PROJECT_IDENTIFIER;
+
 /**
  * @author bailingnan
  * @date 2023/12/7
@@ -32,8 +36,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
-    public static final String UNASSOCIATED_PROJECT_IDENTIFIER = "无关联项目";
-    public static final Integer UNASSOCIATED_PROJECT_CODE = -1;
 
     private final ProjectBaseInfoMapper projectBaseInfoMapper;
 
@@ -66,6 +68,9 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
     }
 
     private LambdaQueryWrapper<ProjectBaseInfo> buildAllListQueryWrapper(ProjectBaseInfoBO projectBaseInfoBO) {
+        if (projectBaseInfoBO == null) {
+            return Wrappers.lambdaQuery();
+        }
         LambdaQueryWrapper<ProjectBaseInfo> lqw = buildCommonQueryWrapper(projectBaseInfoBO);
         if (projectBaseInfoBO.getUserId() == null) {
             return lqw;
@@ -80,6 +85,9 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
     }
 
     private LambdaQueryWrapper<ProjectBaseInfo> buildMyListQueryWrapper(ProjectBaseInfoBO projectBaseInfoBO) {
+        if (projectBaseInfoBO == null) {
+            return Wrappers.lambdaQuery();
+        }
         LambdaQueryWrapper<ProjectBaseInfo> lqw = buildCommonQueryWrapper(projectBaseInfoBO);
         List<Long> loginProjectIds = Optional.ofNullable(LoginHelper.getUserId())
             .map(this::getProjectIdsByUserId)
@@ -118,7 +126,7 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
         lqw.le(projectBaseInfoBO.getProjectEstablishTimeEnd() != null, ProjectBaseInfo::getProjectEstablishTime, projectBaseInfoBO.getProjectEstablishTimeEnd());
         lqw.ge(projectBaseInfoBO.getProjectScheduledCompletionTimeSta() != null, ProjectBaseInfo::getProjectScheduledCompletionTime, projectBaseInfoBO.getProjectScheduledCompletionTimeSta());
         lqw.le(projectBaseInfoBO.getProjectScheduledCompletionTimeEnd() != null, ProjectBaseInfo::getProjectScheduledCompletionTime, projectBaseInfoBO.getProjectScheduledCompletionTimeEnd());
-        lqw.orderByDesc(ProjectBaseInfo::getCreateTime);
+        lqw.orderByDesc(ProjectBaseInfo::getUpdateTime);
         return lqw;
     }
 
@@ -152,6 +160,15 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
 
         BeanCopyUtils.copy(projectBaseInfo, projectInfoVO);
         return projectInfoVO;
+    }
+
+    /**
+     * @param projectId
+     * @return
+     */
+    @Override
+    public ProjectBaseInfo selectProjectBaseInfoById(Long projectId) {
+        return projectBaseInfoMapper.selectById(projectId);
     }
 
     /**
@@ -231,4 +248,60 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
         projectIdAndNameMapping.add(map);
         return projectIdAndNameMapping;
     }
+
+    /**
+     * @param projectIdList
+     * @return
+     */
+    @Override
+    public Map<Long, String> getProjectIdAndNameMappingByProjectIdSet(Set<Long> projectIdSet) {
+        Map<Long, String> projectIdAndNameMapping = projectBaseInfoMapper.selectBatchIds(projectIdSet).stream()
+            .collect(Collectors.toMap(ProjectBaseInfo::getProjectId, ProjectBaseInfo::getAssignedSubjectName));
+        projectIdAndNameMapping.put(UNASSOCIATED_PROJECT_CODE, UNASSOCIATED_PROJECT_IDENTIFIER);
+        return projectIdAndNameMapping;
+    }
+
+    /**
+     * 获取项目树形结构
+     */
+    public List<Map<String, Object>> getProjectTreeMapping() {
+        List<Map<String, Object>> projectTree = new ArrayList<>();
+        Set<ProjectLevel> projectLevels = getAllProjectLevels();
+        log.info("projectLevels" + projectLevels);
+        for (ProjectLevel projectLevel : projectLevels) {
+            Map<String, Object> levelMap = new HashMap<>();
+            levelMap.put("lable", projectLevel.getDescription());
+            levelMap.put("value", projectLevel.getValue());
+            levelMap.put("weight", projectLevel.getValue());
+            // 获取每种类型下的所有项目
+            List<ProjectBaseInfo> projects = getProjectsByLevel(projectLevel);
+            List<Map<String, Object>> children = new ArrayList<>();
+            for (ProjectBaseInfo projectBaseInfo : projects) {
+                Map<String, Object> projectMap = new HashMap<>();
+                projectMap.put("lable", projectBaseInfo.getAssignedSubjectName());
+                projectMap.put("value", projectBaseInfo.getProjectId());
+                children.add(projectMap);
+            }
+            levelMap.put("children", children);
+            projectTree.add(levelMap);
+        }
+        return projectTree;
+    }
+
+    // 获取所有项目类型的方法
+    private Set<ProjectLevel> getAllProjectLevels() {
+        return projectBaseInfoMapper.selectList()
+            .stream()
+            .map(ProjectBaseInfo::getProjectLevel)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toSet());
+    }
+
+    // 根据项目类型获取项目的方法
+    private List<ProjectBaseInfo> getProjectsByLevel(ProjectLevel projectLevel) {
+        return projectBaseInfoMapper.selectList(
+            new LambdaQueryWrapper<ProjectBaseInfo>()
+                .eq(ProjectBaseInfo::getProjectLevel, projectLevel));
+    }
+
 }
