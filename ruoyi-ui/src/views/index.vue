@@ -31,12 +31,12 @@
                     <el-row>
                         <!-- 学历分布柱状图 -->
                         <el-col :span="12">
-                            <div style="height: 300px; width: 100%;" ref="educationChart"></div>
+                            <div style="height: 290px; width: 100%;" ref="educationChart"></div>
                         </el-col>
 
                         <!-- 职称分布柱状图 -->
                         <el-col :span="12">
-                            <div style="height: 300px; width: 100%;" ref="titleChart"></div>
+                            <div style="height: 290px; width: 100%;" ref="titleChart"></div>
                         </el-col>
                     </el-row>
                 </el-card>
