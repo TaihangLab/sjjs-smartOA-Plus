@@ -67,7 +67,7 @@
         </el-dialog>
     </div>
 </template>
-  
+
 <script>
 import { listNotice, getNotice, updateNotice } from "@/api/system/notice";
 
@@ -277,7 +277,7 @@ export default {
     },
 };
 </script>
-  
+
 <style scoped>
 .home {
     padding: 20px;
@@ -288,4 +288,3 @@ export default {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 </style>
-  

@@ -177,6 +177,19 @@ export function addProject(projectInfoForm, projectMemberForm, projectFundsForm,
     })
 }
 
+/**
+ * 
+ * @param {id} projectId 
+ * @param {基本信息} projectInfoForm 
+ * @param {项目成员} projectMemberForm 
+ * @param {项目经费} projectFundsForm 
+ * @param {专项经费} zxFundsDetailForm 
+ * @param {自筹经费} zcFundsDetailForm 
+ * @param {经费来源} fundsSourceForm 
+ * @param {项目指标} projectIndicatorForm 
+ * @param {项目计划} projectPlanForm 
+ * @param {项目附件} otherAttachmentForm 
+ */
 export function getProject(projectId, projectInfoForm, projectMemberForm, projectFundsForm, zxFundsDetailForm,
                            zcFundsDetailForm, fundsSourceForm, projectIndicatorForm, projectPlanForm,
                            otherAttachmentForm) {
@@ -303,6 +316,48 @@ export function getProject(projectId, projectInfoForm, projectMemberForm, projec
         Vue.set(fundsSourceForm, "qtzj", projectFundsVO.jflyQtzjZc);
 
         Vue.set(zxFundsDetailForm, "sbf_jj", projectFundsVO.sbfZxJj);
+        Vue.set(zcFundsDetailForm, "sbf_jj", projectFundsVO.sbfZcJj);
+        Vue.set(zxFundsDetailForm, "gzsbf_jj", projectFundsVO.sbfGzsbZxJj);
+        Vue.set(zcFundsDetailForm, "gzsbf_jj", projectFundsVO.sbfGzsbZcJj);
+        Vue.set(zxFundsDetailForm, "szsbf_jj", projectFundsVO.sbfSzsbZxJj);
+        Vue.set(zcFundsDetailForm, "szsbf_jj", projectFundsVO.sbfSzsbZcJj);
+        Vue.set(zxFundsDetailForm, "sbgzyzlf_jj", projectFundsVO.sbfSbgzyzlZxJj);
+        Vue.set(zcFundsDetailForm, "sbgzyzlf_jj", projectFundsVO.sbfSbgzyzlZcJj);
+        Vue.set(zxFundsDetailForm, "clf_jj", projectFundsVO.clfZxJj);
+        Vue.set(zcFundsDetailForm, "clf_jj", projectFundsVO.clfZcJj);
+        Vue.set(zxFundsDetailForm, "kyhdf_jj", projectFundsVO.kyhdfZxJj);
+        Vue.set(zcFundsDetailForm, "kyhdf_jj", projectFundsVO.kyhdfZcJj);
+        Vue.set(zxFundsDetailForm, "zlf_jj", projectFundsVO.kyhdfZlZxJj);
+        Vue.set(zcFundsDetailForm, "zlf_jj", projectFundsVO.kyhdfZlZcJj);
+        Vue.set(zxFundsDetailForm, "cshyjgf_jj", projectFundsVO.kyhdfCshyjgZxJj);
+        Vue.set(zcFundsDetailForm, "cshyjgf_jj", projectFundsVO.kyhdfCshyjgZcJj);
+        Vue.set(zxFundsDetailForm, "bgf_jj", projectFundsVO.kyhdfBgZxJj);
+        Vue.set(zcFundsDetailForm, "bgf_jj", projectFundsVO.kyhdfBgZcJj);
+        Vue.set(zxFundsDetailForm, "sjybcjf_jj", projectFundsVO.kyhdfSjybcjZxJj);
+        Vue.set(zcFundsDetailForm, "sjybcjf_jj", projectFundsVO.kyhdfSjybcjZcJj);
+        Vue.set(zxFundsDetailForm, "yscbf_jj", projectFundsVO.kyhdfYscbZxJj);
+        Vue.set(zcFundsDetailForm, "yscbf_jj", projectFundsVO.kyhdfYscbZcJj);
+        Vue.set(zxFundsDetailForm, "zscqswf_jj", projectFundsVO.kyhdfZscqswZxJj);
+        Vue.set(zcFundsDetailForm, "zscqswf_jj", projectFundsVO.kyhdfZscqswZcJj);
+        Vue.set(zxFundsDetailForm, "rldlf_jj", projectFundsVO.kyhdfRldlZxJj);
+        Vue.set(zcFundsDetailForm, "rldlf_jj", projectFundsVO.kyhdfRldlZcJj);
+        Vue.set(zxFundsDetailForm, "clsyf_jj", projectFundsVO.kyhdfClsyZxJj);
+        Vue.set(zcFundsDetailForm, "clsyf_jj", projectFundsVO.kyhdfClsyZcJj);
+        Vue.set(zxFundsDetailForm, "kyfwf_jj", projectFundsVO.kyfwfZxJj);
+        Vue.set(zcFundsDetailForm, "kyfwf_jj", projectFundsVO.kyfwfZcJj);
+        Vue.set(zxFundsDetailForm, "zjzxf_jj", projectFundsVO.kyfwfZjzxZxJj);
+        Vue.set(zcFundsDetailForm, "zjzxf_jj", projectFundsVO.kyfwfZjzxZcJj);
+        Vue.set(zxFundsDetailForm, "chlf_jj", projectFundsVO.kyfwfClZxJj);
+        Vue.set(zcFundsDetailForm, "chlf_jj", projectFundsVO.kyfwfClZcJj);
+        Vue.set(zxFundsDetailForm, "hyhwf_jj", projectFundsVO.kyfwfHyhwZxJj);
+        Vue.set(zcFundsDetailForm, "hyhwf_jj", projectFundsVO.kyfwfHyhwZcJj);
+        Vue.set(zxFundsDetailForm, "gjhzjlf_jj", projectFundsVO.kyfwfGjhzjlZxJj);
+        Vue.set(zcFundsDetailForm, "gjhzjlf_jj", projectFundsVO.kyfwfGjhzjlZcJj);
+        Vue.set(zxFundsDetailForm, "gnxzf_jj", projectFundsVO.kyfwfGnxzZxJj);
+        Vue.set(zcFundsDetailForm, "gnxzf_jj", projectFundsVO.kyfwfGnxzZcJj);
+        Vue.set(zxFundsDetailForm, "rylwbzf_jj", projectFundsVO.ryhlwbzfZxJj);
+        Vue.set(zcFundsDetailForm, "rylwbzf_jj", projectFundsVO.ryhlwbzfZcJj);
 
+        
     });
 }

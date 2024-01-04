@@ -45,3 +45,5 @@ nbdist/
 !*/build/*.html
 !*/build/*.xml
 /minio/
+
+node_modules/
