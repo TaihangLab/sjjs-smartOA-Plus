@@ -31,5 +31,7 @@ public interface ProjectBaseInfoService {
 
     List<Map<String, Object>> getProjectIdAndNameMapping();
 
+    List<Map<String, Object>> getProjectTreeMapping();
+
     Map<Long, String> getProjectIdAndNameMappingByProjectIdSet(Set<Long> projectIdSet);
 }

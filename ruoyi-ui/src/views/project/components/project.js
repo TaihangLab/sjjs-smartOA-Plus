@@ -2,6 +2,19 @@ import request from "@/utils/request";
 import {filterList} from "@/views/project/components/utils";
 import Vue from "vue";
 
+/**
+ * 获取项目列表
+ * @param projectInfoForm
+ * @param projectMemberForm
+ * @param projectFundsForm
+ * @param zxFundsDetailForm
+ * @param zcFundsDetailForm
+ * @param fundsSourceForm
+ * @param projectIndicatorForm
+ * @param projectPlanForm
+ * @param otherAttachmentForm
+ * @returns {AxiosPromise}
+ */
 export function addProject(projectInfoForm, projectMemberForm, projectFundsForm, zxFundsDetailForm, zcFundsDetailForm,
                            fundsSourceForm, projectIndicatorForm, projectPlanForm, otherAttachmentForm) {
     const members    = filterList(projectMemberForm.items).map(value => {
@@ -17,14 +30,23 @@ export function addProject(projectInfoForm, projectMemberForm, projectFundsForm,
     return request({
         url: '/project/my/add', method: 'post', data: {
             "projectBaseInfoBO"  : {
-                "leadingUnit"                   : projectInfoForm.leadingUnit,
+                // 牵头单位
+                "leadingUnit": projectInfoForm.leadingUnit,
+                // 项目名称
                 "assignedSubjectName"           : projectInfoForm.name,
+                // 联系人
                 "projectContact"                : projectInfoForm.contact,
+                // 项目编号
                 "projectAssignmentSerialNo"     : projectInfoForm.projectNumber,
+                // 项目来源
                 "projectSource"                 : projectInfoForm.source,
+                // 项目级别
                 "projectLevel"                  : projectInfoForm.level,
+                // 是否牵头单位
                 "hasLeadingRole"                : projectInfoForm.isLeadingUnit,
+                // 课题名称
                 "assignedSubjectSection"        : projectInfoForm.subjectName,
+                // 课题编号
                 "subjectAssignmentSerialNo"     : projectInfoForm.subjectNumber,
                 "projectEstablishTime"          : projectInfoForm.startTime,
                 "projectScheduledCompletionTime": projectInfoForm.endTime,
@@ -34,6 +56,8 @@ export function addProject(projectInfoForm, projectMemberForm, projectFundsForm,
                 "completionProgress"            : projectInfoForm.completionProgress,
                 "collaboratingUnit"             : projectInfoForm.coopUnit,
                 "expertTeam"                    : projectInfoForm.expertTeam,
+                "hasCooperativeUnit"            : projectInfoForm.coopUnit ? 1 : 0,
+                "projectDescription"            : projectInfoForm.description
                 // "awardDetails"                  : projectInfoForm.awardStatus,
                 // "publicationDetails"            : projectInfoForm.paperStatus,
                 // "patentDetails"                 : projectInfoForm.patentStatus,
@@ -41,15 +65,15 @@ export function addProject(projectInfoForm, projectMemberForm, projectFundsForm,
                 // "standardDetails"               : projectInfoForm.standardStatus,
             },
             "projectFundsBO"     : {
-                "totalFundsAll"  : projectFundsForm.jfze,
-                "totalFundsZx"   : projectFundsForm.zxjfze,
-                "sbfZx"          : projectFundsForm.zxsbf,
-                "totalFundsZxZj" : projectFundsForm.zxzjx,
-                "totalFundsZxJj" : projectFundsForm.zxjjy,
-                "totalFundsZc"   : projectFundsForm.zcjfze,
-                "sbfZc"          : projectFundsForm.zcsbf,
-                "totalFundsZcZj" : projectFundsForm.zczjx,
-                "totalFundsZcJj" : projectFundsForm.zcjjy,
+                "totalFundsAll" : projectFundsForm.jfze,
+                "totalFundsZx"  : projectFundsForm.zxjfze,
+                "sbfZx"         : projectFundsForm.zxsbf,
+                "totalFundsZxZj": projectFundsForm.zxzjx,
+                "totalFundsZxJj": projectFundsForm.zxjjy,
+                "totalFundsZc"  : projectFundsForm.zcjfze,
+                "sbfZc"         : projectFundsForm.zcsbf,
+                "totalFundsZcZj": projectFundsForm.zczjx,
+                "totalFundsZcJj": projectFundsForm.zcjjy,
 
                 "sbfZxZj"        : zxFundsDetailForm.sbf_zj,
                 "sbfZcZj"        : zcFundsDetailForm.sbf_zj,
@@ -96,11 +120,11 @@ export function addProject(projectInfoForm, projectMemberForm, projectFundsForm,
                 "jxzcZx"         : zxFundsDetailForm.jxzc_jj,
                 "jxzcZc"         : zcFundsDetailForm.jxzc_jj,
 
-                "jflyZx"         : fundsSourceForm.zxjfzz,
-                "jflyZc"         : fundsSourceForm.zcjf,
-                "jflyQtczbkZc"   : fundsSourceForm.qtczbk,
-                "jflyDwzyhbzjZc" : fundsSourceForm.zyhbzj,
-                "jflyQtzjZc"     : fundsSourceForm.qtzj,
+                "jflyZx"        : fundsSourceForm.zxjfzz,
+                "jflyZc"        : fundsSourceForm.zcjf,
+                "jflyQtczbkZc"  : fundsSourceForm.qtczbk,
+                "jflyDwzyhbzjZc": fundsSourceForm.zyhbzj,
+                "jflyQtzjZc"    : fundsSourceForm.qtzj,
 
                 "sbfZxJj"        : zxFundsDetailForm.sbf_jj,
                 "sbfZcJj"        : zcFundsDetailForm.sbf_jj,
@@ -272,7 +296,13 @@ export function getProject(projectId, projectInfoForm, projectMemberForm, projec
         Vue.set(zxFundsDetailForm, "jxzc_jj", projectFundsVO.jxzcZx);
         Vue.set(zcFundsDetailForm, "jxzc_jj", projectFundsVO.jxzcZc);
 
+        Vue.set(fundsSourceForm, "zxjfzz", projectFundsVO.jflyZx);
+        Vue.set(fundsSourceForm, "zcjf", projectFundsVO.jflyZc);
+        Vue.set(fundsSourceForm, "qtczbk", projectFundsVO.jflyQtczbkZc);
+        Vue.set(fundsSourceForm, "zyhbzj", projectFundsVO.jflyDwzyhbzjZc);
+        Vue.set(fundsSourceForm, "qtzj", projectFundsVO.jflyQtzjZc);
 
+        Vue.set(zxFundsDetailForm, "sbf_jj", projectFundsVO.sbfZxJj);
 
     });
 }

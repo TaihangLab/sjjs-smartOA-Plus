@@ -74,6 +74,7 @@ function add() {
         date: undefined, task: ''
     });
     isButtonShowList.value.push(false);
+    // $forceUpdate();
 }
 
 function remove(index) {
