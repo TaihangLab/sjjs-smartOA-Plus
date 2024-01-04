@@ -6,7 +6,6 @@
 
     <resultMap id="IntellectualPropertyResult" type="com.ruoyi.ip.domin.IntellectualProperty">
         <id property="ipId" column="ip_id" jdbcType="BIGINT"/>
-        <result property="ossId" column="oss_id" jdbcType="BIGINT"/>
         <result property="projectId" column="project_id" jdbcType="BIGINT"/>
         <result property="ipName" column="ip_name" jdbcType="VARCHAR"/>
         <result property="ipType" column="ip_type" jdbcType="TINYINT"/>

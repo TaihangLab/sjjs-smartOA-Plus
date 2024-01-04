@@ -54,7 +54,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
 //        projectMilestone.setMilestoneTitle(projectMilestoneBo.getMilestoneTitle());
 //        projectMilestone.setMilestoneRemark(projectMilestoneBo.getMilestoneRemark());
 //        projectMilestone.setMilestoneDate(projectMilestoneBo.getMilestoneDate());
-        BeanCopyUtils.copy(projectMilestoneBo,projectMilestone);
+        BeanCopyUtils.copy(projectMilestoneBo, projectMilestone);
 
         // 插入 projectMilestone
         int insertedRows = projectMilestoneMapper.insert(projectMilestone);
@@ -226,7 +226,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
 //            milestoneVo.setMilestoneTitle(milestone.getMilestoneTitle());
 //            milestoneVo.setMilestoneRemark(milestone.getMilestoneRemark());
 //            milestoneVo.setMilestoneDate(milestone.getMilestoneDate());
-            BeanCopyUtils.copy(milestone,milestoneVo);
+            BeanCopyUtils.copy(milestone, milestoneVo);
 
             List<Long> ossIds = projectMilestoneOssMapper.selectList(
                     new LambdaQueryWrapper<ProjectMilestoneOss>().eq(ProjectMilestoneOss::getMilestoneId, milestone.getMilestoneId()))
@@ -251,23 +251,58 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
 
     /**
      * 分页查询项目附件（大事记附件）
+     *
      * @param projectMilestoneBo
      * @param pageQuery
      * @return
      */
-    public TableDataInfo<SysOssVo> queryPageAllList(ProjectMilestoneBo projectMilestoneBo, PageQuery pageQuery){
+    public TableDataInfo<SysOssVo> queryPageAllList(ProjectMilestoneBo projectMilestoneBo, PageQuery pageQuery) {
         projectMilestoneBo = Optional.ofNullable(projectMilestoneBo).orElseGet(ProjectMilestoneBo::new);
-        LambdaQueryWrapper<ProjectMilestoneOss> milestoneOssLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        milestoneOssLambdaQueryWrapper.eq(ProjectMilestoneOss::getMilestoneId,projectMilestoneBo.getMilestoneId());
 
-        List<Long> ossIds = projectMilestoneOssMapper.selectList(null)
-            .stream()
+        // 获取与 projectId 关联的大事记信息
+        LambdaQueryWrapper<ProjectMilestone> milestoneLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        milestoneLambdaQueryWrapper.eq(projectMilestoneBo.getProjectId() != null , ProjectMilestone::getProjectId, projectMilestoneBo.getProjectId());
+        List<ProjectMilestone> milestones = projectMilestoneMapper.selectList(milestoneLambdaQueryWrapper);
+
+        // 构建大事记 ID 到名称的映射
+        Map<Long, String> milestoneIdToNameMap = milestones.stream()
+            .collect(Collectors.toMap(ProjectMilestone::getMilestoneId, ProjectMilestone::getMilestoneTitle));
+
+        // 获取与大事记相关的 OSS ID 和对应的大事记 ID
+        List<Long> milestoneIds = milestones.stream()
+            .map(ProjectMilestone::getMilestoneId)
+            .collect(Collectors.toList());
+        LambdaQueryWrapper<ProjectMilestoneOss> milestoneOssLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        milestoneOssLambdaQueryWrapper.in(!milestoneIds.isEmpty(), ProjectMilestoneOss::getMilestoneId, milestoneIds);
+        List<ProjectMilestoneOss> milestoneOssList = projectMilestoneOssMapper.selectList(milestoneOssLambdaQueryWrapper);
+
+        // 构建 OSS ID 到大事记名称的映射
+        Map<Long, String> ossIdToMilestoneNameMap = milestoneOssList.stream()
+            .collect(Collectors.toMap(
+                ProjectMilestoneOss::getOssId, o -> milestoneIdToNameMap.get(o.getMilestoneId()),
+                (existing, replacement) -> existing));// 如果遇到重复的键，保留现有的值
+
+        // 获取 OSS ID 列表
+        List<Long> ossIds = milestoneOssList.stream()
             .map(ProjectMilestoneOss::getOssId)
             .collect(Collectors.toList());
+
+        // 分页查询 OSS 对象
         LambdaQueryWrapper<SysOss> ossLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        ossLambdaQueryWrapper.in(SysOss::getOssId,ossIds);
-        Page<SysOssVo> voPage = sysOssMapper.selectVoPage(pageQuery.build(),ossLambdaQueryWrapper);
-        return TableDataInfo.build(voPage);
+        ossLambdaQueryWrapper.in(SysOss::getOssId, ossIds);
+        Page<SysOssVo> voPage = sysOssMapper.selectVoPage(pageQuery.build(), ossLambdaQueryWrapper);
+
+        // 填充 SysOssVo 列表
+        List<SysOssVo> ossVoList = voPage.getRecords().stream().map(sysOss -> {
+            SysOssVo sysOssVo = new SysOssVo();
+            BeanCopyUtils.copy(sysOss, sysOssVo);
+            // 添加大事记名称
+            String milestoneName = ossIdToMilestoneNameMap.get(sysOss.getOssId());
+            sysOssVo.setMilestoneTitle(milestoneName);
+            return sysOssVo;
+        }).collect(Collectors.toList());
+
+        return TableDataInfo.build(new Page<SysOssVo>(voPage.getCurrent(), voPage.getSize(), voPage.getTotal()).setRecords(ossVoList));
     }
 
 }

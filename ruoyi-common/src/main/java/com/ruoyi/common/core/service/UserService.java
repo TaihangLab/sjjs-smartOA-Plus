@@ -1,5 +1,9 @@
 package com.ruoyi.common.core.service;
 
+import com.ruoyi.common.core.domain.entity.SysUser;
+
+import java.util.List;
+
 /**
  * 通用 用户服务
  *
@@ -24,5 +28,7 @@ public interface UserService {
     String selectNickNameById(Long userId);
 
     void updateUserAvatarIP(String oldEndPoint, String newEndPoint);
+
+    List<SysUser> filterActiveUserIdList(List<Long> userIdList);
 
 }

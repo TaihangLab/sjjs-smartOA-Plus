@@ -4,10 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ruoyi.ip.domin.IpOss;
 import com.ruoyi.ip.service.IpOssService;
 import com.ruoyi.project.mapper.IpOssMapper;
+import com.ruoyi.system.domain.vo.SysOssVo;
+import com.ruoyi.system.service.ISysOssService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +23,7 @@ import java.util.stream.Collectors;
 @Service
 public class IpOssServiceImpl implements IpOssService {
     private final IpOssMapper ipOssMapper;
+    private final ISysOssService sysOssService;
 
     /**
      * @param ipId
@@ -91,5 +95,18 @@ public class IpOssServiceImpl implements IpOssService {
         if (!delOssIdList.isEmpty()) {
             ipOssMapper.delete(new LambdaQueryWrapper<IpOss>().eq(IpOss::getIpId, ipId).in(IpOss::getOssId, delOssIdList));
         }
+    }
+
+    /**
+     * @param ipId
+     * @return
+     */
+    @Override
+    public List<SysOssVo> getSysOssVoListByIpId(Long ipId) {
+        List<Long> ossIds = ipOssMapper.selectList(new LambdaQueryWrapper<IpOss>().eq(IpOss::getIpId, ipId)).stream().map(IpOss::getOssId).collect(Collectors.toList());
+        if (ossIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return sysOssService.listByIds(ossIds);
     }
 }

@@ -54,5 +54,10 @@ public class SysOssVo {
      */
     private String service;
 
+    /**
+     * 所属大事记名
+     */
+    private String milestoneTitle;
+
 
 }
