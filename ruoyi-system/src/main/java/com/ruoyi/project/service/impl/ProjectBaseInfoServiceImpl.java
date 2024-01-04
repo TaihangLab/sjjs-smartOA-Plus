@@ -231,26 +231,17 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
      */
     @Override
     public List<Map<String, Object>> getProjectIdAndNameMapping() {
-        LambdaQueryWrapper<ProjectBaseInfo> lqw = Wrappers.lambdaQuery();
-        lqw.select(ProjectBaseInfo::getProjectId, ProjectBaseInfo::getAssignedSubjectName);
-        List<ProjectBaseInfo> projectBaseInfoList = projectBaseInfoMapper.selectList(lqw);
-        List<Map<String, Object>> projectIdAndNameMapping = projectBaseInfoList.stream()
-            .map(projectBaseInfo -> {
-                Map<String, Object> map = new HashMap<>();
-                map.put("label", projectBaseInfo.getAssignedSubjectName());
-                map.put("value", projectBaseInfo.getProjectId());
-                return map;
-            })
-            .collect(Collectors.toList());
-        HashMap<String, Object> map = new HashMap<>();
+        List<Map<String, Object>> projectTree = getProjectTreeMapping();
+        Map<String, Object> map = new HashMap<>();
         map.put("label", UNASSOCIATED_PROJECT_IDENTIFIER);
         map.put("value", UNASSOCIATED_PROJECT_CODE);
-        projectIdAndNameMapping.add(map);
-        return projectIdAndNameMapping;
+        map.put("weight", UNASSOCIATED_PROJECT_CODE);
+        projectTree.add(map);
+        return projectTree;
     }
 
     /**
-     * @param projectIdList
+     * @param projectIdSet
      * @return
      */
     @Override
@@ -264,10 +255,10 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
     /**
      * 获取项目树形结构
      */
+    @Override
     public List<Map<String, Object>> getProjectTreeMapping() {
         List<Map<String, Object>> projectTree = new ArrayList<>();
         Set<ProjectLevel> projectLevels = getAllProjectLevels();
-        log.info("projectLevels" + projectLevels);
         for (ProjectLevel projectLevel : projectLevels) {
             Map<String, Object> levelMap = new HashMap<>();
             levelMap.put("lable", projectLevel.getDescription());
@@ -304,4 +295,17 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
                 .eq(ProjectBaseInfo::getProjectLevel, projectLevel));
     }
 
+    /**
+     * 查询每种项目类型及其对应的项目数量
+     * @return
+     */
+    public Map<String, Integer> getProjectLevelStatistics() {
+        Set<ProjectLevel> allProjectLevels = getAllProjectLevels();
+        Map<String, Integer> statistics = new HashMap<>();
+        for (ProjectLevel projectLevel : allProjectLevels) {
+            List<ProjectBaseInfo> projectsByLevel = getProjectsByLevel(projectLevel);
+            statistics.put(projectLevel.getDescription(), projectsByLevel.size());
+        }
+        return statistics;
+    }
 }

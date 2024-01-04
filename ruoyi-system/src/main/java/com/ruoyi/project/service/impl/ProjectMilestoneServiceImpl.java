@@ -50,10 +50,6 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
             throw new IllegalArgumentException("projectMilestoneBo cannot be null");
         }
         ProjectMilestone projectMilestone = new ProjectMilestone();
-//        projectMilestone.setProjectId(projectMilestoneBo.getProjectId());
-//        projectMilestone.setMilestoneTitle(projectMilestoneBo.getMilestoneTitle());
-//        projectMilestone.setMilestoneRemark(projectMilestoneBo.getMilestoneRemark());
-//        projectMilestone.setMilestoneDate(projectMilestoneBo.getMilestoneDate());
         BeanCopyUtils.copy(projectMilestoneBo, projectMilestone);
 
         // 插入 projectMilestone
@@ -187,8 +183,8 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
     /**
      * 根据查询条件查询对应的大事纪
      *
-     * @param projectMilestoneBo
-     * @return
+     * @param projectMilestoneBo projectMilestoneBo
+     * @return 项目大事记Vo列表List<ProjectMilestoneVo>
      */
     @Override
     public List<ProjectMilestoneVo> queryMilestoneList(ProjectMilestoneBo projectMilestoneBo) {
@@ -220,12 +216,6 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
 
         for (ProjectMilestone milestone : milestones) {
             ProjectMilestoneVo milestoneVo = new ProjectMilestoneVo();
-            // 创建 ProjectMilestoneVo 对象用于存储结果
-//            milestoneVo.setMilestoneId(milestone.getMilestoneId());
-//            milestoneVo.setProjectId(milestone.getProjectId());
-//            milestoneVo.setMilestoneTitle(milestone.getMilestoneTitle());
-//            milestoneVo.setMilestoneRemark(milestone.getMilestoneRemark());
-//            milestoneVo.setMilestoneDate(milestone.getMilestoneDate());
             BeanCopyUtils.copy(milestone, milestoneVo);
 
             List<Long> ossIds = projectMilestoneOssMapper.selectList(

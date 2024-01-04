@@ -1,8 +1,9 @@
 <template>
     <div>
         <el-form ref="dataForm" :inline="true" class="demo-form-inline" style="margin-left: 30px; margin-top: 20px;">
-            <el-form-item label="附件名称">
-
+            <el-form-item label="项目名称">
+                <el-cascader v-model="responsiblePerson" :options="cascaderOptions" clearable :show-all-levels="false"
+                    placeholder="请选择项目" @keyup.enter.native="handleQuery"></el-cascader>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -24,7 +25,8 @@
                             {{ scope.row.originalName.replace(/\..+$/, '') }}
                         </template>
                     </el-table-column>
-                    <el-table-column :label="'文件格式'" align="center" prop="fileSuffix" :show-overflow-tooltip="true" width="120">
+                    <el-table-column :label="'文件格式'" align="center" prop="fileSuffix" :show-overflow-tooltip="true"
+                        width="120">
                         <template slot-scope="scope">
                             <div width="120">
                                 <el-tag v-if="scope.row.fileSuffix === '.pdf'" type="success" size="mini">{{
@@ -49,7 +51,7 @@
                     </el-table-column>
                     <el-table-column label="所属大事记" :resizable="false" align="center" prop="milestoneTitle" width="300">
                     </el-table-column>
-                    <el-table-column label="大事记上传时间" :resizable="false" align="center" prop="createTime" width="170">
+                    <el-table-column label="文件上传时间" :resizable="false" align="center" prop="createTime" width="170">
                     </el-table-column>
                     <el-table-column :label="'操作'" :resizable="false" align="center" min-width="100px" fixed="right">
                         <template slot-scope="scope">
@@ -88,7 +90,6 @@ export default {
             myProjectFrom: {},
             formLook: {},
             zipFileName: "sxctc",
-            handleQuery:"",
         };
     },
     created() {
@@ -102,6 +103,10 @@ export default {
         async getList() {
             const response = await listUser();
             this.attachmentslist = response.rows;
+        },
+        handleQuery() {
+            this.datas.userId = this.responsiblePerson[this.responsiblePerson.length - 1];
+            this.checkmembers();
         },
         resetQuery() {
             this.datas.ossId = undefined;
