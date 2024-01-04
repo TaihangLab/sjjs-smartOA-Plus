@@ -112,4 +112,13 @@ public class IntellectualPropertyController {
         return R.ok(projectBaseInfoService.getProjectIdAndNameMapping());
     }
 
+    /**
+     * 获取项目树结构 项目类型->项目名
+     * @return
+     */
+    @GetMapping("/getProjectTree")
+    public R<List<Map<String, Object>>> getProjectTreeMapping() {
+        return R.ok(projectBaseInfoService.getProjectTreeMapping());
+    }
+
 }

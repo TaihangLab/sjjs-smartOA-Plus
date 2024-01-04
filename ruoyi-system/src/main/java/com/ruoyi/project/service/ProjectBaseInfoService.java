@@ -27,4 +27,6 @@ public interface ProjectBaseInfoService {
     TableDataInfo<ProjectBaseInfoVO> queryPageMyList(ProjectBaseInfoBO projectBaseInfoBO, PageQuery pageQuery);
 
     List<Map<String, Object>> getProjectIdAndNameMapping();
+
+    List<Map<String, Object>> getProjectTreeMapping();
 }

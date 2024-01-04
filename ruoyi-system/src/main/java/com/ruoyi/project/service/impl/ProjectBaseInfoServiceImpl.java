@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.enums.ProjectLevel;
 import com.ruoyi.common.helper.LoginHelper;
 import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.project.domain.ProjectBaseInfo;
@@ -237,4 +238,48 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
         projectIdAndNameMapping.add(map);
         return projectIdAndNameMapping;
     }
+
+    /**
+     * 获取项目树形结构
+     */
+    public List<Map<String, Object>> getProjectTreeMapping() {
+        List<Map<String, Object>> projectTree = new ArrayList<>();
+        Set<ProjectLevel> projectLevels = getAllProjectLevels();
+        log.info("projectLevels" + projectLevels);
+        for (ProjectLevel projectLevel : projectLevels) {
+            Map<String, Object> levelMap = new HashMap<>();
+            levelMap.put("lable", projectLevel.getDescription());
+            levelMap.put("value", projectLevel.getValue());
+            levelMap.put("weight", projectLevel.getValue());
+            // 获取每种类型下的所有项目
+            List<ProjectBaseInfo> projects = getProjectsByLevel(projectLevel);
+            List<Map<String, Object>> children = new ArrayList<>();
+            for (ProjectBaseInfo projectBaseInfo : projects) {
+                Map<String, Object> projectMap = new HashMap<>();
+                projectMap.put("lable", projectBaseInfo.getAssignedSubjectName());
+                projectMap.put("value", projectBaseInfo.getProjectId());
+                children.add(projectMap);
+            }
+            levelMap.put("children", children);
+            projectTree.add(levelMap);
+        }
+        return projectTree;
+    }
+
+    // 获取所有项目类型的方法
+    private Set<ProjectLevel> getAllProjectLevels() {
+        return projectBaseInfoMapper.selectList()
+            .stream()
+            .map(ProjectBaseInfo::getProjectLevel)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toSet());
+    }
+
+    // 根据项目类型获取项目的方法
+    private List<ProjectBaseInfo> getProjectsByLevel(ProjectLevel projectLevel) {
+        return projectBaseInfoMapper.selectList(
+            new LambdaQueryWrapper<ProjectBaseInfo>()
+                .eq(ProjectBaseInfo::getProjectLevel, projectLevel));
+    }
+
 }
