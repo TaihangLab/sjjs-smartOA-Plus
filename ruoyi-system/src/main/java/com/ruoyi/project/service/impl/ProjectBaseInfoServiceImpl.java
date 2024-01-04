@@ -295,4 +295,17 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
                 .eq(ProjectBaseInfo::getProjectLevel, projectLevel));
     }
 
+    /**
+     * 查询每种项目类型及其对应的项目数量
+     * @return
+     */
+    public Map<String, Integer> getProjectLevelStatistics() {
+        Set<ProjectLevel> allProjectLevels = getAllProjectLevels();
+        Map<String, Integer> statistics = new HashMap<>();
+        for (ProjectLevel projectLevel : allProjectLevels) {
+            List<ProjectBaseInfo> projectsByLevel = getProjectsByLevel(projectLevel);
+            statistics.put(projectLevel.getDescription(), projectsByLevel.size());
+        }
+        return statistics;
+    }
 }
