@@ -24,6 +24,9 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.ruoyi.common.constant.IpConstants.UNASSOCIATED_PROJECT_CODE;
+import static com.ruoyi.common.constant.IpConstants.UNASSOCIATED_PROJECT_IDENTIFIER;
+
 /**
  * @author bailingnan
  * @date 2023/12/7
@@ -32,8 +35,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
-    public static final String UNASSOCIATED_PROJECT_IDENTIFIER = "无关联项目";
-    public static final Integer UNASSOCIATED_PROJECT_CODE = -1;
 
     private final ProjectBaseInfoMapper projectBaseInfoMapper;
 
@@ -149,7 +150,7 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
     @Override
     public ProjectInfoVO selectProjectInfoVOById(Long projectId) {
         ProjectInfoVO projectInfoVO = new ProjectInfoVO();
-        ProjectBaseInfo projectBaseInfo = projectBaseInfoMapper.selectById(projectId);
+        ProjectBaseInfo projectBaseInfo = selectProjectBaseInfoById(projectId);
         if (projectBaseInfo == null) {
             throw new NoSuchElementException("项目基本信息不存在,projectId为:" + projectId);
         }
@@ -158,6 +159,15 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
 
         BeanCopyUtils.copy(projectBaseInfo, projectInfoVO);
         return projectInfoVO;
+    }
+
+    /**
+     * @param projectId
+     * @return
+     */
+    @Override
+    public ProjectBaseInfo selectProjectBaseInfoById(Long projectId) {
+        return projectBaseInfoMapper.selectById(projectId);
     }
 
     /**
@@ -235,6 +245,18 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
         map.put("label", UNASSOCIATED_PROJECT_IDENTIFIER);
         map.put("value", UNASSOCIATED_PROJECT_CODE);
         projectIdAndNameMapping.add(map);
+        return projectIdAndNameMapping;
+    }
+
+    /**
+     * @param projectIdList
+     * @return
+     */
+    @Override
+    public Map<Long, String> getProjectIdAndNameMappingByProjectIdSet(Set<Long> projectIdSet) {
+        Map<Long, String> projectIdAndNameMapping = projectBaseInfoMapper.selectBatchIds(projectIdSet).stream()
+            .collect(Collectors.toMap(ProjectBaseInfo::getProjectId, ProjectBaseInfo::getAssignedSubjectName));
+        projectIdAndNameMapping.put(UNASSOCIATED_PROJECT_CODE, UNASSOCIATED_PROJECT_IDENTIFIER);
         return projectIdAndNameMapping;
     }
 }
