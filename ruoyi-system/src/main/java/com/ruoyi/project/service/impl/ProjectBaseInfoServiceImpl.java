@@ -66,6 +66,9 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
     }
 
     private LambdaQueryWrapper<ProjectBaseInfo> buildAllListQueryWrapper(ProjectBaseInfoBO projectBaseInfoBO) {
+        if (projectBaseInfoBO == null) {
+            return Wrappers.lambdaQuery();
+        }
         LambdaQueryWrapper<ProjectBaseInfo> lqw = buildCommonQueryWrapper(projectBaseInfoBO);
         if (projectBaseInfoBO.getUserId() == null) {
             return lqw;
@@ -80,6 +83,9 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
     }
 
     private LambdaQueryWrapper<ProjectBaseInfo> buildMyListQueryWrapper(ProjectBaseInfoBO projectBaseInfoBO) {
+        if (projectBaseInfoBO == null) {
+            return Wrappers.lambdaQuery();
+        }
         LambdaQueryWrapper<ProjectBaseInfo> lqw = buildCommonQueryWrapper(projectBaseInfoBO);
         List<Long> loginProjectIds = Optional.ofNullable(LoginHelper.getUserId())
             .map(this::getProjectIdsByUserId)
@@ -118,7 +124,7 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
         lqw.le(projectBaseInfoBO.getProjectEstablishTimeEnd() != null, ProjectBaseInfo::getProjectEstablishTime, projectBaseInfoBO.getProjectEstablishTimeEnd());
         lqw.ge(projectBaseInfoBO.getProjectScheduledCompletionTimeSta() != null, ProjectBaseInfo::getProjectScheduledCompletionTime, projectBaseInfoBO.getProjectScheduledCompletionTimeSta());
         lqw.le(projectBaseInfoBO.getProjectScheduledCompletionTimeEnd() != null, ProjectBaseInfo::getProjectScheduledCompletionTime, projectBaseInfoBO.getProjectScheduledCompletionTimeEnd());
-        lqw.orderByDesc(ProjectBaseInfo::getCreateTime);
+        lqw.orderByDesc(ProjectBaseInfo::getUpdateTime);
         return lqw;
     }
 
