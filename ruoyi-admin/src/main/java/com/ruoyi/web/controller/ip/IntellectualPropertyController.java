@@ -102,11 +102,11 @@ public class IntellectualPropertyController {
     }
 
     /**
-     * 获取项目ID和名称映射关系
+     * 知识产权管理获取项目ID和名称映射关系
      *
      * @return 映射关系列表
      */
-    //@SaCheckPermission("ip:getProjectMap")
+    //@SaCheckPermission("ip:getProjectMapping")
     @GetMapping("/getProjectMapping")
     public R<List<Map<String, Object>>> getProjectIdAndNameMapping() {
         return R.ok(projectBaseInfoService.getProjectIdAndNameMapping());
