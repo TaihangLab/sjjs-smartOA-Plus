@@ -20,6 +20,12 @@ public class IntellectualPropertyVO {
      * 项目id
      */
     private Long projectId;
+
+    /**
+     * 关联项目名称
+     */
+    private String assignedSubjectName;
+
     /**
      * 知识产权名
      */

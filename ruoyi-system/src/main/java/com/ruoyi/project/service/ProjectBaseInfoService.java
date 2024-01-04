@@ -9,6 +9,7 @@ import com.ruoyi.project.domain.vo.ProjectInfoVO;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author bailingnan
@@ -16,6 +17,8 @@ import java.util.Map;
  */
 public interface ProjectBaseInfoService {
     ProjectInfoVO selectProjectInfoVOById(Long projectId);
+
+    ProjectBaseInfo selectProjectBaseInfoById(Long projectId);
 
     Long insertProjectBaseInfo(ProjectBaseInfo projectBaseInfo);
 
@@ -29,4 +32,6 @@ public interface ProjectBaseInfoService {
     List<Map<String, Object>> getProjectIdAndNameMapping();
 
     List<Map<String, Object>> getProjectTreeMapping();
+
+    Map<Long, String> getProjectIdAndNameMappingByProjectIdSet(Set<Long> projectIdSet);
 }

@@ -14,17 +14,18 @@ import com.ruoyi.ip.mapper.IntellectualPropertyMapper;
 import com.ruoyi.ip.service.IntellectualPropertyService;
 import com.ruoyi.ip.service.IpOssService;
 import com.ruoyi.ip.service.IpUserService;
+import com.ruoyi.project.domain.ProjectBaseInfo;
+import com.ruoyi.project.service.ProjectBaseInfoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.ruoyi.common.constant.IpConstants.*;
 
 /**
  * @author bailingnan
@@ -37,6 +38,7 @@ public class IntellectualPropertyServiceImpl implements IntellectualPropertyServ
     private final IntellectualPropertyMapper intellectualPropertyMapper;
     private final IpOssService ipOssService;
     private final IpUserService ipUserService;
+    private final ProjectBaseInfoService projectBaseInfoService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -107,6 +109,11 @@ public class IntellectualPropertyServiceImpl implements IntellectualPropertyServ
             throw new NoSuchElementException("ipId为:" + ipId + "的知识产权不存在");
         }
         BeanCopyUtils.copy(intellectualProperty, intellectualPropertyDetailVO);
+        if (UNASSOCIATED_PROJECT_CODE.equals(intellectualProperty.getProjectId())) {
+            intellectualPropertyDetailVO.setAssignedSubjectName(UNASSOCIATED_PROJECT_IDENTIFIER);
+        } else {
+            intellectualPropertyDetailVO.setAssignedSubjectName(Optional.ofNullable(projectBaseInfoService.selectProjectBaseInfoById(intellectualPropertyDetailVO.getProjectId())).map(ProjectBaseInfo::getAssignedSubjectName).orElse(PROJECT_DELETED_REASSOCIATE));
+        }
         intellectualPropertyDetailVO.setSysOssVoList(ipOssService.getSysOssVoListByIpId(ipId));
         intellectualPropertyDetailVO.setIpUserVOList(ipUserService.getIpUserVOListByIpId(ipId));
         return intellectualPropertyDetailVO;
@@ -121,8 +128,26 @@ public class IntellectualPropertyServiceImpl implements IntellectualPropertyServ
     public TableDataInfo<IntellectualPropertyVO> queryIntellectualPropertVOList(IntellectualPropertyBO intellectualPropertyBO, PageQuery pageQuery) {
         LambdaQueryWrapper<IntellectualProperty> lqw = buildIntellectualPropertyQueryWrapper(intellectualPropertyBO);
         Page<IntellectualPropertyVO> result = intellectualPropertyMapper.selectVoPage(pageQuery.build(), lqw);
+        List<IntellectualPropertyVO> records = result.getRecords();
+
+        if (!records.isEmpty()) {
+            setAssignedSubjectName(records);
+        }
+
         return TableDataInfo.build(result);
     }
+
+    private void setAssignedSubjectName(List<IntellectualPropertyVO> records) {
+        Set<Long> projectIds = records.stream().map(IntellectualPropertyVO::getProjectId).collect(Collectors.toSet());
+        Map<Long, String> projectIdAndNameMapping = projectBaseInfoService.getProjectIdAndNameMappingByProjectIdSet(projectIds);
+
+        records.forEach(intellectualPropertyVO ->
+            intellectualPropertyVO.setAssignedSubjectName(
+                projectIdAndNameMapping.getOrDefault(intellectualPropertyVO.getProjectId(), PROJECT_DELETED_REASSOCIATE)
+            )
+        );
+    }
+
 
     private LambdaQueryWrapper<IntellectualProperty> buildIntellectualPropertyQueryWrapper(IntellectualPropertyBO intellectualPropertyBO) {
         LambdaQueryWrapper<IntellectualProperty> lqw = new LambdaQueryWrapper<>();
