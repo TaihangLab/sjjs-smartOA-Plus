@@ -19,7 +19,7 @@
         GROUP BY pbi.project_level
     </select>
 
-    <!-- 获取当前正在进行中的项目级别和对应的数量 (&gt;= >= ), (&lt; <= )-->
+    <!-- 获取当前正在进行中的项目级别和对应的数量 (&gt; > ), (&lt; < )-->
     <select id="getNowProjectLevelCountByUserId" resultType="map" parameterType="Long">
         SELECT pbi.project_level, COUNT(DISTINCT pbi.project_id, pu.user_id) AS count
         FROM project_base_info pbi
