@@ -260,14 +260,14 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
         Set<ProjectLevel> projectLevels = getAllProjectLevels();
         for (ProjectLevel projectLevel : projectLevels) {
             Map<String, Object> levelMap = new HashMap<>();
-            levelMap.put("lable", projectLevel.getDescription());
+            levelMap.put("label", projectLevel.getDescription());
             levelMap.put("value", projectLevel.getValue());
             // 获取每种类型下的所有项目
             List<ProjectBaseInfo> projects = getProjectsByLevel(projectLevel);
             List<Map<String, Object>> children = new ArrayList<>();
             for (ProjectBaseInfo projectBaseInfo : projects) {
                 Map<String, Object> projectMap = new HashMap<>();
-                projectMap.put("lable", projectBaseInfo.getAssignedSubjectName());
+                projectMap.put("label", projectBaseInfo.getAssignedSubjectName());
                 projectMap.put("value", projectBaseInfo.getProjectId());
                 children.add(projectMap);
             }
