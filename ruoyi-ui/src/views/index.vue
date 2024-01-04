@@ -130,7 +130,7 @@ export default {
         initEducationChart(echarts) {
             const educationData = {
                 categories: ['博士', '硕士', '本科'],
-                data: [80, 50, 20],
+                data: [2, 19, 25],
             };
 
             const educationChart = echarts.init(this.$refs.educationChart);
@@ -164,11 +164,10 @@ export default {
             };
             educationChart.setOption(option);
         },
-
         initTitleChart(echarts) {
             const titleData = {
-                categories: ['专家', '初级工程师', '高级工程师'],
-                data: [40, 30, 10],
+                categories: ['正高级工程师', '副高级工程师', '中级工程师 ', '初级工程师', '研究员', '副研究员', '研究实习员'],
+                data: [4, 6, 11, 20, 10, 25, 10],
             };
 
             const titleChart = echarts.init(this.$refs.titleChart);
@@ -184,6 +183,11 @@ export default {
                 xAxis: {
                     type: 'category',
                     data: titleData.categories,
+                    axisLabel: {
+                        interval: 0,
+                        rotate: -90, // 将横坐标文字逆时针旋转90度
+                        verticalAlign: 'middle', // 文字垂直对齐方式
+                    },
                 },
                 yAxis: {
                     type: 'value',
