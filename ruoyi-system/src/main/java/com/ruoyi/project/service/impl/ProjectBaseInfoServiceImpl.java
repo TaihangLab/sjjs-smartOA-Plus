@@ -229,25 +229,6 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
     /**
      * @return
      */
-    //@Override
-    //public List<Map<String, Object>> getProjectIdAndNameMapping() {
-    //    LambdaQueryWrapper<ProjectBaseInfo> lqw = Wrappers.lambdaQuery();
-    //    lqw.select(ProjectBaseInfo::getProjectId, ProjectBaseInfo::getAssignedSubjectName);
-    //    List<ProjectBaseInfo> projectBaseInfoList = projectBaseInfoMapper.selectList(lqw);
-    //    List<Map<String, Object>> projectIdAndNameMapping = projectBaseInfoList.stream()
-    //        .map(projectBaseInfo -> {
-    //            Map<String, Object> map = new HashMap<>();
-    //            map.put("label", projectBaseInfo.getAssignedSubjectName());
-    //            map.put("value", projectBaseInfo.getProjectId());
-    //            return map;
-    //        })
-    //        .collect(Collectors.toList());
-    //    HashMap<String, Object> map = new HashMap<>();
-    //    map.put("label", UNASSOCIATED_PROJECT_IDENTIFIER);
-    //    map.put("value", UNASSOCIATED_PROJECT_CODE);
-    //    projectIdAndNameMapping.add(map);
-    //    return projectIdAndNameMapping;
-    //}
     @Override
     public List<Map<String, Object>> getProjectIdAndNameMapping() {
         List<Map<String, Object>> projectTree = getProjectTreeMapping();
@@ -278,7 +259,6 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
     public List<Map<String, Object>> getProjectTreeMapping() {
         List<Map<String, Object>> projectTree = new ArrayList<>();
         Set<ProjectLevel> projectLevels = getAllProjectLevels();
-        log.info("projectLevels" + projectLevels);
         for (ProjectLevel projectLevel : projectLevels) {
             Map<String, Object> levelMap = new HashMap<>();
             levelMap.put("lable", projectLevel.getDescription());
