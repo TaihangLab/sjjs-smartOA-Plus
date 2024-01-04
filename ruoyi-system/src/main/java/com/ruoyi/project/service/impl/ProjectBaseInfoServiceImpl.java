@@ -235,7 +235,6 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
         Map<String, Object> map = new HashMap<>();
         map.put("label", UNASSOCIATED_PROJECT_IDENTIFIER);
         map.put("value", UNASSOCIATED_PROJECT_CODE);
-        map.put("weight", UNASSOCIATED_PROJECT_CODE);
         projectTree.add(map);
         return projectTree;
     }
@@ -263,7 +262,6 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
             Map<String, Object> levelMap = new HashMap<>();
             levelMap.put("lable", projectLevel.getDescription());
             levelMap.put("value", projectLevel.getValue());
-            levelMap.put("weight", projectLevel.getValue());
             // 获取每种类型下的所有项目
             List<ProjectBaseInfo> projects = getProjectsByLevel(projectLevel);
             List<Map<String, Object>> children = new ArrayList<>();
