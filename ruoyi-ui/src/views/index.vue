@@ -1,204 +1,105 @@
 <template>
-    <div class="app-container home">
-        <div id="curtain">
-            <h1 data-heading="数">数据技术</h1>
-        </div>
+    <div class="home">
+        <!-- 通知公告 -->
+        <el-row>
+            <el-col :span="24">
+                <el-card>
+                    <h3 slot="header">通知公告</h3>
+                    <!-- 在这里添加通知公告的内容 -->
+                    <p>最新的通知公告在这里...</p>
+                </el-card>
+            </el-col>
+        </el-row>
 
-        <div id="main">
+        <!-- 项目统计和知识产权 -->
+        <el-row style="margin-top: 20px;">
+            <!-- 项目统计 -->
+            <el-col :span="24">
+                <el-card>
+                    <h3 slot="header">项目统计</h3>
+                    <!-- 在这里添加项目统计的内容 -->
+                    <p>项目统计的详细信息在这里...</p>
+                </el-card>
+            </el-col>
+        </el-row>
 
-        </div>
-        <p class="underline decoration-sky-500 text-cyan-400 font-bold text-4xl">
-            Uno CSS egg
-        </p>
-
+        <!-- 知识产权 -->
+        <el-row style="margin-top: 20px;">
+            <el-col :span="24">
+                <el-card>
+                    <h3 slot="header">知识产权</h3>
+                    <div style="height: 300px;" ref="resultChart"></div>
+                </el-card>
+            </el-col>
+        </el-row>
     </div>
-
 </template>
+  
+<script>
+import echarts from 'echarts';
 
-<script setup>
-import * as echarts from 'echarts';
-import {onMounted, onUnmounted} from "vue";
+export default {
+    mounted() {
+        import('echarts').then((echarts) => {
+            this.initChart(echarts);
+        });
+    },
+    methods: {
+  initChart(echarts) {
+    // 假设这是更多的成果统计数据
+    const resultData = [
+      { value: 335, name: '完成任务A' },
+      { value: 310, name: '未完成任务B' },
+      { value: 234, name: '已完成任务C' },
+      { value: 135, name: '进行中任务D' },
+      { value: 1548, name: '待处理任务E' },
+      // 添加更多数据项...
+    ];
 
-let chartIns;
-onMounted(()=>{
-    chartIns = initChart();
-})
-
-onUnmounted(()=>{
-    chartIns.dispose();
-})
-
-function initChart() {
-    let myChart = echarts.init(document.getElementById('main'), null, {width:600, height:400});
-    let option;
-
-    option = {
-        title: {
-            text: 'Stacked Area Chart'
-        },
-        tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-                type: 'cross',
-                label: {
-                    backgroundColor: '#6a7985'
-                }
-            }
-        },
-        legend: {
-            data: ['Email', 'Union Ads', 'Video Ads', 'Direct', 'Search Engine'],
-            top: "6%",
-
-        },
-        toolbox: {
-            feature: {
-                saveAsImage: {}
-            }
-        },
-        grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '3%',
-            containLabel: true
-        },
-        xAxis: [
-            {
-                type: 'category',
-                boundaryGap: false,
-                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-            }
-        ],
-        yAxis: [
-            {
-                type: 'value'
-            }
-        ],
-        series: [
-            {
-                name: 'Email',
-                type: 'line',
-                stack: 'Total',
-                areaStyle: {},
-                emphasis: {
-                    focus: 'series'
-                },
-                data: [120, 132, 101, 134, 90, 230, 210]
+    const chart = echarts.init(this.$refs.resultChart);
+    const option = {
+      tooltip: {
+        trigger: 'item',
+        formatter: '{a} <br/>{b}: {c} ({d}%)',
+      },
+      series: [
+        {
+            name: '成果统计',
+          type: 'pie',
+          radius: ['0%', '70%'], // 设置为内切圆，呈现实心效果
+          center: ['50%', '50%'], // 居中显示
+          avoidLabelOverlap: false,
+          label: {
+            show: true,
+            position: 'outside', // 将标签显示在饼图外部
+            formatter: '{b}: {c} ({d}%)', // 显示任务名称和百分比
+          },
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: '14',
+              fontWeight: 'bold',
             },
-            {
-                name: 'Union Ads',
-                type: 'line',
-                stack: 'Total',
-                areaStyle: {},
-                emphasis: {
-                    focus: 'series'
-                },
-                data: [220, 182, 191, 234, 290, 330, 310]
-            },
-            {
-                name: 'Video Ads',
-                type: 'line',
-                stack: 'Total',
-                areaStyle: {},
-                emphasis: {
-                    focus: 'series'
-                },
-                data: [150, 232, 201, 154, 190, 330, 410]
-            },
-            {
-                name: 'Direct',
-                type: 'line',
-                stack: 'Total',
-                areaStyle: {},
-                emphasis: {
-                    focus: 'series'
-                },
-                data: [320, 332, 301, 334, 390, 330, 320]
-            },
-            {
-                name: 'Search Engine',
-                type: 'line',
-                stack: 'Total',
-                label: {
-                    show: true,
-                    position: 'top'
-                },
-                areaStyle: {},
-                emphasis: {
-                    focus: 'series'
-                },
-                data: [820, 932, 901, 934, 1290, 1330, 1320]
-            }
-        ]
+          },
+          labelLine: {
+            show: true,
+            length2: 10,
+          },
+          data: resultData,
+        },
+      ],
     };
-    option && myChart.setOption(option);
-    return myChart;
-}
+    chart.setOption(option);
+  },
+},
 
+
+};
 </script>
-
-<style scoped lang="scss">
-
-$h1:  rgba(45,45,45,1);
-$blue: #98b5cc;
-$yellow: #ffcc00;
-$outline: rgba(#fff, .4);
-$shadow: rgba($yellow, .5);
-#curtain {
-    background: linear-gradient(45deg, rgb(182, 182, 182) 9%, rgb(56, 56, 56) 100%);
-    width: 100%;
-    height: 14vh;
-    border-radius: 30px;
+  
+<style scoped>
+.home {
+    padding: 20px;
 }
-
-h1 {
-    font-family: '阿里妈妈东方大楷 Regular', sans-serif;
-    font-size: 5vw;
-    text-align: center;
-    line-height: 1;
-    margin: 0;
-    top: 11%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    position: absolute;
-    color: $h1;
-    letter-spacing: 1rem;
-
-    &:before {
-        content: attr(data-heading);
-        position: absolute;
-        overflow: hidden;
-        color: $yellow;
-        width: 100%;
-        z-index: 5;
-        text-shadow: none;
-        left: 0;
-        text-align: left;
-        animation: flicker 3s linear infinite;
-    }
-}
-
-@keyframes flicker {
-    0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
-        opacity: .99;
-        text-shadow: -1px -1px 0 $outline, 1px -1px 0 $outline,
-        -1px 1px 0 $outline, 1px 1px 0 $outline,
-        0 -2px 8px, 0 0 2px, 0 0 5px #ff7e00,
-        0 0 5px #ff4444, 0 0 2px #ff7e00, 0 2px 3px #000;
-    }
-    20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
-        opacity: 0.4;
-        text-shadow: none;
-    }
-}
-
-@font-face {
-    font-family: "阿里妈妈东方大楷 Regular";
-    font-weight: 400;
-    src: url("../assets/fonts/AlimamaDongFangDaKai-Regular.woff2") format("woff2"),
-    url("../assets/fonts/AlimamaDongFangDaKai-Regular.woff") format("woff");
-    font-display: swap;
-}
-
-
 </style>
-
+  
