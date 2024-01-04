@@ -2,8 +2,8 @@ package com.ruoyi.ip.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ruoyi.ip.domin.IpOss;
+import com.ruoyi.ip.mapper.IpOssMapper;
 import com.ruoyi.ip.service.IpOssService;
-import com.ruoyi.project.mapper.IpOssMapper;
 import com.ruoyi.system.domain.vo.SysOssVo;
 import com.ruoyi.system.service.ISysOssService;
 import lombok.RequiredArgsConstructor;

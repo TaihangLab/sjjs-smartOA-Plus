@@ -57,4 +57,21 @@ public class IntellectualPropertyBO {
      * 知识产权附件id列表
      */
     private List<Long> ossIdList;
+
+    /**
+     * 知识产权成员id
+     */
+    private Long userId;
+
+    /**
+     * 知识产权开始查询时间
+     */
+    @JsonFormat(pattern = DateConstants.YYYY_MM_DD)
+    private LocalDate ipDateSta;
+
+    /**
+     * 知识产权结束查询时间
+     */
+    @JsonFormat(pattern = DateConstants.YYYY_MM_DD)
+    private LocalDate ipDateEnd;
 }
