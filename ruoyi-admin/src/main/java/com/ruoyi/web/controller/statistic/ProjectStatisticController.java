@@ -22,7 +22,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/statistic/project")
-public class ProjectStatistic {
+public class ProjectStatisticController {
 
     private final ProjectBaseInfoService projectBaseInfoService;
 
