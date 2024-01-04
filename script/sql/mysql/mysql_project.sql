@@ -259,7 +259,7 @@ create table intellectual_property
     create_time  datetime                null comment '创建时间',
     update_time  datetime                null comment '更新时间',
     create_by    varchar(100) default '' null comment '创建人',
-    `update_ by` varchar(100) default '' null comment '更新人',
+    update_by    varchar(100) default '' null comment '更新人',
     deleted      tinyint      default 0  null comment '是否删除，2删除，0未删除'
 )
     comment '知识产权表';

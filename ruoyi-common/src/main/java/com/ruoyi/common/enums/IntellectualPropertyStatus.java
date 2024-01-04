@@ -46,7 +46,7 @@ public enum IntellectualPropertyStatus implements IEnum<Integer> {
 
     @Override
     public String toString() {
-        return this.description;
+        return String.valueOf(this.value);
     }
 
 }

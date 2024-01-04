@@ -3,6 +3,7 @@ package com.ruoyi.ip.service.Impl;
 import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.ip.domin.IntellectualProperty;
 import com.ruoyi.ip.domin.bo.IntellectualPropertyBO;
+import com.ruoyi.ip.domin.vo.IntellectualPropertyDetailVO;
 import com.ruoyi.ip.service.IntellectualPropertyService;
 import com.ruoyi.ip.service.IpOssService;
 import com.ruoyi.ip.service.IpUserService;
@@ -60,5 +61,43 @@ public class IntellectualPropertyServiceImpl implements IntellectualPropertyServ
         }
         ipUserService.deleteIpUserByIpId(ipId);
         ipOssService.deleteIpOssByIpId(ipId);
+    }
+
+    /**
+     * @param intellectualPropertyBO
+     */
+    @Override
+    public void updateIntellectualProperty(IntellectualPropertyBO intellectualPropertyBO) {
+        if (intellectualPropertyBO == null) {
+            throw new IllegalArgumentException("intellectualPropertyBO can not be null");
+        }
+        IntellectualProperty intellectualProperty = new IntellectualProperty();
+        BeanCopyUtils.copy(intellectualPropertyBO, intellectualProperty);
+        int cnt = intellectualPropertyMapper.updateById(intellectualProperty);
+        if (cnt != 1) {
+            log.error("更新知识产权失败 intellectualPropertyBO:{}", intellectualPropertyBO);
+            throw new RuntimeException("更新知识产权失败");
+        }
+        Long ipId = intellectualProperty.getIpId();
+        ipUserService.updateIpUserByIpId(ipId, intellectualPropertyBO.getUserIdList());
+        ipOssService.updateIpOssByIpId(ipId, intellectualPropertyBO.getOssIdList());
+    }
+
+    /**
+     * @param ipId
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public IntellectualPropertyDetailVO getIntellectualPropertyDetail(Long ipId) {
+        IntellectualPropertyDetailVO intellectualPropertyDetailVO = new IntellectualPropertyDetailVO();
+        IntellectualProperty intellectualProperty = intellectualPropertyMapper.selectById(ipId);
+        if (intellectualProperty == null) {
+            throw new NoSuchElementException("ipId为:" + ipId + "的知识产权不存在");
+        }
+        BeanCopyUtils.copy(intellectualProperty, intellectualPropertyDetailVO);
+        intellectualPropertyDetailVO.setSysOssVoList(ipOssService.getSysOssVoListByIpId(ipId));
+        intellectualPropertyDetailVO.setIpUserVOList(ipUserService.getIpUserVOListByIpId(ipId));
+        return intellectualPropertyDetailVO;
     }
 }
