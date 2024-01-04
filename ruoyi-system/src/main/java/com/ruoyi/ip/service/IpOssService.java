@@ -1,5 +1,7 @@
 package com.ruoyi.ip.service;
 
+import com.ruoyi.system.domain.vo.SysOssVo;
+
 import java.util.List;
 
 /**
@@ -12,4 +14,6 @@ public interface IpOssService {
     void deleteIpOssByIpId(Long ipId);
 
     void updateIpOssByIpId(Long ipId, List<Long> ossIdList);
+
+    List<SysOssVo> getSysOssVoListByIpId(Long ipId);
 }

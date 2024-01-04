@@ -508,4 +508,9 @@ public class SysUserServiceImpl implements ISysUserService, UserService {
         baseMapper.updateAvatar(oldEndPoint,newEndPoint);
     }
 
+    @Override
+    public List<SysUser> filterActiveUserIdList(List<Long> userIdList) {
+        return baseMapper.selectList(new LambdaQueryWrapper<SysUser>().in(SysUser::getUserId, userIdList).eq(SysUser::getStatus, "0"));
+    }
+
 }
