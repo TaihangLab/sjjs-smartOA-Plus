@@ -4,9 +4,9 @@
         <el-table v-loading="loading" :data="transformedUserList" style=" margin: 0; padding: 0;">
             <el-table-column label="用户名称" align="center" prop="nickName" v-if="columns[0].visible"
                 :show-overflow-tooltip="true" />
-            <el-table-column label="职称" align="center" prop="jobTitle" v-if="columns[1].visible"
+            <el-table-column label="职称" align="center" prop="jobTitle" :formatter="jobTitles" v-if="columns[1].visible"
                 :show-overflow-tooltip="true" />
-            <el-table-column label="学历" align="center" prop="diploma" v-if="columns[2].visible"
+            <el-table-column label="学历" align="center" prop="diploma" :formatter="diplomas" v-if="columns[2].visible"
                 :show-overflow-tooltip="true" />
             <el-table-column label="手机号码" align="center" prop="phonenumber" v-if="columns[3].visible"
                 :show-overflow-tooltip="true" />
@@ -47,6 +47,22 @@ export default {
                 { key: 4, label: `所属部门`, visible: true },
                 { key: 5, label: `项目角色`, visible: true },
             ],
+            jobTitle: {
+                0: '正高级工程师',
+                1: '副高级工程师',
+                2: '中级工程师',
+                3: '初级工程师',
+                4: '研究员',
+                5: '副研究员',
+                6: '助理研究员',
+                7: '研究实习员',
+            },
+            diploma: {
+                0: '博士研究生',
+                1: '硕士研究生',
+                2: '本科',
+                3: '专科',
+            },
             roleMappings: {
                 0: '项目负责人',
                 1: '公司负责人',
@@ -66,6 +82,14 @@ export default {
         projectid: 'projectpepole',
     },
     methods: {
+        jobTitles(row, column, cellValue) {
+            // 使用映射关系来获取对应的文字描述
+            return this.jobTitle[cellValue] || cellValue;
+        },
+        diplomas(row, column, cellValue) {
+            // 使用映射关系来获取对应的文字描述
+            return this.diploma[cellValue] || cellValue;
+        },
         formatProjectUserRole(row, column, cellValue) {
             // 使用映射关系来获取对应的文字描述
             return this.roleMappings[cellValue] || cellValue;

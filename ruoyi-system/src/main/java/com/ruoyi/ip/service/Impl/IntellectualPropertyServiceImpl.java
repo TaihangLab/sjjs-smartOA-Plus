@@ -1,19 +1,30 @@
 package com.ruoyi.ip.service.Impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ruoyi.common.core.domain.PageQuery;
+import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.ip.domin.IntellectualProperty;
+import com.ruoyi.ip.domin.IpUser;
 import com.ruoyi.ip.domin.bo.IntellectualPropertyBO;
 import com.ruoyi.ip.domin.vo.IntellectualPropertyDetailVO;
+import com.ruoyi.ip.domin.vo.IntellectualPropertyVO;
+import com.ruoyi.ip.mapper.IntellectualPropertyMapper;
 import com.ruoyi.ip.service.IntellectualPropertyService;
 import com.ruoyi.ip.service.IpOssService;
 import com.ruoyi.ip.service.IpUserService;
-import com.ruoyi.project.mapper.IntellectualPropertyMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author bailingnan
@@ -99,5 +110,52 @@ public class IntellectualPropertyServiceImpl implements IntellectualPropertyServ
         intellectualPropertyDetailVO.setSysOssVoList(ipOssService.getSysOssVoListByIpId(ipId));
         intellectualPropertyDetailVO.setIpUserVOList(ipUserService.getIpUserVOListByIpId(ipId));
         return intellectualPropertyDetailVO;
+    }
+
+    /**
+     * @param intellectualPropertyBO
+     * @param pageQuery
+     * @return
+     */
+    @Override
+    public TableDataInfo<IntellectualPropertyVO> queryIntellectualPropertVOList(IntellectualPropertyBO intellectualPropertyBO, PageQuery pageQuery) {
+        LambdaQueryWrapper<IntellectualProperty> lqw = buildIntellectualPropertyQueryWrapper(intellectualPropertyBO);
+        Page<IntellectualPropertyVO> result = intellectualPropertyMapper.selectVoPage(pageQuery.build(), lqw);
+        return TableDataInfo.build(result);
+    }
+
+    private LambdaQueryWrapper<IntellectualProperty> buildIntellectualPropertyQueryWrapper(IntellectualPropertyBO intellectualPropertyBO) {
+        LambdaQueryWrapper<IntellectualProperty> lqw = new LambdaQueryWrapper<>();
+        if (intellectualPropertyBO == null) {
+            return lqw.orderByDesc(IntellectualProperty::getUpdateTime);
+        }
+
+        if (intellectualPropertyBO.getUserId() != null) {
+            List<Long> ipIdList = getIpIdListFromUser(intellectualPropertyBO.getUserId());
+            if (ipIdList.isEmpty()) {
+                lqw.apply("0=1");
+                return lqw;
+            }
+            lqw.in(IntellectualProperty::getIpId, ipIdList);
+        }
+
+        lqw.eq(intellectualPropertyBO.getProjectId() != null, IntellectualProperty::getProjectId, intellectualPropertyBO.getProjectId())
+            .eq(intellectualPropertyBO.getIpType() != null, IntellectualProperty::getIpType, intellectualPropertyBO.getIpType())
+            .eq(intellectualPropertyBO.getIpStatus() != null, IntellectualProperty::getIpStatus, intellectualPropertyBO.getIpStatus())
+            .like(StringUtils.isNotBlank(intellectualPropertyBO.getIpName()), IntellectualProperty::getIpName, intellectualPropertyBO.getIpName())
+            .ge(intellectualPropertyBO.getIpDateSta() != null, IntellectualProperty::getIpDate, intellectualPropertyBO.getIpDateSta())
+            .le(intellectualPropertyBO.getIpDateEnd() != null, IntellectualProperty::getIpDate, intellectualPropertyBO.getIpDateEnd())
+            .orderByDesc(IntellectualProperty::getUpdateTime);
+
+        return lqw;
+    }
+
+    private List<Long> getIpIdListFromUser(Long userId) {
+        return Optional.ofNullable(userId)
+            .map(ipUserService::getIpUserListByUserId)
+            .orElseGet(Collections::emptyList)
+            .stream()
+            .map(IpUser::getIpId)
+            .collect(Collectors.toList());
     }
 }

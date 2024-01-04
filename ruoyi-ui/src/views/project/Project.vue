@@ -116,14 +116,6 @@ export default {
     },
     data() {
         return {
-            hasLeading: {
-                0: '否',
-                1: '是',
-            },
-            hasLeading: {
-                0: '否',
-                1: '是',
-            },
             projectLevel: {
                 0: '国家级',
                 1: '省部级',

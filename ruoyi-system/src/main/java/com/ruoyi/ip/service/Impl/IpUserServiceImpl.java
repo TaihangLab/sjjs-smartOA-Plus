@@ -7,8 +7,8 @@ import com.ruoyi.common.core.service.UserService;
 import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.ip.domin.IpUser;
 import com.ruoyi.ip.domin.vo.IpUserVO;
+import com.ruoyi.ip.mapper.IpUserMapper;
 import com.ruoyi.ip.service.IpUserService;
-import com.ruoyi.project.mapper.IpUserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -101,6 +101,15 @@ public class IpUserServiceImpl implements IpUserService {
         if (!delUserIdList.isEmpty()) {
             ipUserMapper.delete(new LambdaQueryWrapper<IpUser>().eq(IpUser::getIpId, ipId).in(IpUser::getUserId, delUserIdList));
         }
+    }
+
+    /**
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<IpUser> getIpUserListByUserId(Long userId) {
+        return ipUserMapper.selectList(new LambdaQueryWrapper<IpUser>().eq(IpUser::getUserId, userId));
     }
 
     /**
