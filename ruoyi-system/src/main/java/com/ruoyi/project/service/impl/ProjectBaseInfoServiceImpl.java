@@ -32,6 +32,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
+    public static final String UNASSOCIATED_PROJECT_IDENTIFIER = "无关联项目";
+    public static final Integer UNASSOCIATED_PROJECT_CODE = -1;
+
     private final ProjectBaseInfoMapper projectBaseInfoMapper;
 
     private final ProjectUserMapper projectUserMapper;
@@ -223,8 +226,8 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
             })
             .collect(Collectors.toList());
         HashMap<String, Object> map = new HashMap<>();
-        map.put("label", "无关联项目");
-        map.put("value", -1);
+        map.put("label", UNASSOCIATED_PROJECT_IDENTIFIER);
+        map.put("value", UNASSOCIATED_PROJECT_CODE);
         projectIdAndNameMapping.add(map);
         return projectIdAndNameMapping;
     }

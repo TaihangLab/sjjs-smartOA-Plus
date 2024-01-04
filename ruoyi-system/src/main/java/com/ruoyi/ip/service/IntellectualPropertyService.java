@@ -1,6 +1,7 @@
 package com.ruoyi.ip.service;
 
 import com.ruoyi.ip.domin.bo.IntellectualPropertyBO;
+import com.ruoyi.ip.domin.vo.IntellectualPropertyDetailVO;
 
 /**
  * @author bailingnan
@@ -13,4 +14,5 @@ public interface IntellectualPropertyService {
 
     void updateIntellectualProperty(IntellectualPropertyBO intellectualPropertyBO);
 
+    IntellectualPropertyDetailVO getIntellectualPropertyDetail(Long ipId);
 }

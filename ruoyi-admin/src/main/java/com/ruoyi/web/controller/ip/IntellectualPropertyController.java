@@ -1,9 +1,10 @@
-package com.ruoyi.web.controller.project;
+package com.ruoyi.web.controller.ip;
 
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.validate.AddGroup;
 import com.ruoyi.common.core.validate.EditGroup;
 import com.ruoyi.ip.domin.bo.IntellectualPropertyBO;
+import com.ruoyi.ip.domin.vo.IntellectualPropertyDetailVO;
 import com.ruoyi.ip.service.IntellectualPropertyService;
 import com.ruoyi.project.service.ProjectBaseInfoService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ import java.util.Map;
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/project/ip")
+@RequestMapping("/ip")
 public class IntellectualPropertyController {
     private final ProjectBaseInfoService projectBaseInfoService;
     private final IntellectualPropertyService intellectualPropertyService;
@@ -38,7 +39,7 @@ public class IntellectualPropertyController {
      * @param intellectualPropertyBO 知识产权实体对象
      * @return 成功返回 R<Void>
      */
-    //@SaCheckPermission("project:ip:add")
+    //@SaCheckPermission("ip:add")
     @PostMapping("/add")
     public R<Void> addIntellectualProperty(@RequestBody @Validated(AddGroup.class) IntellectualPropertyBO intellectualPropertyBO) {
         intellectualPropertyService.insertIntellectualProperty(intellectualPropertyBO);
@@ -51,7 +52,7 @@ public class IntellectualPropertyController {
      * @param ipId 知识产权ID
      * @return 操作结果
      */
-    //@SaCheckPermission("project:ip:delete")
+    //@SaCheckPermission("ip:delete")
     @GetMapping("/delete")
     public R<Void> deleteIntellectualProperty(@RequestParam @NotNull Long ipId) {
         intellectualPropertyService.deleteIntellectualProperty(ipId);
@@ -64,7 +65,7 @@ public class IntellectualPropertyController {
      * @param intellectualPropertyBO 知识产权BO对象
      * @return 更新结果
      */
-    //@SaCheckPermission("project:ip:update")
+    //@SaCheckPermission("ip:update")
     @PostMapping("/update")
     public R<Void> updateIntellectualProperty(@RequestBody @Validated(EditGroup.class) IntellectualPropertyBO intellectualPropertyBO) {
         intellectualPropertyService.updateIntellectualProperty(intellectualPropertyBO);
@@ -72,13 +73,26 @@ public class IntellectualPropertyController {
     }
 
     /**
+     * 获取知识产权详情
+     *
+     * @param ipId 知识产权ID
+     * @return 返回知识产权详情对象
+     */
+    //@SaCheckPermission("ip:getDetails")
+    @GetMapping("/getDetails")
+    public R<IntellectualPropertyDetailVO> getIntellectualPropertyDetails(@RequestParam @NotNull Long ipId) {
+        return R.ok(intellectualPropertyService.getIntellectualPropertyDetail(ipId));
+    }
+
+    /**
      * 获取项目ID和名称映射关系
      *
      * @return 映射关系列表
      */
-    //@SaCheckPermission("project:ip:getProjectMap")
+    //@SaCheckPermission("ip:getProjectMap")
     @GetMapping("/getProjectMapping")
     public R<List<Map<String, Object>>> getProjectIdAndNameMapping() {
         return R.ok(projectBaseInfoService.getProjectIdAndNameMapping());
     }
+
 }

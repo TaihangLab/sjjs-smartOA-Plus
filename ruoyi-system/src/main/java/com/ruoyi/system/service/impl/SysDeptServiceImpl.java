@@ -31,6 +31,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 部门管理 服务实现
@@ -153,6 +155,15 @@ public class SysDeptServiceImpl implements ISysDeptService, DeptService {
             }
         }
         return String.join(StringUtils.SEPARATOR, list);
+    }
+
+    /**
+     * @param deptIdList
+     * @return
+     */
+    @Override
+    public Map<Long, String> getDeptIdAndNameMapping(List<Long> deptIdList) {
+        return baseMapper.selectBatchIds(deptIdList).stream().collect(Collectors.toMap(SysDept::getDeptId, SysDept::getDeptName));
     }
 
     /**

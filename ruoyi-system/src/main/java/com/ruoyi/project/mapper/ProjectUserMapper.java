@@ -1,7 +1,6 @@
 package com.ruoyi.project.mapper;
 
 import com.ruoyi.common.core.mapper.BaseMapperPlus;
-import com.ruoyi.common.enums.ProjectLevel;
 import com.ruoyi.project.domain.ProjectUser;
 import org.apache.ibatis.annotations.Mapper;
 
