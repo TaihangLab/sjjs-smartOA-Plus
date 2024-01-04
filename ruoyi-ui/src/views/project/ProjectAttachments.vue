@@ -90,6 +90,7 @@ export default {
             myProjectFrom: {},
             formLook: {},
             zipFileName: "sxctc",
+            handleQuery:"",
         };
     },
     created() {
