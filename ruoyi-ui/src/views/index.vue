@@ -2,10 +2,10 @@
     <div class="home">
         <!-- 通知公告 -->
         <el-row>
-            <el-col :span="24">
-                <el-card>
+            <el-col :span="12">
+                <el-card style="margin-right: 20px;">
                     <h3 slot="header">通知公告</h3>
-                    <el-table :data="noticeList" style="width: 100%" :border="false" class="custom-table">
+                    <el-table :data="noticeList" style="width: 100%; line-height: 1 !important;">
                         <el-table-column label="公告标题" align="center" prop="noticeTitle" :show-overflow-tooltip="true">
                             <template slot-scope="scope">
                                 <span @click="showNoticeContent(scope.row)">{{ scope.row.noticeTitle }}</span>
@@ -24,21 +24,36 @@
                     </el-table>
                 </el-card>
             </el-col>
+            <el-col :span="12">
+                <el-card>
+                    <h3 slot="header">成员信息</h3>
+
+                    <el-row>
+                        <!-- 学历分布柱状图 -->
+                        <el-col :span="12">
+                            <div style="height: 290px; width: 100%;" ref="educationChart"></div>
+                        </el-col>
+
+                        <!-- 职称分布柱状图 -->
+                        <el-col :span="12">
+                            <div style="height: 290px; width: 100%;" ref="titleChart"></div>
+                        </el-col>
+                    </el-row>
+                </el-card>
+            </el-col>
         </el-row>
         <!-- 项目统计和知识产权 -->
         <el-row style="margin-top: 20px;">
             <!-- 项目统计 -->
-            <el-col :span="24">
-                <el-card>
+            <el-col :span="12">
+                <el-card style="margin-right: 20px;">
                     <h3 slot="header">项目统计</h3>
                     <!-- 在这里添加项目统计的内容 -->
-                    <p>项目统计的详细信息在这里...</p>
+                    <div style="height: 300px;" ref="projectChart"></div>
                 </el-card>
             </el-col>
-        </el-row>
-        <!-- 知识产权 -->
-        <el-row style="margin-top: 20px;">
-            <el-col :span="24">
+
+            <el-col :span="12">
                 <el-card>
                     <h3 slot="header">知识产权</h3>
                     <div style="height: 300px;" ref="resultChart"></div>
@@ -81,7 +96,10 @@ export default {
     },
     mounted() {
         import('echarts').then((echarts) => {
+            this.initProjectChart(echarts);
             this.initChart(echarts);
+            this.initEducationChart(echarts);
+            this.initTitleChart(echarts);
         });
     },
     methods: {
@@ -108,6 +126,105 @@ export default {
                 this.total = response.total;
                 this.loading = false;
             });
+        },
+        initEducationChart(echarts) {
+            const educationData = {
+                categories: ['博士', '硕士', '本科'],
+                data: [80, 50, 20],
+            };
+
+            const educationChart = echarts.init(this.$refs.educationChart);
+            const option = {
+                title: {
+                    text: '学历', // 设置标题文本
+                    left: 'center', // 标题居中显示
+                    textStyle: {
+                        color: '#333', // 标题颜色
+                        fontSize: 16, // 标题字体大小
+                    },
+                },
+                xAxis: {
+                    type: 'category',
+                    data: educationData.categories,
+                },
+                yAxis: {
+                    type: 'value',
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: '{b}: {c} 人',
+                },
+                series: [{
+                    type: 'bar',
+                    data: educationData.data,
+                    itemStyle: {
+                        color: 'green',
+                    },
+                }],
+            };
+            educationChart.setOption(option);
+        },
+
+        initTitleChart(echarts) {
+            const titleData = {
+                categories: ['专家', '初级工程师', '高级工程师'],
+                data: [40, 30, 10],
+            };
+
+            const titleChart = echarts.init(this.$refs.titleChart);
+            const option = {
+                title: {
+                    text: '职称', // 设置标题文本
+                    left: 'center', // 标题居中显示
+                    textStyle: {
+                        color: '#333', // 标题颜色
+                        fontSize: 16, // 标题字体大小
+                    },
+                },
+                xAxis: {
+                    type: 'category',
+                    data: titleData.categories,
+                },
+                yAxis: {
+                    type: 'value',
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: '{b}: {c} 人',
+                },
+                series: [{
+                    type: 'bar',
+                    data: titleData.data,
+                }],
+            };
+            titleChart.setOption(option);
+        },
+
+        initProjectChart(echarts) {
+            const projectData = {
+                // 模拟数据
+                xAxis: ['1月', '2月', '3月', '4月', '5月', '6月'],
+                series: [
+                    {
+                        name: '任务完成数量',
+                        type: 'line',
+                        data: [30, 40, 20, 50, 10, 60], // 请替换为你的实际数据
+                    },
+                ],
+            };
+
+            const projectChart = echarts.init(this.$refs.projectChart);
+            const option = {
+                xAxis: {
+                    type: 'category',
+                    data: projectData.xAxis,
+                },
+                yAxis: {
+                    type: 'value',
+                },
+                series: projectData.series,
+            };
+            projectChart.setOption(option);
         },
         initChart(echarts) {
             const resultData = [
@@ -162,22 +279,9 @@ export default {
     padding: 20px;
 }
 
-.custom-table .el-table .el-table__body-wrapper {
-    border-bottom: none;
-}
-
 .el-card {
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.el-table__header th,
-.el-table__body tr {
-    background-color: #f5f5f5;
-}
-
-.el-table__body tr:hover {
-    background-color: #e0e0e0;
 }
 </style>
   
