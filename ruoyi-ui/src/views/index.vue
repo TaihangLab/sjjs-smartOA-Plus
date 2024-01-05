@@ -4,11 +4,11 @@
             <h1 data-heading="数">数据技术</h1>
         </div>
         <!-- 通知公告 -->
-        <el-row>
+        <el-row style="margin-top: 20px;">
             <el-col :span="12">
                 <el-card style="margin-right: 20px;">
                     <h3 slot="header">通知公告</h3>
-                    <el-table :data="noticeList" style="width: 100%; line-height: 1 !important;">
+                    <el-table :data="noticeList" style="width: 100%;height: 290px; line-height: 1 !important;">
                         <el-table-column label="公告标题" align="center" prop="noticeTitle" :show-overflow-tooltip="true">
                             <template slot-scope="scope">
                                 <span @click="showNoticeContent(scope.row)">{{ scope.row.noticeTitle }}</span>
@@ -101,17 +101,17 @@ export default {
         this.getProjectListData();
     },
     mounted() {
-    import('echarts').then((echarts) => {
-        this.$nextTick(() => {
-            this.initChart(echarts);
-            this.initEducationChart(echarts);
-            this.initTitleChart(echarts);
-            this.getProjectListData(() => {
-                this.initProjectChart(echarts);
+        import('echarts').then((echarts) => {
+            this.$nextTick(() => {
+                this.initChart(echarts);
+                this.initEducationChart(echarts);
+                this.initTitleChart(echarts);
+                this.getProjectListData(() => {
+                    this.initProjectChart(echarts);
+                });
             });
         });
-    });
-},
+    },
 
     methods: {
         showNoticeContent(row) {
@@ -139,20 +139,19 @@ export default {
             });
         },
         getProjectListData(callback) {
-    request({
-        url: '/statistic/project/level',
-        method: 'get',
-        data: {},
-    }).then((resp) => {
-        this.projectListData = resp;
-        console.log('数据', this.projectListData);
-        if (callback && typeof callback === 'function') {
-            callback();
-        }
-    }).catch(error => {
-        console.error('Failed to fetch project list data:', error);
-    });
-},
+            request({
+                url: '/statistic/project/level',
+                method: 'get',
+                data: {},
+            }).then((resp) => {
+                this.projectListData = resp;
+                if (callback && typeof callback === 'function') {
+                    callback();
+                }
+            }).catch(error => {
+                console.error('Failed to fetch project list data:', error);
+            });
+        },
 
         initEducationChart(echarts) {
             const educationData = {
@@ -231,15 +230,12 @@ export default {
         },
 
         initProjectChart(echarts) {
-            console.log('传入数据', this.projectListData);
             const projectChart = echarts.init(this.$refs.projectChart);
-
             // 将数据转换为 ECharts 饼图所需的格式
             const pieData = Object.entries(this.projectListData).map(([category, count]) => ({
                 value: count,
                 name: category,
             }));
-            console.log(pieData);  // 在控制台输出转换后的数据
             const option = {
                 tooltip: {
                     trigger: 'item',
@@ -332,11 +328,12 @@ export default {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-$h1:  rgba(45,45,45,1);
+$h1: rgba(45, 45, 45, 1);
 $blue: #98b5cc;
 $yellow: #ffcc00;
 $outline: rgba(#fff, .4);
 $shadow: rgba($yellow, .5);
+
 #curtain {
     background: linear-gradient(45deg, rgb(182, 182, 182) 9%, rgb(56, 56, 56) 100%);
     width: 100%;
@@ -372,14 +369,28 @@ h1 {
 }
 
 @keyframes flicker {
-    0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+
+    0%,
+    19.999%,
+    22%,
+    62.999%,
+    64%,
+    64.999%,
+    70%,
+    100% {
         opacity: .99;
         text-shadow: -1px -1px 0 $outline, 1px -1px 0 $outline,
-        -1px 1px 0 $outline, 1px 1px 0 $outline,
-        0 -2px 8px, 0 0 2px, 0 0 5px #ff7e00,
-        0 0 5px #ff4444, 0 0 2px #ff7e00, 0 2px 3px #000;
+            -1px 1px 0 $outline, 1px 1px 0 $outline,
+            0 -2px 8px, 0 0 2px, 0 0 5px #ff7e00,
+            0 0 5px #ff4444, 0 0 2px #ff7e00, 0 2px 3px #000;
     }
-    20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+
+    20%,
+    21.999%,
+    63%,
+    63.999%,
+    65%,
+    69.999% {
         opacity: 0.4;
         text-shadow: none;
     }
@@ -389,10 +400,7 @@ h1 {
     font-family: "阿里妈妈东方大楷 Regular";
     font-weight: 400;
     src: url("../assets/fonts/AlimamaDongFangDaKai-Regular.woff2") format("woff2"),
-    url("../assets/fonts/AlimamaDongFangDaKai-Regular.woff") format("woff");
+        url("../assets/fonts/AlimamaDongFangDaKai-Regular.woff") format("woff");
     font-display: swap;
-}
-
-
-</style>
+}</style>
 
