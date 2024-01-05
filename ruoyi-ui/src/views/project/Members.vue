@@ -16,6 +16,16 @@
                     @keyup.enter.native="handleQuery"
                 ></el-cascader>
             </el-form-item>
+            <el-form-item label="项目名称">
+                <el-cascader
+                    v-model="responsibleproject"
+                    :options="this.projecttree"
+                    clearable
+                    :show-all-levels="false"
+                    placeholder="请选择项目"
+                    @keyup.enter.native="handleQuery"
+                ></el-cascader>
+            </el-form-item>
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
                 <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -84,6 +94,8 @@ export default {
     components: {CheckMembers, CheckProject},
     data(){
         return {
+            responsibleproject: [],
+            projecttree: undefined,
             jobTitle: {
                 0: '正高级工程师',
                 1: '副高级工程师',
@@ -108,6 +120,7 @@ export default {
             dialogMembersLook: false,
             datas: {
                 userId: undefined,
+                projectId: undefined,
             },
             queryParam: {
                 pageNum: 1,
@@ -135,6 +148,7 @@ export default {
             await this.getDeptTree(); // 等待部门数据加载完成
             await this.getList(); // 等待用户数据加载完成
             this.cascaderOptions = this.adaptData(this.deptOptions);
+            this.getProjectTree();
             this.checkmembers();
         },
         /** 查询部门下拉树结构 */
@@ -175,12 +189,15 @@ export default {
         },
         // 处理按钮点击事件
         handleQuery() {
+            this.datas.projectId = this.responsibleproject[this.responsibleproject.length - 1];
             this.datas.userId = this.responsiblePerson[this.responsiblePerson.length - 1];
             this.checkmembers();
         },
         resetQuery(){
+            this.responsibleproject = [];
             this.responsiblePerson = [];
             this.datas.userId = undefined;
+            this.datas.projectId = undefined;
             this.queryParam.pageNum = 1;
             this.queryParam.pageSize = 10;
             this.checkmembers();
@@ -210,6 +227,20 @@ export default {
                     // 处理获取的用户数据
                     this.memberslist = resp.rows;
                     this.total = resp.total;
+                })
+                .catch((error) => {
+                    console.error('获取用户数据时出错：', error);
+                });
+        },
+        getProjectTree(){
+            request({
+                url: '/ip/getProjectTree',
+                method: 'get',
+                params: this.header,
+            })
+                .then((resp) => {
+                    this.projecttree = resp.data;
+                    console.log('项目树：', this.projecttree);
                 })
                 .catch((error) => {
                     console.error('获取用户数据时出错：', error);

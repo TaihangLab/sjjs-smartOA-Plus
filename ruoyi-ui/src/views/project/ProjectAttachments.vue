@@ -109,7 +109,8 @@ export default {
             this.checkattachments();
         },
         resetQuery() {
-            this.queryParams = undefined;
+            this.responsibleproject = [];
+            this.queryParams.projectId = undefined;
             this.queryParam.pageNum = 1;
             this.queryParam.pageSize = 10;
             this.checkattachments();
