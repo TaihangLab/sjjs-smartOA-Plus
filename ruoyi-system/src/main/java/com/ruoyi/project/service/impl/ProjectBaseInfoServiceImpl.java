@@ -300,6 +300,7 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
 
     /**
      * 查询每种项目类型及其对应的项目数量
+     *
      * @return
      */
     public Map<String, Integer> getProjectLevelStatistics() {
