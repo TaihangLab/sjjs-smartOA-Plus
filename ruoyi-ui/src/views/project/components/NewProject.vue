@@ -67,15 +67,15 @@
             <el-button style="margin-top: 12px;" @click="next" type="primary">{{ nextButtonText }}</el-button>
             <el-button v-show="stepID < 8" style="margin-top: 12px;" @click="submit" type="success">现在提交</el-button>
 <!--            重置要求确认-->
-<!--            <el-popconfirm-->
-<!--                title="确定要重置吗?"-->
-<!--                @confirm="reset"-->
-<!--            >-->
-<!--                <template #reference>-->
-<!--                    <el-button @click.stop="" type="warning">重置</el-button>-->
-<!--                </template>-->
-<!--            </el-popconfirm>-->
-            <el-button @click="reset" type="warning">重置</el-button>
+            <el-popconfirm
+                title="确定要重置吗?"
+                @confirm="reset"
+            >
+                <template #reference>
+                    <el-button @click.stop="" type="warning">重置</el-button>
+                </template>
+            </el-popconfirm>
+<!--            <el-button @click="reset" type="warning">重置</el-button>-->
             <el-button @click="info">log</el-button>
         </el-footer>
     </el-container>
