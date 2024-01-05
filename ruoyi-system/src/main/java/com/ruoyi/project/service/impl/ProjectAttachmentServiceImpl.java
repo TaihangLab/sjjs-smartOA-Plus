@@ -8,14 +8,15 @@ import com.ruoyi.system.domain.SysOss;
 import com.ruoyi.system.domain.vo.SysOssVo;
 import com.ruoyi.system.mapper.SysOssMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class ProjectAttachmentServiceImpl implements ProjectAttachmentService {
@@ -30,29 +31,19 @@ public class ProjectAttachmentServiceImpl implements ProjectAttachmentService {
      * @return 返回值
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public boolean insertProjectAttachmentList(Long projectId, List<Long> ossIds) {
+    public boolean insertProjectAttachmentList(List<Long> ossIds, Long projectId) {
         if (ossIds.isEmpty()) {
             return true;
         }
-        List<ProjectAttachment> attachments = new ArrayList<>();
-        for (Long ossId : ossIds) {
+        List<ProjectAttachment> attachments = ossIds.stream().map(ossId -> {
             ProjectAttachment projectAttachment = new ProjectAttachment();
             projectAttachment.setProjectId(projectId);
             projectAttachment.setOssId(ossId);
-        }
-
+            return projectAttachment;
+        }).collect(Collectors.toList());
         return projectAttachmentMapper.insertBatch(attachments);
     }
 
-    /**
-     * @param projectAttachmentList
-     * @return
-     */
-    @Override
-    public boolean insertProjectAttachmentList(List<ProjectAttachment> projectAttachmentList) {
-        return projectAttachmentMapper.insertBatch(projectAttachmentList);
-    }
 
     /**
      * @param projectId 项目ID
@@ -76,4 +67,16 @@ public class ProjectAttachmentServiceImpl implements ProjectAttachmentService {
         }
         return sysOssMapper.selectVoList(new LambdaQueryWrapper<SysOss>().in(SysOss::getOssId, ossIds));
     }
+
+    /**
+     * @param ossIds
+     * @param projectId
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateProjectAttachmentList(List<Long> ossIds, Long projectId) {
+        deleteAllProjectAttachmentByProID(projectId);
+        insertProjectAttachmentList(ossIds, projectId);
+    }
+
 }

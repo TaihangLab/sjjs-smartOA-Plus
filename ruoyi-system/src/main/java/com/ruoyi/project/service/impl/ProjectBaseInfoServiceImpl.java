@@ -178,10 +178,12 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
      * @return
      */
     @Override
-    public Long insertProjectBaseInfo(ProjectBaseInfo projectBaseInfo) {
-        if (projectBaseInfo == null) {
-            throw new IllegalArgumentException("projectBaseInfo cannot be null");
+    public Long insertProjectBaseInfo(ProjectBaseInfoBO projectBaseInfoBO) {
+        if (projectBaseInfoBO == null) {
+            throw new IllegalArgumentException("projectBaseInfoBO cannot be null");
         }
+        ProjectBaseInfo projectBaseInfo = new ProjectBaseInfo();
+        BeanCopyUtils.copy(projectBaseInfoBO, projectBaseInfo);
         int cnt = projectBaseInfoMapper.insert(projectBaseInfo);
         if (cnt != 1) {
             log.error("新增失败的projectBaseInfo为:{}", projectBaseInfo);
@@ -197,18 +199,21 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
     /**
      * 更新项目基本信息
      *
-     * @param projectBaseInfo
      * @return
      */
     @Override
-    public void updateProjectBaseInfoById(ProjectBaseInfo projectBaseInfo) {
-        if (projectBaseInfo == null) {
-            throw new IllegalArgumentException("projectBaseInfo cannot be null");
+    public void updateProjectBaseInfoById(ProjectBaseInfoBO projectBaseInfoBO) {
+        if (projectBaseInfoBO == null) {
+            throw new IllegalArgumentException("projectBaseInfoBO cannot be null");
         }
-        int cnt = projectBaseInfoMapper.updateById(projectBaseInfo);
-        if (cnt != 1) {
+        if (projectBaseInfoBO.getProjectId() == null) {
+            throw new IllegalArgumentException("projectId cannot be null");
+        }
+        ProjectBaseInfo projectBaseInfo = new ProjectBaseInfo();
+        BeanCopyUtils.copy(projectBaseInfoBO, projectBaseInfo);
+        if (projectBaseInfoMapper.updateById(projectBaseInfo) != 1) {
             log.error("更新失败的projectBaseInfo为:{}", projectBaseInfo);
-            throw new RuntimeException("更新项目失败");
+            throw new RuntimeException("更新项目基本信息失败");
         }
     }
 
@@ -235,7 +240,6 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
         Map<String, Object> map = new HashMap<>();
         map.put("label", UNASSOCIATED_PROJECT_IDENTIFIER);
         map.put("value", UNASSOCIATED_PROJECT_CODE);
-        map.put("weight", UNASSOCIATED_PROJECT_CODE);
         projectTree.add(map);
         return projectTree;
     }
@@ -261,15 +265,14 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
         Set<ProjectLevel> projectLevels = getAllProjectLevels();
         for (ProjectLevel projectLevel : projectLevels) {
             Map<String, Object> levelMap = new HashMap<>();
-            levelMap.put("lable", projectLevel.getDescription());
+            levelMap.put("label", projectLevel.getDescription());
             levelMap.put("value", projectLevel.getValue());
-            levelMap.put("weight", projectLevel.getValue());
             // 获取每种类型下的所有项目
             List<ProjectBaseInfo> projects = getProjectsByLevel(projectLevel);
             List<Map<String, Object>> children = new ArrayList<>();
             for (ProjectBaseInfo projectBaseInfo : projects) {
                 Map<String, Object> projectMap = new HashMap<>();
-                projectMap.put("lable", projectBaseInfo.getAssignedSubjectName());
+                projectMap.put("label", projectBaseInfo.getAssignedSubjectName());
                 projectMap.put("value", projectBaseInfo.getProjectId());
                 children.add(projectMap);
             }
@@ -295,4 +298,17 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
                 .eq(ProjectBaseInfo::getProjectLevel, projectLevel));
     }
 
+    /**
+     * 查询每种项目类型及其对应的项目数量
+     * @return
+     */
+    public Map<String, Integer> getProjectLevelStatistics() {
+        Set<ProjectLevel> allProjectLevels = getAllProjectLevels();
+        Map<String, Integer> statistics = new HashMap<>();
+        for (ProjectLevel projectLevel : allProjectLevels) {
+            List<ProjectBaseInfo> projectsByLevel = getProjectsByLevel(projectLevel);
+            statistics.put(projectLevel.getDescription(), projectsByLevel.size());
+        }
+        return statistics;
+    }
 }

@@ -1,6 +1,6 @@
 package com.ruoyi.project.service;
 
-import com.ruoyi.project.domain.ProjectFunds;
+import com.ruoyi.project.domain.bo.ProjectFundsBO;
 import com.ruoyi.project.domain.vo.ProjectFundsVO;
 
 /**
@@ -10,9 +10,10 @@ import com.ruoyi.project.domain.vo.ProjectFundsVO;
 public interface ProjectFundsService {
 
     ProjectFundsVO selectProjectFundsVOById(Long projectId);
-    int insertProjectFunds(ProjectFunds projectFunds);
+
+    void insertProjectFunds(ProjectFundsBO projectFundsBO, Long projectId);
 
     void deleteProjectFundsById(Long projectId);
 
-    void saveOrUpdateProjectFunds(ProjectFunds projectFunds, Long projectId);
+    void updateProjectFunds(ProjectFundsBO projectFundsBO, Long projectId);
 }

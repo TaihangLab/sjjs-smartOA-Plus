@@ -8,6 +8,7 @@ import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.ProjectLevel;
 import com.ruoyi.common.enums.ProjectUserRole;
+import com.ruoyi.common.helper.LoginHelper;
 import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.project.domain.ProjectBaseInfo;
 import com.ruoyi.project.domain.ProjectUser;
@@ -22,10 +23,12 @@ import com.ruoyi.system.mapper.SysUserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -47,8 +50,54 @@ public class ProjectUserServiceImpl implements ProjectUserService {
      * @return
      */
     @Override
-    public boolean insertProjectUsers(List<ProjectUser> projectUserList) {
-        return projectUserMapper.insertBatch(projectUserList);
+    public void insertProjectUsers(List<ProjectUserBo> projectUserBoList, Long projectId) {
+        if (projectUserBoList == null || projectUserBoList.isEmpty()) {
+            return;
+        }
+        List<ProjectUser> projectUserList = projectUserBoList.stream()
+            .flatMap(projectUserBo -> {
+                List<ProjectUserRole> roles = projectUserBo.getProjectUserRoleList();
+                if (roles == null || roles.isEmpty()) {
+                    return Stream.empty();
+                }
+                return roles.stream()
+                    .map(projectUserRole -> {
+                        ProjectUser projectUser = new ProjectUser();
+                        projectUser.setProjectId(projectId);
+                        projectUser.setUserId(projectUserBo.getUserId());
+                        projectUser.setProjectUserRole(projectUserRole);
+                        return projectUser;
+                    });
+            })
+            .collect(Collectors.toList());
+        projectUserMapper.insertBatch(projectUserList);
+    }
+
+    /**
+     * @param projectUserBoList
+     * @param projectId
+     */
+    @Override
+    public void insertProjectUsersOnCreate(List<ProjectUserBo> projectUserBoList, Long projectId) {
+        if (projectUserBoList == null) {
+            projectUserBoList = new ArrayList<>();
+        }
+        ProjectUserBo projectLoginUserBo = new ProjectUserBo();
+        projectLoginUserBo.setUserId(LoginHelper.getUserId());
+        projectLoginUserBo.setProjectUserRoleList(Collections.singletonList(ProjectUserRole.PROJECT_ENTRY_OPERATOR));
+        projectUserBoList.add(projectLoginUserBo);
+        insertProjectUsers(projectUserBoList, projectId);
+    }
+
+    /**
+     * @param projectUserBOList
+     * @param projectId
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateProjectUsers(List<ProjectUserBo> projectUserBOList, Long projectId) {
+        deleteProjectUsersByProID(projectId);
+        insertProjectUsersOnCreate(projectUserBOList, projectId);
     }
 
 

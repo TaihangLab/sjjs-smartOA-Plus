@@ -1,15 +1,18 @@
 package com.ruoyi.project.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.project.domain.ProjectTarget;
+import com.ruoyi.project.domain.bo.ProjectTargetBO;
 import com.ruoyi.project.domain.vo.ProjectTargetVO;
 import com.ruoyi.project.mapper.ProjectTargetMapper;
 import com.ruoyi.project.service.ProjectTargetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -29,6 +32,26 @@ public class ProjectTargetServiceImpl implements ProjectTargetService {
             return false;
         }
         return projectTargetMapper.insertBatch(projectTargets);
+    }
+
+    /**
+     * @param projectTargetBOList
+     * @param projectId
+     */
+    @Override
+    public void insertProjectTargetList(List<ProjectTargetBO> projectTargetBOList, Long projectId) {
+        if (projectTargetBOList == null || projectTargetBOList.isEmpty()) {
+            return;
+        }
+        List<ProjectTarget> projectTargetList = projectTargetBOList.stream()
+            .map(bo -> {
+                ProjectTarget projectTarget = new ProjectTarget();
+                BeanCopyUtils.copy(bo, projectTarget);
+                projectTarget.setProjectId(projectId);
+                return projectTarget;
+            })
+            .collect(Collectors.toList());
+        insertProjectTargetList(projectTargetList);
     }
 
 
@@ -66,6 +89,17 @@ public class ProjectTargetServiceImpl implements ProjectTargetService {
     public int deleteProjectTarget(Long targetId) {
         return projectTargetMapper.delete(new LambdaQueryWrapper<ProjectTarget>().
             eq(ProjectTarget::getTargetId, targetId));
+    }
+
+    /**
+     * @param projectTargetBoList
+     * @param projectId
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateProjectTargetList(List<ProjectTargetBO> projectTargetBoList, Long projectId) {
+        deleteTargetByProjectId(projectId);
+        insertProjectTargetList(projectTargetBoList, projectId);
     }
 
 }
