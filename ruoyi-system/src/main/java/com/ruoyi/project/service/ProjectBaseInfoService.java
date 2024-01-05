@@ -20,9 +20,9 @@ public interface ProjectBaseInfoService {
 
     ProjectBaseInfo selectProjectBaseInfoById(Long projectId);
 
-    Long insertProjectBaseInfo(ProjectBaseInfo projectBaseInfo);
+    Long insertProjectBaseInfo(ProjectBaseInfoBO projectBaseInfoBO);
 
-    void updateProjectBaseInfoById(ProjectBaseInfo projectBaseInfo);
+    void updateProjectBaseInfoById(ProjectBaseInfoBO projectBaseInfoBO);
 
     void deleteProjectBaseInfoById(Long projectId);
 
@@ -34,4 +34,6 @@ public interface ProjectBaseInfoService {
     List<Map<String, Object>> getProjectTreeMapping();
 
     Map<Long, String> getProjectIdAndNameMappingByProjectIdSet(Set<Long> projectIdSet);
+
+    Map<String,Integer> getProjectLevelStatistics();
 }

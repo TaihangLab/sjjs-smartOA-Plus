@@ -1,15 +1,19 @@
 package com.ruoyi.project.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.project.domain.ProjectPlan;
+import com.ruoyi.project.domain.bo.ProjectPlanBO;
 import com.ruoyi.project.domain.vo.ProjectPlanVO;
 import com.ruoyi.project.mapper.ProjectPlanMapper;
 import com.ruoyi.project.service.projectPlanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -39,11 +43,28 @@ public class peojectPlanServiceImpl implements projectPlanService {
     }
 
     /**
-     * @param projectPlanList
+     * @param projectPlanBOList
      */
     @Override
-    public void insertProjectPlanList(List<ProjectPlan> projectPlanList) {
+    public void insertProjectPlanList(List<ProjectPlanBO> projectPlanBOList, Long projectId) {
+        if (projectPlanBOList == null || projectPlanBOList.isEmpty()) {
+            return;
+        }
+        List<ProjectPlan> projectPlanList = projectPlanBOList.stream()
+            .map(bo -> projectPlanDateConverter(bo, projectId))
+            .collect(Collectors.toList());
         projectPlanMapper.insertBatch(projectPlanList);
+    }
+
+    private ProjectPlan projectPlanDateConverter(ProjectPlanBO bo, Long projectId) {
+        ProjectPlan projectPlan = new ProjectPlan();
+        BeanCopyUtils.copy(bo, projectPlan);
+        projectPlan.setProjectId(projectId);
+        Optional.ofNullable(bo.getStageStartDate())
+            .ifPresent(date -> projectPlan.setStageStartDate(DateUtils.yearMonthToLocalDate(date)));
+        Optional.ofNullable(bo.getStageEndDate())
+            .ifPresent(endDate -> projectPlan.setStageEndDate(DateUtils.yearMonthToLocalDate(endDate)));
+        return projectPlan;
     }
 
     /**
@@ -54,4 +75,10 @@ public class peojectPlanServiceImpl implements projectPlanService {
         projectPlanMapper.delete(new LambdaQueryWrapper<ProjectPlan>().eq(ProjectPlan::getProjectId, projectId));
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateProjectPlanList(List<ProjectPlanBO> projectPlanBOList, Long projectId) {
+        deleteProjectPlanByProjectId(projectId);
+        insertProjectPlanList(projectPlanBOList, projectId);
+    }
 }
