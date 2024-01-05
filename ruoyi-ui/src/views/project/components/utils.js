@@ -17,7 +17,7 @@ export function filterList(list, firstKey='id') {
 }
 
 
-export function resetObject(obj, value="") {
+export function resetObject(obj, value=null) {
     for (const key in obj) {
         Vue.set(obj, key, value);
     }

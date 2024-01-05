@@ -47,3 +47,4 @@ nbdist/
 /minio/
 
 node_modules/
+package-lock.json
