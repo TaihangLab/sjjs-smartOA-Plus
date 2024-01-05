@@ -47,7 +47,7 @@
             <!-- 项目统计 -->
             <el-col :span="12">
                 <el-card style="margin-right: 20px;">
-                    <h3 slot="header">项目统计</h3>
+                    <h3 slot="header">项目列表</h3>
                     <!-- 在这里添加项目统计的内容 -->
                     <div style="height: 300px;" ref="projectChart"></div>
                 </el-card>
@@ -70,12 +70,14 @@
   
 <script>
 import { listNotice, getNotice, updateNotice } from "@/api/system/notice";
+import request from '@/utils/request';
 
 export default {
     dicts: ['sys_notice_status', 'sys_notice_type'],
     data() {
         return {
             noticeList: [],
+            projectListData: {},
             showNoticeDialog: false,
             selectedNotice: {
                 title: '',
@@ -93,15 +95,21 @@ export default {
     },
     created() {
         this.getList();
+        this.getProjectListData();
     },
     mounted() {
-        import('echarts').then((echarts) => {
-            this.initProjectChart(echarts);
+    import('echarts').then((echarts) => {
+        this.$nextTick(() => {
             this.initChart(echarts);
             this.initEducationChart(echarts);
             this.initTitleChart(echarts);
+            this.getProjectListData(() => {
+                this.initProjectChart(echarts);
+            });
         });
-    },
+    });
+},
+
     methods: {
         showNoticeContent(row) {
             this.loading = true;
@@ -127,12 +135,27 @@ export default {
                 this.loading = false;
             });
         },
+        getProjectListData(callback) {
+    request({
+        url: '/statistic/project/level',
+        method: 'get',
+        data: {},
+    }).then((resp) => {
+        this.projectListData = resp;
+        console.log('数据', this.projectListData);
+        if (callback && typeof callback === 'function') {
+            callback();
+        }
+    }).catch(error => {
+        console.error('Failed to fetch project list data:', error);
+    });
+},
+
         initEducationChart(echarts) {
             const educationData = {
                 categories: ['博士', '硕士', '本科'],
                 data: [2, 19, 25],
             };
-
             const educationChart = echarts.init(this.$refs.educationChart);
             const option = {
                 title: {
@@ -205,28 +228,46 @@ export default {
         },
 
         initProjectChart(echarts) {
-            const projectData = {
-                // 模拟数据
-                xAxis: ['1月', '2月', '3月', '4月', '5月', '6月'],
+            console.log('传入数据', this.projectListData);
+            const projectChart = echarts.init(this.$refs.projectChart);
+
+            // 将数据转换为 ECharts 饼图所需的格式
+            const pieData = Object.entries(this.projectListData).map(([category, count]) => ({
+                value: count,
+                name: category,
+            }));
+            console.log(pieData);  // 在控制台输出转换后的数据
+            const option = {
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{a} <br/>{b}: {c} ({d}%)',
+                },
                 series: [
                     {
-                        name: '任务完成数量',
-                        type: 'line',
-                        data: [30, 40, 20, 50, 10, 60], // 请替换为你的实际数据
+                        name: '项目数量',
+                        type: 'pie',
+                        radius: ['40%', '70%'],
+                        center: ['50%', '50%'],
+                        avoidLabelOverlap: false,
+                        label: {
+                            show: true,
+                            position: 'outside',
+                            formatter: '{b}: {c} ({d}%)',
+                        },
+                        emphasis: {
+                            label: {
+                                show: true,
+                                fontSize: '14',
+                                fontWeight: 'bold',
+                            },
+                        },
+                        labelLine: {
+                            show: true,
+                            length2: 10,
+                        },
+                        data: pieData,
                     },
                 ],
-            };
-
-            const projectChart = echarts.init(this.$refs.projectChart);
-            const option = {
-                xAxis: {
-                    type: 'category',
-                    data: projectData.xAxis,
-                },
-                yAxis: {
-                    type: 'value',
-                },
-                series: projectData.series,
             };
             projectChart.setOption(option);
         },
