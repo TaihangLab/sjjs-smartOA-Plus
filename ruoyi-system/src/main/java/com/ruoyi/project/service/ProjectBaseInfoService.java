@@ -2,7 +2,6 @@ package com.ruoyi.project.service;
 
 import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.page.TableDataInfo;
-import com.ruoyi.common.enums.ProjectLevel;
 import com.ruoyi.project.domain.ProjectBaseInfo;
 import com.ruoyi.project.domain.bo.ProjectBaseInfoBO;
 import com.ruoyi.project.domain.vo.ProjectBaseInfoVO;
@@ -21,9 +20,9 @@ public interface ProjectBaseInfoService {
 
     ProjectBaseInfo selectProjectBaseInfoById(Long projectId);
 
-    Long insertProjectBaseInfo(ProjectBaseInfo projectBaseInfo);
+    Long insertProjectBaseInfo(ProjectBaseInfoBO projectBaseInfoBO);
 
-    void updateProjectBaseInfoById(ProjectBaseInfo projectBaseInfo);
+    void updateProjectBaseInfoById(ProjectBaseInfoBO projectBaseInfoBO);
 
     void deleteProjectBaseInfoById(Long projectId);
 

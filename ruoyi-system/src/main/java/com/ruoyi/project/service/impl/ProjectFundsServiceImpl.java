@@ -2,7 +2,9 @@ package com.ruoyi.project.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.project.domain.ProjectFunds;
+import com.ruoyi.project.domain.bo.ProjectFundsBO;
 import com.ruoyi.project.domain.vo.ProjectFundsVO;
 import com.ruoyi.project.mapper.ProjectFundsMapper;
 import com.ruoyi.project.service.ProjectFundsService;
@@ -35,15 +37,20 @@ public class ProjectFundsServiceImpl implements ProjectFundsService {
     /**
      * 新增项目经费
      *
-     * @param projectFunds
+     * @param
      * @return
      */
     @Override
-    public int insertProjectFunds(ProjectFunds projectFunds) {
-        if (projectFunds == null) {
-            return 0;
+    public void insertProjectFunds(ProjectFundsBO projectFundsBO, Long projectId) {
+        if (projectFundsBO == null) {
+            return;
         }
-        return projectFundsMapper.insert(projectFunds);
+        ProjectFunds projectFunds = new ProjectFunds();
+        BeanCopyUtils.copy(projectFundsBO, projectFunds);
+        projectFunds.setProjectId(projectId);
+        if (projectFundsMapper.insert(projectFunds) != 1) {
+            throw new RuntimeException("新增项目经费失败");
+        }
     }
 
 
@@ -56,11 +63,21 @@ public class ProjectFundsServiceImpl implements ProjectFundsService {
     }
 
     /**
-     * @param projectFunds
+     * @param projectFundsBO
      * @param projectId
      */
     @Override
-    public void saveOrUpdateProjectFunds(ProjectFunds projectFunds, Long projectId) {
+    public void updateProjectFunds(ProjectFundsBO projectFundsBO, Long projectId) {
+        if (projectFundsBO == null) {
+            return;
+        }
+        ProjectFunds projectFunds = new ProjectFunds();
+        BeanCopyUtils.copy(projectFundsBO, projectFunds);
+        saveOrUpdateProjectFunds(projectFunds, projectId);
+    }
+
+
+    private void saveOrUpdateProjectFunds(ProjectFunds projectFunds, Long projectId) {
         // 更新或插入操作
         boolean isUpdated = projectFundsMapper.update(projectFunds, new LambdaUpdateWrapper<ProjectFunds>().eq(ProjectFunds::getProjectId, projectId)) > 0;
         if (!isUpdated) {

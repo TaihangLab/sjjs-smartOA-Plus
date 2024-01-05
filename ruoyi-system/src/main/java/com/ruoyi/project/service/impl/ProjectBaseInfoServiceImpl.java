@@ -178,10 +178,12 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
      * @return
      */
     @Override
-    public Long insertProjectBaseInfo(ProjectBaseInfo projectBaseInfo) {
-        if (projectBaseInfo == null) {
-            throw new IllegalArgumentException("projectBaseInfo cannot be null");
+    public Long insertProjectBaseInfo(ProjectBaseInfoBO projectBaseInfoBO) {
+        if (projectBaseInfoBO == null) {
+            throw new IllegalArgumentException("projectBaseInfoBO cannot be null");
         }
+        ProjectBaseInfo projectBaseInfo = new ProjectBaseInfo();
+        BeanCopyUtils.copy(projectBaseInfoBO, projectBaseInfo);
         int cnt = projectBaseInfoMapper.insert(projectBaseInfo);
         if (cnt != 1) {
             log.error("新增失败的projectBaseInfo为:{}", projectBaseInfo);
@@ -197,18 +199,21 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
     /**
      * 更新项目基本信息
      *
-     * @param projectBaseInfo
      * @return
      */
     @Override
-    public void updateProjectBaseInfoById(ProjectBaseInfo projectBaseInfo) {
-        if (projectBaseInfo == null) {
-            throw new IllegalArgumentException("projectBaseInfo cannot be null");
+    public void updateProjectBaseInfoById(ProjectBaseInfoBO projectBaseInfoBO) {
+        if (projectBaseInfoBO == null) {
+            throw new IllegalArgumentException("projectBaseInfoBO cannot be null");
         }
-        int cnt = projectBaseInfoMapper.updateById(projectBaseInfo);
-        if (cnt != 1) {
+        if (projectBaseInfoBO.getProjectId() == null) {
+            throw new IllegalArgumentException("projectId cannot be null");
+        }
+        ProjectBaseInfo projectBaseInfo = new ProjectBaseInfo();
+        BeanCopyUtils.copy(projectBaseInfoBO, projectBaseInfo);
+        if (projectBaseInfoMapper.updateById(projectBaseInfo) != 1) {
             log.error("更新失败的projectBaseInfo为:{}", projectBaseInfo);
-            throw new RuntimeException("更新项目失败");
+            throw new RuntimeException("更新项目基本信息失败");
         }
     }
 
