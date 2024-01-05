@@ -75,7 +75,7 @@
                             this.projectdetails.projectFundsVO.totalFundsAll
                         }}
                         </el-descriptions-item>
-                        <el-descriptions-item>{{ }}</el-descriptions-item>
+<!--                        <el-descriptions-item>{{ }}</el-descriptions-item>-->
                         <el-descriptions-item label="专项经费">{{
                             this.projectdetails.projectFundsVO.totalFundsZx
                         }}

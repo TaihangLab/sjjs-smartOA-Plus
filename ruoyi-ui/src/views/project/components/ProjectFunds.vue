@@ -11,7 +11,7 @@
         <el-row :gutter="20">
             <el-col :span="12">
                 <el-form-item label-width="100px" label="经费总额">
-                    <el-input v-model="$props.form.jfze" type="number"></el-input>
+                    <el-input v-model.number="$props.form.jfze" type="number"></el-input>
                 </el-form-item>
             </el-col>
         </el-row>

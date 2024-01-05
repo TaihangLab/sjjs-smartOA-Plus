@@ -17,16 +17,19 @@ import Vue from "vue";
  */
 export function addProject(projectInfoForm, projectMemberForm, projectFundsForm, zxFundsDetailForm, zcFundsDetailForm,
                            fundsSourceForm, projectIndicatorForm, projectPlanForm, otherAttachmentForm) {
+    // 项目成员
     const members    = filterList(projectMemberForm.items).map(value => {
         return {userId: value.id, projectUserRoleList: value.role}
     });
+    // 项目指标
     const indicators = filterList(projectIndicatorForm.items, 'title').map(value => {
         return {targetName: value.title, midtermTarget: value.midterm, endTarget: value.finish}
     });
+    // 项目计划
     const plans      = filterList(projectPlanForm.items, "date").map(value => {
         return {stageStartDate: value.date[0], stageEndDate: value.date[1], stageTask: value.task}
     })
-    console.log(plans);
+
     return request({
         url: '/project/my/add', method: 'post', data: {
             "projectBaseInfoBO"  : {
@@ -48,15 +51,25 @@ export function addProject(projectInfoForm, projectMemberForm, projectFundsForm,
                 "assignedSubjectSection"        : projectInfoForm.subjectName,
                 // 课题编号
                 "subjectAssignmentSerialNo"     : projectInfoForm.subjectNumber,
+                // 立项时间
                 "projectEstablishTime"          : projectInfoForm.startTime,
+                // 结束时间
                 "projectScheduledCompletionTime": projectInfoForm.endTime,
+                // 项目周期
                 "projectDuration"               : projectInfoForm.duration,
+                // 项目意义和必要性
                 "significanceAndNecessity"      : projectInfoForm.meaning,
+                // 项目进展情况
                 "projectProgressStatus"         : projectInfoForm.progressStatus,
+                // 项目完成进度
                 "completionProgress"            : projectInfoForm.completionProgress,
+                // 合作单位
                 "collaboratingUnit"             : projectInfoForm.coopUnit,
+                // 专家团队
                 "expertTeam"                    : projectInfoForm.expertTeam,
+                // 有无合作单位
                 "hasCooperativeUnit"            : projectInfoForm.coopUnit ? 1 : 0,
+                // 项目描述
                 "projectDescription"            : projectInfoForm.description
                 // "awardDetails"                  : projectInfoForm.awardStatus,
                 // "publicationDetails"            : projectInfoForm.paperStatus,
@@ -178,17 +191,17 @@ export function addProject(projectInfoForm, projectMemberForm, projectFundsForm,
 }
 
 /**
- * 
- * @param {id} projectId 
- * @param {基本信息} projectInfoForm 
- * @param {项目成员} projectMemberForm 
- * @param {项目经费} projectFundsForm 
- * @param {专项经费} zxFundsDetailForm 
- * @param {自筹经费} zcFundsDetailForm 
- * @param {经费来源} fundsSourceForm 
- * @param {项目指标} projectIndicatorForm 
- * @param {项目计划} projectPlanForm 
- * @param {项目附件} otherAttachmentForm 
+ *
+ * @param {*} projectId
+ * @param {*} projectInfoForm
+ * @param {*} projectFundsForm
+ * @param {*} projectMemberForm
+ * @param {*} zxFundsDetailForm
+ * @param {*} zcFundsDetailForm
+ * @param {*} fundsSourceForm
+ * @param {*} projectIndicatorForm
+ * @param {*} projectPlanForm
+ * @param {*} otherAttachmentForm
  */
 export function getProject(projectId, projectInfoForm, projectMemberForm, projectFundsForm, zxFundsDetailForm,
                            zcFundsDetailForm, fundsSourceForm, projectIndicatorForm, projectPlanForm,
@@ -358,6 +371,6 @@ export function getProject(projectId, projectInfoForm, projectMemberForm, projec
         Vue.set(zxFundsDetailForm, "rylwbzf_jj", projectFundsVO.ryhlwbzfZxJj);
         Vue.set(zcFundsDetailForm, "rylwbzf_jj", projectFundsVO.ryhlwbzfZcJj);
 
-        
+
     });
 }
