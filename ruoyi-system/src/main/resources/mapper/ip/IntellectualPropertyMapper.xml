@@ -4,7 +4,7 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.ip.mapper.IntellectualPropertyMapper">
 
-    <resultMap id="IntellectualPropertyResult" type="com.ruoyi.ip.domin.IntellectualProperty">
+    <resultMap id="IntellectualPropertyResult" type="com.ruoyi.ip.domain.IntellectualProperty">
         <id property="ipId" column="ip_id" jdbcType="BIGINT"/>
         <result property="projectId" column="project_id" jdbcType="BIGINT"/>
         <result property="ipName" column="ip_name" jdbcType="VARCHAR"/>

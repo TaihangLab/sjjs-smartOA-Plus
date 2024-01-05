@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -44,6 +46,15 @@ public class ProjectAttachmentServiceImpl implements ProjectAttachmentService {
         return projectAttachmentMapper.insertBatch(attachments);
     }
 
+    /**
+     * @param projectAttachmentList
+     * @return
+     */
+    @Override
+    public boolean insertProjectAttachmentList(List<ProjectAttachment> projectAttachmentList) {
+        return projectAttachmentMapper.insertBatch(projectAttachmentList);
+    }
+
 
     /**
      * @param projectId 项目ID
@@ -52,6 +63,14 @@ public class ProjectAttachmentServiceImpl implements ProjectAttachmentService {
     public void deleteAllProjectAttachmentByProID(Long projectId) {
         projectAttachmentMapper.delete((new LambdaQueryWrapper<ProjectAttachment>()).
             eq(ProjectAttachment::getProjectId, projectId));
+    }
+
+    /**
+     * @param idList
+     */
+    @Override
+    public void deleteProjectAttachmentByIdList(List<Long> idList) {
+        projectAttachmentMapper.deleteBatchIds(idList);
     }
 
     /**
@@ -75,8 +94,36 @@ public class ProjectAttachmentServiceImpl implements ProjectAttachmentService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateProjectAttachmentList(List<Long> ossIds, Long projectId) {
-        deleteAllProjectAttachmentByProID(projectId);
-        insertProjectAttachmentList(ossIds, projectId);
+        List<ProjectAttachment> oldProjectAttachments = projectAttachmentMapper.selectList(new LambdaQueryWrapper<ProjectAttachment>().eq(ProjectAttachment::getProjectId, projectId));
+        if (ossIds == null || ossIds.isEmpty()) {
+            if (oldProjectAttachments.isEmpty()) {
+                return;
+            } else {
+                deleteAllProjectAttachmentByProID(projectId);
+                return;
+            }
+        } else {
+            if (oldProjectAttachments.isEmpty()) {
+                insertProjectAttachmentList(ossIds, projectId);
+                return;
+            }
+        }
+        List<ProjectAttachment> newProjectAttachments = ossIds.stream().map(ossId -> {
+            ProjectAttachment projectAttachment = new ProjectAttachment();
+            projectAttachment.setProjectId(projectId);
+            projectAttachment.setOssId(ossId);
+            return projectAttachment;
+        }).collect(Collectors.toList());
+        Set<ProjectAttachment> oldProjectAttachmentSet = new HashSet<>(oldProjectAttachments);
+        Set<ProjectAttachment> newProjectAttachmentSet = new HashSet<>(newProjectAttachments);
+        List<ProjectAttachment> addProjectAttachmentList = newProjectAttachments.stream().filter(projectAttachment -> !oldProjectAttachmentSet.contains(projectAttachment)).collect(Collectors.toList());
+        List<ProjectAttachment> delProjectAttachmentList = oldProjectAttachments.stream().filter(projectAttachment -> !newProjectAttachmentSet.contains(projectAttachment)).collect(Collectors.toList());
+        if (!addProjectAttachmentList.isEmpty()) {
+            insertProjectAttachmentList(addProjectAttachmentList);
+        }
+        if (!delProjectAttachmentList.isEmpty()) {
+            deleteProjectAttachmentByIdList(delProjectAttachmentList.stream().map(ProjectAttachment::getId).collect(Collectors.toList()));
+        }
     }
 
 }

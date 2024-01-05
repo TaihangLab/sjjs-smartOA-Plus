@@ -2,9 +2,9 @@ package com.ruoyi.ip.service;
 
 import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.page.TableDataInfo;
-import com.ruoyi.ip.domin.bo.IntellectualPropertyBO;
-import com.ruoyi.ip.domin.vo.IntellectualPropertyDetailVO;
-import com.ruoyi.ip.domin.vo.IntellectualPropertyVO;
+import com.ruoyi.ip.domain.bo.IntellectualPropertyBO;
+import com.ruoyi.ip.domain.vo.IntellectualPropertyDetailVO;
+import com.ruoyi.ip.domain.vo.IntellectualPropertyVO;
 
 /**
  * @author bailingnan

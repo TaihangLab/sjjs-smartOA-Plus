@@ -4,16 +4,22 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ruoyi.common.enums.ProjectUserRole;
-import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * 项目和用户关联 project_user
  *
  * @author JiaXing Fan
  */
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @TableName("project_user")
 public class ProjectUser {
 
@@ -33,4 +39,20 @@ public class ProjectUser {
      */
     private ProjectUserRole projectUserRole;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ProjectUser that = (ProjectUser) o;
+        return Objects.equals(this.projectId, that.projectId) && Objects.equals(this.userId, that.userId) && Objects.equals(this.projectUserRole, that.projectUserRole);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.projectId, this.userId, this.projectUserRole);
+    }
 }

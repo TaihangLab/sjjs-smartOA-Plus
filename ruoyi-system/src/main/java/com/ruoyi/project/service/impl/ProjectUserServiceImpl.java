@@ -46,7 +46,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
     /**
      * 添加项目成员
      *
-     * @param projectUserList
+     * @param projectUserBoList
      * @return
      */
     @Override
@@ -54,23 +54,20 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         if (projectUserBoList == null || projectUserBoList.isEmpty()) {
             return;
         }
-        List<ProjectUser> projectUserList = projectUserBoList.stream()
-            .flatMap(projectUserBo -> {
-                List<ProjectUserRole> roles = projectUserBo.getProjectUserRoleList();
-                if (roles == null || roles.isEmpty()) {
-                    return Stream.empty();
-                }
-                return roles.stream()
-                    .map(projectUserRole -> {
-                        ProjectUser projectUser = new ProjectUser();
-                        projectUser.setProjectId(projectId);
-                        projectUser.setUserId(projectUserBo.getUserId());
-                        projectUser.setProjectUserRole(projectUserRole);
-                        return projectUser;
-                    });
-            })
-            .collect(Collectors.toList());
+        List<ProjectUser> projectUserList = projectUserBOListToProjectUserList(projectUserBoList, projectId);
         projectUserMapper.insertBatch(projectUserList);
+    }
+
+    /**
+     * @param projectUserList
+     */
+    @Override
+    public void insertProjectUsers(List<ProjectUser> projectUserList) {
+        if (projectUserList == null || projectUserList.isEmpty()) {
+            return;
+        }
+        projectUserMapper.insertBatch(projectUserList);
+
     }
 
     /**
@@ -96,8 +93,31 @@ public class ProjectUserServiceImpl implements ProjectUserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateProjectUsers(List<ProjectUserBo> projectUserBOList, Long projectId) {
-        deleteProjectUsersByProID(projectId);
-        insertProjectUsersOnCreate(projectUserBOList, projectId);
+        List<ProjectUser> oldProjectUserList = projectUserMapper.selectList(new LambdaQueryWrapper<ProjectUser>().eq(ProjectUser::getProjectId, projectId));
+        if (projectUserBOList == null || projectUserBOList.isEmpty()) {
+            if (oldProjectUserList.isEmpty()) {
+                return;
+            } else {
+                deleteProjectUsersByProID(projectId);
+                return;
+            }
+        } else {
+            if (oldProjectUserList.isEmpty()) {
+                insertProjectUsers(projectUserBOList, projectId);
+                return;
+            }
+        }
+        List<ProjectUser> newProjectUserList = projectUserBOListToProjectUserList(projectUserBOList, projectId);
+        Set<ProjectUser> oldProjectUserSet = new HashSet<>(oldProjectUserList);
+        Set<ProjectUser> newProjectUserSet = new HashSet<>(newProjectUserList);
+        List<ProjectUser> addProjectUserList = newProjectUserList.stream().filter(projectUser -> !oldProjectUserSet.contains(projectUser)).collect(Collectors.toList());
+        List<ProjectUser> delProjectUserList = oldProjectUserList.stream().filter(projectUser -> !newProjectUserSet.contains(projectUser)).collect(Collectors.toList());
+        if (!addProjectUserList.isEmpty()) {
+            insertProjectUsers(addProjectUserList);
+        }
+        if (!delProjectUserList.isEmpty()) {
+            deleteProjectUserList(delProjectUserList);
+        }
     }
 
 
@@ -428,5 +448,40 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 
     }
 
+    /**
+     * @param projectUserList
+     */
+    @Override
+    public void deleteProjectUserList(List<ProjectUser> projectUserList) {
+        if (projectUserList == null || projectUserList.isEmpty()) {
+            return;
+        }
+        projectUserList.stream().map(projectUser -> projectUserMapper.delete(new LambdaQueryWrapper<ProjectUser>()
+            .eq(ProjectUser::getProjectId, projectUser.getProjectId())
+            .eq(ProjectUser::getUserId, projectUser.getUserId())
+            .eq(ProjectUser::getProjectUserRole, projectUser.getProjectUserRole())
+        )).collect(Collectors.toList());
+    }
 
+    private List<ProjectUser> projectUserBOListToProjectUserList(List<ProjectUserBo> projectUserBOList, Long projectId) {
+        if (projectUserBOList == null || projectUserBOList.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return projectUserBOList.stream()
+            .flatMap(projectUserBo -> {
+                List<ProjectUserRole> roles = projectUserBo.getProjectUserRoleList();
+                if (roles == null || roles.isEmpty()) {
+                    return Stream.empty();
+                }
+                return roles.stream()
+                    .map(projectUserRole -> {
+                        ProjectUser projectUser = new ProjectUser();
+                        projectUser.setProjectId(projectId);
+                        projectUser.setUserId(projectUserBo.getUserId());
+                        projectUser.setProjectUserRole(projectUserRole);
+                        return projectUser;
+                    });
+            })
+            .collect(Collectors.toList());
+    }
 }

@@ -12,8 +12,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -51,12 +53,24 @@ public class peojectPlanServiceImpl implements projectPlanService {
             return;
         }
         List<ProjectPlan> projectPlanList = projectPlanBOList.stream()
-            .map(bo -> projectPlanDateConverter(bo, projectId))
+            .map(bo -> projectPlanConverter(bo, projectId))
             .collect(Collectors.toList());
         projectPlanMapper.insertBatch(projectPlanList);
     }
 
-    private ProjectPlan projectPlanDateConverter(ProjectPlanBO bo, Long projectId) {
+    /**
+     * @param projectPlanList
+     */
+    @Override
+    public void insertProjectPlanList(List<ProjectPlan> projectPlanList) {
+        if (projectPlanList == null || projectPlanList.isEmpty()) {
+            return;
+        }
+        projectPlanMapper.insertBatch(projectPlanList);
+
+    }
+
+    private ProjectPlan projectPlanConverter(ProjectPlanBO bo, Long projectId) {
         ProjectPlan projectPlan = new ProjectPlan();
         BeanCopyUtils.copy(bo, projectPlan);
         projectPlan.setProjectId(projectId);
@@ -75,10 +89,49 @@ public class peojectPlanServiceImpl implements projectPlanService {
         projectPlanMapper.delete(new LambdaQueryWrapper<ProjectPlan>().eq(ProjectPlan::getProjectId, projectId));
     }
 
+    /**
+     * @param stageIdList
+     */
+    @Override
+    public void deleteProjectPlanByStageIdList(List<Long> stageIdList) {
+        projectPlanMapper.delete(new LambdaQueryWrapper<ProjectPlan>().in(ProjectPlan::getStageId, stageIdList));
+    }
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateProjectPlanList(List<ProjectPlanBO> projectPlanBOList, Long projectId) {
-        deleteProjectPlanByProjectId(projectId);
-        insertProjectPlanList(projectPlanBOList, projectId);
+        List<ProjectPlan> oldProjectPlanList = projectPlanMapper.selectList(new LambdaQueryWrapper<ProjectPlan>().eq(ProjectPlan::getProjectId, projectId));
+        if (projectPlanBOList == null || projectPlanBOList.isEmpty()) {
+            if (oldProjectPlanList.isEmpty()) {
+                return;
+            } else {
+                deleteProjectPlanByProjectId(projectId);
+                return;
+            }
+        } else {
+            if (oldProjectPlanList.isEmpty()) {
+                insertProjectPlanList(projectPlanBOList, projectId);
+                return;
+            }
+        }
+        List<ProjectPlan> newProjectPlanList = projectPlanBOList.stream()
+            .map(bo -> projectPlanConverter(bo, projectId))
+            .collect(Collectors.toList());
+        // 转换为 HashSet 提高查找效率
+        Set<ProjectPlan> oldProjectPlanSet = new HashSet<>(oldProjectPlanList);
+        Set<ProjectPlan> newProjectPlanSet = new HashSet<>(newProjectPlanList);
+        // 使用 Stream API 计算差集
+        List<ProjectPlan> addProjectPlanList = newProjectPlanList.stream()
+            .filter(projectPlan -> !oldProjectPlanSet.contains(projectPlan))
+            .collect(Collectors.toList());
+        List<ProjectPlan> delProjectPlanList = oldProjectPlanList.stream()
+            .filter(projectPlan -> !newProjectPlanSet.contains(projectPlan))
+            .collect(Collectors.toList());
+        if (!addProjectPlanList.isEmpty()) {
+            insertProjectPlanList(addProjectPlanList);
+        }
+        if (!delProjectPlanList.isEmpty()) {
+            deleteProjectPlanByStageIdList(delProjectPlanList.stream().map(ProjectPlan::getStageId).collect(Collectors.toList()));
+        }
     }
 }

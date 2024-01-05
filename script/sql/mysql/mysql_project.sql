@@ -270,20 +270,28 @@ create table intellectual_property
 DROP TABLE IF EXISTS `ip_oss`;
 create table ip_oss
 (
+    id     bigint auto_increment comment 'id'
+        primary key,
     ip_id  bigint not null comment '知识产权id',
-    oss_id bigint not null comment '存储对象id',
-    primary key (ip_id, oss_id)
+    oss_id bigint not null comment '存储对象id'
 )
     comment '知识产权和存储对象关联表';
+
+create index ip_oss_ip_id_oss_id_index
+    on ip_oss (ip_id, oss_id);
 -- ----------------------------
 -- 9、知识产权和用户关联表
 -- ----------------------------
 DROP TABLE IF EXISTS `ip_user`;
 create table ip_user
 (
+    id      bigint not null comment 'id'
+        primary key,
     ip_id   bigint not null comment '知识产权id',
-    user_id bigint not null comment '成员id',
-    primary key (ip_id, user_id)
+    user_id bigint not null comment '成员id'
 )
     comment '知识产权和用户关联表';
+
+create index ip_user_ip_id_user_id_index
+    on ip_user (ip_id, user_id);
 
