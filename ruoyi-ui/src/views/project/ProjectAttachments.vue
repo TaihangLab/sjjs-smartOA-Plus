@@ -2,7 +2,7 @@
     <div>
         <el-form ref="dataForm" :inline="true" class="demo-form-inline" style="margin-left: 30px; margin-top: 20px;">
             <el-form-item label="项目名称">
-                <el-cascader v-model="responsiblePerson" :options="cascaderOptions" clearable :show-all-levels="false"
+                <el-cascader v-model="responsibleproject" :options="this.projecttree" clearable :show-all-levels="false"
                     placeholder="请选择项目" @keyup.enter.native="handleQuery"></el-cascader>
             </el-form-item>
             <el-form-item>
@@ -77,16 +77,20 @@ import JSZip from "jszip";
 export default {
     data() {
         return {
+            responsibleproject: [],
             total: 0,
             attachmentsId: undefined,
             attachmentslist: [],
-            datas: {
-                ossId: undefined,
+            queryParams: {
+                projectId: undefined,
             },
             queryParam: {
                 pageNum: 1,
                 pageSize: 10,
             },
+            header: {
+            },
+            projecttree: undefined,
             myProjectFrom: {},
             formLook: {},
             zipFileName: "sxctc",
@@ -98,41 +102,45 @@ export default {
     methods: {
         async getAttachmentsList() {
             this.checkattachments();
-        },
-        /** 查询项目列表 */
-        async getList() {
-            const response = await listUser();
-            this.attachmentslist = response.rows;
+            this.getProjectTree();
         },
         handleQuery() {
-            this.datas.userId = this.responsiblePerson[this.responsiblePerson.length - 1];
-            this.checkmembers();
+            this.queryParams.projectId = this.responsibleproject[this.responsibleproject.length - 1];
+            this.checkattachments();
         },
         resetQuery() {
-            this.datas.ossId = undefined;
+            this.responsibleproject = [];
+            this.queryParams.projectId = undefined;
             this.queryParam.pageNum = 1;
             this.queryParam.pageSize = 10;
             this.checkattachments();
         },
-        handleQueryRequest(queryParams) {
-            // 执行后端查询等操作
-            if (queryParams && Object.keys(queryParams).length > 0) {
-                this.datas = queryParams;
-            }
-            this.queryParam.pageNum = 1;
-            this.checkattachments();
+        getProjectTree(){
+            request({
+                url: '/ip/getProjectTree',
+                method: 'get',
+                params: this.header,
+            })
+                .then((resp) => {
+                    this.projecttree = resp.data;
+                    console.log('项目树：', this.projecttree);
+                })
+                .catch((error) => {
+                    console.error('获取用户数据时出错：', error);
+                });
         },
         // 查看附件列表
         checkattachments() {
             request({
                 url: '/milestone/oss/getAllList',
                 method: 'post',
-                data: {},
+                data: this.queryParams,
                 params: this.queryParam,
             })
                 .then((resp) => {
                     this.attachmentslist = resp.rows;
                     this.total = resp.total;
+                    console.log('项目fujian', this.attachmentslist);
                 })
                 .catch((error) => {
                     console.error('获取用户数据时出错：', error);

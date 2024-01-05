@@ -1,17 +1,13 @@
 package com.ruoyi.web.controller.statistic;
 
-import com.ruoyi.common.core.domain.R;
-import com.ruoyi.project.domain.vo.ProjectUserDetailVo;
 import com.ruoyi.project.service.ProjectBaseInfoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 /**
@@ -22,7 +18,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/statistic/project")
-public class ProjectStatistic {
+public class ProjectStatisticController {
 
     private final ProjectBaseInfoService projectBaseInfoService;
 

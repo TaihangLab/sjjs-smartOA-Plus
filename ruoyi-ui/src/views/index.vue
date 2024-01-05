@@ -4,11 +4,11 @@
             <h1 data-heading="数">数据技术</h1>
         </div>
         <!-- 通知公告 -->
-        <el-row>
+        <el-row style="margin-top: 20px;">
             <el-col :span="12">
                 <el-card style="margin-right: 20px;">
                     <h3 slot="header">通知公告</h3>
-                    <el-table :data="noticeList" style="width: 100%; line-height: 1 !important;">
+                    <el-table :data="noticeList" style="width: 100%;height: 290px; line-height: 1 !important;">
                         <el-table-column label="公告标题" align="center" prop="noticeTitle" :show-overflow-tooltip="true">
                             <template slot-scope="scope">
                                 <span @click="showNoticeContent(scope.row)">{{ scope.row.noticeTitle }}</span>
@@ -50,7 +50,7 @@
             <!-- 项目统计 -->
             <el-col :span="12">
                 <el-card style="margin-right: 20px;">
-                    <h3 slot="header">项目统计</h3>
+                    <h3 slot="header">项目列表</h3>
                     <!-- 在这里添加项目统计的内容 -->
                     <div style="height: 300px;" ref="projectChart"></div>
                 </el-card>
@@ -73,12 +73,14 @@
 
 <script>
 import { listNotice, getNotice, updateNotice } from "@/api/system/notice";
+import request from '@/utils/request';
 
 export default {
     dicts: ['sys_notice_status', 'sys_notice_type'],
     data() {
         return {
             noticeList: [],
+            projectListData: {},
             showNoticeDialog: false,
             selectedNotice: {
                 title: '',
@@ -96,15 +98,21 @@ export default {
     },
     created() {
         this.getList();
+        this.getProjectListData();
     },
     mounted() {
         import('echarts').then((echarts) => {
-            this.initProjectChart(echarts);
-            this.initChart(echarts);
-            this.initEducationChart(echarts);
-            this.initTitleChart(echarts);
+            this.$nextTick(() => {
+                this.initChart(echarts);
+                this.initEducationChart(echarts);
+                this.initTitleChart(echarts);
+                this.getProjectListData(() => {
+                    this.initProjectChart(echarts);
+                });
+            });
         });
     },
+
     methods: {
         showNoticeContent(row) {
             this.loading = true;
@@ -130,12 +138,26 @@ export default {
                 this.loading = false;
             });
         },
+        getProjectListData(callback) {
+            request({
+                url: '/statistic/project/level',
+                method: 'get',
+                data: {},
+            }).then((resp) => {
+                this.projectListData = resp;
+                if (callback && typeof callback === 'function') {
+                    callback();
+                }
+            }).catch(error => {
+                console.error('Failed to fetch project list data:', error);
+            });
+        },
+
         initEducationChart(echarts) {
             const educationData = {
                 categories: ['博士', '硕士', '本科'],
                 data: [2, 19, 25],
             };
-
             const educationChart = echarts.init(this.$refs.educationChart);
             const option = {
                 title: {
@@ -208,28 +230,43 @@ export default {
         },
 
         initProjectChart(echarts) {
-            const projectData = {
-                // 模拟数据
-                xAxis: ['1月', '2月', '3月', '4月', '5月', '6月'],
+            const projectChart = echarts.init(this.$refs.projectChart);
+            // 将数据转换为 ECharts 饼图所需的格式
+            const pieData = Object.entries(this.projectListData).map(([category, count]) => ({
+                value: count,
+                name: category,
+            }));
+            const option = {
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{a} <br/>{b}: {c} ({d}%)',
+                },
                 series: [
                     {
-                        name: '任务完成数量',
-                        type: 'line',
-                        data: [30, 40, 20, 50, 10, 60], // 请替换为你的实际数据
+                        name: '项目数量',
+                        type: 'pie',
+                        radius: ['40%', '70%'],
+                        center: ['50%', '50%'],
+                        avoidLabelOverlap: false,
+                        label: {
+                            show: true,
+                            position: 'outside',
+                            formatter: '{b}: {c} ({d}%)',
+                        },
+                        emphasis: {
+                            label: {
+                                show: true,
+                                fontSize: '14',
+                                fontWeight: 'bold',
+                            },
+                        },
+                        labelLine: {
+                            show: true,
+                            length2: 10,
+                        },
+                        data: pieData,
                     },
                 ],
-            };
-
-            const projectChart = echarts.init(this.$refs.projectChart);
-            const option = {
-                xAxis: {
-                    type: 'category',
-                    data: projectData.xAxis,
-                },
-                yAxis: {
-                    type: 'value',
-                },
-                series: projectData.series,
             };
             projectChart.setOption(option);
         },
@@ -291,11 +328,12 @@ export default {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-$h1:  rgba(45,45,45,1);
+$h1: rgba(45, 45, 45, 1);
 $blue: #98b5cc;
 $yellow: #ffcc00;
 $outline: rgba(#fff, .4);
 $shadow: rgba($yellow, .5);
+
 #curtain {
     background: linear-gradient(45deg, rgb(182, 182, 182) 9%, rgb(56, 56, 56) 100%);
     width: 100%;
@@ -331,14 +369,28 @@ h1 {
 }
 
 @keyframes flicker {
-    0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+
+    0%,
+    19.999%,
+    22%,
+    62.999%,
+    64%,
+    64.999%,
+    70%,
+    100% {
         opacity: .99;
         text-shadow: -1px -1px 0 $outline, 1px -1px 0 $outline,
-        -1px 1px 0 $outline, 1px 1px 0 $outline,
-        0 -2px 8px, 0 0 2px, 0 0 5px #ff7e00,
-        0 0 5px #ff4444, 0 0 2px #ff7e00, 0 2px 3px #000;
+            -1px 1px 0 $outline, 1px 1px 0 $outline,
+            0 -2px 8px, 0 0 2px, 0 0 5px #ff7e00,
+            0 0 5px #ff4444, 0 0 2px #ff7e00, 0 2px 3px #000;
     }
-    20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+
+    20%,
+    21.999%,
+    63%,
+    63.999%,
+    65%,
+    69.999% {
         opacity: 0.4;
         text-shadow: none;
     }
@@ -348,10 +400,7 @@ h1 {
     font-family: "阿里妈妈东方大楷 Regular";
     font-weight: 400;
     src: url("../assets/fonts/AlimamaDongFangDaKai-Regular.woff2") format("woff2"),
-    url("../assets/fonts/AlimamaDongFangDaKai-Regular.woff") format("woff");
+        url("../assets/fonts/AlimamaDongFangDaKai-Regular.woff") format("woff");
     font-display: swap;
-}
-
-
-</style>
+}</style>
 

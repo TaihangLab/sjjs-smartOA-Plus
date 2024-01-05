@@ -251,6 +251,9 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
 
         // 查询关联的大事记信息
         List<ProjectMilestone> milestones = fetchProjectMilestones(projectMilestoneBo);
+        if (milestones.isEmpty()) {
+            return TableDataInfo.build(new Page<>());
+        }
 
         // 构建大事记 ID 到名称的映射
         Map<Long, String> milestoneIdToNameMap = buildMilestoneIdToNameMap(milestones);
@@ -260,6 +263,9 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
 
         // 构建 OSS ID 到大事记名称的映射
         Map<Long, String> ossIdToMilestoneNameMap = buildOssIdToMilestoneNameMap(milestoneOssList, milestoneIdToNameMap);
+        if (ossIdToMilestoneNameMap.isEmpty()) {
+            return TableDataInfo.build(new Page<>());
+        }
 
         // 分页查询 OSS 对象
         Page<SysOssVo> voPage = fetchOssPage(ossIdToMilestoneNameMap, pageQuery);
@@ -297,8 +303,14 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
     // 构建 OSS ID 到大事记名称的映射
     private Map<Long, String> buildOssIdToMilestoneNameMap(List<ProjectMilestoneOss> milestoneOssList, Map<Long, String> milestoneIdToNameMap) {
         return milestoneOssList.stream()
-            .collect(Collectors.toMap(ProjectMilestoneOss::getOssId, o -> milestoneIdToNameMap.get(o.getMilestoneId()),
-                (existing, replacement) -> existing));
+            .collect(Collectors.toMap(
+                ProjectMilestoneOss::getOssId,
+                o -> {
+                    Long milestoneId = o.getMilestoneId();
+                    return milestoneIdToNameMap.getOrDefault(milestoneId, ""); // 检查键是否存在，如果不存在返回空字符串
+                },
+                (existing, replacement) -> existing)
+            );
     }
 
     // 分页查询 OSS 对象
