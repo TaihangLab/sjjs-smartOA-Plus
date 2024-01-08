@@ -149,10 +149,10 @@
                 </el-collapse-item>
 
                 <el-collapse-item name="5">
-                    <template #title><i :class="activeClass">人员和劳务补助费</i></template>
+                    <template #title><i :class="activeClass">人员劳务补助费</i></template>
                     <el-row>
                         <el-col :span="8">
-                            <el-form-item label-width="130px" label="人员和劳务补助费">
+                            <el-form-item label-width="130px" label="人员劳务补助费">
                                 <el-input v-model.number="$props.form.rylwbzf_zj" type="number"></el-input>
                             </el-form-item>
                         </el-col>
@@ -304,10 +304,10 @@
                 </el-collapse-item>
 
                 <el-collapse-item name="5">
-                    <template #title><i :class="activeClass">人员和劳务补助费</i></template>
+                    <template #title><i :class="activeClass">人员劳务补助费</i></template>
                     <el-row>
                         <el-col :span="8">
-                            <el-form-item label-width="130px" label="人员和劳务补助费">
+                            <el-form-item label-width="130px" label="人员劳务补助费">
                                 <el-input v-model.number="$props.form.rylwbzf_jj" type="number"></el-input>
                             </el-form-item>
                         </el-col>

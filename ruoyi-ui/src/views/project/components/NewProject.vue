@@ -189,20 +189,18 @@ export default {
             // this.stepID = 0;
         },
         async submit() {
-            const res = await this.$refs.projectInfo.$refs.form.validate();
-            console.log(res);
 
-            //     .then(() => {
-            //     this.$message("校验成功")
-            // }).catch(() => {
-            //     this.$message({
-            //         showClose: true,
-            //         message: '错误哦，必选信息需要被填写',
-            //         type: 'error',
-            //     });
-            //
-            // })
-            return;
+            try {
+                await this.$refs.projectInfo.$refs.form.validate();
+            } catch (e) {
+                this.$message({
+                    showClose: true,
+                    message  : '错误哦，必选信息需要被填写',
+                    type     : 'error',
+                });
+                return;
+            }
+
             const loading = Loading.service({fullscreen: true, lock: true, text: '少女祈祷中'});
             if (this.$props.updateId) {
                 updateProject(this.$props.updateId,
