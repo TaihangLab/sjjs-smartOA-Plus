@@ -94,11 +94,8 @@ import FundsSource from "@/views/project/components/FundsSource.vue";
 import MainAttachment from "@/views/project/components/MainAttachment.vue";
 import OtherAttachment from "@/views/project/components/OtherAttachment.vue";
 import ProjectPlan from "@/views/project/components/ProjectPlan.vue";
-
-import {Loading} from "element-ui";
-import request from "@/utils/request";
+import {Loading, Message} from "element-ui";
 import {addProject, getProject, updateProject} from "@/views/project/components/project";
-import Vue from "vue";
 import {resetObject} from "@/views/project/components/utils";
 
 const TOTAL_STEPS = 10;
@@ -191,8 +188,21 @@ export default {
             this.$refs.projectIndicator.reset();
             // this.stepID = 0;
         },
-        submit() {
-            // console.log(this.$refs.projectInfo.$refs.form.validate());
+        async submit() {
+            const res = await this.$refs.projectInfo.$refs.form.validate();
+            console.log(res);
+
+            //     .then(() => {
+            //     this.$message("校验成功")
+            // }).catch(() => {
+            //     this.$message({
+            //         showClose: true,
+            //         message: '错误哦，必选信息需要被填写',
+            //         type: 'error',
+            //     });
+            //
+            // })
+            return;
             const loading = Loading.service({fullscreen: true, lock: true, text: '少女祈祷中'});
             if (this.$props.updateId) {
                 updateProject(this.$props.updateId,
@@ -207,7 +217,7 @@ export default {
                     this.otherAttachmentForm)
                     .then(resp => {
                         this.$message({
-                            message: '恭喜你，项目新增成功',
+                            message: '恭喜你，项目修改成功',
                             type   : 'success'
                         });
                         loading.close();
@@ -216,6 +226,7 @@ export default {
                         loading.close();
                     })
                 this.$emit('update:visible', false);
+                setTimeout(() => location.reload(), 900);
                 return;
             }
             addProject(this.projectInfoForm,
