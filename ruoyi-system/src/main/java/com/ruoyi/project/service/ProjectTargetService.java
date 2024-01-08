@@ -16,6 +16,8 @@ public interface ProjectTargetService {
 
     int deleteTargetByProjectId(Long projectId);
 
+    void deleteProjectTargetByTargetIdList(List<Long> targetIdList);
+
     int deleteProjectTarget(Long targetId);
 
     void updateProjectTargetList(List<ProjectTargetBO> projectTargetBoList, Long projectId);

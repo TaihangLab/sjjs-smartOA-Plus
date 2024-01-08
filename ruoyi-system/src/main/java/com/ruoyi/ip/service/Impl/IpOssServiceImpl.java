@@ -1,7 +1,7 @@
 package com.ruoyi.ip.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.ruoyi.ip.domin.IpOss;
+import com.ruoyi.ip.domain.IpOss;
 import com.ruoyi.ip.mapper.IpOssMapper;
 import com.ruoyi.ip.service.IpOssService;
 import com.ruoyi.system.domain.vo.SysOssVo;
@@ -11,7 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -47,6 +49,18 @@ public class IpOssServiceImpl implements IpOssService {
     }
 
     /**
+     * @param ipOssList
+     */
+    @Override
+    public void insertIpOssList(List<IpOss> ipOssList) {
+        if (ipOssList == null || ipOssList.isEmpty()) {
+            return;
+        }
+        ipOssMapper.insertBatch(ipOssList);
+
+    }
+
+    /**
      * @param ipId
      */
     @Override
@@ -63,37 +77,37 @@ public class IpOssServiceImpl implements IpOssService {
         if (ipId == null) {
             throw new IllegalArgumentException("ipId can not be null");
         }
-        List<Long> oldOssIdList = ipOssMapper.selectList(new LambdaQueryWrapper<IpOss>().eq(IpOss::getIpId, ipId)).stream().map(IpOss::getOssId).collect(Collectors.toList());
+        List<IpOss> oldIpOssList = ipOssMapper.selectList(new LambdaQueryWrapper<IpOss>().eq(IpOss::getIpId, ipId)).stream().collect(Collectors.toList());
         if (ossIdList == null || ossIdList.isEmpty()) {
-            if (oldOssIdList.isEmpty()) {
+            if (oldIpOssList.isEmpty()) {
                 return;
             } else {
-                ipOssMapper.delete(new LambdaQueryWrapper<IpOss>().eq(IpOss::getIpId, ipId));
+                deleteIpOssByIpId(ipId);
                 return;
             }
         } else {
-            if (oldOssIdList.isEmpty()) {
-                ipOssMapper.insertBatch(ossIdList.stream().map(ossId -> {
-                    IpOss ipOss = new IpOss();
-                    ipOss.setIpId(ipId);
-                    ipOss.setOssId(ossId);
-                    return ipOss;
-                }).collect(Collectors.toList()));
+            if (oldIpOssList.isEmpty()) {
+                insertIpOssList(ipId, ossIdList);
                 return;
             }
         }
-        List<Long> addOssIdList = ossIdList.stream().filter(ossId -> !oldOssIdList.contains(ossId)).collect(Collectors.toList());
-        List<Long> delOssIdList = oldOssIdList.stream().filter(ossId -> !ossIdList.contains(ossId)).collect(Collectors.toList());
-        if (!addOssIdList.isEmpty()) {
-            ipOssMapper.insertBatch(addOssIdList.stream().map(ossId -> {
-                IpOss ipOss = new IpOss();
-                ipOss.setIpId(ipId);
-                ipOss.setOssId(ossId);
-                return ipOss;
-            }).collect(Collectors.toList()));
+        List<IpOss> ipOssList = ossIdList.stream().map(ossId -> {
+            IpOss ipOss = new IpOss();
+            ipOss.setIpId(ipId);
+            ipOss.setOssId(ossId);
+            return ipOss;
+        }).collect(Collectors.toList());
+        //转换为 HashSet 提高查找效率
+        Set<IpOss> oldIpOssSet = new HashSet<>(oldIpOssList);
+        Set<IpOss> ipOssSet = new HashSet<>(ipOssList);
+        // 使用 Stream API 计算差集
+        List<IpOss> addIpOssList = ipOssList.stream().filter(ipOss -> !oldIpOssSet.contains(ipOss)).collect(Collectors.toList());
+        List<Long> delIpOssList = oldIpOssList.stream().filter(ipOss -> !ipOssSet.contains(ipOss)).map(IpOss::getOssId).collect(Collectors.toList());
+        if (!addIpOssList.isEmpty()) {
+            insertIpOssList(addIpOssList);
         }
-        if (!delOssIdList.isEmpty()) {
-            ipOssMapper.delete(new LambdaQueryWrapper<IpOss>().eq(IpOss::getIpId, ipId).in(IpOss::getOssId, delOssIdList));
+        if (!delIpOssList.isEmpty()) {
+            deleteIpOssByOssIdList(delIpOssList);
         }
     }
 
@@ -108,5 +122,17 @@ public class IpOssServiceImpl implements IpOssService {
             return Collections.emptyList();
         }
         return sysOssService.listByIds(ossIds);
+    }
+
+    /**
+     * @param ossIdList
+     */
+    @Override
+    public void deleteIpOssByOssIdList(List<Long> ossIdList) {
+        if (ossIdList == null || ossIdList.isEmpty()) {
+            return;
+        }
+        ipOssMapper.delete(new LambdaQueryWrapper<IpOss>().in(IpOss::getOssId, ossIdList));
+
     }
 }

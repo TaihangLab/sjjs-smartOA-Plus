@@ -42,4 +42,5 @@ public enum JobTitle implements IEnum<Integer> {
     public String toString() {
         return String.valueOf(this.value);
     }
+
 }

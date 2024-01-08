@@ -17,6 +17,8 @@ import com.ruoyi.common.core.domain.entity.SysRole;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.core.service.UserService;
+import com.ruoyi.common.enums.DiplomaType;
+import com.ruoyi.common.enums.JobTitle;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.helper.DataBaseHelper;
 import com.ruoyi.common.helper.LoginHelper;
@@ -33,9 +35,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 用户 业务层处理
@@ -499,18 +499,53 @@ public class SysUserServiceImpl implements ISysUserService, UserService {
 
     /**
      * 该方法仅用于minIO IP地址可能发生改变的情况下
+     *
      * @param oldEndPoint 旧IP地址
      * @param newEndPoint 新IP地址
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateUserAvatarIP(String oldEndPoint, String newEndPoint) {
-        baseMapper.updateAvatar(oldEndPoint,newEndPoint);
+        baseMapper.updateAvatar(oldEndPoint, newEndPoint);
     }
 
     @Override
     public List<SysUser> filterActiveUserIdList(List<Long> userIdList) {
         return baseMapper.selectList(new LambdaQueryWrapper<SysUser>().in(SysUser::getUserId, userIdList).eq(SysUser::getStatus, "0"));
+    }
+
+    /**
+     * 查询用户职称和对应的人数
+     *
+     * @return
+     */
+    @Override
+    public Map<String, Integer> getUserJobTitleStatistics() {
+        Map<String, Integer> jobTitleToUserNumMap = new HashMap<>();
+        JobTitle[] jobTitles = JobTitle.values();
+        for (JobTitle jobTitle : jobTitles) {
+            int size = baseMapper.selectUserList(new LambdaQueryWrapper<SysUser>()
+                .eq(SysUser::getJobTitle, jobTitle)).size();
+            jobTitleToUserNumMap.put(jobTitle.getDescription(), size);
+        }
+        return jobTitleToUserNumMap;
+    }
+
+    /**
+     * 查询用户学历和对应的人数
+     *
+     * @return
+     */
+    @Override
+    public Map<String, Integer> getUserDiplomaStatistics() {
+        Map<String, Integer> diplomaToUserNumMap = new HashMap<>();
+        DiplomaType[] diplomaTypes = DiplomaType.values();
+        for (DiplomaType diplomaType : diplomaTypes) {
+            int size = baseMapper.selectUserList(new LambdaQueryWrapper<SysUser>()
+                .eq(SysUser::getDiploma, diplomaType)).size();
+            diplomaToUserNumMap.put(diplomaType.getDescription(), size);
+        }
+        return diplomaToUserNumMap;
     }
 
 }

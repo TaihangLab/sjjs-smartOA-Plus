@@ -1,5 +1,6 @@
 package com.ruoyi.project.service;
 
+import com.ruoyi.project.domain.ProjectPlan;
 import com.ruoyi.project.domain.bo.ProjectPlanBO;
 import com.ruoyi.project.domain.vo.ProjectPlanVO;
 
@@ -14,7 +15,11 @@ public interface projectPlanService {
 
     void insertProjectPlanList(List<ProjectPlanBO> projectPlanBOList, Long projectId);
 
+    void insertProjectPlanList(List<ProjectPlan> projectPlanList);
+
     void deleteProjectPlanByProjectId(Long projectId);
+
+    void deleteProjectPlanByStageIdList(List<Long> stageIdList);
 
     void updateProjectPlanList(List<ProjectPlanBO> projectPlanBOList, Long projectId);
 }

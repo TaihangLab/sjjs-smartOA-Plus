@@ -69,6 +69,7 @@ public class ProjectFundsServiceImpl implements ProjectFundsService {
     @Override
     public void updateProjectFunds(ProjectFundsBO projectFundsBO, Long projectId) {
         if (projectFundsBO == null) {
+            deleteProjectFundsById(projectId);
             return;
         }
         ProjectFunds projectFunds = new ProjectFunds();

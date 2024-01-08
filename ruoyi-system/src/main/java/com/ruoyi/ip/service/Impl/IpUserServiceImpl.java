@@ -5,17 +5,15 @@ import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.service.DeptService;
 import com.ruoyi.common.core.service.UserService;
 import com.ruoyi.common.utils.BeanCopyUtils;
-import com.ruoyi.ip.domin.IpUser;
-import com.ruoyi.ip.domin.vo.IpUserVO;
+import com.ruoyi.ip.domain.IpUser;
+import com.ruoyi.ip.domain.vo.IpUserVO;
 import com.ruoyi.ip.mapper.IpUserMapper;
 import com.ruoyi.ip.service.IpUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -52,6 +50,19 @@ public class IpUserServiceImpl implements IpUserService {
     }
 
     /**
+     * @param ipUserList
+     */
+    @Override
+    public void insertIpUserList(List<IpUser> ipUserList) {
+        if (ipUserList == null || ipUserList.isEmpty()) {
+            return;
+        }
+        ipUserMapper.insertBatch(ipUserList);
+
+    }
+
+
+    /**
      * @param ipId
      */
     @Override
@@ -68,38 +79,35 @@ public class IpUserServiceImpl implements IpUserService {
         if (ipId == null) {
             throw new IllegalArgumentException("ipId can not be null");
         }
-        List<Long> oldUserIdList = ipUserMapper.selectList(new LambdaQueryWrapper<IpUser>().eq(IpUser::getIpId, ipId)).stream().map(IpUser::getUserId).collect(Collectors.toList());
+        List<IpUser> oldIpUserList = ipUserMapper.selectList(new LambdaQueryWrapper<IpUser>().eq(IpUser::getIpId, ipId)).stream().collect(Collectors.toList());
         if (userIdList == null || userIdList.isEmpty()) {
-            if (oldUserIdList.isEmpty()) {
+            if (oldIpUserList.isEmpty()) {
                 return;
             } else {
-                ipUserMapper.delete(new LambdaQueryWrapper<IpUser>().eq(IpUser::getIpId, ipId));
+                deleteIpUserByIpId(ipId);
                 return;
             }
         } else {
-            if (oldUserIdList.isEmpty()) {
-                ipUserMapper.insertBatch(userIdList.stream().map(userId -> {
-                    IpUser ipUser = new IpUser();
-                    ipUser.setIpId(ipId);
-                    ipUser.setUserId(userId);
-                    return ipUser;
-                }).collect(Collectors.toList()));
+            if (oldIpUserList.isEmpty()) {
+                insertIpUserList(ipId, userIdList);
                 return;
             }
         }
-        List<Long> addUserIdList = userIdList.stream().filter(userId -> !oldUserIdList.contains(userId)).collect(Collectors.toList());
-        List<Long> delUserIdList = oldUserIdList.stream().filter(userId -> !userIdList.contains(userId)).collect(Collectors.toList());
-        if (!addUserIdList.isEmpty()) {
-            List<IpUser> ipUserList = addUserIdList.stream().map(userId -> {
-                IpUser ipUser = new IpUser();
-                ipUser.setIpId(ipId);
-                ipUser.setUserId(userId);
-                return ipUser;
-            }).collect(Collectors.toList());
-            ipUserMapper.insertBatch(ipUserList);
+        List<IpUser> ipUserList = userIdList.stream().map(userId -> {
+            IpUser ipUser = new IpUser();
+            ipUser.setIpId(ipId);
+            ipUser.setUserId(userId);
+            return ipUser;
+        }).collect(Collectors.toList());
+        Set<IpUser> oldIpUserSet = new HashSet<>(oldIpUserList);
+        Set<IpUser> ipUserSet = new HashSet<>(ipUserList);
+        List<IpUser> addIpUserList = ipUserList.stream().filter(ipUser -> !oldIpUserSet.contains(ipUser)).collect(Collectors.toList());
+        List<IpUser> delIpUserList = oldIpUserList.stream().filter(ipUser -> !ipUserSet.contains(ipUser)).collect(Collectors.toList());
+        if (!addIpUserList.isEmpty()) {
+            insertIpUserList(addIpUserList);
         }
-        if (!delUserIdList.isEmpty()) {
-            ipUserMapper.delete(new LambdaQueryWrapper<IpUser>().eq(IpUser::getIpId, ipId).in(IpUser::getUserId, delUserIdList));
+        if (!delIpUserList.isEmpty()) {
+            deleteIpUserByUserIdList(delIpUserList.stream().map(IpUser::getUserId).collect(Collectors.toList()));
         }
     }
 
@@ -135,6 +143,14 @@ public class IpUserServiceImpl implements IpUserService {
             ipUserVO.setDeptName(deptIdNameMap.get(sysUser.getDeptId()));
             return ipUserVO;
         }).collect(Collectors.toList());
+    }
+
+    /**
+     * @param userIdList
+     */
+    @Override
+    public void deleteIpUserByUserIdList(List<Long> userIdList) {
+        ipUserMapper.delete(new LambdaQueryWrapper<IpUser>().in(IpUser::getUserId, userIdList));
     }
 
 }
