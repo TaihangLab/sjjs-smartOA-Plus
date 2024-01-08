@@ -1,8 +1,6 @@
 <template>
     <el-container>
         <el-header>
-            <!--            <Test></Test>-->
-
             <el-card shadow="hover">
                 <el-steps :active="stepID" finish-status="success" simple>
                     <el-step

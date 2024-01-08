@@ -1,6 +1,7 @@
 import request from "@/utils/request";
 import {filterList} from "@/views/project/components/utils";
 import Vue from "vue";
+import {Loading} from "element-ui";
 
 /**
  * 获取项目列表
@@ -326,7 +327,7 @@ export function getProject(projectId,
                            projectIndicatorForm,
                            projectPlanForm,
                            otherAttachmentForm) {
-    console.log("projectFundsForm", projectFundsForm);
+    const loading = Loading.service({fullscreen: true, lock: true, text: '少女祈祷中'});
     request({
         url: "/project/list/getDetails", method: "get", params: {projectId}
     }).then(resp => {
@@ -490,7 +491,15 @@ export function getProject(projectId,
         Vue.set(zcFundsDetailForm, "gnxzf_jj", projectFundsVO.kyfwfGnxzZcJj);
         Vue.set(zxFundsDetailForm, "rylwbzf_jj", projectFundsVO.ryhlwbzfZxJj);
         Vue.set(zcFundsDetailForm, "rylwbzf_jj", projectFundsVO.ryhlwbzfZcJj);
-    });
+
+        // 关闭加载
+        loading.close();
+    }).catch(() => {
+        // 关闭加载
+        loading.close();
+        // 服务器错误显示
+        this.$message.error('错了哦，服务器返回了一条错误信息\n' + error);
+    })
 }
 
 export function updateProject(projectId,
@@ -503,6 +512,7 @@ export function updateProject(projectId,
                               projectIndicatorForm,
                               projectPlanForm,
                               otherAttachmentForm) {
+
     // 项目成员
     const members    = filterList(projectMemberForm.items).map(value => {
         return {userId: value.id, projectUserRoleList: value.role}
@@ -519,6 +529,8 @@ export function updateProject(projectId,
     return request({
         url: '/project/my/add', method: 'post', data: {
             "projectBaseInfoBO": {
+                // 项目id
+                projectId,
                 // 牵头单位
                 "leadingUnit": projectInfoForm.leadingUnit,
                 // 项目名称
