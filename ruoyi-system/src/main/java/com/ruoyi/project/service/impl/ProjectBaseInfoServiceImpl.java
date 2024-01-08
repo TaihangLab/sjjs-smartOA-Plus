@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ruoyi.common.core.domain.PageQuery;
+import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.ProjectLevel;
 import com.ruoyi.common.helper.LoginHelper;
@@ -304,11 +305,12 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
      * @return
      */
     public Map<String, Integer> getProjectLevelStatistics() {
-        Set<ProjectLevel> allProjectLevels = getAllProjectLevels();
         Map<String, Integer> statistics = new HashMap<>();
-        for (ProjectLevel projectLevel : allProjectLevels) {
-            List<ProjectBaseInfo> projectsByLevel = getProjectsByLevel(projectLevel);
-            statistics.put(projectLevel.getDescription(), projectsByLevel.size());
+        ProjectLevel[] projectLevels = ProjectLevel.values();
+        for (ProjectLevel projectLevel : projectLevels){
+            int size = projectBaseInfoMapper.selectList(new LambdaQueryWrapper<ProjectBaseInfo>()
+                .eq(ProjectBaseInfo::getProjectLevel, projectLevel)).size();
+            statistics.put(projectLevel.getDescription(),size);
         }
         return statistics;
     }

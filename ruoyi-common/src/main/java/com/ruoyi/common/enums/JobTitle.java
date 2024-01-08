@@ -12,6 +12,7 @@ import lombok.Getter;
  */
 @Getter
 public enum JobTitle implements IEnum<Integer> {
+
     //正高级工程师
     SENIOR_ENGINEER(0, "正高级工程师"),
     //副高级工程师
