@@ -121,7 +121,8 @@ public class IpOssServiceImpl implements IpOssService {
         if (ossIds.isEmpty()) {
             return Collections.emptyList();
         }
-        return sysOssService.listByIds(ossIds);
+        log.info("ossIds:{}", ossIds);
+        return sysOssService.getSysOssVoListByOssIdList(ossIds);
     }
 
     /**

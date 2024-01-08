@@ -20,6 +20,8 @@ public interface ISysOssService {
 
     TableDataInfo<SysOssVo> queryPageList(SysOssBo sysOss, PageQuery pageQuery);
 
+    List<SysOssVo> getSysOssVoListByOssIdList(List<Long> ossIdList);
+
     List<SysOssVo> listByIds(Collection<Long> ossIds);
 
     SysOssVo getById(Long ossId);

@@ -26,6 +26,7 @@ import com.ruoyi.system.mapper.SysOssConfigMapper;
 import com.ruoyi.system.mapper.SysOssMapper;
 import com.ruoyi.system.service.ISysOssService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,7 @@ import java.util.stream.Collectors;
  */
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class SysOssServiceImpl implements ISysOssService, OssService {
 
     private final SysOssMapper baseMapper;
@@ -58,6 +60,20 @@ public class SysOssServiceImpl implements ISysOssService, OssService {
         List<SysOssVo> filterResult = result.getRecords().stream().map(this::matchingUrl).collect(Collectors.toList());
         result.setRecords(filterResult);
         return TableDataInfo.build(result);
+    }
+
+    /**
+     * @param ossIdList
+     * @return
+     */
+    @Override
+    public List<SysOssVo> getSysOssVoListByOssIdList(List<Long> ossIdList) {
+        if (ossIdList == null || ossIdList.isEmpty()) {
+            return Collections.emptyList();
+        }
+        LambdaQueryWrapper<SysOss> lqw = Wrappers.lambdaQuery();
+        lqw.in(SysOss::getOssId, ossIdList);
+        return baseMapper.selectVoList(lqw).stream().map(this::matchingUrl).collect(Collectors.toList());
     }
 
     @Override
