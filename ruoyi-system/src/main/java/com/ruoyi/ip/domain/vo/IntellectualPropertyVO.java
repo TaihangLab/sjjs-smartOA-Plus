@@ -1,7 +1,7 @@
 package com.ruoyi.ip.domain.vo;
 
-import com.ruoyi.common.enums.IntellectualPropertyStatus;
-import com.ruoyi.common.enums.IntellectualPropertyType;
+import com.ruoyi.common.enums.IntellectualPropertyStatusEnum;
+import com.ruoyi.common.enums.IntellectualPropertyTypeEnum;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -33,11 +33,11 @@ public class IntellectualPropertyVO {
     /**
      * 知识产权类别,国内发明专利0、软件著作权1、论文2、标准3
      */
-    private IntellectualPropertyType ipType;
+    private IntellectualPropertyTypeEnum ipType;
     /**
      * 知识产权状态,专利受理0，专利授权1，软著已获取2，标准正在申报3，标准已通过4，论文已发表5
      */
-    private IntellectualPropertyStatus ipStatus;
+    private IntellectualPropertyStatusEnum ipStatus;
     /**
      * 获得日期
      */

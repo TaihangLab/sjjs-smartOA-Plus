@@ -7,6 +7,7 @@
 
 - 本项目基于 [RuoYi-Flowable-Plus](https://gitee.com/dromara/RuoYi-Vue-Plus) 进行二次开发，采用 `Flowable`
   扩展工作流应用场景，支持在线表单设计和丰富的工作流程设计能力。
+- 具备项目管理功能。
 - 本项目主要针对`Flowable`工作流场景开发，脚手架功能同步更新 [RuoYi-Vue-Plus](https://gitee.com/dromara/RuoYi-Vue-Plus) 项目。
 - 采用`MIT开源协议`，完全免费给个人及企业使用。
 - 项目处于开发阶段，工作流流程还存在不足。因此，目前仅推荐用于学习、毕业设计等个人使用。
@@ -17,8 +18,8 @@
 
 ## 项目地址
 
-- Gitee：<https://gitee.com/fjx13038033078/sjjs-smartOA-Plus.git>
-- GitHub：<https://github.com/TaihangLab/sjjs-smartOA-Plus.git>
+- **Gitee**：<https://gitee.com/fjx13038033078/sjjs-smartOA-Plus.git>
+- **GitHub**：<https://github.com/TaihangLab/sjjs-smartOA-Plus.git>
 
 ## 在线演示
 演示服务不限制CURD操作，希望大家按需使用，不要恶意添加脏数据或对服务器进行攻击等操作。（将不定期清理数据）

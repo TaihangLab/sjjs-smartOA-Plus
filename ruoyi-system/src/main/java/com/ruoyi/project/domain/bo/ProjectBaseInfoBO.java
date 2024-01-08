@@ -7,10 +7,10 @@ import com.ruoyi.common.constant.DateConstants;
 import com.ruoyi.common.core.domain.BaseEntity;
 import com.ruoyi.common.core.validate.AddGroup;
 import com.ruoyi.common.core.validate.EditGroup;
-import com.ruoyi.common.enums.ConfirmationStatus;
-import com.ruoyi.common.enums.ExistenceState;
-import com.ruoyi.common.enums.ProjectLevel;
-import com.ruoyi.common.enums.ProjectStatus;
+import com.ruoyi.common.enums.ConfirmationStatusEnum;
+import com.ruoyi.common.enums.ExistenceStateEnum;
+import com.ruoyi.common.enums.ProjectLevelEnum;
+import com.ruoyi.common.enums.ProjectStatusEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -65,12 +65,12 @@ public class ProjectBaseInfoBO extends BaseEntity {
     /**
      * 项目级别，0国家级，1省级，2企业级
      */
-    private ProjectLevel projectLevel;
+    private ProjectLevelEnum projectLevel;
 
     /**
      * 是否是牵头单位，1是，0否
      */
-    private ConfirmationStatus hasLeadingRole;
+    private ConfirmationStatusEnum hasLeadingRole;
 
     /**
      * 负责课题
@@ -114,7 +114,7 @@ public class ProjectBaseInfoBO extends BaseEntity {
     /**
      * 项目推进情况
      */
-    private ProjectStatus projectProgressStatus;
+    private ProjectStatusEnum projectProgressStatus;
 
     /**
      * 完成进度
@@ -130,7 +130,7 @@ public class ProjectBaseInfoBO extends BaseEntity {
     /**
      * 有无合作单位，1有，0无
      */
-    private ExistenceState hasCooperativeUnit;
+    private ExistenceStateEnum hasCooperativeUnit;
 
     /**
      * 涉及专家、团队

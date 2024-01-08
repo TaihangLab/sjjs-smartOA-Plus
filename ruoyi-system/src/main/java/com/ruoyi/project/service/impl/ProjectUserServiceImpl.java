@@ -6,8 +6,8 @@ import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.domain.entity.SysDept;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.page.TableDataInfo;
-import com.ruoyi.common.enums.ProjectLevel;
-import com.ruoyi.common.enums.ProjectUserRole;
+import com.ruoyi.common.enums.ProjectLevelEnum;
+import com.ruoyi.common.enums.ProjectUserRoleEnum;
 import com.ruoyi.common.helper.LoginHelper;
 import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.project.domain.ProjectBaseInfo;
@@ -76,13 +76,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
      */
     @Override
     public void insertProjectUsersOnCreate(List<ProjectUserBo> projectUserBoList, Long projectId) {
-        if (projectUserBoList == null) {
-            projectUserBoList = new ArrayList<>();
-        }
-        ProjectUserBo projectLoginUserBo = new ProjectUserBo();
-        projectLoginUserBo.setUserId(LoginHelper.getUserId());
-        projectLoginUserBo.setProjectUserRoleList(Collections.singletonList(ProjectUserRole.PROJECT_ENTRY_OPERATOR));
-        projectUserBoList.add(projectLoginUserBo);
+        insertLoginUserToBO(projectUserBoList);
         insertProjectUsers(projectUserBoList, projectId);
     }
 
@@ -93,25 +87,15 @@ public class ProjectUserServiceImpl implements ProjectUserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateProjectUsers(List<ProjectUserBo> projectUserBOList, Long projectId) {
+        insertLoginUserToBO(projectUserBOList);
         List<ProjectUser> oldProjectUserList = projectUserMapper.selectList(new LambdaQueryWrapper<ProjectUser>().eq(ProjectUser::getProjectId, projectId));
-        if (projectUserBOList == null || projectUserBOList.isEmpty()) {
-            if (oldProjectUserList.isEmpty()) {
-                return;
-            } else {
-                deleteProjectUsersByProID(projectId);
-                return;
-            }
-        } else {
-            if (oldProjectUserList.isEmpty()) {
-                insertProjectUsers(projectUserBOList, projectId);
-                return;
-            }
-        }
         List<ProjectUser> newProjectUserList = projectUserBOListToProjectUserList(projectUserBOList, projectId);
         Set<ProjectUser> oldProjectUserSet = new HashSet<>(oldProjectUserList);
         Set<ProjectUser> newProjectUserSet = new HashSet<>(newProjectUserList);
         List<ProjectUser> addProjectUserList = newProjectUserList.stream().filter(projectUser -> !oldProjectUserSet.contains(projectUser)).collect(Collectors.toList());
         List<ProjectUser> delProjectUserList = oldProjectUserList.stream().filter(projectUser -> !newProjectUserSet.contains(projectUser)).collect(Collectors.toList());
+
+
         if (!addProjectUserList.isEmpty()) {
             insertProjectUsers(addProjectUserList);
         }
@@ -146,7 +130,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         Set<Long> userIds = getUserIdsByProjectId(projectId);
 
         //根据用户ID获取用户在项目中角色的映射
-        Map<Long, List<ProjectUserRole>> projectRolesMap = getProjectRolesByMemberIds(projectId, userIds);
+        Map<Long, List<ProjectUserRoleEnum>> projectRolesMap = getProjectRolesByMemberIds(projectId, userIds);
 
         // 根据用户ID列表获取用户信息
         Map<Long, SysUser> userIdToUserMap = getUsersMapByUserIds(userIds);
@@ -188,7 +172,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
      * @param memberIds 项目成员ID集合
      * @return 映射，其中键是用户ID，值是用户在项目中的角色列表
      */
-    private Map<Long, List<ProjectUserRole>> getProjectRolesByMemberIds(Long projectId, Set<Long> memberIds) {
+    private Map<Long, List<ProjectUserRoleEnum>> getProjectRolesByMemberIds(Long projectId, Set<Long> memberIds) {
         if (memberIds == null || memberIds.isEmpty()) {
             return Collections.emptyMap();
         }
@@ -197,7 +181,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         queryWrapper.in(ProjectUser::getUserId, memberIds).eq(ProjectUser::getProjectId, projectId);
         List<ProjectUser> projectUsers = projectUserMapper.selectList(queryWrapper);
 
-        Map<Long, List<ProjectUserRole>> userIdToProjectUserRolesMap = new HashMap<>();
+        Map<Long, List<ProjectUserRoleEnum>> userIdToProjectUserRolesMap = new HashMap<>();
         for (ProjectUser projectUser : projectUsers) {
             userIdToProjectUserRolesMap.computeIfAbsent(projectUser.getUserId(), k -> new ArrayList<>())
                 .add(projectUser.getProjectUserRole());
@@ -246,20 +230,20 @@ public class ProjectUserServiceImpl implements ProjectUserService {
      * @param deptIdToNameMap 部门名称映射（ID -> 部门名称）
      * @return ProjectUserVo 列表
      */
-    private List<ProjectUserVo> buildProjectUserVoList(Set<Long> userIds, Map<Long, SysUser> userIdToUserMap, Map<Long, String> deptIdToNameMap, Map<Long, List<ProjectUserRole>> userIdToProjectUserRolesMap) {
+    private List<ProjectUserVo> buildProjectUserVoList(Set<Long> userIds, Map<Long, SysUser> userIdToUserMap, Map<Long, String> deptIdToNameMap, Map<Long, List<ProjectUserRoleEnum>> userIdToProjectUserRolesMap) {
         List<ProjectUserVo> projectUserVos = new ArrayList<>();
         for (Long userId : userIds) {
             SysUser user = userIdToUserMap.get(userId);
             String deptName = deptIdToNameMap.getOrDefault(user.getDeptId(), "Unknown Dept");
-            List<ProjectUserRole> projectUserRoles = userIdToProjectUserRolesMap.getOrDefault(userId, Collections.singletonList(ProjectUserRole.UNKNOWN))
-                .stream().filter(projectUserRole -> !projectUserRole.equals(ProjectUserRole.PROJECT_ENTRY_OPERATOR)).collect(Collectors.toList());
-            if (projectUserRoles.isEmpty()) {
+            List<ProjectUserRoleEnum> projectUserRoleEnums = userIdToProjectUserRolesMap.getOrDefault(userId, Collections.singletonList(ProjectUserRoleEnum.UNKNOWN))
+                .stream().filter(projectUserRoleEnum -> !projectUserRoleEnum.equals(ProjectUserRoleEnum.PROJECT_ENTRY_OPERATOR)).collect(Collectors.toList());
+            if (projectUserRoleEnums.isEmpty()) {
                 continue;
             }
 
             ProjectUserVo projectUserVo = new ProjectUserVo();
             projectUserVo.setDeptName(deptName);
-            projectUserVo.setProjectUserRoles(projectUserRoles); // 设置项目成员角色
+            projectUserVo.setProjectUserRoles(projectUserRoleEnums); // 设置项目成员角色
             BeanCopyUtils.copy(user, projectUserVo);
 
             projectUserVos.add(projectUserVo);
@@ -277,8 +261,8 @@ public class ProjectUserServiceImpl implements ProjectUserService {
     public String findProLeaderNameById(Long projectId) {
         List<ProjectUserVo> projectUserVos = getUserInfoByProjectId(projectId);
         for (ProjectUserVo projectUserVo : projectUserVos) {
-            List<ProjectUserRole> roles = projectUserVo.getProjectUserRoles();
-            if (roles.stream().anyMatch(role -> ProjectUserRole.PROJECT_LEADER.getValue().equals(role))) {
+            List<ProjectUserRoleEnum> roles = projectUserVo.getProjectUserRoles();
+            if (roles.stream().anyMatch(role -> ProjectUserRoleEnum.PROJECT_LEADER.getValue().equals(role))) {
                 return projectUserVo.getNickName();
             }
 
@@ -337,7 +321,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
     private void setProjectLevelCount(ProjectUserVo projectUserVo, Long userId, boolean isCurrent) {
         List<Map<String, Object>> mapList = isCurrent ? getNowProjectLevelCountByUserId(userId)
             : getProjectLevelCountByUserId(userId);
-        Map<ProjectLevel, Integer> projectLevelCountMap = processProjectLevelCount(mapList);
+        Map<ProjectLevelEnum, Integer> projectLevelCountMap = processProjectLevelCount(mapList);
         setProjectLevelDataToVo(projectUserVo, projectLevelCountMap, isCurrent);
     }
 
@@ -352,14 +336,14 @@ public class ProjectUserServiceImpl implements ProjectUserService {
     }
 
     // 处理项目级别计数数据
-    private Map<ProjectLevel, Integer> processProjectLevelCount(List<Map<String, Object>> mapList) {
-        Map<ProjectLevel, Integer> projectLevelCountMap = new HashMap<>();
+    private Map<ProjectLevelEnum, Integer> processProjectLevelCount(List<Map<String, Object>> mapList) {
+        Map<ProjectLevelEnum, Integer> projectLevelCountMap = new HashMap<>();
         for (Map<String, Object> map : mapList) {
             Integer projectLevelValue = (Integer) map.get("project_level");
             Long countLong = (Long) map.get("count");
             Integer count = countLong != null ? countLong.intValue() : null;
 
-            ProjectLevel level = Arrays.stream(ProjectLevel.values())
+            ProjectLevelEnum level = Arrays.stream(ProjectLevelEnum.values())
                 .filter(e -> e.getValue().equals(projectLevelValue))
                 .findFirst()
                 .orElse(null);
@@ -373,17 +357,17 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 
     // 将项目级别计数数据设置到 ProjectUserVo 对象中
     private void setProjectLevelDataToVo(ProjectUserVo projectUserVo,
-                                         Map<ProjectLevel, Integer> projectLevelCountMap,
+                                         Map<ProjectLevelEnum, Integer> projectLevelCountMap,
                                          boolean isCurrent) {
         if (isCurrent) {
-            projectUserVo.setUserNationNumNow(projectLevelCountMap.getOrDefault(ProjectLevel.NATIONAL, 0));
-            projectUserVo.setUserProvincialNumNow(projectLevelCountMap.getOrDefault(ProjectLevel.PROVINCIAL, 0));
-            projectUserVo.setUserEnterpriseNumNow(projectLevelCountMap.getOrDefault(ProjectLevel.ENTERPRISE, 0));
+            projectUserVo.setUserNationNumNow(projectLevelCountMap.getOrDefault(ProjectLevelEnum.NATIONAL, 0));
+            projectUserVo.setUserProvincialNumNow(projectLevelCountMap.getOrDefault(ProjectLevelEnum.PROVINCIAL, 0));
+            projectUserVo.setUserEnterpriseNumNow(projectLevelCountMap.getOrDefault(ProjectLevelEnum.ENTERPRISE, 0));
             projectUserVo.setUserProjectNumNow(projectLevelCountMap.values().stream().mapToInt(Integer::intValue).sum());
         } else {
-            projectUserVo.setUserNationNum(projectLevelCountMap.getOrDefault(ProjectLevel.NATIONAL, 0));
-            projectUserVo.setUserProvincialNum(projectLevelCountMap.getOrDefault(ProjectLevel.PROVINCIAL, 0));
-            projectUserVo.setUserEnterpriseNum(projectLevelCountMap.getOrDefault(ProjectLevel.ENTERPRISE, 0));
+            projectUserVo.setUserNationNum(projectLevelCountMap.getOrDefault(ProjectLevelEnum.NATIONAL, 0));
+            projectUserVo.setUserProvincialNum(projectLevelCountMap.getOrDefault(ProjectLevelEnum.PROVINCIAL, 0));
+            projectUserVo.setUserEnterpriseNum(projectLevelCountMap.getOrDefault(ProjectLevelEnum.ENTERPRISE, 0));
             projectUserVo.setUserProjectNum(projectLevelCountMap.values().stream().mapToInt(Integer::intValue).sum());
         }
     }
@@ -399,7 +383,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         Set<Long> projectIds = projectUserMapper.selectList(new LambdaQueryWrapper<ProjectUser>()
                 .eq(ProjectUser::getUserId, userId))
             .stream()
-            .filter(projectUser -> !projectUser.getProjectUserRole().equals(ProjectUserRole.PROJECT_ENTRY_OPERATOR))
+            .filter(projectUser -> !projectUser.getProjectUserRole().equals(ProjectUserRoleEnum.PROJECT_ENTRY_OPERATOR))
             .map(ProjectUser::getProjectId)
             .collect(Collectors.toSet());
 
@@ -412,13 +396,13 @@ public class ProjectUserServiceImpl implements ProjectUserService {
             .le(ProjectBaseInfo::getProjectEstablishTime, LocalDate.now())
             .ge(ProjectBaseInfo::getProjectScheduledCompletionTime, LocalDate.now()));
 
-        Map<ProjectLevel, List<ProjectBaseInfo>> classifiedProjects = projectBaseInfos.stream()
+        Map<ProjectLevelEnum, List<ProjectBaseInfo>> classifiedProjects = projectBaseInfos.stream()
             .collect(Collectors.groupingBy(ProjectBaseInfo::getProjectLevel));
 
         ProjectUserDetailVo projectUserDetailVo = new ProjectUserDetailVo();
-        projectUserDetailVo.setNationProjectBaseInfos(classifiedProjects.getOrDefault(ProjectLevel.NATIONAL, Collections.emptyList()));
-        projectUserDetailVo.setProvincialProjectBaseInfos(classifiedProjects.getOrDefault(ProjectLevel.PROVINCIAL, Collections.emptyList()));
-        projectUserDetailVo.setEnterpriseProjectBaseInfos(classifiedProjects.getOrDefault(ProjectLevel.ENTERPRISE, Collections.emptyList()));
+        projectUserDetailVo.setNationProjectBaseInfos(classifiedProjects.getOrDefault(ProjectLevelEnum.NATIONAL, Collections.emptyList()));
+        projectUserDetailVo.setProvincialProjectBaseInfos(classifiedProjects.getOrDefault(ProjectLevelEnum.PROVINCIAL, Collections.emptyList()));
+        projectUserDetailVo.setEnterpriseProjectBaseInfos(classifiedProjects.getOrDefault(ProjectLevelEnum.ENTERPRISE, Collections.emptyList()));
 
         return projectUserDetailVo;
 
@@ -445,19 +429,29 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         }
         return projectUserBOList.stream()
             .flatMap(projectUserBo -> {
-                List<ProjectUserRole> roles = projectUserBo.getProjectUserRoleList();
+                List<ProjectUserRoleEnum> roles = projectUserBo.getProjectUserRoleList();
                 if (roles == null || roles.isEmpty()) {
                     return Stream.empty();
                 }
                 return roles.stream()
-                    .map(projectUserRole -> {
+                    .map(projectUserRoleEnum -> {
                         ProjectUser projectUser = new ProjectUser();
                         projectUser.setProjectId(projectId);
                         projectUser.setUserId(projectUserBo.getUserId());
-                        projectUser.setProjectUserRole(projectUserRole);
+                        projectUser.setProjectUserRole(projectUserRoleEnum);
                         return projectUser;
                     });
             })
             .collect(Collectors.toList());
+    }
+
+    private void insertLoginUserToBO(List<ProjectUserBo> projectUserBoList) {
+        if (projectUserBoList == null) {
+            projectUserBoList = new ArrayList<>();
+        }
+        ProjectUserBo projectLoginUserBo = new ProjectUserBo();
+        projectLoginUserBo.setUserId(LoginHelper.getUserId());
+        projectLoginUserBo.setProjectUserRoleList(Collections.singletonList(ProjectUserRoleEnum.PROJECT_ENTRY_OPERATOR));
+        projectUserBoList.add(projectLoginUserBo);
     }
 }

@@ -9,7 +9,7 @@ import lombok.Getter;
  * @date 2023/12/29
  */
 @Getter
-public enum IntellectualPropertyType implements IEnum<Integer> {
+public enum IntellectualPropertyTypeEnum implements IEnum<Integer> {
     /**
      * 国内发明专利
      */
@@ -31,7 +31,7 @@ public enum IntellectualPropertyType implements IEnum<Integer> {
     private final Integer value;
     private final String description;
 
-    IntellectualPropertyType(Integer value, String description) {
+    IntellectualPropertyTypeEnum(Integer value, String description) {
         this.value = value;
         this.description = description;
     }

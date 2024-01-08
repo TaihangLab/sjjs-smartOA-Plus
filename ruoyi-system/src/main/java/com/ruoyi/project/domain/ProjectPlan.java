@@ -10,10 +10,11 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Objects;
 
 /**
  * 项目计划表
@@ -61,14 +62,11 @@ public class ProjectPlan implements Serializable {
             return false;
         }
         ProjectPlan that = (ProjectPlan) o;
-        return Objects.equals(projectId, that.projectId) &&
-            Objects.equals(stageStartDate, that.stageStartDate) &&
-            Objects.equals(stageEndDate, that.stageEndDate) &&
-            Objects.equals(stageTask, that.stageTask);
+        return new EqualsBuilder().append(projectId, that.projectId).append(stageStartDate, that.stageStartDate).append(stageEndDate, that.stageEndDate).append(stageTask, that.stageTask).isEquals();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(projectId, stageStartDate, stageEndDate, stageTask);
+        return new HashCodeBuilder().append(projectId).append(stageStartDate).append(stageEndDate).append(stageTask).toHashCode();
     }
 }
