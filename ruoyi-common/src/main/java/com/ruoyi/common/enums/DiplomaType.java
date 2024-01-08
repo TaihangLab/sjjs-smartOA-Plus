@@ -23,11 +23,11 @@ public enum DiplomaType implements IEnum<Integer> {
     /**
      * 本科
      */
-    UNDERGRADUATE(3, "本科"),
+    UNDERGRADUATE(2, "本科"),
     /**
      * 专科
      */
-    COLLEGE(4, "专科");
+    COLLEGE(3, "专科");
 
     @EnumValue
     private final Integer value;

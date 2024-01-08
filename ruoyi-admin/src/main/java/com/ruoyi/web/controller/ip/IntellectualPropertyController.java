@@ -116,6 +116,7 @@ public class IntellectualPropertyController {
      * 获取项目树结构 项目类型->项目名
      * @return
      */
+    //@SaCheckPermission("ip:getProjectTree")
     @GetMapping("/getProjectTree")
     public R<List<Map<String, Object>>> getProjectTreeMapping() {
         return R.ok(projectBaseInfoService.getProjectTreeMapping());
