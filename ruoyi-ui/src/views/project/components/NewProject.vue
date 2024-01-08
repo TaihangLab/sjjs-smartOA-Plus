@@ -64,7 +64,7 @@
             <el-button v-show="stepID > 0" style="margin-top: 12px;" @click="previous">上一步</el-button>
             <el-button style="margin-top: 12px;" @click="next" type="primary">{{ nextButtonText }}</el-button>
             <el-button v-show="stepID < 8" style="margin-top: 12px;" @click="submit" type="success">现在提交</el-button>
-<!--            重置要求确认-->
+            <!--            重置要求确认-->
             <el-popconfirm
                 title="确定要重置吗?"
                 @confirm="reset"
@@ -74,7 +74,7 @@
                     <el-button @click.stop="" type="warning">重置</el-button>
                 </template>
             </el-popconfirm>
-<!--            <el-button @click="reset" type="warning">重置</el-button>-->
+            <!--            <el-button @click="reset" type="warning">重置</el-button>-->
             <el-button @click="info">log</el-button>
         </el-footer>
     </el-container>
@@ -97,7 +97,7 @@ import ProjectPlan from "@/views/project/components/ProjectPlan.vue";
 
 import {Loading} from "element-ui";
 import request from "@/utils/request";
-import {addProject, getProject} from "@/views/project/components/project";
+import {addProject, getProject, updateProject} from "@/views/project/components/project";
 import Vue from "vue";
 import {resetObject} from "@/views/project/components/utils";
 
@@ -139,7 +139,7 @@ export default {
             nextButtonText: '下一步',
 
             projectInfoForm     : {},
-            projectMemberForm   : {members: [],items:[]},
+            projectMemberForm   : {members: [], items: []},
             projectFundsForm    : {},
             zxFundsDetailForm   : {},
             zcFundsDetailForm   : {},
@@ -194,6 +194,30 @@ export default {
         submit() {
             // console.log(this.$refs.projectInfo.$refs.form.validate());
             const loading = Loading.service({fullscreen: true, lock: true, text: '少女祈祷中'});
+            if (this.$props.updateId) {
+                updateProject(this.$props.updateId,
+                    this.projectInfoForm,
+                    this.projectMemberForm,
+                    this.projectFundsForm,
+                    this.zxFundsDetailForm,
+                    this.zcFundsDetailForm,
+                    this.fundsSourceForm,
+                    this.projectIndicatorForm,
+                    this.projectPlanForm,
+                    this.otherAttachmentForm)
+                    .then(resp => {
+                        this.$message({
+                            message: '恭喜你，项目新增成功',
+                            type   : 'success'
+                        });
+                        loading.close();
+                    }, error => {
+                        this.$message.error('错了哦，服务器返回了一条错误信息\n' + error);
+                        loading.close();
+                    })
+                this.$emit('update:visible', false);
+                return;
+            }
             addProject(this.projectInfoForm,
                 this.projectMemberForm,
                 this.projectFundsForm,

@@ -527,7 +527,7 @@ export function updateProject(projectId,
     })
 
     return request({
-        url: '/project/my/add', method: 'post', data: {
+        url: '/project/my/edit', method: 'post', data: {
             "projectBaseInfoBO": {
                 // 项目id
                 projectId,
