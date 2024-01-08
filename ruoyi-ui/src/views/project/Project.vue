@@ -214,7 +214,7 @@ export default {
                 params: {
                     projectId: projectId,
                 },
-            })
+            }) 
         },
         // 关闭弹窗的方法
         closeEventsDialog() {
