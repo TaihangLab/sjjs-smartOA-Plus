@@ -286,33 +286,6 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         return "";
     }
 
-//    public TableDataInfo<ProjectUserVo> queryPageAllList(ProjectUserBo projectUserBo, PageQuery pageQuery) {
-//        projectUserBo = Optional.ofNullable(projectUserBo).orElseGet(ProjectUserBo::new);
-//        List<SysUser> userList = getUserListByQuery(projectUserBo, pageQuery);
-//        List<ProjectUserVo> projectUserVoList = userList.stream()
-//            .map(this::createProjectUserVo)
-//            .collect(Collectors.toList());
-//        return TableDataInfo.build(projectUserVoList);
-//    }
-
-    //获取当页显示的用户列表
-//    private List<SysUser> getUserListByQuery(ProjectUserBo projectUserBo, PageQuery pageQuery) {
-//        LambdaQueryWrapper<SysUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-//
-//        if (projectUserBo != null) {
-//            if (projectUserBo.getUserId() != null) {
-//                lambdaQueryWrapper.eq(SysUser::getUserId, projectUserBo.getUserId());
-//            }
-//            if (projectUserBo.getProjectId() != null) {
-//                Set<Long> userIds = getUserIdsByProjectId(projectUserBo.getProjectId());
-//                lambdaQueryWrapper.in(SysUser::getUserId, userIds);
-//            }
-//        }
-//
-//        Page<SysUser> result = sysUserMapper.selectPage(pageQuery.build(), lambdaQueryWrapper);
-//        return result.getRecords();
-//    }
-
     /**
      * 分页查询项目成员Vo
      *
