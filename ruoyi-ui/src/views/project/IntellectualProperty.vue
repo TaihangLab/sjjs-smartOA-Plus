@@ -1,5 +1,23 @@
 <template>
     <div>
+        <el-form ref="dataForm" :inline="true" class="demo-form-inline" style="margin-left: 30px; margin-top: 20px;">
+            <el-form-item label="知识产权名">
+                <el-cascader v-model="responsibleproject" :options="this.projecttree" clearable :show-all-levels="false"
+                    placeholder="请选择" @keyup.enter.native="handleQuery"></el-cascader>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+                <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+            </el-form-item>
+        </el-form>
+        <el-row :gutter="10" class="mb8" style="margin-left: 20px;margin-top: 10px;">
+            <el-col :span="1.5">
+                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增
+                </el-button>
+            </el-col>
+            <right-toolbar :showSearch.sync="showSearch"></right-toolbar>
+        </el-row>
+
         <el-card class="box-card" style="margin: auto;">
             <div>
                 <el-table ref="multipleTable" :data="iplist" border style="width: 100%" :row-style="{ height: '50px' }"
