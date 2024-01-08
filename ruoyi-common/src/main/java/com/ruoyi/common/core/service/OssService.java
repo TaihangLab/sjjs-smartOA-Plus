@@ -2,6 +2,8 @@ package com.ruoyi.common.core.service;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * 通用 OSS服务
  *
