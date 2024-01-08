@@ -66,7 +66,17 @@
             <el-button v-show="stepID > 0" style="margin-top: 12px;" @click="previous">上一步</el-button>
             <el-button style="margin-top: 12px;" @click="next" type="primary">{{ nextButtonText }}</el-button>
             <el-button v-show="stepID < 8" style="margin-top: 12px;" @click="submit" type="success">现在提交</el-button>
-            <el-button @click="reset" type="warning">重置</el-button>
+<!--            重置要求确认-->
+            <el-popconfirm
+                title="确定要重置吗?"
+                @confirm="reset"
+                style="margin-left: 10px;"
+            >
+                <template #reference>
+                    <el-button @click.stop="" type="warning">重置</el-button>
+                </template>
+            </el-popconfirm>
+<!--            <el-button @click="reset" type="warning">重置</el-button>-->
             <el-button @click="info">log</el-button>
         </el-footer>
     </el-container>
@@ -120,9 +130,6 @@ export default {
                 this.zcFundsDetailForm, this.fundsSourceForm,
                 this.projectIndicatorForm, this.projectPlanForm,
                 this.otherAttachmentForm)
-
-            // console.log(this.projectFundsForm);
-            // this.$refs.projectInfo.$forceUpdate();
         }
 
     },
@@ -162,7 +169,6 @@ export default {
             }
         },
         info() {
-
             console.log('projectInfoForm', this.projectInfoForm);
             console.log('projectMemberForm', this.projectMemberForm);
             console.log('projectFundsForm', this.projectFundsForm);
@@ -176,26 +182,28 @@ export default {
         },
 
         reset() {
-            console.log("刷新111")
+            console.log("重置开始")
             resetObject(this.projectInfoForm)
-            // for (const key in this.projectInfoForm) {
-            //     console.log("刷新")
-            //     Vue.set(this.projectInfoForm, key, "");
-            // }
-            // console.log(this.projectInfoForm)
-            // this.$refs.zxFundsDetail.$refs.form.resetFields()
             this.$refs.projectMember.reset();
-            // this.$refs.zxFundsDetail.reset();
-
+            resetObject(this.projectFundsForm);
+            resetObject(this.zxFundsDetailForm);
+            resetObject(this.zcFundsDetailForm);
+            resetObject(this.fundsSourceForm);
+            this.$refs.projectPlanForm.reset();
+            this.$refs.projectIndicator.reset();
             // this.stepID = 0;
         },
         submit() {
             // console.log(this.$refs.projectInfo.$refs.form.validate());
             const loading = Loading.service({fullscreen: true, lock: true, text: '少女祈祷中'});
-            addProject(this.projectInfoForm, this.projectMemberForm,
-                this.projectFundsForm, this.zxFundsDetailForm,
-                this.zcFundsDetailForm, this.fundsSourceForm,
-                this.projectIndicatorForm, this.projectPlanForm,
+            addProject(this.projectInfoForm,
+                this.projectMemberForm,
+                this.projectFundsForm,
+                this.zxFundsDetailForm,
+                this.zcFundsDetailForm,
+                this.fundsSourceForm,
+                this.projectIndicatorForm,
+                this.projectPlanForm,
                 this.otherAttachmentForm)
                 .then(resp => {
                     this.$message({

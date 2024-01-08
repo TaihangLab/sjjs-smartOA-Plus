@@ -77,6 +77,8 @@ onMounted(()=>{
 const isButtonShowList = ref([false]);
 const id = ref(1);
 const list = ref([]);
+
+// 新增一条
 function add() {
     props.form.items.push({
         id: '', role: ''
@@ -84,11 +86,13 @@ function add() {
     isButtonShowList.value.push(false);
     // $forceUpdate();
 }
+// 删除一条
 function remove(index) {
     props.form.items.splice(index, 1);
     isButtonShowList.value.splice(index, 1);
 }
 
+// 重置表单
 function reset() {
     proxy.$set(props.form, "items", [{id: undefined, role: []}])
     // props.form.items = [{id: undefined, role: []}];

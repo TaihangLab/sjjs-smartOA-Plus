@@ -1,21 +1,26 @@
 package com.ruoyi.project.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.ruoyi.common.core.domain.BaseEntity;
-import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @TableName("project_target")
 public class ProjectTarget {
 
     /**
      * 指标ID
      */
-    @TableId(value = "target_id")
+    @TableId(type = IdType.AUTO)
     private Long targetId;
 
     /**
@@ -37,5 +42,22 @@ public class ProjectTarget {
      * 完成时指标值/状态
      */
     private String endTarget;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ProjectTarget that = (ProjectTarget) o;
+        return Objects.equals(this.projectId, that.projectId) && Objects.equals(this.targetName, that.targetName) && Objects.equals(this.midtermTarget, that.midtermTarget) && Objects.equals(this.endTarget, that.endTarget);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.projectId, this.targetName, this.midtermTarget, this.endTarget);
+    }
 
 }

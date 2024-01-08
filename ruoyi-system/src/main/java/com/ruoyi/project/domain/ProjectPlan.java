@@ -6,18 +6,25 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.constant.DateConstants;
-import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * 项目计划表
  *
  * @TableName project_plan
  */
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @TableName(value = "project_plan")
-@Data
 public class ProjectPlan implements Serializable {
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
@@ -44,4 +51,24 @@ public class ProjectPlan implements Serializable {
      * 阶段任务
      */
     private String stageTask;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ProjectPlan that = (ProjectPlan) o;
+        return Objects.equals(projectId, that.projectId) &&
+            Objects.equals(stageStartDate, that.stageStartDate) &&
+            Objects.equals(stageEndDate, that.stageEndDate) &&
+            Objects.equals(stageTask, that.stageTask);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(projectId, stageStartDate, stageEndDate, stageTask);
+    }
 }

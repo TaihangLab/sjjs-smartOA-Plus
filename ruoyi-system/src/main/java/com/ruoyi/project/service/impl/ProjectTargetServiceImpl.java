@@ -11,7 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -80,6 +82,18 @@ public class ProjectTargetServiceImpl implements ProjectTargetService {
     }
 
     /**
+     * @param targetIdList
+     */
+    @Override
+    public void deleteProjectTargetByTargetIdList(List<Long> targetIdList) {
+        if (targetIdList == null || targetIdList.isEmpty()) {
+            return;
+        }
+        projectTargetMapper.delete(new LambdaQueryWrapper<ProjectTarget>().in(ProjectTarget::getTargetId, targetIdList));
+
+    }
+
+    /**
      * 删除单条目指标
      *
      * @param targetId 项目指标ID
@@ -98,8 +112,42 @@ public class ProjectTargetServiceImpl implements ProjectTargetService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateProjectTargetList(List<ProjectTargetBO> projectTargetBoList, Long projectId) {
-        deleteTargetByProjectId(projectId);
-        insertProjectTargetList(projectTargetBoList, projectId);
+        List<ProjectTarget> oldProjectTargetList = projectTargetMapper.selectList(new LambdaQueryWrapper<ProjectTarget>().eq(ProjectTarget::getProjectId, projectId));
+        if (projectTargetBoList == null || projectTargetBoList.isEmpty()) {
+            if (oldProjectTargetList.isEmpty()) {
+                return;
+            } else {
+                deleteTargetByProjectId(projectId);
+                return;
+            }
+        } else {
+            if (oldProjectTargetList.isEmpty()) {
+                insertProjectTargetList(projectTargetBoList, projectId);
+                return;
+            }
+        }
+        List<ProjectTarget> newProjectTargetList = projectTargetBoList.stream()
+            .map(bo -> {
+                ProjectTarget projectTarget = new ProjectTarget();
+                BeanCopyUtils.copy(bo, projectTarget);
+                projectTarget.setProjectId(projectId);
+                return projectTarget;
+            })
+            .collect(Collectors.toList());
+        Set<ProjectTarget> oldProjectTargetSet = new HashSet<>(oldProjectTargetList);
+        Set<ProjectTarget> newProjectTargetSet = new HashSet<>(newProjectTargetList);
+        List<ProjectTarget> addProjectTargetList = newProjectTargetSet.stream()
+            .filter(projectTarget -> !oldProjectTargetSet.contains(projectTarget))
+            .collect(Collectors.toList());
+        List<ProjectTarget> delProjectTargetList = oldProjectTargetSet.stream()
+            .filter(projectTarget -> !newProjectTargetSet.contains(projectTarget))
+            .collect(Collectors.toList());
+        if (!addProjectTargetList.isEmpty()) {
+            insertProjectTargetList(addProjectTargetList);
+        }
+        if (!delProjectTargetList.isEmpty()) {
+            deleteProjectTargetByTargetIdList(delProjectTargetList.stream().map(ProjectTarget::getTargetId).collect(Collectors.toList()));
+        }
     }
 
 }

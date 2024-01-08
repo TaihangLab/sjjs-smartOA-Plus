@@ -1,8 +1,8 @@
 package com.ruoyi.ip.mapper;
 
 import com.ruoyi.common.core.mapper.BaseMapperPlus;
-import com.ruoyi.ip.domin.IntellectualProperty;
-import com.ruoyi.ip.domin.vo.IntellectualPropertyVO;
+import com.ruoyi.ip.domain.IntellectualProperty;
+import com.ruoyi.ip.domain.vo.IntellectualPropertyVO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
