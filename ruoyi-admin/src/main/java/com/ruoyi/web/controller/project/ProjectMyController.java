@@ -57,6 +57,7 @@ public class ProjectMyController extends BaseController {
      * @param projectInfoBO 项目信息
      * @return 结果
      */
+    @Log(title = "新增项目信息", businessType = BusinessType.INSERT)
     //@SaCheckPermission("project:my:add")
     @PostMapping("/add")
     public R<Void> addProject(@RequestBody @Validated(AddGroup.class) ProjectInfoBO projectInfoBO) {
@@ -70,6 +71,7 @@ public class ProjectMyController extends BaseController {
      * @param projectInfoBO 项目信息
      * @return 编辑结果
      */
+    @Log(title = "编辑项目信息", businessType = BusinessType.UPDATE)
     //@SaCheckPermission("project:my:edit")
     @PostMapping("/edit")
     public R<Void> editProject(@RequestBody @Validated(EditGroup.class) ProjectInfoBO projectInfoBO) {
@@ -83,6 +85,7 @@ public class ProjectMyController extends BaseController {
      * @param projectId 项目ID
      * @return 删除结果
      */
+    @Log(title = "删除项目信息", businessType = BusinessType.DELETE)
     //@SaCheckPermission("project:my:delete")
     @GetMapping("/delete")
     public R<Void> deleteProject(@RequestParam @NotNull Long projectId) {
