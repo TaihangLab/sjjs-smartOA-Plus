@@ -6,6 +6,8 @@ import com.ruoyi.ip.domain.bo.IntellectualPropertyBO;
 import com.ruoyi.ip.domain.vo.IntellectualPropertyDetailVO;
 import com.ruoyi.ip.domain.vo.IntellectualPropertyVO;
 
+import java.util.Map;
+
 /**
  * @author bailingnan
  * @date 2023/12/29
@@ -20,4 +22,6 @@ public interface IntellectualPropertyService {
     IntellectualPropertyDetailVO getIntellectualPropertyDetail(Long ipId);
 
     TableDataInfo<IntellectualPropertyVO> queryIntellectualPropertVOList(IntellectualPropertyBO intellectualPropertyBO, PageQuery pageQuery);
+
+    Map<String, Integer> getIpTypeStatistics();
 }

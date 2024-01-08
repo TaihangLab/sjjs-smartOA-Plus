@@ -26,13 +26,13 @@
                     <el-table-column label="关联项目名称" :resizable="false" align="center" prop="assignedSubjectName"
                         width="300">
                     </el-table-column>
-                    <el-table-column label="知识产权名" :resizable="false" align="center" prop="ipName" :formatter="jobTitles"
+                    <el-table-column label="知识产权名" :resizable="false" align="center" prop="ipName"
                         width="300">
                     </el-table-column>
-                    <el-table-column label="知识产权类别" :resizable="false" align="center" prop="ipType" :formatter="diplomas"
+                    <el-table-column label="知识产权类别" :resizable="false" align="center" prop="ipType" :formatter="allIpType"
                         width="200">
                     </el-table-column>
-                    <el-table-column label="知识产权状态" :resizable="false" align="center" prop="ipStatus" width="200">
+                    <el-table-column label="知识产权状态" :resizable="false" align="center" prop="ipStatus" :formatter="allJobTitle" width="200">
                     </el-table-column>
                     <el-table-column label="获得日期" :resizable="false" align="center" prop="ipDate" width="150">
                     </el-table-column>
@@ -74,6 +74,20 @@ export default {
     components: { CheckIntellectual, AddIntellectual },
     data() {
         return {
+            ipStatus: {
+                0: '专利受理',
+                1: '专利授权',
+                2: '软著已获取',
+                3: '标准正在申报',
+                4: '标准已通过',
+                5: '论文已发表',
+            },
+            ipType: {
+                0: '国内发明专利',
+                1: '软件著作权',
+                2: '论文',
+                3: '标准',
+            },
             total: 0,
             responsiblePerson: [],
             cascaderOptions: [],
@@ -102,6 +116,14 @@ export default {
         this.checkmembers();
     },
     methods: {
+        allJobTitle(row, column, cellValue) {
+            // 使用映射关系来获取对应的文字描述
+            return this.ipStatus[cellValue] || cellValue;
+        },
+        allIpType(row, column, cellValue) {
+            // 使用映射关系来获取对应的文字描述
+            return this.ipType[cellValue] || cellValue;
+        },
         async getDeptAndUserList() {
             this.checkmembers();
             this.getProjectTree();

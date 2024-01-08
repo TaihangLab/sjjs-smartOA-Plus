@@ -17,7 +17,7 @@
                 </el-table-column>
                 <el-table-column label="项目推进情况" :resizable="false" align="center" prop="projectProgressStatus" :formatter="projectProgressStatuss" width="150">
                 </el-table-column>
-                <el-table-column label="有无合作单位" :resizable="false" align="center" prop="hasCooperativeUnit" width="150">
+                <el-table-column label="有无合作单位" :resizable="false" align="center" prop="hasCooperativeUnit" :formatter="hasCooperativeUnits" width="150">
                 </el-table-column>
                 <el-table-column label="立项时间" :resizable="false" align="center" prop="projectEstablishTime" width="170">
                 </el-table-column>
@@ -116,6 +116,10 @@ export default {
     },
     data() {
         return {
+            hasCooperativeUnit: {
+                0: '有',
+                1: '无',
+            },
             projectLevel: {
                 0: '国家级',
                 1: '省部级',
@@ -176,6 +180,10 @@ export default {
     },
 
     methods: {
+        hasCooperativeUnits(row, column, cellValue) {
+            // 使用映射关系来获取对应的文字描述
+            return this.hasCooperativeUnit[cellValue] || cellValue;
+        },
         projectLevelss(row, column, cellValue) {
             // 使用映射关系来获取对应的文字描述
             return this.projectLevel[cellValue] || cellValue;
@@ -214,7 +222,7 @@ export default {
                 params: {
                     projectId: projectId,
                 },
-            }) 
+            })
         },
         // 关闭弹窗的方法
         closeEventsDialog() {
