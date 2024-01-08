@@ -1,9 +1,11 @@
 package com.ruoyi.ip.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.enums.IntellectualPropertyTypeEnum;
 import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.ip.domain.IntellectualProperty;
 import com.ruoyi.ip.domain.IpUser;
@@ -136,6 +138,17 @@ public class IntellectualPropertyServiceImpl implements IntellectualPropertyServ
         }
 
         return TableDataInfo.build(result);
+    }
+
+    @Override
+    public Map<String, Integer> getIpTypeStatistics() {
+        Map<String, Integer> ipTypeStatistics = new HashMap<>();
+        Arrays.stream(IntellectualPropertyTypeEnum.values()).forEach(ipType -> ipTypeStatistics.put(String.valueOf(ipType.getValue()), 0));
+        intellectualPropertyMapper.selectList(Wrappers.lambdaQuery()).forEach(intellectualProperty -> {
+            String ipType = String.valueOf(intellectualProperty.getIpType());
+            ipTypeStatistics.put(ipType, ipTypeStatistics.get(ipType) + 1);
+        });
+        return ipTypeStatistics;
     }
 
     private void setAssignedSubjectName(List<IntellectualPropertyVO> records) {
