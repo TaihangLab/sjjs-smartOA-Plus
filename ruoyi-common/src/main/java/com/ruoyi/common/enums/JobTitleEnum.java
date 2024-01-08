@@ -11,7 +11,7 @@ import lombok.Getter;
  * @date 2023/12/26
  */
 @Getter
-public enum JobTitle implements IEnum<Integer> {
+public enum JobTitleEnum implements IEnum<Integer> {
 
     //正高级工程师
     SENIOR_ENGINEER(0, "正高级工程师"),
@@ -34,7 +34,7 @@ public enum JobTitle implements IEnum<Integer> {
     private final Integer value;
     private final String description;
 
-    JobTitle(Integer value, String description) {
+    JobTitleEnum(Integer value, String description) {
         this.value = value;
         this.description = description;
     }

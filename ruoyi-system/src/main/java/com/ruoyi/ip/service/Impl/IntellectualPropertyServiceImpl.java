@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.ruoyi.common.constant.IpConstants.*;
+import static com.ruoyi.ip.constant.IpConstants.*;
 
 /**
  * @author bailingnan
@@ -88,6 +88,7 @@ public class IntellectualPropertyServiceImpl implements IntellectualPropertyServ
         BeanCopyUtils.copy(intellectualPropertyBO, intellectualProperty);
         int cnt = intellectualPropertyMapper.updateById(intellectualProperty);
         if (cnt != 1) {
+            log.info("cnt:{}", cnt);
             log.error("更新知识产权失败 intellectualPropertyBO:{}", intellectualPropertyBO);
             throw new RuntimeException("更新知识产权失败");
         }

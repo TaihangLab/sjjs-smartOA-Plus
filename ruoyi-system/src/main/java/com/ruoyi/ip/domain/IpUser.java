@@ -1,5 +1,6 @@
 package com.ruoyi.ip.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -7,9 +8,10 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * 知识产权和用户关联表
@@ -26,7 +28,7 @@ public class IpUser implements Serializable {
     /**
      * id
      */
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
@@ -47,11 +49,11 @@ public class IpUser implements Serializable {
             return false;
         }
         IpUser that = (IpUser) o;
-        return Objects.equals(this.ipId, that.ipId) && Objects.equals(this.userId, that.userId);
+        return new EqualsBuilder().append(this.ipId, that.ipId).append(this.userId, that.userId).isEquals();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.ipId, this.userId);
+        return new HashCodeBuilder().append(this.ipId).append(this.userId).toHashCode();
     }
 }
