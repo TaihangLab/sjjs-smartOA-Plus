@@ -1,7 +1,7 @@
 package com.ruoyi.ip.domain.vo;
 
-import com.ruoyi.common.enums.DiplomaType;
-import com.ruoyi.common.enums.JobTitle;
+import com.ruoyi.common.enums.DiplomaTypeEnum;
+import com.ruoyi.common.enums.JobTitleEnum;
 import lombok.Data;
 
 /**
@@ -23,12 +23,12 @@ public class IpUserVO {
     /**
      * 用户职称
      */
-    private JobTitle jobTitle;
+    private JobTitleEnum jobTitle;
 
     /**
      * 用户学历
      */
-    private DiplomaType diploma;
+    private DiplomaTypeEnum diploma;
 
     /**
      * 用户邮箱

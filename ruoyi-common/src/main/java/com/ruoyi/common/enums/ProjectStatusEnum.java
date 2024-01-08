@@ -9,7 +9,7 @@ import lombok.Getter;
  * @date 2023/12/21
  */
 @Getter
-public enum ProjectStatus implements IEnum<Integer> {
+public enum ProjectStatusEnum implements IEnum<Integer> {
     //正在需求申报
     REQUIREMENT_DECLARATION_IN_PROGRESS(0, "正在需求申报"),
     //已完成需求申报
@@ -31,7 +31,7 @@ public enum ProjectStatus implements IEnum<Integer> {
     private final Integer value;
     private final String description;
 
-    ProjectStatus(Integer value, String description) {
+    ProjectStatusEnum(Integer value, String description) {
         this.value = value;
         this.description = description;
     }

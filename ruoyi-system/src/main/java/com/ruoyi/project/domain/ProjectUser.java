@@ -3,13 +3,13 @@ package com.ruoyi.project.domain;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.ruoyi.common.enums.ProjectUserRole;
+import com.ruoyi.common.enums.ProjectUserRoleEnum;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.Objects;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * 项目和用户关联 project_user
@@ -37,7 +37,7 @@ public class ProjectUser {
     /**
      * 项目成员角色（0：项目负责人；1：公司负责人；2：部门负责人；3：科研管理负责人；4：普通成员）
      */
-    private ProjectUserRole projectUserRole;
+    private ProjectUserRoleEnum projectUserRole;
 
     @Override
     public boolean equals(Object o) {
@@ -48,11 +48,11 @@ public class ProjectUser {
             return false;
         }
         ProjectUser that = (ProjectUser) o;
-        return Objects.equals(this.projectId, that.projectId) && Objects.equals(this.userId, that.userId) && Objects.equals(this.projectUserRole, that.projectUserRole);
+        return new EqualsBuilder().append(this.projectId, that.projectId).append(this.userId, that.userId).append(this.projectUserRole, that.projectUserRole).isEquals();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.projectId, this.userId, this.projectUserRole);
+        return new HashCodeBuilder().append(this.projectId).append(this.userId).append(this.projectUserRole).toHashCode();
     }
 }
