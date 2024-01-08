@@ -312,7 +312,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
             .map(this::createProjectUserVo)
             .collect(Collectors.toList());
 
-        // 现在使用 userPage.getTotal() 获取总记录数
+        // 使用 userPage.getTotal() 获取总记录数
         return new TableDataInfo<>(projectUserVoList, userPage.getTotal());
     }
 
@@ -325,6 +325,9 @@ public class ProjectUserServiceImpl implements ProjectUserService {
             }
             if (projectUserBo.getProjectId() != null) {
                 Set<Long> userIds = getUserIdsByProjectId(projectUserBo.getProjectId());
+                if (userIds.isEmpty()){
+                    return new Page<>();
+                }
                 lambdaQueryWrapper.in(SysUser::getUserId, userIds);
             }
         }
