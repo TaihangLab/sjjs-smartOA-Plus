@@ -143,9 +143,9 @@ public class IntellectualPropertyServiceImpl implements IntellectualPropertyServ
     @Override
     public Map<String, Integer> getIpTypeStatistics() {
         Map<String, Integer> ipTypeStatistics = new HashMap<>();
-        Arrays.stream(IntellectualPropertyTypeEnum.values()).forEach(ipType -> ipTypeStatistics.put(String.valueOf(ipType.getValue()), 0));
+        Arrays.stream(IntellectualPropertyTypeEnum.values()).forEach(ipType -> ipTypeStatistics.put(ipType.getDescription(), 0));
         intellectualPropertyMapper.selectList(Wrappers.lambdaQuery()).forEach(intellectualProperty -> {
-            String ipType = String.valueOf(intellectualProperty.getIpType());
+            String ipType = intellectualProperty.getIpType().getDescription();
             ipTypeStatistics.put(ipType, ipTypeStatistics.get(ipType) + 1);
         });
         return ipTypeStatistics;
