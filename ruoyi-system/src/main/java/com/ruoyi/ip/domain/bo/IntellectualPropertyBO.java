@@ -1,4 +1,4 @@
-package com.ruoyi.ip.domin.bo;
+package com.ruoyi.ip.domain.bo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.constant.DateConstants;

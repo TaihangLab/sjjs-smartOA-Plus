@@ -56,7 +56,6 @@
 </template>
 
 <script setup>
-
 import {getCurrentInstance, reactive, ref} from "vue";
 
 const {proxy} = getCurrentInstance();
@@ -69,6 +68,7 @@ defineExpose({
 proxy.$set(props.form, "items", [{date: undefined, task: ''}]);
 const isButtonShowList = ref([false]);
 
+// 新增一条
 function add() {
     props.form.items.push({
         date: undefined, task: ''
@@ -77,16 +77,19 @@ function add() {
     // $forceUpdate();
 }
 
+// 删除一条
 function remove(index) {
     props.form.items.splice(index, 1);
     isButtonShowList.value.splice(index, 1);
 }
 
+// 重置表单
 function reset() {
-    props.form.items = [{date: undefined, task: undefined}];
+    proxy.$set(props.form, "items", [{date: undefined, task: ''}])
     proxy.$forceUpdate();
 }
 
+// 输入实时回显
  function input() {
     proxy.$forceUpdate();
  }

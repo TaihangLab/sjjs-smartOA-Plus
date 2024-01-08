@@ -5,6 +5,7 @@ import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 用户 业务层
@@ -209,5 +210,17 @@ public interface ISysUserService {
      * @return 结果
      */
     int deleteUserByIds(Long[] userIds);
+
+    /**
+     * 获取用户职称和人数映射
+     * @return
+     */
+    Map<String,Integer> getUserJobTitleStatistics();
+
+    /**
+     * 获取用户学历和人数映射
+     * @return
+     */
+    Map<String,Integer> getUserDiplomaStatistics();
 
 }

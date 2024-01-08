@@ -30,13 +30,11 @@
             <el-col :span="12">
                 <el-card>
                     <h3 slot="header">成员信息</h3>
-
                     <el-row>
                         <!-- 学历分布柱状图 -->
                         <el-col :span="12">
                             <div style="height: 290px; width: 100%;" ref="educationChart"></div>
                         </el-col>
-
                         <!-- 职称分布柱状图 -->
                         <el-col :span="12">
                             <div style="height: 290px; width: 100%;" ref="titleChart"></div>
@@ -51,11 +49,10 @@
             <el-col :span="12">
                 <el-card style="margin-right: 20px;">
                     <h3 slot="header">项目列表</h3>
-                    <!-- 在这里添加项目统计的内容 -->
                     <div style="height: 300px;" ref="projectChart"></div>
                 </el-card>
             </el-col>
-
+            <!-- 知识产权 -->
             <el-col :span="12">
                 <el-card>
                     <h3 slot="header">知识产权</h3>
@@ -81,6 +78,8 @@ export default {
         return {
             noticeList: [],
             projectListData: {},
+            educationData: {},
+            jobtitleData:{},
             showNoticeDialog: false,
             selectedNotice: {
                 title: '',
@@ -99,15 +98,20 @@ export default {
     created() {
         this.getList();
         this.getProjectListData();
+        this.getDiplomaData();
     },
     mounted() {
         import('echarts').then((echarts) => {
             this.$nextTick(() => {
                 this.initChart(echarts);
-                this.initEducationChart(echarts);
-                this.initTitleChart(echarts);
                 this.getProjectListData(() => {
                     this.initProjectChart(echarts);
+                });
+                this.getDiplomaData(() => {
+                    this.initEducationChart(echarts);
+                });
+                this.getJobtitleData(() => {
+                    this.initTitleChart(echarts);
                 });
             });
         });
@@ -152,62 +156,55 @@ export default {
                 console.error('Failed to fetch project list data:', error);
             });
         },
+        getDiplomaData(callback) {
+            request({
+                url: '/statistic/user/diploma',
+                method: 'get',
+                data: {},
+            }).then((resp) => {
+                this.educationData = {  
+                    categories: Object.keys(resp),
+                    data: Object.values(resp),
+                };
+                if (callback && typeof callback === 'function') {
+                    callback();
+                }
+            }).catch(error => {
+                console.error('Failed to fetch project list data:', error);
+            });
+        },
+        getJobtitleData(callback) {
+            request({
+                url: '/statistic/user/jobtitle',
+                method: 'get',
+                data: {},
+            }).then((resp) => {
+                this.jobtitleData = {  
+                    categories: Object.keys(resp),
+                    data: Object.values(resp),
+                };
+                if (callback && typeof callback === 'function') {
+                    callback();
+                }
+            }).catch(error => {
+                console.error('Failed to fetch project list data:', error);
+            });
+        },
 
         initEducationChart(echarts) {
-            const educationData = {
-                categories: ['博士', '硕士', '本科'],
-                data: [2, 19, 25],
-            };
             const educationChart = echarts.init(this.$refs.educationChart);
             const option = {
                 title: {
-                    text: '学历', // 设置标题文本
-                    left: 'center', // 标题居中显示
+                    text: '学历',
+                    left: 'center',
                     textStyle: {
-                        color: '#333', // 标题颜色
-                        fontSize: 16, // 标题字体大小
+                        color: '#333',
+                        fontSize: 16,
                     },
                 },
                 xAxis: {
                     type: 'category',
-                    data: educationData.categories,
-                },
-                yAxis: {
-                    type: 'value',
-                },
-                tooltip: {
-                    trigger: 'axis',
-                    formatter: '{b}: {c} 人',
-                },
-                series: [{
-                    type: 'bar',
-                    data: educationData.data,
-                    itemStyle: {
-                        color: 'green',
-                    },
-                }],
-            };
-            educationChart.setOption(option);
-        },
-        initTitleChart(echarts) {
-            const titleData = {
-                categories: ['正高级工程师', '副高级工程师', '中级工程师 ', '初级工程师', '研究员', '副研究员', '研究实习员'],
-                data: [4, 6, 11, 20, 10, 25, 10],
-            };
-
-            const titleChart = echarts.init(this.$refs.titleChart);
-            const option = {
-                title: {
-                    text: '职称', // 设置标题文本
-                    left: 'center', // 标题居中显示
-                    textStyle: {
-                        color: '#333', // 标题颜色
-                        fontSize: 16, // 标题字体大小
-                    },
-                },
-                xAxis: {
-                    type: 'category',
-                    data: titleData.categories,
+                    data: this.educationData.categories, 
                     axisLabel: {
                         interval: 0,
                         rotate: -90, // 将横坐标文字逆时针旋转90度
@@ -223,7 +220,45 @@ export default {
                 },
                 series: [{
                     type: 'bar',
-                    data: titleData.data,
+                    data: this.educationData.data, 
+                    itemStyle: {
+                        color: 'green',
+                    },
+                }],
+            };
+            educationChart.setOption(option);
+        },
+
+        initTitleChart(echarts) {
+            const titleChart = echarts.init(this.$refs.titleChart);
+            const option = {
+                title: {
+                    text: '职称', // 设置标题文本
+                    left: 'center', // 标题居中显示
+                    textStyle: {
+                        color: '#333', // 标题颜色
+                        fontSize: 16, // 标题字体大小
+                    },
+                },
+                xAxis: {
+                    type: 'category',
+                    data: this.jobtitleData.categories,
+                    axisLabel: {
+                        interval: 0,
+                        rotate: -90, // 将横坐标文字逆时针旋转90度
+                        verticalAlign: 'middle', // 文字垂直对齐方式
+                    },
+                },
+                yAxis: {
+                    type: 'value',
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: '{b}: {c} 人',
+                },
+                series: [{
+                    type: 'bar',
+                    data: this.jobtitleData.data,
                 }],
             };
             titleChart.setOption(option);
@@ -337,17 +372,17 @@ $shadow: rgba($yellow, .5);
 #curtain {
     background: linear-gradient(45deg, rgb(182, 182, 182) 9%, rgb(56, 56, 56) 100%);
     width: 100%;
-    height: 10vh;
+    height: 60px;
     border-radius: 30px;
 }
 
 h1 {
     font-family: '阿里妈妈东方大楷 Regular', sans-serif;
-    font-size: 4vw;
+    font-size: 50px;
     text-align: center;
     line-height: 1;
     margin: 0;
-    top: 6%;
+    top: 5.3%;
     left: 50%;
     transform: translate(-50%, -50%);
     position: absolute;
@@ -402,5 +437,6 @@ h1 {
     src: url("../assets/fonts/AlimamaDongFangDaKai-Regular.woff2") format("woff2"),
         url("../assets/fonts/AlimamaDongFangDaKai-Regular.woff") format("woff");
     font-display: swap;
-}</style>
+}
+</style>
 

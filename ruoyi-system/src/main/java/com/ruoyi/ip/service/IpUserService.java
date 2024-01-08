@@ -1,7 +1,8 @@
 package com.ruoyi.ip.service;
 
-import com.ruoyi.ip.domin.IpUser;
-import com.ruoyi.ip.domin.vo.IpUserVO;
+
+import com.ruoyi.ip.domain.IpUser;
+import com.ruoyi.ip.domain.vo.IpUserVO;
 
 import java.util.List;
 
@@ -12,6 +13,8 @@ import java.util.List;
 public interface IpUserService {
     void insertIpUserList(Long ipId, List<Long> userIdList);
 
+    void insertIpUserList(List<IpUser> ipUserList);
+
     void deleteIpUserByIpId(Long ipId);
 
     void updateIpUserByIpId(Long ipId, List<Long> userIdList);
@@ -19,4 +22,6 @@ public interface IpUserService {
     List<IpUser> getIpUserListByUserId(Long userId);
 
     List<IpUserVO> getIpUserVOListByIpId(Long ipId);
+
+    void deleteIpUserByUserIdList(List<Long> userIdList);
 }

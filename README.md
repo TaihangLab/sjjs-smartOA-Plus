@@ -18,7 +18,7 @@
 ## 项目地址
 
 - Gitee：<https://gitee.com/fjx13038033078/sjjs-smartOA-Plus.git>
-- GitHub：<https://github.com/fjx13038033078/sjjs-smartOA-Plus.git>
+- GitHub：<https://github.com/TaihangLab/sjjs-smartOA-Plus.git>
 
 ## 在线演示
 演示服务不限制CURD操作，希望大家按需使用，不要恶意添加脏数据或对服务器进行攻击等操作。（将不定期清理数据）

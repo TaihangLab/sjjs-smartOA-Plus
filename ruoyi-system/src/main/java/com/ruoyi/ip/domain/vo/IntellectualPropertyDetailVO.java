@@ -1,4 +1,4 @@
-package com.ruoyi.ip.domin.vo;
+package com.ruoyi.ip.domain.vo;
 
 import com.ruoyi.common.enums.IntellectualPropertyStatus;
 import com.ruoyi.common.enums.IntellectualPropertyType;
