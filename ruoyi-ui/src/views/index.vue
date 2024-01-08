@@ -337,17 +337,17 @@ $shadow: rgba($yellow, .5);
 #curtain {
     background: linear-gradient(45deg, rgb(182, 182, 182) 9%, rgb(56, 56, 56) 100%);
     width: 100%;
-    height: 10vh;
+    height: 60px;
     border-radius: 30px;
 }
 
 h1 {
     font-family: '阿里妈妈东方大楷 Regular', sans-serif;
-    font-size: 4vw;
+    font-size: 50px;
     text-align: center;
     line-height: 1;
     margin: 0;
-    top: 6%;
+    top: 5.3%;
     left: 50%;
     transform: translate(-50%, -50%);
     position: absolute;

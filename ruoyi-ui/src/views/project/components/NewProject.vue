@@ -70,6 +70,7 @@
             <el-popconfirm
                 title="确定要重置吗?"
                 @confirm="reset"
+                style="margin-left: 10px;"
             >
                 <template #reference>
                     <el-button @click.stop="" type="warning">重置</el-button>
@@ -195,10 +196,14 @@ export default {
         submit() {
             // console.log(this.$refs.projectInfo.$refs.form.validate());
             const loading = Loading.service({fullscreen: true, lock: true, text: '少女祈祷中'});
-            addProject(this.projectInfoForm, this.projectMemberForm,
-                this.projectFundsForm, this.zxFundsDetailForm,
-                this.zcFundsDetailForm, this.fundsSourceForm,
-                this.projectIndicatorForm, this.projectPlanForm,
+            addProject(this.projectInfoForm,
+                this.projectMemberForm,
+                this.projectFundsForm,
+                this.zxFundsDetailForm,
+                this.zcFundsDetailForm,
+                this.fundsSourceForm,
+                this.projectIndicatorForm,
+                this.projectPlanForm,
                 this.otherAttachmentForm)
                 .then(resp => {
                     this.$message({

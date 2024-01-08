@@ -15,8 +15,15 @@ import Vue from "vue";
  * @param otherAttachmentForm
  * @returns {AxiosPromise}
  */
-export function addProject(projectInfoForm, projectMemberForm, projectFundsForm, zxFundsDetailForm, zcFundsDetailForm,
-                           fundsSourceForm, projectIndicatorForm, projectPlanForm, otherAttachmentForm) {
+export function addProject(projectInfoForm,
+                           projectMemberForm,
+                           projectFundsForm,
+                           zxFundsDetailForm,
+                           zcFundsDetailForm,
+                           fundsSourceForm,
+                           projectIndicatorForm,
+                           projectPlanForm,
+                           otherAttachmentForm) {
     // 项目成员
     const members    = filterList(projectMemberForm.items).map(value => {
         return {userId: value.id, projectUserRoleList: value.role}
@@ -32,160 +39,266 @@ export function addProject(projectInfoForm, projectMemberForm, projectFundsForm,
 
     return request({
         url: '/project/my/add', method: 'post', data: {
-            "projectBaseInfoBO"  : {
+            "projectBaseInfoBO": {
                 // 牵头单位
                 "leadingUnit": projectInfoForm.leadingUnit,
                 // 项目名称
-                "assignedSubjectName"           : projectInfoForm.name,
+                "assignedSubjectName": projectInfoForm.name,
                 // 联系人
-                "projectContact"                : projectInfoForm.contact,
+                "projectContact": projectInfoForm.contact,
                 // 项目编号
-                "projectAssignmentSerialNo"     : projectInfoForm.projectNumber,
+                "projectAssignmentSerialNo": projectInfoForm.projectNumber,
                 // 项目来源
-                "projectSource"                 : projectInfoForm.source,
+                "projectSource": projectInfoForm.source,
                 // 项目级别
-                "projectLevel"                  : projectInfoForm.level,
+                "projectLevel": projectInfoForm.level,
                 // 是否牵头单位
-                "hasLeadingRole"                : projectInfoForm.isLeadingUnit,
+                "hasLeadingRole": projectInfoForm.isLeadingUnit,
                 // 课题名称
-                "assignedSubjectSection"        : projectInfoForm.subjectName,
+                "assignedSubjectSection": projectInfoForm.subjectName,
                 // 课题编号
-                "subjectAssignmentSerialNo"     : projectInfoForm.subjectNumber,
+                "subjectAssignmentSerialNo": projectInfoForm.subjectNumber,
                 // 立项时间
-                "projectEstablishTime"          : projectInfoForm.startTime,
+                "projectEstablishTime": projectInfoForm.startTime,
                 // 结束时间
                 "projectScheduledCompletionTime": projectInfoForm.endTime,
                 // 项目周期
-                "projectDuration"               : projectInfoForm.duration,
+                "projectDuration": projectInfoForm.duration,
                 // 项目意义和必要性
-                "significanceAndNecessity"      : projectInfoForm.meaning,
+                "significanceAndNecessity": projectInfoForm.meaning,
                 // 项目进展情况
-                "projectProgressStatus"         : projectInfoForm.progressStatus,
+                "projectProgressStatus": projectInfoForm.progressStatus,
                 // 项目完成进度
-                "completionProgress"            : projectInfoForm.completionProgress,
+                "completionProgress": projectInfoForm.completionProgress,
                 // 合作单位
-                "collaboratingUnit"             : projectInfoForm.coopUnit,
+                "collaboratingUnit": projectInfoForm.coopUnit,
                 // 专家团队
-                "expertTeam"                    : projectInfoForm.expertTeam,
+                "expertTeam": projectInfoForm.expertTeam,
                 // 有无合作单位
-                "hasCooperativeUnit"            : projectInfoForm.coopUnit ? 1 : 0,
+                "hasCooperativeUnit": projectInfoForm.coopUnit ? 1 : 0,
                 // 项目描述
-                "projectDescription"            : projectInfoForm.description
+                "projectDescription": projectInfoForm.description
                 // "awardDetails"                  : projectInfoForm.awardStatus,
                 // "publicationDetails"            : projectInfoForm.paperStatus,
                 // "patentDetails"                 : projectInfoForm.patentStatus,
                 // "softwareCopyrightDetails"      : projectInfoForm.rzStatus,
                 // "standardDetails"               : projectInfoForm.standardStatus,
             },
-            "projectFundsBO"     : {
-                "totalFundsAll" : projectFundsForm.jfze,
-                "totalFundsZx"  : projectFundsForm.zxjfze,
-                "sbfZx"         : projectFundsForm.zxsbf,
+            "projectFundsBO"   : {
+                // 总经费
+                "totalFundsAll": projectFundsForm.jfze,
+                // 专项经费总额
+                "totalFundsZx": projectFundsForm.zxjfze,
+                // 专项经费设备费
+                "sbfZx": projectFundsForm.zxsbf,
+                // 专项经费直接费
                 "totalFundsZxZj": projectFundsForm.zxzjx,
+                // 专项经费间接费
                 "totalFundsZxJj": projectFundsForm.zxjjy,
-                "totalFundsZc"  : projectFundsForm.zcjfze,
-                "sbfZc"         : projectFundsForm.zcsbf,
+                // 自筹经费总额
+                "totalFundsZc": projectFundsForm.zcjfze,
+                // 自筹经费设备费
+                "sbfZc": projectFundsForm.zcsbf,
+                // 自筹经费直接费
                 "totalFundsZcZj": projectFundsForm.zczjx,
+                // 自筹经费间接费
                 "totalFundsZcJj": projectFundsForm.zcjjy,
 
-                "sbfZxZj"        : zxFundsDetailForm.sbf_zj,
-                "sbfZcZj"        : zcFundsDetailForm.sbf_zj,
-                "sbfGzsbZxZj"    : zxFundsDetailForm.gzsbf_zj,
-                "sbfGzsbZcZj"    : zcFundsDetailForm.gzsbf_zj,
-                "sbfSzsbZxZj"    : zxFundsDetailForm.szsbf_zj,
-                "sbfSzsbZcZj"    : zcFundsDetailForm.szsbf_zj,
-                "sbfSbgzyzlZxZj" : zxFundsDetailForm.sbgzyzlf_zj,
-                "sbfSbgzyzlZcZj" : zcFundsDetailForm.sbgzyzlf_zj,
-                "clfZxZj"        : zxFundsDetailForm.clf_zj,
-                "clfZcZj"        : zcFundsDetailForm.clf_zj,
-                "kyhdfZxZj"      : zxFundsDetailForm.kyhdf_zj,
-                "kyhdfZcZj"      : zcFundsDetailForm.kyhdf_zj,
-                "kyhdfZlZxZj"    : zxFundsDetailForm.zlf_zj,
-                "kyhdfZlZcZj"    : zcFundsDetailForm.zlf_zj,
+                // 直接专项经费设备费-直接
+                "sbfZxZj": zxFundsDetailForm.sbf_zj,
+                // 直接专项经费设备费-间接
+                "sbfZcZj": zcFundsDetailForm.sbf_zj,
+                // 直接专项经费设备费-购置设备费
+                "sbfGzsbZxZj": zxFundsDetailForm.gzsbf_zj,
+                // 直接自筹经费设备费-购置设备费
+                "sbfGzsbZcZj": zcFundsDetailForm.gzsbf_zj,
+                // 直接专项经费设备费-试制设备费
+                "sbfSzsbZxZj": zxFundsDetailForm.szsbf_zj,
+                // 直接自筹经费设备费-试制设备费
+                "sbfSzsbZcZj": zcFundsDetailForm.szsbf_zj,
+                // 直接专项经费设备费-设备购置与租赁费
+                "sbfSbgzyzlZxZj": zxFundsDetailForm.sbgzyzlf_zj,
+                // 直接自筹经费设备费-设备购置与租赁费
+                "sbfSbgzyzlZcZj": zcFundsDetailForm.sbgzyzlf_zj,
+                // 直接专项经费设备费-材料费
+                "clfZxZj": zxFundsDetailForm.clf_zj,
+                // 直接自筹经费设备费-材料费
+                "clfZcZj": zcFundsDetailForm.clf_zj,
+                // 直接专项经费科研活动费-科研活动费
+                "kyhdfZxZj": zxFundsDetailForm.kyhdf_zj,
+                // 直接自筹经费科研活动费-科研活动费
+                "kyhdfZcZj": zcFundsDetailForm.kyhdf_zj,
+                // 直接专项经费科研活动费-专利费
+                "kyhdfZlZxZj": zxFundsDetailForm.zlf_zj,
+                // 直接自筹经费科研活动费-专利费
+                "kyhdfZlZcZj": zcFundsDetailForm.zlf_zj,
+                // 直接专项经费科研活动费-测试化验加工费
                 "kyhdfCshyjgZxZj": zxFundsDetailForm.cshyjgf_zj,
+                // 直接自筹经费科研活动费-测试化验加工费
                 "kyhdfCshyjgZcZj": zcFundsDetailForm.cshyjgf_zj,
-                "kyhdfBgZxZj"    : zxFundsDetailForm.bgf_zj,
-                "kyhdfBgZcZj"    : zcFundsDetailForm.bgf_zj,
+                // 直接专项经费科研活动费-办公费
+                "kyhdfBgZxZj": zxFundsDetailForm.bgf_zj,
+                // 直接自筹经费科研活动费-办公费
+                "kyhdfBgZcZj": zcFundsDetailForm.bgf_zj,
+                // 直接专项经费科研活动费-数据样本采集费
                 "kyhdfSjybcjZxZj": zxFundsDetailForm.sjybcjf_zj,
+                // 直接自筹经费科研活动费-数据样本采集费
                 "kyhdfSjybcjZcZj": zcFundsDetailForm.sjybcjf_zj,
-                "kyhdfYscbZxZj"  : zxFundsDetailForm.yscbf_zj,
-                "kyhdfYscbZcZj"  : zcFundsDetailForm.yscbf_zj,
+                // 直接专项经费科研活动费-印刷出版费
+                "kyhdfYscbZxZj": zxFundsDetailForm.yscbf_zj,
+                // 直接自筹经费科研活动费-印刷出版费
+                "kyhdfYscbZcZj": zcFundsDetailForm.yscbf_zj,
+                // 直接专项经费科研活动费-知识产权事务费
                 "kyhdfZscqswZxZj": zxFundsDetailForm.zscqswf_zj,
+                // 直接自筹经费科研活动费-知识产权事务费
                 "kyhdfZscqswZcZj": zcFundsDetailForm.zscqswf_zj,
-                "kyhdfRldlZxZj"  : zxFundsDetailForm.rldlf_zj,
-                "kyhdfRldlZcZj"  : zcFundsDetailForm.rldlf_zj,
-                "kyhdfClsyZxZj"  : zxFundsDetailForm.clsyf_zj,
-                "kyhdfClsyZcZj"  : zcFundsDetailForm.clsyf_zj,
-                "kyfwfZxZj"      : zxFundsDetailForm.kyfwf_zj,
-                "kyfwfZcZj"      : zcFundsDetailForm.kyfwf_zj,
-                "kyfwfZjzxZxZj"  : zxFundsDetailForm.zjzxf_zj,
-                "kyfwfZjzxZcZj"  : zcFundsDetailForm.zjzxf_zj,
-                "kyfwfClZxZj"    : zxFundsDetailForm.chlf_zj,
-                "kyfwfClZcZj"    : zcFundsDetailForm.chlf_zj,
-                "kyfwfHyhwZxZj"  : zxFundsDetailForm.hyhwf_zj,
-                "kyfwfHyhwZcZj"  : zcFundsDetailForm.hyhwf_zj,
+                // 直接专项经费科研活动费-燃料动力费
+                "kyhdfRldlZxZj": zxFundsDetailForm.rldlf_zj,
+                // 直接自筹经费科研活动费-燃料动力费
+                "kyhdfRldlZcZj": zcFundsDetailForm.rldlf_zj,
+                // 直接专项经费科研活动费-车辆使用费
+                "kyhdfClsyZxZj": zxFundsDetailForm.clsyf_zj,
+                // 直接自筹经费科研活动费-车辆使用费
+                "kyhdfClsyZcZj": zcFundsDetailForm.clsyf_zj,
+                // 直接专项经费科服务动费-会议会务费
+                "kyfwfZxZj": zxFundsDetailForm.kyfwf_zj,
+                // 直接自筹经费科服务动费-会议会务费
+                "kyfwfZcZj": zcFundsDetailForm.kyfwf_zj,
+                // 直接专项经费科服务动费-专家咨询费
+                "kyfwfZjzxZxZj": zxFundsDetailForm.zjzxf_zj,
+                // 直接自筹经费科服务动费-专家咨询费
+                "kyfwfZjzxZcZj": zcFundsDetailForm.zjzxf_zj,
+                // 直接专项经费科服务动费-差旅费
+                "kyfwfClZxZj": zxFundsDetailForm.chlf_zj,
+                // 直接自筹经费科服务动费-差旅费
+                "kyfwfClZcZj": zcFundsDetailForm.chlf_zj,
+                // 直接专项经费科服务动费-会议会务费
+                "kyfwfHyhwZxZj": zxFundsDetailForm.hyhwf_zj,
+                // 直接自筹经费科服务动费-会议会务费
+                "kyfwfHyhwZcZj": zcFundsDetailForm.hyhwf_zj,
+                // 直接专项经费科服务动费-国际合作交流费
                 "kyfwfGjhzjlZxZj": zxFundsDetailForm.gjhzjlf_zj,
+                // 直接自筹经费科服务动费-国际合作交流费
                 "kyfwfGjhzjlZcZj": zcFundsDetailForm.gjhzjlf_zj,
-                "kyfwfGnxzZxZj"  : zxFundsDetailForm.gnxzf_zj,
-                "kyfwfGnxzZcZj"  : zxFundsDetailForm.gnxzf_zj,
-                "ryhlwbzfZxZj"   : zxFundsDetailForm.rylwbzf_zj,
-                "ryhlwbzfZcZj"   : zcFundsDetailForm.rylwbzf_zj,
-                "jxzcZx"         : zxFundsDetailForm.jxzc_jj,
-                "jxzcZc"         : zcFundsDetailForm.jxzc_jj,
+                // 直接专项经费科服务动费-国内协作费
+                "kyfwfGnxzZxZj": zxFundsDetailForm.gnxzf_zj,
+                // 直接自筹经费科服务动费-国内协作费
+                "kyfwfGnxzZcZj": zxFundsDetailForm.gnxzf_zj,
+                // 直接专项经费人员活动费-人员劳务费
+                "ryhlwbzfZxZj": zxFundsDetailForm.rylwbzf_zj,
+                // 直接自筹经费人员活动费-人员劳务费
+                "ryhlwbzfZcZj": zcFundsDetailForm.rylwbzf_zj,
 
-                "jflyZx"        : fundsSourceForm.zxjfzz,
-                "jflyZc"        : fundsSourceForm.zcjf,
-                "jflyQtczbkZc"  : fundsSourceForm.qtczbk,
+
+                // 专项间接绩效支出
+                "jxzcZx": zxFundsDetailForm.jxzc_jj,
+                // 自筹间接绩效支出
+                "jxzcZc": zcFundsDetailForm.jxzc_jj,
+
+                // 经费来源-专项经费自筹
+                "jflyZx": fundsSourceForm.zxjfzz,
+                // 经费来源-自筹经费
+                "jflyZc": fundsSourceForm.zcjf,
+                // 经费来源-其他财政拨款
+                "jflyQtczbkZc": fundsSourceForm.qtczbk,
+                // 经费来源-自有货币基金
                 "jflyDwzyhbzjZc": fundsSourceForm.zyhbzj,
-                "jflyQtzjZc"    : fundsSourceForm.qtzj,
+                // 经费来源-其他资金
+                "jflyQtzjZc": fundsSourceForm.qtzj,
 
-                "sbfZxJj"        : zxFundsDetailForm.sbf_jj,
-                "sbfZcJj"        : zcFundsDetailForm.sbf_jj,
-                "sbfGzsbZxJj"    : zxFundsDetailForm.gzsbf_jj,
-                "sbfGzsbZcJj"    : zcFundsDetailForm.gzsbf_jj,
-                "sbfSzsbZxJj"    : zxFundsDetailForm.szsbf_jj,
-                "sbfSzsbZcJj"    : zcFundsDetailForm.szsbf_jj,
-                "sbfSbgzyzlZxJj" : zxFundsDetailForm.sbgzyzlf_jj,
-                "sbfSbgzyzlZcJj" : zcFundsDetailForm.sbgzyzlf_jj,
-                "clfZxJj"        : zxFundsDetailForm.clf_jj,
-                "clfZcJj"        : zcFundsDetailForm.clf_jj,
-                "kyhdfZxJj"      : zxFundsDetailForm.kyhdf_jj,
-                "kyhdfZcJj"      : zcFundsDetailForm.kyhdf_jj,
-                "kyhdfZlZxJj"    : zxFundsDetailForm.zlf_jj,
-                "kyhdfZlZcJj"    : zcFundsDetailForm.zlf_jj,
+                // 间接专项设备费
+                "sbfZxJj": zxFundsDetailForm.sbf_jj,
+                // 间接自筹设备费
+                "sbfZcJj": zcFundsDetailForm.sbf_jj,
+                // 间接专项设备费-购置设备费
+                "sbfGzsbZxJj": zxFundsDetailForm.gzsbf_jj,
+                // 间接自筹设备费-购置设备费
+                "sbfGzsbZcJj": zcFundsDetailForm.gzsbf_jj,
+                // 间接专项设备费-试制设备费
+                "sbfSzsbZxJj": zxFundsDetailForm.szsbf_jj,
+                // 间接自筹设备费-试制设备费
+                "sbfSzsbZcJj": zcFundsDetailForm.szsbf_jj,
+                // 间接专项设备费-设备购置与租赁费
+                "sbfSbgzyzlZxJj": zxFundsDetailForm.sbgzyzlf_jj,
+                // 间接自筹设备费-设备购置与租赁费
+                "sbfSbgzyzlZcJj": zcFundsDetailForm.sbgzyzlf_jj,
+                // 间接专项设备费-材料费
+                "clfZxJj": zxFundsDetailForm.clf_jj,
+                // 间接自筹设备费-材料费
+                "clfZcJj": zcFundsDetailForm.clf_jj,
+                // 间接专项经费科研活动费-科研活动费
+                "kyhdfZxJj": zxFundsDetailForm.kyhdf_jj,
+                // 间接自筹经费科研活动费-科研活动费
+                "kyhdfZcJj": zcFundsDetailForm.kyhdf_jj,
+                // 间接专项经费科研活动费-专利费
+                "kyhdfZlZxJj": zxFundsDetailForm.zlf_jj,
+                // 间接自筹经费科研活动费-专利费
+                "kyhdfZlZcJj": zcFundsDetailForm.zlf_jj,
+                // 间接专项经费科研活动费-测试化验加工费
                 "kyhdfCshyjgZxJj": zxFundsDetailForm.cshyjgf_jj,
+                // 间接自筹经费科研活动费-测试化验加工费
                 "kyhdfCshyjgZcJj": zcFundsDetailForm.cshyjgf_jj,
-                "kyhdfBgZxJj"    : zxFundsDetailForm.bgf_jj,
-                "kyhdfBgZcJj"    : zcFundsDetailForm.bgf_jj,
+                // 间接专项经费科研活动费-办公费
+                "kyhdfBgZxJj": zxFundsDetailForm.bgf_jj,
+                // 间接自筹经费科研活动费-办公费
+                "kyhdfBgZcJj": zcFundsDetailForm.bgf_jj,
+                // 间接专项经费科研活动费-数据样本采集费
                 "kyhdfSjybcjZxJj": zxFundsDetailForm.sjybcjf_jj,
+                // 间接自筹经费科研活动费-数据样本采集费
                 "kyhdfSjybcjZcJj": zcFundsDetailForm.sjybcjf_jj,
-                "kyhdfYscbZxJj"  : zxFundsDetailForm.yscbf_jj,
-                "kyhdfYscbZcJj"  : zcFundsDetailForm.yscbf_jj,
+                // 间接专项经费科研活动费-印刷出版费
+                "kyhdfYscbZxJj": zxFundsDetailForm.yscbf_jj,
+                // 间接自筹经费科研活动费-印刷出版费
+                "kyhdfYscbZcJj": zcFundsDetailForm.yscbf_jj,
+                // 间接专项经费科研活动费-知识产权事务费
                 "kyhdfZscqswZxJj": zxFundsDetailForm.zscqswf_jj,
+                // 间接自筹经费科研活动费-知识产权事务费
                 "kyhdfZscqswZcJj": zcFundsDetailForm.zscqswf_jj,
-                "kyhdfRldlZxJj"  : zxFundsDetailForm.rldlf_jj,
-                "kyhdfRldlZcJj"  : zcFundsDetailForm.rldlf_jj,
-                "kyhdfClsyZxJj"  : zxFundsDetailForm.clsyf_jj,
-                "kyhdfClsyZcJj"  : zcFundsDetailForm.clsyf_jj,
-                "kyfwfZxJj"      : zxFundsDetailForm.kyfwf_jj,
-                "kyfwfZcJj"      : zcFundsDetailForm.kyfwf_jj,
-                "kyfwfZjzxZxJj"  : zxFundsDetailForm.zjzxf_jj,
-                "kyfwfZjzxZcJj"  : zcFundsDetailForm.zjzxf_jj,
-                "kyfwfClZxJj"    : zxFundsDetailForm.chlf_jj,
-                "kyfwfClZcJj"    : zcFundsDetailForm.chlf_jj,
-                "kyfwfHyhwZxJj"  : zxFundsDetailForm.hyhwf_jj,
-                "kyfwfHyhwZcJj"  : zcFundsDetailForm.hyhwf_jj,
+                // 间接专项经费科研活动费-燃料动力费
+                "kyhdfRldlZxJj": zxFundsDetailForm.rldlf_jj,
+                // 间接自筹经费科研活动费-燃料动力费
+                "kyhdfRldlZcJj": zcFundsDetailForm.rldlf_jj,
+                // 间接专项经费科研活动费-车辆使用费
+                "kyhdfClsyZxJj": zxFundsDetailForm.clsyf_jj,
+                // 间接自筹经费科研活动费-车辆使用费
+                "kyhdfClsyZcJj": zcFundsDetailForm.clsyf_jj,
+                // 间接专项经费科服务动费-科研服务费
+                "kyfwfZxJj": zxFundsDetailForm.kyfwf_jj,
+                // 间接自筹经费科服务动费-科研服务费
+                "kyfwfZcJj": zcFundsDetailForm.kyfwf_jj,
+                // 间接专项经费科服务动费-专家咨询费
+                "kyfwfZjzxZxJj": zxFundsDetailForm.zjzxf_jj,
+                // 间接自筹经费科服务动费-专家咨询费
+                "kyfwfZjzxZcJj": zcFundsDetailForm.zjzxf_jj,
+                // 间接专项经费科服务动费-差旅费
+                "kyfwfClZxJj": zxFundsDetailForm.chlf_jj,
+                // 间接自筹经费科服务动费-差旅费
+                "kyfwfClZcJj": zcFundsDetailForm.chlf_jj,
+                // 间接专项经费科服务动费-会议会务费
+                "kyfwfHyhwZxJj": zxFundsDetailForm.hyhwf_jj,
+                // 间接自筹经费科服务动费-会议会务费
+                "kyfwfHyhwZcJj": zcFundsDetailForm.hyhwf_jj,
+                // 间接专项经费科服务动费-国际合作交流费
                 "kyfwfGjhzjlZxJj": zxFundsDetailForm.gjhzjlf_jj,
+                // 间接自筹经费科服务动费-国际合作交流费
                 "kyfwfGjhzjlZcJj": zcFundsDetailForm.gjhzjlf_jj,
-                "kyfwfGnxzZxJj"  : zxFundsDetailForm.gnxzf_jj,
-                "kyfwfGnxzZcJj"  : zxFundsDetailForm.gnxzf_jj,
-                "ryhlwbzfZxJj"   : zxFundsDetailForm.rylwbzf_jj,
-                "ryhlwbzfZcJj"   : zcFundsDetailForm.rylwbzf_jj,
+                // 间接专项经费科服务动费-国内协作费
+                "kyfwfGnxzZxJj": zxFundsDetailForm.gnxzf_jj,
+                // 间接自筹经费科服务动费-国内协作费
+                "kyfwfGnxzZcJj": zxFundsDetailForm.gnxzf_jj,
+                // 间接专项经费人员活动费-人员劳务费
+                "ryhlwbzfZxJj": zxFundsDetailForm.rylwbzf_jj,
+                // 间接自筹经费人员活动费-人员劳务费
+                "ryhlwbzfZcJj": zcFundsDetailForm.rylwbzf_jj,
             },
-            "projectUserBoList"  : members,
+            // 经费来源
+            "projectUserBoList": members,
+            // 项目指标
             "projectTargetBOList": indicators,
-            "projectPlanBOList"  : plans,
-            "ossIdList"          : otherAttachmentForm.uploadList,
+            // 项目计划
+            "projectPlanBOList": plans,
+            // 附件列表
+            "ossIdList": otherAttachmentForm.uploadList,
         }
     })
 }
@@ -203,8 +316,15 @@ export function addProject(projectInfoForm, projectMemberForm, projectFundsForm,
  * @param {*} projectPlanForm
  * @param {*} otherAttachmentForm
  */
-export function getProject(projectId, projectInfoForm, projectMemberForm, projectFundsForm, zxFundsDetailForm,
-                           zcFundsDetailForm, fundsSourceForm, projectIndicatorForm, projectPlanForm,
+export function getProject(projectId,
+                           projectInfoForm,
+                           projectMemberForm,
+                           projectFundsForm,
+                           zxFundsDetailForm,
+                           zcFundsDetailForm,
+                           fundsSourceForm,
+                           projectIndicatorForm,
+                           projectPlanForm,
                            otherAttachmentForm) {
     console.log("projectFundsForm", projectFundsForm);
     request({
@@ -370,7 +490,294 @@ export function getProject(projectId, projectInfoForm, projectMemberForm, projec
         Vue.set(zcFundsDetailForm, "gnxzf_jj", projectFundsVO.kyfwfGnxzZcJj);
         Vue.set(zxFundsDetailForm, "rylwbzf_jj", projectFundsVO.ryhlwbzfZxJj);
         Vue.set(zcFundsDetailForm, "rylwbzf_jj", projectFundsVO.ryhlwbzfZcJj);
-
-
     });
+}
+
+export function updateProject(projectId,
+                              projectInfoForm,
+                              projectMemberForm,
+                              projectFundsForm,
+                              zxFundsDetailForm,
+                              zcFundsDetailForm,
+                              fundsSourceForm,
+                              projectIndicatorForm,
+                              projectPlanForm,
+                              otherAttachmentForm) {
+    // 项目成员
+    const members    = filterList(projectMemberForm.items).map(value => {
+        return {userId: value.id, projectUserRoleList: value.role}
+    });
+    // 项目指标
+    const indicators = filterList(projectIndicatorForm.items, 'title').map(value => {
+        return {targetName: value.title, midtermTarget: value.midterm, endTarget: value.finish}
+    });
+    // 项目计划
+    const plans      = filterList(projectPlanForm.items, "date").map(value => {
+        return {stageStartDate: value.date[0], stageEndDate: value.date[1], stageTask: value.task}
+    })
+
+    return request({
+        url: '/project/my/add', method: 'post', data: {
+            "projectBaseInfoBO": {
+                // 牵头单位
+                "leadingUnit": projectInfoForm.leadingUnit,
+                // 项目名称
+                "assignedSubjectName": projectInfoForm.name,
+                // 联系人
+                "projectContact": projectInfoForm.contact,
+                // 项目编号
+                "projectAssignmentSerialNo": projectInfoForm.projectNumber,
+                // 项目来源
+                "projectSource": projectInfoForm.source,
+                // 项目级别
+                "projectLevel": projectInfoForm.level,
+                // 是否牵头单位
+                "hasLeadingRole": projectInfoForm.isLeadingUnit,
+                // 课题名称
+                "assignedSubjectSection": projectInfoForm.subjectName,
+                // 课题编号
+                "subjectAssignmentSerialNo": projectInfoForm.subjectNumber,
+                // 立项时间
+                "projectEstablishTime": projectInfoForm.startTime,
+                // 结束时间
+                "projectScheduledCompletionTime": projectInfoForm.endTime,
+                // 项目周期
+                "projectDuration": projectInfoForm.duration,
+                // 项目意义和必要性
+                "significanceAndNecessity": projectInfoForm.meaning,
+                // 项目进展情况
+                "projectProgressStatus": projectInfoForm.progressStatus,
+                // 项目完成进度
+                "completionProgress": projectInfoForm.completionProgress,
+                // 合作单位
+                "collaboratingUnit": projectInfoForm.coopUnit,
+                // 专家团队
+                "expertTeam": projectInfoForm.expertTeam,
+                // 有无合作单位
+                "hasCooperativeUnit": projectInfoForm.coopUnit ? 1 : 0,
+                // 项目描述
+                "projectDescription": projectInfoForm.description
+                // "awardDetails"                  : projectInfoForm.awardStatus,
+                // "publicationDetails"            : projectInfoForm.paperStatus,
+                // "patentDetails"                 : projectInfoForm.patentStatus,
+                // "softwareCopyrightDetails"      : projectInfoForm.rzStatus,
+                // "standardDetails"               : projectInfoForm.standardStatus,
+            },
+            "projectFundsBO"   : {
+                // 总经费
+                "totalFundsAll": projectFundsForm.jfze,
+                // 专项经费总额
+                "totalFundsZx": projectFundsForm.zxjfze,
+                // 专项经费设备费
+                "sbfZx": projectFundsForm.zxsbf,
+                // 专项经费直接费
+                "totalFundsZxZj": projectFundsForm.zxzjx,
+                // 专项经费间接费
+                "totalFundsZxJj": projectFundsForm.zxjjy,
+                // 自筹经费总额
+                "totalFundsZc": projectFundsForm.zcjfze,
+                // 自筹经费设备费
+                "sbfZc": projectFundsForm.zcsbf,
+                // 自筹经费直接费
+                "totalFundsZcZj": projectFundsForm.zczjx,
+                // 自筹经费间接费
+                "totalFundsZcJj": projectFundsForm.zcjjy,
+
+                // 直接专项经费设备费-直接
+                "sbfZxZj": zxFundsDetailForm.sbf_zj,
+                // 直接专项经费设备费-间接
+                "sbfZcZj": zcFundsDetailForm.sbf_zj,
+                // 直接专项经费设备费-购置设备费
+                "sbfGzsbZxZj": zxFundsDetailForm.gzsbf_zj,
+                // 直接自筹经费设备费-购置设备费
+                "sbfGzsbZcZj": zcFundsDetailForm.gzsbf_zj,
+                // 直接专项经费设备费-试制设备费
+                "sbfSzsbZxZj": zxFundsDetailForm.szsbf_zj,
+                // 直接自筹经费设备费-试制设备费
+                "sbfSzsbZcZj": zcFundsDetailForm.szsbf_zj,
+                // 直接专项经费设备费-设备购置与租赁费
+                "sbfSbgzyzlZxZj": zxFundsDetailForm.sbgzyzlf_zj,
+                // 直接自筹经费设备费-设备购置与租赁费
+                "sbfSbgzyzlZcZj": zcFundsDetailForm.sbgzyzlf_zj,
+                // 直接专项经费设备费-材料费
+                "clfZxZj": zxFundsDetailForm.clf_zj,
+                // 直接自筹经费设备费-材料费
+                "clfZcZj": zcFundsDetailForm.clf_zj,
+                // 直接专项经费科研活动费-科研活动费
+                "kyhdfZxZj": zxFundsDetailForm.kyhdf_zj,
+                // 直接自筹经费科研活动费-科研活动费
+                "kyhdfZcZj": zcFundsDetailForm.kyhdf_zj,
+                // 直接专项经费科研活动费-专利费
+                "kyhdfZlZxZj": zxFundsDetailForm.zlf_zj,
+                // 直接自筹经费科研活动费-专利费
+                "kyhdfZlZcZj": zcFundsDetailForm.zlf_zj,
+                // 直接专项经费科研活动费-测试化验加工费
+                "kyhdfCshyjgZxZj": zxFundsDetailForm.cshyjgf_zj,
+                // 直接自筹经费科研活动费-测试化验加工费
+                "kyhdfCshyjgZcZj": zcFundsDetailForm.cshyjgf_zj,
+                // 直接专项经费科研活动费-办公费
+                "kyhdfBgZxZj": zxFundsDetailForm.bgf_zj,
+                // 直接自筹经费科研活动费-办公费
+                "kyhdfBgZcZj": zcFundsDetailForm.bgf_zj,
+                // 直接专项经费科研活动费-数据样本采集费
+                "kyhdfSjybcjZxZj": zxFundsDetailForm.sjybcjf_zj,
+                // 直接自筹经费科研活动费-数据样本采集费
+                "kyhdfSjybcjZcZj": zcFundsDetailForm.sjybcjf_zj,
+                // 直接专项经费科研活动费-印刷出版费
+                "kyhdfYscbZxZj": zxFundsDetailForm.yscbf_zj,
+                // 直接自筹经费科研活动费-印刷出版费
+                "kyhdfYscbZcZj": zcFundsDetailForm.yscbf_zj,
+                // 直接专项经费科研活动费-知识产权事务费
+                "kyhdfZscqswZxZj": zxFundsDetailForm.zscqswf_zj,
+                // 直接自筹经费科研活动费-知识产权事务费
+                "kyhdfZscqswZcZj": zcFundsDetailForm.zscqswf_zj,
+                // 直接专项经费科研活动费-燃料动力费
+                "kyhdfRldlZxZj": zxFundsDetailForm.rldlf_zj,
+                // 直接自筹经费科研活动费-燃料动力费
+                "kyhdfRldlZcZj": zcFundsDetailForm.rldlf_zj,
+                // 直接专项经费科研活动费-车辆使用费
+                "kyhdfClsyZxZj": zxFundsDetailForm.clsyf_zj,
+                // 直接自筹经费科研活动费-车辆使用费
+                "kyhdfClsyZcZj": zcFundsDetailForm.clsyf_zj,
+                // 直接专项经费科服务动费-会议会务费
+                "kyfwfZxZj": zxFundsDetailForm.kyfwf_zj,
+                // 直接自筹经费科服务动费-会议会务费
+                "kyfwfZcZj": zcFundsDetailForm.kyfwf_zj,
+                // 直接专项经费科服务动费-专家咨询费
+                "kyfwfZjzxZxZj": zxFundsDetailForm.zjzxf_zj,
+                // 直接自筹经费科服务动费-专家咨询费
+                "kyfwfZjzxZcZj": zcFundsDetailForm.zjzxf_zj,
+                // 直接专项经费科服务动费-差旅费
+                "kyfwfClZxZj": zxFundsDetailForm.chlf_zj,
+                // 直接自筹经费科服务动费-差旅费
+                "kyfwfClZcZj": zcFundsDetailForm.chlf_zj,
+                // 直接专项经费科服务动费-会议会务费
+                "kyfwfHyhwZxZj": zxFundsDetailForm.hyhwf_zj,
+                // 直接自筹经费科服务动费-会议会务费
+                "kyfwfHyhwZcZj": zcFundsDetailForm.hyhwf_zj,
+                // 直接专项经费科服务动费-国际合作交流费
+                "kyfwfGjhzjlZxZj": zxFundsDetailForm.gjhzjlf_zj,
+                // 直接自筹经费科服务动费-国际合作交流费
+                "kyfwfGjhzjlZcZj": zcFundsDetailForm.gjhzjlf_zj,
+                // 直接专项经费科服务动费-国内协作费
+                "kyfwfGnxzZxZj": zxFundsDetailForm.gnxzf_zj,
+                // 直接自筹经费科服务动费-国内协作费
+                "kyfwfGnxzZcZj": zxFundsDetailForm.gnxzf_zj,
+                // 直接专项经费人员活动费-人员劳务费
+                "ryhlwbzfZxZj": zxFundsDetailForm.rylwbzf_zj,
+                // 直接自筹经费人员活动费-人员劳务费
+                "ryhlwbzfZcZj": zcFundsDetailForm.rylwbzf_zj,
+
+
+                // 专项间接绩效支出
+                "jxzcZx": zxFundsDetailForm.jxzc_jj,
+                // 自筹间接绩效支出
+                "jxzcZc": zcFundsDetailForm.jxzc_jj,
+
+                // 经费来源-专项经费自筹
+                "jflyZx": fundsSourceForm.zxjfzz,
+                // 经费来源-自筹经费
+                "jflyZc": fundsSourceForm.zcjf,
+                // 经费来源-其他财政拨款
+                "jflyQtczbkZc": fundsSourceForm.qtczbk,
+                // 经费来源-自有货币基金
+                "jflyDwzyhbzjZc": fundsSourceForm.zyhbzj,
+                // 经费来源-其他资金
+                "jflyQtzjZc": fundsSourceForm.qtzj,
+
+                // 间接专项设备费
+                "sbfZxJj": zxFundsDetailForm.sbf_jj,
+                // 间接自筹设备费
+                "sbfZcJj": zcFundsDetailForm.sbf_jj,
+                // 间接专项设备费-购置设备费
+                "sbfGzsbZxJj": zxFundsDetailForm.gzsbf_jj,
+                // 间接自筹设备费-购置设备费
+                "sbfGzsbZcJj": zcFundsDetailForm.gzsbf_jj,
+                // 间接专项设备费-试制设备费
+                "sbfSzsbZxJj": zxFundsDetailForm.szsbf_jj,
+                // 间接自筹设备费-试制设备费
+                "sbfSzsbZcJj": zcFundsDetailForm.szsbf_jj,
+                // 间接专项设备费-设备购置与租赁费
+                "sbfSbgzyzlZxJj": zxFundsDetailForm.sbgzyzlf_jj,
+                // 间接自筹设备费-设备购置与租赁费
+                "sbfSbgzyzlZcJj": zcFundsDetailForm.sbgzyzlf_jj,
+                // 间接专项设备费-材料费
+                "clfZxJj": zxFundsDetailForm.clf_jj,
+                // 间接自筹设备费-材料费
+                "clfZcJj": zcFundsDetailForm.clf_jj,
+                // 间接专项经费科研活动费-科研活动费
+                "kyhdfZxJj": zxFundsDetailForm.kyhdf_jj,
+                // 间接自筹经费科研活动费-科研活动费
+                "kyhdfZcJj": zcFundsDetailForm.kyhdf_jj,
+                // 间接专项经费科研活动费-专利费
+                "kyhdfZlZxJj": zxFundsDetailForm.zlf_jj,
+                // 间接自筹经费科研活动费-专利费
+                "kyhdfZlZcJj": zcFundsDetailForm.zlf_jj,
+                // 间接专项经费科研活动费-测试化验加工费
+                "kyhdfCshyjgZxJj": zxFundsDetailForm.cshyjgf_jj,
+                // 间接自筹经费科研活动费-测试化验加工费
+                "kyhdfCshyjgZcJj": zcFundsDetailForm.cshyjgf_jj,
+                // 间接专项经费科研活动费-办公费
+                "kyhdfBgZxJj": zxFundsDetailForm.bgf_jj,
+                // 间接自筹经费科研活动费-办公费
+                "kyhdfBgZcJj": zcFundsDetailForm.bgf_jj,
+                // 间接专项经费科研活动费-数据样本采集费
+                "kyhdfSjybcjZxJj": zxFundsDetailForm.sjybcjf_jj,
+                // 间接自筹经费科研活动费-数据样本采集费
+                "kyhdfSjybcjZcJj": zcFundsDetailForm.sjybcjf_jj,
+                // 间接专项经费科研活动费-印刷出版费
+                "kyhdfYscbZxJj": zxFundsDetailForm.yscbf_jj,
+                // 间接自筹经费科研活动费-印刷出版费
+                "kyhdfYscbZcJj": zcFundsDetailForm.yscbf_jj,
+                // 间接专项经费科研活动费-知识产权事务费
+                "kyhdfZscqswZxJj": zxFundsDetailForm.zscqswf_jj,
+                // 间接自筹经费科研活动费-知识产权事务费
+                "kyhdfZscqswZcJj": zcFundsDetailForm.zscqswf_jj,
+                // 间接专项经费科研活动费-燃料动力费
+                "kyhdfRldlZxJj": zxFundsDetailForm.rldlf_jj,
+                // 间接自筹经费科研活动费-燃料动力费
+                "kyhdfRldlZcJj": zcFundsDetailForm.rldlf_jj,
+                // 间接专项经费科研活动费-车辆使用费
+                "kyhdfClsyZxJj": zxFundsDetailForm.clsyf_jj,
+                // 间接自筹经费科研活动费-车辆使用费
+                "kyhdfClsyZcJj": zcFundsDetailForm.clsyf_jj,
+                // 间接专项经费科服务动费-科研服务费
+                "kyfwfZxJj": zxFundsDetailForm.kyfwf_jj,
+                // 间接自筹经费科服务动费-科研服务费
+                "kyfwfZcJj": zcFundsDetailForm.kyfwf_jj,
+                // 间接专项经费科服务动费-专家咨询费
+                "kyfwfZjzxZxJj": zxFundsDetailForm.zjzxf_jj,
+                // 间接自筹经费科服务动费-专家咨询费
+                "kyfwfZjzxZcJj": zcFundsDetailForm.zjzxf_jj,
+                // 间接专项经费科服务动费-差旅费
+                "kyfwfClZxJj": zxFundsDetailForm.chlf_jj,
+                // 间接自筹经费科服务动费-差旅费
+                "kyfwfClZcJj": zcFundsDetailForm.chlf_jj,
+                // 间接专项经费科服务动费-会议会务费
+                "kyfwfHyhwZxJj": zxFundsDetailForm.hyhwf_jj,
+                // 间接自筹经费科服务动费-会议会务费
+                "kyfwfHyhwZcJj": zcFundsDetailForm.hyhwf_jj,
+                // 间接专项经费科服务动费-国际合作交流费
+                "kyfwfGjhzjlZxJj": zxFundsDetailForm.gjhzjlf_jj,
+                // 间接自筹经费科服务动费-国际合作交流费
+                "kyfwfGjhzjlZcJj": zcFundsDetailForm.gjhzjlf_jj,
+                // 间接专项经费科服务动费-国内协作费
+                "kyfwfGnxzZxJj": zxFundsDetailForm.gnxzf_jj,
+                // 间接自筹经费科服务动费-国内协作费
+                "kyfwfGnxzZcJj": zxFundsDetailForm.gnxzf_jj,
+                // 间接专项经费人员活动费-人员劳务费
+                "ryhlwbzfZxJj": zxFundsDetailForm.rylwbzf_jj,
+                // 间接自筹经费人员活动费-人员劳务费
+                "ryhlwbzfZcJj": zcFundsDetailForm.rylwbzf_jj,
+            },
+            // 经费来源
+            "projectUserBoList": members,
+            // 项目指标
+            "projectTargetBOList": indicators,
+            // 项目计划
+            "projectPlanBOList": plans,
+            // 附件列表
+            "ossIdList": otherAttachmentForm.uploadList,
+        }
+    })
 }
