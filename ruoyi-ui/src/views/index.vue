@@ -79,7 +79,8 @@ export default {
             noticeList: [],
             projectListData: {},
             educationData: {},
-            jobtitleData:{},
+            jobtitleData: {},
+            typeData: {},
             showNoticeDialog: false,
             selectedNotice: {
                 title: '',
@@ -99,11 +100,12 @@ export default {
         this.getList();
         this.getProjectListData();
         this.getDiplomaData();
+        this.getJobtitleData();
+        this.getTypeData();
     },
     mounted() {
         import('echarts').then((echarts) => {
             this.$nextTick(() => {
-                this.initChart(echarts);
                 this.getProjectListData(() => {
                     this.initProjectChart(echarts);
                 });
@@ -112,6 +114,9 @@ export default {
                 });
                 this.getJobtitleData(() => {
                     this.initTitleChart(echarts);
+                });
+                this.getTypeData(() => {
+                    this.initChart(echarts);
                 });
             });
         });
@@ -162,7 +167,7 @@ export default {
                 method: 'get',
                 data: {},
             }).then((resp) => {
-                this.educationData = {  
+                this.educationData = {
                     categories: Object.keys(resp),
                     data: Object.values(resp),
                 };
@@ -179,7 +184,24 @@ export default {
                 method: 'get',
                 data: {},
             }).then((resp) => {
-                this.jobtitleData = {  
+                this.jobtitleData = {
+                    categories: Object.keys(resp),
+                    data: Object.values(resp),
+                };
+                if (callback && typeof callback === 'function') {
+                    callback();
+                }
+            }).catch(error => {
+                console.error('Failed to fetch project list data:', error);
+            });
+        },
+        getTypeData(callback) {
+            request({
+                url: '/statistic/ip/type',
+                method: 'get',
+                data: {},
+            }).then((resp) => {
+                this.typeData = {
                     categories: Object.keys(resp),
                     data: Object.values(resp),
                 };
@@ -204,7 +226,7 @@ export default {
                 },
                 xAxis: {
                     type: 'category',
-                    data: this.educationData.categories, 
+                    data: this.educationData.categories,
                     axisLabel: {
                         interval: 0,
                         rotate: -90, // 将横坐标文字逆时针旋转90度
@@ -220,7 +242,7 @@ export default {
                 },
                 series: [{
                     type: 'bar',
-                    data: this.educationData.data, 
+                    data: this.educationData.data,
                     itemStyle: {
                         color: 'green',
                     },
@@ -306,15 +328,12 @@ export default {
             projectChart.setOption(option);
         },
         initChart(echarts) {
-            const resultData = [
-                { value: 335, name: '完成任务A' },
-                { value: 310, name: '未完成任务B' },
-                { value: 234, name: '已完成任务C' },
-                { value: 135, name: '进行中任务D' },
-                { value: 1548, name: '待处理任务E' },
-            ];
-
-            const chart = echarts.init(this.$refs.resultChart);
+            const resultChart = echarts.init(this.$refs.resultChart);
+            // 将数据转换为 ECharts 饼图所需的格式
+            const pieData = this.typeData.data.map((count, index) => ({
+                value: count,
+                name: this.typeData.categories[index],
+            }));
             const option = {
                 tooltip: {
                     trigger: 'item',
@@ -343,11 +362,11 @@ export default {
                             show: true,
                             length2: 10,
                         },
-                        data: resultData,
+                        data: pieData,
                     },
                 ],
             };
-            chart.setOption(option);
+            resultChart.setOption(option);
         },
     },
 };

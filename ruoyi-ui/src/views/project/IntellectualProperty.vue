@@ -49,9 +49,11 @@
                 </el-table>
                 <!-- 详情打开的界面 -->
                 <el-dialog :visible.sync="dialogIntellectualLook" width="50%">
-                    <div class="dialog-content">
-                        <CheckIntellectual :ipId="ipId"></CheckIntellectual>
-                    </div>
+                    <CheckIntellectual :ipId="ipId"></CheckIntellectual>
+                </el-dialog>
+                <!--新增大事记-->
+                <el-dialog :visible.sync="intellectualDialogVisibleAdd" width="50%">
+                    <AddIntellectual @close-dialog="closeIntellectualDialog"></AddIntellectual>
                 </el-dialog>
             </div>
             <el-pagination :current-page="queryParam.pageNum" :page-size="queryParam.pageSize"
@@ -66,9 +68,10 @@ import { listUser, deptTreeSelect } from "@/api/system/user";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 import request from '@/utils/request';
 import CheckIntellectual from "@/views/project/components/CheckIntellectual.vue";
+import AddIntellectual from "@/views/project/components/AddIntellectual.vue";
 
 export default {
-    components: { CheckIntellectual },
+    components: { CheckIntellectual, AddIntellectual },
     data() {
         return {
             total: 0,
@@ -77,6 +80,7 @@ export default {
             ipId: undefined,
             iplist: undefined,
             dialogIntellectualLook: false,
+            intellectualDialogVisibleAdd: false,
             datas: {
                 "projectId": undefined,
                 "ipName": undefined,
@@ -106,6 +110,9 @@ export default {
             console.log('父组件中的ipId值:', ipId);
             this.dialogIntellectualLook = true;
             this.ipId = ipId;
+        },
+        handleAdd() {
+            this.intellectualDialogVisibleAdd = true;
         },
         // 查看用户列表
         checkmembers() {
