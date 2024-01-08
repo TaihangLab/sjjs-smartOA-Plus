@@ -4,9 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ruoyi.common.core.domain.PageQuery;
-import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.page.TableDataInfo;
-import com.ruoyi.common.enums.ProjectLevel;
+import com.ruoyi.common.enums.ProjectLevelEnum;
 import com.ruoyi.common.helper.LoginHelper;
 import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.project.domain.ProjectBaseInfo;
@@ -26,8 +25,8 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.ruoyi.common.constant.IpConstants.UNASSOCIATED_PROJECT_CODE;
-import static com.ruoyi.common.constant.IpConstants.UNASSOCIATED_PROJECT_IDENTIFIER;
+import static com.ruoyi.ip.constant.IpConstants.UNASSOCIATED_PROJECT_CODE;
+import static com.ruoyi.ip.constant.IpConstants.UNASSOCIATED_PROJECT_IDENTIFIER;
 
 /**
  * @author bailingnan
@@ -175,7 +174,7 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
     /**
      * 新增项目基本信息
      *
-     * @param projectBaseInfo
+     * @param projectBaseInfoBO
      * @return
      */
     @Override
@@ -263,8 +262,8 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
     @Override
     public List<Map<String, Object>> getProjectTreeMapping() {
         List<Map<String, Object>> projectTree = new ArrayList<>();
-        Set<ProjectLevel> projectLevels = getAllProjectLevels();
-        for (ProjectLevel projectLevel : projectLevels) {
+        Set<ProjectLevelEnum> projectLevels = getAllProjectLevels();
+        for (ProjectLevelEnum projectLevel : projectLevels) {
             Map<String, Object> levelMap = new HashMap<>();
             levelMap.put("label", projectLevel.getDescription());
             levelMap.put("value", projectLevel.getValue());
@@ -284,7 +283,7 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
     }
 
     // 获取所有项目类型的方法
-    private Set<ProjectLevel> getAllProjectLevels() {
+    private Set<ProjectLevelEnum> getAllProjectLevels() {
         return projectBaseInfoMapper.selectList()
             .stream()
             .map(ProjectBaseInfo::getProjectLevel)
@@ -293,7 +292,7 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
     }
 
     // 根据项目类型获取项目的方法
-    private List<ProjectBaseInfo> getProjectsByLevel(ProjectLevel projectLevel) {
+    private List<ProjectBaseInfo> getProjectsByLevel(ProjectLevelEnum projectLevel) {
         return projectBaseInfoMapper.selectList(
             new LambdaQueryWrapper<ProjectBaseInfo>()
                 .eq(ProjectBaseInfo::getProjectLevel, projectLevel));
@@ -305,12 +304,11 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
      * @return
      */
     public Map<String, Integer> getProjectLevelStatistics() {
+        Set<ProjectLevelEnum> allProjectLevels = getAllProjectLevels();
         Map<String, Integer> statistics = new HashMap<>();
-        ProjectLevel[] projectLevels = ProjectLevel.values();
-        for (ProjectLevel projectLevel : projectLevels){
-            int size = projectBaseInfoMapper.selectList(new LambdaQueryWrapper<ProjectBaseInfo>()
-                .eq(ProjectBaseInfo::getProjectLevel, projectLevel)).size();
-            statistics.put(projectLevel.getDescription(),size);
+        for (ProjectLevelEnum projectLevel : allProjectLevels) {
+            List<ProjectBaseInfo> projectsByLevel = getProjectsByLevel(projectLevel);
+            statistics.put(projectLevel.getDescription(), projectsByLevel.size());
         }
         return statistics;
     }

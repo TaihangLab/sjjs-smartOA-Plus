@@ -5,35 +5,25 @@ import com.baomidou.mybatisplus.annotation.IEnum;
 import lombok.Getter;
 
 /**
- * 学历
+ * 项目类别
  *
  * @author bailingnan
- * @date 2023/12/27
+ * @date 2023/12/12
  */
 @Getter
-public enum DiplomaType implements IEnum<Integer> {
-    /**
-     * 博士研究生
-     */
-    UNDERGRADUATEDOCTOR(0, "博士研究生"),
-    /**
-     * 硕士研究生
-     */
-    MASTER(1, "硕士研究生"),
-    /**
-     * 本科
-     */
-    UNDERGRADUATE(3, "本科"),
-    /**
-     * 专科
-     */
-    COLLEGE(4, "专科");
+public enum ConfirmationStatusEnum implements IEnum<Integer> {
+    //无
+    EXIST(0, "无"),
+    //有
+    NOT_EXIST(1, "有");
 
     @EnumValue
+    //值
     private final Integer value;
+    //描述
     private final String description;
 
-    DiplomaType(Integer value, String description) {
+    ConfirmationStatusEnum(Integer value, String description) {
         this.value = value;
         this.description = description;
     }

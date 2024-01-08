@@ -7,8 +7,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.Objects;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 @Getter
 @Setter
@@ -42,11 +42,11 @@ public class ProjectAttachment {
             return false;
         }
         ProjectAttachment that = (ProjectAttachment) o;
-        return Objects.equals(this.projectId, that.projectId) && Objects.equals(this.ossId, that.ossId);
+        return new EqualsBuilder().append(this.projectId, that.projectId).append(this.ossId, that.ossId).isEquals();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.projectId, this.ossId);
+        return new HashCodeBuilder().append(this.projectId).append(this.ossId).toHashCode();
     }
 }

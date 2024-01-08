@@ -3,10 +3,10 @@ package com.ruoyi.project.domain.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.constant.DateConstants;
 import com.ruoyi.common.core.domain.BaseEntity;
-import com.ruoyi.common.enums.ConfirmationStatus;
-import com.ruoyi.common.enums.ExistenceState;
-import com.ruoyi.common.enums.ProjectLevel;
-import com.ruoyi.common.enums.ProjectStatus;
+import com.ruoyi.common.enums.ConfirmationStatusEnum;
+import com.ruoyi.common.enums.ExistenceStateEnum;
+import com.ruoyi.common.enums.ProjectLevelEnum;
+import com.ruoyi.common.enums.ProjectStatusEnum;
 import lombok.Data;
 
 import javax.validation.constraints.Size;
@@ -51,12 +51,12 @@ public class ProjectInfoVO extends BaseEntity {
     /**
      * 项目级别，0国家级，1省级，2企业级
      */
-    private ProjectLevel projectLevel;
+    private ProjectLevelEnum projectLevel;
 
     /**
      * 是否是牵头单位，1是，0否
      */
-    private ConfirmationStatus hasLeadingRole;
+    private ConfirmationStatusEnum hasLeadingRole;
 
     /**
      * 负责课题
@@ -105,7 +105,7 @@ public class ProjectInfoVO extends BaseEntity {
     /**
      * 项目推进情况
      */
-    private ProjectStatus projectProgressStatus;
+    private ProjectStatusEnum projectProgressStatus;
 
     /**
      * 完成进度
@@ -125,7 +125,7 @@ public class ProjectInfoVO extends BaseEntity {
     /**
      * 有无合作单位，1有，0无
      */
-    private ExistenceState hasCooperativeUnit;
+    private ExistenceStateEnum hasCooperativeUnit;
 
     /**
      * 获奖情况（项）

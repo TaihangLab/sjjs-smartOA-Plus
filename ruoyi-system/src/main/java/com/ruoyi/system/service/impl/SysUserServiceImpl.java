@@ -17,8 +17,8 @@ import com.ruoyi.common.core.domain.entity.SysRole;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.core.service.UserService;
-import com.ruoyi.common.enums.DiplomaType;
-import com.ruoyi.common.enums.JobTitle;
+import com.ruoyi.common.enums.DiplomaTypeEnum;
+import com.ruoyi.common.enums.JobTitleEnum;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.helper.DataBaseHelper;
 import com.ruoyi.common.helper.LoginHelper;
@@ -35,7 +35,10 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 用户 业务层处理
@@ -522,8 +525,8 @@ public class SysUserServiceImpl implements ISysUserService, UserService {
     @Override
     public Map<String, Integer> getUserJobTitleStatistics() {
         Map<String, Integer> jobTitleToUserNumMap = new HashMap<>();
-        JobTitle[] jobTitles = JobTitle.values();
-        for (JobTitle jobTitle : jobTitles) {
+        JobTitleEnum[] jobTitles = JobTitleEnum.values();
+        for (JobTitleEnum jobTitle : jobTitles) {
             int size = baseMapper.selectUserList(new LambdaQueryWrapper<SysUser>()
                 .eq(SysUser::getJobTitle, jobTitle)).size();
             jobTitleToUserNumMap.put(jobTitle.getDescription(), size);
@@ -539,8 +542,8 @@ public class SysUserServiceImpl implements ISysUserService, UserService {
     @Override
     public Map<String, Integer> getUserDiplomaStatistics() {
         Map<String, Integer> diplomaToUserNumMap = new HashMap<>();
-        DiplomaType[] diplomaTypes = DiplomaType.values();
-        for (DiplomaType diplomaType : diplomaTypes) {
+        DiplomaTypeEnum[] diplomaTypes = DiplomaTypeEnum.values();
+        for (DiplomaTypeEnum diplomaType : diplomaTypes) {
             int size = baseMapper.selectUserList(new LambdaQueryWrapper<SysUser>()
                 .eq(SysUser::getDiploma, diplomaType)).size();
             diplomaToUserNumMap.put(diplomaType.getDescription(), size);

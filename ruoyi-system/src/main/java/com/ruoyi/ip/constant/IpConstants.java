@@ -1,4 +1,4 @@
-package com.ruoyi.common.constant;
+package com.ruoyi.ip.constant;
 
 /**
  * @author bailingnan

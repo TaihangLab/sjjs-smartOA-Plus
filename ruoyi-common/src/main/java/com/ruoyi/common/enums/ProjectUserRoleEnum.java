@@ -8,7 +8,7 @@ import lombok.Getter;
  * 项目成员角色
  */
 @Getter
-public enum ProjectUserRole implements IEnum<String> {
+public enum ProjectUserRoleEnum implements IEnum<String> {
 
     PROJECT_LEADER("0", "项目负责人"),
     COMPANY_LEADER("1", "公司负责人"),
@@ -23,7 +23,7 @@ public enum ProjectUserRole implements IEnum<String> {
     private final String value;
     private final String description;
 
-    ProjectUserRole(String value, String description) {
+    ProjectUserRoleEnum(String value, String description) {
         this.value = value;
         this.description = description;
     }
