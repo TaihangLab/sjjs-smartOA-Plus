@@ -287,9 +287,9 @@ export function addProject(projectInfoForm,
                 "kyfwfGnxzZxJj": zxFundsDetailForm.gnxzf_jj,
                 // 间接自筹经费科服务动费-国内协作费
                 "kyfwfGnxzZcJj": zxFundsDetailForm.gnxzf_jj,
-                // 间接专项经费人员和劳务补助费
+                // 间接专项经费人员劳务补助费
                 "ryhlwbzfZxJj": zxFundsDetailForm.rylwbzf_jj,
-                // 间接自筹经费人员和劳务补助费
+                // 间接自筹经费人员劳务补助费
                 "ryhlwbzfZcJj": zcFundsDetailForm.rylwbzf_jj,
             },
             // 经费来源
@@ -716,9 +716,9 @@ export function updateProject(projectId,
                 // 自筹经费间接费
                 "totalFundsZcJj": projectFundsForm.zcjjy,
 
-                // 直接专项经费设备费
+                // 直接专项经费设备费-设备费
                 "sbfZxZj": zxFundsDetailForm.sbf_zj,
-                // 直接自筹经费设备费
+                // 直接自筹经费设备费-设备费
                 "sbfZcZj": zcFundsDetailForm.sbf_zj,
                 // 直接专项经费设备费-购置设备费
                 "sbfGzsbZxZj": zxFundsDetailForm.gzsbf_zj,
@@ -898,9 +898,9 @@ export function updateProject(projectId,
                 "kyfwfGnxzZxJj": zxFundsDetailForm.gnxzf_jj,
                 // 间接自筹经费科服务动费-国内协作费
                 "kyfwfGnxzZcJj": zxFundsDetailForm.gnxzf_jj,
-                // 间接专项经费人员活动费-人员劳务费
+                // 间接专项经费人员劳务补助费
                 "ryhlwbzfZxJj": zxFundsDetailForm.rylwbzf_jj,
-                // 间接自筹经费人员活动费-人员劳务费
+                // 间接自筹经费人员劳务补助费
                 "ryhlwbzfZcJj": zcFundsDetailForm.rylwbzf_jj,
             },
             // 经费来源
