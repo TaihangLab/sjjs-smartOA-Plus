@@ -36,7 +36,7 @@
                             <div style="height: 290px; width: 100%;" ref="educationChart"></div>
                         </el-col>
                         <!-- 职称分布柱状图 -->
-                        <el-col :span="12">
+                        <el-col :span="12" style="margin-left: -5px;">
                             <div style="height: 290px; width: 100%;" ref="titleChart"></div>
                         </el-col>
                     </el-row>
@@ -212,9 +212,15 @@ export default {
                 console.error('Failed to fetch project list data:', error);
             });
         },
-
         initEducationChart(echarts) {
+            // 获取学历图表容器
             const educationChart = echarts.init(this.$refs.educationChart);
+            // 将数据转换为 ECharts 饼图所需的格式
+            const pieData = this.educationData.data.map((count, index) => ({
+                value: count,
+                name: this.educationData.categories[index],
+            }));
+            // 配置饼图选项
             const option = {
                 title: {
                     text: '学历',
@@ -224,35 +230,49 @@ export default {
                         fontSize: 16,
                     },
                 },
-                xAxis: {
-                    type: 'category',
-                    data: this.educationData.categories,
-                    axisLabel: {
-                        interval: 0,
-                        rotate: -90, // 将横坐标文字逆时针旋转90度
-                        verticalAlign: 'middle', // 文字垂直对齐方式
-                    },
-                },
-                yAxis: {
-                    type: 'value',
-                },
                 tooltip: {
-                    trigger: 'axis',
-                    formatter: '{b}: {c} 人',
+                    trigger: 'item',
+                    formatter: '{a} <br/>{b}: {c} 人 ({d}%)', // 添加百分比显示
                 },
                 series: [{
-                    type: 'bar',
-                    data: this.educationData.data,
-                    itemStyle: {
-                        color: 'green',
+                    name: '学历数量',
+                    type: 'pie',
+                    radius: ['40%', '60%'],
+                    center: ['50%', '50%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        show: true,
+                        position: 'outside',
+                        formatter: '{b}: {c} 人',
                     },
+                    emphasis: {
+                        label: {
+                            show: true,
+                            fontSize: '14',
+                            fontWeight: 'bold',
+                        },
+                    },
+                    labelLine: {
+                        show: true,
+                        length2: 10,
+                    },
+                    data: pieData,
                 }],
             };
+            // 设置饼图的选项
             educationChart.setOption(option);
         },
-
         initTitleChart(echarts) {
+            // 获取职称图表容器
             const titleChart = echarts.init(this.$refs.titleChart);
+
+            // 将数据转换为 ECharts 实心饼图所需的格式
+            const pieData = this.jobtitleData.data.map((count, index) => ({
+                value: count,
+                name: this.jobtitleData.categories[index],
+            }));
+
+            // 配置实心饼图选项
             const option = {
                 title: {
                     text: '职称', // 设置标题文本
@@ -262,13 +282,63 @@ export default {
                         fontSize: 16, // 标题字体大小
                     },
                 },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{a} <br/>{b}: {c} 人 ({d}%)', // 添加百分比显示
+                },
+                series: [{
+                    name: '职称数量',
+                    type: 'pie',
+                    radius: '60%', // 将两个值设置为相同的百分比，变成实心饼图
+                    center: ['50%', '50%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        show: true,
+                        position: 'outside',
+                        formatter: '{b}: {c} 人',
+                    },
+                    emphasis: {
+                        label: {
+                            show: true,
+                            fontSize: '14',
+                            fontWeight: 'bold',
+                        },
+                    },
+                    labelLine: {
+                        show: true,
+                        length2: 10,
+                    },
+                    data: pieData,
+                }],
+            };
+
+            // 设置实心饼图的选项
+            titleChart.setOption(option);
+        },
+
+        initProjectChart(echarts) {
+            // 获取项目列表图表容器
+            const projectChart = echarts.init(this.$refs.projectChart);
+            // 将数据转换为 ECharts 柱状图所需的格式
+            const barData = Object.entries(this.projectListData).map(([category, count]) => ({
+                value: count,
+                name: category,
+            }));
+            const option = {
+                title: {
+                    text: '项目数量', // 设置标题文本
+                    left: 'center', // 标题居中显示
+                    textStyle: {
+                        color: '#333', // 标题颜色
+                        fontSize: 16, // 标题字体大小
+                    },
+                },
                 xAxis: {
                     type: 'category',
-                    data: this.jobtitleData.categories,
+                    data: Object.keys(this.projectListData), // 使用项目类别作为横坐标数据
                     axisLabel: {
                         interval: 0,
-                        rotate: -90, // 将横坐标文字逆时针旋转90度
-                        verticalAlign: 'middle', // 文字垂直对齐方式
+                        rotate: -45, // 将横坐标文字逆时针旋转45度，适应柱状图显示
                     },
                 },
                 yAxis: {
@@ -276,100 +346,73 @@ export default {
                 },
                 tooltip: {
                     trigger: 'axis',
-                    formatter: '{b}: {c} 人',
+                    formatter: '{b}: {c} 个',
                 },
                 series: [{
                     type: 'bar',
-                    data: this.jobtitleData.data,
-                }],
-            };
-            titleChart.setOption(option);
-        },
-
-        initProjectChart(echarts) {
-            const projectChart = echarts.init(this.$refs.projectChart);
-            // 将数据转换为 ECharts 饼图所需的格式
-            const pieData = Object.entries(this.projectListData).map(([category, count]) => ({
-                value: count,
-                name: category,
-            }));
-            const option = {
-                tooltip: {
-                    trigger: 'item',
-                    formatter: '{a} <br/>{b}: {c} ({d}%)',
-                },
-                series: [
-                    {
-                        name: '项目数量',
-                        type: 'pie',
-                        radius: ['40%', '70%'],
-                        center: ['50%', '50%'],
-                        avoidLabelOverlap: false,
-                        label: {
-                            show: true,
-                            position: 'outside',
-                            formatter: '{b}: {c} ({d}%)',
-                        },
-                        emphasis: {
-                            label: {
-                                show: true,
-                                fontSize: '14',
-                                fontWeight: 'bold',
-                            },
-                        },
-                        labelLine: {
-                            show: true,
-                            length2: 10,
-                        },
-                        data: pieData,
+                    data: barData,
+                    itemStyle: {
+                        color: getRandomColor(), // 可以使用 getRandomColor 方法为每个柱设置不同的颜色
                     },
-                ],
+                }],
             };
             projectChart.setOption(option);
         },
         initChart(echarts) {
+            // 获取知识产权图表容器
             const resultChart = echarts.init(this.$refs.resultChart);
-            // 将数据转换为 ECharts 饼图所需的格式
-            const pieData = this.typeData.data.map((count, index) => ({
+            // 将数据转换为 ECharts 柱状图所需的格式
+            const barData = this.typeData.data.map((count, index) => ({
                 value: count,
                 name: this.typeData.categories[index],
             }));
+            // 配置柱状图选项
             const option = {
-                tooltip: {
-                    trigger: 'item',
-                    formatter: '{a} <br/>{b}: {c} ({d}%)',
-                },
-                series: [
-                    {
-                        name: '知识产权',
-                        type: 'pie',
-                        radius: ['0%', '70%'],
-                        center: ['50%', '50%'],
-                        avoidLabelOverlap: false,
-                        label: {
-                            show: true,
-                            position: 'outside',
-                            formatter: '{b}: {c} ({d}%)',
-                        },
-                        emphasis: {
-                            label: {
-                                show: true,
-                                fontSize: '14',
-                                fontWeight: 'bold',
-                            },
-                        },
-                        labelLine: {
-                            show: true,
-                            length2: 10,
-                        },
-                        data: pieData,
+                title: {
+                    text: '知识产权', // 设置标题文本
+                    left: 'center', // 标题居中显示
+                    textStyle: {
+                        color: '#333', // 标题颜色
+                        fontSize: 16, // 标题字体大小
                     },
-                ],
+                },
+                xAxis: {
+                    type: 'category',
+                    data: this.typeData.categories, // 使用知识产权类别作为横坐标数据
+                    axisLabel: {
+                        interval: 0,
+                        rotate: -45, // 将横坐标文字逆时针旋转45度，适应柱状图显示
+                    },
+                },
+                yAxis: {
+                    type: 'value',
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: '{b}: {c} 个',
+                },
+                series: [{
+                    type: 'bar',
+                    data: barData,
+                    itemStyle: {
+                        color: getRandomColor(), // 可以使用 getRandomColor 方法为每个柱设置不同的颜色
+                    },
+                }],
             };
+            // 设置柱状图的选项
             resultChart.setOption(option);
         },
+
     },
 };
+function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
 </script>
 
 <style scoped lang="scss">
