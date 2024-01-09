@@ -1,11 +1,13 @@
 package com.ruoyi.web.controller.ip;
 
+import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.core.validate.AddGroup;
 import com.ruoyi.common.core.validate.EditGroup;
 import com.ruoyi.common.core.validate.QueryGroup;
+import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.ip.domain.bo.IntellectualPropertyBO;
 import com.ruoyi.ip.domain.vo.IntellectualPropertyDetailVO;
 import com.ruoyi.ip.domain.vo.IntellectualPropertyVO;
@@ -44,6 +46,7 @@ public class IntellectualPropertyController {
      * @return 成功返回 R<Void>
      */
     //@SaCheckPermission("ip:add")
+    @Log(title = "新增知识产权信息", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     public R<Void> addIntellectualProperty(@RequestBody @Validated(AddGroup.class) IntellectualPropertyBO intellectualPropertyBO) {
         intellectualPropertyService.insertIntellectualProperty(intellectualPropertyBO);
@@ -57,6 +60,7 @@ public class IntellectualPropertyController {
      * @return 操作结果
      */
     //@SaCheckPermission("ip:delete")
+    @Log(title = "删除知识产权信息", businessType = BusinessType.DELETE)
     @GetMapping("/delete")
     public R<Void> deleteIntellectualProperty(@RequestParam @NotNull Long ipId) {
         intellectualPropertyService.deleteIntellectualProperty(ipId);
@@ -70,6 +74,7 @@ public class IntellectualPropertyController {
      * @return 更新结果
      */
     //@SaCheckPermission("ip:update")
+    @Log(title = "修改知识产权信息", businessType = BusinessType.UPDATE)
     @PostMapping("/update")
     public R<Void> updateIntellectualProperty(@RequestBody @Validated(EditGroup.class) IntellectualPropertyBO intellectualPropertyBO) {
         intellectualPropertyService.updateIntellectualProperty(intellectualPropertyBO);
