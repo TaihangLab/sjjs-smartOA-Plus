@@ -312,7 +312,7 @@ export default {
             this.$confirm('确认删除该数据项？').then(() => {
                 return this.deleteIp(ipId);  // 调用deleteIp方法
             }).then(() => {
-                this.getDeptAndUserList();  // 删除后刷新列表
+                this.checkmembers();  // 删除后刷新列表
                 this.$message.success("删除成功");
             }).catch(() => {
                 console.error('删除失败');
