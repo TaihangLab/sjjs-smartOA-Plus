@@ -9,10 +9,9 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="关联项目名称">
-                        <el-select v-model="form.projectId" placeholder="请选择项目">
-                            <el-option label="区域一" value="shanghai"></el-option>
-                            <el-option label="区域二" value="beijing"></el-option>
-                        </el-select>
+                        <el-cascader v-model="responsibleproject" :options="this.projecttree" clearable
+                                     :show-all-levels="false"
+                                     placeholder="请选择关联项目名称"></el-cascader>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -21,7 +20,7 @@
                     <el-form-item label="知识产权类别">
                         <el-select v-model="form.ipType" placeholder="请选择类别">
                             <el-option v-for="item in ipTypeOptions" :key="item.ipTypeId" :label="item.ipTypeName"
-                                :value="item.ipTypeId" :disabled="item.status == 1"></el-option>
+                                       :value="item.ipTypeId" :disabled="item.status == 1"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
@@ -29,7 +28,7 @@
                     <el-form-item label="知识产权状态">
                         <el-select v-model="form.ipStatus" placeholder="请选择状态">
                             <el-option v-for="item in ipStatusOptions" :key="item.ipStatusId" :label="item.ipStatusName"
-                                :value="item.ipStatusId" :disabled="item.status == 1"></el-option>
+                                       :value="item.ipStatusId" :disabled="item.status == 1"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
@@ -39,20 +38,26 @@
                     <el-form-item label="获得日期">
                         <el-col :span="11">
                             <el-date-picker type="date" placeholder="选择日期" v-model="form.date1"
-                                style="width: 192px"></el-date-picker>
+                                            style="width: 192px"></el-date-picker>
                         </el-col>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="知识产权成员">
-                        <el-select v-model="form.userIdList" placeholder="请选择成员">
-                            <el-option label="区域一" value="shanghai"></el-option>
-                        </el-select>
+                        <el-cascader
+                            v-model="responsiblePerson"
+                            :options="cascaderOptions"
+                            :props="props"
+                            collapse-tags
+                            clearable
+                            :show-all-levels="false"
+                            placeholder="请选择成员"
+                        ></el-cascader>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-form-item label="附件">
-                <fujian ref="fujian" :idList="ossids" />
+                <fujian ref="fujian" :idList="ossids"/>
             </el-form-item>
             <el-form-item style="text-align: center;margin-left: -100px;">
                 <el-button type="primary" @click="onSubmit">确定</el-button>
@@ -62,6 +67,7 @@
 </template>
 
 <script>
+import { listUser, deptTreeSelect } from "@/api/system/user";
 import fujian from "./../../../components/FileUpload/index.vue";
 import request from '@/utils/request';
 
@@ -78,6 +84,11 @@ export default {
             return `${year}-${month}-${day}`;
         };
         return {
+            props: { multiple: true },
+            responsiblePerson: [],
+            responsibleproject: [],
+            cascaderOptions: [],
+            projecttree: undefined,
             // 知识产权类别
             ipTypeOptions: [{
                 ipTypeId: '0',
@@ -114,27 +125,95 @@ export default {
             }],
             value: '',
             form: {
-                ipId: this.ipId,
-                projectId: this.projectId,
+                ipId: undefined,
+                projectId: undefined,
                 ipName: '',
                 ipType: '',
                 ipStatus: '',
-                ipDate: getCurrentDate(), 
+                ipDate: getCurrentDate(),
                 userIdList: [],
                 ossIds: [],
             },
             ossids: [],
         }
     },
+    created() {
+        this.createdData();
+    },
     methods: {
+        async createdData(){
+            this.getProjectTree();
+            this.getDeptAndUserList();
+        },
+        // 按项目级别-项目搜索
+        getProjectTree() {
+            request({
+                url: '/ip/getProjectMapping',
+                method: 'get',
+                params: this.header,
+            })
+                .then((resp) => {
+                    this.projecttree = resp.data;
+                })
+                .catch((error) => {
+                    console.error('获取用户数据时出错：', error);
+                });
+        },
+        // 按部门-人员搜索
+        async getDeptAndUserList() {
+            // this.queryParam.pageNum = 1;
+            // this.queryParam.pageSize = 10;
+            await this.getDeptTree(); // 等待部门数据加载完成
+            await this.getList(); // 等待用户数据加载完成
+            this.cascaderOptions = this.adaptData(this.deptOptions);
+        },
+        /** 查询部门下拉树结构 */
+        async getDeptTree() {
+            const response = await deptTreeSelect();
+            this.deptOptions = response.data;
+        },
+        /** 查询用户列表 */
+        async getList() {
+            const response = await listUser();
+            this.userList = response.rows;
+        },
+        // 适配数据的方法
+        adaptData(data) {
+            return data.map(item => {
+                const newItem = {
+                    value: item.id,
+                    label: item.label,
+                    children: []
+                };
+                if (item.children && item.children.length > 0) {
+                    newItem.children = this.adaptData(item.children);
+                } else {
+                    const usersInDept = this.userList.filter(user => user.deptId === item.id);
+                    newItem.children = this.adaptUserData(usersInDept);
+                }
+                return newItem;
+            });
+        },
+        adaptUserData(data) {
+            return data.map(item => {
+                const newItem = {
+                    value: item.userId,
+                    label: item.nickName,
+                };
+                return newItem;
+            });
+        },
+
         onSubmit() {
             // 验证关键字段是否为空
             // if (!this.form.milestoneTitle || !this.form.milestoneDate || !this.form.milestoneRemark) {
             //     this.$message.error('请填写完整的信息');
             //     return;
             // }
-            this.form.userIdList = this.form.userIdList || [];
+            this.form.projectId = this.responsibleproject[this.responsibleproject.length - 1];
+            this.form.userIdList = this.responsiblePerson.map(subArray => subArray[subArray.length - 1]);
             this.form.ossIds = this.ossids;
+
             request({
                 url: '/ip/add',
                 method: 'post',
@@ -157,8 +236,8 @@ export default {
         // 表单重置
         reset() {
             this.form = {
-                ipId: this.ipId,
-                projectId: this.projectId,
+                ipId: undefined,
+                projectId: undefined,
                 ipName: '',
                 ipType: '',
                 ipStatus: '',
@@ -168,6 +247,8 @@ export default {
             };
             this.ossids = [];
             this.fileList = [];
+            this.responsibleproject = undefined;
+            this.responsiblePerson = undefined;
         },
     },
 };

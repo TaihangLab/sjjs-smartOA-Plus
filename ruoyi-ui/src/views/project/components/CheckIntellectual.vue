@@ -10,9 +10,9 @@
                     :row-style="{ height: '50px' }" :cell-style="{ padding: '0px' }">
                     <el-table-column label="姓名" :resizable="false" align="center" prop="nickName">
                     </el-table-column>
-                    <el-table-column label="职称" :resizable="false" align="center" prop="jobTitle">
+                    <el-table-column label="职称" :resizable="false" align="center" prop="jobTitle" :formatter="jobTitles">
                     </el-table-column>
-                    <el-table-column label="学历" :resizable="false" align="center" prop="diploma">
+                    <el-table-column label="学历" :resizable="false" align="center" prop="diploma" :formatter="diplomas">
                     </el-table-column>
                     <el-table-column label="邮箱" :resizable="false" align="center" prop="email">
                     </el-table-column>
@@ -84,6 +84,22 @@ export default {
 
     data() {
         return {
+            jobTitle: {
+                0: '正高级工程师',
+                1: '副高级工程师',
+                2: '中级工程师',
+                3: '初级工程师',
+                4: '研究员',
+                5: '副研究员',
+                6: '助理研究员',
+                7: '研究实习员',
+            },
+            diploma: {
+                0: '博士研究生',
+                1: '硕士研究生',
+                2: '本科',
+                3: '专科',
+            },
             contentStyle: {
                 'text-align': 'center',
                 'width': '60%',
@@ -112,6 +128,14 @@ export default {
         },
     },
     methods: {
+        jobTitles(row, column, cellValue) {
+            // 使用映射关系来获取对应的文字描述
+            return this.jobTitle[cellValue] || cellValue;
+        },
+        diplomas(row, column, cellValue) {
+            // 使用映射关系来获取对应的文字描述
+            return this.diploma[cellValue] || cellValue;
+        },
         cheakIntellectual() {
             this.params.ipId = this.$props.ipId;
             request({
