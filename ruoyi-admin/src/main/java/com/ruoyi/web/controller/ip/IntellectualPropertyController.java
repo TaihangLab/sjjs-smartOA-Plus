@@ -46,7 +46,7 @@ public class IntellectualPropertyController {
      * @param intellectualPropertyBO 知识产权实体对象
      * @return 成功返回 R<Void>
      */
-    @SaCheckPermission("ip:add")
+    @SaCheckPermission("project:ip:add")
     @Log(title = "新增知识产权信息", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     public R<Void> addIntellectualProperty(@RequestBody @Validated(AddGroup.class) IntellectualPropertyBO intellectualPropertyBO) {
@@ -60,7 +60,7 @@ public class IntellectualPropertyController {
      * @param ipId 知识产权ID
      * @return 操作结果
      */
-    @SaCheckPermission("ip:delete")
+    @SaCheckPermission("project:ip:delete")
     @Log(title = "删除知识产权信息", businessType = BusinessType.DELETE)
     @GetMapping("/delete")
     public R<Void> deleteIntellectualProperty(@RequestParam @NotNull Long ipId) {
@@ -74,7 +74,7 @@ public class IntellectualPropertyController {
      * @param intellectualPropertyBO 知识产权BO对象
      * @return 更新结果
      */
-    @SaCheckPermission("ip:update")
+    @SaCheckPermission("project:ip:update")
     @Log(title = "修改知识产权信息", businessType = BusinessType.UPDATE)
     @PostMapping("/update")
     public R<Void> updateIntellectualProperty(@RequestBody @Validated(EditGroup.class) IntellectualPropertyBO intellectualPropertyBO) {
@@ -88,7 +88,7 @@ public class IntellectualPropertyController {
      * @param ipId 知识产权ID
      * @return 返回知识产权详情对象
      */
-    @SaCheckPermission("ip:getDetails")
+    @SaCheckPermission("project:ip:getDetails")
     @GetMapping("/getDetails")
     public R<IntellectualPropertyDetailVO> getIntellectualPropertyDetails(@RequestParam @NotNull Long ipId) {
         return R.ok(intellectualPropertyService.getIntellectualPropertyDetail(ipId));
@@ -101,7 +101,7 @@ public class IntellectualPropertyController {
      * @param pageQuery              分页查询参数
      * @return 查询结果的TableDataInfo对象
      */
-    @SaCheckPermission("ip:list")
+    @SaCheckPermission("project:ip:list")
     @PostMapping("/list")
     public TableDataInfo<IntellectualPropertyVO> queryIntellectualPropertVOList(@RequestBody @Validated(QueryGroup.class) IntellectualPropertyBO intellectualPropertyBO, PageQuery pageQuery) {
         return intellectualPropertyService.queryIntellectualPropertVOList(intellectualPropertyBO, pageQuery);
