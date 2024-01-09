@@ -1,5 +1,6 @@
 package com.ruoyi.web.controller.project;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.core.validate.QueryGroup;
@@ -36,7 +37,7 @@ public class MilestoneOssController {
      * @param pageQuery
      * @return
      */
-    //@SaCheckPermission("project:user:getAllList")
+    @SaCheckPermission("project:user:getAllList")
     @PostMapping("/getAllList")
     public TableDataInfo<SysOssVo> getAllProjectList(@RequestBody @Validated(QueryGroup.class) ProjectMilestoneBo projectMilestoneBo,
                                                      PageQuery pageQuery) {

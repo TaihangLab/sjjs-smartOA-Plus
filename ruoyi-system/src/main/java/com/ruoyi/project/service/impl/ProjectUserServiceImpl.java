@@ -298,7 +298,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
             }
             if (projectUserBo.getProjectId() != null) {
                 Set<Long> userIds = getUserIdsByProjectId(projectUserBo.getProjectId());
-                if (userIds.isEmpty()){
+                if (userIds.isEmpty()) {
                     return new Page<>();
                 }
                 lambdaQueryWrapper.in(SysUser::getUserId, userIds);

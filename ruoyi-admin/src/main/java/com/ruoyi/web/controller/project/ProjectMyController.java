@@ -1,5 +1,6 @@
 package com.ruoyi.web.controller.project;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.PageQuery;
@@ -44,7 +45,7 @@ public class ProjectMyController extends BaseController {
      * @param pageQuery         分页查询条件
      * @return 我的项目列表
      */
-    //@SaCheckPermission("project:my:getMyList")
+    @SaCheckPermission("project:my:getMyList")
     @PostMapping("/getMyList")
     public TableDataInfo<ProjectBaseInfoVO> getMyProjectList(@RequestBody @Validated(QueryGroup.class) ProjectBaseInfoBO projectBaseInfoBO, PageQuery pageQuery) {
         return projectBaseInfoService.queryPageMyList(projectBaseInfoBO, pageQuery);
@@ -58,7 +59,7 @@ public class ProjectMyController extends BaseController {
      * @return 结果
      */
     @Log(title = "新增项目信息", businessType = BusinessType.INSERT)
-    //@SaCheckPermission("project:my:add")
+    @SaCheckPermission("project:my:add")
     @PostMapping("/add")
     public R<Void> addProject(@RequestBody @Validated(AddGroup.class) ProjectInfoBO projectInfoBO) {
         projectService.addProject(projectInfoBO);
@@ -72,7 +73,7 @@ public class ProjectMyController extends BaseController {
      * @return 编辑结果
      */
     @Log(title = "编辑项目信息", businessType = BusinessType.UPDATE)
-    //@SaCheckPermission("project:my:edit")
+    @SaCheckPermission("project:my:edit")
     @PostMapping("/edit")
     public R<Void> editProject(@RequestBody @Validated(EditGroup.class) ProjectInfoBO projectInfoBO) {
         projectService.updateProject(projectInfoBO);
@@ -86,7 +87,7 @@ public class ProjectMyController extends BaseController {
      * @return 删除结果
      */
     @Log(title = "删除项目信息", businessType = BusinessType.DELETE)
-    //@SaCheckPermission("project:my:delete")
+    @SaCheckPermission("project:my:delete")
     @GetMapping("/delete")
     public R<Void> deleteProject(@RequestParam @NotNull Long projectId) {
         projectService.deleteProject(projectId);
@@ -94,29 +95,53 @@ public class ProjectMyController extends BaseController {
     }
 
 
-    //@SaCheckPermission("project:my:milestoneadd")
+    /**
+     * 新增项目大事纪
+     *
+     * @param projectMilestoneBo
+     * @return
+     */
     @Log(title = "新增项目大事纪", businessType = BusinessType.INSERT)
+    @SaCheckPermission("project:my:milestoneadd")
     @PostMapping(value = "/milestoneadd")
     public R<Void> add(@Validated @RequestBody ProjectMilestoneBo projectMilestoneBo) {
         return toAjax(projectMilestoneService.insertProjectMilestone(projectMilestoneBo));
     }
 
-    //@SaCheckPermission("project:my:milestonedelete")
+    /**
+     * 删除项目大事纪
+     *
+     * @param milestoneId
+     * @return
+     */
     @Log(title = "删除单条项目大事纪", businessType = BusinessType.DELETE)
+    @SaCheckPermission("project:my:milestonedelete")
     @DeleteMapping(value = "/milestonedelete")
     public R<Void> delete(@Validated @RequestParam Long milestoneId) {
         return toAjax(projectMilestoneService.deleteProjectMilestone(milestoneId));
     }
 
-    //@SaCheckPermission("project:my:milestonedeletebypro")
+    /**
+     * 删除某个项目对应的大事纪
+     *
+     * @param projectId
+     * @return
+     */
     @Log(title = "删除某个项目对应的大事纪", businessType = BusinessType.DELETE)
+    @SaCheckPermission("project:my:milestonedeletebypro")
     @DeleteMapping(value = "/milestonedeletebypro")
     public R<Void> deleteByPro(@Validated @RequestParam Long projectId) {
         return toAjax(projectMilestoneService.deleteMilestoneByProjectId(projectId));
     }
 
-    //    @SaCheckPermission("project:my:milestoneedit")
+    /**
+     * 修改大事纪
+     *
+     * @param projectMilestoneBo
+     * @return
+     */
     @Log(title = "修改项目大事纪", businessType = BusinessType.UPDATE)
+    @SaCheckPermission("project:my:milestoneedit")
     @PutMapping("/milestoneedit")
     public R<Void> edit(@Validated @RequestBody ProjectMilestoneBo projectMilestoneBo) {
         return toAjax(projectMilestoneService.updateMilestone(projectMilestoneBo));
