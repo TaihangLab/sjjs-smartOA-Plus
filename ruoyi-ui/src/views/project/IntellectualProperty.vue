@@ -94,11 +94,15 @@
                     <CheckIntellectual :ipId="ipId"></CheckIntellectual>
                 </el-dialog>
                 <!--新增知识产权-->
-                <el-dialog :visible.sync="intellectualDialogVisibleAdd" width="700px">
+                <el-dialog title="新增知识产权" :visible.sync="intellectualDialogVisibleAdd" width="700px">
                     <AddIntellectual @close-dialog="closeIntellectualDialog"></AddIntellectual>
                 </el-dialog>
+                <!--修改知识产权-->
+                <el-dialog title="修改知识产权" :visible.sync="intellectualDialogVisibleEdit" width="700px">
+                    <AddIntellectual :ipId="ipId" @close-dialog="closeIntellectualDialog"></AddIntellectual>
+                </el-dialog>
             </div>
-            <el-pagination :current-page="queryParam.pageNum" :page-size="queryParam.pageSize"
+            <el-pagination  :current-page="queryParam.pageNum" :page-size="queryParam.pageSize"
                 :page-sizes="[5, 10, 20, 50, 100]" :total="total" layout="total ,sizes,prev,pager,next,jumper"
                 style="margin-top: 30px" @size-change="sizeChangeHandle" @current-change="CurrentChangeHandle">
             </el-pagination>
@@ -143,6 +147,7 @@ export default {
             iplist: undefined,
             dialogIntellectualLook: false,
             intellectualDialogVisibleAdd: false,
+            intellectualDialogVisibleEdit:false,
             datas: {
                 "projectId": undefined,
                 "ipName": undefined,
@@ -281,6 +286,9 @@ export default {
         closeIntellectualDialog() {
             this.intellectualDialogVisibleAdd = false;
             this.resetQuery();
+        },
+        handleUpdate(){
+            this.intellectualDialogVisibleEdit = true;
         },
         // 查看用户列表
         checkmembers() {
