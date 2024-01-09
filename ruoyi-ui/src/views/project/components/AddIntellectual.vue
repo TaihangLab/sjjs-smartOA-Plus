@@ -124,6 +124,7 @@ export default {
                 ipStatusName: '论文已发表'
             }],
             value: '',
+            ossids: [],
             form: {
                 ipId: undefined,
                 projectId: undefined,
@@ -132,10 +133,9 @@ export default {
                 ipStatus: '',
                 ipDate: getCurrentDate(),
                 userIdList: [],
-                ossIds: [],
+                ossIdList: [],
             },
-            ossids: [],
-        }
+        };
     },
     created() {
         this.createdData();
@@ -206,13 +206,13 @@ export default {
 
         onSubmit() {
             // 验证关键字段是否为空
-            // if (!this.form.milestoneTitle || !this.form.milestoneDate || !this.form.milestoneRemark) {
-            //     this.$message.error('请填写完整的信息');
-            //     return;
-            // }
+            if (!this.form.ipType || !this.form.projectId || !this.form.ipName || !this.form.ipDate || !this.form.ipStatus) {
+                this.$message.error('请填写完整的信息');
+                return;
+            }
             this.form.projectId = this.responsibleproject[this.responsibleproject.length - 1];
             this.form.userIdList = this.responsiblePerson.map(subArray => subArray[subArray.length - 1]);
-            this.form.ossIds = this.ossids;
+            this.form.ossIdList = this.ossids;
 
             request({
                 url: '/ip/add',

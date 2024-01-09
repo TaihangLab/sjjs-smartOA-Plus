@@ -277,6 +277,10 @@ export default {
         handleAdd() {
             this.intellectualDialogVisibleAdd = true;
         },
+        // 关闭弹窗的方法
+        closeIntellectualDialog() {
+            this.intellectualDialogVisibleAdd = false;
+        },
         // 查看用户列表
         checkmembers() {
             request({
