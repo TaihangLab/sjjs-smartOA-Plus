@@ -93,8 +93,8 @@
                 <el-dialog :visible.sync="dialogIntellectualLook" width="50%">
                     <CheckIntellectual :ipId="ipId"></CheckIntellectual>
                 </el-dialog>
-                <!--新增大事记-->
-                <el-dialog :visible.sync="intellectualDialogVisibleAdd" width="50%">
+                <!--新增知识产权-->
+                <el-dialog :visible.sync="intellectualDialogVisibleAdd" width="700px">
                     <AddIntellectual @close-dialog="closeIntellectualDialog"></AddIntellectual>
                 </el-dialog>
             </div>

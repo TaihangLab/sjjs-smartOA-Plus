@@ -7,9 +7,9 @@
 
                 <el-collapse-item name="1">
                     <template #title><i :class="activeClass">设备费</i>
-<!--                        <el-form-item @click.native.stop="" label-width="125px" label="设备费">-->
-<!--                            <el-input @click.native.stop="" v-model.number="$props.form.sbf_zj" type="number"></el-input>-->
-<!--                        </el-form-item>-->
+                        <!--                        <el-form-item @click.native.stop="" label-width="125px" label="设备费">-->
+                        <!--                            <el-input @click.native.stop="" v-model.number="$props.form.sbf_zj" type="number"></el-input>-->
+                        <!--                        </el-form-item>-->
                     </template>
                     <el-row :gutter="10">
                         <el-col :span="8">
@@ -337,27 +337,68 @@ import {addFunds} from "@/views/project/components/utils";
 import {getCurrentInstance, ref, watchEffect} from "vue";
 import {Message} from "element-ui";
 
-const { proxy } = getCurrentInstance();
-const props = defineProps({
+const {proxy} = getCurrentInstance();
+const props   = defineProps({
     form: Object,
 });
 defineExpose({reset});
 
 
 // 折叠面板的初始化激活项
-const activeNames = ref([]);
+const activeNames  = ref([]);
 const activeNames2 = ref([]);
-const activeClass= "el-icon-edit-outline";
+const activeClass  = "el-icon-edit-outline";
 
-const showError = ()=>Message({
+const showError = (msg) => Message({
     showClose: true,
-    message: '错了哦，请检查',
-    type: 'error',
+    message  : '错了哦，请检查 ' + msg,
+    type     : 'error',
 });
 
-watchEffect(()=>{
-    if (addFunds(props.form.gzsbf_zj + props.form.szsbf_zj + props.form.sbgzyzlf_zj) > props.form.sbf_zj) {
-        showError();
+watchEffect(() => {
+    if (addFunds(props.form.gzsbf_zj,
+        props.form.szsbf_zj,
+        props.form.sbgzyzlf_zj) > props.form.sbf_zj) {
+        showError('设备费');
+    }
+    if (addFunds(props.form.zlf_zj,
+        props.form.cshyjgf_zj,
+        props.form.sjybcjf_zj,
+        props.form.yscbf_zj,
+        props.form.zscqswf_zj,
+        props.form.bgf_zj,
+        props.form.rldlf_zj,
+        props.form.clsyf_zj) > props.form.kyhdf_zj) {
+        showError('科研活动费');
+    }
+    if (addFunds(props.form.zjzxf_zj,
+        props.form.chlf_zj,
+        props.form.hyhwf_zj,
+        props.form.gjhzjlf_zj,
+        props.form.gnxzf_zj) > props.form.kyfwf_zj) {
+        showError('科研服务费');
+    }
+    if (addFunds(props.form.gzsbf_jj,
+        props.form.szsbf_jj,
+        props.form.sbgzyzlf_jj) > props.form.sbf_jj) {
+        showError('设备费');
+    }
+    if (addFunds(props.form.zlf_jj,
+        props.form.cshyjgf_jj,
+        props.form.sjybcjf_jj,
+        props.form.yscbf_jj,
+        props.form.zscqswf_jj,
+        props.form.bgf_jj,
+        props.form.rldlf_jj,
+        props.form.clsyf_jj) > props.form.kyhdf_jj) {
+        showError('科研活动费');
+    }
+    if (addFunds(props.form.zjzxf_jj,
+        props.form.chlf_jj,
+        props.form.hyhwf_jj,
+        props.form.gjhzjlf_jj,
+        props.form.gnxzf_jj) > props.form.kyfwf_jj) {
+        showError('科研服务费');
     }
 });
 
