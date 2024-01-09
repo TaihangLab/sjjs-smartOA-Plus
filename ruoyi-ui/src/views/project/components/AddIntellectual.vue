@@ -123,6 +123,9 @@ export default {
             }],
             value: '',
             ossids: [],
+            params: {
+                ipId: undefined,
+            },
             form: {
                 ipId: undefined,
                 projectId: undefined,
@@ -137,6 +140,7 @@ export default {
     },
     created() {
         this.createdData();
+        console.log('ipId传递过来的值:', this.ipId);
         this.cheakIntellectual();
     },
     watch: {
@@ -144,7 +148,6 @@ export default {
             handler(newVal) {
                 // 监听到memberid变化时，重新获取项目详情数据
                 this.params.ipId = newVal;
-                this.activeNames = ['0'];
                 this.cheakIntellectual();
             },
             immediate: true, // 立即执行一次
@@ -219,7 +222,7 @@ export default {
                 url: '/ip/getDetails',
                 method: 'get',
                 params: {
-                    ipId: this.ipId,  // 传递ipId参数
+                    ipId: this.$props.ipId,   // 传递ipId参数
                 },
             })
                 .then((resp) => {

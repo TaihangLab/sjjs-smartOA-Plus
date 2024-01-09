@@ -82,7 +82,7 @@
                         <template v-slot="scope">
                             <el-button size="mini" type="text" icon="el-icon-tickets"
                                 @click="lookIntellectual(scope.row.ipId)">详情</el-button>
-                            <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)">修改
+                            <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row.ipId)">修改
                             </el-button>
                             <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)">删除
                             </el-button>
@@ -275,7 +275,6 @@ export default {
             return this.ipType[cellValue] || cellValue;
         },
         lookIntellectual(ipId) {
-            console.log('父组件中的ipId值:', ipId);
             this.dialogIntellectualLook = true;
             this.ipId = ipId;
         },
@@ -287,7 +286,7 @@ export default {
             this.intellectualDialogVisibleAdd = false;
             this.resetQuery();
         },
-        handleUpdate(){
+        handleUpdate(ipId){
             this.intellectualDialogVisibleEdit = true;
             this.ipId = ipId;
         },
