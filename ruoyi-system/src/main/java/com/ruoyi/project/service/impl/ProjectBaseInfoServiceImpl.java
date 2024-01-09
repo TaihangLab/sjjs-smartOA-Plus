@@ -116,7 +116,7 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
 
     private LambdaQueryWrapper<ProjectBaseInfo> buildCommonQueryWrapper(ProjectBaseInfoBO projectBaseInfoBO) {
         LambdaQueryWrapper<ProjectBaseInfo> lqw = Wrappers.lambdaQuery();
-        log.info("ProjectBaseInfoBO为:{}", projectBaseInfoBO);
+//        log.info("ProjectBaseInfoBO为:{}", projectBaseInfoBO);
         lqw.like(StringUtils.isNotBlank(projectBaseInfoBO.getAssignedSubjectName()), ProjectBaseInfo::getAssignedSubjectName, projectBaseInfoBO.getAssignedSubjectName());
         lqw.like(StringUtils.isNotBlank(projectBaseInfoBO.getAssignedSubjectSection()), ProjectBaseInfo::getAssignedSubjectSection, projectBaseInfoBO.getAssignedSubjectSection());
         //log.info("projectBaseInfoBO.getHasCooperativeUnit()为:{}",projectBaseInfoBO.getHasCooperativeUnit().getValue());
