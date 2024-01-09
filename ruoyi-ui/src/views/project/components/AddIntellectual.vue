@@ -37,7 +37,7 @@
                 <el-col :span="12">
                     <el-form-item label="获得日期">
                         <el-col :span="11">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="form.date1"
+                            <el-date-picker type="date" placeholder="选择日期" v-model="form.date"
                                             style="width: 192px"></el-date-picker>
                         </el-col>
                     </el-form-item>
@@ -206,10 +206,10 @@ export default {
 
         onSubmit() {
             // 验证关键字段是否为空
-            if (!this.form.ipType || !this.form.projectId || !this.form.ipName || !this.form.ipDate || !this.form.ipStatus) {
-                this.$message.error('请填写完整的信息');
-                return;
-            }
+            // if (!this.form.ipType || !this.form.projectId || !this.form.ipName || !this.form.ipDate || !this.form.ipStatus) {
+            //     this.$message.error('请填写完整的信息');
+            //     return;
+            // }
             this.form.projectId = this.responsibleproject[this.responsibleproject.length - 1];
             this.form.userIdList = this.responsiblePerson.map(subArray => subArray[subArray.length - 1]);
             this.form.ossIdList = this.ossids;

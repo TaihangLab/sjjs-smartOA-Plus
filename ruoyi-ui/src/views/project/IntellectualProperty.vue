@@ -280,6 +280,7 @@ export default {
         // 关闭弹窗的方法
         closeIntellectualDialog() {
             this.intellectualDialogVisibleAdd = false;
+            this.resetQuery();
         },
         // 查看用户列表
         checkmembers() {
