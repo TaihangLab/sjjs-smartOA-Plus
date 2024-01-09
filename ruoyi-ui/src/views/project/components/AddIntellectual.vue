@@ -4,12 +4,12 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="知识产权名">
-                        <el-input v-model="form.name" style="width: 192px"></el-input>
+                        <el-input v-model="form.ipName" style="width: 192px"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="关联项目名称">
-                        <el-select v-model="form.category" placeholder="请选择项目">
+                        <el-select v-model="form.projectId" placeholder="请选择项目">
                             <el-option label="区域一" value="shanghai"></el-option>
                             <el-option label="区域二" value="beijing"></el-option>
                         </el-select>
@@ -45,7 +45,7 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="知识产权成员">
-                        <el-select v-model="form.status" placeholder="请选择成员">
+                        <el-select v-model="form.userIdList" placeholder="请选择成员">
                             <el-option label="区域一" value="shanghai"></el-option>
                         </el-select>
                     </el-form-item>
@@ -56,7 +56,6 @@
             </el-form-item>
             <el-form-item style="text-align: center;margin-left: -100px;">
                 <el-button type="primary" @click="onSubmit">确定</el-button>
-                <el-button>取消</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -71,6 +70,13 @@ export default {
         fujian,
     },
     data() {
+        const getCurrentDate = () => {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = (today.getMonth() + 1).toString().padStart(2, '0');
+            const day = today.getDate().toString().padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        };
         return {
             // 知识产权类别
             ipTypeOptions: [{
@@ -96,7 +102,7 @@ export default {
             }, {
                 ipStatusId: '2',
                 ipStatusName: '软著已获取'
-            },{
+            }, {
                 ipStatusId: '3',
                 ipStatusName: '标准正在申报'
             }, {
@@ -108,13 +114,60 @@ export default {
             }],
             value: '',
             form: {
+                ipId: this.ipId,
+                projectId: this.projectId,
+                ipName: '',
+                ipType: '',
+                ipStatus: '',
+                ipDate: getCurrentDate(), 
+                userIdList: [],
+                ossIds: [],
             },
             ossids: [],
         }
     },
     methods: {
         onSubmit() {
+            // 验证关键字段是否为空
+            // if (!this.form.milestoneTitle || !this.form.milestoneDate || !this.form.milestoneRemark) {
+            //     this.$message.error('请填写完整的信息');
+            //     return;
+            // }
+            this.form.userIdList = this.form.userIdList || [];
+            this.form.ossIds = this.ossids;
+            request({
+                url: '/ip/add',
+                method: 'post',
+                data: this.form
+            })
+                .then((resp) => {
+                    console.log(resp);
+                    this.$modal.msgSuccess("新增成功");
+                    // this.$emit('milestoneAdded');
+                    this.$refs.fujian.reset();
+                    this.$emit('close-dialog'); // 触发一个事件通知父组件关闭弹窗
 
+                })
+                .catch(error => {
+                    console.error("Error while adding milestone:", error);
+                    // 处理错误情况，例如显示错误提示
+                });
+            this.reset();
+        },
+        // 表单重置
+        reset() {
+            this.form = {
+                ipId: this.ipId,
+                projectId: this.projectId,
+                ipName: '',
+                ipType: '',
+                ipStatus: '',
+                ipDate: '',
+                userIdList: [],
+                ossIds: [],
+            };
+            this.ossids = [];
+            this.fileList = [];
         },
     },
 };
