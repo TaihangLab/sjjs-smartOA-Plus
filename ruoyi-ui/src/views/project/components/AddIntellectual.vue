@@ -31,7 +31,7 @@
                         </el-select>
                     </el-form-item>
                 </el-col>
-            </el-row>
+            </el-row> 
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="获得日期">

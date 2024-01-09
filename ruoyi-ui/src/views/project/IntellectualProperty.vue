@@ -32,7 +32,7 @@
                     placeholder="请选择项目成员"
                     @keyup.enter.native="handleQuery"
                 ></el-cascader>
-            </el-form-item>
+            </el-form-item> 
             <el-form-item label="获得日期" >
                 <el-date-picker
                     v-model="projectEstablishTime"
