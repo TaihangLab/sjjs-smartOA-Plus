@@ -4,10 +4,7 @@ import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.core.validate.QueryGroup;
-import com.ruoyi.project.domain.ProjectMilestoneOss;
 import com.ruoyi.project.domain.bo.ProjectMilestoneBo;
-import com.ruoyi.project.domain.bo.ProjectUserBo;
-import com.ruoyi.project.domain.vo.ProjectUserVo;
 import com.ruoyi.project.service.ProjectMilestoneService;
 import com.ruoyi.system.domain.vo.SysOssVo;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +34,7 @@ public class MilestoneOssController {
      * @param pageQuery
      * @return
      */
+
     @SaCheckPermission("project:user:getAllList")
     @PostMapping("/getAllList")
     public TableDataInfo<SysOssVo> getAllProjectList(@RequestBody @Validated(QueryGroup.class) ProjectMilestoneBo projectMilestoneBo,
