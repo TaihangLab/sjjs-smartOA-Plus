@@ -263,7 +263,7 @@ export default {
 
         allJobTitle(row, column, cellValue) {
             // 使用映射关系来获取对应的文字描述
-             this.ipStatus[cellValue] || cellValue;
+            return this.ipStatus[cellValue] || cellValue;
         },
         allIpType(row, column, cellValue) {
             // 使用映射关系来获取对应的文字描述
@@ -316,6 +316,7 @@ export default {
         },
         sizeChangeHandle(val) {
             this.$set(this.queryParam, 'pageSize', val);
+            this.queryParam.pageNum = 1;
             this.fetchData();
         },
         CurrentChangeHandle(val) {
@@ -323,7 +324,7 @@ export default {
             this.fetchData();
         },
         fetchData() {
-            this.getDeptAndUserList();
+            this.checkmembers();
         },
     },
 
