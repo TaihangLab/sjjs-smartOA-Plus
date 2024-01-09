@@ -1,9 +1,51 @@
 <template>
     <div>
         <el-form ref="dataForm" :inline="true" class="demo-form-inline" style="margin-left: 30px; margin-top: 20px;">
-            <el-form-item label="知识产权名">
+            <el-form-item label="项目名称">
                 <el-cascader v-model="responsibleproject" :options="this.projecttree" clearable :show-all-levels="false"
-                    placeholder="请选择" @keyup.enter.native="handleQuery"></el-cascader>
+                             placeholder="请选择项目" @keyup.enter.native="handleQuery"></el-cascader>
+            </el-form-item>
+            <el-form-item label="知识产权名" >
+                <el-input
+                    v-model="responsibleIp"
+                    clearable
+                    placeholder="请输入知识产权名"
+                    @keyup.enter.native="handleQuery"
+                ></el-input>
+            </el-form-item>
+            <el-form-item label="知识产权类别">
+                <el-select v-model="responsibleType" placeholder="请选择知识产权类别">
+                    <el-option v-for="(label, value) in ipType" :label="label" :value="value" :key="value"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="知识产权状态">
+                <el-select v-model="responsibleJobTitle" placeholder="请选择知识产权状态">
+                    <el-option v-for="(label, value) in ipStatus" :label="label" :value="value" :key="value"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="项目成员" >
+                <el-cascader
+                    v-model="responsiblePerson"
+                    :options="cascaderOptions"
+                    clearable
+                    :show-all-levels="false"
+                    placeholder="请选择项目成员"
+                    @keyup.enter.native="handleQuery"
+                ></el-cascader>
+            </el-form-item>
+            <el-form-item label="获得日期" >
+                <el-date-picker
+                    v-model="projectEstablishTime"
+                    type="daterange"
+                    unlink-panels
+                    clearable
+                    start-placeholder="请输入查询范围"
+                    end-placeholder="如：2000-01-01"
+                    value-format="yyyy-MM-dd"
+                    @change="getList"
+                    :picker-options="pickerOptions"
+                    @keyup.enter.native="handleQuery"
+                ></el-date-picker>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -15,7 +57,7 @@
                 <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增
                 </el-button>
             </el-col>
-            <right-toolbar :showSearch.sync="showSearch"></right-toolbar>
+            <right-toolbar ></right-toolbar>
         </el-row>
 
         <el-card class="box-card" style="margin: auto;">
@@ -74,6 +116,7 @@ export default {
     components: { CheckIntellectual, AddIntellectual },
     data() {
         return {
+            projecttree: undefined,
             ipStatus: {
                 0: '专利受理',
                 1: '专利授权',
@@ -89,7 +132,12 @@ export default {
                 3: '标准',
             },
             total: 0,
+            projectEstablishTime: [],
+            responsibleIp: undefined,
+            responsibleType: undefined,
+            responsibleJobTitle: undefined,
             responsiblePerson: [],
+            responsibleproject: [],
             cascaderOptions: [],
             ipId: undefined,
             iplist: undefined,
@@ -113,20 +161,113 @@ export default {
         };
     },
     created() {
-        this.checkmembers();
+        this.checkIp();
     },
     methods: {
+        async checkIp(){
+            this.getDeptAndUserList();
+            this.getProjectTree();
+            this.checkmembers();
+        },
+
+        // 按项目级别-项目搜索
+        getProjectTree(){
+            request({
+                url: '/ip/getProjectMapping',
+                method: 'get',
+                params: this.header,
+            })
+                .then((resp) => {
+                    this.projecttree = resp.data;
+                })
+                .catch((error) => {
+                    console.error('获取用户数据时出错：', error);
+                });
+        },
+
+        // 按部门-人员搜索
+        async getDeptAndUserList() {
+            // this.queryParam.pageNum = 1;
+            // this.queryParam.pageSize = 10;
+            await this.getDeptTree(); // 等待部门数据加载完成
+            await this.getList(); // 等待用户数据加载完成
+            this.cascaderOptions = this.adaptData(this.deptOptions);
+        },
+        /** 查询部门下拉树结构 */
+        async getDeptTree() {
+            const response = await deptTreeSelect();
+            this.deptOptions = response.data;
+        },
+        /** 查询用户列表 */
+        async getList() {
+            const response = await listUser();
+            this.userList = response.rows;
+        },
+        // 适配数据的方法
+        adaptData(data) {
+            return data.map(item => {
+                const newItem = {
+                    value: item.id,
+                    label: item.label,
+                    children: []
+                };
+                if (item.children && item.children.length > 0) {
+                    newItem.children = this.adaptData(item.children);
+                } else {
+                    const usersInDept = this.userList.filter(user => user.deptId === item.id);
+                    newItem.children = this.adaptUserData(usersInDept);
+                }
+                return newItem;
+            });
+        },
+        adaptUserData(data) {
+            return data.map(item => {
+                const newItem = {
+                    value: item.userId,
+                    label: item.nickName,
+                };
+                return newItem;
+            });
+        },
+
+        // 处理按钮点击事件搜索
+        handleQuery() {
+            this.datas.ipName = this.responsibleIp;
+            this.datas.projectId = this.responsibleproject[this.responsibleproject.length - 1];
+            this.datas.userId = this.responsiblePerson[this.responsiblePerson.length - 1];
+            this.datas.ipType = this.responsibleType;
+            this.datas.ipStatus = this.responsibleJobTitle;
+            this.datas.ipDateSta = this.projectEstablishTime[0];
+            this.datas.ipDateEnd = this.projectEstablishTime[1];
+            this.checkmembers();
+        },
+        // 处理按钮点击事件重置
+        resetQuery(){
+            this.datas = {
+                projectId: undefined,
+                ipName: undefined,
+                ipType: undefined,
+                ipStatus: undefined,
+                userId: undefined,
+                ipDateSta: undefined,
+                ipDateEnd: undefined,
+            };
+            this.projectEstablishTime = [];
+            this.responsibleIp = undefined;
+            this.responsibleType = undefined;
+            this.responsibleJobTitle = undefined;
+            this.responsiblePerson = [];
+            this.responsibleproject = [];
+            this.checkmembers();
+        },
+
         allJobTitle(row, column, cellValue) {
             // 使用映射关系来获取对应的文字描述
-            return this.ipStatus[cellValue] || cellValue;
+             this.ipStatus[cellValue] || cellValue;
         },
         allIpType(row, column, cellValue) {
             // 使用映射关系来获取对应的文字描述
             return this.ipType[cellValue] || cellValue;
-        },
-        async getDeptAndUserList() {
-            this.checkmembers();
-            this.getProjectTree();
         },
         lookIntellectual(ipId) {
             console.log('父组件中的ipId值:', ipId);
