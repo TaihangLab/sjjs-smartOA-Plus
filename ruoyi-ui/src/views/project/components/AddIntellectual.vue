@@ -10,8 +10,7 @@
                 <el-col :span="12">
                     <el-form-item label="关联项目名称">
                         <el-cascader v-model="responsibleproject" :options="this.projecttree" clearable
-                                     :show-all-levels="false"
-                                     placeholder="请选择关联项目名称"></el-cascader>
+                            :show-all-levels="false" placeholder="请选择关联项目名称"></el-cascader>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -20,7 +19,7 @@
                     <el-form-item label="知识产权类别">
                         <el-select v-model="form.ipType" placeholder="请选择类别">
                             <el-option v-for="item in ipTypeOptions" :key="item.ipTypeId" :label="item.ipTypeName"
-                                       :value="item.ipTypeId" :disabled="item.status == 1"></el-option>
+                                :value="item.ipTypeId" :disabled="item.status == 1"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
@@ -28,7 +27,7 @@
                     <el-form-item label="知识产权状态">
                         <el-select v-model="form.ipStatus" placeholder="请选择状态">
                             <el-option v-for="item in ipStatusOptions" :key="item.ipStatusId" :label="item.ipStatusName"
-                                       :value="item.ipStatusId" :disabled="item.status == 1"></el-option>
+                                :value="item.ipStatusId" :disabled="item.status == 1"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
@@ -38,26 +37,19 @@
                     <el-form-item label="获得日期">
                         <el-col :span="11">
                             <el-date-picker type="date" placeholder="选择日期" v-model="form.date"
-                                            style="width: 192px"></el-date-picker>
+                                style="width: 192px"></el-date-picker>
                         </el-col>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="知识产权成员">
-                        <el-cascader
-                            v-model="responsiblePerson"
-                            :options="cascaderOptions"
-                            :props="props"
-                            collapse-tags
-                            clearable
-                            :show-all-levels="false"
-                            placeholder="请选择成员"
-                        ></el-cascader>
+                        <el-cascader v-model="responsiblePerson" :options="cascaderOptions" :props="props" collapse-tags
+                            clearable :show-all-levels="false" placeholder="请选择成员"></el-cascader>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-form-item label="附件">
-                <fujian ref="fujian" :idList="ossids"/>
+                <fujian ref="fujian" :idList="ossids" />
             </el-form-item>
             <el-form-item style="text-align: center;margin-left: -100px;">
                 <el-button type="primary" @click="onSubmit">确定</el-button>
@@ -74,6 +66,12 @@ import request from '@/utils/request';
 export default {
     components: {
         fujian,
+    },
+    props: {
+        ipId: {
+            type: String,
+            required: true,
+        },
     },
     data() {
         const getCurrentDate = () => {
@@ -131,7 +129,7 @@ export default {
                 ipName: '',
                 ipType: '',
                 ipStatus: '',
-                ipDate: getCurrentDate(),
+                ipDate: '',
                 userIdList: [],
                 ossIdList: [],
             },
@@ -139,9 +137,21 @@ export default {
     },
     created() {
         this.createdData();
+        this.cheakIntellectual();
+    },
+    watch: {
+        ipId: {
+            handler(newVal) {
+                // 监听到memberid变化时，重新获取项目详情数据
+                this.params.ipId = newVal;
+                this.activeNames = ['0'];
+                this.cheakIntellectual();
+            },
+            immediate: true, // 立即执行一次
+        },
     },
     methods: {
-        async createdData(){
+        async createdData() {
             this.getProjectTree();
             this.getDeptAndUserList();
         },
@@ -203,53 +213,69 @@ export default {
                 return newItem;
             });
         },
-
-        onSubmit() {
-            // 验证关键字段是否为空
-            // if (!this.form.ipType || !this.form.projectId || !this.form.ipName || !this.form.ipDate || !this.form.ipStatus) {
-            //     this.$message.error('请填写完整的信息');
-            //     return;
-            // }
-            this.form.projectId = this.responsibleproject[this.responsibleproject.length - 1];
-            this.form.userIdList = this.responsiblePerson.map(subArray => subArray[subArray.length - 1]);
-            this.form.ossIdList = this.ossids;
-
+        cheakIntellectual() {
+            this.params.ipId = this.$props.ipId;
             request({
-                url: '/ip/add',
-                method: 'post',
-                data: this.form
+                url: '/ip/getDetails',
+                method: 'get',
+                params: {
+                    ipId: this.ipId,  // 传递ipId参数
+                },
             })
                 .then((resp) => {
-                    console.log(resp);
-                    this.$modal.msgSuccess("新增成功");
-                    // this.$emit('milestoneAdded');
-                    this.$refs.fujian.reset();
-                    this.$emit('close-dialog'); // 触发一个事件通知父组件关闭弹窗
-
+                    this.form = resp.data;
+                    console.log('详情数据', this.form)
                 })
-                .catch(error => {
-                    console.error("Error while adding milestone:", error);
-                    // 处理错误情况，例如显示错误提示
+                .catch((error) => {
+                    console.error('获取数据时出错：', error);
                 });
-            this.reset();
         },
-        // 表单重置
-        reset() {
-            this.form = {
-                ipId: undefined,
-                projectId: undefined,
-                ipName: '',
-                ipType: '',
-                ipStatus: '',
-                ipDate: '',
-                userIdList: [],
-                ossIds: [],
-            };
-            this.ossids = [];
-            this.fileList = [];
-            this.responsibleproject = undefined;
-            this.responsiblePerson = undefined;
-        },
+    },
+    onSubmit() {
+        // 验证关键字段是否为空
+        // if (!this.form.ipType || !this.form.projectId || !this.form.ipName || !this.form.ipDate || !this.form.ipStatus) {
+        //     this.$message.error('请填写完整的信息');
+        //     return;
+        // }
+        this.form.projectId = this.responsibleproject[this.responsibleproject.length - 1];
+        this.form.userIdList = this.responsiblePerson.map(subArray => subArray[subArray.length - 1]);
+        this.form.ossIdList = this.ossids;
+
+        request({
+            url: '/ip/add',
+            method: 'post',
+            data: this.form
+        })
+            .then((resp) => {
+                console.log(resp);
+                this.$modal.msgSuccess("新增成功");
+                // this.$emit('milestoneAdded');
+                this.$refs.fujian.reset();
+                this.$emit('close-dialog'); // 触发一个事件通知父组件关闭弹窗
+
+            })
+            .catch(error => {
+                console.error("Error while adding milestone:", error);
+                // 处理错误情况，例如显示错误提示
+            });
+        this.reset();
+    },
+    // 表单重置
+    reset() {
+        this.form = {
+            ipId: undefined,
+            projectId: undefined,
+            ipName: '',
+            ipType: '',
+            ipStatus: '',
+            ipDate: '',
+            userIdList: [],
+            ossIds: [],
+        };
+        this.ossids = [];
+        this.fileList = [];
+        this.responsibleproject = undefined;
+        this.responsiblePerson = undefined;
     },
 };
 </script>

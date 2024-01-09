@@ -289,6 +289,7 @@ export default {
         },
         handleUpdate(){
             this.intellectualDialogVisibleEdit = true;
+            this.ipId = ipId;
         },
         // 查看用户列表
         checkmembers() {
