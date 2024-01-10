@@ -43,13 +43,13 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="知识产权成员">
-                        <el-cascader v-model="responsiblePerson" :options="cascaderOptions" :props="props"
+                        <el-cascader  v-model="responsiblePerson" :options="cascaderOptions" :props="props"
                             collapse-tags clearable :show-all-levels="false" placeholder="请选择成员"></el-cascader>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-form-item label="附件">
-                <fujian ref="fujian" :value="form.sysOsses" :idList="ossids" />
+                <fujian ref="fujian" :value="form.sysOssVoList" :idList="ossids" />
             </el-form-item>
             <el-form-item style="text-align: center;margin-left: -100px;">
                 <el-button type="primary" @click="onSubmit">确定</el-button>
