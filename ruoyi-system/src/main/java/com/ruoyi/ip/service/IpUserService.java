@@ -23,5 +23,8 @@ public interface IpUserService {
 
     List<IpUserVO> getIpUserVOListByIpId(Long ipId);
 
+    List<List<Long>> getUserPathListByIpId(Long ipId);
+
     void deleteIpUserByUserIdList(List<Long> userIdList);
+
 }
