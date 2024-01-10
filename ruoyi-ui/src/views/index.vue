@@ -63,7 +63,9 @@
         <!-- 弹出的公告内容卡片 -->
         <el-dialog :title="selectedNotice.title" :visible.sync="showNoticeDialog" width="780px" append-to-body>
             <div slot="title" style="text-align: center;">{{ selectedNotice.title }}</div>
-            <div v-html="selectedNotice.content"></div>
+            <div v-html="selectedNotice.content" class="notice-content">
+
+            </div>
         </el-dialog>
     </div>
 </template>
@@ -416,6 +418,13 @@ function getRandomColor() {
 </script>
 
 <style scoped lang="scss">
+.notice-content::v-deep img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
 .home {
     padding: 20px;
 }
