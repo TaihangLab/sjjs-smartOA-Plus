@@ -287,11 +287,13 @@ export default {
     }
 };
 </script>
-<style>
+<style scoped>
 
-.notice-content img {
-    max-width: 100%; /* 图片最大宽度为其容器的宽度 */
-    height: auto; /* 高度自适应，防止拉伸 */
+.notice-content::v-deep img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
 }
 
 .notice-content-card {
