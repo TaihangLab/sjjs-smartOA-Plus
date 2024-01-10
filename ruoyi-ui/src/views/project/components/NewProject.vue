@@ -132,7 +132,7 @@ export default {
         return {
             stepID        : 1,
             isStepHover   : false,
-            titles        : ["项目信息", "项目成员", "项目经费", "专项经费", "自筹经费", "经费来源", "项目指标", "项目计划", "正文附件", "其他附件"],
+            titles        : ["项目信息", "项目成员", "项目经费", "专项经费", "自筹经费", "经费来源", "项目指标", "项目计划", "正文附件", "项目申报附件"],
             nextButtonText: '下一步',
 
             projectInfoForm     : {},

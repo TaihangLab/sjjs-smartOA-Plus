@@ -9,11 +9,11 @@
                 </el-table-column>
                 <el-table-column label="项目名称" :resizable="false" align="center" prop="assignedSubjectName" width="150">
                 </el-table-column>
-                <el-table-column label="负责课题" :resizable="false" align="center" prop="assignedSubjectSection" width="150">
+                <el-table-column label="项目级别" :resizable="false" align="center" prop="projectLevel" :formatter="projectLevelss" width="110">
                 </el-table-column>
                 <el-table-column label="项目牵头单位" :resizable="false" align="center" prop="leadingUnit" width="180">
                 </el-table-column>
-                <el-table-column label="项目级别" :resizable="false" align="center" prop="projectLevel" :formatter="projectLevelss" width="110">
+                <el-table-column label="负责课题" :resizable="false" align="center" prop="assignedSubjectSection" width="150">
                 </el-table-column>
                 <el-table-column label="项目推进情况" :resizable="false" align="center" prop="projectProgressStatus" :formatter="projectProgressStatuss" width="150">
                 </el-table-column>

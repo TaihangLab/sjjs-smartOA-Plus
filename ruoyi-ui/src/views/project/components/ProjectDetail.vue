@@ -136,7 +136,7 @@
                 <el-tab-pane label="项目经费" name="fifth">
                     <FundsDetail :projectfund="this.projectdetails.projectFundsVO"></FundsDetail>
                 </el-tab-pane>
-                <el-tab-pane label="项目附件" name="sixth">
+                <el-tab-pane label="项目申报附件" name="sixth">
                     <Projectfile :projectfile="this.projectdetails.projectAttachmentVOList"></Projectfile>
                 </el-tab-pane>
             </el-tabs>
