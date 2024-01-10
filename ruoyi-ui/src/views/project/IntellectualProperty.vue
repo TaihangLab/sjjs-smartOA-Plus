@@ -288,6 +288,7 @@ export default {
         // 关闭弹窗的方法
         closeIntellectualDialog() {
             this.intellectualDialogVisibleAdd = false;
+            this.intellectualDialogVisibleEdit = false;
             this.resetQuery();
         },
         // 关闭弹窗的方法
