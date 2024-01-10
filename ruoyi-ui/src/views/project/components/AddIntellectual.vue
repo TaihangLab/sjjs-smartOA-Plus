@@ -9,7 +9,7 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="关联项目名称">
-                        <el-cascader v-model="responsibleproject" :options="this.projecttree" clearable
+                        <el-cascader v-model="form.responsibleproject" :options="this.projecttree" clearable
                             :show-all-levels="false" placeholder="请选择关联项目名称"></el-cascader>
                     </el-form-item>
                 </el-col>
@@ -36,14 +36,14 @@
                 <el-col :span="12">
                     <el-form-item label="获得日期">
                         <el-col :span="11">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="form.date"
+                            <el-date-picker type="date" placeholder="选择日期" v-model="form.ipDate"
                                 style="width: 192px"></el-date-picker>
                         </el-col>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="知识产权成员">
-                        <el-cascader v-model="responsiblePerson" :options="cascaderOptions" :props="props" collapse-tags
+                        <el-cascader v-model="form.responsiblePerson" :options="cascaderOptions" :props="props" collapse-tags
                             clearable :show-all-levels="false" placeholder="请选择成员"></el-cascader>
                     </el-form-item>
                 </el-col>
@@ -128,6 +128,8 @@ export default {
                 ipDate: '',
                 userIdList: [],
                 ossIdList: [],
+                responsiblePerson: [],  // 新增此字段
+                responsibleproject: [], // 新增此字段
             },
         };
     },
@@ -211,26 +213,30 @@ export default {
                 return newItem;
             });
         },
-        cheakIntellectual() {
-            // 只有在 ipId 存在时才进行请求
+        async cheakIntellectual() {
             if (this.$props.ipId) {
                 this.params.ipId = this.$props.ipId;
-                request({
-                    url: '/ip/getDetails',
-                    method: 'get',
-                    params: {
-                        ipId: this.$props.ipId,
-                    },
-                })
-                    .then((resp) => {
-                        this.form = resp.data;
-                        console.log('详情数据', this.form);
-                    })
-                    .catch((error) => {
-                        console.error('获取数据时出错：', error);
+                try {
+                    const resp = await request({
+                        url: '/ip/getDetails',
+                        method: 'get',
+                        params: {
+                            ipId: this.$props.ipId,
+                        },
                     });
+                    this.form = resp.data;
+
+                    // 将 responsiblePerson 和 responsibleproject 的值同步到 form 表单中
+                    this.responsiblePerson = resp.data.userIdList.map(userId => [{ userId }]);
+                    this.responsibleproject = [resp.data.projectId];
+
+                    console.log('详情数据', this.form);
+                } catch (error) {
+                    console.error('获取数据时出错：', error);
+                }
             }
         },
+
         onSubmit() {
             if (this.$props.ipId) {
                 this.EditIntellectual();
