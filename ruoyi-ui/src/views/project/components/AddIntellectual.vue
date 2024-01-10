@@ -9,8 +9,8 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="关联项目名称">
-                        <el-cascader v-model="form.responsibleproject" :options="this.projecttree" clearable
-                            :show-all-levels="false" placeholder="请选择关联项目名称"></el-cascader>
+                        <el-cascader v-model="responsibleproject" :options="this.projecttree" clearable
+                                     :show-all-levels="false" placeholder="请选择关联项目名称"></el-cascader>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -19,7 +19,7 @@
                     <el-form-item label="知识产权类别">
                         <el-select v-model="form.ipType" placeholder="请选择类别">
                             <el-option v-for="item in ipTypeOptions" :key="item.ipTypeId" :label="item.ipTypeName"
-                                :value="item.ipTypeId" :disabled="item.status == 1"></el-option>
+                                       :value="item.ipTypeId" :disabled="item.status == 1"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
@@ -27,7 +27,7 @@
                     <el-form-item label="知识产权状态">
                         <el-select v-model="form.ipStatus" placeholder="请选择状态">
                             <el-option v-for="item in ipStatusOptions" :key="item.ipStatusId" :label="item.ipStatusName"
-                                :value="item.ipStatusId" :disabled="item.status == 1"></el-option>
+                                       :value="item.ipStatusId" :disabled="item.status == 1"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
@@ -37,14 +37,14 @@
                     <el-form-item label="获得日期">
                         <el-col :span="11">
                             <el-date-picker type="date" placeholder="选择日期" v-model="form.ipDate" style="width: 192px"
-                            value-format="yyyy-MM-dd"></el-date-picker>
+                                            value-format="yyyy-MM-dd"></el-date-picker>
                         </el-col>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="知识产权成员">
                         <el-cascader v-model="responsiblePerson" :options="cascaderOptions" :props="props"
-                            collapse-tags clearable :show-all-levels="false" placeholder="请选择成员"></el-cascader>
+                                     collapse-tags clearable :show-all-levels="false" placeholder="请选择成员"></el-cascader>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -77,6 +77,8 @@ export default {
         return {
             props: { multiple: true },
             responsiblePerson: [],
+            person: undefined,
+            projectId: undefined,
             responsibleproject: [],
             cascaderOptions: [],
             projecttree: undefined,
@@ -132,18 +134,23 @@ export default {
         };
     },
     created() {
-        this.createdData();
-        console.log('ipId传递过来的值:', this.ipId);
-        if (this.$props.ipId) {
-            this.cheakIntellectual();
-        }
+        this.createdData().then(() => {
+            console.log('ipId传递过来的值:', this.ipId);
+
+            if (this.$props.ipId) {
+                this.cheakIntellectual().then(() => {
+                    console.log('0');
+                    // 执行其他代码
+
+                });
+            }
+        });
     },
     watch: {
         ipId: {
             handler(newVal) {
                 // 监听到memberid变化时，重新获取项目详情数据
                 this.params.ipId = newVal;
-                this.cheakIntellectual();
             },
             immediate: true, // 立即执行一次
         },
@@ -156,6 +163,42 @@ export default {
             this.getProjectTree();
             this.getDeptAndUserList();
         },
+        handleIdData(node) {
+            this.person = node.ipUserVOList;
+            this.projectId = node.projectId;
+            console.log('this.projectId111', this.projectId);
+            this.responsibleproject = this.findPathByValue(this.projecttree, this.projectId);
+            this.person.forEach(item => {
+                const path = this.findPathByValue(item.userId, this.cascaderOptions);
+                if (path) {
+                    // 将路径保存到 this.responsiblePerson 数组中
+                    this.responsiblePerson.push(path);
+                }
+            });
+            console.log('this.responsibleproject：', this.responsibleproject);
+        },
+        findPathByValue(data, targetValue, path = []) {
+            for (const item of data) {
+                const currentPath = [...path, item.value];
+
+                if (item.value === targetValue) {
+                    // 找到目标值，返回当前路径
+                    return currentPath;
+                }
+
+                if (item.children) {
+                    // 如果有子节点，递归查找
+                    const result = this.findPathByValue(item.children, targetValue, currentPath);
+                    if (result) {
+                        // 找到了目标值，直接返回结果
+                        return result;
+                    }
+                }
+            }
+            // 未找到目标值
+            return null;
+        },
+
         // 按项目级别-项目搜索
         getProjectTree() {
             request({
@@ -226,14 +269,10 @@ export default {
                         },
                     });
                     this.form = resp.data;
-
-                    // 将 responsiblePerson 和 responsibleproject 的值同步到 form 表单中
-                    this.responsiblePerson = resp.data.userIdList.map(userId => [{ userId }]);
-                    this.responsibleproject = [resp.data.projectId];
-
+                    this.handleIdData(this.form);
                     console.log('详情数据', this.form);
                 } catch (error) {
-                    console.error('获取数据时出错：', error);
+                    console.error('获取数据时出错1：', error);
                 }
             }
         },
@@ -269,6 +308,7 @@ export default {
             this.reset();
         },
         EditIntellectual() {
+
             this.form.projectId = this.responsibleproject[this.responsibleproject.length - 1];
             this.form.userIdList = this.responsiblePerson.map(subArray => subArray[subArray.length - 1]);
             this.form.ossIdList = this.ossids;
