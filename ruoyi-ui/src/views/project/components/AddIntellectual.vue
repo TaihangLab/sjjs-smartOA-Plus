@@ -179,8 +179,6 @@ export default {
             });
         },
         findPathByValue(data, targetValue, path = []) {
-            console.log('data',data,targetValue);
-
             for (const item of data) {
                 const currentPath = [...path, item.value];
 
