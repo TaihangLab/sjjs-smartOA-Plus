@@ -80,7 +80,7 @@
 
         <el-dialog :title="selectedNotice.title" :visible.sync="showNoticeDialog" width="780px" append-to-body>
             <div slot="title" style="text-align: center;">{{ selectedNotice.title }}</div>
-            <div v-html="selectedNotice.content"></div>
+            <div v-html="selectedNotice.content" class="notice-content"></div>
         </el-dialog>
 
         <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum"
@@ -184,6 +184,7 @@ export default {
     created() {
         this.getList();
     },
+
     methods: {
         /** 在卡片中显示公告标题和内容 */
         showNoticeContent(row) {
@@ -286,7 +287,13 @@ export default {
     }
 };
 </script>
-<style scoped>
+<style>
+
+.notice-content img {
+    max-width: 100%; /* 图片最大宽度为其容器的宽度 */
+    height: auto; /* 高度自适应，防止拉伸 */
+}
+
 .notice-content-card {
     margin-top: 70px;
 }
