@@ -269,7 +269,7 @@ export default {
                         },
                     });
                     this.form = resp.data;
-                    this.handleIdData(this.form);
+                    this.handleIdData(resp.data);
                     console.log('详情数据', this.form);
                 } catch (error) {
                     console.error('获取数据时出错1：', error);
