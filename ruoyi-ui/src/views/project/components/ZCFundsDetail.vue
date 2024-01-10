@@ -1,5 +1,5 @@
 <template>
-    <el-card header="自筹经费详情" shadow="hover">
+    <el-card header="专项经费详情" shadow="hover">
         <el-form :model="form" ref="form" label-position="left">
 
             <el-divider><i class="el-icon-caret-right"></i>直接经费<i class="el-icon-caret-left"></i></el-divider>

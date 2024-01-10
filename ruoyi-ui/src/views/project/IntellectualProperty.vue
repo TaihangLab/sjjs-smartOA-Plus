@@ -32,7 +32,7 @@
                     placeholder="请选择项目成员"
                     @keyup.enter.native="handleQuery"
                 ></el-cascader>
-            </el-form-item> 
+            </el-form-item>
             <el-form-item label="获得日期" >
                 <el-date-picker
                     v-model="projectEstablishTime"
@@ -63,16 +63,16 @@
         <el-card class="box-card" style="margin: auto;">
             <div>
                 <el-table ref="multipleTable" :data="iplist" border style="width: 100%" :row-style="{ height: '50px' }"
-                    :cell-style="{ padding: '0px' }">
+                          :cell-style="{ padding: '0px' }">
                     <!--                <el-table-column type="selection" :resizable="false" align="center" width="40"></el-table-column>-->
                     <el-table-column label="关联项目名称" :resizable="false" align="center" prop="assignedSubjectName"
-                        width="300">
+                                     width="300">
                     </el-table-column>
                     <el-table-column label="知识产权名" :resizable="false" align="center" prop="ipName"
-                        width="300">
+                                     width="300">
                     </el-table-column>
                     <el-table-column label="知识产权类别" :resizable="false" align="center" prop="ipType" :formatter="allIpType"
-                        width="200">
+                                     width="200">
                     </el-table-column>
                     <el-table-column label="知识产权状态" :resizable="false" align="center" prop="ipStatus" :formatter="allJobTitle" width="200">
                     </el-table-column>
@@ -81,7 +81,7 @@
                     <el-table-column label="操作" :resizable="false" align="center" min-width="200px" fixed="right">
                         <template v-slot="scope">
                             <el-button size="mini" type="text" icon="el-icon-tickets"
-                                @click="lookIntellectual(scope.row.ipId)">详情</el-button>
+                                       @click="lookIntellectual(scope.row.ipId)">详情</el-button>
                             <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row.ipId)">修改
                             </el-button>
                             <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)">删除
@@ -91,7 +91,7 @@
                 </el-table>
                 <!-- 详情打开的界面 -->
                 <el-dialog :visible.sync="dialogIntellectualLook" width="50%">
-                    <CheckIntellectual :ipId="ipId"></CheckIntellectual>
+                    <CheckIntellectual :ipId="ipId" @close-dialog="closeIntellectualDialogLook"></CheckIntellectual>
                 </el-dialog>
                 <!--新增知识产权-->
                 <el-dialog title="新增知识产权" :visible.sync="intellectualDialogVisibleAdd" width="700px">
@@ -99,12 +99,12 @@
                 </el-dialog>
                 <!--修改知识产权-->
                 <el-dialog title="修改知识产权" :visible.sync="intellectualDialogVisibleEdit" width="700px">
-                    <AddIntellectual :ipId="ipId" @close-dialog="closeIntellectualDialog"></AddIntellectual>
+                    <AddIntellectual :ipId="ipId" @close-dialog="closeIntellectualDialogs"></AddIntellectual>
                 </el-dialog>
             </div>
             <el-pagination  :current-page="queryParam.pageNum" :page-size="queryParam.pageSize"
-                :page-sizes="[5, 10, 20, 50, 100]" :total="total" layout="total ,sizes,prev,pager,next,jumper"
-                style="margin-top: 30px" @size-change="sizeChangeHandle" @current-change="CurrentChangeHandle">
+                            :page-sizes="[5, 10, 20, 50, 100]" :total="total" layout="total ,sizes,prev,pager,next,jumper"
+                            style="margin-top: 30px" @size-change="sizeChangeHandle" @current-change="CurrentChangeHandle">
             </el-pagination>
         </el-card>
     </div>
@@ -263,6 +263,7 @@ export default {
             this.responsibleJobTitle = undefined;
             this.responsiblePerson = [];
             this.responsibleproject = [];
+            this.ipId = undefined;
             this.checkmembers();
         },
 
@@ -281,9 +282,18 @@ export default {
         handleAdd() {
             this.intellectualDialogVisibleAdd = true;
         },
+        closeIntellectualDialogLook(){
+            this.resetQuery();
+        },
         // 关闭弹窗的方法
         closeIntellectualDialog() {
             this.intellectualDialogVisibleAdd = false;
+            this.intellectualDialogVisibleEdit = false;
+            this.resetQuery();
+        },
+        // 关闭弹窗的方法
+        closeIntellectualDialogs() {
+            this.intellectualDialogVisibleEdit = false;
             this.resetQuery();
         },
         handleUpdate(ipId){
@@ -317,6 +327,7 @@ export default {
             }).catch(() => {
                 console.error('删除失败');
             });
+            this.ipId = undefined;
         },
         deleteIp(ipId) {
             return request({
@@ -326,7 +337,7 @@ export default {
                     ipId: ipId,  // 传递ipId参数
                 },
             });
-        },
+        },     
         sizeChangeHandle(val) {
             this.$set(this.queryParam, 'pageSize', val);
             this.queryParam.pageNum = 1;
