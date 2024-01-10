@@ -43,7 +43,7 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="知识产权成员">
-                        <el-cascader v-model="form.responsiblePerson" :options="cascaderOptions" :props="props"
+                        <el-cascader v-model="responsiblePerson" :options="cascaderOptions" :props="props"
                             collapse-tags clearable :show-all-levels="false" placeholder="请选择成员"></el-cascader>
                     </el-form-item>
                 </el-col>
@@ -128,8 +128,6 @@ export default {
                 ipDate: '',
                 userIdList: [],
                 ossIdList: [],
-                responsiblePerson: [],  // 新增此字段
-                responsibleproject: [], // 新增此字段
             },
         };
     },
