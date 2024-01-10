@@ -337,7 +337,7 @@ export default {
                     ipId: ipId,  // 传递ipId参数
                 },
             });
-        },
+        },     
         sizeChangeHandle(val) {
             this.$set(this.queryParam, 'pageSize', val);
             this.queryParam.pageNum = 1;
