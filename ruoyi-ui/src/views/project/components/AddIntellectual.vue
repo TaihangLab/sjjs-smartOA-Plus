@@ -36,20 +36,20 @@
                 <el-col :span="12">
                     <el-form-item label="获得日期">
                         <el-col :span="11">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="form.ipDate"
-                                style="width: 192px"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="form.ipDate" style="width: 192px"
+                            value-format="yyyy-MM-dd"></el-date-picker>
                         </el-col>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="知识产权成员">
-                        <el-cascader v-model="form.responsiblePerson" :options="cascaderOptions" :props="props" collapse-tags
-                            clearable :show-all-levels="false" placeholder="请选择成员"></el-cascader>
+                        <el-cascader v-model="form.responsiblePerson" :options="cascaderOptions" :props="props"
+                            collapse-tags clearable :show-all-levels="false" placeholder="请选择成员"></el-cascader>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-form-item label="附件">
-                <fujian ref="fujian" :idList="ossids" />
+                <fujian ref="fujian" :value="form.sysOsses" :idList="ossids" />
             </el-form-item>
             <el-form-item style="text-align: center;margin-left: -100px;">
                 <el-button type="primary" @click="onSubmit">确定</el-button>
@@ -151,6 +151,9 @@ export default {
         },
     },
     methods: {
+        handleDateChange(date) {
+            this.form.ipDate = date.substring(0, 10);
+        },
         async createdData() {
             this.getProjectTree();
             this.getDeptAndUserList();
