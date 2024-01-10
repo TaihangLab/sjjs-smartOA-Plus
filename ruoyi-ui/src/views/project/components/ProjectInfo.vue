@@ -168,19 +168,19 @@
                 </el-col>
             </el-row>
 
-            <el-row :gutter="20" type="flex" justify="left">
-                <el-col :span="12">
-                    <el-form-item label-width="120px" label="意义及必要性" prop="meaning">
-                        <el-input type="textarea" v-model="form.meaning"></el-input>
-                    </el-form-item>
-                </el-col>
+<!--            <el-row :gutter="20" type="flex" justify="left">-->
+<!--                <el-col :span="12">-->
+<!--                    <el-form-item label-width="120px" label="意义及必要性" prop="meaning">-->
+<!--                        <el-input type="textarea" v-model="form.meaning"></el-input>-->
+<!--                    </el-form-item>-->
+<!--                </el-col>-->
 
-                <el-col :span="12">
-                    <el-form-item label-width="120px" label="完成进度" prop="completionProgress">
-                        <el-input type="textarea" v-model="form.completionProgress"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
+<!--                <el-col :span="12">-->
+<!--                    <el-form-item label-width="120px" label="完成进度" prop="completionProgress">-->
+<!--                        <el-input type="textarea" v-model="form.completionProgress"></el-input>-->
+<!--                    </el-form-item>-->
+<!--                </el-col>-->
+<!--            </el-row>-->
 
             <el-row :gutter="20" type="flex" justify="left">
                 <el-col :span="24">

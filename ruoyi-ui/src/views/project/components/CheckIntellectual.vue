@@ -96,10 +96,10 @@ export default {
             intellectualLook: [],
         };
     },
-    created() {
-        console.log('ipId传递过来的值:', this.ipId);
-        this.cheakIntellectual();
-    },
+    // created() {
+    //     console.log('ipId传递过来的值:', this.ipId);
+    //     this.cheakIntellectual();
+    // },
     watch: {
         ipId: {
             handler(newVal) {
@@ -114,12 +114,11 @@ export default {
     methods: {
         cheakIntellectual() {
             this.params.ipId = this.$props.ipId;
+            console.log('this.params.ipId', this.params.ipId);
             request({
                 url: '/ip/getDetails',
                 method: 'get',
-                params: {
-                    ipId: this.ipId,  // 传递ipId参数
-                },
+                params: this.params,
             })
                 .then((resp) => {
                     this.intellectualLook = resp.data;

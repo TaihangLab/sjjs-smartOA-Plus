@@ -1,5 +1,5 @@
 <template>
-    <el-card header="其他附件" shadow="hover">
+    <el-card header="项目申报附件" shadow="hover">
 
         <el-row type="flex" justify="center">
 
