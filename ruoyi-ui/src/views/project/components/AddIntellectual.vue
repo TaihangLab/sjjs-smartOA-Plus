@@ -131,16 +131,16 @@ export default {
                 userIdList: [],
                 ossIdList: [],
             },
+            formss: undefined,
         };
     },
     created() {
         this.createdData().then(() => {
-            console.log('ipId传递过来的值:', this.ipId);
-
             if (this.$props.ipId) {
                 this.cheakIntellectual().then(() => {
                     console.log('0');
                     // 执行其他代码
+                    console.log('this.form', this.form);
 
                 });
             }
@@ -151,6 +151,8 @@ export default {
             handler(newVal) {
                 // 监听到memberid变化时，重新获取项目详情数据
                 this.params.ipId = newVal;
+                this.cheakIntellectual();
+
             },
             immediate: true, // 立即执行一次
         },
@@ -166,18 +168,19 @@ export default {
         handleIdData(node) {
             this.person = node.ipUserVOList;
             this.projectId = node.projectId;
-            console.log('this.projectId111', this.projectId);
             this.responsibleproject = this.findPathByValue(this.projecttree, this.projectId);
+            this.formss = this.getDeptAndUserList();
             this.person.forEach(item => {
-                const path = this.findPathByValue(item.userId, this.cascaderOptions);
-                if (path) {
+                const path = this.findPathByValue(this.cascaderOptions, item.userId);
+                if (path.length !== 0) {
                     // 将路径保存到 this.responsiblePerson 数组中
                     this.responsiblePerson.push(path);
                 }
             });
-            console.log('this.responsibleproject：', this.responsibleproject);
         },
         findPathByValue(data, targetValue, path = []) {
+            console.log('data',data,targetValue);
+
             for (const item of data) {
                 const currentPath = [...path, item.value];
 
@@ -220,6 +223,7 @@ export default {
             await this.getDeptTree(); // 等待部门数据加载完成
             await this.getList(); // 等待用户数据加载完成
             this.cascaderOptions = this.adaptData(this.deptOptions);
+            return this.cascaderOptions;
         },
         /** 查询部门下拉树结构 */
         async getDeptTree() {
