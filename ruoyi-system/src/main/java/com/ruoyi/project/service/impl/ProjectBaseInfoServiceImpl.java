@@ -312,4 +312,31 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
         }
         return statistics;
     }
+
+    /**
+     * @param projectId
+     * @return
+     */
+    @Override
+    public List<Long> getProjectPathById(Long projectId) {
+        if(projectId == null){
+            return Collections.emptyList();
+        }
+        List<Long> projectPath = new ArrayList<>();
+        if(projectId.equals(UNASSOCIATED_PROJECT_CODE)){
+            projectPath.add(UNASSOCIATED_PROJECT_CODE);
+            return projectPath;
+        }
+        ProjectBaseInfo projectBaseInfo = projectBaseInfoMapper.selectById(projectId);
+        if(projectBaseInfo == null){
+            return Collections.emptyList();
+        }
+        ProjectLevelEnum projectLevel=projectBaseInfo.getProjectLevel();
+        if(projectLevel == null){
+            throw new IllegalArgumentException("对应的项目信息有误，项目类型不能为空");
+        }
+        projectPath.add(projectLevel.getValue().longValue());
+        projectPath.add(projectId);
+        return projectPath;
+    }
 }

@@ -117,6 +117,7 @@ public class IntellectualPropertyServiceImpl implements IntellectualPropertyServ
         } else {
             intellectualPropertyDetailVO.setAssignedSubjectName(Optional.ofNullable(projectBaseInfoService.selectProjectBaseInfoById(intellectualPropertyDetailVO.getProjectId())).map(ProjectBaseInfo::getAssignedSubjectName).orElse(PROJECT_DELETED_REASSOCIATE));
         }
+        intellectualPropertyDetailVO.setProjectPath(projectBaseInfoService.getProjectPathById(intellectualProperty.getProjectId()));
         intellectualPropertyDetailVO.setSysOssVoList(ipOssService.getSysOssVoListByIpId(ipId));
         intellectualPropertyDetailVO.setIpUserVOList(ipUserService.getIpUserVOListByIpId(ipId));
         intellectualPropertyDetailVO.setUserPathList(ipUserService.getUserPathListByIpId(ipId));
