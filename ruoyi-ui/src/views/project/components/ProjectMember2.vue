@@ -14,7 +14,7 @@
                                v-show="index===form.items.length-1 && isButtonShowList[index]"></el-button>
                 </el-col>
 
-                <el-col :span="10">
+                <el-col :span="12">
                     <el-form-item label-width="80px" label="项目成员" prop="id">
                         <el-cascader
                             v-model="item.id"
@@ -32,7 +32,7 @@
                 <el-col :span="8">
                     <el-form-item label-width="80px" label="成员角色" prop="role">
                         <el-select v-model="item.role" multiple placeholder="请选择" @change="$forceUpdate()"
-                        style="width: 23vw;"
+                        style="width: 27vw;"
                         >
                             <el-option
                                 v-for="item in roleOptions"
