@@ -22,3 +22,7 @@ selenium-debug.log
 package-lock.json
 yarn.lock
 /.history/
+
+vue.config.js
+application.yml
+
