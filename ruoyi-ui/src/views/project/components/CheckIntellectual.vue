@@ -77,7 +77,7 @@ import request from "@/utils/request";
 export default {
     props: {
         ipId: {
-            type: String,
+            type: Number,
             required: true,
         },
     },
@@ -91,28 +91,27 @@ export default {
             activeNames: ['0'],
             labelStyle: { 'color': '#000', 'width': '30%', },
             params: {
-                ipId: undefined,
+                ipId: null,
             },
             intellectualLook: [],
         };
     },
     // created() {
     //     console.log('ipId传递过来的值:', this.ipId);
-    //     this.cheakIntellectual();
+    //     this.checkIntellectual();
     // },
     watch: {
         ipId: {
             handler(newVal) {
-                // 监听到memberid变化时，重新获取项目详情数据
                 this.params.ipId = newVal;
                 this.activeNames = ['0'];
-                this.cheakIntellectual();
+                this.checkIntellectual();
             },
             immediate: true, // 立即执行一次
         },
     },
     methods: {
-        cheakIntellectual() {
+        checkIntellectual() {
             this.params.ipId = this.$props.ipId;
             console.log('this.params.ipId', this.params.ipId);
             request({

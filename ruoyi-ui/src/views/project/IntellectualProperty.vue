@@ -99,7 +99,7 @@
                 </el-dialog>
                 <!--修改知识产权-->
                 <el-dialog title="修改知识产权" :visible.sync="intellectualDialogVisibleEdit" width="700px">
-                    <AddIntellectual :ipId="String(ipId)" @close-dialog="closeIntellectualDialogs"></AddIntellectual>
+                    <AddIntellectual :ipId="Number(ipId)" @close-dialog="closeIntellectualDialogs"></AddIntellectual>
                 </el-dialog>
             </div>
             <el-pagination  :current-page="queryParam.pageNum" :page-size="queryParam.pageSize"
@@ -338,7 +338,7 @@ export default {
                     ipId: ipId,  // 传递ipId参数
                 },
             });
-        },     
+        },
         sizeChangeHandle(val) {
             this.$set(this.queryParam, 'pageSize', val);
             this.queryParam.pageNum = 1;

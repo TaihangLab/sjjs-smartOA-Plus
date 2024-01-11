@@ -8,8 +8,8 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="关联项目名称" prop="responsibleproject">
-                        <el-cascader v-model="responsibleproject" :options="this.projecttree" clearable
+                    <el-form-item label="关联项目名称" prop="responseProject">
+                        <el-cascader v-model="responseProject" :options="this.projectTree" clearable
                                      :show-all-levels="false" placeholder="请选择关联项目名称"></el-cascader>
                     </el-form-item>
                 </el-col>
@@ -19,7 +19,7 @@
                     <el-form-item label="知识产权类别" prop="ipType">
                         <el-select v-model="form.ipType" placeholder="请选择类别">
                             <el-option v-for="item in ipTypeOptions" :key="item.ipTypeId" :label="item.ipTypeName"
-                                       :value="item.ipTypeId" :disabled="item.status == 1"></el-option>
+                                       :value="item.ipTypeId" :disabled="item.status === 1"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
@@ -27,7 +27,7 @@
                     <el-form-item label="知识产权状态" prop="ipStatus">
                         <el-select v-model="form.ipStatus" placeholder="请选择状态">
                             <el-option v-for="item in ipStatusOptions" :key="item.ipStatusId" :label="item.ipStatusName"
-                                       :value="item.ipStatusId" :disabled="item.status == 1"></el-option>
+                                       :value="item.ipStatusId" :disabled="item.status === 1"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
@@ -42,14 +42,14 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="知识产权成员" prop="responsiblePerson">
-                        <el-cascader v-model="responsiblePerson" :options="cascaderOptions" :props="props"
+                    <el-form-item label="知识产权成员" prop="responsePerson">
+                        <el-cascader v-model="responsePerson" :options="cascadeOptions" :props="props"
                                      collapse-tags clearable :show-all-levels="false" placeholder="请选择成员"></el-cascader>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-form-item label="附件">
-                <fujian ref="fujian" :value="form.sysOsses" :idList="ossids" />
+                <fujian ref="fujian" :value="form.sysOsses" :idList="ossIds" />
             </el-form-item>
             <el-form-item style="text-align: center;margin-left: -100px;">
                 <el-button type="primary" @click="onSubmit">确定</el-button>
@@ -70,12 +70,11 @@ export default {
     data() {
         return {
             props: { multiple: true },
-            responsiblePerson: [],
-            person: undefined,
+            responsePerson: [],
             projectId: undefined,
-            responsibleproject: [],
-            cascaderOptions: [],
-            projecttree: [],
+            responseProject: [],
+            cascadeOptions: [],
+            projectTree: [],
             // 知识产权类别
             ipTypeOptions: [{
                 ipTypeId: '0',
@@ -111,12 +110,12 @@ export default {
                 ipStatusName: '论文已发表'
             }],
             value: '',
-            ossids: [],
+            ossIds: [],
             params: {
-                ipId: undefined,
+                ipId: null
             },
             form: {
-                ipId: undefined,
+                ipId: null,
                 projectId: undefined,
                 ipName: '',
                 ipType: '',
@@ -138,10 +137,10 @@ export default {
                 ipDate: [
                     { type: 'date',required: true, message: '请选择日期', trigger: 'change' }
                 ],
-                responsibleproject: [
+                responseProject: [
                     { required: true, message: '请选择项目', trigger: 'change' }
                 ],
-                responsiblePerson: [
+                responsePerson: [
                     { required: true, message: '请选择成员', trigger: 'change' }
                 ],
             },
@@ -151,35 +150,49 @@ export default {
         this.createdData().then(() => {
             if (this.$props.ipId) {
                 this.params.ipId = this.$props.ipId;
-                this.cheakIntellectual().then(() => {
-                    console.log('0');
-                    // 执行其他代码
+                this.checkIntellectual().then(() => {
+                    console.log('createdData.ipId',params.ipId )
                     console.log('this.form', this.form);
                 });
             }
         });
     },
     watch: {
-        async ipId(newVal) {
-            this.params.ipId = newVal;
-
-            if (newVal) {
-                await this.cheakIntellectual();
-                console.log('1');
-                // 执行其他代码
-                console.log('this.form', this.form);
-            }
-        },
-        immediate: true, // 立即执行一次
+        // async ipId(newVal) {
+        //     this.params.ipId = newVal;
+        //     if (newVal) {
+        //         await this.checkIntellectual();
+        //         console.log('newVal',newVal);
+        //         // 执行其他代码
+        //         console.log('this.form', this.form);
+        //     }
+        // },
+        // immediate: true, // 立即执行一次
+        ipId: {
+            async handler(newVal) {
+                try {
+                    this.params.ipId = newVal;
+                    console.log('ipId',this.params.ipId)
+                    if (newVal) {
+                        await this.checkIntellectual();
+                        console.log('newVal', newVal);
+                        console.log('this.form', this.form);
+                    }
+                } catch (error) {
+                    console.error('Error in checkIntellectual:', error);
+                }
+            },
+            immediate: true, // 立即执行一次
+        }
     },
     methods: {
         async createdData() {
             this.getProjectTree();
-            this.getDeptAndUserList();
+            await this.getDeptAndUserList();
         },
         handleIdData(node) {
             this.projectId = node.projectId;
-            this.responsibleproject = this.findPathByValue(this.projecttree, this.projectId);
+            this.responseProject = this.findPathByValue(this.projectTree, this.projectId);
         },
         findPathByValue(data, targetValue, path = []) {
             for (const item of data) {
@@ -197,11 +210,9 @@ export default {
                     }
                 }
             }
-            // 未找到目标值
             return null;
         },
 
-        // 按项目级别-项目搜索
         getProjectTree() {
             request({
                 url: '/ip/getProjectMapping',
@@ -209,7 +220,7 @@ export default {
                 params: this.header,
             })
                 .then((resp) => {
-                    this.projecttree = resp.data;
+                    this.projectTree = resp.data;
                 })
                 .catch((error) => {
                     console.error('获取用户数据时出错：', error);
@@ -217,12 +228,10 @@ export default {
         },
         // 按部门-人员搜索
         async getDeptAndUserList() {
-            // this.queryParam.pageNum = 1;
-            // this.queryParam.pageSize = 10;
             await this.getDeptTree(); // 等待部门数据加载完成
             await this.getList(); // 等待用户数据加载完成
-            this.cascaderOptions = this.adaptData(this.deptOptions);
-            return this.cascaderOptions;
+            this.cascadeOptions = this.adaptData(this.deptOptions);
+            return this.cascadeOptions;
         },
         /** 查询部门下拉树结构 */
         async getDeptTree() {
@@ -251,6 +260,7 @@ export default {
                 return newItem;
             });
         },
+
         adaptUserData(data) {
             return data.map(item => {
                 const newItem = {
@@ -261,7 +271,7 @@ export default {
             });
         },
 
-        async cheakIntellectual() {
+        async checkIntellectual() {
             request({
                 url: '/ip/getDetails',
                 method: 'get',
@@ -271,13 +281,12 @@ export default {
             })
                 .then((resp) => {
                     this.form = resp.data;
-                    this.responsiblePerson = resp.data.userPathList;
+                    this.responsePerson = resp.data.userPathList;
                     this.handleIdData(resp.data);
                     console.log('详情数据', this.form);
                 })
                 .catch(error => {
                     console.error("获取数据时出错1：", error);
-                    // 处理错误情况，例如显示错误提示
                 });
         },
 
@@ -288,55 +297,50 @@ export default {
                 this.AddIntellectual();
             }
         },
+
         AddIntellectual() {
-            this.form.projectId = this.responsibleproject[this.responsibleproject.length - 1];
-            this.form.userIdList = this.responsiblePerson.map(subArray => subArray[subArray.length - 1]);
-            this.form.ossIdList = this.ossids;
+            this.form.projectId = this.responseProject[this.responseProject.length - 1];
+            this.form.userIdList = this.responsePerson.map(subArray => subArray[subArray.length - 1]);
+            this.form.ossIdList = this.ossIds;
 
             request({
                 url: '/ip/add',
                 method: 'post',
                 data: this.form
-            })
-                .then((resp) => {
+            }).then((resp) => {
                     console.log(resp);
                     this.$modal.msgSuccess("新增成功");
                     this.$refs.fujian.reset();
                     this.$emit('close-dialog'); // 触发一个事件通知父组件关闭弹窗
-
-                })
-                .catch(error => {
+                }).catch(error => {
                     console.error("新增失败", error);
                     // 处理错误情况，例如显示错误提示
                 });
             this.reset();
         },
-        EditIntellectual() {
 
-            this.form.projectId = this.responsibleproject[this.responsibleproject.length - 1];
-            this.form.userIdList = this.responsiblePerson.map(subArray => subArray[subArray.length - 1]);
-            this.form.ossIdList = this.ossids;
+        EditIntellectual() {
+            this.form.projectId = this.responseProject[this.responseProject.length - 1];
+            this.form.userIdList = this.responsePerson.map(subArray => subArray[subArray.length - 1]);
+            this.form.ossIdList = this.ossIds;
             // 请求修改接口
             request({
                 url: '/ip/update',
                 method: 'post',
                 data: this.form,
-            })
-                .then((resp) => {
-                    console.log(resp);
+            }).then(() => {
                     this.$modal.msgSuccess("修改成功");
                     this.$refs.fujian.reset();
+                    // this.reset();
                     this.$emit('close-dialog');
-                })
-                .catch((error) => {
+                }).catch((error) => {
                     console.error("修改失败", error);
                 });
-            this.reset();
         },
         // 表单重置
         reset() {
             this.form = {
-                ipId: undefined,
+                ipId: null,
                 projectId: undefined,
                 ipName: '',
                 ipType: '',
@@ -345,10 +349,10 @@ export default {
                 userIdList: [],
                 ossIds: [],
             };
-            this.ossids = [];
+            this.ossIds = [];
             this.fileList = [];
-            this.responsibleproject = undefined;
-            this.responsiblePerson = undefined;
+            this.responseProject = undefined;
+            this.responsePerson = undefined;
         },
     },
 };

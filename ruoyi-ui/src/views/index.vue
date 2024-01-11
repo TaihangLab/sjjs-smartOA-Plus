@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import { listNotice, getNotice, updateNotice } from "@/api/system/notice";
+import { listNotice, getNotice,} from "@/api/system/notice";
 import request from '@/utils/request';
 
 export default {
@@ -133,12 +133,6 @@ export default {
                 this.showNoticeDialog = true;
                 this.loading = false;
             });
-        },
-        handleCloseNoticeDialog() {
-            // 关闭弹窗时清空数据
-            this.selectedNotice.title = '';
-            this.selectedNotice.content = '';
-            this.showNoticeDialog = false;
         },
         getList() {
             this.loading = true;
