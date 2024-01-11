@@ -128,21 +128,21 @@ export default {
                 ipName: [
                     { required: true, message: '请输入知识产权名', trigger: 'blur' }
                 ],
-                ipType: [
-                    { required: true, message: '请选择类型', trigger: 'change' }
-                ],
-                ipStatus: [
-                    { required: true, message: '请选择状态', trigger: 'change' }
-                ],
-                ipDate: [
-                    { type: 'date',required: true, message: '请选择日期', trigger: 'change' }
-                ],
-                responseProject: [
-                    { required: true, message: '请选择项目', trigger: 'change' }
-                ],
-                responsePerson: [
-                    { required: true, message: '请选择成员', trigger: 'change' }
-                ],
+                // ipType: [
+                //     { required: true, message: '请选择类型', trigger: 'change' }
+                // ],
+                // ipStatus: [
+                //     { required: true, message: '请选择状态', trigger: 'change' }
+                // ],
+                // ipDate: [
+                //     { type: 'date',required: true, message: '请选择日期', trigger: 'change' }
+                // ],
+                // responseProject: [
+                //     { required: true, message: '请选择项目', trigger: 'change' }
+                // ],
+                // responsePerson: [
+                //     { required: true, message: '请选择成员', trigger: 'change' }
+                // ],
             },
         };
     },
@@ -259,8 +259,12 @@ export default {
                 });
         },
         onSubmit() {
-            this.form.projectId = this.responseProject[this.responseProject.length - 1];
-            this.form.userIdList = this.responsePerson.map(subArray => subArray[subArray.length - 1]);
+            if (this.responseProject && this.responseProject.length > 0) {
+                this.form.projectId = this.responseProject[this.responseProject.length - 1];
+            }
+            if (this.responsePerson && this.responsePerson.length > 0) {
+                this.form.userIdList = this.responsePerson.map(subArray => subArray[subArray.length - 1]);
+            }
             this.form.ossIdList = this.ossIds;
             request({
                 url: '/ip/add',
