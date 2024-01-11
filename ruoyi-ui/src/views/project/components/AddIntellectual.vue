@@ -62,17 +62,11 @@
 import { listUser, deptTreeSelect } from "@/api/system/user";
 import fujian from "./../../../components/FileUpload/index.vue";
 import request from '@/utils/request';
-
 export default {
     components: {
         fujian,
     },
-    props: {
-        ipId: {
-            type: String,
-            required: true,
-        },
-    },
+    props: ['ipId'],
     data() {
         return {
             props: { multiple: true },
@@ -81,7 +75,7 @@ export default {
             projectId: undefined,
             responsibleproject: [],
             cascaderOptions: [],
-            projecttree: undefined,
+            projecttree: [],
             // 知识产权类别
             ipTypeOptions: [{
                 ipTypeId: '0',
@@ -131,7 +125,6 @@ export default {
                 userIdList: [],
                 ossIdList: [],
             },
-            formss: undefined,
         };
     },
     created() {
@@ -160,35 +153,21 @@ export default {
         immediate: true, // 立即执行一次
     },
     methods: {
-        handleDateChange(date) {
-            this.form.ipDate = date.substring(0, 10);
-        },
         async createdData() {
             this.getProjectTree();
             this.getDeptAndUserList();
         },
         handleIdData(node) {
-            this.person = node.ipUserVOList;
             this.projectId = node.projectId;
             this.responsibleproject = this.findPathByValue(this.projecttree, this.projectId);
-            this.formss = this.getDeptAndUserList();
-            this.person.forEach(item => {
-                const path = this.findPathByValue(this.cascaderOptions, item.userId);
-                if (path.length !== 0) {
-                    // 将路径保存到 this.responsiblePerson 数组中
-                    this.responsiblePerson.push(path);
-                }
-            });
         },
         findPathByValue(data, targetValue, path = []) {
             for (const item of data) {
                 const currentPath = [...path, item.value];
-
                 if (item.value === targetValue) {
                     // 找到目标值，返回当前路径
                     return currentPath;
                 }
-
                 if (item.children) {
                     // 如果有子节点，递归查找
                     const result = this.findPathByValue(item.children, targetValue, currentPath);
@@ -263,22 +242,23 @@ export default {
         },
 
         async cheakIntellectual() {
-            if (this.$props.ipId) {
-                try {
-                    const resp = await request({
-                        url: '/ip/getDetails',
-                        method: 'get',
-                        params: {
-                            ipId: this.params.ipId,
-                        },
-                    });
+            request({
+                url: '/ip/getDetails',
+                method: 'get',
+                params: {
+                    ipId: this.params.ipId,
+                },
+            })
+                .then((resp) => {
                     this.form = resp.data;
+                    this.responsiblePerson = resp.data.userPathList;
                     this.handleIdData(resp.data);
                     console.log('详情数据', this.form);
-                } catch (error) {
-                    console.error('获取数据时出错1：', error);
-                }
-            }
+                })
+                .catch(error => {
+                    console.error("获取数据时出错1：", error);
+                    // 处理错误情况，例如显示错误提示
+                });
         },
 
         onSubmit() {
