@@ -24,6 +24,11 @@ public class IntellectualPropertyDetailVO {
     private Long projectId;
 
     /**
+     * 项目路径
+     */
+    private List<Long> projectPath;
+
+    /**
      * 关联项目名称
      */
     private String assignedSubjectName;

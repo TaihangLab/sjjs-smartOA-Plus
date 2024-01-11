@@ -36,4 +36,6 @@ public interface ProjectBaseInfoService {
     Map<Long, String> getProjectIdAndNameMappingByProjectIdSet(Set<Long> projectIdSet);
 
     Map<String,Integer> getProjectLevelStatistics();
+
+    List<Long> getProjectPathById(Long projectId);
 }
