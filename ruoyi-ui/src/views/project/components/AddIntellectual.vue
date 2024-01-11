@@ -1,50 +1,50 @@
 <template>
     <div>
-        <el-form ref="form" :model="form" label-width="100px">
+        <el-form ref="form" :rules="rules" :model="form" label-width="120px">
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="知识产权名">
+                    <el-form-item label="知识产权名" prop="ipName">
                         <el-input v-model="form.ipName" style="width: 192px"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="关联项目名称">
+                    <el-form-item label="关联项目名称" prop="responsibleproject">
                         <el-cascader v-model="responsibleproject" :options="this.projecttree" clearable
-                                     :show-all-levels="false" placeholder="请选择关联项目名称"></el-cascader>
+                            :show-all-levels="false" placeholder="请选择项目"></el-cascader>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="知识产权类别">
+                    <el-form-item label="知识产权类别" prop="ipType">
                         <el-select v-model="form.ipType" placeholder="请选择类别">
                             <el-option v-for="item in ipTypeOptions" :key="item.ipTypeId" :label="item.ipTypeName"
-                                       :value="item.ipTypeId" :disabled="item.status == 1"></el-option>
+                                :value="item.ipTypeId" :disabled="item.status == 1"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="知识产权状态">
+                    <el-form-item label="知识产权状态" prop="ipStatus">
                         <el-select v-model="form.ipStatus" placeholder="请选择状态">
                             <el-option v-for="item in ipStatusOptions" :key="item.ipStatusId" :label="item.ipStatusName"
-                                       :value="item.ipStatusId" :disabled="item.status == 1"></el-option>
+                                :value="item.ipStatusId" :disabled="item.status == 1"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="获得日期">
+                    <el-form-item label="获得日期" prop="ipDate">
                         <el-col :span="11">
                             <el-date-picker type="date" placeholder="选择日期" v-model="form.ipDate" style="width: 192px"
-                                            value-format="yyyy-MM-dd"></el-date-picker>
+                                value-format="yyyy-MM-dd"></el-date-picker>
                         </el-col>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="知识产权成员">
-                        <el-cascader v-model="responsiblePerson" :options="cascaderOptions" :props="props"
-                                     collapse-tags clearable :show-all-levels="false" placeholder="请选择成员"></el-cascader>
+                    <el-form-item label="知识产权成员" prop="responsiblePerson">
+                        <el-cascader v-model="responsiblePerson" :options="cascaderOptions" :props="props" collapse-tags
+                            clearable :show-all-levels="false" placeholder="请选择成员"></el-cascader>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -130,6 +130,26 @@ export default {
                 ipDate: '',
                 userIdList: [],
                 ossIdList: [],
+            },
+            rules: {
+                ipName: [
+                    { required: true, message: '请输入知识产权名', trigger: 'blur' }
+                ],
+                ipType: [
+                    { required: true, message: '请选择类型', trigger: 'change' }
+                ],
+                ipStatus: [
+                    { required: true, message: '请选择状态', trigger: 'change' }
+                ],
+                ipDate: [
+                    { type: 'date',required: true, message: '请选择日期', trigger: 'change' }
+                ],
+                responsibleproject: [
+                    { required: true, message: '请选择项目', trigger: 'change' }
+                ],
+                responsiblePerson: [
+                    { required: true, message: '请选择成员', trigger: 'change' }
+                ],
             },
             formss: undefined,
         };
