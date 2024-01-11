@@ -109,9 +109,9 @@ export default {
                     if (Array.isArray(val)) {
                         list = val;
                         list.map((item)=>{
-                            if (this.$props.idList) {
-                                this.$props.idList.push(item.ossId);
-                            }
+                            // if (this.$props.idList) {
+                            //     this.$props.idList.push(item.ossId);
+                            // }
                             if (!item.name)
                                 return item.name = item.originalName;
                             else
