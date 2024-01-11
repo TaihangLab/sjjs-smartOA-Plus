@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-form ref="form" :rules="rules" :model="form" label-width="120px">
+        <el-form ref="form" :rules="rules" :model="form" label-width="100px">
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="知识产权名" prop="ipName">
@@ -10,7 +10,7 @@
                 <el-col :span="12">
                     <el-form-item label="关联项目名称" prop="responsibleproject">
                         <el-cascader v-model="responsibleproject" :options="this.projecttree" clearable
-                            :show-all-levels="false" placeholder="请选择项目"></el-cascader>
+                                     :show-all-levels="false" placeholder="请选择关联项目名称"></el-cascader>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -19,7 +19,7 @@
                     <el-form-item label="知识产权类别" prop="ipType">
                         <el-select v-model="form.ipType" placeholder="请选择类别">
                             <el-option v-for="item in ipTypeOptions" :key="item.ipTypeId" :label="item.ipTypeName"
-                                :value="item.ipTypeId" :disabled="item.status == 1"></el-option>
+                                       :value="item.ipTypeId" :disabled="item.status == 1"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
@@ -27,7 +27,7 @@
                     <el-form-item label="知识产权状态" prop="ipStatus">
                         <el-select v-model="form.ipStatus" placeholder="请选择状态">
                             <el-option v-for="item in ipStatusOptions" :key="item.ipStatusId" :label="item.ipStatusName"
-                                :value="item.ipStatusId" :disabled="item.status == 1"></el-option>
+                                       :value="item.ipStatusId" :disabled="item.status == 1"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
@@ -37,14 +37,14 @@
                     <el-form-item label="获得日期" prop="ipDate">
                         <el-col :span="11">
                             <el-date-picker type="date" placeholder="选择日期" v-model="form.ipDate" style="width: 192px"
-                                value-format="yyyy-MM-dd"></el-date-picker>
+                                            value-format="yyyy-MM-dd"></el-date-picker>
                         </el-col>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="知识产权成员" prop="responsiblePerson">
-                        <el-cascader v-model="responsiblePerson" :options="cascaderOptions" :props="props" collapse-tags
-                            clearable :show-all-levels="false" placeholder="请选择成员"></el-cascader>
+                        <el-cascader v-model="responsiblePerson" :options="cascaderOptions" :props="props"
+                                     collapse-tags clearable :show-all-levels="false" placeholder="请选择成员"></el-cascader>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -62,17 +62,11 @@
 import { listUser, deptTreeSelect } from "@/api/system/user";
 import fujian from "./../../../components/FileUpload/index.vue";
 import request from '@/utils/request';
-
 export default {
     components: {
         fujian,
     },
-    props: {
-        ipId: {
-            type: String,
-            required: true,
-        },
-    },
+    props: ['ipId'],
     data() {
         return {
             props: { multiple: true },
@@ -81,7 +75,7 @@ export default {
             projectId: undefined,
             responsibleproject: [],
             cascaderOptions: [],
-            projecttree: undefined,
+            projecttree: [],
             // 知识产权类别
             ipTypeOptions: [{
                 ipTypeId: '0',
@@ -151,7 +145,6 @@ export default {
                     { required: true, message: '请选择成员', trigger: 'change' }
                 ],
             },
-            formss: undefined,
         };
     },
     created() {
@@ -180,35 +173,21 @@ export default {
         immediate: true, // 立即执行一次
     },
     methods: {
-        handleDateChange(date) {
-            this.form.ipDate = date.substring(0, 10);
-        },
         async createdData() {
             this.getProjectTree();
             this.getDeptAndUserList();
         },
         handleIdData(node) {
-            this.person = node.ipUserVOList;
             this.projectId = node.projectId;
             this.responsibleproject = this.findPathByValue(this.projecttree, this.projectId);
-            this.formss = this.getDeptAndUserList();
-            this.person.forEach(item => {
-                const path = this.findPathByValue(this.cascaderOptions, item.userId);
-                if (path.length !== 0) {
-                    // 将路径保存到 this.responsiblePerson 数组中
-                    this.responsiblePerson.push(path);
-                }
-            });
         },
         findPathByValue(data, targetValue, path = []) {
             for (const item of data) {
                 const currentPath = [...path, item.value];
-
                 if (item.value === targetValue) {
                     // 找到目标值，返回当前路径
                     return currentPath;
                 }
-
                 if (item.children) {
                     // 如果有子节点，递归查找
                     const result = this.findPathByValue(item.children, targetValue, currentPath);
@@ -283,22 +262,23 @@ export default {
         },
 
         async cheakIntellectual() {
-            if (this.$props.ipId) {
-                try {
-                    const resp = await request({
-                        url: '/ip/getDetails',
-                        method: 'get',
-                        params: {
-                            ipId: this.params.ipId,
-                        },
-                    });
+            request({
+                url: '/ip/getDetails',
+                method: 'get',
+                params: {
+                    ipId: this.params.ipId,
+                },
+            })
+                .then((resp) => {
                     this.form = resp.data;
+                    this.responsiblePerson = resp.data.userPathList;
                     this.handleIdData(resp.data);
                     console.log('详情数据', this.form);
-                } catch (error) {
-                    console.error('获取数据时出错1：', error);
-                }
-            }
+                })
+                .catch(error => {
+                    console.error("获取数据时出错1：", error);
+                    // 处理错误情况，例如显示错误提示
+                });
         },
 
         onSubmit() {
