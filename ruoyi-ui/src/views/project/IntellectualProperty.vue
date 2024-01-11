@@ -99,7 +99,7 @@
                 </el-dialog>
                 <!--修改知识产权-->
                 <el-dialog title="修改知识产权" :visible.sync="intellectualDialogVisibleEdit" width="700px">
-                    <AddIntellectual :ipId="Number(ipId)" @close-dialog="closeIntellectualDialogs"></AddIntellectual>
+                    <EditIntellectual :ipId="Number(ipId)" @close-dialog="closeIntellectualDialogs"></EditIntellectual>
                 </el-dialog>
             </div>
             <el-pagination  :current-page="queryParam.pageNum" :page-size="queryParam.pageSize"
@@ -115,9 +115,10 @@ import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 import request from '@/utils/request';
 import CheckIntellectual from "@/views/project/components/CheckIntellectual.vue";
 import AddIntellectual from "@/views/project/components/AddIntellectual.vue";
+import EditIntellectual from "@/views/project/components/EditIntellectual.vue";
 
 export default {
-    components: { CheckIntellectual, AddIntellectual },
+    components: { CheckIntellectual, AddIntellectual ,EditIntellectual},
     data() {
         return {
             projecttree: undefined,

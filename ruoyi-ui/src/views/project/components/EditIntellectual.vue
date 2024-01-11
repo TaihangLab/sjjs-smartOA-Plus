@@ -49,7 +49,7 @@
                 </el-col>
             </el-row>
             <el-form-item label="附件">
-                <fujian ref="fujian" :value="form.sysOsses" :idList="ossIds" />
+                <fujian ref="fujian" :value="form.sysOssVoList" :idList="ossIds" />
             </el-form-item>
             <el-form-item style="text-align: center;margin-left: -100px;">
                 <el-button type="primary" @click="onSubmit">确定</el-button>
@@ -157,6 +157,24 @@ export default {
             }
         });
     },
+    watch: {
+        ipId: {
+            async handler(newVal) {
+                try {
+                    this.params.ipId = newVal;
+                    console.log('ipId',this.params.ipId)
+                    if (newVal) {
+                        await this.checkIntellectual();
+                        console.log('newVal', newVal);
+                        console.log('this.form', this.form);
+                    }
+                } catch (error) {
+                    console.error('Error in checkIntellectual:', error);
+                }
+            },
+            immediate: true, // 立即执行一次
+        }
+    },
     methods: {
         async createdData() {
             this.getProjectTree();
@@ -231,6 +249,7 @@ export default {
                 return newItem;
             });
         },
+
         adaptUserData(data) {
             return data.map(item => {
                 const newItem = {
@@ -240,6 +259,7 @@ export default {
                 return newItem;
             });
         },
+
         async checkIntellectual() {
             request({
                 url: '/ip/getDetails',
@@ -258,24 +278,25 @@ export default {
                     console.error("获取数据时出错1：", error);
                 });
         },
+
         onSubmit() {
             this.form.projectId = this.responseProject[this.responseProject.length - 1];
             this.form.userIdList = this.responsePerson.map(subArray => subArray[subArray.length - 1]);
             this.form.ossIdList = this.ossIds;
+            // 请求修改接口
             request({
-                url: '/ip/add',
+                url: '/ip/update',
                 method: 'post',
-                data: this.form
-            }).then((resp) => {
-                    console.log(resp);
-                    this.$modal.msgSuccess("新增成功");
+                data: this.form,
+            }).then(() => {
+                    this.$modal.msgSuccess("修改成功");
                     this.$refs.fujian.reset();
-                    this.$emit('close-dialog'); // 触发一个事件通知父组件关闭弹窗
-                }).catch(error => {
-                    console.error("新增失败", error);
-                    // 处理错误情况，例如显示错误提示
+                    // this.reset();
+                    this.$emit('close-dialog');
+                }).catch((error) => {
+                    console.error("修改失败", error);
                 });
-            this.reset();
+                this.reset();
         },
         // 表单重置
         reset() {
