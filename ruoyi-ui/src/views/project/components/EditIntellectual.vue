@@ -164,25 +164,7 @@ export default {
         },
         handleIdData(node) {
             this.projectId = node.projectId;
-            this.responseProject = this.findPathByValue(this.projectTree, this.projectId);
-        },
-        findPathByValue(data, targetValue, path = []) {
-            for (const item of data) {
-                const currentPath = [...path, item.value];
-                if (item.value === targetValue) {
-                    // 找到目标值，返回当前路径
-                    return currentPath;
-                }
-                if (item.children) {
-                    // 如果有子节点，递归查找
-                    const result = this.findPathByValue(item.children, targetValue, currentPath);
-                    if (result) {
-                        // 找到了目标值，直接返回结果
-                        return result;
-                    }
-                }
-            }
-            return null;
+            this.responseProject = node.projectPath;
         },
         getProjectTree() {
             request({
