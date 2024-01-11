@@ -51,6 +51,7 @@ public class ProjectInfoVO extends BaseEntity {
     /**
      * 项目级别，0国家级，1省级，2企业级
      */
+
     private ProjectLevelEnum projectLevel;
 
     /**

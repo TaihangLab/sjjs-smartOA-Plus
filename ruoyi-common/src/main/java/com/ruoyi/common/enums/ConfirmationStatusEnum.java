@@ -2,6 +2,7 @@ package com.ruoyi.common.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.IEnum;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
 /**
@@ -18,6 +19,7 @@ public enum ConfirmationStatusEnum implements IEnum<Integer> {
     NOT_EXIST(1, "有");
 
     @EnumValue
+    @JsonValue
     //值
     private final Integer value;
     //描述

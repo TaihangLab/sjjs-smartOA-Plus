@@ -2,6 +2,7 @@ package com.ruoyi.common.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.IEnum;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
 /**
@@ -28,6 +29,7 @@ public enum ProjectStatusEnum implements IEnum<Integer> {
     REVIEW_FAILED(7, "未通过评审");
 
     @EnumValue
+    @JsonValue
     private final Integer value;
     private final String description;
 
