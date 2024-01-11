@@ -137,25 +137,27 @@ export default {
     created() {
         this.createdData().then(() => {
             if (this.$props.ipId) {
+                this.params.ipId = this.$props.ipId;
                 this.cheakIntellectual().then(() => {
                     console.log('0');
                     // 执行其他代码
                     console.log('this.form', this.form);
-
                 });
             }
         });
     },
     watch: {
-        ipId: {
-            handler(newVal) {
-                // 监听到memberid变化时，重新获取项目详情数据
-                this.params.ipId = newVal;
-                this.cheakIntellectual();
+        async ipId(newVal) {
+            this.params.ipId = newVal;
 
-            },
-            immediate: true, // 立即执行一次
+            if (newVal) {
+                await this.cheakIntellectual();
+                console.log('1');
+                // 执行其他代码
+                console.log('this.form', this.form);
+            }
         },
+        immediate: true, // 立即执行一次
     },
     methods: {
         handleDateChange(date) {
@@ -259,15 +261,15 @@ export default {
                 return newItem;
             });
         },
+
         async cheakIntellectual() {
             if (this.$props.ipId) {
-                this.params.ipId = this.$props.ipId;
                 try {
                     const resp = await request({
                         url: '/ip/getDetails',
                         method: 'get',
                         params: {
-                            ipId: this.$props.ipId,
+                            ipId: this.params.ipId,
                         },
                     });
                     this.form = resp.data;
@@ -329,6 +331,7 @@ export default {
                 .catch((error) => {
                     console.error("修改失败", error);
                 });
+            this.reset();
         },
         // 表单重置
         reset() {
