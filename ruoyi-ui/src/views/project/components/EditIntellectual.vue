@@ -1,50 +1,50 @@
 <template>
     <div>
-        <el-form ref="form" :rules="rules" :model="form" label-width="120px">
+        <el-form ref="form" :model="form" label-width="120px">
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="知识产权名" prop="ipName">
+                    <el-form-item label="知识产权名">
                         <el-input v-model="form.ipName" style="width: 192px"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="关联项目名称" prop="responseProject">
                         <el-cascader v-model="responseProject" :options="this.projectTree" clearable
-                                     :show-all-levels="false" placeholder="请选择关联项目名称"></el-cascader>
+                            :show-all-levels="false" placeholder="请选择关联项目名称"></el-cascader>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="知识产权类别" prop="ipType">
+                    <el-form-item label="知识产权类别">
                         <el-select v-model="form.ipType" placeholder="请选择类别">
                             <el-option v-for="item in ipTypeOptions" :key="item.ipTypeId" :label="item.ipTypeName"
-                                       :value="item.ipTypeId" :disabled="item.status === 1"></el-option>
+                                :value="item.ipTypeId" :disabled="item.status === 1"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="知识产权状态" prop="ipStatus">
+                    <el-form-item label="知识产权状态">
                         <el-select v-model="form.ipStatus" placeholder="请选择状态">
                             <el-option v-for="item in ipStatusOptions" :key="item.ipStatusId" :label="item.ipStatusName"
-                                       :value="item.ipStatusId" :disabled="item.status === 1"></el-option>
+                                :value="item.ipStatusId" :disabled="item.status === 1"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="获得日期" prop="ipDate">
+                    <el-form-item label="获得日期">
                         <el-col :span="11">
                             <el-date-picker type="date" placeholder="选择日期" v-model="form.ipDate" style="width: 192px"
-                                            value-format="yyyy-MM-dd"></el-date-picker>
+                                value-format="yyyy-MM-dd"></el-date-picker>
                         </el-col>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="知识产权成员" prop="responsePerson">
-                        <el-cascader v-model="responsePerson" :options="cascadeOptions" :props="props"
-                                     collapse-tags clearable :show-all-levels="false" placeholder="请选择成员"></el-cascader>
+                    <el-form-item label="知识产权成员">
+                        <el-cascader v-model="responsePerson" :options="cascadeOptions" :props="props" collapse-tags
+                            clearable :show-all-levels="false" placeholder="请选择成员"></el-cascader>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -66,7 +66,12 @@ export default {
     components: {
         fujian,
     },
-    props: ['ipId'],
+    props: {
+        ipId: {
+            type: Number,
+            required: true,
+        },
+    },
     data() {
         return {
             props: { multiple: true },
@@ -122,58 +127,35 @@ export default {
                 ipStatus: '',
                 ipDate: '',
                 userIdList: [],
-                ossIds: [],
-            },
-            rules: {
-                ipName: [
-                    { required: true, message: '请输入知识产权名', trigger: 'blur' }
-                ],
-                ipType: [
-                    { required: true, message: '请选择类型', trigger: 'change' }
-                ],
-                ipStatus: [
-                    { required: true, message: '请选择状态', trigger: 'change' }
-                ],
-                ipDate: [
-                    { type: 'date',required: true, message: '请选择日期', trigger: 'change' }
-                ],
-                responseProject: [
-                    { required: true, message: '请选择项目', trigger: 'change' }
-                ],
-                responsePerson: [
-                    { required: true, message: '请选择成员', trigger: 'change' }
-                ],
+                ossIdList: [],
             },
         };
     },
     created() {
         this.createdData().then(() => {
             if (this.$props.ipId) {
-                this.params.ipId = this.$props.ipId;
-                this.checkIntellectual().then(() => {
-                    console.log('createdData.ipId',params.ipId )
-                    console.log('this.form', this.form);
-                });
+                const ipId = parseInt(this.$props.ipId, 10);
+                if (!isNaN(ipId)) {
+                    this.params.ipId = ipId;
+                    this.checkIntellectual().then(() => {
+                        console.log('createdData.ipId', this.params.ipId);
+                        console.log('this.form', this.form);
+                    });
+                } else {
+                    console.error('Invalid ipId:', this.$props.ipId);
+                    // 处理无效 ipId 的情况
+                }
             }
         });
     },
     watch: {
         ipId: {
-            async handler(newVal) {
-                try {
-                    this.params.ipId = newVal;
-                    console.log('ipId',this.params.ipId)
-                    if (newVal) {
-                        await this.checkIntellectual();
-                        console.log('newVal', newVal);
-                        console.log('this.form', this.form);
-                    }
-                } catch (error) {
-                    console.error('Error in checkIntellectual:', error);
-                }
+            handler(newVal) {
+                this.params.ipId = newVal;
+                this.checkIntellectual();
             },
             immediate: true, // 立即执行一次
-        }
+        },
     },
     methods: {
         async createdData() {
@@ -259,7 +241,6 @@ export default {
                 return newItem;
             });
         },
-
         async checkIntellectual() {
             request({
                 url: '/ip/getDetails',
@@ -280,7 +261,7 @@ export default {
         },
 
         onSubmit() {
-            this.form.projectId = this.responseProject[this.responseProject.length - 1];
+            this.form.projectId = parseInt(this.responseProject[this.responseProject.length - 1], 10);
             this.form.userIdList = this.responsePerson.map(subArray => subArray[subArray.length - 1]);
             this.form.ossIdList = this.ossIds;
             // 请求修改接口
@@ -289,14 +270,14 @@ export default {
                 method: 'post',
                 data: this.form,
             }).then(() => {
-                    this.$modal.msgSuccess("修改成功");
-                    this.$refs.fujian.reset();
-                    // this.reset();
-                    this.$emit('close-dialog');
-                }).catch((error) => {
-                    console.error("修改失败", error);
-                });
-                this.reset();
+                this.$modal.msgSuccess("修改成功");
+                this.$refs.fujian.reset();
+                // this.reset();
+                this.$emit('close-dialog');
+            }).catch((error) => {
+                console.error("修改失败", error);
+            });
+            this.reset();
         },
         // 表单重置
         reset() {
