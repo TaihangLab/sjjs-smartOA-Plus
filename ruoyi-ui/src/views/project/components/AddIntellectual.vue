@@ -49,7 +49,7 @@
                 </el-col>
             </el-row>
             <el-form-item label="附件">
-                <fujian ref="fujian" :value="form.sysOsses" :idList="ossIds" />
+                <fujian ref="fujian" :idList="ossIds" />
             </el-form-item>
             <el-form-item style="text-align: center;margin-left: -100px;">
                 <el-button type="primary" @click="onSubmit">确定</el-button>
@@ -122,40 +122,16 @@ export default {
                 ipStatus: '',
                 ipDate: '',
                 userIdList: [],
-                ossIds: [],
             },
             rules: {
                 ipName: [
                     { required: true, message: '请输入知识产权名', trigger: 'blur' }
                 ],
-                // ipType: [
-                //     { required: true, message: '请选择类型', trigger: 'change' }
-                // ],
-                // ipStatus: [
-                //     { required: true, message: '请选择状态', trigger: 'change' }
-                // ],
-                // ipDate: [
-                //     { type: 'date',required: true, message: '请选择日期', trigger: 'change' }
-                // ],
-                // responseProject: [
-                //     { required: true, message: '请选择项目', trigger: 'change' }
-                // ],
-                // responsePerson: [
-                //     { required: true, message: '请选择成员', trigger: 'change' }
-                // ],
             },
         };
     },
     created() {
-        this.createdData().then(() => {
-            if (this.$props.ipId) {
-                this.params.ipId = this.$props.ipId;
-                this.checkIntellectual().then(() => {
-                    console.log('createdData.ipId',params.ipId )
-                    console.log('this.form', this.form);
-                });
-            }
-        });
+        this.createdData();
     },
     methods: {
         async createdData() {
@@ -240,24 +216,6 @@ export default {
                 return newItem;
             });
         },
-        async checkIntellectual() {
-            request({
-                url: '/ip/getDetails',
-                method: 'get',
-                params: {
-                    ipId: this.params.ipId,
-                },
-            })
-                .then((resp) => {
-                    this.form = resp.data;
-                    this.responsePerson = resp.data.userPathList;
-                    this.handleIdData(resp.data);
-                    console.log('详情数据', this.form);
-                })
-                .catch(error => {
-                    console.error("获取数据时出错1：", error);
-                });
-        },
         onSubmit() {
             if (this.responseProject && this.responseProject.length > 0) {
                 this.form.projectId = this.responseProject[this.responseProject.length - 1];
@@ -272,6 +230,7 @@ export default {
                 data: this.form
             }).then((resp) => {
                     console.log(resp);
+                    console.log("this.form.", this.form.ossIds);
                     this.$modal.msgSuccess("新增成功");
                     this.$refs.fujian.reset();
                     this.$emit('close-dialog'); // 触发一个事件通知父组件关闭弹窗
@@ -291,7 +250,6 @@ export default {
                 ipStatus: '',
                 ipDate: '',
                 userIdList: [],
-                ossIds: [],
             };
             this.ossIds = [];
             this.fileList = [];
