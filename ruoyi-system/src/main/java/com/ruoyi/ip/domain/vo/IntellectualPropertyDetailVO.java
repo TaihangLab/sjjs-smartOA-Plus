@@ -47,6 +47,10 @@ public class IntellectualPropertyDetailVO {
      * 知识产权成员列表
      */
     private List<IpUserVO> ipUserVOList;
+    /**
+     * 知识产权成员路径列表
+     */
+    private List<List<Long>> userPathList;
 
     /**
      * 知识产权附件列表

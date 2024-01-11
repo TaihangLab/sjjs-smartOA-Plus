@@ -19,4 +19,6 @@ public interface DeptService {
     String selectDeptNameByIds(String deptIds);
 
     Map<Long, String> getDeptIdAndNameMapping(List<Long> deptIdList);
+
+    List<Long> getAncestorsById(Long deptId);
 }

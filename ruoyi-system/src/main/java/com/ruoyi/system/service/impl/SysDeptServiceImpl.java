@@ -34,6 +34,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.ruoyi.common.utils.StringUtils.splitList;
+
 /**
  * 部门管理 服务实现
  *
@@ -325,6 +327,30 @@ public class SysDeptServiceImpl implements ISysDeptService, DeptService {
     @Override
     public int deleteDeptById(Long deptId) {
         return baseMapper.deleteById(deptId);
+    }
+
+    /**
+     * @param deptId
+     * @return
+     */
+    @Override
+    public List<Long> getAncestorsById(Long deptId){
+        if(deptId == null){
+            throw new IllegalArgumentException("deptId can not be null");
+        }
+        SysDept dept = baseMapper.selectById(deptId);
+        if(dept == null){
+            throw new IllegalArgumentException("dept not found");
+        }
+        String ancestors = dept.getAncestors();
+        if(StringUtils.isBlank(ancestors)){
+            return new ArrayList<>();
+        }
+        return StringUtils.splitList(ancestors, StringUtils.SEPARATOR)
+            .stream()
+            .skip(1)  // 跳过第一个元素
+            .map(Long::valueOf)
+            .collect(Collectors.toList());
     }
 
 }

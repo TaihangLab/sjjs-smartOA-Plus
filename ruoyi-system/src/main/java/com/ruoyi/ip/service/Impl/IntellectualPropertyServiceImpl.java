@@ -119,6 +119,7 @@ public class IntellectualPropertyServiceImpl implements IntellectualPropertyServ
         }
         intellectualPropertyDetailVO.setSysOssVoList(ipOssService.getSysOssVoListByIpId(ipId));
         intellectualPropertyDetailVO.setIpUserVOList(ipUserService.getIpUserVOListByIpId(ipId));
+        intellectualPropertyDetailVO.setUserPathList(ipUserService.getUserPathListByIpId(ipId));
         return intellectualPropertyDetailVO;
     }
 
