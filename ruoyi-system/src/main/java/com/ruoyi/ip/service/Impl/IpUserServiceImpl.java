@@ -126,12 +126,8 @@ public class IpUserServiceImpl implements IpUserService {
      */
     @Override
     public List<IpUserVO> getIpUserVOListByIpId(Long ipId) {
-        List<Long> userIdList = ipUserMapper.selectList(new LambdaQueryWrapper<IpUser>().eq(IpUser::getIpId, ipId)).stream().map(IpUser::getUserId).collect(Collectors.toList());
-        if (userIdList.isEmpty()) {
-            return Collections.emptyList();
-        }
         //获取知识产权相关有效成员集合
-        List<SysUser> sysUserList = userService.filterActiveUserIdList(userIdList);
+        List<SysUser> sysUserList = getActiveUserIdList(ipId);
         if (sysUserList.isEmpty()) {
             return Collections.emptyList();
         }
@@ -146,11 +142,44 @@ public class IpUserServiceImpl implements IpUserService {
     }
 
     /**
+     * @param ipId
+     * @return
+     */
+    @Override
+    public List<List<Long>> getUserPathListByIpId(Long ipId) {
+        if(ipId==null){
+            throw new IllegalArgumentException("ipId can not be null");
+        }
+        List<SysUser> sysUserList = getActiveUserIdList(ipId);
+        if (sysUserList.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return sysUserList.stream().map(this::getUserPathListByUser).collect(Collectors.toList());
+    }
+
+
+    /**
      * @param userIdList
      */
     @Override
     public void deleteIpUserByUserIdList(List<Long> userIdList) {
         ipUserMapper.delete(new LambdaQueryWrapper<IpUser>().in(IpUser::getUserId, userIdList));
+    }
+
+    private List<SysUser> getActiveUserIdList(Long ipId){
+        List<Long> userIdList = ipUserMapper.selectList(new LambdaQueryWrapper<IpUser>().eq(IpUser::getIpId, ipId)).stream().map(IpUser::getUserId).collect(Collectors.toList());
+        if (userIdList.isEmpty()) {
+            return Collections.emptyList();
+        }
+        //获取知识产权相关有效成员集合
+        return userService.filterActiveUserIdList(userIdList);
+    }
+
+    private List<Long> getUserPathListByUser(SysUser user) {
+        List<Long> userPathList = deptService.getAncestorsById(user.getDeptId());
+        userPathList.add(user.getDeptId());
+        userPathList.add(user.getUserId());
+        return userPathList;
     }
 
 }

@@ -91,7 +91,7 @@
                 </el-table>
                 <!-- 详情打开的界面 -->
                 <el-dialog :visible.sync="dialogIntellectualLook" width="50%">
-                    <CheckIntellectual :ipId="ipId" @close-dialog="closeIntellectualDialogLook"></CheckIntellectual>
+                    <CheckIntellectual :ipId="String(ipId)" @close-dialog="closeIntellectualDialogLook"></CheckIntellectual>
                 </el-dialog>
                 <!--新增知识产权-->
                 <el-dialog title="新增知识产权" :visible.sync="intellectualDialogVisibleAdd" width="700px">
@@ -99,7 +99,7 @@
                 </el-dialog>
                 <!--修改知识产权-->
                 <el-dialog title="修改知识产权" :visible.sync="intellectualDialogVisibleEdit" width="700px">
-                    <AddIntellectual :ipId="ipId" @close-dialog="closeIntellectualDialogs"></AddIntellectual>
+                    <AddIntellectual :ipId="String(ipId)" @close-dialog="closeIntellectualDialogs"></AddIntellectual>
                 </el-dialog>
             </div>
             <el-pagination  :current-page="queryParam.pageNum" :page-size="queryParam.pageSize"
@@ -162,7 +162,8 @@ export default {
                 pageSize: 10,
             },
             myProjectFrom: {},
-            formLook: {}
+            formLook: {},
+            pickerOptions: {}
         };
     },
     created() {
@@ -337,7 +338,7 @@ export default {
                     ipId: ipId,  // 传递ipId参数
                 },
             });
-        },
+        },     
         sizeChangeHandle(val) {
             this.$set(this.queryParam, 'pageSize', val);
             this.queryParam.pageNum = 1;

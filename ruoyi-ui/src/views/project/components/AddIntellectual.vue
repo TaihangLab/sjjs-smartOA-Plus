@@ -1,22 +1,22 @@
 <template>
     <div>
-        <el-form ref="form" :model="form" label-width="100px">
+        <el-form ref="form" :rules="rules" :model="form" label-width="120px">
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="知识产权名">
+                    <el-form-item label="知识产权名" prop="ipName">
                         <el-input v-model="form.ipName" style="width: 192px"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="关联项目名称">
+                    <el-form-item label="关联项目名称" prop="responsibleproject">
                         <el-cascader v-model="responsibleproject" :options="this.projecttree" clearable
-                            :show-all-levels="false" placeholder="请选择关联项目名称"></el-cascader>
+                            :show-all-levels="false" placeholder="请选择项目"></el-cascader>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="知识产权类别">
+                    <el-form-item label="知识产权类别" prop="ipType">
                         <el-select v-model="form.ipType" placeholder="请选择类别">
                             <el-option v-for="item in ipTypeOptions" :key="item.ipTypeId" :label="item.ipTypeName"
                                 :value="item.ipTypeId" :disabled="item.status == 1"></el-option>
@@ -24,7 +24,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="知识产权状态">
+                    <el-form-item label="知识产权状态" prop="ipStatus">
                         <el-select v-model="form.ipStatus" placeholder="请选择状态">
                             <el-option v-for="item in ipStatusOptions" :key="item.ipStatusId" :label="item.ipStatusName"
                                 :value="item.ipStatusId" :disabled="item.status == 1"></el-option>
@@ -34,22 +34,22 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="获得日期">
+                    <el-form-item label="获得日期" prop="ipDate">
                         <el-col :span="11">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="form.date"
-                                style="width: 192px"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="form.ipDate" style="width: 192px"
+                                value-format="yyyy-MM-dd"></el-date-picker>
                         </el-col>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="知识产权成员">
+                    <el-form-item label="知识产权成员" prop="responsiblePerson">
                         <el-cascader v-model="responsiblePerson" :options="cascaderOptions" :props="props" collapse-tags
                             clearable :show-all-levels="false" placeholder="请选择成员"></el-cascader>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-form-item label="附件">
-                <fujian ref="fujian" :idList="ossids" />
+                <fujian ref="fujian" :value="form.sysOsses" :idList="ossids" />
             </el-form-item>
             <el-form-item style="text-align: center;margin-left: -100px;">
                 <el-button type="primary" @click="onSubmit">确定</el-button>
@@ -77,6 +77,8 @@ export default {
         return {
             props: { multiple: true },
             responsiblePerson: [],
+            person: undefined,
+            projectId: undefined,
             responsibleproject: [],
             cascaderOptions: [],
             projecttree: undefined,
@@ -129,30 +131,97 @@ export default {
                 userIdList: [],
                 ossIdList: [],
             },
+            rules: {
+                ipName: [
+                    { required: true, message: '请输入知识产权名', trigger: 'blur' }
+                ],
+                ipType: [
+                    { required: true, message: '请选择类型', trigger: 'change' }
+                ],
+                ipStatus: [
+                    { required: true, message: '请选择状态', trigger: 'change' }
+                ],
+                ipDate: [
+                    { type: 'date',required: true, message: '请选择日期', trigger: 'change' }
+                ],
+                responsibleproject: [
+                    { required: true, message: '请选择项目', trigger: 'change' }
+                ],
+                responsiblePerson: [
+                    { required: true, message: '请选择成员', trigger: 'change' }
+                ],
+            },
+            formss: undefined,
         };
     },
     created() {
-        this.createdData();
-        console.log('ipId传递过来的值:', this.ipId);
-        if (this.$props.ipId) {
-            this.cheakIntellectual();
-        }
+        this.createdData().then(() => {
+            if (this.$props.ipId) {
+                this.params.ipId = this.$props.ipId;
+                this.cheakIntellectual().then(() => {
+                    console.log('0');
+                    // 执行其他代码
+                    console.log('this.form', this.form);
+                });
+            }
+        });
     },
     watch: {
-        ipId: {
-            handler(newVal) {
-                // 监听到memberid变化时，重新获取项目详情数据
-                this.params.ipId = newVal;
-                this.cheakIntellectual();
-            },
-            immediate: true, // 立即执行一次
+        async ipId(newVal) {
+            this.params.ipId = newVal;
+
+            if (newVal) {
+                await this.cheakIntellectual();
+                console.log('1');
+                // 执行其他代码
+                console.log('this.form', this.form);
+            }
         },
+        immediate: true, // 立即执行一次
     },
     methods: {
+        handleDateChange(date) {
+            this.form.ipDate = date.substring(0, 10);
+        },
         async createdData() {
             this.getProjectTree();
             this.getDeptAndUserList();
         },
+        handleIdData(node) {
+            this.person = node.ipUserVOList;
+            this.projectId = node.projectId;
+            this.responsibleproject = this.findPathByValue(this.projecttree, this.projectId);
+            this.formss = this.getDeptAndUserList();
+            this.person.forEach(item => {
+                const path = this.findPathByValue(this.cascaderOptions, item.userId);
+                if (path.length !== 0) {
+                    // 将路径保存到 this.responsiblePerson 数组中
+                    this.responsiblePerson.push(path);
+                }
+            });
+        },
+        findPathByValue(data, targetValue, path = []) {
+            for (const item of data) {
+                const currentPath = [...path, item.value];
+
+                if (item.value === targetValue) {
+                    // 找到目标值，返回当前路径
+                    return currentPath;
+                }
+
+                if (item.children) {
+                    // 如果有子节点，递归查找
+                    const result = this.findPathByValue(item.children, targetValue, currentPath);
+                    if (result) {
+                        // 找到了目标值，直接返回结果
+                        return result;
+                    }
+                }
+            }
+            // 未找到目标值
+            return null;
+        },
+
         // 按项目级别-项目搜索
         getProjectTree() {
             request({
@@ -174,6 +243,7 @@ export default {
             await this.getDeptTree(); // 等待部门数据加载完成
             await this.getList(); // 等待用户数据加载完成
             this.cascaderOptions = this.adaptData(this.deptOptions);
+            return this.cascaderOptions;
         },
         /** 查询部门下拉树结构 */
         async getDeptTree() {
@@ -211,26 +281,26 @@ export default {
                 return newItem;
             });
         },
-        cheakIntellectual() {
-            // 只有在 ipId 存在时才进行请求
+
+        async cheakIntellectual() {
             if (this.$props.ipId) {
-                this.params.ipId = this.$props.ipId;
-                request({
-                    url: '/ip/getDetails',
-                    method: 'get',
-                    params: {
-                        ipId: this.$props.ipId,
-                    },
-                })
-                    .then((resp) => {
-                        this.form = resp.data;
-                        console.log('详情数据', this.form);
-                    })
-                    .catch((error) => {
-                        console.error('获取数据时出错：', error);
+                try {
+                    const resp = await request({
+                        url: '/ip/getDetails',
+                        method: 'get',
+                        params: {
+                            ipId: this.params.ipId,
+                        },
                     });
+                    this.form = resp.data;
+                    this.handleIdData(resp.data);
+                    console.log('详情数据', this.form);
+                } catch (error) {
+                    console.error('获取数据时出错1：', error);
+                }
             }
         },
+
         onSubmit() {
             if (this.$props.ipId) {
                 this.EditIntellectual();
@@ -262,6 +332,7 @@ export default {
             this.reset();
         },
         EditIntellectual() {
+
             this.form.projectId = this.responsibleproject[this.responsibleproject.length - 1];
             this.form.userIdList = this.responsiblePerson.map(subArray => subArray[subArray.length - 1]);
             this.form.ossIdList = this.ossids;
@@ -280,6 +351,7 @@ export default {
                 .catch((error) => {
                     console.error("修改失败", error);
                 });
+            this.reset();
         },
         // 表单重置
         reset() {
