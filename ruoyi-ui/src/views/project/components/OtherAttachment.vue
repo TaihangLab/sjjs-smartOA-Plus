@@ -3,7 +3,7 @@
 
         <el-row type="flex" justify="center">
 
-            <FileUpload :fileSize="50" :idList="form.uploadList" :value="form.value"></FileUpload>
+            <FileUpload ref="fileUpload" :fileSize="50" :idList="form.uploadList" :value="form.value"></FileUpload>
         </el-row>
 
     </el-card>

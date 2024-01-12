@@ -184,7 +184,7 @@ export function addProject(projectInfoForm,
                 // 直接专项经费科服务动费-国内协作费
                 "kyfwfGnxzZxZj": zxFundsDetailForm.gnxzf_zj,
                 // 直接自筹经费科服务动费-国内协作费
-                "kyfwfGnxzZcZj": zxFundsDetailForm.gnxzf_zj,
+                "kyfwfGnxzZcZj": zcFundsDetailForm.gnxzf_zj,
                 // 直接专项经费人员活动费-人员劳务费
                 "ryhlwbzfZxZj": zxFundsDetailForm.rylwbzf_zj,
                 // 直接自筹经费人员活动费-人员劳务费
