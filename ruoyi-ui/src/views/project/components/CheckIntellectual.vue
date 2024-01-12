@@ -112,16 +112,13 @@ export default {
             intellectualLook: [],
         };
     },
-    // created() {
-    //     console.log('ipId传递过来的值:', this.ipId);
-    //     this.checkIntellectual();
-    // },
     watch: {
         ipId: {
             handler(newVal) {
                 this.params.ipId = newVal;
                 this.activeNames = ['0'];
                 this.checkIntellectual();
+              console.log("newval",newVal);
             },
             immediate: true, // 立即执行一次
         },

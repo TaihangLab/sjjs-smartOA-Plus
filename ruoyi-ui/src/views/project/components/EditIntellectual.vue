@@ -133,27 +133,16 @@ export default {
         };
     },
     created() {
-        this.createdData().then(() => {
-            if (this.$props.ipId) {
-                const ipId = parseInt(this.$props.ipId, 10);
-                if (!isNaN(ipId)) {
-                    this.params.ipId = ipId;
-                    this.checkIntellectual().then(() => {
-                        console.log('createdData.ipId', this.params.ipId);
-                        console.log('this.form', this.form);
-                    });
-                } else {
-                    console.error('Invalid ipId:', this.$props.ipId);
-                    // 处理无效 ipId 的情况
-                }
-            }
-        });
+        this.createdData();
     },
     watch: {
         ipId: {
             handler(newVal) {
-                this.params.ipId = newVal;
-                this.checkIntellectual();
+                console.log("newVal",newVal)
+                this.params.ipId = Number(newVal);
+                if (!isNaN(newVal) && newVal !== undefined){
+                    this.checkIntellectual();
+                }
             },
             immediate: true, // 立即执行一次
         },
