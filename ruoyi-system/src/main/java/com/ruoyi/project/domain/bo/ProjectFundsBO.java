@@ -1,5 +1,7 @@
 package com.ruoyi.project.domain.bo;
 
+import com.ruoyi.common.core.validate.AddGroup;
+import com.ruoyi.common.core.validate.EditGroup;
 import lombok.Data;
 
 import javax.validation.constraints.DecimalMax;
@@ -20,7 +22,7 @@ public class ProjectFundsBO {
     /**
      * 项目经费总额
      */
-    @DecimalMax(value = "999999.999999", message = "项目经费总额不能超过999999.999999万元")
+    @DecimalMax(value = "999999.999999", message = "项目经费总额不能超过{value}万元")
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
     private BigDecimal totalFundsAll;
 
