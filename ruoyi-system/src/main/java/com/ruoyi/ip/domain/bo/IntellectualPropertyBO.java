@@ -31,8 +31,7 @@ public class IntellectualPropertyBO {
     /**
      * 知识产权名
      */
-    @NotBlank(message = "知识产权名称不能为空")
-    @NotNull(message = "项目id不能为空", groups = {AddGroup.class, EditGroup.class})
+    @NotBlank(message = "知识产权名称不能为空", groups = {AddGroup.class, EditGroup.class})
     private String ipName;
     /**
      * 知识产权类别,国内发明专利0、软件著作权1、论文2、标准3
