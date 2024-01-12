@@ -17,7 +17,7 @@ CREATE TABLE `project_base_info` (
                                      `subject_assignment_serial_no` varchar(50) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '课题任务书编号',
                                      `project_establish_time` date DEFAULT NULL COMMENT '立项日期',
                                      `project_scheduled_completion_time` date DEFAULT NULL COMMENT '项目计划验收时间',
-                                     `project_duration` int DEFAULT NULL COMMENT '项目执行时间（年）',
+                                     `project_duration` varchar(50) DEFAULT NULL COMMENT '项目执行时间（年）',
                                      `project_description` varchar(1000) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '项目简介',
                                      `significance_and_necessity` varchar(2000) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '意义及必要性',
                                      `project_progress_status` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '项目推进情况',

@@ -115,25 +115,25 @@ export default {
             },
             levelOptions: [
                 {
-                    value: '0',
+                    value: 0,
                     label: '国家级'
                 },
                 {
-                    value: '1',
+                    value: 1,
                     label: '省级'
                 },
                 {
-                    value: '2',
+                    value: 2,
                     label: '企业级'
                 }
             ],
             cocompanyOptions: [
                 {
-                    value: '0',
+                    value: 0,
                     label: '无'
                 },
                 {
-                    value: '1',
+                    value: 1,
                     label: '有'
                 },
             ],

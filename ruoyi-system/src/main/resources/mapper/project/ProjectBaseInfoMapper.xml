@@ -17,7 +17,7 @@
         <result property="subjectAssignmentSerialNo" column="subject_assignment_serial_no" jdbcType="VARCHAR"/>
         <result property="projectEstablishTime" column="project_establish_time" jdbcType="DATE"/>
         <result property="projectScheduledCompletionTime" column="project_scheduled_completion_time" jdbcType="DATE"/>
-        <result property="projectDuration" column="project_duration" jdbcType="INTEGER"/>
+        <result property="projectDuration" column="project_duration" jdbcType="VARCHAR"/>
         <result property="projectDescription" column="project_description" jdbcType="VARCHAR"/>
         <result property="significanceAndNecessity" column="significance_and_necessity" jdbcType="VARCHAR"/>
         <result property="projectProgressStatus" column="project_progress_status" jdbcType="TINYINT"/>

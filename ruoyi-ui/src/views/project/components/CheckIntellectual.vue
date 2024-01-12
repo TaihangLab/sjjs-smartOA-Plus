@@ -117,7 +117,6 @@ export default {
                 this.params.ipId = newVal;
                 this.activeNames = ['0'];
                 this.checkIntellectual();
-              console.log("newval",newVal);
             },
             immediate: true, // 立即执行一次
         },
