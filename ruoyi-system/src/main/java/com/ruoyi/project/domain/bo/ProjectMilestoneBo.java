@@ -2,6 +2,8 @@ package com.ruoyi.project.domain.bo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.core.domain.BaseEntity;
+import com.ruoyi.common.core.validate.AddGroup;
+import com.ruoyi.common.core.validate.EditGroup;
 import com.ruoyi.common.xss.Xss;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -29,14 +31,14 @@ public class ProjectMilestoneBo extends BaseEntity {
      * 大事记名称
      */
     @Xss(message = "大事记名称不能包含脚本字符")
-    @NotBlank(message = "大事记名称不能为空")
-    @Size(min = 0, max =20, message = "大事记名称不能超过{max}个字符")
+    @NotBlank(message = "大事记名称不能为空", groups = {AddGroup.class, EditGroup.class})
+    @Size(min = 0, max =20, message = "大事记名称不能超过{max}个字符", groups = {AddGroup.class, EditGroup.class})
     private String milestoneTitle;
 
     /**
      * 大事记描述
      */
-    @NotBlank(message = "大事记描述不能为空")
+    @NotBlank(message = "大事记描述不能为空", groups = {AddGroup.class, EditGroup.class})
     private String milestoneRemark;
 
     /**

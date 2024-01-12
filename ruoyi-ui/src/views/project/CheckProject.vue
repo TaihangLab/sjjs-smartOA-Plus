@@ -192,8 +192,13 @@ export default {
             this.queryParams.userId = this.responsiblePerson[this.responsiblePerson.length - 1];
             this.queryParams.projectEstablishTimeSta = this.projectEstablishTime[0];
             this.queryParams.projectEstablishTimeEnd = this.projectEstablishTime[1];
-            this.queryParams.projectScheduledCompletionTimeSta = this.projectScheduledCompletionTime[0];
-            this.queryParams.projectScheduledCompletionTimeEnd = this.projectScheduledCompletionTime[1];
+            if(this.projectScheduledCompletionTime){
+                this.queryParams.projectScheduledCompletionTimeSta = this.projectScheduledCompletionTime[0];
+                this.queryParams.projectScheduledCompletionTimeEnd = this.projectScheduledCompletionTime[1];
+            }else {
+                this.queryParams.projectScheduledCompletionTimeSta = undefined;
+                this.queryParams.projectScheduledCompletionTimeEnd = undefined;
+            }
             this.queryParams.hasCooperativeUnit = this.CoCompany[0];
             this.queryParams.projectLevel = this.projectLevel[0];
             console.log('qwe', this.queryParams);

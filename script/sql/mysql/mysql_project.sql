@@ -11,7 +11,7 @@ CREATE TABLE `project_base_info` (
                                      `assigned_subject_name` varchar(200) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '承担课题名称',
                                      `project_assignment_serial_no` varchar(50) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '项目任务书编号',
                                      `project_source` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '项目来源',
-                                     `project_level` char(2) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '项目级别，0国家级，1省级，2企业级',
+                                     `project_level` char(2) COLLATE utf8mb4_bin DEFAULT NOT NULL COMMENT '项目级别，0国家级，1省级，2企业级',
                                      `has_leading_role` tinyint DEFAULT NULL COMMENT '是否是牵头单位，1是，0否',
                                      `assigned_subject_section` varchar(200) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '负责课题',
                                      `subject_assignment_serial_no` varchar(50) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '课题任务书编号',
