@@ -95,7 +95,7 @@
             <el-dialog title="修改项目" :visible.sync="newProjectDialogVisible" fullscreen
                        :key="refreshUpdateDialog">
                 <NewProject :visible.sync="newProjectDialogVisible" :updateId="updateId"
-                            @refresh="refresh"></NewProject>
+                            ></NewProject>
             </el-dialog>
         </div>
     </el-card>
