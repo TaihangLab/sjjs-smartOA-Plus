@@ -74,7 +74,7 @@
                        :key="refreshEventsPage" @open="handleEventsDialogOpen" :modal="false">
                 <div style="max-height: 600px; overflow-y: auto;">
                     <CheckEvents :projectId="projectId.toString()" :visible.sync="eventsDialogVisibleLook"
-                                 :buttonType="buttonType">
+                                 :buttonType="parseInt(buttonType)">
                     </CheckEvents>
                 </div>
             </el-dialog>
