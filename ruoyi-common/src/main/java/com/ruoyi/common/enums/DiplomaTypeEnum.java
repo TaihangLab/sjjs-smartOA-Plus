@@ -2,7 +2,11 @@ package com.ruoyi.common.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.IEnum;
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import lombok.*;
+
+import java.util.Arrays;
 
 /**
  * 学历
@@ -11,6 +15,8 @@ import lombok.Getter;
  * @date 2023/12/27
  */
 @Getter
+@AllArgsConstructor
+@ToString
 public enum DiplomaTypeEnum implements IEnum<Integer> {
     /**
      * 博士研究生
@@ -30,16 +36,8 @@ public enum DiplomaTypeEnum implements IEnum<Integer> {
     COLLEGE(3, "专科");
 
     @EnumValue
+    @JsonValue
     private final Integer value;
     private final String description;
 
-    DiplomaTypeEnum(Integer value, String description) {
-        this.value = value;
-        this.description = description;
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(this.value);
-    }
 }

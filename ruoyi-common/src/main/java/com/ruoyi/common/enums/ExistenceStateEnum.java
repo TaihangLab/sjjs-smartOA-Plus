@@ -2,7 +2,13 @@ package com.ruoyi.common.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.IEnum;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
+
+import java.util.Arrays;
 
 /**
  * 项目类别
@@ -11,6 +17,8 @@ import lombok.Getter;
  * @date 2023/12/12
  */
 @Getter
+@AllArgsConstructor
+@ToString
 public enum ExistenceStateEnum implements IEnum<Integer> {
     //无
     EXIST(0, "无"),
@@ -18,18 +26,9 @@ public enum ExistenceStateEnum implements IEnum<Integer> {
     NOT_EXIST(1, "有");
 
     @EnumValue
+    @JsonValue
     //值
     private final Integer value;
     //描述
     private final String description;
-
-    ExistenceStateEnum(Integer value, String description) {
-        this.value = value;
-        this.description = description;
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(this.value);
-    }
 }

@@ -2,13 +2,21 @@ package com.ruoyi.common.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.IEnum;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
+
+import java.util.Arrays;
 
 /**
  * @author bailingnan
  * @date 2023/12/29
  */
 @Getter
+@AllArgsConstructor
+@ToString
 public enum IntellectualPropertyTypeEnum implements IEnum<Integer> {
     /**
      * 国内发明专利
@@ -28,16 +36,7 @@ public enum IntellectualPropertyTypeEnum implements IEnum<Integer> {
     STANDARD(3, "标准");
 
     @EnumValue
+    @JsonValue
     private final Integer value;
     private final String description;
-
-    IntellectualPropertyTypeEnum(Integer value, String description) {
-        this.value = value;
-        this.description = description;
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(this.value);
-    }
 }
