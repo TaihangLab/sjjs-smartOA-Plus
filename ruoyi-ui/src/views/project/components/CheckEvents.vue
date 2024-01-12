@@ -24,8 +24,8 @@
                     <div style="margin-top: 10px;">
                         <el-button type="success" icon="el-icon-edit" size="mini" circle @click="editMilestone(item)"
                             v-if="buttonType === 1"></el-button>
-                        <el-button type="danger" icon="el-icon-delete" size="mini" circle @click="confirmDeleteMilestone(item)"
-                            v-if="buttonType === 1"></el-button>
+                        <el-button type="danger" icon="el-icon-delete" size="mini" circle
+                            @click="confirmDeleteMilestone(item)" v-if="buttonType === 1"></el-button>
                     </div>
                 </el-card>
             </el-timeline-item>
@@ -297,8 +297,24 @@ export default {
                 milestoneStaTime: this.dateRange[0],
                 milestoneEndTime: this.dateRange[1],
             };
-            this.milestoneStaTime = this.dateRange[0];
-            this.milestoneEndTime = this.dateRange[1];
+
+            this.fetchMilestoneList(searchData);
+        },
+        handleQuery() {
+            // 设置搜索参数
+            const searchData = {
+                projectId: this.projectId,
+                keyword: this.searchKeyword,
+                milestoneStaTime: '',
+                milestoneEndTime: '',
+            };
+            if (this.dateRange && this.dateRange.length === 2) {
+                this.milestoneStaTime = this.dateRange[0];
+                this.milestoneEndTime = this.dateRange[1];
+            } else {
+                this.milestoneStaTime = undefined;
+                this.milestoneEndTime = undefined;
+            }
             this.fetchMilestoneList(searchData);
         },
         close() {
