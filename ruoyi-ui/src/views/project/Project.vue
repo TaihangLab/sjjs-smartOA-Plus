@@ -275,6 +275,10 @@ export default {
             // 切换刷新标志位
             this.refreshEventsPage = !this.refreshEventsPage;
         },
+        /**
+         * 刷新列表 todo
+         * @returns {Promise<void>}
+         */
         async refreshList() {
             this.$nextTick(() => {
                 this.$emit('reloadProjectList');

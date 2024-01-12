@@ -118,6 +118,9 @@ export default {
 
     },
     mounted() {
+        /**
+         * 如果是修改项目，需要获取项目的信息
+         */
         if (this.$props.updateId) {
             console.log("获取到的ID为：", this.updateId);
             getProject(this.updateId, this.projectInfoForm, this.projectMemberForm,
@@ -149,8 +152,10 @@ export default {
     },
 
     methods: {
+        /**
+         * 下一步按钮
+         */
         next() {
-            // todo
             if (this.stepID++ >= TOTAL_STEPS - 1) {
                 this.submit();
                 // this.$emit('update:visible', false);
@@ -158,11 +163,17 @@ export default {
             }
 
         },
+        /**
+         * 上一步按钮
+         */
         previous() {
             if (this.stepID > 0) {
                 this.stepID--;
             }
         },
+        /**
+         * 打印表单信息
+         */
         info() {
             console.log('projectInfoForm', this.projectInfoForm);
             console.log('projectMemberForm', this.projectMemberForm);
@@ -175,7 +186,9 @@ export default {
             console.log('mainAttachmentForm', this.mainAttachmentForm);
             console.log('otherAttachmentForm', this.otherAttachmentForm);
         },
-
+        /**
+         * 重置表单
+         */
         reset() {
             console.log("重置开始")
             resetObject(this.projectInfoForm)
@@ -189,7 +202,10 @@ export default {
             this.$refs.otherAttachment.$refs.fileUpload.reset();
             this.stepID = 0;
         },
-
+        /**
+         * 提交表单
+         * @returns {Promise<void>}
+         */
         async submit() {
 
             try {
@@ -231,6 +247,20 @@ export default {
 
                 return;
             }
+
+            /**
+             * 新增项目
+             * @param projectInfoForm
+             * @param projectMemberForm
+             * @param projectFundsForm
+             * @param zxFundsDetailForm
+             * @param zcFundsDetailForm
+             * @param fundsSourceForm
+             * @param projectIndicatorForm
+             * @param projectPlanForm
+             * @param otherAttachmentForm
+             * @returns {Promise}
+             */
             addProject(this.projectInfoForm,
                 this.projectMemberForm,
                 this.projectFundsForm,
@@ -255,7 +285,13 @@ export default {
             setTimeout(() => location.reload(), 900);
         },
     },
-    watch  : {
+
+    watch: {
+        /**
+         * 监听步骤ID的变化
+         * @param newid
+         * @param oldid
+         */
         stepID(newid, oldid) {
             if (newid > TOTAL_STEPS - 2) {
                 this.nextButtonText = '完成';
