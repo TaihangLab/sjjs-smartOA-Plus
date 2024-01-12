@@ -72,8 +72,10 @@ export default {
                 params: this.queryParam,
             })
                 .then((resp) => {
-                    this.myProjectLook = resp.rows;
-                    this.total = resp.total;
+                    this.$set(this, 'projectListLook', resp.rows);
+                    this.$set(this, 'total', resp.total);
+                    // this.myProjectLook = resp.rows;
+                    // this.total = resp.total;
                 })
                 .catch((error) => {
                     console.error('获取数据时出错：', error);

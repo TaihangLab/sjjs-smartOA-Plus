@@ -2,6 +2,7 @@
     <el-card class="box-card" style="margin: auto;">
         <div>
             <el-table ref="multipleTable" :data="projectList" border style="width: 100%" :row-style="{ height: '50px' }"
+                      :key="tableKey"
                       :cell-style="{ padding: '0px' }">
                 <!--                <el-table-column type="selection" :resizable="false" align="center" width="40"></el-table-column>-->
                 <el-table-column label="项目任务书编号" :resizable="false" align="center"
@@ -135,6 +136,7 @@ export default {
     },
     data() {
         return {
+            tableKey               : true,
             hasCooperativeUnit     : {
                 0: '有',
                 1: '无',
@@ -273,10 +275,9 @@ export default {
             // 切换刷新标志位
             this.refreshEventsPage = !this.refreshEventsPage;
         },
-        refreshList() {
+        async refreshList() {
             this.$nextTick(() => {
                 this.$emit('reloadProjectList');
-
             });
         },
 
