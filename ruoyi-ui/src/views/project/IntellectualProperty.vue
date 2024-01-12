@@ -54,7 +54,7 @@
         </el-form>
         <el-row :gutter="10" class="mb8" style="margin-left: 20px;margin-top: 10px;">
             <el-col :span="1.5">
-                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增
+                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['project:ip:add']">新增
                 </el-button>
             </el-col>
         </el-row>
@@ -80,10 +80,12 @@
                     <el-table-column label="操作" :resizable="false" align="center" min-width="200px" fixed="right">
                         <template v-slot="scope">
                             <el-button size="mini" type="text" icon="el-icon-tickets"
-                                       @click="lookIntellectual(scope.row.ipId)">详情</el-button>
-                            <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row.ipId)">修改
+                                       @click="lookIntellectual(scope.row.ipId)"
+                                       v-hasPermi="['project:ip:getDetails']"
+                            >详情</el-button>
+                            <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row.ipId)" v-hasPermi="['project:ip:update']">修改
                             </el-button>
-                            <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)">删除
+                            <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['project:ip:delete']">删除
                             </el-button>
                         </template>
                     </el-table-column>
