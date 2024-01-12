@@ -138,7 +138,6 @@ export default {
     watch: {
         ipId: {
             handler(newVal) {
-                console.log("newVal",newVal)
                 this.params.ipId = Number(newVal);
                 if (!isNaN(newVal) && newVal !== undefined){
                     this.checkIntellectual();
@@ -226,7 +225,6 @@ export default {
                     this.forms = resp.data.sysOssVoList;
                     this.responsePerson = resp.data.userPathList;
                     this.handleIdData(resp.data);
-                    console.log('详情数据', this.form);
                 })
                 .catch(error => {
                     console.error("获取数据时出错1：", error);
@@ -248,7 +246,6 @@ export default {
             }).then(() => {
                 this.$modal.msgSuccess("修改成功");
                 this.$refs.fujian.reset();
-                // this.reset();
                 this.$emit('close-dialog');
             }).catch((error) => {
                 console.error("修改失败", error);

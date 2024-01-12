@@ -117,8 +117,8 @@ export default {
     data() {
         return {
             hasCooperativeUnit: {
-                0: '有',
-                1: '无',
+                0: '无',
+                1: '有',
             },
             projectLevel: {
                 0: '国家级',
