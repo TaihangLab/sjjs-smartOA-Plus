@@ -129,6 +129,7 @@ export default {
                 userIdList: [],
                 ossIdList: [],
             },
+            forms: [],
         };
     },
     created() {
@@ -233,6 +234,7 @@ export default {
             })
                 .then((resp) => {
                     this.form = resp.data;
+                    this.forms = resp.data.sysOssVoList;
                     this.responsePerson = resp.data.userPathList;
                     this.handleIdData(resp.data);
                     console.log('详情数据', this.form);
@@ -243,8 +245,11 @@ export default {
         },
 
         onSubmit() {
+          console.log("this.forms", this.forms);
+          console.log("this.ossIds", this.ossIds);
             this.form.projectId = parseInt(this.responseProject[this.responseProject.length - 1], 10);
             this.form.userIdList = this.responsePerson.map(subArray => subArray[subArray.length - 1]);
+            this.ossIds = [...this.ossIds, ...this.forms.map(oss => oss.ossId)];
             this.form.ossIdList = this.ossIds;
             // 请求修改接口
             request({
