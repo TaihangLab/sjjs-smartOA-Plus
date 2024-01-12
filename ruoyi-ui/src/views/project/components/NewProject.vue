@@ -228,7 +228,7 @@ export default {
                 this.$emit('update:visible', false);
                 // setTimeout(() => location.reload(), 900);
 
-                // this.$emit("refresh");
+                this.$emit("refresh");
                 return;
             }
             addProject(this.projectInfoForm,
@@ -251,6 +251,7 @@ export default {
                     loading.close();
                 })
             this.$emit('update:visible', false);
+            this.$emit("refresh");
             // setTimeout(() => location.reload(), 900);
         },
     },

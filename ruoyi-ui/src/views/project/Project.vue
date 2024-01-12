@@ -94,8 +94,8 @@
             <!-- 修改项目弹出的对话框-->
             <el-dialog title="修改项目" :visible.sync="newProjectDialogVisible" fullscreen
                        :key="refreshUpdateDialog">
-                <NewProject :visible.sync="newProjectDialogVisible" :updateId="updateId"
-                            ></NewProject>
+                <NewProject :visible.sync="newProjectDialogVisible" :updateId="updateId" @refresh="refreshList"
+                ></NewProject>
             </el-dialog>
         </div>
     </el-card>
@@ -272,6 +272,12 @@ export default {
         handleEventsDialogOpen() {
             // 切换刷新标志位
             this.refreshEventsPage = !this.refreshEventsPage;
+        },
+        refreshList() {
+            this.$nextTick(() => {
+                this.$emit('reloadProjectList');
+
+            });
         },
 
     },
