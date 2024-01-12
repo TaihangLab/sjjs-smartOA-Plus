@@ -82,36 +82,36 @@ export default {
             projectTree: [],
             // 知识产权类别
             ipTypeOptions: [{
-                ipTypeId: '0',
+                ipTypeId: 0,
                 ipTypeName: '国内发明专利'
             }, {
-                ipTypeId: '1',
+                ipTypeId: 1,
                 ipTypeName: '软件著作权'
             }, {
-                ipTypeId: '2',
+                ipTypeId: 2,
                 ipTypeName: '论文'
             }, {
-                ipTypeId: '3',
+                ipTypeId: 3,
                 ipTypeName: '标准'
             }],
             // 知识产权状态
             ipStatusOptions: [{
-                ipStatusId: '0',
+                ipStatusId: 0,
                 ipStatusName: '专利受理'
             }, {
-                ipStatusId: '1',
+                ipStatusId: 1,
                 ipStatusName: '专利授权'
             }, {
-                ipStatusId: '2',
+                ipStatusId: 2,
                 ipStatusName: '软著已获取'
             }, {
-                ipStatusId: '3',
+                ipStatusId: 3,
                 ipStatusName: '标准正在申报'
             }, {
-                ipStatusId: '4',
+                ipStatusId: 4,
                 ipStatusName: '标准已通过'
             }, {
-                ipStatusId: '5',
+                ipStatusId: 5,
                 ipStatusName: '论文已发表'
             }],
             value: '',
