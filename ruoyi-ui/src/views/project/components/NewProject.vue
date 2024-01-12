@@ -224,7 +224,8 @@ export default {
                         loading.close();
                     })
                 this.$emit('update:visible', false);
-                setTimeout(() => location.reload(), 900);
+                this.$emit('projectAdded');
+                // setTimeout(() => location.reload(), 900);
                 return;
             }
             addProject(this.projectInfoForm,
@@ -247,7 +248,7 @@ export default {
                     loading.close();
                 })
             this.$emit('update:visible', false);
-            setTimeout(() => location.reload(), 900);
+            // setTimeout(() => location.reload(), 900);
         },
     },
     watch  : {

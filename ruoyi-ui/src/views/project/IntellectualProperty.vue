@@ -244,8 +244,13 @@ export default {
             this.datas.userId = this.responsiblePerson[this.responsiblePerson.length - 1];
             this.datas.ipType = this.responsibleType;
             this.datas.ipStatus = this.responsibleJobTitle;
-            this.datas.ipDateSta = this.projectEstablishTime[0];
-            this.datas.ipDateEnd = this.projectEstablishTime[1];
+            if(this.projectEstablishTime){
+                this.datas.ipDateSta = this.projectEstablishTime[0];
+                this.datas.ipDateEnd = this.projectEstablishTime[1];
+            }else {
+                this.datas.ipDateSta = undefined;
+                this.datas.ipDateEnd = undefined;
+            }
             this.checkmembers();
         },
         // 处理按钮点击事件重置
