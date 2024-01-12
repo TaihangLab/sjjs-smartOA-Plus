@@ -65,7 +65,7 @@
                     </el-table-column>
                     <el-table-column label="操作" :resizable="false" align="center" min-width="100px" fixed="right">
                         <template v-slot="scope">
-                            <el-button size="mini" type="text" icon="el-icon-tickets" @click="lookMembers(scope.row.userId)">详情</el-button>
+                            <el-button size="mini" type="text" icon="el-icon-tickets" @click="lookMembers(scope.row.userId)" v-hasPermi="['project:user:getDetails']">详情</el-button>
                         </template>
                     </el-table-column>
                 </el-table>

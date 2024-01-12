@@ -23,9 +23,9 @@
                     </div>
                     <div style="margin-top: 10px;">
                         <el-button type="success" icon="el-icon-edit" size="mini" circle @click="editMilestone(item)"
-                            v-if="buttonType === 1"></el-button>
+                            v-if="buttonType === 1" v-hasPermi="['project:my:milestoneedit']"></el-button>
                         <el-button type="danger" icon="el-icon-delete" size="mini" circle
-                            @click="confirmDeleteMilestone(item)" v-if="buttonType === 1"></el-button>
+                            @click="confirmDeleteMilestone(item)" v-if="buttonType === 1" v-hasPermi="['project:my:milestonedelete']"></el-button>
                     </div>
                 </el-card>
             </el-timeline-item>

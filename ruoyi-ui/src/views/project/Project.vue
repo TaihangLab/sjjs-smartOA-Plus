@@ -42,21 +42,21 @@
                                    @click="handleUpdate(scope.row)" v-hasPermi="['project:my:edit']" >修改
                         </el-button>
                         <el-button size="mini" type="text" icon="el-icon-delete" v-if="buttonType === 1"
-                                   @click="handleDelete(scope.row)">删除
+                                   @click="handleDelete(scope.row)" v-hasPermi="['project:my:delete']">删除
                         </el-button>
                         <el-button v-if="buttonType !== 1" size="mini" type="text" icon="el-icon-reading"
-                                   @click="handleDropdownCommand({ 'command': 'view', 'row': scope.row })">大事记
+                                   @click="handleDropdownCommand({ 'command': 'view', 'row': scope.row })" v-hasPermi="['project:list:queryMilestone']">大事记
                         </el-button>
                         <el-dropdown v-else size="mini" @command="handleDropdownCommand">
                             <el-button size="mini" type="text" icon="el-icon-reading">大事记</el-button>
                             <el-dropdown-menu v-slot="dropdown">
                                 <el-dropdown-item :command="{ 'command': 'view', 'row': scope.row }"
-                                                  icon="el-icon-view">查看
+                                                  icon="el-icon-view" v-hasPermi="['project:list:queryMilestone']">查看
                                 </el-dropdown-item>
                                 <!-- 根据 buttonType 的值有条件地渲染 "新增" 按钮 -->
                                 <el-dropdown-item v-if="buttonType === 1"
                                                   :command="{ 'command': 'add', 'row': scope.row }"
-                                                  icon="el-icon-document-add">新增
+                                                  icon="el-icon-document-add" v-hasPermi="['project:my:milestoneadd']">新增
                                 </el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
