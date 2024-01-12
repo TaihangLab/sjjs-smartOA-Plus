@@ -10,9 +10,9 @@
                     :row-style="{ height: '50px' }" :cell-style="{ padding: '0px' }">
                     <el-table-column label="姓名" :resizable="false" align="center" prop="nickName">
                     </el-table-column>
-                    <el-table-column label="职称" :resizable="false" align="center" prop="jobTitle">
+                    <el-table-column label="职称" :resizable="false" align="center" prop="jobTitle" :formatter="jobTitles">
                     </el-table-column>
-                    <el-table-column label="学历" :resizable="false" align="center" prop="diploma">
+                    <el-table-column label="学历" :resizable="false" align="center" prop="diploma" :formatter="diplomas">
                     </el-table-column>
                     <el-table-column label="邮箱" :resizable="false" align="center" prop="email">
                     </el-table-column>
@@ -77,13 +77,29 @@ import request from "@/utils/request";
 export default {
     props: {
         ipId: {
-            type: String,
+            type: Number,
             required: true,
         },
     },
 
     data() {
         return {
+            jobTitle: {
+              0: '正高级工程师',
+              1: '副高级工程师',
+              2: '中级工程师',
+              3: '初级工程师',
+              4: '研究员',
+              5: '副研究员',
+              6: '助理研究员',
+              7: '研究实习员',
+            },
+            diploma: {
+              0: '博士研究生',
+              1: '硕士研究生',
+              2: '本科',
+              3: '专科',
+            },
             contentStyle: {
                 'text-align': 'center',
                 'width': '60%',
@@ -91,28 +107,35 @@ export default {
             activeNames: ['0'],
             labelStyle: { 'color': '#000', 'width': '30%', },
             params: {
-                ipId: undefined,
+                ipId: null,
             },
             intellectualLook: [],
         };
     },
     // created() {
     //     console.log('ipId传递过来的值:', this.ipId);
-    //     this.cheakIntellectual();
+    //     this.checkIntellectual();
     // },
     watch: {
         ipId: {
             handler(newVal) {
-                // 监听到memberid变化时，重新获取项目详情数据
                 this.params.ipId = newVal;
                 this.activeNames = ['0'];
-                this.cheakIntellectual();
+                this.checkIntellectual();
             },
             immediate: true, // 立即执行一次
         },
     },
     methods: {
-        cheakIntellectual() {
+        jobTitles(row, column, cellValue) {
+          // 使用映射关系来获取对应的文字描述
+          return this.jobTitle[cellValue] || cellValue;
+        },
+        diplomas(row, column, cellValue) {
+          // 使用映射关系来获取对应的文字描述
+          return this.diploma[cellValue] || cellValue;
+        },
+        checkIntellectual() {
             this.params.ipId = this.$props.ipId;
             console.log('this.params.ipId', this.params.ipId);
             request({

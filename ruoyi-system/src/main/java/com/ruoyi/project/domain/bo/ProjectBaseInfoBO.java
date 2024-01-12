@@ -65,6 +65,7 @@ public class ProjectBaseInfoBO extends BaseEntity {
     /**
      * 项目级别，0国家级，1省级，2企业级
      */
+    @NotNull(message = "项目级别不能为空", groups = {AddGroup.class,EditGroup.class})
     private ProjectLevelEnum projectLevel;
 
     /**

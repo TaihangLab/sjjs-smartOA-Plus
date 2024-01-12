@@ -312,4 +312,29 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
         }
         return statistics;
     }
+
+    /**
+     * 根据项目ID获取项目路径。
+     *
+     * @param projectId 项目的ID
+     * @return 代表项目路径的Long列表，如果未找到项目或ID为空，则为空列表
+     */
+    @Override
+    public List<Long> getProjectPathById(Long projectId) {
+        if (projectId == null || projectId.equals(UNASSOCIATED_PROJECT_CODE)) {
+            return projectId == null ? Collections.emptyList() : Collections.singletonList(UNASSOCIATED_PROJECT_CODE);
+        }
+
+        ProjectBaseInfo projectBaseInfo = projectBaseInfoMapper.selectById(projectId);
+        if (projectBaseInfo == null) {
+            return Collections.emptyList();
+        }
+
+        ProjectLevelEnum projectLevel = projectBaseInfo.getProjectLevel();
+        if (projectLevel == null) {
+            throw new IllegalArgumentException("项目ID [" + projectId + "] 对应的项目信息有误，项目类型不能为空");
+        }
+
+        return Arrays.asList(projectLevel.getValue().longValue(), projectId);
+    }
 }

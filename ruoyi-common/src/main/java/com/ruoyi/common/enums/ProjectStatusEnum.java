@@ -2,14 +2,21 @@ package com.ruoyi.common.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.IEnum;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
+
+import java.util.Arrays;
 
 /**
  * @author bailingnan
  * @date 2023/12/21
  */
 @Getter
+@AllArgsConstructor
+@ToString
 public enum ProjectStatusEnum implements IEnum<Integer> {
     //正在需求申报
     REQUIREMENT_DECLARATION_IN_PROGRESS(0, "正在需求申报"),
@@ -32,14 +39,4 @@ public enum ProjectStatusEnum implements IEnum<Integer> {
     @JsonValue
     private final Integer value;
     private final String description;
-
-    ProjectStatusEnum(Integer value, String description) {
-        this.value = value;
-        this.description = description;
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(this.value);
-    }
 }
