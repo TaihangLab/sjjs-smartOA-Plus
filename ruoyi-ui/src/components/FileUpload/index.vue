@@ -109,7 +109,7 @@ export default {
                     if (Array.isArray(val)) {
                         list = val;
                         list.map((item)=>{
-                            // if (this.$props.idList) {
+                            // if (!this.$props.idList?.includes(item.ossId)) {
                             //     this.$props.idList.push(item.ossId);
                             // }
                             if (!item.name)
