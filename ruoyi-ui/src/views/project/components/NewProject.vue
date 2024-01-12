@@ -75,7 +75,7 @@
                 </template>
             </el-popconfirm>
             <!--            <el-button @click="reset" type="warning">重置</el-button>-->
-            <el-button @click="info">log</el-button>
+<!--            <el-button @click="info">log</el-button>-->
         </el-footer>
     </el-container>
 
