@@ -144,14 +144,20 @@ public class IntellectualPropertyServiceImpl implements IntellectualPropertyServ
 
     @Override
     public Map<String, Integer> getIpTypeStatistics() {
-        Map<String, Integer> ipTypeStatistics = new HashMap<>();
-        Arrays.stream(IntellectualPropertyTypeEnum.values()).forEach(ipType -> ipTypeStatistics.put(ipType.getDescription(), 0));
-        intellectualPropertyMapper.selectList(Wrappers.lambdaQuery()).forEach(intellectualProperty -> {
-            String ipType = intellectualProperty.getIpType().getDescription();
-            ipTypeStatistics.put(ipType, ipTypeStatistics.get(ipType) + 1);
-        });
+        // 使用所有IP类型和零计数初始化映射。
+        Map<String, Integer> ipTypeStatistics = Arrays.stream(IntellectualPropertyTypeEnum.values())
+            .collect(Collectors.toMap(IntellectualPropertyTypeEnum::getDescription, ipType -> 0));
+
+        // 流处理知识产权并更新计数。
+        intellectualPropertyMapper.selectList(Wrappers.lambdaQuery())
+            .stream()
+            .filter(ip -> ip.getIpType() != null)
+            .map(ip -> ip.getIpType().getDescription())
+            .forEach(ipType -> ipTypeStatistics.merge(ipType, 1, Integer::sum));
+
         return ipTypeStatistics;
     }
+
 
     private void setAssignedSubjectName(List<IntellectualPropertyVO> records) {
         Set<Long> projectIds = records.stream().map(IntellectualPropertyVO::getProjectId).collect(Collectors.toSet());
