@@ -203,7 +203,7 @@ export default {
                 return;
             }
 
-            const loading = Loading.service({fullscreen: true, lock: true, text: '少女祈祷中'});
+            const loading = Loading.service({fullscreen: true, lock: true, text: '努力加载中'});
             if (this.$props.updateId) {
                 updateProject(this.$props.updateId,
                     this.projectInfoForm,

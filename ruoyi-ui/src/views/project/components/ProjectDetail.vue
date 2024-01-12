@@ -224,7 +224,7 @@ export default {
             this.activeNames = [];
             const loading = this.$loading({
                 lock: true,
-                text: '少女祈祷中',
+                text: '努力加载中',
                 spinner: 'el-icon-loading',
                 fullscreen: true,
                 background: 'rgba(200, 200, 200, 1)'

@@ -327,7 +327,7 @@ export function getProject(projectId,
                            projectIndicatorForm,
                            projectPlanForm,
                            otherAttachmentForm) {
-    const loading = Loading.service({fullscreen: true, lock: true, text: '少女祈祷中'});
+    const loading = Loading.service({fullscreen: true, lock: true, text: '努力加载中'});
     request({
         url: "/project/list/getDetails", method: "get", params: {projectId}
     }).then(resp => {
