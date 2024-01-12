@@ -207,7 +207,7 @@ export default {
          * @returns {Promise<void>}
          */
         async submit() {
-
+            // 验证表单
             try {
                 await this.$refs.projectInfo.$refs.form.validate();
             } catch (e) {
@@ -218,7 +218,6 @@ export default {
                 });
                 return;
             }
-
             const loading = Loading.service({fullscreen: true, lock: true, text: '努力加载中'});
             if (this.$props.updateId) {
                 updateProject(this.$props.updateId,
