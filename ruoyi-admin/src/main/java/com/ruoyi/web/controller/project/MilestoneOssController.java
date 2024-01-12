@@ -34,7 +34,6 @@ public class MilestoneOssController {
      * @param pageQuery
      * @return
      */
-
     @SaCheckPermission("project:user:getAllList")
     @PostMapping("/getAllList")
     public TableDataInfo<SysOssVo> getAllProjectList(@RequestBody @Validated(QueryGroup.class) ProjectMilestoneBo projectMilestoneBo,
