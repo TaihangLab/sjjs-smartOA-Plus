@@ -90,7 +90,7 @@ public class ProjectBaseInfo extends BaseEntity {
     /**
      * 项目执行时间（年）
      */
-    private Integer projectDuration;
+    private String projectDuration;
 
     /**
      * 项目简介
