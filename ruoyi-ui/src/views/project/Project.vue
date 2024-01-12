@@ -36,10 +36,10 @@
                 <el-table-column label="操作" :resizable="false" align="center" min-width="230px" fixed="right">
                     <template v-slot="scope">
                         <el-button size="mini" type="text" icon="el-icon-tickets"
-                                   @click="lookEdit(scope.$index, scope.row)">详情
+                                   @click="lookEdit(scope.$index, scope.row)" v-hasPermi="['project:list:getDetails']">详情
                         </el-button>
                         <el-button size="mini" type="text" icon="el-icon-edit" v-if="buttonType === 1"
-                                   @click="handleUpdate(scope.row)">修改
+                                   @click="handleUpdate(scope.row)" v-hasPermi="['project:my:edit']" >修改
                         </el-button>
                         <el-button size="mini" type="text" icon="el-icon-delete" v-if="buttonType === 1"
                                    @click="handleDelete(scope.row)">删除
