@@ -286,7 +286,7 @@ export function addProject(projectInfoForm,
                 // 间接专项经费科服务动费-国内协作费
                 "kyfwfGnxzZxJj": zxFundsDetailForm.gnxzf_jj,
                 // 间接自筹经费科服务动费-国内协作费
-                "kyfwfGnxzZcJj": zxFundsDetailForm.gnxzf_jj,
+                "kyfwfGnxzZcJj": zcFundsDetailForm.gnxzf_jj,
                 // 间接专项经费人员劳务补助费
                 "ryhlwbzfZxJj": zxFundsDetailForm.rylwbzf_jj,
                 // 间接自筹经费人员劳务补助费
@@ -795,7 +795,7 @@ export function updateProject(projectId,
                 // 直接专项经费科服务动费-国内协作费
                 "kyfwfGnxzZxZj": zxFundsDetailForm.gnxzf_zj,
                 // 直接自筹经费科服务动费-国内协作费
-                "kyfwfGnxzZcZj": zxFundsDetailForm.gnxzf_zj,
+                "kyfwfGnxzZcZj": zcFundsDetailForm.gnxzf_zj,
                 // 直接专项经费人员劳务补助费
                 "ryhlwbzfZxZj": zxFundsDetailForm.rylwbzf_zj,
                 // 直接自筹经费人员劳务补助费
@@ -897,7 +897,7 @@ export function updateProject(projectId,
                 // 间接专项经费科服务动费-国内协作费
                 "kyfwfGnxzZxJj": zxFundsDetailForm.gnxzf_jj,
                 // 间接自筹经费科服务动费-国内协作费
-                "kyfwfGnxzZcJj": zxFundsDetailForm.gnxzf_jj,
+                "kyfwfGnxzZcJj": zcFundsDetailForm.gnxzf_jj,
                 // 间接专项经费人员劳务补助费
                 "ryhlwbzfZxJj": zxFundsDetailForm.rylwbzf_jj,
                 // 间接自筹经费人员劳务补助费
