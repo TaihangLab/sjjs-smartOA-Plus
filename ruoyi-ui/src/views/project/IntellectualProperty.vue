@@ -57,7 +57,6 @@
                 <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增
                 </el-button>
             </el-col>
-            <right-toolbar ></right-toolbar>
         </el-row>
 
         <el-card class="box-card" style="margin: auto;">

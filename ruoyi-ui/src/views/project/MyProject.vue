@@ -6,11 +6,11 @@
                 <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增
                 </el-button>
             </el-col>
-<!--            <right-toolbar :showSearch.sync="showSearch"></right-toolbar>-->
+            <right-toolbar :showSearch.sync="showSearch"></right-toolbar>
         </el-row>
         <!-- 新增项目弹出的对话框-->
-        <el-dialog title="新增项目" :visible.sync="newProjectDialogVisible"  fullscreen>
-            <NewProject :visible.sync="newProjectDialogVisible"></NewProject>
+        <el-dialog title="新增项目" :visible.sync="newProjectDialogVisible" fullscreen>
+            <NewProject :visible.sync="newProjectDialogVisible" @refresh="refreshList"></NewProject>
         </el-dialog>
         <Project  :buttonType="1" :myProjectLook="myProjectLook" :projectListLook="projectListLook" :total="total" :queryParam="queryParam" @reloadProjectList="getprojectList"/>
     </div>
@@ -82,6 +82,11 @@ export default {
         // 新增项目
         handleAdd() {
             this.newProjectDialogVisible = true;
+        },
+        refreshList() {
+            this.$nextTick(() => {
+                this.getprojectList();
+            });
         },
     },
 };

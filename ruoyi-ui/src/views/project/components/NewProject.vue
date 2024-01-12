@@ -49,12 +49,12 @@
                 <ProjectPlan v-show="stepID===7" :form="projectPlanForm" ref="projectPlanForm"></ProjectPlan>
             </el-collapse-transition>
 
-            <el-collapse-transition>
-                <MainAttachment v-show="stepID===8" :form="mainAttachmentForm" ref="mainAttachment"></MainAttachment>
-            </el-collapse-transition>
+            <!--            <el-collapse-transition>-->
+            <!--                <MainAttachment v-show="stepID===8" :form="mainAttachmentForm" ref="mainAttachment"></MainAttachment>-->
+            <!--            </el-collapse-transition>-->
 
             <el-collapse-transition>
-                <OtherAttachment v-show="stepID===9" :form="otherAttachmentForm"
+                <OtherAttachment v-show="stepID===8" :form="otherAttachmentForm"
                                  ref="otherAttachment"></OtherAttachment>
             </el-collapse-transition>
 
@@ -75,7 +75,7 @@
                 </template>
             </el-popconfirm>
             <!--            <el-button @click="reset" type="warning">重置</el-button>-->
-            <el-button @click="info">log</el-button>
+<!--            <el-button @click="info">log</el-button>-->
         </el-footer>
     </el-container>
 
@@ -98,7 +98,7 @@ import {Loading, Message} from "element-ui";
 import {addProject, getProject, updateProject} from "@/views/project/components/project";
 import {resetObject} from "@/views/project/components/utils";
 
-const TOTAL_STEPS = 10;
+const TOTAL_STEPS = 9;
 
 export default {
     name      : "NewProject",
@@ -130,9 +130,9 @@ export default {
     },
     data() {
         return {
-            stepID        : 1,
+            stepID        : 0,
             isStepHover   : false,
-            titles        : ["项目信息", "项目成员", "项目经费", "专项经费", "自筹经费", "经费来源", "项目指标", "项目计划", "正文附件", "项目申报附件"],
+            titles        : ["项目信息", "项目成员", "项目经费", "专项经费", "自筹经费", "经费来源", "项目指标", "项目计划", "项目申报附件"],
             nextButtonText: '下一步',
 
             projectInfoForm     : {},
@@ -186,8 +186,10 @@ export default {
             resetObject(this.fundsSourceForm);
             this.$refs.projectPlanForm.reset();
             this.$refs.projectIndicator.reset();
-            // this.stepID = 0;
+            this.$refs.otherAttachment.$refs.fileUpload.reset();
+            this.stepID = 0;
         },
+
         async submit() {
 
             try {
@@ -201,7 +203,7 @@ export default {
                 return;
             }
 
-            const loading = Loading.service({fullscreen: true, lock: true, text: '少女祈祷中'});
+            const loading = Loading.service({fullscreen: true, lock: true, text: '努力加载中'});
             if (this.$props.updateId) {
                 updateProject(this.$props.updateId,
                     this.projectInfoForm,
@@ -224,8 +226,9 @@ export default {
                         loading.close();
                     })
                 this.$emit('update:visible', false);
-                this.$emit('projectAdded');
                 // setTimeout(() => location.reload(), 900);
+
+                this.$emit("refresh");
                 return;
             }
             addProject(this.projectInfoForm,
@@ -248,6 +251,7 @@ export default {
                     loading.close();
                 })
             this.$emit('update:visible', false);
+            this.$emit("refresh");
             // setTimeout(() => location.reload(), 900);
         },
     },
