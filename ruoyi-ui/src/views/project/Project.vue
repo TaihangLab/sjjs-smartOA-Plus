@@ -48,7 +48,7 @@
                                    @click="handleDropdownCommand({ 'command': 'view', 'row': scope.row })" v-hasPermi="['project:list:queryMilestone']">大事记
                         </el-button>
                         <el-dropdown v-else size="mini" @command="handleDropdownCommand">
-                            <el-button size="mini" type="text" icon="el-icon-reading">大事记</el-button>
+                            <el-button size="mini" type="text" icon="el-icon-reading" v-hasPermi="['project:list:queryMilestone']">大事记</el-button>
                             <el-dropdown-menu v-slot="dropdown">
                                 <el-dropdown-item :command="{ 'command': 'view', 'row': scope.row }"
                                                   icon="el-icon-view" v-hasPermi="['project:list:queryMilestone']">查看
