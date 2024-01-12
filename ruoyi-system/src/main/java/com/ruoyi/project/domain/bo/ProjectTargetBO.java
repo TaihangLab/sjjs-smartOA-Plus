@@ -34,7 +34,7 @@ public class ProjectTargetBO {
     /**
      * 完成时指标值/状态
      */
-    @NotBlank(message = "结束时指标不能为空", groups = {AddGroup.class, EditGroup.class})
-    @Size(min = 0, max = 200, message = "结束时指标不能超过{max}个字符")
+    @NotBlank(message = "完成时指标不能为空", groups = {AddGroup.class, EditGroup.class})
+    @Size(min = 0, max = 200, message = "完成时指标不能超过{max}个字符")
     private String endTarget;
 }
