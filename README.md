@@ -21,26 +21,10 @@
 - **Gitee**：<https://gitee.com/fjx13038033078/sjjs-smartOA-Plus.git>
 - **GitHub**：<https://github.com/TaihangLab/sjjs-smartOA-Plus.git>
 
-## 在线演示
-演示服务不限制CURD操作，希望大家按需使用，不要恶意添加脏数据或对服务器进行攻击等操作。（将不定期清理数据）
-
-[RuoYi-Flowable-Plus 在线演示](http://159.75.158.189/)
-
-|                 | 账号  | 密码      |
-|---------------- | ----- | -------- |
-| 超管账户         | admin | admin123 |
-| 监控中心（未运行） | ruoyi | 123456   |
-| 任务调度中心      | admin | 123456   |
-| 数据监控中心      | ruoyi | 123456   |
-
 ## 特别鸣谢
 - [RuoYi-Vue-Plus](https://gitee.com/dromara/RuoYi-Vue-Plus) 
 - [RuoYi-flowable](https://gitee.com/tony2y/RuoYi-flowable) 
 - [bpmn-process-designer](https://gitee.com/MiyueSC/bpmn-process-designer)
-
-## 友情链接
-- [玩转RuoYi-Cloud-Plus - Flowable基础](https://blog.csdn.net/zhaozhiqiang1981/article/details/129240406)：文档包含Flowable基础知识、项目使用说明、源码解析等。（新人必看）
-- [基于若依的Flowable工作流实战](https://space.bilibili.com/400188320/channel/collectiondetail?sid=1002899)：Flowable视频学习专栏，项目基本覆盖了Flowable的方方面面，也拓展了很多为了达到生产级别项目而附加的表结构，工具类等知识点！
 
 
 ## 演示图例
