@@ -212,7 +212,6 @@ export default {
         // hry
         handleUpdate(row) {
             this.updateId = row.projectId;
-            console.log(this.updateId);
             this.refreshUpdateDialog     = !this.refreshUpdateDialog;
             this.newProjectDialogVisible = true;
         },
@@ -290,14 +289,12 @@ export default {
 
         projectListLook: {
             handler(newVal) {
-                console.log('Watch - projectListLook updated:', newVal);
                 this.projectList = [...newVal];
             },
             deep: true,
         },
         myProjectLook  : {
             handler(newVal) {
-                console.log('Watch - myProjectLook updated:', newVal);
                 this.projectList = [...newVal];
             },
             deep: true,
@@ -305,13 +302,8 @@ export default {
         queryParam     : {
             handler(newVal, oldVal) {
                 // 在这里处理 queryParam 变化的逻辑
-                console.log('queryParam changed:', newVal);
                 const pageSizeChanged = newVal.pageSize !== oldVal.pageSize;
                 const pageNumChanged  = newVal.pageNum !== oldVal.pageNum;
-
-                if (pageSizeChanged || pageNumChanged) {
-                    console.log('pageSize or pageNum changed!');
-                }
             },
             deep: true, // 深度监测对象内部属性的变化
         },

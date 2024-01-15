@@ -240,7 +240,6 @@ export default {
             })
                 .then((resp) => {
                     this.projecttree = resp.data;
-                    console.log('项目树：', this.projecttree);
                 })
                 .catch((error) => {
                     console.error('获取用户数据时出错：', error);

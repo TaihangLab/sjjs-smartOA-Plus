@@ -132,7 +132,6 @@ export default {
         },
         checkIntellectual() {
             this.params.ipId = this.$props.ipId;
-            console.log('this.params.ipId', this.params.ipId);
             request({
                 url: '/ip/getDetails',
                 method: 'get',
@@ -140,7 +139,6 @@ export default {
             })
                 .then((resp) => {
                     this.intellectualLook = resp.data;
-                    console.log('详情数据', this.intellectualLook)
                 })
                 .catch((error) => {
                     console.error('获取数据时出错：', error);

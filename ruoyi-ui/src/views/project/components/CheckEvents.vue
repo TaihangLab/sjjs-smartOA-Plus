@@ -162,11 +162,8 @@ export default {
             },
         };
     },
-    created() {
-        console.log("fujian 组件接收到的附件数据:", this.value);
-    },
+
     mounted() {
-        console.log("传过来的项目id", this.projectId);
         // 获取数据
         request({
             url: '/project/list/milestonequery',
@@ -179,7 +176,6 @@ export default {
             }
         })
             .then((resp) => {
-                console.log((resp));
                 // 根据 milestoneDate 对 timelineItems 进行排序
                 this.timelineItems = resp.data.sort((a, b) => {
                     return new Date(a.milestoneDate) - new Date(b.milestoneDate);
@@ -187,7 +183,6 @@ export default {
                 this.timelineItems.forEach(item => {
                     this.milestoneIds.push(item.milestoneId);
                 });
-                console.log(this.timelineItems);
             })
             .catch((error) => {
                 console.error('获取数据时出错：', error);
@@ -195,7 +190,6 @@ export default {
     },
     methods: {
         editMilestone(item) {
-            console.log("这是修改页面");
             this.form.milestoneId = item.milestoneId;
             this.form.milestoneTitle = item.milestoneTitle;
             this.form.milestoneRemark = item.milestoneRemark;
@@ -204,7 +198,6 @@ export default {
             this.form.sysOsses = item.sysOsses;
             // 获取已有的ossids
             this.ossids = item.sysOsses.map(item => item.ossId);
-            console.log("已有的ossid", this.form.ossIds);
         },
         deleteMilestone(item) {
             const milestoneId = item.milestoneId;
@@ -215,8 +208,7 @@ export default {
                     milestoneId: milestoneId
                 }
             })
-                .then((resp) => {
-                    console.log(resp);
+                .then(() => {
                     this.fetchMilestoneList();
                 })
         },
@@ -240,7 +232,6 @@ export default {
                 this.$message.error('请填写完整的信息');
                 return;
             }
-            console.log("提交修改", this.ossids);
             // this.form.ossIds = this.ossids.map(item => item.ossId);
             this.form.ossIds = this.ossids;
             // 请求修改接口
@@ -249,8 +240,7 @@ export default {
                 method: 'put',
                 data: this.form,
             })
-                .then((resp) => {
-                    console.log(resp);
+                .then(() => {
                     this.$modal.msgSuccess("修改成功");
                     this.eventsDialogVisibleEdit = false;
                     this.fetchMilestoneList();
@@ -266,7 +256,6 @@ export default {
                 milestoneStaTime: this.milestoneStaTime,
                 milestoneEndTime: this.milestoneEndTime,
             };
-            console.log('milestoneStaTime', this.milestoneStaTime)
             // 重新获取数据逻辑
             request({
                 url: '/project/list/milestonequery',
@@ -275,7 +264,6 @@ export default {
                 params: this.queryPara,
             })
                 .then((resp) => {
-                    console.log(resp);
                     // 根据 milestoneDate 对 timelineItems 进行排序
                     this.timelineItems = resp.data.sort((a, b) => {
                         return new Date(a.milestoneDate) - new Date(b.milestoneDate);
