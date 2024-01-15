@@ -122,7 +122,6 @@ export default {
          * 如果是修改项目，需要获取项目的信息
          */
         if (this.$props.updateId) {
-            console.log("获取到的ID为：", this.updateId);
             getProject(this.updateId, this.projectInfoForm, this.projectMemberForm,
                 this.projectFundsForm, this.zxFundsDetailForm,
                 this.zcFundsDetailForm, this.fundsSourceForm,
@@ -175,22 +174,21 @@ export default {
          * 打印表单信息
          */
         info() {
-            console.log('projectInfoForm', this.projectInfoForm);
-            console.log('projectMemberForm', this.projectMemberForm);
-            console.log('projectFundsForm', this.projectFundsForm);
-            console.log('zxFundsDetailForm', this.zxFundsDetailForm);
-            console.log('zcFundsDetailForm', this.zcFundsDetailForm);
-            console.log('fundsSourceForm', this.fundsSourceForm);
-            console.log('projectIndicatorForm', this.projectIndicatorForm);
-            console.log('projectPlanForm', this.projectPlanForm);
-            console.log('mainAttachmentForm', this.mainAttachmentForm);
-            console.log('otherAttachmentForm', this.otherAttachmentForm);
+            // console.log('projectInfoForm', this.projectInfoForm);
+            // console.log('projectMemberForm', this.projectMemberForm);
+            // console.log('projectFundsForm', this.projectFundsForm);
+            // console.log('zxFundsDetailForm', this.zxFundsDetailForm);
+            // console.log('zcFundsDetailForm', this.zcFundsDetailForm);
+            // console.log('fundsSourceForm', this.fundsSourceForm);
+            // console.log('projectIndicatorForm', this.projectIndicatorForm);
+            // console.log('projectPlanForm', this.projectPlanForm);
+            // console.log('mainAttachmentForm', this.mainAttachmentForm);
+            // console.log('otherAttachmentForm', this.otherAttachmentForm);
         },
         /**
          * 重置表单
          */
         reset() {
-            console.log("重置开始")
             resetObject(this.projectInfoForm)
             this.$refs.projectMember.reset();
             resetObject(this.projectFundsForm);

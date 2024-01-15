@@ -66,14 +66,12 @@ export default {
         return;
       }
       this.form.ossIds = this.ossids;
-      console.log('this.form',this.form);
       request({
         url: '/project/my/milestoneadd',
         method: 'post',
         data: this.form
       })
         .then((resp) => {
-          console.log(resp);
           this.$modal.msgSuccess("新增成功");
           // this.$emit('milestoneAdded');
           this.$refs.fujian.reset();

@@ -105,12 +105,10 @@ export default {
             })
                 .then((resp) => {
                     // 处理获取的用户数据
-                    console.log('项目成员resp:', resp);
                     this.userList = resp.data.projectUserVoList;
                     this.loading = false; // 关闭 loading 遮罩层
                 })
                 .catch((error) => {
-                    console.error('获取用户数据时出错：', error);
                     this.loading = false; // 处理错误，关闭 loading 遮罩层
                 });
         },

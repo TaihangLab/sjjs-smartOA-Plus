@@ -201,7 +201,6 @@ export default {
             }
             this.queryParams.hasCooperativeUnit = this.CoCompany[0];
             this.queryParams.projectLevel = this.projectLevel[0];
-            console.log('qwe', this.queryParams);
             this.$emit('query-request', this.queryParams);
         },
         resetQuery(){
@@ -227,7 +226,6 @@ export default {
             this.projectScheduledCompletionTime = [];
         },
         async getDeptAndUserList() {
-            console.log('1', this.cascaderOptions);
             await this.getDeptTree(); // 等待部门数据加载完成
             await this.getList(); // 等待用户数据加载完成
             this.cascaderOptions = this.adaptData(this.deptOptions);
@@ -236,15 +234,12 @@ export default {
         async getDeptTree() {
             const response = await deptTreeSelect();
             this.deptOptions = response.data;
-            console.log('1', this.deptOptions);
-
         },
         /** 查询用户列表 */
         async getList() {
             const response = await listUser();
             this.userList = response.rows;
             this.total = response.total;
-            console.log('2', this.total);
         },
         // 适配数据的方法
         adaptData(data) {

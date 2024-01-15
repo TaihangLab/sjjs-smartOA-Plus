@@ -148,29 +148,6 @@ export default {
 
 
   },
-  // watch: {
-  //   jfze: {
-  //     handler(newv, oldv) {
-  //       this.$props.form.jfze = newv;
-  //       console.log("prop.jfze", this.form.jfze);
-  //     },
-  //     deep: true,
-  //   },
-  //   zxXY:{
-  //     handler(newv, oldv) {
-  //       this.$props.form.zxx = newv[0];
-  //       this.$props.form.zxy = newv[1];
-  //     },
-  //     deep: true,
-  //   },
-  //   zcXY:{
-  //     handler(newv, oldv) {
-  //       this.$props.form.zcx = newv[0];
-  //       this.$props.form.zcy = newv[1];
-  //     },
-  //     deep: true,
-  //   }
-  // }
 
 }
 </script>

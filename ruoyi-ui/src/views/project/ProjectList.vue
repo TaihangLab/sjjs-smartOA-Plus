@@ -49,11 +49,9 @@ export default {
                 this.queryParams = queryParams;
             }
             this.queryParam.pageNum = 1;
-            console.log('projectlistquery', this.queryParams);
             this.getprojectList();
         },
         getprojectList() {
-            console.log('参数', this.queryParams);
             request({
                 url: '/project/list/getAllList',
                 method: 'post',
@@ -63,7 +61,6 @@ export default {
                 .then((resp) => {
                     this.projectListLook = resp.rows;
                     this.total = resp.total;
-                    console.log('项目', this.projectListLook);
                 })
                 .catch((error) => {
                     console.error('获取数据时出错：', error);

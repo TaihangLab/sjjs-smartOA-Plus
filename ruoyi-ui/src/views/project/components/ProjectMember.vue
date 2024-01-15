@@ -211,7 +211,6 @@ export default {
     },
 
     mounted() {
-        console.log("mounted", this.$props.selectedIdList);
     },
 
 
@@ -246,7 +245,6 @@ export default {
                 //  默认选中传递的用户
                 if (this.$props.selectedIdList) {
                     let indexList = this.userList.map((item,index) => {
-                        console.log("id", item.userId);
                         if (this.$props.selectedIdList.includes(item.userId)) {
                             return index;
                         }

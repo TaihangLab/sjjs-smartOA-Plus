@@ -242,7 +242,6 @@ export default {
                     this.projectdetails = resp.data;
                     this.projectdescription = this.projectdetails.projectInfoVO.projectDescription;
                     this.projectLeaders = this.projectdetails.projectUserVoList.find(member => member.projectUserRoles.includes("0"));
-                    console.log('xmfzr', this.projectLeaders);
                     loading.close();
                 })
                 .catch((error) => {
@@ -268,7 +267,6 @@ export default {
         },
     },
     mounted() {
-        console.log('formLook:', this.formLook);
     },
 };
 </script>
