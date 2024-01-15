@@ -602,10 +602,10 @@ export function getProject(projectId,
                   projectPlanVOList
               } = resp.data;
 
-        console.log("项目", projectInfoVO);
-        console.log("指标", projectTargetVOList);
-        console.log("计划", projectPlanVOList);
-        console.log("附件", projectAttachmentVOList);
+        // console.log("项目", projectInfoVO);
+        // console.log("指标", projectTargetVOList);
+        // console.log("计划", projectPlanVOList);
+        // console.log("附件", projectAttachmentVOList);
 
         /**
          *  项目成员
