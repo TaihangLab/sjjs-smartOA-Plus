@@ -2,7 +2,7 @@
     <div>
         <CheckProject @query-request="handleQueryRequest" />
         <div>
-            <Project :projectListLook="projectListLook" :myProjectLook="myProjectLook" :total="total" :key="projectListKey"
+            <Project :projectListLook="projectListLook" :myProjectLook="myProjectLook" :total="total"
                 :queryParam="queryParam" @update-query-param="updateQueryParam" @reloadProjectList="getprojectList" />
         </div>
     </div>
