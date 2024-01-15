@@ -20,7 +20,6 @@
             <el-collapse-transition>
                 <ProjectMember2 v-show="stepID===1" :form="projectMemberForm" ref="projectMember"
                 ></ProjectMember2>
-                <!--                :selectedIdList="['1726485523286900737', '1729072278007623681']"-->
             </el-collapse-transition>
 
             <el-collapse-transition>
@@ -209,7 +208,7 @@ export default {
             try {
                 await this.$refs.projectInfo.$refs.form.validate();
             } catch (e) {
-                this.$message({
+                Message({
                     showClose: true,
                     message  : '错误哦，必选信息需要被填写',
                     type     : 'error',

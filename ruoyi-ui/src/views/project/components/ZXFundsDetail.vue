@@ -345,10 +345,15 @@ defineExpose({reset});
 
 
 // 折叠面板的初始化激活项
-const activeNames  = ref([]);
+const activeNames  = ref(['1','2','3','4','5']);
 const activeNames2 = ref([]);
 const activeClass  = "el-icon-edit-outline";
 
+/**
+ * 显示错误信息
+ * @param msg
+ * @returns {ElMessageComponent}
+ */
 const showError = (msg) => Message({
     showClose: true,
     message  : '错了哦，请检查 ' + msg,
@@ -359,7 +364,7 @@ watchEffect(() => {
     if (addFunds(props.form.gzsbf_zj,
         props.form.szsbf_zj,
         props.form.sbgzyzlf_zj) > props.form.sbf_zj) {
-        showError('设备费');
+        showError('直接 设备费');
     }
     if (addFunds(props.form.zlf_zj,
         props.form.cshyjgf_zj,
@@ -369,19 +374,19 @@ watchEffect(() => {
         props.form.bgf_zj,
         props.form.rldlf_zj,
         props.form.clsyf_zj) > props.form.kyhdf_zj) {
-        showError('科研活动费');
+        showError('直接 科研活动费');
     }
     if (addFunds(props.form.zjzxf_zj,
         props.form.chlf_zj,
         props.form.hyhwf_zj,
         props.form.gjhzjlf_zj,
         props.form.gnxzf_zj) > props.form.kyfwf_zj) {
-        showError('科研服务费');
+        showError('直接 科研服务费');
     }
     if (addFunds(props.form.gzsbf_jj,
         props.form.szsbf_jj,
         props.form.sbgzyzlf_jj) > props.form.sbf_jj) {
-        showError('设备费');
+        showError('间接 设备费');
     }
     if (addFunds(props.form.zlf_jj,
         props.form.cshyjgf_jj,
@@ -391,14 +396,14 @@ watchEffect(() => {
         props.form.bgf_jj,
         props.form.rldlf_jj,
         props.form.clsyf_jj) > props.form.kyhdf_jj) {
-        showError('科研活动费');
+        showError('间接 科研活动费');
     }
     if (addFunds(props.form.zjzxf_jj,
         props.form.chlf_jj,
         props.form.hyhwf_jj,
         props.form.gjhzjlf_jj,
         props.form.gnxzf_jj) > props.form.kyfwf_jj) {
-        showError('科研服务费');
+        showError('间接 科研服务费');
     }
 });
 
