@@ -129,26 +129,26 @@ services:
     privileged: true
     network_mode: "host"
 
-  ruoyi-monitor-admin:
-    image: ruoyi/ruoyi-monitor-admin:0.8.3
-    container_name: ruoyi-monitor-admin
-    environment:
-      # 时区上海
-      TZ: Asia/Shanghai
-    volumes:
-      # 配置文件
-      - /docker/monitor/logs/:/ruoyi/monitor/logs
-    privileged: true
-    network_mode: "host"
-
-  ruoyi-xxl-job-admin:
-    image: ruoyi/ruoyi-xxl-job-admin:0.8.3
-    container_name: ruoyi-xxl-job-admin
-    environment:
-      # 时区上海
-      TZ: Asia/Shanghai
-    volumes:
-      # 配置文件
-      - /docker/xxljob/logs/:/ruoyi/xxljob/logs
-    privileged: true
-    network_mode: "host"
+#  ruoyi-monitor-admin:
+#    image: ruoyi/ruoyi-monitor-admin:0.8.3
+#    container_name: ruoyi-monitor-admin
+#    environment:
+#      # 时区上海
+#      TZ: Asia/Shanghai
+#    volumes:
+#      # 配置文件
+#      - /docker/monitor/logs/:/ruoyi/monitor/logs
+#    privileged: true
+#    network_mode: "host"
+#
+#  ruoyi-xxl-job-admin:
+#    image: ruoyi/ruoyi-xxl-job-admin:0.8.3
+#    container_name: ruoyi-xxl-job-admin
+#    environment:
+#      # 时区上海
+#      TZ: Asia/Shanghai
+#    volumes:
+#      # 配置文件
+#      - /docker/xxljob/logs/:/ruoyi/xxljob/logs
+#    privileged: true
+#    network_mode: "host"
