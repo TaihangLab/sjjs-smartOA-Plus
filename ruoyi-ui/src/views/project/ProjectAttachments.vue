@@ -56,7 +56,7 @@
                     <el-table-column :label="'操作'" :resizable="false" align="center" min-width="100px" fixed="right">
                         <template slot-scope="scope">
                             <el-link :href="scope.row.url" target="_blank" :underline="false">
-                                <el-button size="mini" type="text" icon="el-icon-download">下载</el-button>
+                                <el-button size="mini" type="text" icon="el-icon-download" @click="handleDownload(scope.row)">下载</el-button>
                             </el-link>
                         </template>
                     </el-table-column>
@@ -100,6 +100,10 @@ export default {
         this.getAttachmentsList();
     },
     methods: {
+        /** 下载按钮操作 */
+        handleDownload(row) {
+            this.$download.oss(row.ossId)
+        },
         truncatedName(originalName) {
             const lastDotIndex = originalName.lastIndexOf('.');
             return lastDotIndex !== -1 ? originalName.substring(0, lastDotIndex) : originalName;
