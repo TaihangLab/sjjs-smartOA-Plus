@@ -2,12 +2,8 @@
     <div>
         <CheckProject @query-request="handleQueryRequest" />
         <div>
-            <Project :projectListLook="projectListLook"
-                     :myProjectLook="myProjectLook"
-                     :total="total"
-                     :queryParam="queryParam"
-                     @update-query-param="updateQueryParam"
-                     @reloadProjectList="getprojectList" />
+            <Project :projectListLook="projectListLook" :myProjectLook="myProjectLook" :total="total"
+                :queryParam="queryParam" @update-query-param="updateQueryParam" @reloadProjectList="getprojectList" />
         </div>
     </div>
 </template>
@@ -24,6 +20,8 @@ export default {
     data() {
         return {
             queryParams: {
+                pageNum: 2,
+                pageSize: 5,
             },
             queryParam: {
                 pageNum: 1,
@@ -33,7 +31,7 @@ export default {
             total: 0,
             myProjectFrom: {},
             myProjectLook: [],
-            projectListKey: 0,
+            projectListKey: 1,
         };
     },
     created() {

@@ -11,8 +11,8 @@ services:
       MYSQL_ROOT_PASSWORD: root
       # 初始化数据库(后续的初始化sql会在这个库执行)
       MYSQL_DATABASE: ry-vue
-    ports:
-      - "3306:3306"
+#    ports:
+#      - "3306:3306"
     volumes:
       # 数据挂载
       - /docker/mysql/data/:/var/lib/mysql/
@@ -34,9 +34,9 @@ services:
     environment:
       # 时区上海
       TZ: Asia/Shanghai
-    ports:
-      - "80:80"
-      - "443:443"
+#    ports:
+#      - "80:80"
+#      - "443:443"
     volumes:
       # 证书映射
       - /docker/nginx/cert:/etc/nginx/cert
@@ -52,8 +52,8 @@ services:
   redis:
     image: redis:6.2.7
     container_name: redis
-    ports:
-      - "6379:6379"
+#    ports:
+#      - "6379:6379"
     environment:
       # 时区上海
       TZ: Asia/Shanghai
@@ -69,11 +69,11 @@ services:
   minio:
     image: minio/minio:RELEASE.2023-03-24T21-41-23Z
     container_name: minio
-    ports:
-      # api 端口
-      - "9000:9000"
-      # 控制台端口
-      - "9001:9001"
+#    ports:
+#      # api 端口
+#      - "9000:9000"
+#      # 控制台端口
+#      - "9001:9001"
     environment:
       # 时区上海
       TZ: Asia/Shanghai
@@ -129,26 +129,26 @@ services:
     privileged: true
     network_mode: "host"
 
-  ruoyi-monitor-admin:
-    image: ruoyi/ruoyi-monitor-admin:0.8.3
-    container_name: ruoyi-monitor-admin
-    environment:
-      # 时区上海
-      TZ: Asia/Shanghai
-    volumes:
-      # 配置文件
-      - /docker/monitor/logs/:/ruoyi/monitor/logs
-    privileged: true
-    network_mode: "host"
-
-  ruoyi-xxl-job-admin:
-    image: ruoyi/ruoyi-xxl-job-admin:0.8.3
-    container_name: ruoyi-xxl-job-admin
-    environment:
-      # 时区上海
-      TZ: Asia/Shanghai
-    volumes:
-      # 配置文件
-      - /docker/xxljob/logs/:/ruoyi/xxljob/logs
-    privileged: true
-    network_mode: "host"
+#  ruoyi-monitor-admin:
+#    image: ruoyi/ruoyi-monitor-admin:0.8.3
+#    container_name: ruoyi-monitor-admin
+#    environment:
+#      # 时区上海
+#      TZ: Asia/Shanghai
+#    volumes:
+#      # 配置文件
+#      - /docker/monitor/logs/:/ruoyi/monitor/logs
+#    privileged: true
+#    network_mode: "host"
+#
+#  ruoyi-xxl-job-admin:
+#    image: ruoyi/ruoyi-xxl-job-admin:0.8.3
+#    container_name: ruoyi-xxl-job-admin
+#    environment:
+#      # 时区上海
+#      TZ: Asia/Shanghai
+#    volumes:
+#      # 配置文件
+#      - /docker/xxljob/logs/:/ruoyi/xxljob/logs
+#    privileged: true
+#    network_mode: "host"
