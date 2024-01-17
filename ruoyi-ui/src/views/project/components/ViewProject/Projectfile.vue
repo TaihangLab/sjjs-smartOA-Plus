@@ -21,9 +21,7 @@
             <el-table-column :label="'上传时间'" align="center" prop="createTime" :show-overflow-tooltip="true" />
             <el-table-column :label="'操作'" align="center">
                 <template slot-scope="scope">
-                    <el-link :href="scope.row.url" target="_blank" :underline="false">
-                        <i class="el-icon-download custom-icon"></i>
-                    </el-link>
+                    <el-button size="mini" type="text" icon="el-icon-download" @click="handleDownload(scope.row)">下载</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -44,7 +42,7 @@ export default {
     name: "file",
     data() {
         return {
-            loading: false, 
+            loading: false,
         };
     },
     watch: {
@@ -57,7 +55,10 @@ export default {
         },
     },
     methods: {
-        // 可以在这里定义其他方法...
+        /** 下载按钮操作 */
+        handleDownload(row) {
+            this.$download.oss(row.ossId)
+        },
     },
     computed: {
         data() {

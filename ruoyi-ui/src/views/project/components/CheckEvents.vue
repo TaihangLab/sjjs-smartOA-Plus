@@ -16,10 +16,12 @@
                     <h4>名称：{{ item.milestoneTitle }}</h4>
                     <p>详情：{{ item.milestoneRemark }}</p>
                     <div class="attachments-container">
-                        <el-link v-for="(oss, ossIndex) in item.sysOsses" :key="ossIndex" :href="oss.url" target="_blank"
-                            :underline="false" class="attachment-item">
-                            {{ oss.originalName }}
-                        </el-link>
+<!--                        <el-link v-for="(oss, ossIndex) in item.sysOsses" :key="ossIndex" :href="oss.url" target="_blank"-->
+<!--                            :underline="false" class="attachment-item">-->
+<!--                            {{ oss.originalName }}-->
+<!--                        </el-link>-->
+                        <el-button v-for="(oss, ossIndex) in item.sysOsses" :key="ossIndex" size="mini" type="text" icon="el-icon-download" @click="handleDownload(oss)">
+                            {{ oss.originalName }}</el-button>
                     </div>
                     <div style="margin-top: 10px;">
                         <el-button type="success" icon="el-icon-edit" size="mini" circle @click="editMilestone(item)"
@@ -189,6 +191,10 @@ export default {
             })
     },
     methods: {
+        /** 下载按钮操作 */
+        handleDownload(row) {
+            this.$download.oss(row.ossId)
+        },
         editMilestone(item) {
             this.form.milestoneId = item.milestoneId;
             this.form.milestoneTitle = item.milestoneTitle;
