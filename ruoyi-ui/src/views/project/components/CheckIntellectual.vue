@@ -31,7 +31,7 @@
                     <el-table-column label="文件名称" :resizable="false" align="center" :show-overflow-tooltip="true"
                         width="500">
                         <template slot-scope="scope">
-                            {{ scope.row.originalName.replace(/\..+$/, '') }}
+                            {{ truncatedName(scope.row.originalName) }}
                         </template>
                     </el-table-column>
                     <el-table-column :label="'文件格式'" align="center" prop="fileSuffix" :show-overflow-tooltip="true"
@@ -122,6 +122,10 @@ export default {
         },
     },
     methods: {
+        truncatedName(originalName) {
+            const lastDotIndex = originalName.lastIndexOf('.');
+            return lastDotIndex !== -1 ? originalName.substring(0, lastDotIndex) : originalName;
+        },
         jobTitles(row, column, cellValue) {
             // 使用映射关系来获取对应的文字描述
             return this.jobTitle[cellValue] || cellValue;

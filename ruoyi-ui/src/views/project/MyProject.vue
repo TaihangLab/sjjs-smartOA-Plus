@@ -12,7 +12,12 @@
         <el-dialog title="新增项目" :visible.sync="newProjectDialogVisible" fullscreen>
             <NewProject :visible.sync="newProjectDialogVisible" @refresh="refreshList"></NewProject>
         </el-dialog>
-        <Project  :buttonType="1" :myProjectLook="myProjectLook" :projectListLook="projectListLook" :total="total" :queryParam="queryParam" @reloadProjectList="getprojectList"/>
+        <Project  :buttonType="1"
+                  :myProjectLook="myProjectLook"
+                  :projectListLook="projectListLook"
+                  :total="total"
+                  :queryParam="queryParam"
+                  @reloadProjectList="getprojectList"/>
     </div>
 </template>
 

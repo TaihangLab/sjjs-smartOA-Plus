@@ -22,7 +22,7 @@
                     <el-table-column label="文件名称" :resizable="false" align="center" :show-overflow-tooltip="true"
                         width="300">
                         <template slot-scope="scope">
-                            {{ scope.row.originalName.replace(/\..+$/, '') }}
+                            {{ truncatedName(scope.row.originalName) }}
                         </template>
                     </el-table-column>
                     <el-table-column :label="'文件格式'" align="center" prop="fileSuffix" :show-overflow-tooltip="true"
@@ -100,6 +100,10 @@ export default {
         this.getAttachmentsList();
     },
     methods: {
+        truncatedName(originalName) {
+            const lastDotIndex = originalName.lastIndexOf('.');
+            return lastDotIndex !== -1 ? originalName.substring(0, lastDotIndex) : originalName;
+        },
         async getAttachmentsList() {
             this.checkattachments();
             this.getProjectTree();

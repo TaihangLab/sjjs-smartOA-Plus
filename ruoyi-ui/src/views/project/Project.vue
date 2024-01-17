@@ -258,7 +258,7 @@ export default {
         //详情按钮
         lookEdit(index, item) {
             this.dialogFormVisibleLook = true;
-            this.formLook              = item;
+            this.formLook = item;
         },
         handleDropdownCommand(command) {
             if (command.command === 'view') {

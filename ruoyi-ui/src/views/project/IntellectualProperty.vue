@@ -172,6 +172,7 @@ export default {
         this.checkIp();
     },
     methods: {
+
         async checkIp(){
             this.getDeptAndUserList();
             this.getProjectTree();
