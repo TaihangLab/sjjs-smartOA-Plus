@@ -318,7 +318,8 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
     private Page<SysOssVo> fetchOssPage(Map<Long, String> ossIdToMilestoneNameMap, PageQuery pageQuery) {
         List<Long> ossIds = new ArrayList<>(ossIdToMilestoneNameMap.keySet());
         LambdaQueryWrapper<SysOss> ossLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        ossLambdaQueryWrapper.in(SysOss::getOssId, ossIds);
+        ossLambdaQueryWrapper.in(SysOss::getOssId, ossIds)
+            .orderByDesc(SysOss::getCreateTime);
         return sysOssMapper.selectVoPage(pageQuery.build(), ossLambdaQueryWrapper);
     }
 
