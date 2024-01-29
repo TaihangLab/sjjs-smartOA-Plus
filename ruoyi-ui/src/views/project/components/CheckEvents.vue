@@ -1,7 +1,7 @@
 <template>
     <div class="block">
         <div v-if="timelineItems.length" class="fixed-container">
-            <el-input placeholder="请输入内容" v-model="searchKeyword" class="input-with-select" size="mini" :clearable="true"
+            <el-input placeholder="请输入关键字" v-model="searchKeyword" class="input-with-select" size="mini" :clearable="true"
                 @keyup.enter.native="handleQuery" style="border-radius: 0;"></el-input>
             <el-date-picker v-model="dateRange" type="daterange" unlink-panels clearable start-placeholder="请输入查询范围"
                 end-placeholder="如：2000-01-01" value-format="yyyy-MM-dd" @keyup.enter.native="handleQuery"
