@@ -56,13 +56,18 @@ CREATE TABLE `project_user` (
 
 DROP TABLE IF EXISTS `project_funds`;
 -- auto-generated definition
-create table project_funds
+reate table project_funds
 (
     funds_id           bigint auto_increment comment '经费id'
         primary key,
     project_id         bigint                          not null comment '项目id',
     total_funds_all    decimal(12, 6) default 0.000000 null comment '项目经费总额',
     total_funds_zx     decimal(12, 6) default 0.000000 null comment '专项经费总额',
+    total_funds_zx_dk  decimal(12, 6) default 0.000000 null comment '专项到款总额',
+    zctz_done          decimal(12, 6) default 0.000000 null comment '已完成自筹投资',
+    zxtz_done          decimal(12, 6) default 0.000000 null comment '已完成专项投资',
+    zc_gspt            decimal(12, 6) default 0.000000 null comment '自筹经费公司配套',
+    zx_gslc            decimal(12, 6) default 0.000000 null comment '专项经费公司留存（计划）',
     sbf_zx             decimal(12, 6) default 0.000000 null comment '专项设备费',
     total_funds_zx_zj  decimal(12, 6) default 0.000000 null comment '专项直接费用',
     total_funds_zx_jj  decimal(12, 6) default 0.000000 null comment '专项间接费用',
@@ -166,7 +171,7 @@ create table project_funds
     constraint project_funds_pk
         unique (project_id)
 )
-    comment '项目经费表';
+    comment '项目经费表（单位：万元）' collate = utf8mb4_bin;
 
 create index project_funds_project_id_index
     on project_funds (project_id);
