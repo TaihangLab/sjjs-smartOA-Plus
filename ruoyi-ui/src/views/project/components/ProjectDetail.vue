@@ -139,6 +139,9 @@
                 <el-tab-pane label="项目申报附件" name="sixth">
                     <Projectfile :projectfile="this.projectdetails.projectAttachmentVOList"></Projectfile>
                 </el-tab-pane>
+                <el-tab-pane label="项目推进情况" name="seventh">
+                    <ProjectProgress :projectDetails="this.projectdetails"></ProjectProgress>
+                </el-tab-pane>
             </el-tabs>
         </div>
     </div>
@@ -151,10 +154,12 @@ import ProjectPlan from "./ViewProject/ProjectPlan.vue";
 import ProjectIndicators from "./ViewProject/ProjectIndicators.vue";
 import request from '@/utils/request';
 import Projectfile from "./ViewProject/Projectfile.vue";
+import ProjectProgress from "@/views/project/components/ViewProject/ProjectProgress.vue";
 
 export default {
     name: "ProjectDetail",
     components: {
+        ProjectProgress,
         Projectfile,
         Member,
         FundsDetail,

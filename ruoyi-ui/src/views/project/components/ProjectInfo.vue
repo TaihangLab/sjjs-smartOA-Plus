@@ -52,12 +52,25 @@
                         <el-input v-model="form.contact"></el-input>
                     </el-form-item>
                 </el-col>
+<!--                <el-col :span="8">-->
+<!--                    <el-form-item label-width="120px" label="推进情况" prop="progressStatus"-->
+<!--                                  :rules="[{ required: true, message: '请输入 推进情况', trigger: 'change' }]">-->
+<!--                        <el-select v-model="form.progressStatus" clearable placeholder="请选择">-->
+<!--                            <el-option-->
+<!--                                v-for="(item, index) in progressStatus"-->
+<!--                                :key="index"-->
+<!--                                :label="item.name"-->
+<!--                                :value="item.value">-->
+<!--                            </el-option>-->
+<!--                        </el-select>-->
+<!--                    </el-form-item>-->
+<!--                </el-col>-->
                 <el-col :span="8">
-                    <el-form-item label-width="120px" label="推进情况" prop="progressStatus"
-                                  :rules="[{ required: true, message: '请输入 推进情况', trigger: 'change' }]">
-                        <el-select v-model="form.progressStatus" clearable placeholder="请选择">
+                    <el-form-item label-width="120px" label="项目级别" prop="level"
+                                  :rules="[{ required: true, message: '请输 入项目级别', trigger: 'change' }]">
+                        <el-select v-model="form.level" clearable placeholder="请选择">
                             <el-option
-                                v-for="(item, index) in progressStatus"
+                                v-for="(item, index) in projectLevels"
                                 :key="index"
                                 :label="item.name"
                                 :value="item.value">
@@ -72,7 +85,6 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-
             <el-row :gutter="20" type="flex" justify="left">
                 <el-col :span="8">
                     <el-form-item label-width="120px" label="立项时间" prop="startTime"
@@ -85,7 +97,6 @@
                         </el-date-picker>
                     </el-form-item>
                 </el-col>
-
                 <el-col :span="8">
                     <el-form-item label-width="120px" label="验收时间" prop="endTime"
                                   :rules="[{ required: true, message: '请选择 验收时间', trigger: 'change' }]">
@@ -97,22 +108,6 @@
                         </el-date-picker>
                     </el-form-item>
                 </el-col>
-                <el-col :span="8">
-                    <el-form-item label-width="120px" label="项目级别" prop="level"
-                                  :rules="[{ required: true, message: '请输 入项目级别', trigger: 'change' }]">
-                        <el-select v-model="form.level" clearable placeholder="请选择">
-                            <el-option
-                                v-for="(item, index) in projectLevels"
-                                :key="index"
-                                :label="item.name"
-                                :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-
-            <el-row :gutter="20" type="flex" justify="left">
                 <el-col :span="8">
                     <el-form-item label-width="120px" label="是否为牵头单位" prop="isLeadingUnit"
                                   :rules="[{ required: true, message: '请选择 是否为牵头单位', trigger: 'change' }]">

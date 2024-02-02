@@ -14,6 +14,7 @@ import {Loading} from "element-ui";
  * @param projectIndicatorForm
  * @param projectPlanForm
  * @param otherAttachmentForm
+ * @param projectProgressForm
  * @returns {AxiosPromise}
  */
 export function addProject(projectInfoForm,
@@ -24,7 +25,8 @@ export function addProject(projectInfoForm,
                            fundsSourceForm,
                            projectIndicatorForm,
                            projectPlanForm,
-                           otherAttachmentForm) {
+                           otherAttachmentForm,
+                           projectProgressForm) {
     /**
      *  项目成员
      */
@@ -102,11 +104,11 @@ export function addProject(projectInfoForm,
                 /**
                  *  项目进展情况
                  */
-                "projectProgressStatus": projectInfoForm.progressStatus,
+                "projectProgressStatus": projectProgressForm.projectProgressStatus,
                 /**
                  *  项目完成进度
                  */
-                "completionProgress": projectInfoForm.completionProgress,
+                "completionProgress": projectProgressForm.completionProgress,
                 /**
                  *  合作单位
                  */
@@ -122,28 +124,53 @@ export function addProject(projectInfoForm,
                 /**
                  *  项目描述
                  */
-                "projectDescription": projectInfoForm.description
+                "projectDescription": projectInfoForm.description,
                 /**
-                 *  "awardDetails"                  : projectInfoForm.awardStatus,
+                 *  获奖情况（项）
                  */
+                "awardDetails": projectProgressForm.awardDetails,
                 /**
-                 *  "publicationDetails"            : projectInfoForm.paperStatus,
+                 *  论文情况（项）
                  */
+                "publicationDetails": projectProgressForm.publicationDetails,
                 /**
-                 *  "patentDetails"                 : projectInfoForm.patentStatus,
+                 *  专利情况
                  */
+                "patentDetails": projectProgressForm.patentDetails,
                 /**
-                 *  "softwareCopyrightDetails"      : projectInfoForm.rzStatus,
+                 *  软著情况
                  */
+                "softwareCopyrightDetails": projectProgressForm.softwareCopyrightDetails,
                 /**
-                 *  "standardDetails"               : projectInfoForm.standardStatus,
+                 *  标准情况
                  */
+                "standardDetails": projectProgressForm.standardDetails,
             },
             "projectFundsBO"   : {
                 /**
                  *  总经费
                  */
                 "totalFundsAll": projectFundsForm.jfze,
+                /**
+                 *  专项到款总额
+                 */
+                "totalFundsZxDk": projectProgressForm.totalFundsZxDk,
+                /**
+                 *  已完成自筹投资
+                 */
+                "zctzDone": projectProgressForm.zctzDone,
+                /**
+                 *  已完成专项投资
+                 */
+                "zxtzDone": projectProgressForm.zxtzDone,
+                /**
+                 *  自筹经费公司配套
+                 */
+                "zcGspt": projectProgressForm.zcGspt,
+                /**
+                 *  专项经费公司留存（计划）
+                 */
+                "zxGslc": projectProgressForm.zxGslc,
                 /**
                  *  专项经费总额
                  */
@@ -578,6 +605,7 @@ export function addProject(projectInfoForm,
  * @param {*} projectIndicatorForm
  * @param {*} projectPlanForm
  * @param {*} otherAttachmentForm
+ * @param {*} projectProgressForm
  */
 export function getProject(projectId,
                            projectInfoForm,
@@ -588,7 +616,8 @@ export function getProject(projectId,
                            fundsSourceForm,
                            projectIndicatorForm,
                            projectPlanForm,
-                           otherAttachmentForm) {
+                           otherAttachmentForm,
+                           projectProgressForm,) {
     const loading = Loading.service({fullscreen: true, lock: true, text: '努力加载中'});
     request({
         url: "/project/list/getDetails", method: "get", params: {projectId}
@@ -632,6 +661,55 @@ export function getProject(projectId,
         });
         if (plans.length > 0)
             Vue.set(projectPlanForm, "items", plans);
+        /**
+         *  项目推进情况
+         *  推进情况
+         */
+        Vue.set(projectProgressForm, "projectProgressStatus", projectInfoVO.projectProgressStatus);
+        /**
+         *  完成进度
+         */
+        Vue.set(projectProgressForm, "completionProgress", projectInfoVO.completionProgress);
+        /**
+         *  专项到款总额
+         */
+        Vue.set(projectProgressForm, "totalFundsZxDk", projectFundsVO.totalFundsZxDk);
+        /**
+         *  已完成自筹投资
+         */
+        Vue.set(projectProgressForm, "zctzDone", projectFundsVO.zctzDone);
+        /**
+         *  已完成专项投资
+         */
+        Vue.set(projectProgressForm, "zxtzDone", projectFundsVO.zxtzDone);
+        /**
+         *  自筹经费公司配套
+         */
+        Vue.set(projectProgressForm, "zcGspt", projectFundsVO.zcGspt);
+        /**
+         *  专项经费公司留存
+         */
+        Vue.set(projectProgressForm, "zxGslc", projectFundsVO.zxGslc);
+        /**
+         *  获奖情况
+         */
+        Vue.set(projectProgressForm, "awardDetails", projectInfoVO.awardDetails);
+        /**
+         *  论文情况
+         */
+        Vue.set(projectProgressForm, "publicationDetails", projectInfoVO.publicationDetails);
+        /**
+         *  专利情况
+         */
+        Vue.set(projectProgressForm, "patentDetails", projectInfoVO.patentDetails);
+        /**
+         *  软著情况
+         */
+        Vue.set(projectProgressForm, "softwareCopyrightDetails", projectInfoVO.softwareCopyrightDetails);
+        /**
+         *  标准情况
+         */
+        Vue.set(projectProgressForm, "standardDetails", projectInfoVO.standardDetails);
         /**
          *  项目附件
          */
@@ -1154,7 +1232,8 @@ export function updateProject(projectId,
                               fundsSourceForm,
                               projectIndicatorForm,
                               projectPlanForm,
-                              otherAttachmentForm) {
+                              otherAttachmentForm,
+                              projectProgressForm) {
 
     /**
      *  项目成员
@@ -1237,11 +1316,11 @@ export function updateProject(projectId,
                 /**
                  *  项目进展情况
                  */
-                "projectProgressStatus": projectInfoForm.progressStatus,
+                "projectProgressStatus": projectProgressForm.projectProgressStatus,
                 /**
                  *  项目完成进度
                  */
-                "completionProgress": projectInfoForm.completionProgress,
+                "completionProgress": projectProgressForm.completionProgress,
                 /**
                  *  合作单位
                  */
@@ -1257,24 +1336,49 @@ export function updateProject(projectId,
                 /**
                  *  项目描述
                  */
-                "projectDescription": projectInfoForm.description
+                "projectDescription": projectInfoForm.description,
                 /**
-                 *  "awardDetails"                  : projectInfoForm.awardStatus,
+                 *  获奖情况
                  */
+                "awardDetails": projectProgressForm.awardDetails,
                 /**
-                 *  "publicationDetails"            : projectInfoForm.paperStatus,
+                 *  论文情况
                  */
+                "publicationDetails": projectProgressForm.publicationDetails,
                 /**
-                 *  "patentDetails"                 : projectInfoForm.patentStatus,
+                 *  专利情况
                  */
+                "patentDetails": projectProgressForm.patentDetails,
                 /**
-                 *  "softwareCopyrightDetails"      : projectInfoForm.rzStatus,
+                 *  软著情况
                  */
+                "softwareCopyrightDetails": projectProgressForm.softwareCopyrightDetails,
                 /**
-                 *  "standardDetails"               : projectInfoForm.standardStatus,
+                 *  标准情况
                  */
+                "standardDetails": projectProgressForm.standardDetails,
             },
             "projectFundsBO"   : {
+                /**
+                 *  专项到款总额
+                 */
+                "totalFundsZxDk": projectProgressForm.totalFundsZxDk,
+                /**
+                 *  已完成自筹投资
+                 */
+                "zctzDone": projectProgressForm.zctzDone,
+                /**
+                 *  已完成专项投资
+                 */
+                "zxtzDone": projectProgressForm.zxtzDone,
+                /**
+                 *  自筹经费公司配套
+                 */
+                "zcGspt": projectProgressForm.zcGspt,
+                /**
+                 *  专项经费公司留存（计划）
+                 */
+                "zxGslc": projectProgressForm.zxGslc,
                 /**
                  *  总经费
                  */

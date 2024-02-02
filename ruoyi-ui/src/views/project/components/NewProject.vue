@@ -56,6 +56,10 @@
                 <OtherAttachment v-show="stepID===8" :form="otherAttachmentForm"
                                  ref="otherAttachment"></OtherAttachment>
             </el-collapse-transition>
+            <el-collapse-transition>
+                <ProjectProgress v-show="stepID===9" :form="projectProgressForm"
+                                 ref="projectProgress"></ProjectProgress>
+            </el-collapse-transition>
 
         </el-main>
 
@@ -96,6 +100,7 @@ import ProjectPlan from "@/views/project/components/ProjectPlan.vue";
 import {Loading, Message} from "element-ui";
 import {addProject, getProject, updateProject} from "@/views/project/components/project";
 import {resetObject} from "@/views/project/components/utils";
+import ProjectProgress from "@/views/project/components/ProjectProgress.vue";
 
 const TOTAL_STEPS = 9;
 
@@ -103,6 +108,7 @@ export default {
     name      : "NewProject",
     props     : ['visible', "updateId"],
     components: {
+        ProjectProgress,
         ProjectPlan,
         OtherAttachment,
         MainAttachment,
@@ -125,7 +131,7 @@ export default {
                 this.projectFundsForm, this.zxFundsDetailForm,
                 this.zcFundsDetailForm, this.fundsSourceForm,
                 this.projectIndicatorForm, this.projectPlanForm,
-                this.otherAttachmentForm)
+                this.otherAttachmentForm, this.projectProgressForm)
         }
 
     },
@@ -133,7 +139,7 @@ export default {
         return {
             stepID        : 0,
             isStepHover   : false,
-            titles        : ["项目信息", "项目成员", "项目经费", "专项经费", "自筹经费", "经费来源", "项目指标", "项目计划", "项目申报附件"],
+            titles        : ["项目信息", "项目成员", "项目经费", "专项经费", "自筹经费", "经费来源", "项目指标", "项目计划", "项目申报附件", "项目推进情况"],
             nextButtonText: '下一步',
 
             projectInfoForm     : {},
@@ -146,6 +152,7 @@ export default {
             fundsSourceForm     : {},
             mainAttachmentForm  : {},
             otherAttachmentForm : {},
+            projectProgressForm : {},
         };
     },
 
@@ -197,6 +204,8 @@ export default {
             this.$refs.projectPlanForm.reset();
             this.$refs.projectIndicator.reset();
             this.$refs.otherAttachment.$refs.fileUpload.reset();
+            resetObject(this.projectProgressForm);
+            // this.$refs.projectProgress.reset();
             this.stepID = 0;
         },
         /**
@@ -226,7 +235,9 @@ export default {
                     this.fundsSourceForm,
                     this.projectIndicatorForm,
                     this.projectPlanForm,
-                    this.otherAttachmentForm)
+                    this.otherAttachmentForm,
+                    this.projectProgressForm,
+                )
                     .then(resp => {
                         this.$message({
                             message: '恭喜你，项目修改成功',
@@ -255,6 +266,7 @@ export default {
              * @param projectIndicatorForm
              * @param projectPlanForm
              * @param otherAttachmentForm
+             * @param projectProgressForm
              * @returns {Promise}
              */
             addProject(this.projectInfoForm,
@@ -265,7 +277,9 @@ export default {
                 this.fundsSourceForm,
                 this.projectIndicatorForm,
                 this.projectPlanForm,
-                this.otherAttachmentForm)
+                this.otherAttachmentForm,
+                this.projectProgressForm,
+            )
                 .then(resp => {
                     this.$message({
                         message: '恭喜你，项目新增成功',
