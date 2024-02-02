@@ -7,8 +7,8 @@ import org.apache.ibatis.annotations.Mapper;
 
 /**
 * @author bailingnan
-* @description 针对表【project_funds(项目经费表)】的数据库操作Mapper
- * @createDate 2023-12-25 15:44:31
+ * @description 针对表【project_funds(项目经费表（单位：万元）)】的数据库操作Mapper
+ * @createDate 2024-01-29 16:35:12
 * @Entity com.ruoyi.project.domain.ProjectFunds
 */
 @Mapper

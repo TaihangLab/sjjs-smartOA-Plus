@@ -23,6 +23,31 @@ public class ProjectFundsVO {
     private BigDecimal totalFundsZx;
 
     /**
+     * 专项到款总额
+     */
+    private BigDecimal totalFundsZxDk;
+
+    /**
+     * 已完成自筹投资
+     */
+    private BigDecimal zctzDone;
+
+    /**
+     * 已完成专项投资
+     */
+    private BigDecimal zxtzDone;
+
+    /**
+     * 自筹经费公司配套
+     */
+    private BigDecimal zcGspt;
+
+    /**
+     * 专项经费公司留存（计划）
+     */
+    private BigDecimal zxGslc;
+
+    /**
      * 专项设备费
      */
     private BigDecimal sbfZx;

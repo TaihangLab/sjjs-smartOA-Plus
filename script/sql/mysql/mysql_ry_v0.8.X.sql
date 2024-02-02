@@ -67,8 +67,8 @@ create table sys_user (
 -- ----------------------------
 -- 初始化-用户信息表数据
 -- ----------------------------
-insert into sys_user values(1,  103, 'admin', '若依管理员', 'sys_user', 'ry@163.com', '15888888888', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', sysdate(), 'admin', sysdate(), '', null, '管理员');
-insert into sys_user values(2,  105, 'ry',    '若依'     , 'sys_user', 'ry@qq.com',  '15666666666', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', sysdate(), 'admin', sysdate(), '', null, '测试员');
+insert into sys_user values(1,  103, 'admin', '若依管理员', 'sys_user', 'ry@163.com', '15888888888',0,0, '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', sysdate(), 'admin', sysdate(), '', null, '管理员');
+insert into sys_user values(2,  105, 'ry',    '若依'     , 'sys_user', 'ry@qq.com',  '15666666666',1,1, '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', sysdate(), 'admin', sysdate(), '', null, '测试员');
 
 
 -- ----------------------------
@@ -321,8 +321,29 @@ insert into sys_menu values('1220', '流程撤回',    '129', '1', '#', '', '', 
 insert into sys_menu values('1221', '已办流程导出', '129', '2', '#', '', '', 1, 0, 'F', '0', '0', 'workflow:process:finishedExport', '#', 'admin', sysdate(), '', null, '');
 -- 抄送我的
 insert into sys_menu values('1230', '抄送流程导出', '130', '1', '#', '', '', 1, 0, 'F', '0', '0', 'workflow:process:copyExport', '#', 'admin', sysdate(), '', null, '');
+-- 项目管理
+insert into sys_menu values(1727245396517777410,'项目管理',0,6,'project',NULL,NULL,1,0,'M','0','0',NULL,'documentation','admin','2023-11-22 16:39:28','admin','2023-11-23 11:11:05','');
+insert into sys_menu values(1727249354451775490,'项目列表',1727245396517777410,1,'all','project/ProjectList',NULL,1,0,'C','0','0','project:list:getAllList','list','admin','2023-11-22 16:55:12','fjx888888','2024-01-09 09:40:39','');
+insert into sys_menu values(1727250417435209729,'我的项目',1727245396517777410,2,'my','project/MyProject',NULL,1,0,'C','0','0','project:my:getMyList','user','admin','2023-11-22 16:59:25','admin','2024-01-09 10:02:28','');
+insert into sys_menu values(1739944930012246017,'成员列表',1727245396517777410,3,'members','project/Members',NULL,1,0,'C','0','0','project:user:getAllList','peoples','admin','2023-12-27 17:42:53','admin','2024-01-09 10:12:28','');
+insert into sys_menu values(1742380260892028929,'项目附件',1727245396517777410,4,'projectAttachments','project/ProjectAttachments',NULL,1,0,'C','0','0','project:user:getAllList','clipboard','admin','2024-01-03 11:00:01','admin','2024-01-09 10:13:57','');
+insert into sys_menu values(1742717842318348289,'知识产权',1727245396517777410,5,'intellectualProperty','project/IntellectualProperty',NULL,1,0,'C','0','0','project:ip:list','tab','admin','2024-01-04 09:21:26','admin','2024-01-09 14:48:05','');
+insert into sys_menu values(1744536917178482690,'项目详情',1727249354451775490,1,'',NULL,NULL,1,0,'F','0','0','project:list:getDetails','#','admin','2024-01-09 09:49:48','admin','2024-01-09 09:49:48','');
+insert into sys_menu values(1744539218823806978,'查询大事纪',1727249354451775490,2,'',NULL,NULL,1,0,'F','0','0','project:list:queryMilestone','#','admin','2024-01-09 09:58:56','admin','2024-01-09 09:58:56','');
+insert into sys_menu values(1744540570819952642,'新增项目',1727250417435209729,1,'',NULL,NULL,1,0,'F','0','0','project:my:add','#','admin','2024-01-09 10:04:19','admin','2024-01-09 10:04:19','');
+insert into sys_menu values(1744540855583834114,'编辑项目信息',1727250417435209729,2,'',NULL,NULL,1,0,'F','0','0','project:my:edit','#','admin','2024-01-09 10:05:27','admin','2024-01-09 10:05:27','');
+insert into sys_menu values(1744541006335508481,'删除项目信息',1727250417435209729,3,'',NULL,NULL,1,0,'F','0','0','project:my:delete','#','admin','2024-01-09 10:06:03','admin','2024-01-09 10:06:03','');
+insert into sys_menu values(1744541337593249793,'新增项目大事纪',1727250417435209729,4,'',NULL,NULL,1,0,'F','0','0','project:my:milestoneadd','#','admin','2024-01-09 10:07:22','admin','2024-01-09 10:07:22','');
+insert into sys_menu values(1744541802850615297,'删除单条项目大事纪',1727250417435209729,5,'',NULL,NULL,1,0,'F','0','0','project:my:milestonedelete','#','admin','2024-01-09 10:09:12','admin','2024-01-09 10:09:12','');
+insert into sys_menu values(1744542065145610241,'删除项目对应大事纪',1727250417435209729,6,'',NULL,NULL,1,0,'F','0','0','project:my:milestonedeletebypro','#','admin','2024-01-09 10:10:15','admin','2024-01-09 10:10:15','');
+insert into sys_menu values(1744542342632374274,'修改大事纪',1727250417435209729,7,'',NULL,NULL,1,0,'F','0','0','project:my:milestoneedit','#','admin','2024-01-09 10:11:21','admin','2024-01-09 10:11:21','');
+insert into sys_menu values(1744542828257280001,'项目成员详情',1739944930012246017,1,'',NULL,NULL,1,0,'F','0','0','project:user:getDetails','#','admin','2024-01-09 10:13:17','admin','2024-01-09 10:13:17','');
+insert into sys_menu values(1744548323504345090,'知识产权详情',1742717842318348289,1,'',NULL,NULL,1,0,'F','0','0','project:ip:getDetails','#','admin','2024-01-09 10:35:07','admin','2024-01-09 14:54:01','');
+insert into sys_menu values(1744548471965929473,'更新知识产权',1742717842318348289,3,'ip:update',NULL,NULL,1,0,'F','0','0','project:ip:update','#','admin','2024-01-09 10:35:43','admin','2024-01-09 14:54:08','');
+insert into sys_menu values(1744548596041830401,'新增知识产权',1742717842318348289,2,'ip:add',NULL,NULL,1,0,'F','0','0','project:ip:add','#','admin','2024-01-09 10:36:12','admin','2024-01-09 14:53:50','');
+insert into sys_menu values(1744548707459321858,'删除知识产权',1742717842318348289,4,'',NULL,NULL,1,0,'F','0','0','project:ip:delete','#','admin','2024-01-09 10:36:39','admin','2024-01-09 14:54:16','');
 
--- ----------------------------
+-- ---------------------------
 -- 6、用户和角色关联表  用户N-1角色
 -- ----------------------------
 drop table if exists sys_user_role;

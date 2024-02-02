@@ -39,7 +39,7 @@
                     <img :src="codeUrl" @click="getCode" class="login-code-img"/>
                 </div>
             </el-form-item>
-            <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;">记住密码</el-checkbox>
+            <el-checkbox v-model="loginForm.rememberMe">记住密码</el-checkbox>
             <el-form-item style="width:100%;">
                 <el-button
                     :loading="loading"
@@ -227,12 +227,12 @@ export default {
     }
 
     .el-checkbox {
-        margin: 0px 0px 25px 0px;
+        margin: 0 0 25px 0;
         color: #666;
     }
     /* 修改标题字体为楷体且加粗 */
     .title {
-        font-family: '楷体', cursive;
+        font-family: ssh;
         font-weight: bold;
         font-size: 23px;
     }
