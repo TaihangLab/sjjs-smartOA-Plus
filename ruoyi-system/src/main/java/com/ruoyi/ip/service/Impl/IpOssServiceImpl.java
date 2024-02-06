@@ -17,6 +17,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
+ * 知识产权附件
+ *
  * @author bailingnan
  * @date 2024/1/2
  */
@@ -45,7 +47,7 @@ public class IpOssServiceImpl implements IpOssService {
             ipOss.setOssId(ossId);
             return ipOss;
         }).collect(Collectors.toList());
-        ipOssMapper.insertBatch(ipOssList);
+	    ipOssMapper.insertBatch(ipOssList);
     }
 
     /**
@@ -56,7 +58,7 @@ public class IpOssServiceImpl implements IpOssService {
         if (ipOssList == null || ipOssList.isEmpty()) {
             return;
         }
-        ipOssMapper.insertBatch(ipOssList);
+	    ipOssMapper.insertBatch(ipOssList);
 
     }
 
@@ -65,7 +67,7 @@ public class IpOssServiceImpl implements IpOssService {
      */
     @Override
     public void deleteIpOssByIpId(Long ipId) {
-        ipOssMapper.delete(new LambdaQueryWrapper<IpOss>().eq(IpOss::getIpId, ipId));
+	    ipOssMapper.delete(new LambdaQueryWrapper<IpOss>().eq(IpOss::getIpId, ipId));
     }
 
     /**
@@ -82,12 +84,12 @@ public class IpOssServiceImpl implements IpOssService {
             if (oldIpOssList.isEmpty()) {
                 return;
             } else {
-                deleteIpOssByIpId(ipId);
+	            deleteIpOssByIpId(ipId);
                 return;
             }
         } else {
             if (oldIpOssList.isEmpty()) {
-                insertIpOssList(ipId, ossIdList);
+	            insertIpOssList(ipId, ossIdList);
                 return;
             }
         }
@@ -104,10 +106,10 @@ public class IpOssServiceImpl implements IpOssService {
         List<IpOss> addIpOssList = ipOssList.stream().filter(ipOss -> !oldIpOssSet.contains(ipOss)).collect(Collectors.toList());
         List<Long> delIpOssList = oldIpOssList.stream().filter(ipOss -> !ipOssSet.contains(ipOss)).map(IpOss::getOssId).collect(Collectors.toList());
         if (!addIpOssList.isEmpty()) {
-            insertIpOssList(addIpOssList);
+	        insertIpOssList(addIpOssList);
         }
         if (!delIpOssList.isEmpty()) {
-            deleteIpOssByOssIdList(delIpOssList);
+	        deleteIpOssByOssIdList(delIpOssList);
         }
     }
 
@@ -133,7 +135,7 @@ public class IpOssServiceImpl implements IpOssService {
         if (ossIdList == null || ossIdList.isEmpty()) {
             return;
         }
-        ipOssMapper.delete(new LambdaQueryWrapper<IpOss>().in(IpOss::getOssId, ossIdList));
+	    ipOssMapper.delete(new LambdaQueryWrapper<IpOss>().in(IpOss::getOssId, ossIdList));
 
     }
 }

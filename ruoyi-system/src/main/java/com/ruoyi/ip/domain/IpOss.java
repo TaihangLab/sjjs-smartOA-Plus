@@ -15,7 +15,10 @@ import java.io.Serializable;
 
 /**
  * 知识产权和存储对象关联表
+ *
+ * @author bailingnan
  * @TableName ip_oss
+ * @date 2024/02/06
  */
 @Getter
 @Setter
@@ -37,6 +40,12 @@ public class IpOss implements Serializable {
      * 存储对象id
      */
     private Long ossId;
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(ipId).append(ossId).toHashCode();
+    }
+
     /**
      * id
      */
@@ -50,12 +59,6 @@ public class IpOss implements Serializable {
             return false;
         }
         IpOss that = (IpOss) o;
-        return new EqualsBuilder().append(this.ipId, that.ipId).append(this.ossId, that.ossId).isEquals();
-    }
-
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder().append(this.ipId).append(this.ossId).toHashCode();
+        return new EqualsBuilder().append(ipId, that.ipId).append(ossId, that.ossId).isEquals();
     }
 }

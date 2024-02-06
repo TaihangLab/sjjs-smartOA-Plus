@@ -12,6 +12,9 @@ import java.util.Map;
 
 /**
  * 人员统计数据图表 控制层
+ *
+ * @author bailingnan
+ * @date 2024/02/06
  */
 @Slf4j
 @Validated
@@ -25,7 +28,7 @@ public class UserStatisticController {
     /**
      * 人员职称及对应数量
      *
-     * @return
+     * @return {@link Map}<{@link String}, {@link Integer}>
      */
     @GetMapping("/jobtitle")
     public Map<String, Integer> getUserJobTitleStatistics(){
@@ -35,7 +38,7 @@ public class UserStatisticController {
     /**
      * 人员学历及对应数量
      *
-     * @return
+     * @return {@link Map}<{@link String}, {@link Integer}>
      */
     @GetMapping("/diploma")
     public Map<String, Integer> getUserDiplomaStatistics(){

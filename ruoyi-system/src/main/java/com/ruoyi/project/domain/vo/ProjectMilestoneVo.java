@@ -1,18 +1,17 @@
 package com.ruoyi.project.domain.vo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.ruoyi.common.xss.Xss;
-import com.ruoyi.project.domain.ProjectMilestoneOss;
 import com.ruoyi.system.domain.SysOss;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * 大事记VO
+ *
+ * @author bailingnan
+ * @date 2024/02/06
+ */
 @Data
 public class ProjectMilestoneVo {
 

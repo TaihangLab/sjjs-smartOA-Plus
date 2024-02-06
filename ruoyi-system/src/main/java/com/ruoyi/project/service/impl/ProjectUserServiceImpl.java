@@ -30,6 +30,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * 项目成员
+ *
+ * @author bailingnan
+ * @date 2024/02/06
+ */
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -43,6 +49,23 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 
     private final ProjectBaseInfoMapper projectBaseInfoMapper;
 
+    // 创建 ProjectUserVo 对象
+    private ProjectUserVo createProjectUserVo(SysUser user) {
+        ProjectUserVo projectUserVo = new ProjectUserVo();
+        BeanCopyUtils.copy(user, projectUserVo);
+	    setProjectLevelCount(projectUserVo, user.getUserId(), false);
+	    setProjectLevelCount(projectUserVo, user.getUserId(), true);
+        return projectUserVo;
+    }
+
+    // 设置项目级别计数
+    private void setProjectLevelCount(ProjectUserVo projectUserVo, Long userId, boolean isCurrent) {
+        List<Map<String, Object>> mapList = isCurrent ? getNowProjectLevelCountByUserId(userId)
+            : getProjectLevelCountByUserId(userId);
+        Map<ProjectLevelEnum, Integer> projectLevelCountMap = processProjectLevelCount(mapList);
+	    setProjectLevelDataToVo(projectUserVo, projectLevelCountMap, isCurrent);
+    }
+
     /**
      * 添加项目成员
      *
@@ -55,8 +78,9 @@ public class ProjectUserServiceImpl implements ProjectUserService {
             return;
         }
         List<ProjectUser> projectUserList = projectUserBOListToProjectUserList(projectUserBoList, projectId);
-        projectUserMapper.insertBatch(projectUserList);
+	    projectUserMapper.insertBatch(projectUserList);
     }
+
 
     /**
      * @param projectUserList
@@ -66,7 +90,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         if (projectUserList == null || projectUserList.isEmpty()) {
             return;
         }
-        projectUserMapper.insertBatch(projectUserList);
+	    projectUserMapper.insertBatch(projectUserList);
 
     }
 
@@ -75,9 +99,10 @@ public class ProjectUserServiceImpl implements ProjectUserService {
      * @param projectId
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void insertProjectUsersOnCreate(List<ProjectUserBo> projectUserBoList, Long projectId) {
-        insertLoginUserToBO(projectUserBoList);
-        insertProjectUsers(projectUserBoList, projectId);
+	    insertLoginUserToBO(projectUserBoList);
+	    insertProjectUsers(projectUserBoList, projectId);
     }
 
     /**
@@ -87,7 +112,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateProjectUsers(List<ProjectUserBo> projectUserBOList, Long projectId) {
-        insertLoginUserToBO(projectUserBOList);
+	    insertLoginUserToBO(projectUserBOList);
         List<ProjectUser> oldProjectUserList = projectUserMapper.selectList(new LambdaQueryWrapper<ProjectUser>().eq(ProjectUser::getProjectId, projectId));
         List<ProjectUser> newProjectUserList = projectUserBOListToProjectUserList(projectUserBOList, projectId);
         Set<ProjectUser> oldProjectUserSet = new HashSet<>(oldProjectUserList);
@@ -97,10 +122,10 @@ public class ProjectUserServiceImpl implements ProjectUserService {
 
 
         if (!addProjectUserList.isEmpty()) {
-            insertProjectUsers(addProjectUserList);
+	        insertProjectUsers(addProjectUserList);
         }
         if (!delProjectUserList.isEmpty()) {
-            deleteProjectUserList(delProjectUserList);
+	        deleteProjectUserList(delProjectUserList);
         }
     }
 
@@ -112,7 +137,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
      * @return
      */
     @Override
-    public int deleteProjectUsersByProID(Long projectId) {
+    public int deleteProjectUsersByProjectId(Long projectId) {
         Map<String, Object> columnMap = new HashMap<>();
         columnMap.put("project_id", projectId);
         return projectUserMapper.deleteByMap(columnMap);
@@ -146,7 +171,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
     }
 
     /**
-     * 根据项目ID获取相关用户的ID列表
+     * 根据项目ID获取相关用户的ID集合
      *
      * @param projectId 项目ID
      * @return 用户ID列表
@@ -159,7 +184,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         // 获取与项目相关的 SysUser 对象
         List<SysUser> sysUsers = projectUsers.stream()
             .map(ProjectUser::getUserId) // 获取用户 ID 列表
-            .map(userId -> sysUserMapper.selectById(userId)) // 获取对应的 SysUser 对象
+            .map(sysUserMapper::selectById) // 获取对应的 SysUser 对象
             .filter(sysUser -> sysUser != null && "0".equals(sysUser.getDelFlag())) // 仅保留 delflag = 0 的对象
             .collect(Collectors.toList());
 
@@ -258,17 +283,18 @@ public class ProjectUserServiceImpl implements ProjectUserService {
      * @return
      */
     @Override
-    public String findProLeaderNameById(Long projectId) {
-        List<ProjectUserVo> projectUserVos = getUserInfoByProjectId(projectId);
-        for (ProjectUserVo projectUserVo : projectUserVos) {
-            List<ProjectUserRoleEnum> roles = projectUserVo.getProjectUserRoles();
-            if (roles.stream().anyMatch(role -> ProjectUserRoleEnum.PROJECT_LEADER.getValue().equals(role))) {
-                return projectUserVo.getNickName();
-            }
-
-        }
-        return "";
+    public String findProjectLeaderNameByProjectId(Long projectId) {
+        return getTitleAndNameMapping(projectId).get(ProjectUserRoleEnum.PROJECT_LEADER.getTitle());
     }
+//    @Override
+//    public String findProjectLeaderNameByProjectId(Long projectId) {
+//        List<ProjectUserVo> projectUserVos = getUserInfoByProjectId(projectId);
+//        return projectUserVos.stream()
+//            .filter(projectUserVo -> projectUserVo.getProjectUserRoles().stream()
+//                .anyMatch(ProjectUserRoleEnum.PROJECT_LEADER::equals))
+//            .map(ProjectUserVo::getNickName)
+//            .collect(Collectors.joining(","));
+//    }
 
     /**
      * 分页查询项目成员Vo
@@ -308,22 +334,6 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         return sysUserMapper.selectPage(pageQuery.build(), lambdaQueryWrapper);
     }
 
-    // 创建 ProjectUserVo 对象
-    private ProjectUserVo createProjectUserVo(SysUser user) {
-        ProjectUserVo projectUserVo = new ProjectUserVo();
-        BeanCopyUtils.copy(user, projectUserVo);
-        setProjectLevelCount(projectUserVo, user.getUserId(), false);
-        setProjectLevelCount(projectUserVo, user.getUserId(), true);
-        return projectUserVo;
-    }
-
-    // 设置项目级别计数
-    private void setProjectLevelCount(ProjectUserVo projectUserVo, Long userId, boolean isCurrent) {
-        List<Map<String, Object>> mapList = isCurrent ? getNowProjectLevelCountByUserId(userId)
-            : getProjectLevelCountByUserId(userId);
-        Map<ProjectLevelEnum, Integer> projectLevelCountMap = processProjectLevelCount(mapList);
-        setProjectLevelDataToVo(projectUserVo, projectLevelCountMap, isCurrent);
-    }
 
     // 获取用户对应的项目级别计数数据
     private List<Map<String, Object>> getProjectLevelCountByUserId(Long userId) {
@@ -421,6 +431,51 @@ public class ProjectUserServiceImpl implements ProjectUserService {
             .eq(ProjectUser::getUserId, projectUser.getUserId())
             .eq(ProjectUser::getProjectUserRole, projectUser.getProjectUserRole())
         )).collect(Collectors.toList());
+    }
+
+    /**
+     * @param userId
+     *
+     * @return
+     */
+    @Override
+    public List<Long> getProjectIdsByUserId(Long userId) {
+        return projectUserMapper.selectList(new LambdaQueryWrapper<ProjectUser>().eq(ProjectUser::getUserId, userId))
+            .stream()
+            .map(ProjectUser::getProjectId)
+            .collect(Collectors.toList());
+    }
+
+    /**
+     * @param projectId
+     *
+     * @return
+     */
+    @Override
+    public Map<String, String> getTitleAndNameMapping(Long projectId) {
+        // 获取项目相关的用户ID集合
+        Set<Long> userIdSet = getUserIdsByProjectId(projectId);
+        if (userIdSet.isEmpty()) {
+            return Collections.emptyMap();
+        }
+
+        // 根据用户ID列表获取用户信息
+        Map<Long, SysUser> userIdToUserMap = getUsersMapByUserIds(userIdSet);
+
+        // 获取项目用户列表
+        List<ProjectUser> projectUserList = projectUserMapper.selectList(new LambdaQueryWrapper<ProjectUser>()
+            .eq(ProjectUser::getProjectId, projectId)
+            .in(ProjectUser::getUserId, userIdSet));
+
+        // 使用Stream API生成映射，其中键是标题，值是用户昵称串（逗号分隔）
+        return projectUserList.stream()
+            .collect(Collectors.groupingBy(
+                projectUser -> projectUser.getProjectUserRole().getTitle(),
+                Collectors.mapping(
+                    projectUser -> userIdToUserMap.get(projectUser.getUserId()).getNickName(),
+                    Collectors.joining(",")
+                )
+            ));
     }
 
     private List<ProjectUser> projectUserBOListToProjectUserList(List<ProjectUserBo> projectUserBOList, Long projectId) {

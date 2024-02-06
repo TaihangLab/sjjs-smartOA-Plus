@@ -15,6 +15,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  * 项目和用户关联 project_user
  *
  * @author JiaXing Fan
+ * @date 2024/02/06
  */
 @Getter
 @Setter
@@ -40,6 +41,11 @@ public class ProjectUser {
     private ProjectUserRoleEnum projectUserRole;
 
     @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(projectId).append(userId).append(projectUserRole).toHashCode();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -48,11 +54,6 @@ public class ProjectUser {
             return false;
         }
         ProjectUser that = (ProjectUser) o;
-        return new EqualsBuilder().append(this.projectId, that.projectId).append(this.userId, that.userId).append(this.projectUserRole, that.projectUserRole).isEquals();
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder().append(this.projectId).append(this.userId).append(this.projectUserRole).toHashCode();
+        return new EqualsBuilder().append(projectId, that.projectId).append(userId, that.userId).append(projectUserRole, that.projectUserRole).isEquals();
     }
 }

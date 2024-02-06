@@ -12,6 +12,9 @@ import java.util.Map;
 
 /**
  * 知识产权统计图表
+ *
+ * @author bailingnan
+ * @date 2024/02/06
  */
 @Slf4j
 @Validated
@@ -20,9 +23,11 @@ import java.util.Map;
 @RequestMapping("/statistic/ip")
 public class IPStatisticController {
     private final IntellectualPropertyService intellectualPropertyService;
+
     /**
      * 知识产权类型及对应数量
-     * @return
+     *
+     * @return {@link Map}<{@link String}, {@link Integer}>
      */
     //@SaCheckPermission("statistic:ip:type")
     @GetMapping("/type")

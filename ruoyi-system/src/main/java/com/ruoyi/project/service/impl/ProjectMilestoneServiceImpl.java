@@ -26,6 +26,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * 项目大事记
+ *
+ * @author bailingnan
+ * @date 2024/02/06
+ */
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -62,7 +68,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
                     ProjectMilestoneOss projectMilestoneOss = new ProjectMilestoneOss();
                     projectMilestoneOss.setMilestoneId(milestoneId);
                     projectMilestoneOss.setOssId(ossid);
-                    projectMilestoneOssMapper.insert(projectMilestoneOss);
+	                projectMilestoneOssMapper.insert(projectMilestoneOss);
                 }
             }
         }
@@ -109,7 +115,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
 
         // 2. 使用大事记 ID 删除每个大事记对应的 OSS 对象
         if (!milestoneIds.isEmpty()) {
-            projectMilestoneOssMapper.delete(new LambdaQueryWrapper<ProjectMilestoneOss>()
+	        projectMilestoneOssMapper.delete(new LambdaQueryWrapper<ProjectMilestoneOss>()
                 .in(ProjectMilestoneOss::getMilestoneId, milestoneIds));
         }
 
@@ -133,7 +139,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
 
         // 如果存在相关记录，则执行删除操作；否则直接返回
         if (count > 0) {
-            projectMilestoneOssMapper.delete(new LambdaQueryWrapper<ProjectMilestoneOss>()
+	        projectMilestoneOssMapper.delete(new LambdaQueryWrapper<ProjectMilestoneOss>()
                 .eq(ProjectMilestoneOss::getMilestoneId, milestoneId));
         }
 
@@ -163,7 +169,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
         if (updatedRows > 0) {
             // 删除旧的关联关系
             Long milestoneId = projectMilestoneBo.getMilestoneId();
-            projectMilestoneOssMapper.delete(new LambdaQueryWrapper<ProjectMilestoneOss>()
+	        projectMilestoneOssMapper.delete(new LambdaQueryWrapper<ProjectMilestoneOss>()
                 .eq(ProjectMilestoneOss::getMilestoneId, milestoneId));
 
             // 插入新的关联关系
@@ -173,7 +179,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
                     ProjectMilestoneOss projectMilestoneOss = new ProjectMilestoneOss();
                     projectMilestoneOss.setMilestoneId(milestoneId);
                     projectMilestoneOss.setOssId(ossId);
-                    projectMilestoneOssMapper.insert(projectMilestoneOss);
+	                projectMilestoneOssMapper.insert(projectMilestoneOss);
                 }
             }
         }
@@ -246,6 +252,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
      * @param pageQuery
      * @return
      */
+    @Override
     public TableDataInfo<SysOssVo> queryPageAllList(ProjectMilestoneBo projectMilestoneBo, PageQuery pageQuery) {
 
         projectMilestoneBo = Optional.ofNullable(projectMilestoneBo).orElseGet(ProjectMilestoneBo::new);

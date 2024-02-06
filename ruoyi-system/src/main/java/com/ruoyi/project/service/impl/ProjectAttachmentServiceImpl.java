@@ -18,6 +18,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * 项目附件
+ *
+ * @author bailingnan
+ * @date 2024/02/06
+ */
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -61,7 +67,7 @@ public class ProjectAttachmentServiceImpl implements ProjectAttachmentService {
      */
     @Override
     public void deleteAllProjectAttachmentByProID(Long projectId) {
-        projectAttachmentMapper.delete((new LambdaQueryWrapper<ProjectAttachment>()).
+	    projectAttachmentMapper.delete((new LambdaQueryWrapper<ProjectAttachment>()).
             eq(ProjectAttachment::getProjectId, projectId));
     }
 
@@ -70,7 +76,7 @@ public class ProjectAttachmentServiceImpl implements ProjectAttachmentService {
      */
     @Override
     public void deleteProjectAttachmentByIdList(List<Long> idList) {
-        projectAttachmentMapper.deleteBatchIds(idList);
+	    projectAttachmentMapper.deleteBatchIds(idList);
     }
 
     /**
@@ -99,12 +105,12 @@ public class ProjectAttachmentServiceImpl implements ProjectAttachmentService {
             if (oldProjectAttachments.isEmpty()) {
                 return;
             } else {
-                deleteAllProjectAttachmentByProID(projectId);
+	            deleteAllProjectAttachmentByProID(projectId);
                 return;
             }
         } else {
             if (oldProjectAttachments.isEmpty()) {
-                insertProjectAttachmentList(ossIds, projectId);
+	            insertProjectAttachmentList(ossIds, projectId);
                 return;
             }
         }
@@ -119,10 +125,10 @@ public class ProjectAttachmentServiceImpl implements ProjectAttachmentService {
         List<ProjectAttachment> addProjectAttachmentList = newProjectAttachments.stream().filter(projectAttachment -> !oldProjectAttachmentSet.contains(projectAttachment)).collect(Collectors.toList());
         List<ProjectAttachment> delProjectAttachmentList = oldProjectAttachments.stream().filter(projectAttachment -> !newProjectAttachmentSet.contains(projectAttachment)).collect(Collectors.toList());
         if (!addProjectAttachmentList.isEmpty()) {
-            insertProjectAttachmentList(addProjectAttachmentList);
+	        insertProjectAttachmentList(addProjectAttachmentList);
         }
         if (!delProjectAttachmentList.isEmpty()) {
-            deleteProjectAttachmentByIdList(delProjectAttachmentList.stream().map(ProjectAttachment::getId).collect(Collectors.toList()));
+	        deleteProjectAttachmentByIdList(delProjectAttachmentList.stream().map(ProjectAttachment::getId).collect(Collectors.toList()));
         }
     }
 

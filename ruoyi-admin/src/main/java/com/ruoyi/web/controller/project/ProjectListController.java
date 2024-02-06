@@ -1,21 +1,19 @@
 package com.ruoyi.web.controller.project;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
-import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.core.validate.QueryGroup;
-import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.project.domain.ProjectTarget;
 import com.ruoyi.project.domain.bo.ProjectBaseInfoBO;
 import com.ruoyi.project.domain.bo.ProjectMilestoneBo;
 import com.ruoyi.project.domain.vo.ProjectBaseInfoVO;
 import com.ruoyi.project.domain.vo.ProjectDetailsVO;
 import com.ruoyi.project.domain.vo.ProjectMilestoneVo;
-import com.ruoyi.project.domain.vo.ProjectUserVo;
-import com.ruoyi.project.service.*;
+import com.ruoyi.project.service.ProjectBaseInfoService;
+import com.ruoyi.project.service.ProjectMilestoneService;
+import com.ruoyi.project.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +21,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+
 /**
- * The type Project list controller.
- *
+ * 项目管理
  * @author bailingnan
+ * @date 2024/02/06
  */
 @Validated
 @RequiredArgsConstructor
@@ -34,13 +33,8 @@ import java.util.List;
 @RequestMapping("/project/list")
 public class ProjectListController extends BaseController {
 
-    private final ProjectTargetService projectTargetService;
 
     private final ProjectMilestoneService projectMilestoneService;
-
-    private final ProjectUserService projectUserService;
-
-    private final ProjectFundsService projectFundsService;
 
     private final ProjectService projectService;
 
@@ -51,6 +45,7 @@ public class ProjectListController extends BaseController {
      *
      * @param projectBaseInfoBO 项目基本信息
      * @param pageQuery         分页查询条件
+     *
      * @return 所有项目列表
      */
     @SaCheckPermission("project:list:getAllList")
@@ -63,6 +58,7 @@ public class ProjectListController extends BaseController {
      * 获取项目详情
      *
      * @param projectId 项目ID
+     *
      * @return 返回项目详情对象
      */
     @SaCheckPermission("project:list:getDetails")
@@ -101,6 +97,7 @@ public class ProjectListController extends BaseController {
      * 根据项目id查询项目大事纪
      *
      * @param projectMilestoneBo
+     *
      * @return 结果
      */
     @SaCheckPermission("project:list:queryMilestone")

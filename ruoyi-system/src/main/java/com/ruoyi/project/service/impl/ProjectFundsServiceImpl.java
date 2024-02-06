@@ -12,7 +12,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 /**
+ * 项目经费
+ *
  * @author bailingnan
  * @date 2023/12/7
  */
@@ -59,7 +65,7 @@ public class ProjectFundsServiceImpl implements ProjectFundsService {
      */
     @Override
     public void deleteProjectFundsById(Long projectId) {
-        projectFundsMapper.delete(new LambdaQueryWrapper<ProjectFunds>().eq(ProjectFunds::getProjectId, projectId));
+	    projectFundsMapper.delete(new LambdaQueryWrapper<ProjectFunds>().eq(ProjectFunds::getProjectId, projectId));
     }
 
     /**
@@ -69,12 +75,25 @@ public class ProjectFundsServiceImpl implements ProjectFundsService {
     @Override
     public void updateProjectFunds(ProjectFundsBO projectFundsBO, Long projectId) {
         if (projectFundsBO == null) {
-            deleteProjectFundsById(projectId);
+	        deleteProjectFundsById(projectId);
             return;
         }
         ProjectFunds projectFunds = new ProjectFunds();
         BeanCopyUtils.copy(projectFundsBO, projectFunds);
-        saveOrUpdateProjectFunds(projectFunds, projectId);
+	    saveOrUpdateProjectFunds(projectFunds, projectId);
+    }
+
+    /**
+     * 根据项目id获取项目经费信息Map
+     *
+     * @param projectIdList
+     *
+     * @return {@link Map}<{@link Long}, {@link ProjectFunds}>
+     */
+    @Override
+    public Map<Long, ProjectFunds> getProjectFundsMapByProjectIdList(List<Long> projectIdList) {
+        return projectFundsMapper.selectList(new LambdaQueryWrapper<ProjectFunds>().in(ProjectFunds::getProjectId, projectIdList))
+            .stream().collect(Collectors.toMap(ProjectFunds::getProjectId, projectFunds -> projectFunds));
     }
 
 
@@ -82,7 +101,7 @@ public class ProjectFundsServiceImpl implements ProjectFundsService {
         // 更新或插入操作
         boolean isUpdated = projectFundsMapper.update(projectFunds, new LambdaUpdateWrapper<ProjectFunds>().eq(ProjectFunds::getProjectId, projectId)) > 0;
         if (!isUpdated) {
-            projectFundsMapper.insert(projectFunds);
+	        projectFundsMapper.insert(projectFunds);
         }
     }
 }

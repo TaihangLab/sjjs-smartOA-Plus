@@ -17,6 +17,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
+ * 知识产权成员
+ *
  * @author bailingnan
  * @date 2024/1/2
  */
@@ -46,7 +48,7 @@ public class IpUserServiceImpl implements IpUserService {
             ipUser.setUserId(userId);
             return ipUser;
         }).collect(java.util.stream.Collectors.toList());
-        ipUserMapper.insertBatch(ipUserList);
+	    ipUserMapper.insertBatch(ipUserList);
     }
 
     /**
@@ -57,7 +59,7 @@ public class IpUserServiceImpl implements IpUserService {
         if (ipUserList == null || ipUserList.isEmpty()) {
             return;
         }
-        ipUserMapper.insertBatch(ipUserList);
+	    ipUserMapper.insertBatch(ipUserList);
 
     }
 
@@ -67,7 +69,7 @@ public class IpUserServiceImpl implements IpUserService {
      */
     @Override
     public void deleteIpUserByIpId(Long ipId) {
-        ipUserMapper.delete(new LambdaQueryWrapper<IpUser>().eq(IpUser::getIpId, ipId));
+	    ipUserMapper.delete(new LambdaQueryWrapper<IpUser>().eq(IpUser::getIpId, ipId));
     }
 
     /**
@@ -84,12 +86,12 @@ public class IpUserServiceImpl implements IpUserService {
             if (oldIpUserList.isEmpty()) {
                 return;
             } else {
-                deleteIpUserByIpId(ipId);
+	            deleteIpUserByIpId(ipId);
                 return;
             }
         } else {
             if (oldIpUserList.isEmpty()) {
-                insertIpUserList(ipId, userIdList);
+	            insertIpUserList(ipId, userIdList);
                 return;
             }
         }
@@ -104,10 +106,10 @@ public class IpUserServiceImpl implements IpUserService {
         List<IpUser> addIpUserList = ipUserList.stream().filter(ipUser -> !oldIpUserSet.contains(ipUser)).collect(Collectors.toList());
         List<IpUser> delIpUserList = oldIpUserList.stream().filter(ipUser -> !ipUserSet.contains(ipUser)).collect(Collectors.toList());
         if (!addIpUserList.isEmpty()) {
-            insertIpUserList(addIpUserList);
+	        insertIpUserList(addIpUserList);
         }
         if (!delIpUserList.isEmpty()) {
-            deleteIpUserByUserIdList(delIpUserList.stream().map(IpUser::getUserId).collect(Collectors.toList()));
+	        deleteIpUserByUserIdList(delIpUserList.stream().map(IpUser::getUserId).collect(Collectors.toList()));
         }
     }
 
@@ -163,7 +165,7 @@ public class IpUserServiceImpl implements IpUserService {
      */
     @Override
     public void deleteIpUserByUserIdList(List<Long> userIdList) {
-        ipUserMapper.delete(new LambdaQueryWrapper<IpUser>().in(IpUser::getUserId, userIdList));
+	    ipUserMapper.delete(new LambdaQueryWrapper<IpUser>().in(IpUser::getUserId, userIdList));
     }
 
     private List<SysUser> getActiveUserIdList(Long ipId){

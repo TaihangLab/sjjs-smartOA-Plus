@@ -6,6 +6,8 @@ import lombok.Data;
 import java.util.List;
 
 /**
+ * 项目详情VO(包含ProjectInfoVO)
+ *
  * @author bailingnan
  * @date 2023/12/14
  */

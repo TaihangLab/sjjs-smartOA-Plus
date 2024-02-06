@@ -11,7 +11,7 @@ create table project_base_info
         primary key,
     leading_unit                      varchar(100)            null comment '项目牵头单位',
     assigned_subject_name             varchar(200)            null comment '承担课题名称',
-    project_contact                   varchar(100)            null comment '项目联系人',
+    project_contact                   varchar(100)            null comment '科研项目管理人',
     project_assignment_serial_no      varchar(50)             null comment '项目任务书编号',
     project_source                    varchar(100)            null comment '项目来源',
     project_level                     tinyint                 not null comment '项目级别，0国家级，1省级，2企业级',

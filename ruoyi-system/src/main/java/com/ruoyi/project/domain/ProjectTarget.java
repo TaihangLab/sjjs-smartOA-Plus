@@ -10,6 +10,12 @@ import lombok.ToString;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+/**
+ * 项目和指标关联表 project_target
+ *
+ * @author bailingnan
+ * @date 2024/02/06
+ */
 @Getter
 @Setter
 @ToString
@@ -44,6 +50,11 @@ public class ProjectTarget {
     private String endTarget;
 
     @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(projectId).append(targetName).append(midtermTarget).append(endTarget).toHashCode();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -52,12 +63,7 @@ public class ProjectTarget {
             return false;
         }
         ProjectTarget that = (ProjectTarget) o;
-        return new EqualsBuilder().append(this.projectId, that.projectId).append(this.targetName, that.targetName).append(this.midtermTarget, that.midtermTarget).append(this.endTarget, that.endTarget).isEquals();
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder().append(this.projectId).append(this.targetName).append(this.midtermTarget).append(this.endTarget).toHashCode();
+        return new EqualsBuilder().append(projectId, that.projectId).append(targetName, that.targetName).append(midtermTarget, that.midtermTarget).append(endTarget, that.endTarget).isEquals();
     }
 
 }

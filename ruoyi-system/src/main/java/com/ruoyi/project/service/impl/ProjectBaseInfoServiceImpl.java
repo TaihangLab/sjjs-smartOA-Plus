@@ -6,16 +6,17 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.ProjectLevelEnum;
+import com.ruoyi.common.enums.ProjectUserRoleEnum;
 import com.ruoyi.common.helper.LoginHelper;
 import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.project.domain.ProjectBaseInfo;
-import com.ruoyi.project.domain.ProjectUser;
+import com.ruoyi.project.domain.ProjectFunds;
 import com.ruoyi.project.domain.bo.ProjectBaseInfoBO;
 import com.ruoyi.project.domain.vo.ProjectBaseInfoVO;
 import com.ruoyi.project.domain.vo.ProjectInfoVO;
 import com.ruoyi.project.mapper.ProjectBaseInfoMapper;
-import com.ruoyi.project.mapper.ProjectUserMapper;
 import com.ruoyi.project.service.ProjectBaseInfoService;
+import com.ruoyi.project.service.ProjectFundsService;
 import com.ruoyi.project.service.ProjectUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,8 @@ import static com.ruoyi.ip.constant.IpConstants.UNASSOCIATED_PROJECT_CODE;
 import static com.ruoyi.ip.constant.IpConstants.UNASSOCIATED_PROJECT_IDENTIFIER;
 
 /**
+ * 项目基本信息
+ *
  * @author bailingnan
  * @date 2023/12/7
  */
@@ -39,110 +42,9 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
 
     private final ProjectBaseInfoMapper projectBaseInfoMapper;
 
-    private final ProjectUserMapper projectUserMapper;
-
     private final ProjectUserService projectUserService;
 
-    /**
-     * @param projectBaseInfoBO
-     * @param pageQuery
-     * @return
-     */
-    @Override
-    public TableDataInfo<ProjectBaseInfoVO> queryPageAllList(ProjectBaseInfoBO projectBaseInfoBO, PageQuery pageQuery) {
-        LambdaQueryWrapper<ProjectBaseInfo> lqw = buildAllListQueryWrapper(projectBaseInfoBO);
-        Page<ProjectBaseInfoVO> result = projectBaseInfoMapper.selectVoPage(pageQuery.build(), lqw);
-        return TableDataInfo.build(result);
-    }
-
-    /**
-     * @param projectBaseInfoBO
-     * @param pageQuery
-     * @return
-     */
-    @Override
-    public TableDataInfo<ProjectBaseInfoVO> queryPageMyList(ProjectBaseInfoBO projectBaseInfoBO, PageQuery pageQuery) {
-        LambdaQueryWrapper<ProjectBaseInfo> lqw = buildMyListQueryWrapper(projectBaseInfoBO);
-        Page<ProjectBaseInfoVO> result = projectBaseInfoMapper.selectVoPage(pageQuery.build(), lqw);
-        return TableDataInfo.build(result);
-    }
-
-    private LambdaQueryWrapper<ProjectBaseInfo> buildAllListQueryWrapper(ProjectBaseInfoBO projectBaseInfoBO) {
-        if (projectBaseInfoBO == null) {
-            return Wrappers.lambdaQuery();
-        }
-        LambdaQueryWrapper<ProjectBaseInfo> lqw = buildCommonQueryWrapper(projectBaseInfoBO);
-        if (projectBaseInfoBO.getUserId() == null) {
-            return lqw;
-        }
-        List<Long> projectIdList = getProjectIdsByUserId(projectBaseInfoBO.getUserId());
-        if (projectIdList.isEmpty()) {
-            lqw.apply("0=1");
-        } else {
-            lqw.in(ProjectBaseInfo::getProjectId, projectIdList);
-        }
-        return lqw;
-    }
-
-    private LambdaQueryWrapper<ProjectBaseInfo> buildMyListQueryWrapper(ProjectBaseInfoBO projectBaseInfoBO) {
-        if (projectBaseInfoBO == null) {
-            return Wrappers.lambdaQuery();
-        }
-        LambdaQueryWrapper<ProjectBaseInfo> lqw = buildCommonQueryWrapper(projectBaseInfoBO);
-        List<Long> loginProjectIds = Optional.ofNullable(LoginHelper.getUserId())
-            .map(this::getProjectIdsByUserId)
-            .orElse(Collections.emptyList());
-        if (loginProjectIds.isEmpty()) {
-            lqw.apply("0=1");
-            return lqw;
-        }
-        if (projectBaseInfoBO.getUserId() == null) {
-            lqw.in(ProjectBaseInfo::getProjectId, loginProjectIds);
-            return lqw;
-        }
-        List<Long> userProjectIds = getProjectIdsByUserId(projectBaseInfoBO.getUserId());
-        if (userProjectIds.isEmpty()) {
-            lqw.apply("0=1");
-            return lqw;
-        }
-        List<Long> projectIds = getIntersection(loginProjectIds, userProjectIds);
-        if (projectIds.isEmpty()) {
-            lqw.apply("0=1");
-        } else {
-            lqw.in(ProjectBaseInfo::getProjectId, projectIds);
-        }
-        return lqw;
-    }
-
-    private LambdaQueryWrapper<ProjectBaseInfo> buildCommonQueryWrapper(ProjectBaseInfoBO projectBaseInfoBO) {
-        LambdaQueryWrapper<ProjectBaseInfo> lqw = Wrappers.lambdaQuery();
-//        log.info("ProjectBaseInfoBO为:{}", projectBaseInfoBO);
-        lqw.like(StringUtils.isNotBlank(projectBaseInfoBO.getAssignedSubjectName()), ProjectBaseInfo::getAssignedSubjectName, projectBaseInfoBO.getAssignedSubjectName());
-        lqw.like(StringUtils.isNotBlank(projectBaseInfoBO.getAssignedSubjectSection()), ProjectBaseInfo::getAssignedSubjectSection, projectBaseInfoBO.getAssignedSubjectSection());
-        //log.info("projectBaseInfoBO.getHasCooperativeUnit()为:{}",projectBaseInfoBO.getHasCooperativeUnit().getValue());
-        lqw.eq(projectBaseInfoBO.getHasCooperativeUnit() != null, ProjectBaseInfo::getHasCooperativeUnit, projectBaseInfoBO.getHasCooperativeUnit());
-        lqw.eq(projectBaseInfoBO.getProjectLevel() != null, ProjectBaseInfo::getProjectLevel, projectBaseInfoBO.getProjectLevel());
-        lqw.ge(projectBaseInfoBO.getProjectEstablishTimeSta() != null, ProjectBaseInfo::getProjectEstablishTime, projectBaseInfoBO.getProjectEstablishTimeSta());
-        lqw.le(projectBaseInfoBO.getProjectEstablishTimeEnd() != null, ProjectBaseInfo::getProjectEstablishTime, projectBaseInfoBO.getProjectEstablishTimeEnd());
-        lqw.ge(projectBaseInfoBO.getProjectScheduledCompletionTimeSta() != null, ProjectBaseInfo::getProjectScheduledCompletionTime, projectBaseInfoBO.getProjectScheduledCompletionTimeSta());
-        lqw.le(projectBaseInfoBO.getProjectScheduledCompletionTimeEnd() != null, ProjectBaseInfo::getProjectScheduledCompletionTime, projectBaseInfoBO.getProjectScheduledCompletionTimeEnd());
-        lqw.orderByDesc(ProjectBaseInfo::getUpdateTime);
-        return lqw;
-    }
-
-    private List<Long> getProjectIdsByUserId(Long userId) {
-        return projectUserMapper.selectList(new LambdaQueryWrapper<ProjectUser>().eq(ProjectUser::getUserId, userId))
-            .stream()
-            .map(ProjectUser::getProjectId)
-            .collect(Collectors.toList());
-    }
-
-    private List<Long> getIntersection(List<Long> list1, List<Long> list2) {
-        return list1.stream()
-            .filter(list2::contains)
-            .collect(Collectors.toList());
-    }
-
+    private final ProjectFundsService projectFundsService;
 
     /**
      * @param projectId
@@ -156,7 +58,7 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
             throw new NoSuchElementException("项目基本信息不存在,projectId为:" + projectId);
         }
         //调用projectUserService单独返回项目负责人名称
-        projectInfoVO.setProjectLeader(projectUserService.findProLeaderNameById(projectId));
+        projectInfoVO.setProjectLeader(projectUserService.findProjectLeaderNameByProjectId(projectId));
 
         BeanCopyUtils.copy(projectBaseInfo, projectInfoVO);
         return projectInfoVO;
@@ -232,6 +134,70 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
     }
 
     /**
+     * @param projectBaseInfoBO
+     * @param pageQuery
+     *
+     * @return
+     */
+    @Override
+    public TableDataInfo<ProjectBaseInfoVO> queryPageAllList(ProjectBaseInfoBO projectBaseInfoBO, PageQuery pageQuery) {
+        LambdaQueryWrapper<ProjectBaseInfo> lqw = buildAllListQueryWrapper(projectBaseInfoBO);
+        Page<ProjectBaseInfoVO> result = projectBaseInfoMapper.selectVoPage(pageQuery.build(), lqw);
+	    buildRecords(result.getRecords());
+        return TableDataInfo.build(result);
+    }
+
+    /**
+     * @param projectBaseInfoBO
+     * @param pageQuery
+     *
+     * @return
+     */
+    @Override
+    public TableDataInfo<ProjectBaseInfoVO> queryPageMyList(ProjectBaseInfoBO projectBaseInfoBO, PageQuery pageQuery) {
+        LambdaQueryWrapper<ProjectBaseInfo> lqw = buildMyListQueryWrapper(projectBaseInfoBO);
+        Page<ProjectBaseInfoVO> result = projectBaseInfoMapper.selectVoPage(pageQuery.build(), lqw);
+	    buildRecords(result.getRecords());
+        return TableDataInfo.build(result);
+    }
+
+    private LambdaQueryWrapper<ProjectBaseInfo> buildMyListQueryWrapper(ProjectBaseInfoBO projectBaseInfoBO) {
+        if (projectBaseInfoBO == null) {
+            return Wrappers.lambdaQuery();
+        }
+        LambdaQueryWrapper<ProjectBaseInfo> lqw = buildCommonQueryWrapper(projectBaseInfoBO);
+        List<Long> loginProjectIds = Optional.ofNullable(LoginHelper.getUserId())
+            .map(projectUserService::getProjectIdsByUserId)
+            .orElse(Collections.emptyList());
+        if (loginProjectIds.isEmpty()) {
+            lqw.apply("0=1");
+            return lqw;
+        }
+        if (projectBaseInfoBO.getUserId() == null) {
+            lqw.in(ProjectBaseInfo::getProjectId, loginProjectIds);
+            return lqw;
+        }
+        List<Long> userProjectIds = projectUserService.getProjectIdsByUserId(projectBaseInfoBO.getUserId());
+        if (userProjectIds.isEmpty()) {
+            lqw.apply("0=1");
+            return lqw;
+        }
+        List<Long> projectIds = getIntersection(loginProjectIds, userProjectIds);
+        if (projectIds.isEmpty()) {
+            lqw.apply("0=1");
+        } else {
+            lqw.in(ProjectBaseInfo::getProjectId, projectIds);
+        }
+        return lqw;
+    }
+
+    private List<Long> getIntersection(List<Long> list1, List<Long> list2) {
+        return list1.stream()
+            .filter(list2::contains)
+            .collect(Collectors.toList());
+    }
+
+    /**
      * @return
      */
     @Override
@@ -242,18 +208,6 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
         map.put("value", UNASSOCIATED_PROJECT_CODE);
         projectTree.add(map);
         return projectTree;
-    }
-
-    /**
-     * @param projectIdSet
-     * @return
-     */
-    @Override
-    public Map<Long, String> getProjectIdAndNameMappingByProjectIdSet(Set<Long> projectIdSet) {
-        Map<Long, String> projectIdAndNameMapping = projectBaseInfoMapper.selectBatchIds(projectIdSet).stream()
-            .collect(Collectors.toMap(ProjectBaseInfo::getProjectId, ProjectBaseInfo::getAssignedSubjectName));
-        projectIdAndNameMapping.put(UNASSOCIATED_PROJECT_CODE, UNASSOCIATED_PROJECT_IDENTIFIER);
-        return projectIdAndNameMapping;
     }
 
     /**
@@ -282,20 +236,17 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
         return projectTree;
     }
 
-    // 获取所有项目类型的方法
-    private Set<ProjectLevelEnum> getAllProjectLevels() {
-        return projectBaseInfoMapper.selectList()
-            .stream()
-            .map(ProjectBaseInfo::getProjectLevel)
-            .filter(Objects::nonNull)
-            .collect(Collectors.toSet());
-    }
-
-    // 根据项目类型获取项目的方法
-    private List<ProjectBaseInfo> getProjectsByLevel(ProjectLevelEnum projectLevel) {
-        return projectBaseInfoMapper.selectList(
-            new LambdaQueryWrapper<ProjectBaseInfo>()
-                .eq(ProjectBaseInfo::getProjectLevel, projectLevel));
+    /**
+     * @param projectIdSet
+     *
+     * @return
+     */
+    @Override
+    public Map<Long, String> getProjectIdAndNameMappingByProjectIdSet(Set<Long> projectIdSet) {
+        Map<Long, String> projectIdAndNameMapping = projectBaseInfoMapper.selectBatchIds(projectIdSet).stream()
+            .collect(Collectors.toMap(ProjectBaseInfo::getProjectId, ProjectBaseInfo::getAssignedSubjectName));
+        projectIdAndNameMapping.put(UNASSOCIATED_PROJECT_CODE, UNASSOCIATED_PROJECT_IDENTIFIER);
+        return projectIdAndNameMapping;
     }
 
     /**
@@ -303,6 +254,7 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
      *
      * @return
      */
+    @Override
     public Map<String, Integer> getProjectLevelStatistics() {
         Set<ProjectLevelEnum> allProjectLevels = getAllProjectLevels();
         Map<String, Integer> statistics = new HashMap<>();
@@ -336,5 +288,91 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
         }
 
         return Arrays.asList(projectLevel.getValue().longValue(), projectId);
+    }
+
+    // 获取所有项目类型的方法
+    private Set<ProjectLevelEnum> getAllProjectLevels() {
+        return projectBaseInfoMapper.selectList()
+            .stream()
+            .map(ProjectBaseInfo::getProjectLevel)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toSet());
+    }
+
+    // 根据项目类型获取项目的方法
+    private List<ProjectBaseInfo> getProjectsByLevel(ProjectLevelEnum projectLevel) {
+        return projectBaseInfoMapper.selectList(
+            new LambdaQueryWrapper<ProjectBaseInfo>()
+                .eq(ProjectBaseInfo::getProjectLevel, projectLevel));
+    }
+
+    private LambdaQueryWrapper<ProjectBaseInfo> buildAllListQueryWrapper(ProjectBaseInfoBO projectBaseInfoBO) {
+        if (projectBaseInfoBO == null) {
+            return Wrappers.lambdaQuery();
+        }
+        LambdaQueryWrapper<ProjectBaseInfo> lqw = buildCommonQueryWrapper(projectBaseInfoBO);
+        if (projectBaseInfoBO.getUserId() == null) {
+            return lqw;
+        }
+        List<Long> projectIdList = projectUserService.getProjectIdsByUserId(projectBaseInfoBO.getUserId());
+        if (projectIdList.isEmpty()) {
+            lqw.apply("0=1");
+        } else {
+            lqw.in(ProjectBaseInfo::getProjectId, projectIdList);
+        }
+        return lqw;
+    }
+
+    private void buildRecords(List<ProjectBaseInfoVO> projectBaseInfoVOList) {
+        if (projectBaseInfoVOList == null || projectBaseInfoVOList.isEmpty()) {
+            return;
+        }
+        List<Long> projectIdList = projectBaseInfoVOList.stream().map(ProjectBaseInfoVO::getProjectId).collect(Collectors.toList());
+        //获取经费对应信息
+        Map<Long, ProjectFunds> projectFundsMap = projectFundsService.getProjectFundsMapByProjectIdList(projectIdList);
+
+        projectBaseInfoVOList.forEach(projectBaseInfoVO -> {
+            Long projectId = projectBaseInfoVO.getProjectId();
+            //处理经费
+            ProjectFunds projectFunds = projectFundsMap.get(projectId);
+	        setFunds(projectBaseInfoVO, projectFunds);
+	        setUsers(projectBaseInfoVO, projectId);
+        });
+    }
+
+    private LambdaQueryWrapper<ProjectBaseInfo> buildCommonQueryWrapper(ProjectBaseInfoBO projectBaseInfoBO) {
+        LambdaQueryWrapper<ProjectBaseInfo> lqw = Wrappers.lambdaQuery();
+//        log.info("ProjectBaseInfoBO为:{}", projectBaseInfoBO);
+        lqw.like(StringUtils.isNotBlank(projectBaseInfoBO.getAssignedSubjectName()), ProjectBaseInfo::getAssignedSubjectName, projectBaseInfoBO.getAssignedSubjectName());
+        lqw.like(StringUtils.isNotBlank(projectBaseInfoBO.getAssignedSubjectSection()), ProjectBaseInfo::getAssignedSubjectSection, projectBaseInfoBO.getAssignedSubjectSection());
+        //log.info("projectBaseInfoBO.getHasCooperativeUnit()为:{}",projectBaseInfoBO.getHasCooperativeUnit().getValue());
+        lqw.eq(projectBaseInfoBO.getHasCooperativeUnit() != null, ProjectBaseInfo::getHasCooperativeUnit, projectBaseInfoBO.getHasCooperativeUnit());
+        lqw.eq(projectBaseInfoBO.getProjectLevel() != null, ProjectBaseInfo::getProjectLevel, projectBaseInfoBO.getProjectLevel());
+        lqw.ge(projectBaseInfoBO.getProjectEstablishTimeSta() != null, ProjectBaseInfo::getProjectEstablishTime, projectBaseInfoBO.getProjectEstablishTimeSta());
+        lqw.le(projectBaseInfoBO.getProjectEstablishTimeEnd() != null, ProjectBaseInfo::getProjectEstablishTime, projectBaseInfoBO.getProjectEstablishTimeEnd());
+        lqw.ge(projectBaseInfoBO.getProjectScheduledCompletionTimeSta() != null, ProjectBaseInfo::getProjectScheduledCompletionTime, projectBaseInfoBO.getProjectScheduledCompletionTimeSta());
+        lqw.le(projectBaseInfoBO.getProjectScheduledCompletionTimeEnd() != null, ProjectBaseInfo::getProjectScheduledCompletionTime, projectBaseInfoBO.getProjectScheduledCompletionTimeEnd());
+        lqw.orderByDesc(ProjectBaseInfo::getUpdateTime);
+        return lqw;
+    }
+
+    private void setFunds(ProjectBaseInfoVO projectBaseInfoVO, ProjectFunds projectFunds) {
+        if (projectFunds != null) {
+            projectBaseInfoVO.setTotalFundsAll(projectFunds.getTotalFundsAll());
+            projectBaseInfoVO.setTotalFundsZx(projectFunds.getTotalFundsZx());
+            projectBaseInfoVO.setTotalFundsZxDk(projectFunds.getTotalFundsZxDk());
+            projectBaseInfoVO.setZctzDone(projectFunds.getZctzDone());
+            projectBaseInfoVO.setZxtzDone(projectFunds.getZxtzDone());
+            projectBaseInfoVO.setZcGspt(projectFunds.getZcGspt());
+            projectBaseInfoVO.setZxGslc(projectFunds.getZxGslc());
+        }
+    }
+
+    private void setUsers(ProjectBaseInfoVO projectBaseInfoVO, Long projectId) {
+        Map<String, String> titleAndNameMapping = projectUserService.getTitleAndNameMapping(projectId);
+        projectBaseInfoVO.setProjectLeader(titleAndNameMapping.getOrDefault(ProjectUserRoleEnum.PROJECT_LEADER.getTitle(), ""));
+        projectBaseInfoVO.setCompanyLeader(titleAndNameMapping.getOrDefault(ProjectUserRoleEnum.COMPANY_LEADER.getTitle(), ""));
+        projectBaseInfoVO.setDepartmentLeader(titleAndNameMapping.getOrDefault(ProjectUserRoleEnum.DEPARTMENT_LEADER.getTitle(), ""));
+        projectBaseInfoVO.setResearchManager(titleAndNameMapping.getOrDefault(ProjectUserRoleEnum.RESEARCH_MANAGER.getTitle(), ""));
     }
 }

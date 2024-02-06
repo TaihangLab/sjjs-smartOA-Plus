@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
+ * 知识产权BO
  * @author bailingnan
  * @date 2023/12/29
  */

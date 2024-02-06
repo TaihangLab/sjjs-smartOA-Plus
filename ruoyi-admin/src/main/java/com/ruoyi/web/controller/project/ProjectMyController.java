@@ -24,8 +24,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 
+
 /**
- * The type Project my controller.
+ * 我的项目
+ *
+ * @author bailingnan
+ * @date 2024/02/06
  */
 @Slf4j
 @Validated
@@ -43,6 +47,7 @@ public class ProjectMyController extends BaseController {
      *
      * @param projectBaseInfoBO 项目基本信息
      * @param pageQuery         分页查询条件
+     *
      * @return 我的项目列表
      */
     @SaCheckPermission("project:my:getMyList")
@@ -56,13 +61,14 @@ public class ProjectMyController extends BaseController {
      * 添加项目
      *
      * @param projectInfoBO 项目信息
+     *
      * @return 结果
      */
     @Log(title = "新增项目信息", businessType = BusinessType.INSERT)
     @SaCheckPermission("project:my:add")
     @PostMapping("/add")
     public R<Void> addProject(@RequestBody @Validated(AddGroup.class) ProjectInfoBO projectInfoBO) {
-        projectService.addProject(projectInfoBO);
+	    projectService.addProject(projectInfoBO);
         return R.ok();
     }
 
@@ -70,13 +76,14 @@ public class ProjectMyController extends BaseController {
      * 修改项目
      *
      * @param projectInfoBO 项目信息
+     *
      * @return 编辑结果
      */
     @Log(title = "编辑项目信息", businessType = BusinessType.UPDATE)
     @SaCheckPermission("project:my:edit")
     @PostMapping("/edit")
     public R<Void> editProject(@RequestBody @Validated(EditGroup.class) ProjectInfoBO projectInfoBO) {
-        projectService.updateProject(projectInfoBO);
+	    projectService.updateProject(projectInfoBO);
         return R.ok();
     }
 
@@ -84,13 +91,14 @@ public class ProjectMyController extends BaseController {
      * 删除项目
      *
      * @param projectId 项目ID
+     *
      * @return 删除结果
      */
     @Log(title = "删除项目信息", businessType = BusinessType.DELETE)
     @SaCheckPermission("project:my:delete")
     @GetMapping("/delete")
     public R<Void> deleteProject(@RequestParam @NotNull Long projectId) {
-        projectService.deleteProject(projectId);
+	    projectService.deleteProject(projectId);
         return R.ok();
     }
 
@@ -99,7 +107,8 @@ public class ProjectMyController extends BaseController {
      * 新增项目大事纪
      *
      * @param projectMilestoneBo
-     * @return
+     *
+     * @return {@link R}<{@link Void}>
      */
     @Log(title = "新增项目大事纪", businessType = BusinessType.INSERT)
     @SaCheckPermission("project:my:milestoneadd")
@@ -112,7 +121,8 @@ public class ProjectMyController extends BaseController {
      * 删除项目大事纪
      *
      * @param milestoneId
-     * @return
+     *
+     * @return {@link R}<{@link Void}>
      */
     @Log(title = "删除单条项目大事纪", businessType = BusinessType.DELETE)
     @SaCheckPermission("project:my:milestonedelete")
@@ -125,7 +135,8 @@ public class ProjectMyController extends BaseController {
      * 删除某个项目对应的大事纪
      *
      * @param projectId
-     * @return
+     *
+     * @return {@link R}<{@link Void}>
      */
     @Log(title = "删除某个项目对应的大事纪", businessType = BusinessType.DELETE)
     @SaCheckPermission("project:my:milestonedeletebypro")
@@ -138,7 +149,8 @@ public class ProjectMyController extends BaseController {
      * 修改大事纪
      *
      * @param projectMilestoneBo
-     * @return
+     *
+     * @return {@link R}<{@link Void}>
      */
     @Log(title = "修改项目大事纪", businessType = BusinessType.UPDATE)
     @SaCheckPermission("project:my:milestoneedit")

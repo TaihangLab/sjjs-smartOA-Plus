@@ -30,6 +30,8 @@ import java.util.stream.Collectors;
 import static com.ruoyi.ip.constant.IpConstants.*;
 
 /**
+ * 知识产权
+ *
  * @author bailingnan
  * @date 2024/1/2
  */
@@ -59,8 +61,8 @@ public class IntellectualPropertyServiceImpl implements IntellectualPropertyServ
         if (ipId == null) {
             throw new IllegalStateException("获取知识产权Id失败");
         }
-        ipOssService.insertIpOssList(ipId, intellectualPropertyBO.getOssIdList());
-        ipUserService.insertIpUserList(ipId, intellectualPropertyBO.getUserIdList());
+	    ipOssService.insertIpOssList(ipId, intellectualPropertyBO.getOssIdList());
+	    ipUserService.insertIpUserList(ipId, intellectualPropertyBO.getUserIdList());
     }
 
     /**
@@ -74,8 +76,8 @@ public class IntellectualPropertyServiceImpl implements IntellectualPropertyServ
             log.error("删除知识产权失败 ipId:{}", ipId);
             throw new NoSuchElementException("删除知识产权失败,ipId为:" + ipId);
         }
-        ipUserService.deleteIpUserByIpId(ipId);
-        ipOssService.deleteIpOssByIpId(ipId);
+	    ipUserService.deleteIpUserByIpId(ipId);
+	    ipOssService.deleteIpOssByIpId(ipId);
     }
 
     /**
@@ -95,8 +97,8 @@ public class IntellectualPropertyServiceImpl implements IntellectualPropertyServ
             throw new RuntimeException("更新知识产权失败");
         }
         Long ipId = intellectualProperty.getIpId();
-        ipUserService.updateIpUserByIpId(ipId, intellectualPropertyBO.getUserIdList());
-        ipOssService.updateIpOssByIpId(ipId, intellectualPropertyBO.getOssIdList());
+	    ipUserService.updateIpUserByIpId(ipId, intellectualPropertyBO.getUserIdList());
+	    ipOssService.updateIpOssByIpId(ipId, intellectualPropertyBO.getOssIdList());
     }
 
     /**
@@ -136,7 +138,7 @@ public class IntellectualPropertyServiceImpl implements IntellectualPropertyServ
         List<IntellectualPropertyVO> records = result.getRecords();
 
         if (!records.isEmpty()) {
-            setAssignedSubjectName(records);
+	        setAssignedSubjectName(records);
         }
 
         return TableDataInfo.build(result);
@@ -149,7 +151,7 @@ public class IntellectualPropertyServiceImpl implements IntellectualPropertyServ
             .collect(Collectors.toMap(IntellectualPropertyTypeEnum::getDescription, ipType -> 0));
 
         // 流处理知识产权并更新计数。
-        intellectualPropertyMapper.selectList(Wrappers.lambdaQuery())
+	    intellectualPropertyMapper.selectList(Wrappers.lambdaQuery())
             .stream()
             .filter(ip -> ip.getIpType() != null)
             .map(ip -> ip.getIpType().getDescription())
@@ -157,19 +159,6 @@ public class IntellectualPropertyServiceImpl implements IntellectualPropertyServ
 
         return ipTypeStatistics;
     }
-
-
-    private void setAssignedSubjectName(List<IntellectualPropertyVO> records) {
-        Set<Long> projectIds = records.stream().map(IntellectualPropertyVO::getProjectId).collect(Collectors.toSet());
-        Map<Long, String> projectIdAndNameMapping = projectBaseInfoService.getProjectIdAndNameMappingByProjectIdSet(projectIds);
-
-        records.forEach(intellectualPropertyVO ->
-            intellectualPropertyVO.setAssignedSubjectName(
-                projectIdAndNameMapping.getOrDefault(intellectualPropertyVO.getProjectId(), PROJECT_DELETED_REASSOCIATE)
-            )
-        );
-    }
-
 
     private LambdaQueryWrapper<IntellectualProperty> buildIntellectualPropertyQueryWrapper(IntellectualPropertyBO intellectualPropertyBO) {
         LambdaQueryWrapper<IntellectualProperty> lqw = new LambdaQueryWrapper<>();
@@ -197,6 +186,22 @@ public class IntellectualPropertyServiceImpl implements IntellectualPropertyServ
         return lqw;
     }
 
+    private void setAssignedSubjectName(List<IntellectualPropertyVO> records) {
+        Set<Long> projectIds = records.stream().map(IntellectualPropertyVO::getProjectId).collect(Collectors.toSet());
+        Map<Long, String> projectIdAndNameMapping = projectBaseInfoService.getProjectIdAndNameMappingByProjectIdSet(projectIds);
+
+        records.forEach(intellectualPropertyVO ->
+            intellectualPropertyVO.setAssignedSubjectName(
+                projectIdAndNameMapping.getOrDefault(intellectualPropertyVO.getProjectId(), PROJECT_DELETED_REASSOCIATE)
+            )
+        );
+    }
+
+    /**
+     * @param userId
+     *
+     * @return {@link List}<{@link Long}>
+     */
     private List<Long> getIpIdListFromUser(Long userId) {
         return Optional.ofNullable(userId)
             .map(ipUserService::getIpUserListByUserId)

@@ -22,6 +22,7 @@ import com.ruoyi.oss.enumd.AccessPolicyType;
 import com.ruoyi.oss.enumd.PolicyType;
 import com.ruoyi.oss.exception.OssException;
 import com.ruoyi.oss.properties.OssProperties;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -34,6 +35,7 @@ import java.util.Date;
  *
  * @author Lion Li
  */
+@Slf4j
 public class OssClient {
 
     private final String configKey;
@@ -67,6 +69,7 @@ public class OssClient {
                 build.enablePathStyleAccess();
             }
             this.client = build.build();
+            log.error("client{}",this.client);
 
             createBucket();
         } catch (Exception e) {
@@ -80,13 +83,18 @@ public class OssClient {
     public void createBucket() {
         try {
             String bucketName = properties.getBucketName();
+            log.error("bucketName{}",bucketName);
             if (client.doesBucketExistV2(bucketName)) {
+                log.error("doesBucketExistV2{}",client.doesBucketExistV2(bucketName));
                 return;
             }
             CreateBucketRequest createBucketRequest = new CreateBucketRequest(bucketName);
             AccessPolicyType accessPolicy = getAccessPolicy();
+            log.error("accessPolicy{}",accessPolicy);
             createBucketRequest.setCannedAcl(accessPolicy.getAcl());
+            log.error("accessPolicy.getAcl(){}",accessPolicy.getAcl());
             client.createBucket(createBucketRequest);
+            log.error("createBucket success");
             client.setBucketPolicy(bucketName, getPolicy(bucketName, accessPolicy.getPolicyType()));
         } catch (Exception e) {
             throw new OssException("创建Bucket失败, 请核对配置信息:[" + e.getMessage() + "]");

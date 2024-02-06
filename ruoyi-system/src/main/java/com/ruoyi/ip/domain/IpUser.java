@@ -15,7 +15,10 @@ import java.io.Serializable;
 
 /**
  * 知识产权和用户关联表
+ *
+ * @author bailingnan
  * @TableName ip_user
+ * @date 2024/02/06
  */
 @Getter
 @Setter
@@ -41,6 +44,11 @@ public class IpUser implements Serializable {
     private Long ipId;
 
     @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(ipId).append(userId).toHashCode();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -49,11 +57,6 @@ public class IpUser implements Serializable {
             return false;
         }
         IpUser that = (IpUser) o;
-        return new EqualsBuilder().append(this.ipId, that.ipId).append(this.userId, that.userId).isEquals();
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder().append(this.ipId).append(this.userId).toHashCode();
+        return new EqualsBuilder().append(ipId, that.ipId).append(userId, that.userId).isEquals();
     }
 }

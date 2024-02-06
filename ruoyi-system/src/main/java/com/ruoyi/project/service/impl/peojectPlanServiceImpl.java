@@ -19,6 +19,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
+ * 项目计划
+ *
  * @author bailingnan
  * @date 2023/12/21
  */
@@ -55,7 +57,7 @@ public class peojectPlanServiceImpl implements projectPlanService {
         List<ProjectPlan> projectPlanList = projectPlanBOList.stream()
             .map(bo -> projectPlanConverter(bo, projectId))
             .collect(Collectors.toList());
-        projectPlanMapper.insertBatch(projectPlanList);
+	    projectPlanMapper.insertBatch(projectPlanList);
     }
 
     /**
@@ -66,19 +68,8 @@ public class peojectPlanServiceImpl implements projectPlanService {
         if (projectPlanList == null || projectPlanList.isEmpty()) {
             return;
         }
-        projectPlanMapper.insertBatch(projectPlanList);
+	    projectPlanMapper.insertBatch(projectPlanList);
 
-    }
-
-    private ProjectPlan projectPlanConverter(ProjectPlanBO bo, Long projectId) {
-        ProjectPlan projectPlan = new ProjectPlan();
-        BeanCopyUtils.copy(bo, projectPlan);
-        projectPlan.setProjectId(projectId);
-        Optional.ofNullable(bo.getStageStartDate())
-            .ifPresent(date -> projectPlan.setStageStartDate(DateUtils.yearMonthToLocalDate(date)));
-        Optional.ofNullable(bo.getStageEndDate())
-            .ifPresent(endDate -> projectPlan.setStageEndDate(DateUtils.yearMonthToLocalDate(endDate)));
-        return projectPlan;
     }
 
     /**
@@ -86,7 +77,7 @@ public class peojectPlanServiceImpl implements projectPlanService {
      */
     @Override
     public void deleteProjectPlanByProjectId(Long projectId) {
-        projectPlanMapper.delete(new LambdaQueryWrapper<ProjectPlan>().eq(ProjectPlan::getProjectId, projectId));
+	    projectPlanMapper.delete(new LambdaQueryWrapper<ProjectPlan>().eq(ProjectPlan::getProjectId, projectId));
     }
 
     /**
@@ -94,7 +85,7 @@ public class peojectPlanServiceImpl implements projectPlanService {
      */
     @Override
     public void deleteProjectPlanByStageIdList(List<Long> stageIdList) {
-        projectPlanMapper.delete(new LambdaQueryWrapper<ProjectPlan>().in(ProjectPlan::getStageId, stageIdList));
+	    projectPlanMapper.delete(new LambdaQueryWrapper<ProjectPlan>().in(ProjectPlan::getStageId, stageIdList));
     }
 
     @Override
@@ -105,12 +96,12 @@ public class peojectPlanServiceImpl implements projectPlanService {
             if (oldProjectPlanList.isEmpty()) {
                 return;
             } else {
-                deleteProjectPlanByProjectId(projectId);
+	            deleteProjectPlanByProjectId(projectId);
                 return;
             }
         } else {
             if (oldProjectPlanList.isEmpty()) {
-                insertProjectPlanList(projectPlanBOList, projectId);
+	            insertProjectPlanList(projectPlanBOList, projectId);
                 return;
             }
         }
@@ -128,10 +119,21 @@ public class peojectPlanServiceImpl implements projectPlanService {
             .filter(projectPlan -> !newProjectPlanSet.contains(projectPlan))
             .collect(Collectors.toList());
         if (!addProjectPlanList.isEmpty()) {
-            insertProjectPlanList(addProjectPlanList);
+	        insertProjectPlanList(addProjectPlanList);
         }
         if (!delProjectPlanList.isEmpty()) {
-            deleteProjectPlanByStageIdList(delProjectPlanList.stream().map(ProjectPlan::getStageId).collect(Collectors.toList()));
+	        deleteProjectPlanByStageIdList(delProjectPlanList.stream().map(ProjectPlan::getStageId).collect(Collectors.toList()));
         }
+    }
+
+    private ProjectPlan projectPlanConverter(ProjectPlanBO bo, Long projectId) {
+        ProjectPlan projectPlan = new ProjectPlan();
+        BeanCopyUtils.copy(bo, projectPlan);
+        projectPlan.setProjectId(projectId);
+        Optional.ofNullable(bo.getStageStartDate())
+            .ifPresent(date -> projectPlan.setStageStartDate(DateUtils.yearMonthToLocalDate(date)));
+        Optional.ofNullable(bo.getStageEndDate())
+            .ifPresent(endDate -> projectPlan.setStageEndDate(DateUtils.yearMonthToLocalDate(endDate)));
+        return projectPlan;
     }
 }
