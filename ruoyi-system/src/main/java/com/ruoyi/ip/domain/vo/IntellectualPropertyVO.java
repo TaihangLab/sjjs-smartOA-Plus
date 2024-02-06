@@ -7,6 +7,8 @@ import lombok.Data;
 import java.time.LocalDate;
 
 /**
+ * 知识产权VO
+ *
  * @author bailingnan
  * @date 2024/1/4
  */

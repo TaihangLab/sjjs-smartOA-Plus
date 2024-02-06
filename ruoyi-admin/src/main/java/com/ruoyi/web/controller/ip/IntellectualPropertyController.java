@@ -23,11 +23,12 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 
+
 /**
- * 知识产权管理
+ * 知识产权
  *
  * @author bailingnan
- * @date 2023/12/29
+ * @date 2024/02/06
  */
 @Slf4j
 @Validated
@@ -44,13 +45,14 @@ public class IntellectualPropertyController {
      * 请求参数需满足 AddGroup 验证规则
      *
      * @param intellectualPropertyBO 知识产权实体对象
+     *
      * @return 成功返回 R<Void>
      */
     @SaCheckPermission("project:ip:add")
     @Log(title = "新增知识产权信息", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     public R<Void> addIntellectualProperty(@RequestBody @Validated(AddGroup.class) IntellectualPropertyBO intellectualPropertyBO) {
-        intellectualPropertyService.insertIntellectualProperty(intellectualPropertyBO);
+	    intellectualPropertyService.insertIntellectualProperty(intellectualPropertyBO);
         return R.ok();
     }
 
@@ -58,13 +60,14 @@ public class IntellectualPropertyController {
      * 删除知识产权
      *
      * @param ipId 知识产权ID
+     *
      * @return 操作结果
      */
     @SaCheckPermission("project:ip:delete")
     @Log(title = "删除知识产权信息", businessType = BusinessType.DELETE)
     @GetMapping("/delete")
     public R<Void> deleteIntellectualProperty(@RequestParam @NotNull Long ipId) {
-        intellectualPropertyService.deleteIntellectualProperty(ipId);
+	    intellectualPropertyService.deleteIntellectualProperty(ipId);
         return R.ok();
     }
 
@@ -72,13 +75,14 @@ public class IntellectualPropertyController {
      * 更新知识产权
      *
      * @param intellectualPropertyBO 知识产权BO对象
+     *
      * @return 更新结果
      */
     @SaCheckPermission("project:ip:update")
     @Log(title = "修改知识产权信息", businessType = BusinessType.UPDATE)
     @PostMapping("/update")
     public R<Void> updateIntellectualProperty(@RequestBody @Validated(EditGroup.class) IntellectualPropertyBO intellectualPropertyBO) {
-        intellectualPropertyService.updateIntellectualProperty(intellectualPropertyBO);
+	    intellectualPropertyService.updateIntellectualProperty(intellectualPropertyBO);
         return R.ok();
     }
 
@@ -86,6 +90,7 @@ public class IntellectualPropertyController {
      * 获取知识产权详情
      *
      * @param ipId 知识产权ID
+     *
      * @return 返回知识产权详情对象
      */
     @SaCheckPermission("project:ip:getDetails")
@@ -99,6 +104,7 @@ public class IntellectualPropertyController {
      *
      * @param intellectualPropertyBO 查询条件
      * @param pageQuery              分页查询参数
+     *
      * @return 查询结果的TableDataInfo对象
      */
     @SaCheckPermission("project:ip:list")
@@ -120,7 +126,8 @@ public class IntellectualPropertyController {
 
     /**
      * 获取项目树结构 项目类型->项目名
-     * @return
+     *
+     * @return {@link R}<{@link List}<{@link Map}<{@link String}, {@link Object}>>>
      */
     //@SaCheckPermission("ip:getProjectTree")
     @GetMapping("/getProjectTree")

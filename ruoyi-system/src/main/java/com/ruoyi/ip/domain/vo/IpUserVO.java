@@ -5,6 +5,7 @@ import com.ruoyi.common.enums.JobTitleEnum;
 import lombok.Data;
 
 /**
+ * 知识产权用户VO
  * @author bailingnan
  * @date 2024/1/3
  */

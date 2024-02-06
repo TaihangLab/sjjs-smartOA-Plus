@@ -5,7 +5,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 /**
- * 经费
+ * 经费VO
  *
  * @author bailingnan
  * @date 2023/12/11

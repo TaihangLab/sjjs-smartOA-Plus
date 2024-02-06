@@ -19,7 +19,9 @@ import java.time.LocalDate;
 /**
  * 项目计划表
  *
+ * @author bailingnan
  * @TableName project_plan
+ * @date 2024/02/06
  */
 @Getter
 @Setter
@@ -54,6 +56,11 @@ public class ProjectPlan implements Serializable {
     private String stageTask;
 
     @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(projectId).append(stageStartDate).append(stageEndDate).append(stageTask).toHashCode();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -63,10 +70,5 @@ public class ProjectPlan implements Serializable {
         }
         ProjectPlan that = (ProjectPlan) o;
         return new EqualsBuilder().append(projectId, that.projectId).append(stageStartDate, that.stageStartDate).append(stageEndDate, that.stageEndDate).append(stageTask, that.stageTask).isEquals();
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder().append(projectId).append(stageStartDate).append(stageEndDate).append(stageTask).toHashCode();
     }
 }

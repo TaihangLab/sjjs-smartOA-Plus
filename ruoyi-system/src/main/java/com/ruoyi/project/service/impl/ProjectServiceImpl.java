@@ -33,6 +33,29 @@ public class ProjectServiceImpl implements ProjectService {
 
     private final projectPlanService projectPlanService;
 
+    /**
+     * 删除项目
+     *
+     * @param projectId
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteProject(Long projectId) {
+        //删除基本信息
+	    projectBaseInfoService.deleteProjectBaseInfoById(projectId);
+        //删除大事记
+	    projectMilestoneService.deleteMilestoneByProjectId(projectId);
+        //删除经费
+	    projectFundsService.deleteProjectFundsById(projectId);
+        //删除指标
+	    projectTargetService.deleteTargetByProjectId(projectId);
+        //删除附件
+	    projectAttachmentService.deleteAllProjectAttachmentByProID(projectId);
+        //删除成员
+	    projectUserService.deleteProjectUsersByProjectId(projectId);
+        //删除计划
+	    projectPlanService.deleteProjectPlanByProjectId(projectId);
+    }
 
     /**
      * 获取项目详细信息
@@ -75,17 +98,16 @@ public class ProjectServiceImpl implements ProjectService {
         Long projectId = projectBaseInfoService.insertProjectBaseInfo(projectInfoBO.getProjectBaseInfoBO());
 
         //成员信息
-        projectUserService.insertProjectUsersOnCreate(projectInfoBO.getProjectUserBoList(), projectId);
+	    projectUserService.insertProjectUsersOnCreate(projectInfoBO.getProjectUserBoList(), projectId);
         //经费信息
-        projectFundsService.insertProjectFunds(projectInfoBO.getProjectFundsBO(), projectId);
+	    projectFundsService.insertProjectFunds(projectInfoBO.getProjectFundsBO(), projectId);
         //指标信息
-        projectTargetService.insertProjectTargetList(projectInfoBO.getProjectTargetBOList(), projectId);
+	    projectTargetService.insertProjectTargetList(projectInfoBO.getProjectTargetBOList(), projectId);
         //附件信息
-        projectAttachmentService.insertProjectAttachmentList(projectInfoBO.getOssIdList(), projectId);
+	    projectAttachmentService.insertProjectAttachmentList(projectInfoBO.getOssIdList(), projectId);
         //计划信息
-        projectPlanService.insertProjectPlanList(projectInfoBO.getProjectPlanBOList(), projectId);
+	    projectPlanService.insertProjectPlanList(projectInfoBO.getProjectPlanBOList(), projectId);
     }
-
 
     /**
      * 更新项目
@@ -99,42 +121,17 @@ public class ProjectServiceImpl implements ProjectService {
             throw new IllegalArgumentException("projectInfoBO cannot be null");
         }
         //更新基本信息
-        projectBaseInfoService.updateProjectBaseInfoById(projectInfoBO.getProjectBaseInfoBO());
+	    projectBaseInfoService.updateProjectBaseInfoById(projectInfoBO.getProjectBaseInfoBO());
         Long projectId = projectInfoBO.getProjectBaseInfoBO().getProjectId();
         //更新成员信息
-        projectUserService.updateProjectUsers(projectInfoBO.getProjectUserBoList(), projectId);
+	    projectUserService.updateProjectUsers(projectInfoBO.getProjectUserBoList(), projectId);
         //更新经费信息
-        projectFundsService.updateProjectFunds(projectInfoBO.getProjectFundsBO(), projectId);
+	    projectFundsService.updateProjectFunds(projectInfoBO.getProjectFundsBO(), projectId);
         //更新指标信息
-        projectTargetService.updateProjectTargetList(projectInfoBO.getProjectTargetBOList(), projectId);
+	    projectTargetService.updateProjectTargetList(projectInfoBO.getProjectTargetBOList(), projectId);
         //更新附件信息
-        projectAttachmentService.updateProjectAttachmentList(projectInfoBO.getOssIdList(), projectId);
+	    projectAttachmentService.updateProjectAttachmentList(projectInfoBO.getOssIdList(), projectId);
         //更新计划信息
-        projectPlanService.updateProjectPlanList(projectInfoBO.getProjectPlanBOList(), projectId);
-    }
-
-
-    /**
-     * 删除项目
-     *
-     * @param projectId
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void deleteProject(Long projectId) {
-        //删除基本信息
-        projectBaseInfoService.deleteProjectBaseInfoById(projectId);
-        //删除大事记
-        projectMilestoneService.deleteMilestoneByProjectId(projectId);
-        //删除经费
-        projectFundsService.deleteProjectFundsById(projectId);
-        //删除指标
-        projectTargetService.deleteTargetByProjectId(projectId);
-        //删除附件
-        projectAttachmentService.deleteAllProjectAttachmentByProID(projectId);
-        //删除成员
-        projectUserService.deleteProjectUsersByProID(projectId);
-        //删除计划
-        projectPlanService.deleteProjectPlanByProjectId(projectId);
+	    projectPlanService.updateProjectPlanList(projectInfoBO.getProjectPlanBOList(), projectId);
     }
 }

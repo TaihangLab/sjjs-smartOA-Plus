@@ -5,6 +5,12 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * 项目成员详情VO
+ *
+ * @author bailingnan
+ * @date 2024/02/06
+ */
 @Data
 public class ProjectUserDetailVo {
 

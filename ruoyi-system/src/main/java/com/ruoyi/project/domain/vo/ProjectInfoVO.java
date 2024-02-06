@@ -13,11 +13,14 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 /**
+ * 项目信息VO
+ *
  * @author bailingnan
  * @date 2023/12/14
  */
 @Data
 public class ProjectInfoVO extends BaseEntity {
+    private static final long serialVersionUID = 4817976403481927188L;
     /**
      * 项目id
      */
@@ -34,7 +37,7 @@ public class ProjectInfoVO extends BaseEntity {
     private String assignedSubjectName;
 
     /**
-     * 项目联系人
+     * 科研项目管理人
      */
     private String projectContact;
 

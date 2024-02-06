@@ -16,11 +16,15 @@ import java.time.LocalDate;
 
 /**
  * 项目表
+ *
+ * @author bailingnan
  * @TableName project_base_info
+ * @date 2024/02/06
  */
 @TableName(value ="project_base_info")
 @Data
 public class ProjectBaseInfo extends BaseEntity {
+    private static final long serialVersionUID = 8954237796352061001L;
     /**
      * 项目id
      */
@@ -41,7 +45,7 @@ public class ProjectBaseInfo extends BaseEntity {
     private String assignedSubjectName;
 
     /**
-     * 项目联系人
+     * 科研项目管理人
      */
     private String projectContact;
 

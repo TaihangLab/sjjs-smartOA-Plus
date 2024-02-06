@@ -6,6 +6,8 @@ import javax.validation.Valid;
 import java.util.List;
 
 /**
+ * 项目信息BO
+ *
  * @author bailingnan
  * @date 2023/12/15
  */

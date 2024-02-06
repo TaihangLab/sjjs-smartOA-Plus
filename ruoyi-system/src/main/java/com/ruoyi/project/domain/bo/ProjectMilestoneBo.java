@@ -13,10 +13,17 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * 项目大事记BO
+ *
+ * @author bailingnan
+ * @date 2024/02/06
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class ProjectMilestoneBo extends BaseEntity {
 
+    private static final long serialVersionUID = 8500261585170629082L;
     /**
      * 大事记ID
      */

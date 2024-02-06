@@ -1,13 +1,12 @@
 package com.ruoyi.project.domain.bo;
 
-import com.ruoyi.common.core.validate.AddGroup;
-import com.ruoyi.common.core.validate.EditGroup;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 /**
+ * 项目指标BO
+ *
  * @author bailingnan
  * @date 2023/12/15
  */
