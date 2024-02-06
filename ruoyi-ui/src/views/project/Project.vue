@@ -5,32 +5,65 @@
                       :key="tableKey"
                       :cell-style="{ padding: '0px' }">
                 <!--                <el-table-column type="selection" :resizable="false" align="center" width="40"></el-table-column>-->
-                <el-table-column label="项目任务书编号" :resizable="false" align="center"
-                                 prop="projectAssignmentSerialNo"
-                                 width="130">
-                </el-table-column>
                 <el-table-column label="项目名称" :resizable="false" align="center" prop="assignedSubjectName"
-                                 width="150">
+                                 width="150" fixed="left">
+                </el-table-column>
+                <el-table-column label="项目牵头单位" :resizable="false" align="center" prop="leadingUnit" width="180">
+                </el-table-column>
+                <el-table-column label="项目来源" :resizable="false" align="center" prop="projectSource" width="180">
+                </el-table-column>
+                <el-table-column label="项目负责人" :resizable="false" align="center" prop="projectLeader" width="180">
                 </el-table-column>
                 <el-table-column label="项目级别" :resizable="false" align="center" prop="projectLevel"
                                  :formatter="projectLevelss" width="110">
                 </el-table-column>
-                <el-table-column label="项目牵头单位" :resizable="false" align="center" prop="leadingUnit" width="180">
+                <el-table-column label="是否牵头单位" :resizable="false" align="center" prop="hasLeadingRole"
+                                 :formatter="hasLeadingRoles" width="150">
                 </el-table-column>
                 <el-table-column label="负责课题" :resizable="false" align="center" prop="assignedSubjectSection"
                                  width="150">
                 </el-table-column>
-                <el-table-column label="项目推进情况" :resizable="false" align="center" prop="projectProgressStatus"
-                                 :formatter="projectProgressStatuss" width="150">
+                <el-table-column label="公司负责人" :resizable="false" align="center" prop="companyLeader" width="180">
                 </el-table-column>
-                <el-table-column label="有无合作单位" :resizable="false" align="center" prop="hasCooperativeUnit"
-                                 :formatter="hasCooperativeUnits" width="150">
+                <el-table-column label="部门负责人" :resizable="false" align="center" prop="departmentLeader" width="180">
+                </el-table-column>
+                <el-table-column label="科研项目管理人" :resizable="false" align="center" prop="researchManager" width="180">
                 </el-table-column>
                 <el-table-column label="立项时间" :resizable="false" align="center" prop="projectEstablishTime"
                                  width="170">
                 </el-table-column>
                 <el-table-column label="项目计划验收时间" :resizable="false" align="center"
                                  prop="projectScheduledCompletionTime"
+                                 width="170">
+                </el-table-column>
+                <el-table-column label="项目推进情况" :resizable="false" align="center" prop="projectProgressStatus"
+                                 :formatter="projectProgressStatuss" width="150">
+                </el-table-column>
+                <el-table-column label="合作单位" :resizable="false" align="center" prop="collaboratingUnit"
+                                  width="150">
+                </el-table-column>
+                <el-table-column label="经费总额" :resizable="false" align="center" prop="totalFundsAll"
+                                  width="150">
+                </el-table-column>
+                <el-table-column label="专项经费总额" :resizable="false" align="center" prop="totalFundsZx"
+                                  width="150">
+                </el-table-column>
+                <el-table-column label="专项到款总额" :resizable="false" align="center" prop="totalFundsZxDk"
+                                  width="150">
+                </el-table-column>
+                <el-table-column label="已完成自筹投资" :resizable="false" align="center" prop="zctzDone"
+                                  width="150">
+                </el-table-column>
+                <el-table-column label="已完成专项投资" :resizable="false" align="center" prop="zxtzDone"
+                                  width="150">
+                </el-table-column>、
+                <el-table-column label="自筹经费公司配套" :resizable="false" align="center" prop="zcGspt"
+                                  width="150">
+                </el-table-column>
+                <el-table-column label="专项经费公司留存（计划）" :resizable="false" align="center" prop="zxGslc"
+                                  width="150">
+                </el-table-column>
+                <el-table-column label="更新时间" :resizable="false" align="center" prop="updateTime"
                                  width="170">
                 </el-table-column>
                 <el-table-column label="操作" :resizable="false" align="center" min-width="230px" fixed="right">
@@ -60,7 +93,7 @@
                                 </el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
-                    </template>
+                    </template> 
                 </el-table-column>
             </el-table>
             <!-- 详情打开的界面 -->
@@ -141,6 +174,10 @@ export default {
                 0: '有',
                 1: '无',
             },
+            hasLeadingRole         : {
+                0: '是',
+                1: '否',
+            },
             projectLevel           : {
                 0: '国家级',
                 1: '省部级',
@@ -204,6 +241,10 @@ export default {
         projectLevelss(row, column, cellValue) {
             // 使用映射关系来获取对应的文字描述
             return this.projectLevel[cellValue] || cellValue;
+        },
+        hasLeadingRoles(row, column, cellValue) {
+            // 使用映射关系来获取对应的文字描述
+            return this.hasLeadingRole[cellValue] || cellValue;
         },
         projectProgressStatuss(row, column, cellValue) {
             // 使用映射关系来获取对应的文字描述
