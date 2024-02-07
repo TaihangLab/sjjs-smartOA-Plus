@@ -60,7 +60,9 @@
                 <ProjectProgress v-show="stepID===9" :form="projectProgressForm"
                                  ref="projectProgress"></ProjectProgress>
             </el-collapse-transition>
-
+            <el-collapse-transition>
+                <ProjectSpecialFund v-show="stepID===10" ></ProjectSpecialFund>
+            </el-collapse-transition>
         </el-main>
 
         <el-footer>
@@ -101,13 +103,15 @@ import {Loading, Message} from "element-ui";
 import {addProject, getProject, updateProject} from "@/views/project/components/project";
 import {resetObject} from "@/views/project/components/utils";
 import ProjectProgress from "@/views/project/components/ProjectProgress.vue";
+import ProjectSpecialFund from "@/views/project/components/ProjectSpecialFund.vue";
 
-const TOTAL_STEPS = 9;
+const TOTAL_STEPS = 11;
 
 export default {
     name      : "NewProject",
     props     : ['visible', "updateId"],
     components: {
+        ProjectSpecialFund,
         ProjectProgress,
         ProjectPlan,
         OtherAttachment,
@@ -139,7 +143,7 @@ export default {
         return {
             stepID        : 0,
             isStepHover   : false,
-            titles        : ["项目信息", "项目成员", "项目经费", "专项经费", "自筹经费", "经费来源", "项目指标", "项目计划", "项目申报附件", "项目推进情况"],
+            titles        : ["项目信息", "项目成员", "项目经费", "专项经费", "自筹经费", "经费来源", "项目指标", "项目计划", "项目申报附件", "项目推进情况","专项经费"],
             nextButtonText: '下一步',
 
             projectInfoForm     : {},
