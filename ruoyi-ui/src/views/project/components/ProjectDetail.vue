@@ -32,7 +32,7 @@
                         }}
                         </el-descriptions-item>
                         <el-descriptions-item label="项目负责人" v-if="this.projectLeaders">{{
-                            this.projectLeaders.nickName
+                            this.projectdetails.projectInfoVO.projectLeader
                             }}
                         </el-descriptions-item>
                         <el-descriptions-item label="项目专员/联系人">{{
