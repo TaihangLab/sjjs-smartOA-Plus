@@ -10,6 +10,12 @@ import lombok.ToString;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+/**
+ * 项目附件表
+ *
+ * @author bailingnan
+ * @date 2024/02/06
+ */
 @Getter
 @Setter
 @ToString
@@ -34,6 +40,11 @@ public class ProjectAttachment {
     private Long ossId;
 
     @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(projectId).append(ossId).toHashCode();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -42,11 +53,6 @@ public class ProjectAttachment {
             return false;
         }
         ProjectAttachment that = (ProjectAttachment) o;
-        return new EqualsBuilder().append(this.projectId, that.projectId).append(this.ossId, that.ossId).isEquals();
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder().append(this.projectId).append(this.ossId).toHashCode();
+        return new EqualsBuilder().append(projectId, that.projectId).append(ossId, that.ossId).isEquals();
     }
 }

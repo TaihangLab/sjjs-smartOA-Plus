@@ -3,15 +3,16 @@ package com.ruoyi.project.domain;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.ruoyi.common.xss.Xss;
-import com.ruoyi.system.domain.SysOss;
 import lombok.Data;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-import java.time.LocalDate;
-import java.util.List;
 
+import java.time.LocalDate;
+
+/**
+ * 大事记表
+ *
+ * @author bailingnan
+ * @date 2024/02/06
+ */
 @Data
 @TableName("project_milestone")
 public class ProjectMilestone {

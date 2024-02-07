@@ -2,10 +2,9 @@ package com.ruoyi.project.domain.vo;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-
 /**
+ * 项目指标VO
+ *
  * @author bailingnan
  * @date 2023/12/14
  */

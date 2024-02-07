@@ -16,6 +16,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * 项目指标
+ *
+ * @author bailingnan
+ * @date 2024/02/06
+ */
 @RequiredArgsConstructor
 @Service
 public class ProjectTargetServiceImpl implements ProjectTargetService {
@@ -53,7 +59,7 @@ public class ProjectTargetServiceImpl implements ProjectTargetService {
                 return projectTarget;
             })
             .collect(Collectors.toList());
-        insertProjectTargetList(projectTargetList);
+	    insertProjectTargetList(projectTargetList);
     }
 
 
@@ -89,7 +95,7 @@ public class ProjectTargetServiceImpl implements ProjectTargetService {
         if (targetIdList == null || targetIdList.isEmpty()) {
             return;
         }
-        projectTargetMapper.delete(new LambdaQueryWrapper<ProjectTarget>().in(ProjectTarget::getTargetId, targetIdList));
+	    projectTargetMapper.delete(new LambdaQueryWrapper<ProjectTarget>().in(ProjectTarget::getTargetId, targetIdList));
 
     }
 
@@ -117,12 +123,12 @@ public class ProjectTargetServiceImpl implements ProjectTargetService {
             if (oldProjectTargetList.isEmpty()) {
                 return;
             } else {
-                deleteTargetByProjectId(projectId);
+	            deleteTargetByProjectId(projectId);
                 return;
             }
         } else {
             if (oldProjectTargetList.isEmpty()) {
-                insertProjectTargetList(projectTargetBoList, projectId);
+	            insertProjectTargetList(projectTargetBoList, projectId);
                 return;
             }
         }
@@ -143,10 +149,10 @@ public class ProjectTargetServiceImpl implements ProjectTargetService {
             .filter(projectTarget -> !newProjectTargetSet.contains(projectTarget))
             .collect(Collectors.toList());
         if (!addProjectTargetList.isEmpty()) {
-            insertProjectTargetList(addProjectTargetList);
+	        insertProjectTargetList(addProjectTargetList);
         }
         if (!delProjectTargetList.isEmpty()) {
-            deleteProjectTargetByTargetIdList(delProjectTargetList.stream().map(ProjectTarget::getTargetId).collect(Collectors.toList()));
+	        deleteProjectTargetByTargetIdList(delProjectTargetList.stream().map(ProjectTarget::getTargetId).collect(Collectors.toList()));
         }
     }
 

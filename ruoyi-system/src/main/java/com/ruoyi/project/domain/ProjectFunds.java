@@ -11,7 +11,10 @@ import java.math.BigDecimal;
 
 /**
  * 项目经费表（单位：万元）
+ *
+ * @author bailingnan
  * @TableName project_funds
+ * @date 2024/02/06
  */
 @TableName(value ="project_funds")
 @Data

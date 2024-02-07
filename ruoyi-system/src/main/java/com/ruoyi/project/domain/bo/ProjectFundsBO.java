@@ -7,6 +7,8 @@ import javax.validation.constraints.DecimalMin;
 import java.math.BigDecimal;
 
 /**
+ * 项目经费BO
+ *
  * @author bailingnan
  * @date 2023/12/15
  */

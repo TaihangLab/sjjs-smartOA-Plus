@@ -3,10 +3,12 @@ package com.ruoyi.project.domain;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+
 /**
  * 项目大事纪文件oss关联 project_milestone_oss
  *
  * @author JiaXing Fan
+ * @date 2024/02/06
  */
 @Data
 @TableName("project_milestone_oss")

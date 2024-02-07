@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
+ * 知识产权详情VO
  * @author bailingnan
  * @date 2024/1/3
  */

@@ -12,6 +12,9 @@ import java.util.Map;
 
 /**
  * 项目统计数据图表
+ *
+ * @author bailingnan
+ * @date 2024/02/06
  */
 @Slf4j
 @Validated
@@ -24,7 +27,8 @@ public class ProjectStatisticController {
 
     /**
      * 项目类型及对应数量
-     * @return
+     *
+     * @return {@link Map}<{@link String}, {@link Integer}>
      */
     //@SaCheckPermission("statistic:project:level")
     @GetMapping("/level")

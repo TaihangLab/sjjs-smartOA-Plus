@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 项目附件管理（大事记文件）
+ *
+ * @author bailingnan
+ * @date 2024/02/06
  */
 @Slf4j
 @Validated
@@ -30,9 +33,11 @@ public class MilestoneOssController {
 
     /**
      * 分页查询项目附件列表
+     *
      * @param projectMilestoneBo
      * @param pageQuery
-     * @return
+     *
+     * @return {@link TableDataInfo}<{@link SysOssVo}>
      */
     @SaCheckPermission("project:user:getAllList")
     @PostMapping("/getAllList")

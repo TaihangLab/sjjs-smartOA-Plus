@@ -13,7 +13,9 @@ import java.time.LocalDate;
 /**
  * 知识产权表
  *
+ * @author bailingnan
  * @TableName intellectual_property
+ * @date 2024/02/06
  */
 @TableName(value = "intellectual_property")
 @Data

@@ -3,6 +3,8 @@ package com.ruoyi.project.domain.bo;
 import lombok.Data;
 
 /**
+ * 项目附件BO
+ *
  * @author bailingnan
  * @date 2023/12/15
  */

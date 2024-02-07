@@ -20,6 +20,8 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 /**
+ * 项目基本信息BO
+ *
  * @author bailingnan
  * @date 2023/12/12
  */
@@ -27,6 +29,7 @@ import java.time.LocalDate;
 @EqualsAndHashCode(callSuper = true)
 public class ProjectBaseInfoBO extends BaseEntity {
 
+    private static final long serialVersionUID = -3554569707071107490L;
     /**
      * 项目id
      */
@@ -48,7 +51,7 @@ public class ProjectBaseInfoBO extends BaseEntity {
     private String assignedSubjectName;
 
     /**
-     * 项目联系人
+     * 科研项目管理人
      */
     private String projectContact;
 
