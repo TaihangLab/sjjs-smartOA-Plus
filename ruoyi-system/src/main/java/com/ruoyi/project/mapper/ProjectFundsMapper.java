@@ -6,12 +6,11 @@ import com.ruoyi.project.domain.vo.ProjectFundsVO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 针对表【project_funds(项目经费表（单位：万元）)】的数据库操作Mapper
- *
  * @author bailingnan
- * @createDate 2024-01-29 16:35:12
-* @Entity com.ruoyi.project.domain.ProjectFunds
-*/
+ * @description 针对表【project_funds(项目经费表（单位：万元）)】的数据库操作Mapper
+ * @createDate 2024-02-19 17:45:55
+ * @Entity com.ruoyi.project.domain.ProjectFunds
+ */
 @Mapper
 public interface ProjectFundsMapper extends BaseMapperPlus<ProjectFundsMapper, ProjectFunds, ProjectFundsVO> {
 
