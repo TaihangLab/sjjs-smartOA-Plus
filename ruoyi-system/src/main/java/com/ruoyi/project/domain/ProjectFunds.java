@@ -12,11 +12,9 @@ import java.math.BigDecimal;
 /**
  * 项目经费表（单位：万元）
  *
- * @author bailingnan
  * @TableName project_funds
- * @date 2024/02/06
  */
-@TableName(value ="project_funds")
+@TableName(value = "project_funds")
 @Data
 public class ProjectFunds implements Serializable {
     @TableField(exist = false)
@@ -111,13 +109,229 @@ public class ProjectFunds implements Serializable {
      */
     private BigDecimal sbfSzsbZcZj;
     /**
-     * 设备费_设备改造与租赁费_专项_直接
+     * 设备费_设备升级改造费_专项_直接
      */
-    private BigDecimal sbfSbgzyzlZxZj;
+    private BigDecimal sbfSbsjgzZxZj;
     /**
-     * 设备费_设备改造与租赁费_自筹_直接
+     * 设备费_设备升级改造费_自筹_直接
      */
-    private BigDecimal sbfSbgzyzlZcZj;
+    private BigDecimal sbfSbsjgzZcZj;
+    /**
+     * 设备费_设备租赁费_专项_直接
+     */
+    private BigDecimal sbfSbzlZxZj;
+    /**
+     * 设备费_设备租赁费_自筹_直接
+     */
+    private BigDecimal sbfSbzlZcZj;
+    /**
+     * 业务费_专项_直接
+     */
+    private BigDecimal ywfZxZj;
+    /**
+     * 业务费_自筹_直接
+     */
+    private BigDecimal ywfZcZj;
+    /**
+     * 业务费_材料费_专项_直接
+     */
+    private BigDecimal ywfClfZxZj;
+    /**
+     * 业务费_材料费_自筹_直接
+     */
+    private BigDecimal ywfClfZcZj;
+    /**
+     * 业务费_资料费_专项_直接
+     */
+    private BigDecimal ywfZlfZxZj;
+    /**
+     * 业务费_资料费_自筹_直接
+     */
+    private BigDecimal ywfZlfZcZj;
+    /**
+     * 业务费_数据样本采集费_专项_直接
+     */
+    private BigDecimal ywfSjybcjfZxZj;
+    /**
+     * 业务费_数据样本采集费_自筹_直接
+     */
+    private BigDecimal ywfSjybcjfZcZj;
+    /**
+     * 业务费_测试化验加工费_专项_直接
+     */
+    private BigDecimal ywfCshyjgfZxZj;
+    /**
+     * 业务费_测试化验加工费_自筹_直接
+     */
+    private BigDecimal ywfCshyjgfZcZj;
+    /**
+     * 业务费_燃料动力费_专项_直接
+     */
+    private BigDecimal ywfRldlfZxZj;
+    /**
+     * 业务费_燃料动力费_自筹_直接
+     */
+    private BigDecimal ywfRldlfZcZj;
+    /**
+     * 业务费_办公费_专项_直接
+     */
+    private BigDecimal ywfBgfZxZj;
+    /**
+     * 业务费_办公费_自筹_直接
+     */
+    private BigDecimal ywfBgfZcZj;
+    /**
+     * 业务费_印刷出版费_专项_直接
+     */
+    private BigDecimal ywfYscbfZxZj;
+    /**
+     * 业务费_印刷出版费_自筹_直接
+     */
+    private BigDecimal ywfYscbfZcZj;
+    /**
+     * 业务费_知识产权事务费_专项_直接
+     */
+    private BigDecimal ywfZscqswfZxZj;
+    /**
+     * 业务费_知识产权事务费_自筹_直接
+     */
+    private BigDecimal ywfZscqswfZcZj;
+    /**
+     * 业务费_车辆使用费_专项_直接
+     */
+    private BigDecimal ywfClsyfZxZj;
+    /**
+     * 业务费_车辆使用费_自筹_直接
+     */
+    private BigDecimal ywfClsyfZcZj;
+    /**
+     * 业务费_差旅费_专项_直接
+     */
+    private BigDecimal ywfChlfZxZj;
+    /**
+     * 业务费_差旅费_自筹_直接
+     */
+    private BigDecimal ywfChlfZcZj;
+    /**
+     * 业务费_会议会务费_专项_直接
+     */
+    private BigDecimal ywfHyhwfZxZj;
+    /**
+     * 业务费_会议会务费_自筹_直接
+     */
+    private BigDecimal ywfHyhwfZcZj;
+    /**
+     * 业务费_国内协作费_专项_直接
+     */
+    private BigDecimal ywfGnxzfZxZj;
+    /**
+     * 业务费_国内协作费_自筹_直接
+     */
+    private BigDecimal ywfGnxzfZcZj;
+    /**
+     * 业务费_国内合作交流费_专项_直接
+     */
+    private BigDecimal ywfGjhzjlfZxZj;
+    /**
+     * 业务费_国内合作交流费_自筹_直接
+     */
+    private BigDecimal ywfGjhzjlfZcZj;
+    /**
+     * 业务费_会议/差旅/国际合作与交流费_专项_直接
+     */
+    private BigDecimal ywfHyclgjhzyjlfZxZj;
+    /**
+     * 业务费_会议/差旅/国际合作与交流费_自筹_直接
+     */
+    private BigDecimal ywfHyclgjhzyjlfZcZj;
+    /**
+     * 业务费_会议/差旅/国际合作与交流费_会议费_专项_直接
+     */
+    private BigDecimal ywfHyclgjhzyjlfHyfZxZj;
+    /**
+     * 业务费_会议/差旅/国际合作与交流费_会议费_自筹_直接
+     */
+    private BigDecimal ywfHyclgjhzyjlfHyfZcZj;
+    /**
+     * 业务费_会议/差旅/国际合作与交流费_差旅费_专项_直接
+     */
+    private BigDecimal ywfHyclgjhzyjlfClfZxZj;
+    /**
+     * 业务费_会议/差旅/国际合作与交流费_差旅费_自筹_直接
+     */
+    private BigDecimal ywfHyclgjhzyjlfClfZcZj;
+    /**
+     * 业务费_会议/差旅/国际合作与交流费_国际合作费_专项_直接
+     */
+    private BigDecimal ywfHyclgjhzyjlfGjhzfZxZj;
+    /**
+     * 业务费_会议/差旅/国际合作与交流费_国际合作费_自筹_直接
+     */
+    private BigDecimal ywfHyclgjhzyjlfGjhzfZcZj;
+    /**
+     * 业务费_出版/文献/信息传播/知识产权事务费_专项_直接
+     */
+    private BigDecimal ywfCbwxxxcbzscqswfZxZj;
+    /**
+     * 业务费_出版/文献/信息传播/知识产权事务费_自筹_直接
+     */
+    private BigDecimal ywfCbwxxxcbzscqswfZcZj;
+    /**
+     * 业务费_出版/文献/信息传播/知识产权事务费_知识产权事务费_专项_直接
+     */
+    private BigDecimal ywfCbwxxxcbzscqswfZscqswfZxZj;
+    /**
+     * 业务费_出版/文献/信息传播/知识产权事务费_知识产权事务费_自筹_直接
+     */
+    private BigDecimal ywfCbwxxxcbzscqswfZscqswfZcZj;
+    /**
+     * 业务费_出版/文献/信息传播/知识产权事务费_印刷打印制作费_专项_直接
+     */
+    private BigDecimal ywfCbwxxxcbzscqswfYsdyzzfZxZj;
+    /**
+     * 业务费_出版/文献/信息传播/知识产权事务费_印刷打印制作费_自筹_直接
+     */
+    private BigDecimal ywfCbwxxxcbzscqswfYsdyzzfZcZj;
+    /**
+     * 业务费_出版/文献/信息传播/知识产权事务费_文献数据库费_专项_直接
+     */
+    private BigDecimal ywfCbwxxxcbzscqswfWxsjkfZxZj;
+    /**
+     * 业务费_出版/文献/信息传播/知识产权事务费_文献数据库费_自筹_直接
+     */
+    private BigDecimal ywfCbwxxxcbzscqswfWxsjkfZcZj;
+    /**
+     * 业务费_出版/文献/信息传播/知识产权事务费_信息传播费_专项_直接
+     */
+    private BigDecimal ywfCbwxxxcbzscqswfXxcbfZxZj;
+    /**
+     * 业务费_出版/文献/信息传播/知识产权事务费_信息传播费_自筹_直接
+     */
+    private BigDecimal ywfCbwxxxcbzscqswfXxcbfZcZj;
+    /**
+     * 劳务费_专项_直接
+     */
+    private BigDecimal lwfZxZj;
+    /**
+     * 劳务费_自筹_直接
+     */
+    private BigDecimal lwfZcZj;
+    /**
+     * 劳务费_专家咨询费_专项_直接
+     */
+    private BigDecimal lwfZjzxfZxZj;
+    /**
+     * 劳务费_专家咨询费_自筹_直接
+     */
+    private BigDecimal lwfZjzxfZcZj;
+    /**
+     * 劳务费_人员劳务费_专项_直接
+     */
+    private BigDecimal lwfRylwfZxZj;
+    /**
+     * 劳务费_人员劳务费_自筹_直接
+     */
+    private BigDecimal lwfRylwfZcZj;
     /**
      * 材料费_专项_直接
      */
@@ -126,6 +340,14 @@ public class ProjectFunds implements Serializable {
      * 材料费_自筹_直接
      */
     private BigDecimal clfZcZj;
+    /**
+     * 材料费_材料费_专项_直接
+     */
+    private BigDecimal clfClfZxZj;
+    /**
+     * 材料费_材料费_自筹_直接
+     */
+    private BigDecimal clfClfZcZj;
     /**
      * 科研活动费_专项_直接
      */
@@ -143,11 +365,11 @@ public class ProjectFunds implements Serializable {
      */
     private BigDecimal kyhdfZlZcZj;
     /**
-     * 科研活动_测试化验加工费_专项_直接
+     * 科研活动费_测试化验加工费_专项_直接
      */
     private BigDecimal kyhdfCshyjgZxZj;
     /**
-     * 科研活动_测试化验加工费_自筹_直接
+     * 科研活动费_测试化验加工费_自筹_直接
      */
     private BigDecimal kyhdfCshyjgZcZj;
     /**
@@ -255,13 +477,21 @@ public class ProjectFunds implements Serializable {
      */
     private BigDecimal ryhlwbzfZcZj;
     /**
-     * 间接费用_绩效支出_专项
+     * 人员和劳务补助费_人员劳务费_专项_直接
      */
-    private BigDecimal jxzcZx;
+    private BigDecimal ryhlwbzfRylwZxZj;
     /**
-     * 间接费用_绩效支出_自筹
+     * 人员和劳务补助费_人员劳务费_自筹_直接
      */
-    private BigDecimal jxzcZc;
+    private BigDecimal ryhlwbzfRylwZcZj;
+    /**
+     * 绩效支出_专项_直接
+     */
+    private BigDecimal jxzcZxZj;
+    /**
+     * 绩效支出_自筹_直接
+     */
+    private BigDecimal jxzcZcZj;
     /**
      * 间接费用_其他支出_专项
      */
@@ -315,13 +545,45 @@ public class ProjectFunds implements Serializable {
      */
     private BigDecimal sbfSzsbZcJj;
     /**
-     * 设备费_设备改造与租赁费_专项_间接
+     * 设备费_设备升级改造费_专项_间接
      */
-    private BigDecimal sbfSbgzyzlZxJj;
+    private BigDecimal sbfSbsjgzZxJj;
     /**
-     * 设备费_设备改造与租赁费_自筹_间接
+     * 设备费_设备升级改造费_自筹_间接
      */
-    private BigDecimal sbfSbgzyzlZcJj;
+    private BigDecimal sbfSbsjgzZcJj;
+    /**
+     * 设备费_设备租赁费_专项_间接
+     */
+    private BigDecimal sbfSbzlZxJj;
+    /**
+     * 设备费_设备租赁费_自筹_间接
+     */
+    private BigDecimal sbfSbzlZcJj;
+    /**
+     * 劳务费_专项_间接
+     */
+    private BigDecimal lwfZxJj;
+    /**
+     * 劳务费_自筹_间接
+     */
+    private BigDecimal lwfZcJj;
+    /**
+     * 劳务费_专家咨询费_专项_间接
+     */
+    private BigDecimal lwfZjzxfZxJj;
+    /**
+     * 劳务费_专家咨询费_自筹_间接
+     */
+    private BigDecimal lwfZjzxfZcJj;
+    /**
+     * 劳务费_人员劳务费_专项_间接
+     */
+    private BigDecimal lwfRylwfZxJj;
+    /**
+     * 劳务费_人员劳务费_自筹_间接
+     */
+    private BigDecimal lwfRylwfZcJj;
     /**
      * 材料费_专项_间接
      */
@@ -330,6 +592,14 @@ public class ProjectFunds implements Serializable {
      * 材料费_自筹_间接
      */
     private BigDecimal clfZcJj;
+    /**
+     * 材料费_材料费_专项_间接
+     */
+    private BigDecimal clfClfZxJj;
+    /**
+     * 材料费_材料费_自筹_间接
+     */
+    private BigDecimal clfClfZcJj;
     /**
      * 科研活动费_专项_间接
      */
@@ -347,11 +617,11 @@ public class ProjectFunds implements Serializable {
      */
     private BigDecimal kyhdfZlZcJj;
     /**
-     * 科研活动_测试化验加工费_专项_间接
+     * 科研活动费_测试化验加工费_专项_间接
      */
     private BigDecimal kyhdfCshyjgZxJj;
     /**
-     * 科研活动_测试化验加工费_自筹_间接
+     * 科研活动费_测试化验加工费_自筹_间接
      */
     private BigDecimal kyhdfCshyjgZcJj;
     /**
@@ -458,4 +728,20 @@ public class ProjectFunds implements Serializable {
      * 人员和劳务补助费_自筹_间接
      */
     private BigDecimal ryhlwbzfZcJj;
+    /**
+     * 人员和劳务补助费_人员劳务费_专项_间接
+     */
+    private BigDecimal ryhlwbzfRylwZxJj;
+    /**
+     * 人员和劳务补助费_人员劳务费_自筹_间接
+     */
+    private BigDecimal ryhlwbzfRylwZcJj;
+    /**
+     * 绩效支出_专项_间接
+     */
+    private BigDecimal jxzcZxJj;
+    /**
+     * 绩效支出_自筹_间接
+     */
+    private BigDecimal jxzcZcJj;
 }
