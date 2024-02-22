@@ -117,19 +117,30 @@ public class EnumCacheUtils {
     }
 
     private static <E extends Enum> void executeEnumStatic(Class<E> clazz) {
-        if (!LOADED.containsKey(clazz)) {
-            synchronized (clazz) {
-                if (!LOADED.containsKey(clazz)) {
-                    try {
-                        // 目的是让枚举类的static块运行，static块没有执行完是会阻塞在此的
-                        Class.forName(clazz.getName());
-                        LOADED.put(clazz, true);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+        //        if (!LOADED.containsKey(clazz)) {
+        //            synchronized (clazz) {
+        //                if (!LOADED.containsKey(clazz)) {
+        //                    try {
+        //                        // 目的是让枚举类的static块运行，static块没有执行完是会阻塞在此的
+        //                        Class.forName(clazz.getName());
+        //                        LOADED.put(clazz, true);
+        //                    } catch (Exception e) {
+        //                        throw new RuntimeException(e);
+        //                    }
+        //                }
+        //            }
+        //        }
+        // 利用computeIfAbsent来简化同步逻辑
+        LOADED.computeIfAbsent(clazz, key -> {
+            try {
+                // 目的是让枚举类的static块运行，如果static块没有执行完，会阻塞在此
+                Class.forName(clazz.getName());
+                return true;
+            } catch (ClassNotFoundException e) {
+                // 抛出异常时包含更多上下文信息
+                throw new RuntimeException("Failed to load enum class: " + clazz.getName(), e);
             }
-        }
+        });
     }
 
     /**
