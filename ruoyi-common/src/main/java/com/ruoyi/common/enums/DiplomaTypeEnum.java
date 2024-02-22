@@ -3,6 +3,7 @@ package com.ruoyi.common.enums;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.ruoyi.common.utils.EnumCacheUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
@@ -34,9 +35,17 @@ public enum DiplomaTypeEnum implements IEnum<Integer> {
      */
     COLLEGE(3, "专科");
 
+    static {
+        // 通过名称构建缓存,通过EnumCache.findByName(StatusEnum.class,"SUCCESS",null);调用能获取枚举
+        EnumCacheUtils.registerByName(DiplomaTypeEnum.class, DiplomaTypeEnum.values());
+        // 通过code构建缓存,通过EnumCache.findByValue(StatusEnum.class,"S",null);调用能获取枚举
+        EnumCacheUtils.registerByValue(DiplomaTypeEnum.class, DiplomaTypeEnum.values(),
+            DiplomaTypeEnum::getDescription);
+    }
+
     @EnumValue
     @JsonValue
     private final Integer value;
     private final String description;
-    
+
 }

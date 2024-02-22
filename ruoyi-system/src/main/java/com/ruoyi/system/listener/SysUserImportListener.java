@@ -25,7 +25,8 @@ import java.util.List;
  * @author Lion Li
  */
 @Slf4j
-public class SysUserImportListener extends AnalysisEventListener<SysUserImportVo> implements ExcelListener<SysUserImportVo> {
+public class SysUserImportListener extends AnalysisEventListener<SysUserImportVo>
+    implements ExcelListener<SysUserImportVo> {
 
     private final ISysUserService userService;
 
@@ -34,23 +35,22 @@ public class SysUserImportListener extends AnalysisEventListener<SysUserImportVo
     private final Boolean isUpdateSupport;
 
     private final String operName;
-
-    private int successNum = 0;
-    private int failureNum = 0;
     private final StringBuilder successMsg = new StringBuilder();
     private final StringBuilder failureMsg = new StringBuilder();
+    private int successNum = 0;
+    private int failureNum = 0;
 
     public SysUserImportListener(Boolean isUpdateSupport) {
         String initPassword = SpringUtils.getBean(ISysConfigService.class).selectConfigByKey("sys.user.initPassword");
-        this.userService = SpringUtils.getBean(ISysUserService.class);
-        this.password = BCrypt.hashpw(initPassword);
+        userService = SpringUtils.getBean(ISysUserService.class);
+        password = BCrypt.hashpw(initPassword);
         this.isUpdateSupport = isUpdateSupport;
-        this.operName = LoginHelper.getUsername();
+        operName = LoginHelper.getUsername();
     }
 
     @Override
     public void invoke(SysUserImportVo userVo, AnalysisContext context) {
-        SysUser user = this.userService.selectUserByUserName(userVo.getUserName());
+        SysUser user = userService.selectUserByUserName(userVo.getUserName());
         try {
             // 验证是否存在这个用户
             if (ObjectUtil.isNull(user)) {
@@ -60,7 +60,8 @@ public class SysUserImportListener extends AnalysisEventListener<SysUserImportVo
                 user.setCreateBy(operName);
                 userService.insertUser(user);
                 successNum++;
-                successMsg.append("<br/>").append(successNum).append("、账号 ").append(user.getUserName()).append(" 导入成功");
+                successMsg.append("<br/>").append(successNum).append("、账号 ").append(user.getUserName())
+                    .append(" 导入成功");
             } else if (isUpdateSupport) {
                 Long userId = user.getUserId();
                 user = BeanUtil.toBean(userVo, SysUser.class);
@@ -71,10 +72,12 @@ public class SysUserImportListener extends AnalysisEventListener<SysUserImportVo
                 user.setUpdateBy(operName);
                 userService.updateUser(user);
                 successNum++;
-                successMsg.append("<br/>").append(successNum).append("、账号 ").append(user.getUserName()).append(" 更新成功");
+                successMsg.append("<br/>").append(successNum).append("、账号 ").append(user.getUserName())
+                    .append(" 更新成功");
             } else {
                 failureNum++;
-                failureMsg.append("<br/>").append(failureNum).append("、账号 ").append(user.getUserName()).append(" 已存在");
+                failureMsg.append("<br/>").append(failureNum).append("、账号 ").append(user.getUserName())
+                    .append(" 已存在");
             }
         } catch (Exception e) {
             failureNum++;
@@ -94,6 +97,16 @@ public class SysUserImportListener extends AnalysisEventListener<SysUserImportVo
         return new ExcelResult<SysUserImportVo>() {
 
             @Override
+            public List<SysUserImportVo> getList() {
+                return null;
+            }
+
+            @Override
+            public List<String> getErrorList() {
+                return null;
+            }
+
+            @Override
             public String getAnalysis() {
                 if (failureNum > 0) {
                     failureMsg.insert(0, "很抱歉，导入失败！共 " + failureNum + " 条数据格式不正确，错误如下：");
@@ -102,16 +115,6 @@ public class SysUserImportListener extends AnalysisEventListener<SysUserImportVo
                     successMsg.insert(0, "恭喜您，数据已全部导入成功！共 " + successNum + " 条，数据如下：");
                 }
                 return successMsg.toString();
-            }
-
-            @Override
-            public List<SysUserImportVo> getList() {
-                return null;
-            }
-
-            @Override
-            public List<String> getErrorList() {
-                return null;
             }
         };
     }
