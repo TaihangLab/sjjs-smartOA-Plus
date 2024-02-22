@@ -649,6 +649,7 @@ insert into sys_dict_data values(32, 3,  '已完成',   'completed',  'wf_proces
 insert into sys_dict_data values(33, 4,  '已取消',   'canceled',   'wf_process_status',   '',   'warning',  'N', '0', 'admin', sysdate(), '', null, '已取消状态');
 
 
+
 -- ----------------------------
 -- 13、参数配置表
 -- ----------------------------

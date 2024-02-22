@@ -117,7 +117,7 @@
                 <AddEvents :projectId="projectId.toString()" :visible.sync="eventsDialogVisibleAdd"
                            @close-dialog="closeEventsDialog">
                 </AddEvents>
-            </el-dialog>
+            </el-dialog>    
             <!-- 页号 -->
             <el-pagination :current-page="this.queryParam.pageNum" :page-size="this.queryParam.pageSize"
                            :page-sizes="[5, 10, 20, 50, 100]" :total="total"

@@ -10,6 +10,7 @@ import com.alibaba.excel.metadata.data.ReadCellData;
 import com.alibaba.excel.metadata.data.WriteCellData;
 import com.alibaba.excel.metadata.property.ExcelContentProperty;
 import com.ruoyi.common.annotation.ExcelEnumFormat;
+import com.ruoyi.common.utils.EnumCacheUtils;
 import com.ruoyi.common.utils.reflect.ReflectUtils;
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,19 +37,26 @@ public class ExcelEnumConvert implements Converter<Object> {
     }
 
     @Override
-    public Object convertToJavaData(ReadCellData<?> cellData, ExcelContentProperty contentProperty, GlobalConfiguration globalConfiguration) {
-        Object codeValue = cellData.getData();
-        // 如果是空值
-        if (ObjectUtil.isNull(codeValue)) {
-            return null;
-        }
-        Map<Object, String> enumValueMap = beforeConvert(contentProperty);
-        String textValue = enumValueMap.get(codeValue);
-        return Convert.convert(contentProperty.getField().getType(), textValue);
+    public Object convertToJavaData(ReadCellData<?> cellData, ExcelContentProperty contentProperty,
+        GlobalConfiguration globalConfiguration) {
+        //        Object codeValue = cellData.getData();
+        //        // 如果是空值
+        //        if (ObjectUtil.isNull(codeValue)) {
+        //            return null;
+        //        }
+        //        Map<Object, String> enumValueMap = beforeConvert(contentProperty);
+        //        String textValue = enumValueMap.get(codeValue);
+        //        return Convert.convert(contentProperty.getField().getType(), textValue);
+
+        String description = cellData.getStringValue();
+        log.info("description:{}", description);
+        ExcelEnumFormat anno = getAnnotation(contentProperty.getField());
+        return EnumCacheUtils.findByValue(anno.enumClass(), description, null);
     }
 
     @Override
-    public WriteCellData<String> convertToExcelData(Object object, ExcelContentProperty contentProperty, GlobalConfiguration globalConfiguration) {
+    public WriteCellData<String> convertToExcelData(Object object, ExcelContentProperty contentProperty,
+        GlobalConfiguration globalConfiguration) {
         if (ObjectUtil.isNull(object)) {
             return new WriteCellData<>("");
         }

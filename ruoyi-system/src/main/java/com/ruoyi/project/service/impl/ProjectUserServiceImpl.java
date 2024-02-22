@@ -426,11 +426,10 @@ public class ProjectUserServiceImpl implements ProjectUserService {
         if (projectUserList == null || projectUserList.isEmpty()) {
             return;
         }
-        projectUserList.stream().map(projectUser -> projectUserMapper.delete(new LambdaQueryWrapper<ProjectUser>()
+        projectUserList.forEach(projectUser -> projectUserMapper.delete(new LambdaQueryWrapper<ProjectUser>()
             .eq(ProjectUser::getProjectId, projectUser.getProjectId())
             .eq(ProjectUser::getUserId, projectUser.getUserId())
-            .eq(ProjectUser::getProjectUserRole, projectUser.getProjectUserRole())
-        )).collect(Collectors.toList());
+            .eq(ProjectUser::getProjectUserRole, projectUser.getProjectUserRole())));
     }
 
     /**
