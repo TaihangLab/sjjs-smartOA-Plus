@@ -2,11 +2,10 @@ package com.ruoyi.common.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.IEnum;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import lombok.*;
-
-import java.util.Arrays;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
 
 /**
  * 学历
@@ -39,5 +38,5 @@ public enum DiplomaTypeEnum implements IEnum<Integer> {
     @JsonValue
     private final Integer value;
     private final String description;
-
+    
 }
