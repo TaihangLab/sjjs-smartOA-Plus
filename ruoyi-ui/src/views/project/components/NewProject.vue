@@ -61,7 +61,7 @@
                                  ref="projectProgress"></ProjectProgress>
             </el-collapse-transition>
             <el-collapse-transition>
-                <ProjectSpecialFund v-show="stepID===10" ></ProjectSpecialFund>
+                <ProjectSpecialFund v-show="stepID===10" :cards1="cards1Form" :cards2="cards2Form" :table-data="tableDataForm"></ProjectSpecialFund>
             </el-collapse-transition>
         </el-main>
 
@@ -104,6 +104,7 @@ import {addProject, getProject, updateProject} from "@/views/project/components/
 import {resetObject} from "@/views/project/components/utils";
 import ProjectProgress from "@/views/project/components/ProjectProgress.vue";
 import ProjectSpecialFund from "@/views/project/components/ProjectSpecialFund.vue";
+import item from "@/layout/components/Sidebar/Item.vue";
 
 const TOTAL_STEPS = 11;
 
@@ -157,6 +158,9 @@ export default {
             mainAttachmentForm  : {},
             otherAttachmentForm : {},
             projectProgressForm : {},
+            cards1Form: [],
+            cards2Form: [],
+            tableDataForm: [],
         };
     },
 
@@ -283,6 +287,7 @@ export default {
                 this.projectPlanForm,
                 this.otherAttachmentForm,
                 this.projectProgressForm,
+                this.projectSpecialFundForm(this.cards1Form, this.cards2Form, this.tableDataForm),
             )
                 .then(resp => {
                     this.$message({
@@ -297,6 +302,31 @@ export default {
             this.$emit('update:visible', false);
             // this.$emit("refresh");
             setTimeout(() => location.reload(), 900);
+        },
+        projectSpecialFundForm(cards1Form, cards2Form, tableDataForm) {
+            const result = {};
+            // 转换一级选择器的数据
+            cards1Form.forEach(item => {
+                result[item.header] = item.content; // 使用header作为键，content作为值
+            });
+            cards2Form.forEach(item =>{
+                item.forEach(item1 =>{
+                    result[item1.header] = item1.content;
+                })
+            })
+            // 转换三级选择器的数据
+            // 遍历一级数组
+            tableDataForm.forEach(level1 => {
+                // 遍历二级数组
+                level1.forEach(level2 => {
+                    // 遍历二级数组中的对象
+                    level2.forEach(item => {
+                        result[item.header] = item.content; // 使用header作为键，content作为值
+                    });
+                });
+            });
+            console.log("projectSpecialFundForm",result);
+            return result;
         },
     },
 
