@@ -593,8 +593,6 @@ insert into sys_dict_type values(8,  '通知状态', 'sys_notice_status',   '0',
 insert into sys_dict_type values(9,  '操作类型', 'sys_oper_type',       '0', 'admin', sysdate(), '', null, '操作类型列表');
 insert into sys_dict_type values(10, '系统状态', 'sys_common_status',   '0', 'admin', sysdate(), '', null, '登录状态列表');
 insert into sys_dict_type values(11, '流程状态', 'wf_process_status',   '0', 'admin', sysdate(), '', null, '工作流程状态');
-insert into sys_dict_type values(12, '用户职称', 'sys_user_job_title',   '0', 'admin', sysdate(), '', null, '用户职称');
-insert into sys_dict_type values(13, '用户学历', 'sys_user_diploma',   '0', 'admin', sysdate(), '', null, '用户学历');
 
 
 -- ----------------------------
@@ -649,15 +647,7 @@ insert into sys_dict_data values(30, 1,  '进行中',   'running',    'wf_proces
 insert into sys_dict_data values(31, 2,  '已终止',   'terminated', 'wf_process_status',   '',   'danger',   'N', '0', 'admin', sysdate(), '', null, '已终止状态');
 insert into sys_dict_data values(32, 3,  '已完成',   'completed',  'wf_process_status',   '',   'success',  'N', '0', 'admin', sysdate(), '', null, '已完成状态');
 insert into sys_dict_data values(33, 4,  '已取消',   'canceled',   'wf_process_status',   '',   'warning',  'N', '0', 'admin', sysdate(), '', null, '已取消状态');
-insert into sys_dict_data VALUES (34, 1, '正高级', '0', 'sys_user_job_title', null, 'default', 'N', '0', 'admin', '2023-12-26 17:32:20', 'admin', '2023-12-26 17:32:20', null);
-insert into sys_dict_data VALUES (35, 2, '副高级', '1', 'sys_user_job_title', null, 'default', 'N', '0', 'admin', '2023-12-26 17:32:30', 'admin', '2023-12-26 17:32:30', null);
-insert into sys_dict_data VALUES (36, 3, '中级', '2', 'sys_user_job_title', null, 'default', 'N', '0', 'admin', '2023-12-26 17:32:45', 'admin', '2023-12-26 17:32:45', null);
-insert into sys_dict_data VALUES (37, 4, '初级', '3', 'sys_user_job_title', null, 'default', 'N', '0', 'admin', '2023-12-26 17:33:02', 'admin', '2023-12-26 17:33:02', null);
-insert into sys_dict_data VALUES (38, 5, '无', '4', 'sys_user_job_title', '', 'default', 'N', '0', 'admin', '2023-12-26 17:33:19', 'admin', '2023-12-26 17:33:19', null);
-insert into sys_dict_data VALUES (39, 1, '博士研究生', '0', 'sys_user_diploma', null, 'default', 'N', '0', 'admin', '2023-12-27 14:43:21', 'admin', '2023-12-27 14:43:21', null);
-insert into sys_dict_data VALUES (40, 2, '硕士研究生', '1', 'sys_user_diploma', null, 'default', 'N', '0', 'admin', '2023-12-27 14:43:45', 'admin', '2023-12-27 14:43:45', null);
-insert into sys_dict_data VALUES (41, 3, '本科', '2', 'sys_user_diploma', null, 'default', 'N', '0', 'admin', '2023-12-27 14:44:00', 'admin', '2023-12-27 14:44:00', null);
-insert into sys_dict_data VALUES (42, 4, '专科', '3', 'sys_user_diploma', null, 'default', 'N', '0', 'admin', '2023-12-27 14:44:18', 'admin', '2023-12-27 14:44:18', null);
+
 
 
 -- ----------------------------
