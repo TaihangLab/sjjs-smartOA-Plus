@@ -232,6 +232,12 @@ export const dynamicRoutes = [
                 meta: {title: '项目附件', icon: 'clipboard'}
             },
             {
+                path: 'intellectualProperty',
+                component: () => import('@/views/project/ExpenseRecord.vue'),
+                name: '经费支出/到账',
+                meta: {title: '经费支出/到账', icon: 'form'}
+            },
+            {
                 path: 'project',
                 component: () => import('@/views/project/Project.vue'),
                 name: '项目',
