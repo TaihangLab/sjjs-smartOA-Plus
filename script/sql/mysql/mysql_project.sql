@@ -255,7 +255,34 @@ create table project_funds
 create index project_funds_project_id_index
     on project_funds (project_id);
 
+-- ----------------------------
+-- 项目支出表
+-- ----------------------------
 
+DROP TABLE IF EXISTS `project_expenditure`;
+create table project_expenditure
+(
+    expenditure_id       bigint auto_increment comment '支出id'
+        primary key,
+    project_id           bigint                          not null comment '项目id',
+    expenditure_date     datetime                        null comment '支出日期',
+    project_name         varchar(200)                    null comment '项目名称',
+    voucher_no           varchar(100)                    null comment '凭证号',
+    expenditure_abstract varchar(300)                    null comment '摘要',
+    zxzc                 tinyint                         null comment '专项/自筹,0专项,1自筹',
+    first_level_subject  tinyint                         null comment '一级科目',
+    second_level_subject tinyint                         null comment '二级科目',
+    amount               decimal(12, 6) default 0.000000 null comment '支出金额',
+    create_time          datetime                        null comment '创建时间',
+    update_time          datetime                        null comment '更新时间',
+    create_by            varchar(100)   default ''       null comment '创建人',
+    update_by            varchar(100)   default ''       null comment '更新人',
+    deleted              tinyint        default 0        null comment '是否删除，2删除，0未删除'
+)
+    comment '项目支出表';
+
+create index project_expenditure_project_id_index
+    on project_expenditure (project_id);
 
 -- ----------------------------
 -- 4、项目指标表

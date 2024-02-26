@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.mapper.ProjectExpenditureMapper">
+
+    <resultMap id="ProjectExpenditureResult" type="com.ruoyi.project.domain.ProjectExpenditure">
+        <id property="expenditureId" column="expenditure_id" jdbcType="BIGINT"/>
+        <result property="projectId" column="project_id" jdbcType="BIGINT"/>
+        <result property="expenditureDate" column="expenditure_date" jdbcType="TIMESTAMP"/>
+        <result property="projectName" column="project_name" jdbcType="VARCHAR"/>
+        <result property="voucherNo" column="voucher_no" jdbcType="VARCHAR"/>
+        <result property="expenditureAbstract" column="expenditure_abstract" jdbcType="VARCHAR"/>
+        <result property="zxzc" column="zxzc" jdbcType="TINYINT"/>
+        <result property="firstLevelSubject" column="first_level_subject" jdbcType="TINYINT"/>
+        <result property="secondLevelSubject" column="second_level_subject" jdbcType="TINYINT"/>
+        <result property="amount" column="amount" jdbcType="DECIMAL"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="deleted" column="deleted" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        expenditure_id,project_id,expenditure_date,
+        project_name,voucher_no,expenditure_abstract,
+        zxzc,first_level_subject,second_level_subject,
+        amount,create_time,update_time,
+        create_by,update_by,deleted
+    </sql>
+</mapper>
