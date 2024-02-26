@@ -272,7 +272,7 @@ create table project_expenditure
     zxzc                 tinyint                         null comment '专项/自筹,0专项,1自筹',
     first_level_subject  tinyint                         null comment '一级科目',
     second_level_subject tinyint                         null comment '二级科目',
-    amount               decimal(12, 6) default 0.000000 null comment '支出金额',
+    amount               decimal(12, 2) default 0.00 null comment '支出金额,单位:元',
     create_time          datetime                        null comment '创建时间',
     update_time          datetime                        null comment '更新时间',
     create_by            varchar(100)   default ''       null comment '创建人',
