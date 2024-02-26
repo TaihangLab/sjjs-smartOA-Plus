@@ -9,8 +9,8 @@ import com.ruoyi.common.enums.ExistenceStateEnum;
 import com.ruoyi.common.enums.ProjectLevelEnum;
 import com.ruoyi.common.enums.ProjectStatusEnum;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
@@ -21,7 +21,8 @@ import java.time.LocalDate;
  * @TableName project_base_info
  * @date 2024/02/06
  */
-@TableName(value ="project_base_info")
+@EqualsAndHashCode(callSuper = false)
+@TableName(value = "project_base_info")
 @Data
 public class ProjectBaseInfo extends BaseEntity {
     private static final long serialVersionUID = 8954237796352061001L;
@@ -34,14 +35,11 @@ public class ProjectBaseInfo extends BaseEntity {
     /**
      * 项目牵头单位
      */
-    @Size(max = 100, message = "项目牵头单位长度不能超过200个字符")
     private String leadingUnit;
 
     /**
      * 承担课题名称
      */
-    @NotBlank(message = "承担课题名称不能为空")
-    @Size(max = 200, message = "承担课题名称长度不能超过200个字符")
     private String assignedSubjectName;
 
     /**

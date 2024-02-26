@@ -65,4 +65,8 @@ public enum JobTitleEnum implements IEnum<Integer> {
         this.description = description;
     }
 
+    @Override
+    public String toString() {
+        return description;
+    }
 }

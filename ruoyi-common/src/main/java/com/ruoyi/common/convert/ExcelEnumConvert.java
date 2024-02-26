@@ -1,8 +1,6 @@
 package com.ruoyi.common.convert;
 
 import cn.hutool.core.annotation.AnnotationUtil;
-import cn.hutool.core.convert.Convert;
-import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.excel.converters.Converter;
 import com.alibaba.excel.enums.CellDataTypeEnum;
 import com.alibaba.excel.metadata.GlobalConfiguration;
@@ -57,12 +55,17 @@ public class ExcelEnumConvert implements Converter<Object> {
     @Override
     public WriteCellData<String> convertToExcelData(Object object, ExcelContentProperty contentProperty,
         GlobalConfiguration globalConfiguration) {
-        if (ObjectUtil.isNull(object)) {
-            return new WriteCellData<>("");
-        }
-        Map<Object, String> enumValueMap = beforeConvert(contentProperty);
-        String value = Convert.toStr(enumValueMap.get(object), "");
-        return new WriteCellData<>(value);
+        //        if (ObjectUtil.isNull(object)) {
+        //            return new WriteCellData<>("");
+        //        }
+        //        Map<Object, String> enumValueMap = beforeConvert(contentProperty);
+        //        String value = Convert.toStr(enumValueMap.get(object), "");
+        //        return new WriteCellData<>(value);
+        return new WriteCellData<>(object.toString());
+    }
+
+    private ExcelEnumFormat getAnnotation(Field field) {
+        return AnnotationUtil.getAnnotation(field, ExcelEnumFormat.class);
     }
 
     private Map<Object, String> beforeConvert(ExcelContentProperty contentProperty) {
@@ -75,9 +78,5 @@ public class ExcelEnumConvert implements Converter<Object> {
             enumValueMap.put(codeValue, textValue);
         }
         return enumValueMap;
-    }
-
-    private ExcelEnumFormat getAnnotation(Field field) {
-        return AnnotationUtil.getAnnotation(field, ExcelEnumFormat.class);
     }
 }

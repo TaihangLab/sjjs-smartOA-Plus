@@ -48,4 +48,8 @@ public enum DiplomaTypeEnum implements IEnum<Integer> {
     private final Integer value;
     private final String description;
 
+    @Override
+    public String toString() {
+        return description;
+    }
 }
