@@ -1,8 +1,6 @@
 package com.ruoyi.project.domain;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.ruoyi.common.constant.DateConstants;
 import com.ruoyi.common.core.domain.BaseEntity;
 import com.ruoyi.common.enums.ConfirmationStatusEnum;
 import com.ruoyi.common.enums.ExistenceStateEnum;
@@ -11,7 +9,6 @@ import com.ruoyi.common.enums.ProjectStatusEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 /**
@@ -80,13 +77,11 @@ public class ProjectBaseInfo extends BaseEntity {
     /**
      * 立项日期
      */
-    @JsonFormat(pattern = DateConstants.YYYY_MM_DD)
     private LocalDate projectEstablishTime;
 
     /**
      * 项目计划验收时间
      */
-    @JsonFormat(pattern = DateConstants.YYYY_MM_DD)
     private LocalDate projectScheduledCompletionTime;
 
     /**
@@ -97,13 +92,11 @@ public class ProjectBaseInfo extends BaseEntity {
     /**
      * 项目简介
      */
-    @Size(max = 1000, message = "项目简介长度不能超过1000个字符")
     private String projectDescription;
 
     /**
      * 意义及必要性
      */
-    @Size(max = 2000, message = "意义及必要性长度不能超过2000个字符")
     private String significanceAndNecessity;
 
     /**
@@ -114,7 +107,7 @@ public class ProjectBaseInfo extends BaseEntity {
     /**
      * 完成进度
      */
-    @Size(max = 2000, message = "完成进度长度不能超过2000个字符")
+
     private String completionProgress;
 
     /**

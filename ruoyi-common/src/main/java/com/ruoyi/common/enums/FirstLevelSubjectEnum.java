@@ -3,6 +3,7 @@ package com.ruoyi.common.enums;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.ruoyi.common.utils.EnumCacheUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
@@ -49,6 +50,14 @@ public enum FirstLevelSubjectEnum implements IEnum<Integer> {
      * 绩效支出
      */
     PERFORMANCE_EXPENDITURE(7, "绩效支出");
+
+    static {
+        // 通过名称构建缓存,通过EnumCache.findByName(StatusEnum.class,"SUCCESS",null);调用能获取枚举
+        EnumCacheUtils.registerByName(FirstLevelSubjectEnum.class, FirstLevelSubjectEnum.values());
+        // 通过code构建缓存,通过EnumCache.findByValue(StatusEnum.class,"S",null);调用能获取枚举
+        EnumCacheUtils.registerByValue(FirstLevelSubjectEnum.class, FirstLevelSubjectEnum.values(),
+            FirstLevelSubjectEnum::getDescription);
+    }
 
     @EnumValue
     @JsonValue

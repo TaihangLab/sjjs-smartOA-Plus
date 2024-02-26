@@ -3,6 +3,7 @@ package com.ruoyi.common.enums;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.ruoyi.common.utils.EnumCacheUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
@@ -98,6 +99,14 @@ public enum SecondLevelSubjectEnum implements IEnum<Integer> {
      * 人员劳务费
      */
     PERSONNEL_SERVICE_FEE(19, "人员劳务费");
+
+    static {
+        // 通过名称构建缓存,通过EnumCache.findByName(StatusEnum.class,"SUCCESS",null);调用能获取枚举
+        EnumCacheUtils.registerByName(SecondLevelSubjectEnum.class, SecondLevelSubjectEnum.values());
+        // 通过code构建缓存,通过EnumCache.findByValue(StatusEnum.class,"S",null);调用能获取枚举
+        EnumCacheUtils.registerByValue(SecondLevelSubjectEnum.class, SecondLevelSubjectEnum.values(),
+            SecondLevelSubjectEnum::getDescription);
+    }
 
     @EnumValue
     @JsonValue

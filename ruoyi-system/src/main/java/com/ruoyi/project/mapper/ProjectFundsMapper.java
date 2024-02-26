@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @description 针对表【project_funds(项目经费表（单位：万元）)】的数据库操作Mapper
  * @createDate 2024-02-19 17:45:55
  * @Entity com.ruoyi.project.domain.ProjectFunds
+ * @date 2024/02/26
  */
 @Mapper
 public interface ProjectFundsMapper extends BaseMapperPlus<ProjectFundsMapper, ProjectFunds, ProjectFundsVO> {

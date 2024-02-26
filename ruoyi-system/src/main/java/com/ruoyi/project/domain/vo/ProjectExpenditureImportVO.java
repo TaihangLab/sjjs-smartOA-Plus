@@ -3,6 +3,7 @@ package com.ruoyi.project.domain.vo;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.format.DateTimeFormat;
 import com.ruoyi.common.annotation.ExcelEnumFormat;
+import com.ruoyi.common.convert.ExcelEnumConvert;
 import com.ruoyi.common.enums.FirstLevelSubjectEnum;
 import com.ruoyi.common.enums.SecondLevelSubjectEnum;
 import com.ruoyi.common.enums.ZxZcEnum;
@@ -47,19 +48,19 @@ public class ProjectExpenditureImportVO implements Serializable {
     /**
      * 专项/自筹,0专项,1自筹
      */
-    @ExcelProperty(value = "专项/自筹")
+    @ExcelProperty(value = "专项/自筹", converter = ExcelEnumConvert.class)
     @ExcelEnumFormat(enumClass = ZxZcEnum.class, textField = "description")
     private ZxZcEnum zxzc;
     /**
      * 一级科目
      */
-    @ExcelProperty(value = "科目粗分")
+    @ExcelProperty(value = "科目粗分", converter = ExcelEnumConvert.class)
     @ExcelEnumFormat(enumClass = FirstLevelSubjectEnum.class, textField = "description")
     private FirstLevelSubjectEnum firstLevelSubject;
     /**
      * 二级科目
      */
-    @ExcelProperty(value = "科目细分")
+    @ExcelProperty(value = "科目细分", converter = ExcelEnumConvert.class)
     @ExcelEnumFormat(enumClass = SecondLevelSubjectEnum.class, textField = "description")
     private SecondLevelSubjectEnum secondLevelSubject;
     /**

@@ -1,9 +1,6 @@
 package com.ruoyi.project.domain;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.ruoyi.common.core.domain.BaseEntity;
 import com.ruoyi.common.enums.FirstLevelSubjectEnum;
 import com.ruoyi.common.enums.SecondLevelSubjectEnum;
@@ -12,7 +9,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  * 项目支出表
@@ -36,7 +33,7 @@ public class ProjectExpenditure extends BaseEntity implements Serializable {
     /**
      * 支出日期
      */
-    private LocalDateTime expenditureDate;
+    private LocalDate expenditureDate;
     /**
      * 项目名称
      */
@@ -65,4 +62,10 @@ public class ProjectExpenditure extends BaseEntity implements Serializable {
      * 支出金额
      */
     private BigDecimal amount;
+    /**
+     * 是否删除，2删除，0未删除
+     */
+    @TableLogic
+    @TableField(select = false)
+    private Integer deleted;
 }
