@@ -2,7 +2,9 @@ package com.ruoyi.system.domain.vo;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.ruoyi.common.annotation.ExcelDictFormat;
+import com.ruoyi.common.annotation.ExcelEnumFormat;
 import com.ruoyi.common.convert.ExcelDictConvert;
+import com.ruoyi.common.convert.ExcelEnumConvert;
 import com.ruoyi.common.enums.DiplomaTypeEnum;
 import com.ruoyi.common.enums.JobTitleEnum;
 import lombok.Data;
@@ -62,15 +64,15 @@ public class SysUserExportVo implements Serializable {
     /**
      * 用户职称
      */
-    @ExcelProperty(value = "用户职称", converter = ExcelDictConvert.class)
-    @ExcelDictFormat(dictType = "sys_user_job_title")
-    private JobTitleEnum jobTitleEnum;
+    @ExcelProperty(value = "用户职称", converter = ExcelEnumConvert.class)
+    @ExcelEnumFormat(enumClass = JobTitleEnum.class, textField = "description")
+    private JobTitleEnum jobTitle;
 
     /**
      * 用户学历
      */
-    @ExcelProperty(value = "用户学历", converter = ExcelDictConvert.class)
-    @ExcelDictFormat(dictType = "sys_user_diploma")
+    @ExcelProperty(value = "用户学历", converter = ExcelEnumConvert.class)
+    @ExcelEnumFormat(enumClass = DiplomaTypeEnum.class, textField = "description")
     private DiplomaTypeEnum diploma;
 
     /**

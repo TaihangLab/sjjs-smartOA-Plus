@@ -1,17 +1,14 @@
 package com.ruoyi.project.domain;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.ruoyi.common.constant.DateConstants;
 import com.ruoyi.common.core.domain.BaseEntity;
 import com.ruoyi.common.enums.ConfirmationStatusEnum;
 import com.ruoyi.common.enums.ExistenceStateEnum;
 import com.ruoyi.common.enums.ProjectLevelEnum;
 import com.ruoyi.common.enums.ProjectStatusEnum;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 /**
@@ -21,7 +18,8 @@ import java.time.LocalDate;
  * @TableName project_base_info
  * @date 2024/02/06
  */
-@TableName(value ="project_base_info")
+@EqualsAndHashCode(callSuper = false)
+@TableName(value = "project_base_info")
 @Data
 public class ProjectBaseInfo extends BaseEntity {
     private static final long serialVersionUID = 8954237796352061001L;
@@ -34,14 +32,11 @@ public class ProjectBaseInfo extends BaseEntity {
     /**
      * 项目牵头单位
      */
-    @Size(max = 100, message = "项目牵头单位长度不能超过200个字符")
     private String leadingUnit;
 
     /**
      * 承担课题名称
      */
-    @NotBlank(message = "承担课题名称不能为空")
-    @Size(max = 200, message = "承担课题名称长度不能超过200个字符")
     private String assignedSubjectName;
 
     /**
@@ -82,13 +77,11 @@ public class ProjectBaseInfo extends BaseEntity {
     /**
      * 立项日期
      */
-    @JsonFormat(pattern = DateConstants.YYYY_MM_DD)
     private LocalDate projectEstablishTime;
 
     /**
      * 项目计划验收时间
      */
-    @JsonFormat(pattern = DateConstants.YYYY_MM_DD)
     private LocalDate projectScheduledCompletionTime;
 
     /**
@@ -99,13 +92,11 @@ public class ProjectBaseInfo extends BaseEntity {
     /**
      * 项目简介
      */
-    @Size(max = 1000, message = "项目简介长度不能超过1000个字符")
     private String projectDescription;
 
     /**
      * 意义及必要性
      */
-    @Size(max = 2000, message = "意义及必要性长度不能超过2000个字符")
     private String significanceAndNecessity;
 
     /**
@@ -116,7 +107,7 @@ public class ProjectBaseInfo extends BaseEntity {
     /**
      * 完成进度
      */
-    @Size(max = 2000, message = "完成进度长度不能超过2000个字符")
+
     private String completionProgress;
 
     /**

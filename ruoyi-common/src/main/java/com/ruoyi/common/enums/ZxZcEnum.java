@@ -9,47 +9,33 @@ import lombok.Getter;
 import lombok.ToString;
 
 /**
- * 学历
+ * 专项/自筹
  *
  * @author bailingnan
- * @date 2023/12/27
+ * @date 2024/2/23
  */
 @Getter
 @AllArgsConstructor
 @ToString
-public enum DiplomaTypeEnum implements IEnum<Integer> {
+public enum ZxZcEnum implements IEnum<Integer> {
     /**
-     * 博士研究生
+     * 专项
      */
-    UNDERGRADUATEDOCTOR(0, "博士研究生"),
+    SPECIAL_ITEM(0, "专项"),
     /**
-     * 硕士研究生
+     * 自筹
      */
-    MASTER(1, "硕士研究生"),
-    /**
-     * 本科
-     */
-    UNDERGRADUATE(2, "本科"),
-    /**
-     * 专科
-     */
-    COLLEGE(3, "专科");
+    SELF_RAISED(1, "自筹");
 
     static {
         // 通过名称构建缓存,通过EnumCache.findByName(StatusEnum.class,"SUCCESS",null);调用能获取枚举
-        EnumCacheUtils.registerByName(DiplomaTypeEnum.class, DiplomaTypeEnum.values());
+        EnumCacheUtils.registerByName(ZxZcEnum.class, ZxZcEnum.values());
         // 通过code构建缓存,通过EnumCache.findByValue(StatusEnum.class,"S",null);调用能获取枚举
-        EnumCacheUtils.registerByValue(DiplomaTypeEnum.class, DiplomaTypeEnum.values(),
-            DiplomaTypeEnum::getDescription);
+        EnumCacheUtils.registerByValue(ZxZcEnum.class, ZxZcEnum.values(), ZxZcEnum::getDescription);
     }
 
     @EnumValue
     @JsonValue
     private final Integer value;
     private final String description;
-
-    @Override
-    public String toString() {
-        return description;
-    }
 }

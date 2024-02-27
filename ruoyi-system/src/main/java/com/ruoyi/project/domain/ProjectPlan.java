@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.ruoyi.common.constant.DateConstants;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -43,12 +41,10 @@ public class ProjectPlan implements Serializable {
     /**
      * 阶段开始日期
      */
-    @JsonFormat(pattern = DateConstants.YYYY_MM)
     private LocalDate stageStartDate;
     /**
      * 阶段结束日期
      */
-    @JsonFormat(pattern = DateConstants.YYYY_MM)
     private LocalDate stageEndDate;
     /**
      * 阶段任务
@@ -57,7 +53,8 @@ public class ProjectPlan implements Serializable {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(projectId).append(stageStartDate).append(stageEndDate).append(stageTask).toHashCode();
+        return new HashCodeBuilder().append(projectId).append(stageStartDate).append(stageEndDate).append(stageTask)
+            .toHashCode();
     }
 
     @Override
@@ -68,7 +65,8 @@ public class ProjectPlan implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        ProjectPlan that = (ProjectPlan) o;
-        return new EqualsBuilder().append(projectId, that.projectId).append(stageStartDate, that.stageStartDate).append(stageEndDate, that.stageEndDate).append(stageTask, that.stageTask).isEquals();
+        ProjectPlan that = (ProjectPlan)o;
+        return new EqualsBuilder().append(projectId, that.projectId).append(stageStartDate, that.stageStartDate)
+            .append(stageEndDate, that.stageEndDate).append(stageTask, that.stageTask).isEquals();
     }
 }
