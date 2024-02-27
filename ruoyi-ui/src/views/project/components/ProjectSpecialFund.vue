@@ -1,22 +1,22 @@
 <template>
     <el-card header="专项经费详情" shadow="hover">
-        <el-divider><i class="el-icon-caret-right"></i>直接经费<i class="el-icon-caret-left"></i></el-divider>
+        <el-divider class="custom-divider"><i class="el-icon-caret-right"></i>直接经费<i class="el-icon-caret-left"></i></el-divider>
         <el-card v-for="(card1, index1) in this.$props.cards1" :key="index1" shadow="hover"
                  @mouseover.native="$set(isButtonShowList1, index1, true)"
-                 @mouseleave.native="$set(isButtonShowList1, index1, false)">
-            <template slot="header">
-                <div class="header-container">
-                    <el-button class="add-button" icon="el-icon-circle-plus" circle type="success" plain @click="addCard(cards1, cards2)"
-                               v-show="isButtonShowList1[index1]"
-                    ></el-button>
-                    <el-button class="remove-button" icon="el-icon-remove" circle type="danger" plain @click="removeCard(index1, cards1, cards2)"
-                               v-show="isButtonShowList1[index1]"
-                    ></el-button>
-                    <el-select class="select-container" v-model="card1.header" placeholder="选择一级目录" size="medium">
+                 @mouseleave.native="$set(isButtonShowList1, index1, false)" class="custom-card">
+            <template slot="header" >
+                <div class="header-container" >
+                    <el-select class="select-container" v-model="card1.header" placeholder="请选择一级目录" size="medium">
                         <el-option v-for="option in categoryOptions1" :key="option.value" :label="option.label" :value="option.value"></el-option>
                     </el-select>
                     <el-input class="custom-input" v-model="card1.content" type="number" size="medium"></el-input>
-                    <el-button class="add-button" icon="el-icon-circle-plus" circle type="success" plain @click="addCard2(index1, cards2)"
+                    <el-button icon="el-icon-circle-plus" circle type="success" plain @click="addCard(cards1, cards2)"
+                               v-show="isButtonShowList1[index1]"
+                    ></el-button>
+                    <el-button  icon="el-icon-remove" circle type="danger" plain @click="removeCard(index1, cards1, cards2)"
+                               v-show="isButtonShowList1[index1]"
+                    ></el-button>
+                    <el-button icon="el-icon-circle-plus" circle type="success" plain @click="addCard2(index1, cards2)"
                                v-show="isButtonShowList1[index1]"
                     ></el-button>
                 </div>
@@ -26,11 +26,11 @@
                          @mouseover.native="$set(isButtonShowList2, index2, true)"
                          @mouseleave.native="$set(isButtonShowList2, index2, false)">
                     <template slot="header">
-                        <div class="header-container">
+                        <div class="header-container content-container">
                             <el-button class="remove-button" icon="el-icon-remove" circle type="danger" plain @click="removeCard2(index1, index2, cards2)"
                                        v-show="isButtonShowList2[index2]"
                             ></el-button>
-                            <el-select class="select-container" v-model="card2.header" placeholder="选择二级目录" size="small">
+                            <el-select class="select-container" v-model="card2.header" placeholder="请选择二级目录" size="small">
                                 <el-option v-for="option in filteredSecondOptions(index1)" :key="option.value" :label="option.label" :value="option.value"></el-option>
                             </el-select>
                             <el-input class="custom-input" v-model="card2.content" type="number" size="small"></el-input>
@@ -42,7 +42,7 @@
                     <el-table :data="tableData[index1][index2]" v-if="isTableVisible[index1][index2]" style="width: 100%" >
                         <el-table-column label="三级标签" align="center" :width="150">
                             <template slot-scope="scope">
-                                <el-select v-model="scope.row.header" placeholder="Select category" size="mini">
+                                <el-select v-model="scope.row.header" placeholder="请选择三级级目录" size="mini">
                                     <el-option v-for="category in filteredThirdOptions(index1,index2)" :key="category.value" :label="category.label" :value="category.value"></el-option>
                                 </el-select>
                             </template>
@@ -61,9 +61,6 @@
                 </el-card>
             </div>
         </el-card>
-        <div>
-            zz
-        </div>
     </el-card>
 </template>
 
@@ -86,8 +83,6 @@ export default {
     data() {
         return {
             isTableVisible: [[]],
-            // cards1: [],
-            // cards2: [],
             categoryOptions1: [
                 {
                     label: '设备费',
@@ -312,7 +307,6 @@ export default {
                     value: 'jxzcZxZj',
                 },
             ],
-            // tableData: [],
             isButtonShowList1: [],
             isButtonShowList2: [],
         };
@@ -412,10 +406,21 @@ export default {
 }
 .custom-input {
     width: 120px; /* 设置合适的宽度值 */
+    margin-right: 10px;
+}
+.custom-divider {
+    background-color: #c9c9c9; /* 设置线条颜色为红色 */
+}
+.custom-card {
+    border-color: #c9c9c9;
+    margin-top: 2px;
 }
 .header-container {
     display: flex;
     align-items: center;
+}
+.content-container {
+    justify-content: center; /* 将内容水平居中对齐 */
 }
 .card-container {
     display: flex;
