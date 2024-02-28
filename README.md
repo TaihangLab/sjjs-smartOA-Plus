@@ -7,7 +7,7 @@
 
 - 本项目基于 [RuoYi-Flowable-Plus](https://gitee.com/dromara/RuoYi-Vue-Plus) 进行二次开发，采用 `Flowable`
   扩展工作流应用场景，支持在线表单设计和丰富的工作流程设计能力。
-- 具备项目管理功能。
+- 具备完善的项目管理功能。
 - 本项目主要针对`Flowable`工作流场景开发，脚手架功能同步更新 [RuoYi-Vue-Plus](https://gitee.com/dromara/RuoYi-Vue-Plus) 项目。
 ## 参考文档
 - 项目文档：[RuoYi-Flowable-Plus开发文档](http://rfp-doc.konbai.work)
