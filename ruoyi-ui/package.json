@@ -10,8 +10,8 @@
         "predev:pwsh": "npm run add:shell && npm run add:script-shell",
         "dev:pwsh": "pwsh -command \"(New-Item -Path Env:\\NODE_OPTIONS -Value '--openssl-legacy-provider') &&  vue-cli-service serve\"",
         "dev:bash": "export NODE_OPTIONS='--openssl-legacy-provider' && vue-cli-service serve",
-        "dev": "vue-cli-service serve",
-        "build:prod": "vue-cli-service build",
+        "dev": "SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve",
+        "build:prod": "SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build",
         "preview": "node build/index.js --preview",
         "lint": "eslint --ext .js,.vue src"
     },
