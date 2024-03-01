@@ -2,11 +2,17 @@ package com.ruoyi.project.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ruoyi.common.core.domain.PageQuery;
+import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.project.domain.ProjectFunds;
+import com.ruoyi.project.domain.bo.ProjectBaseInfoBO;
 import com.ruoyi.project.domain.bo.ProjectFundsBO;
+import com.ruoyi.project.domain.vo.ProjectFundsManagementVO;
 import com.ruoyi.project.domain.vo.ProjectFundsVO;
 import com.ruoyi.project.mapper.ProjectFundsMapper;
+import com.ruoyi.project.service.ProjectBaseInfoService;
 import com.ruoyi.project.service.ProjectFundsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +34,41 @@ import java.util.stream.Collectors;
 public class ProjectFundsServiceImpl implements ProjectFundsService {
 
     private final ProjectFundsMapper projectFundsMapper;
+
+    private final ProjectBaseInfoService projectBaseInfoService;
+
+    @Override
+    public TableDataInfo<ProjectFundsManagementVO> queryPageList(ProjectBaseInfoBO projectBaseInfoBO,
+        PageQuery pageQuery) {
+        Page<ProjectFundsManagementVO> page=projectBaseInfoService.queryPageMyList(projectBaseInfoBO, pageQuery,ProjectFundsManagementVO.class);
+        buildRecords(page.getRecords());
+        return TableDataInfo.build(page);
+    }
+
+    private void buildRecords(List<ProjectFundsManagementVO> projectFundsManagementVOList) {
+        if (projectFundsManagementVOList == null || projectFundsManagementVOList.isEmpty()) {
+            return;
+        }
+        List<Long> projectIdList = projectFundsManagementVOList.stream().map(ProjectFundsManagementVO::getProjectId).collect(Collectors.toList());
+        //获取经费对应信息
+        Map<Long, ProjectFunds> projectFundsMap = getProjectFundsMapByProjectIdList(projectIdList);
+
+        projectFundsManagementVOList.forEach(projectBaseInfoVO -> {
+            Long projectId = projectBaseInfoVO.getProjectId();
+            //处理经费
+            ProjectFunds projectFunds = projectFundsMap.get(projectId);
+            setFunds(projectBaseInfoVO, projectFunds);
+            //TODO：处理经费支付
+        });
+    }
+
+    private void setFunds(ProjectFundsManagementVO projectFundsManagementVO, ProjectFunds projectFunds) {
+        if (projectFunds != null) {
+            projectFundsManagementVO.setTotalFundsAll(projectFunds.getTotalFundsAll());
+            projectFundsManagementVO.setTotalFundsZx(projectFunds.getTotalFundsZx());
+            projectFundsManagementVO.setTotalFundsZc(projectFunds.getTotalFundsZc());
+        }
+    }
 
     /**
      * 根据项目ID查询所有经费

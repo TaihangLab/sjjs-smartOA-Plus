@@ -109,7 +109,7 @@ public interface ProjectUserService {
      *
      * @return {@link List}<{@link Long}>
      */
-    List<Long> getProjectIdsByUserId(Long userId);
+    List<Long> getProjectIdListByUserId(Long userId);
 
     /**
      * 获取当前项目下项目成员角色和姓名的对应关系

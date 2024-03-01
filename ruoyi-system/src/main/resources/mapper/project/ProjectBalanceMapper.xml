@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.mapper.ProjectBalanceMapper">
+
+    <resultMap id="ProjectBalanceResult" type="com.ruoyi.project.domain.ProjectBalance">
+            <id property="fundsId" column="funds_id" jdbcType="BIGINT"/>
+            <result property="projectId" column="project_id" jdbcType="BIGINT"/>
+            <result property="totalFundsAllPaid" column="total_funds_all_paid" jdbcType="DECIMAL"/>
+            <result property="totalFundsAllUnpaid" column="total_funds_all_unpaid" jdbcType="DECIMAL"/>
+            <result property="totalFundsZxPaid" column="total_funds_zx_paid" jdbcType="DECIMAL"/>
+            <result property="totalFundsZxUnpaid" column="total_funds_zx_unpaid" jdbcType="DECIMAL"/>
+            <result property="sbfZxPaid" column="sbf_zx_paid" jdbcType="DECIMAL"/>
+            <result property="sbfZxUnpaid" column="sbf_zx_unpaid" jdbcType="DECIMAL"/>
+            <result property="totalFundsZxZjPaid" column="total_funds_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="totalFundsZxZjUnpaid" column="total_funds_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="totalFundsZxJjPaid" column="total_funds_zx_jj_paid" jdbcType="DECIMAL"/>
+            <result property="totalFundsZxJjUnpaid" column="total_funds_zx_jj_unpaid" jdbcType="DECIMAL"/>
+            <result property="totalFundsZcPaid" column="total_funds_zc_paid" jdbcType="DECIMAL"/>
+            <result property="totalFundsZcUnpaid" column="total_funds_zc_unpaid" jdbcType="DECIMAL"/>
+            <result property="sbfZcPaid" column="sbf_zc_paid" jdbcType="DECIMAL"/>
+            <result property="sbfZcUnpaid" column="sbf_zc_unpaid" jdbcType="DECIMAL"/>
+            <result property="totalFundsZcZjPaid" column="total_funds_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="totalFundsZcZjUnpaid" column="total_funds_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="totalFundsZcJjPaid" column="total_funds_zc_jj_paid" jdbcType="DECIMAL"/>
+            <result property="totalFundsZcJjUnpaid" column="total_funds_zc_jj_unpaid" jdbcType="DECIMAL"/>
+            <result property="sbfZxZjPaid" column="sbf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="sbfZxZjUnpaid" column="sbf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="sbfZcZjPaid" column="sbf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="sbfZcZjUnpaid" column="sbf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="sbfGzsbZxZjPaid" column="sbf_gzsb_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="sbfGzsbZxZjUnpaid" column="sbf_gzsb_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="sbfGzsbZcZjPaid" column="sbf_gzsb_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="sbfSzsbZxZjUnpaid" column="sbf_szsb_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="sbfSzsbZcZjPaid" column="sbf_szsb_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="sbfSzsbZcZjUnpaid" column="sbf_szsb_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="sbfSbsjgzZxZjPaid" column="sbf_sbsjgz_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="sbfSbsjgzZxZjUnpaid" column="sbf_sbsjgz_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="sbfSbsjgzZcZjPaid" column="sbf_sbsjgz_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="sbfSbsjgzZcZjUnpaid" column="sbf_sbsjgz_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="sbfSbzlZxZjPaid" column="sbf_sbzl_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="sbfSbzlZxZjUnpaid" column="sbf_sbzl_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="sbfSbzlZcZjPaid" column="sbf_sbzl_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="sbfSbzlZcZjUnpaid" column="sbf_sbzl_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfZxZjPaid" column="ywf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfZxZjUnpaid" column="ywf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfZcZjPaid" column="ywf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfZcZjUnpaid" column="ywf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfClfZxZjPaid" column="ywf_clf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfClfZxZjUnpaid" column="ywf_clf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfClfZcZjPaid" column="ywf_clf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfClfZcZjUnpaid" column="ywf_clf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfZlfZxZjPaid" column="ywf_zlf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfZlfZxZjUnpaid" column="ywf_zlf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfZlfZcZjPaid" column="ywf_zlf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfZlfZcZjUnpaid" column="ywf_zlf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfSjybcjfZxZjPaid" column="ywf_sjybcjf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfSjybcjfZxZjUnpaid" column="ywf_sjybcjf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfSjybcjfZcZjPaid" column="ywf_sjybcjf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfSjybcjfZcZjUnpaid" column="ywf_sjybcjf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfCshyjgfZxZjPaid" column="ywf_cshyjgf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfCshyjgfZxZjUnpaid" column="ywf_cshyjgf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfCshyjgfZcZjPaid" column="ywf_cshyjgf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfCshyjgfZcZjUnpaid" column="ywf_cshyjgf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfRldlfZxZjPaid" column="ywf_rldlf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfRldlfZxZjUnpaid" column="ywf_rldlf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfRldlfZcZjPaid" column="ywf_rldlf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfRldlfZcZjUnpaid" column="ywf_rldlf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfBgfZxZjPaid" column="ywf_bgf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfBgfZxZjUnpaid" column="ywf_bgf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfBgfZcZjPaid" column="ywf_bgf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfBgfZcZjUnpaid" column="ywf_bgf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfYscbfZxZjPaid" column="ywf_yscbf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfYscbfZxZjUnpaid" column="ywf_yscbf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfYscbfZcZjPaid" column="ywf_yscbf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfYscbfZcZjUnpaid" column="ywf_yscbf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfZscqswfZxZjPaid" column="ywf_zscqswf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfZscqswfZxZjUnpaid" column="ywf_zscqswf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfZscqswfZcZjPaid" column="ywf_zscqswf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfZscqswfZcZjUnpaid" column="ywf_zscqswf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfClsyfZxZjPaid" column="ywf_clsyf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfClsyfZxZjUnpaid" column="ywf_clsyf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfClsyfZcZjPaid" column="ywf_clsyf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfClsyfZcZjUnpaid" column="ywf_clsyf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfChlfZxZjPaid" column="ywf_chlf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfChlfZxZjUnpaid" column="ywf_chlf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfChlfZcZjPaid" column="ywf_chlf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfChlfZcZjUnpaid" column="ywf_chlf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfHyhwfZxZjPaid" column="ywf_hyhwf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfHyhwfZxZjUnpaid" column="ywf_hyhwf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfHyhwfZcZjPaid" column="ywf_hyhwf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfHyhwfZcZjUnpaid" column="ywf_hyhwf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfGnxzfZxZjPaid" column="ywf_gnxzf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfGnxzfZxZjUnpaid" column="ywf_gnxzf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfGnxzfZcZjPaid" column="ywf_gnxzf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfGnxzfZcZjUnpaid" column="ywf_gnxzf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfGjhzjlfZxZjPaid" column="ywf_gjhzjlf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfGjhzjlfZxZjUnpaid" column="ywf_gjhzjlf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfGjhzjlfZcZjPaid" column="ywf_gjhzjlf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfGjhzjlfZcZjUnpaid" column="ywf_gjhzjlf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfHyclgjhzyjlfZxZjPaid" column="ywf_hyclgjhzyjlf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfHyclgjhzyjlfZxZjUnpaid" column="ywf_hyclgjhzyjlf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfHyclgjhzyjlfZcZjPaid" column="ywf_hyclgjhzyjlf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfHyclgjhzyjlfZcZjUnpaid" column="ywf_hyclgjhzyjlf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfHyclgjhzyjlfHyfZxZjPaid" column="ywf_hyclgjhzyjlf_hyf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfHyclgjhzyjlfHyfZxZjUnpaid" column="ywf_hyclgjhzyjlf_hyf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfHyclgjhzyjlfHyfZcZjPaid" column="ywf_hyclgjhzyjlf_hyf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfHyclgjhzyjlfHyfZcZjUnpaid" column="ywf_hyclgjhzyjlf_hyf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfHyclgjhzyjlfClfZxZjPaid" column="ywf_hyclgjhzyjlf_clf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfHyclgjhzyjlfClfZxZjUnpaid" column="ywf_hyclgjhzyjlf_clf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfHyclgjhzyjlfClfZcZjPaid" column="ywf_hyclgjhzyjlf_clf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfHyclgjhzyjlfClfZcZjUnpaid" column="ywf_hyclgjhzyjlf_clf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfHyclgjhzyjlfGjhzfZxZjPaid" column="ywf_hyclgjhzyjlf_gjhzf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfHyclgjhzyjlfGjhzfZxZjUnpaid" column="ywf_hyclgjhzyjlf_gjhzf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfHyclgjhzyjlfGjhzfZcZjPaid" column="ywf_hyclgjhzyjlf_gjhzf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfHyclgjhzyjlfGjhzfZcZjUnpaid" column="ywf_hyclgjhzyjlf_gjhzf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfCbwxxxcbzscqswfZxZjPaid" column="ywf_cbwxxxcbzscqswf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfCbwxxxcbzscqswfZxZjUnpaid" column="ywf_cbwxxxcbzscqswf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfCbwxxxcbzscqswfZcZjPaid" column="ywf_cbwxxxcbzscqswf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfCbwxxxcbzscqswfZcZjUnpaid" column="ywf_cbwxxxcbzscqswf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfCbwxxxcbzscqswfZscqswfZxZjPaid" column="ywf_cbwxxxcbzscqswf_zscqswf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfCbwxxxcbzscqswfZscqswfZxZjUnpaid" column="ywf_cbwxxxcbzscqswf_zscqswf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfCbwxxxcbzscqswfZscqswfZcZjPaid" column="ywf_cbwxxxcbzscqswf_zscqswf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfCbwxxxcbzscqswfZscqswfZcZjUnpaid" column="ywf_cbwxxxcbzscqswf_zscqswf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfCbwxxxcbzscqswfYsdyzzfZxZjPaid" column="ywf_cbwxxxcbzscqswf_ysdyzzf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfCbwxxxcbzscqswfYsdyzzfZxZjUnpaid" column="ywf_cbwxxxcbzscqswf_ysdyzzf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfCbwxxxcbzscqswfYsdyzzfZcZjPaid" column="ywf_cbwxxxcbzscqswf_ysdyzzf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfCbwxxxcbzscqswfYsdyzzfZcZjUnpaid" column="ywf_cbwxxxcbzscqswf_ysdyzzf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfCbwxxxcbzscqswfWxsjkfZxZjPaid" column="ywf_cbwxxxcbzscqswf_wxsjkf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfCbwxxxcbzscqswfWxsjkfZxZjUnpaid" column="ywf_cbwxxxcbzscqswf_wxsjkf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfCbwxxxcbzscqswfWxsjkfZcZjPaid" column="ywf_cbwxxxcbzscqswf_wxsjkf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfCbwxxxcbzscqswfWxsjkfZcZjUnpaid" column="ywf_cbwxxxcbzscqswf_wxsjkf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfCbwxxxcbzscqswfXxcbfZxZjPaid" column="ywf_cbwxxxcbzscqswf_xxcbf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfCbwxxxcbzscqswfXxcbfZxZjUnpaid" column="ywf_cbwxxxcbzscqswf_xxcbf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ywfCbwxxxcbzscqswfXxcbfZcZjPaid" column="ywf_cbwxxxcbzscqswf_xxcbf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ywfCbwxxxcbzscqswfXxcbfZcZjUnpaid" column="ywf_cbwxxxcbzscqswf_xxcbf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="lwfZxZjPaid" column="lwf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="lwfZxZjUnpaid" column="lwf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="lwfZcZjPaid" column="lwf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="lwfZcZjUnpaid" column="lwf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="lwfZjzxfZxZjPaid" column="lwf_zjzxf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="lwfZjzxfZxZjUnpaid" column="lwf_zjzxf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="lwfZjzxfZcZjPaid" column="lwf_zjzxf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="lwfZjzxfZcZjUnpaid" column="lwf_zjzxf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="lwfRylwfZxZjPaid" column="lwf_rylwf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="lwfRylwfZxZjUnpaid" column="lwf_rylwf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="lwfRylwfZcZjPaid" column="lwf_rylwf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="lwfRylwfZcZjUnpaid" column="lwf_rylwf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="clfZxZjPaid" column="clf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="clfZxZjUnpaid" column="clf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="clfZcZjPaid" column="clf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="clfZcZjUnpaid" column="clf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="clfClfZxZjPaid" column="clf_clf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="clfClfZxZjUnpaid" column="clf_clf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="clfClfZcZjPaid" column="clf_clf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="clfClfZcZjUnpaid" column="clf_clf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="kyhdfZxZjPaid" column="kyhdf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="kyhdfZxZjUnpaid" column="kyhdf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="kyhdfZcZjPaid" column="kyhdf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="kyhdfZcZjUnpaid" column="kyhdf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="kyhdfZlZxZjPaid" column="kyhdf_zl_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="kyhdfZlZxZjUnpaid" column="kyhdf_zl_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="kyhdfZlZcZjPaid" column="kyhdf_zl_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="kyhdfZlZcZjUnpaid" column="kyhdf_zl_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="kyhdfCshyjgZxZjPaid" column="kyhdf_cshyjg_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="kyhdfCshyjgZxZjUnpaid" column="kyhdf_cshyjg_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="kyhdfCshyjgZcZjPaid" column="kyhdf_cshyjg_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="kyhdfCshyjgZcZjUnpaid" column="kyhdf_cshyjg_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="kyhdfBgZxZjPaid" column="kyhdf_bg_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="kyhdfBgZxZjUnpaid" column="kyhdf_bg_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="kyhdfBgZcZjPaid" column="kyhdf_bg_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="kyhdfBgZcZjUnpaid" column="kyhdf_bg_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="kyhdfSjybcjZxZjPaid" column="kyhdf_sjybcj_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="kyhdfSjybcjZxZjUnpaid" column="kyhdf_sjybcj_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="kyhdfSjybcjZcZjPaid" column="kyhdf_sjybcj_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="kyhdfSjybcjZcZjUnpaid" column="kyhdf_sjybcj_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="kyhdfYscbZxZjPaid" column="kyhdf_yscb_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="kyhdfYscbZxZjUnpaid" column="kyhdf_yscb_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="kyhdfYscbZcZjPaid" column="kyhdf_yscb_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="kyhdfYscbZcZjUnpaid" column="kyhdf_yscb_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="kyhdfZscqswZxZjPaid" column="kyhdf_zscqsw_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="kyhdfZscqswZxZjUnpaid" column="kyhdf_zscqsw_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="kyhdfZscqswZcZjPaid" column="kyhdf_zscqsw_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="kyhdfZscqswZcZjUnpaid" column="kyhdf_zscqsw_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="kyhdfRldlZxZjPaid" column="kyhdf_rldl_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="kyhdfRldlZxZjUnpaid" column="kyhdf_rldl_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="kyhdfRldlZcZjPaid" column="kyhdf_rldl_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="kyhdfRldlZcZjUnpaid" column="kyhdf_rldl_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="kyhdfClsyZxZjPaid" column="kyhdf_clsy_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="kyhdfClsyZxZjUnpaid" column="kyhdf_clsy_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="kyhdfClsyZcZjPaid" column="kyhdf_clsy_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="kyhdfClsyZcZjUnpaid" column="kyhdf_clsy_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="kyfwfZxZjPaid" column="kyfwf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="kyfwfZxZjUnpaid" column="kyfwf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="kyfwfZcZjPaid" column="kyfwf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="kyfwfZcZjUnpaid" column="kyfwf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="kyfwfZjzxZxZjPaid" column="kyfwf_zjzx_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="kyfwfZjzxZxZjUnpaid" column="kyfwf_zjzx_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="kyfwfZjzxZcZjPaid" column="kyfwf_zjzx_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="kyfwfZjzxZcZjUnpaid" column="kyfwf_zjzx_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="kyfwfClZxZjPaid" column="kyfwf_cl_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="kyfwfClZxZjUnpaid" column="kyfwf_cl_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="kyfwfClZcZjPaid" column="kyfwf_cl_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="kyfwfClZcZjUnpaid" column="kyfwf_cl_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="kyfwfHyhwZxZjPaid" column="kyfwf_hyhw_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="kyfwfHyhwZxZjUnpaid" column="kyfwf_hyhw_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="kyfwfHyhwZcZjPaid" column="kyfwf_hyhw_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="kyfwfHyhwZcZjUnpaid" column="kyfwf_hyhw_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="kyfwfGjhzjlZxZjPaid" column="kyfwf_gjhzjl_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="kyfwfGjhzjlZxZjUnpaid" column="kyfwf_gjhzjl_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="kyfwfGjhzjlZcZjPaid" column="kyfwf_gjhzjl_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="kyfwfGjhzjlZcZjUnpaid" column="kyfwf_gjhzjl_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="kyfwfGnxzZxZjPaid" column="kyfwf_gnxz_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="kyfwfGnxzZxZjUnpaid" column="kyfwf_gnxz_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="kyfwfGnxzZcZjPaid" column="kyfwf_gnxz_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="kyfwfGnxzZcZjUnpaid" column="kyfwf_gnxz_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ryhlwbzfZxZjPaid" column="ryhlwbzf_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ryhlwbzfZxZjUnpaid" column="ryhlwbzf_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ryhlwbzfZcZjPaid" column="ryhlwbzf_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ryhlwbzfZcZjUnpaid" column="ryhlwbzf_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ryhlwbzfRylwZxZjPaid" column="ryhlwbzf_rylw_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ryhlwbzfRylwZxZjUnpaid" column="ryhlwbzf_rylw_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="ryhlwbzfRylwZcZjPaid" column="ryhlwbzf_rylw_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="ryhlwbzfRylwZcZjUnpaid" column="ryhlwbzf_rylw_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="jxzcZxZjPaid" column="jxzc_zx_zj_paid" jdbcType="DECIMAL"/>
+            <result property="jxzcZxZjUnpaid" column="jxzc_zx_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="jxzcZcZjPaid" column="jxzc_zc_zj_paid" jdbcType="DECIMAL"/>
+            <result property="jxzcZcZjUnpaid" column="jxzc_zc_zj_unpaid" jdbcType="DECIMAL"/>
+            <result property="othersZxPaid" column="others_zx_paid" jdbcType="DECIMAL"/>
+            <result property="othersZxUnpaid" column="others_zx_unpaid" jdbcType="DECIMAL"/>
+            <result property="othersZcPaid" column="others_zc_paid" jdbcType="DECIMAL"/>
+            <result property="othersZcUnpaid" column="others_zc_unpaid" jdbcType="DECIMAL"/>
+            <result property="jflyZx" column="jfly_zx" jdbcType="DECIMAL"/>
+            <result property="jflyZc" column="jfly_zc" jdbcType="DECIMAL"/>
+            <result property="jflyQtczbkZc" column="jfly_qtczbk_zc" jdbcType="DECIMAL"/>
+            <result property="jflyDwzyhbzjZc" column="jfly_dwzyhbzj_zc" jdbcType="DECIMAL"/>
+            <result property="jflyQtzjZc" column="jfly_qtzj_zc" jdbcType="DECIMAL"/>
+            <result property="sbfZxJj" column="sbf_zx_jj" jdbcType="DECIMAL"/>
+            <result property="sbfZcJj" column="sbf_zc_jj" jdbcType="DECIMAL"/>
+            <result property="sbfGzsbZxJj" column="sbf_gzsb_zx_jj" jdbcType="DECIMAL"/>
+            <result property="sbfGzsbZcJj" column="sbf_gzsb_zc_jj" jdbcType="DECIMAL"/>
+            <result property="sbfSzsbZxJj" column="sbf_szsb_zx_jj" jdbcType="DECIMAL"/>
+            <result property="sbfSzsbZcJj" column="sbf_szsb_zc_jj" jdbcType="DECIMAL"/>
+            <result property="sbfSbsjgzZxJj" column="sbf_sbsjgz_zx_jj" jdbcType="DECIMAL"/>
+            <result property="sbfSbsjgzZcJj" column="sbf_sbsjgz_zc_jj" jdbcType="DECIMAL"/>
+            <result property="sbfSbzlZxJj" column="sbf_sbzl_zx_jj" jdbcType="DECIMAL"/>
+            <result property="sbfSbzlZcJj" column="sbf_sbzl_zc_jj" jdbcType="DECIMAL"/>
+            <result property="lwfZxJj" column="lwf_zx_jj" jdbcType="DECIMAL"/>
+            <result property="lwfZcJj" column="lwf_zc_jj" jdbcType="DECIMAL"/>
+            <result property="lwfZjzxfZxJj" column="lwf_zjzxf_zx_jj" jdbcType="DECIMAL"/>
+            <result property="lwfZjzxfZcJj" column="lwf_zjzxf_zc_jj" jdbcType="DECIMAL"/>
+            <result property="lwfRylwfZxJj" column="lwf_rylwf_zx_jj" jdbcType="DECIMAL"/>
+            <result property="lwfRylwfZcJj" column="lwf_rylwf_zc_jj" jdbcType="DECIMAL"/>
+            <result property="clfZxJj" column="clf_zx_jj" jdbcType="DECIMAL"/>
+            <result property="clfZcJj" column="clf_zc_jj" jdbcType="DECIMAL"/>
+            <result property="clfClfZxJj" column="clf_clf_zx_jj" jdbcType="DECIMAL"/>
+            <result property="clfClfZcJj" column="clf_clf_zc_jj" jdbcType="DECIMAL"/>
+            <result property="kyhdfZxJj" column="kyhdf_zx_jj" jdbcType="DECIMAL"/>
+            <result property="kyhdfZcJj" column="kyhdf_zc_jj" jdbcType="DECIMAL"/>
+            <result property="kyhdfZlZxJj" column="kyhdf_zl_zx_jj" jdbcType="DECIMAL"/>
+            <result property="kyhdfZlZcJj" column="kyhdf_zl_zc_jj" jdbcType="DECIMAL"/>
+            <result property="kyhdfCshyjgZxJj" column="kyhdf_cshyjg_zx_jj" jdbcType="DECIMAL"/>
+            <result property="kyhdfCshyjgZcJj" column="kyhdf_cshyjg_zc_jj" jdbcType="DECIMAL"/>
+            <result property="kyhdfBgZxJj" column="kyhdf_bg_zx_jj" jdbcType="DECIMAL"/>
+            <result property="kyhdfBgZcJj" column="kyhdf_bg_zc_jj" jdbcType="DECIMAL"/>
+            <result property="kyhdfSjybcjZxJj" column="kyhdf_sjybcj_zx_jj" jdbcType="DECIMAL"/>
+            <result property="kyhdfSjybcjZcJj" column="kyhdf_sjybcj_zc_jj" jdbcType="DECIMAL"/>
+            <result property="kyhdfYscbZxJj" column="kyhdf_yscb_zx_jj" jdbcType="DECIMAL"/>
+            <result property="kyhdfYscbZcJj" column="kyhdf_yscb_zc_jj" jdbcType="DECIMAL"/>
+            <result property="kyhdfZscqswZxJj" column="kyhdf_zscqsw_zx_jj" jdbcType="DECIMAL"/>
+            <result property="kyhdfZscqswZcJj" column="kyhdf_zscqsw_zc_jj" jdbcType="DECIMAL"/>
+            <result property="kyhdfRldlZxJj" column="kyhdf_rldl_zx_jj" jdbcType="DECIMAL"/>
+            <result property="kyhdfRldlZcJj" column="kyhdf_rldl_zc_jj" jdbcType="DECIMAL"/>
+            <result property="kyhdfClsyZxJj" column="kyhdf_clsy_zx_jj" jdbcType="DECIMAL"/>
+            <result property="kyhdfClsyZcJj" column="kyhdf_clsy_zc_jj" jdbcType="DECIMAL"/>
+            <result property="kyfwfZxJj" column="kyfwf_zx_jj" jdbcType="DECIMAL"/>
+            <result property="kyfwfZcJj" column="kyfwf_zc_jj" jdbcType="DECIMAL"/>
+            <result property="kyfwfZjzxZxJj" column="kyfwf_zjzx_zx_jj" jdbcType="DECIMAL"/>
+            <result property="kyfwfZjzxZcJj" column="kyfwf_zjzx_zc_jj" jdbcType="DECIMAL"/>
+            <result property="kyfwfClZxJj" column="kyfwf_cl_zx_jj" jdbcType="DECIMAL"/>
+            <result property="kyfwfClZcJj" column="kyfwf_cl_zc_jj" jdbcType="DECIMAL"/>
+            <result property="kyfwfHyhwZxJj" column="kyfwf_hyhw_zx_jj" jdbcType="DECIMAL"/>
+            <result property="kyfwfHyhwZcJj" column="kyfwf_hyhw_zc_jj" jdbcType="DECIMAL"/>
+            <result property="kyfwfGjhzjlZxJj" column="kyfwf_gjhzjl_zx_jj" jdbcType="DECIMAL"/>
+            <result property="kyfwfGjhzjlZcJj" column="kyfwf_gjhzjl_zc_jj" jdbcType="DECIMAL"/>
+            <result property="kyfwfGnxzZxJj" column="kyfwf_gnxz_zx_jj" jdbcType="DECIMAL"/>
+            <result property="kyfwfGnxzZcJj" column="kyfwf_gnxz_zc_jj" jdbcType="DECIMAL"/>
+            <result property="ryhlwbzfZxJj" column="ryhlwbzf_zx_jj" jdbcType="DECIMAL"/>
+            <result property="ryhlwbzfZcJj" column="ryhlwbzf_zc_jj" jdbcType="DECIMAL"/>
+            <result property="ryhlwbzfRylwZxJj" column="ryhlwbzf_rylw_zx_jj" jdbcType="DECIMAL"/>
+            <result property="ryhlwbzfRylwZcJj" column="ryhlwbzf_rylw_zc_jj" jdbcType="DECIMAL"/>
+            <result property="jxzcZxJj" column="jxzc_zx_jj" jdbcType="DECIMAL"/>
+            <result property="jxzcZcJj" column="jxzc_zc_jj" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        funds_id,project_id,total_funds_all_paid,
+        total_funds_all_unpaid,total_funds_zx_paid,total_funds_zx_unpaid,
+        sbf_zx_paid,sbf_zx_unpaid,total_funds_zx_zj_paid,
+        total_funds_zx_zj_unpaid,total_funds_zx_jj_paid,total_funds_zx_jj_unpaid,
+        total_funds_zc_paid,total_funds_zc_unpaid,sbf_zc_paid,
+        sbf_zc_unpaid,total_funds_zc_zj_paid,total_funds_zc_zj_unpaid,
+        total_funds_zc_jj_paid,total_funds_zc_jj_unpaid,sbf_zx_zj_paid,
+        sbf_zx_zj_unpaid,sbf_zc_zj_paid,sbf_zc_zj_unpaid,
+        sbf_gzsb_zx_zj_paid,sbf_gzsb_zx_zj_unpaid,sbf_gzsb_zc_zj_paid,
+        sbf_szsb_zx_zj_unpaid,sbf_szsb_zc_zj_paid,sbf_szsb_zc_zj_unpaid,
+        sbf_sbsjgz_zx_zj_paid,sbf_sbsjgz_zx_zj_unpaid,sbf_sbsjgz_zc_zj_paid,
+        sbf_sbsjgz_zc_zj_unpaid,sbf_sbzl_zx_zj_paid,sbf_sbzl_zx_zj_unpaid,
+        sbf_sbzl_zc_zj_paid,sbf_sbzl_zc_zj_unpaid,ywf_zx_zj_paid,
+        ywf_zx_zj_unpaid,ywf_zc_zj_paid,ywf_zc_zj_unpaid,
+        ywf_clf_zx_zj_paid,ywf_clf_zx_zj_unpaid,ywf_clf_zc_zj_paid,
+        ywf_clf_zc_zj_unpaid,ywf_zlf_zx_zj_paid,ywf_zlf_zx_zj_unpaid,
+        ywf_zlf_zc_zj_paid,ywf_zlf_zc_zj_unpaid,ywf_sjybcjf_zx_zj_paid,
+        ywf_sjybcjf_zx_zj_unpaid,ywf_sjybcjf_zc_zj_paid,ywf_sjybcjf_zc_zj_unpaid,
+        ywf_cshyjgf_zx_zj_paid,ywf_cshyjgf_zx_zj_unpaid,ywf_cshyjgf_zc_zj_paid,
+        ywf_cshyjgf_zc_zj_unpaid,ywf_rldlf_zx_zj_paid,ywf_rldlf_zx_zj_unpaid,
+        ywf_rldlf_zc_zj_paid,ywf_rldlf_zc_zj_unpaid,ywf_bgf_zx_zj_paid,
+        ywf_bgf_zx_zj_unpaid,ywf_bgf_zc_zj_paid,ywf_bgf_zc_zj_unpaid,
+        ywf_yscbf_zx_zj_paid,ywf_yscbf_zx_zj_unpaid,ywf_yscbf_zc_zj_paid,
+        ywf_yscbf_zc_zj_unpaid,ywf_zscqswf_zx_zj_paid,ywf_zscqswf_zx_zj_unpaid,
+        ywf_zscqswf_zc_zj_paid,ywf_zscqswf_zc_zj_unpaid,ywf_clsyf_zx_zj_paid,
+        ywf_clsyf_zx_zj_unpaid,ywf_clsyf_zc_zj_paid,ywf_clsyf_zc_zj_unpaid,
+        ywf_chlf_zx_zj_paid,ywf_chlf_zx_zj_unpaid,ywf_chlf_zc_zj_paid,
+        ywf_chlf_zc_zj_unpaid,ywf_hyhwf_zx_zj_paid,ywf_hyhwf_zx_zj_unpaid,
+        ywf_hyhwf_zc_zj_paid,ywf_hyhwf_zc_zj_unpaid,ywf_gnxzf_zx_zj_paid,
+        ywf_gnxzf_zx_zj_unpaid,ywf_gnxzf_zc_zj_paid,ywf_gnxzf_zc_zj_unpaid,
+        ywf_gjhzjlf_zx_zj_paid,ywf_gjhzjlf_zx_zj_unpaid,ywf_gjhzjlf_zc_zj_paid,
+        ywf_gjhzjlf_zc_zj_unpaid,ywf_hyclgjhzyjlf_zx_zj_paid,ywf_hyclgjhzyjlf_zx_zj_unpaid,
+        ywf_hyclgjhzyjlf_zc_zj_paid,ywf_hyclgjhzyjlf_zc_zj_unpaid,ywf_hyclgjhzyjlf_hyf_zx_zj_paid,
+        ywf_hyclgjhzyjlf_hyf_zx_zj_unpaid,ywf_hyclgjhzyjlf_hyf_zc_zj_paid,ywf_hyclgjhzyjlf_hyf_zc_zj_unpaid,
+        ywf_hyclgjhzyjlf_clf_zx_zj_paid,ywf_hyclgjhzyjlf_clf_zx_zj_unpaid,ywf_hyclgjhzyjlf_clf_zc_zj_paid,
+        ywf_hyclgjhzyjlf_clf_zc_zj_unpaid,ywf_hyclgjhzyjlf_gjhzf_zx_zj_paid,ywf_hyclgjhzyjlf_gjhzf_zx_zj_unpaid,
+        ywf_hyclgjhzyjlf_gjhzf_zc_zj_paid,ywf_hyclgjhzyjlf_gjhzf_zc_zj_unpaid,ywf_cbwxxxcbzscqswf_zx_zj_paid,
+        ywf_cbwxxxcbzscqswf_zx_zj_unpaid,ywf_cbwxxxcbzscqswf_zc_zj_paid,ywf_cbwxxxcbzscqswf_zc_zj_unpaid,
+        ywf_cbwxxxcbzscqswf_zscqswf_zx_zj_paid,ywf_cbwxxxcbzscqswf_zscqswf_zx_zj_unpaid,ywf_cbwxxxcbzscqswf_zscqswf_zc_zj_paid,
+        ywf_cbwxxxcbzscqswf_zscqswf_zc_zj_unpaid,ywf_cbwxxxcbzscqswf_ysdyzzf_zx_zj_paid,ywf_cbwxxxcbzscqswf_ysdyzzf_zx_zj_unpaid,
+        ywf_cbwxxxcbzscqswf_ysdyzzf_zc_zj_paid,ywf_cbwxxxcbzscqswf_ysdyzzf_zc_zj_unpaid,ywf_cbwxxxcbzscqswf_wxsjkf_zx_zj_paid,
+        ywf_cbwxxxcbzscqswf_wxsjkf_zx_zj_unpaid,ywf_cbwxxxcbzscqswf_wxsjkf_zc_zj_paid,ywf_cbwxxxcbzscqswf_wxsjkf_zc_zj_unpaid,
+        ywf_cbwxxxcbzscqswf_xxcbf_zx_zj_paid,ywf_cbwxxxcbzscqswf_xxcbf_zx_zj_unpaid,ywf_cbwxxxcbzscqswf_xxcbf_zc_zj_paid,
+        ywf_cbwxxxcbzscqswf_xxcbf_zc_zj_unpaid,lwf_zx_zj_paid,lwf_zx_zj_unpaid,
+        lwf_zc_zj_paid,lwf_zc_zj_unpaid,lwf_zjzxf_zx_zj_paid,
+        lwf_zjzxf_zx_zj_unpaid,lwf_zjzxf_zc_zj_paid,lwf_zjzxf_zc_zj_unpaid,
+        lwf_rylwf_zx_zj_paid,lwf_rylwf_zx_zj_unpaid,lwf_rylwf_zc_zj_paid,
+        lwf_rylwf_zc_zj_unpaid,clf_zx_zj_paid,clf_zx_zj_unpaid,
+        clf_zc_zj_paid,clf_zc_zj_unpaid,clf_clf_zx_zj_paid,
+        clf_clf_zx_zj_unpaid,clf_clf_zc_zj_paid,clf_clf_zc_zj_unpaid,
+        kyhdf_zx_zj_paid,kyhdf_zx_zj_unpaid,kyhdf_zc_zj_paid,
+        kyhdf_zc_zj_unpaid,kyhdf_zl_zx_zj_paid,kyhdf_zl_zx_zj_unpaid,
+        kyhdf_zl_zc_zj_paid,kyhdf_zl_zc_zj_unpaid,kyhdf_cshyjg_zx_zj_paid,
+        kyhdf_cshyjg_zx_zj_unpaid,kyhdf_cshyjg_zc_zj_paid,kyhdf_cshyjg_zc_zj_unpaid,
+        kyhdf_bg_zx_zj_paid,kyhdf_bg_zx_zj_unpaid,kyhdf_bg_zc_zj_paid,
+        kyhdf_bg_zc_zj_unpaid,kyhdf_sjybcj_zx_zj_paid,kyhdf_sjybcj_zx_zj_unpaid,
+        kyhdf_sjybcj_zc_zj_paid,kyhdf_sjybcj_zc_zj_unpaid,kyhdf_yscb_zx_zj_paid,
+        kyhdf_yscb_zx_zj_unpaid,kyhdf_yscb_zc_zj_paid,kyhdf_yscb_zc_zj_unpaid,
+        kyhdf_zscqsw_zx_zj_paid,kyhdf_zscqsw_zx_zj_unpaid,kyhdf_zscqsw_zc_zj_paid,
+        kyhdf_zscqsw_zc_zj_unpaid,kyhdf_rldl_zx_zj_paid,kyhdf_rldl_zx_zj_unpaid,
+        kyhdf_rldl_zc_zj_paid,kyhdf_rldl_zc_zj_unpaid,kyhdf_clsy_zx_zj_paid,
+        kyhdf_clsy_zx_zj_unpaid,kyhdf_clsy_zc_zj_paid,kyhdf_clsy_zc_zj_unpaid,
+        kyfwf_zx_zj_paid,kyfwf_zx_zj_unpaid,kyfwf_zc_zj_paid,
+        kyfwf_zc_zj_unpaid,kyfwf_zjzx_zx_zj_paid,kyfwf_zjzx_zx_zj_unpaid,
+        kyfwf_zjzx_zc_zj_paid,kyfwf_zjzx_zc_zj_unpaid,kyfwf_cl_zx_zj_paid,
+        kyfwf_cl_zx_zj_unpaid,kyfwf_cl_zc_zj_paid,kyfwf_cl_zc_zj_unpaid,
+        kyfwf_hyhw_zx_zj_paid,kyfwf_hyhw_zx_zj_unpaid,kyfwf_hyhw_zc_zj_paid,
+        kyfwf_hyhw_zc_zj_unpaid,kyfwf_gjhzjl_zx_zj_paid,kyfwf_gjhzjl_zx_zj_unpaid,
+        kyfwf_gjhzjl_zc_zj_paid,kyfwf_gjhzjl_zc_zj_unpaid,kyfwf_gnxz_zx_zj_paid,
+        kyfwf_gnxz_zx_zj_unpaid,kyfwf_gnxz_zc_zj_paid,kyfwf_gnxz_zc_zj_unpaid,
+        ryhlwbzf_zx_zj_paid,ryhlwbzf_zx_zj_unpaid,ryhlwbzf_zc_zj_paid,
+        ryhlwbzf_zc_zj_unpaid,ryhlwbzf_rylw_zx_zj_paid,ryhlwbzf_rylw_zx_zj_unpaid,
+        ryhlwbzf_rylw_zc_zj_paid,ryhlwbzf_rylw_zc_zj_unpaid,jxzc_zx_zj_paid,
+        jxzc_zx_zj_unpaid,jxzc_zc_zj_paid,jxzc_zc_zj_unpaid,
+        others_zx_paid,others_zx_unpaid,others_zc_paid,
+        others_zc_unpaid,jfly_zx,jfly_zc,
+        jfly_qtczbk_zc,jfly_dwzyhbzj_zc,jfly_qtzj_zc,
+        sbf_zx_jj,sbf_zc_jj,sbf_gzsb_zx_jj,
+        sbf_gzsb_zc_jj,sbf_szsb_zx_jj,sbf_szsb_zc_jj,
+        sbf_sbsjgz_zx_jj,sbf_sbsjgz_zc_jj,sbf_sbzl_zx_jj,
+        sbf_sbzl_zc_jj,lwf_zx_jj,lwf_zc_jj,
+        lwf_zjzxf_zx_jj,lwf_zjzxf_zc_jj,lwf_rylwf_zx_jj,
+        lwf_rylwf_zc_jj,clf_zx_jj,clf_zc_jj,
+        clf_clf_zx_jj,clf_clf_zc_jj,kyhdf_zx_jj,
+        kyhdf_zc_jj,kyhdf_zl_zx_jj,kyhdf_zl_zc_jj,
+        kyhdf_cshyjg_zx_jj,kyhdf_cshyjg_zc_jj,kyhdf_bg_zx_jj,
+        kyhdf_bg_zc_jj,kyhdf_sjybcj_zx_jj,kyhdf_sjybcj_zc_jj,
+        kyhdf_yscb_zx_jj,kyhdf_yscb_zc_jj,kyhdf_zscqsw_zx_jj,
+        kyhdf_zscqsw_zc_jj,kyhdf_rldl_zx_jj,kyhdf_rldl_zc_jj,
+        kyhdf_clsy_zx_jj,kyhdf_clsy_zc_jj,kyfwf_zx_jj,
+        kyfwf_zc_jj,kyfwf_zjzx_zx_jj,kyfwf_zjzx_zc_jj,
+        kyfwf_cl_zx_jj,kyfwf_cl_zc_jj,kyfwf_hyhw_zx_jj,
+        kyfwf_hyhw_zc_jj,kyfwf_gjhzjl_zx_jj,kyfwf_gjhzjl_zc_jj,
+        kyfwf_gnxz_zx_jj,kyfwf_gnxz_zc_jj,ryhlwbzf_zx_jj,
+        ryhlwbzf_zc_jj,ryhlwbzf_rylw_zx_jj,ryhlwbzf_rylw_zc_jj,
+        jxzc_zx_jj,jxzc_zc_jj
+    </sql>
+</mapper>
