@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.mapper.ProjectFundsReceivedMapper">
+
+    <resultMap id="BaseResultMap" type="com.ruoyi.project.domain.ProjectFundsReceived">
+        <id property="receivedId" column="received_id" jdbcType="BIGINT"/>
+        <result property="projectId" column="project_id" jdbcType="BIGINT"/>
+        <result property="milestoneId" column="milestone_id" jdbcType="BIGINT"/>
+        <result property="amountReceived" column="amount_received" jdbcType="DECIMAL"/>
+        <result property="receivedType" column="received_type" jdbcType="TINYINT"/>
+        <result property="receivedFrom" column="received_from" jdbcType="VARCHAR"/>
+        <result property="receivedDate" column="received_date" jdbcType="TIMESTAMP"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        received_id
+        ,milestone_id,amount_received,
+        received_type,received_from,received_date,
+        creat_time
+    </sql>
+</mapper>
