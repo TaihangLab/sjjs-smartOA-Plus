@@ -19,6 +19,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * 项目经费管理Service
+ *
+ * @author bailingnan
+ * @date 2024/03/04
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -33,7 +39,7 @@ public class ProjectFundsManagementServiceImpl implements ProjectFundsManagement
     public TableDataInfo<ProjectFundsManagementVO> queryPageList(ProjectBaseInfoBO projectBaseInfoBO,
         PageQuery pageQuery) {
         Page<ProjectFundsManagementVO> page =
-            projectBaseInfoService.queryPageMyList(projectBaseInfoBO, pageQuery, ProjectFundsManagementVO.class);
+            projectBaseInfoService.queryPageAllList(projectBaseInfoBO, pageQuery, ProjectFundsManagementVO.class);
         buildRecords(page.getRecords());
         return TableDataInfo.build(page);
     }

@@ -18,7 +18,6 @@ import com.ruoyi.project.mapper.ProjectBaseInfoMapper;
 import com.ruoyi.project.service.ProjectBaseInfoService;
 import com.ruoyi.project.service.ProjectFundsService;
 import com.ruoyi.project.service.ProjectUserService;
-import liquibase.pro.packaged.C;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -165,8 +164,8 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
     }
 
     @Override
-    public  <C> Page<C> queryPageMyList(ProjectBaseInfoBO projectBaseInfoBO, PageQuery pageQuery,Class<C> voClass) {
-        LambdaQueryWrapper<ProjectBaseInfo> lqw = buildMyListQueryWrapper(projectBaseInfoBO);
+    public <C> Page<C> queryPageAllList(ProjectBaseInfoBO projectBaseInfoBO, PageQuery pageQuery, Class<C> voClass) {
+        LambdaQueryWrapper<ProjectBaseInfo> lqw = buildAllListQueryWrapper(projectBaseInfoBO);
         return projectBaseInfoMapper.selectVoPage(pageQuery.build(), lqw,voClass);
     }
 
