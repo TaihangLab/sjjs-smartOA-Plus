@@ -14,7 +14,9 @@ import java.time.LocalDate;
 /**
  * 项目支出表
  *
+ * @author bailingnan
  * @TableName project_expenditure
+ * @date 2024/03/01
  */
 @TableName(value = "project_expenditure")
 @Data

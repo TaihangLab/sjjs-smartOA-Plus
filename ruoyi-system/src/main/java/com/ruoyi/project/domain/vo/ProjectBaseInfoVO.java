@@ -130,6 +130,12 @@ public class ProjectBaseInfoVO {
      * 专项经费总额
      */
     private BigDecimal totalFundsZx;
+
+    /**
+     * 自筹经费总额
+     */
+    private BigDecimal totalFundsZc;
+
     /**
      * 专项到款总额
      */
