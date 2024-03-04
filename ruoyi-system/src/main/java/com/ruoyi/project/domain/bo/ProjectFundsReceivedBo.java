@@ -1,30 +1,23 @@
-package com.ruoyi.project.domain;
+package com.ruoyi.project.domain.bo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.core.domain.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 /**
- * 专项经费到账
- * @TableName project_funds_received
+ * @Author 范佳兴
+ * @date 2024/3/1 15:03
  */
-@EqualsAndHashCode(callSuper = true)
-@TableName(value ="project_funds_received")
 @Data
-public class ProjectFundsReceived extends BaseEntity implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+public class ProjectFundsReceivedBo extends BaseEntity {
     /**
      * 主键
      */
@@ -42,16 +35,14 @@ public class ProjectFundsReceived extends BaseEntity implements Serializable {
     private Long milestoneId;
 
     /**
-     * ossids
+     * ossid
      */
     @TableField(exist = false)
-    private List<Long> ossIds;
+    private Long ossId;
 
     /**
      * 到账金额
      */
-    @DecimalMax(value = "999999.999999", message = "专项到款金额不能超过{value}万元")
-    @DecimalMin(value = "0.000000", message = "金额不能为负数")
     private BigDecimal amountReceived;
 
     /**
@@ -69,6 +60,18 @@ public class ProjectFundsReceived extends BaseEntity implements Serializable {
      */
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate receivedDate;
+
+    /**
+     * 到账开始日期
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate receivedDateStar;
+
+    /**
+     * 到账结束日期
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate receivedDateEnd;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

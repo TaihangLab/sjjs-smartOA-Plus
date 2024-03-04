@@ -9,6 +9,7 @@ import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.project.domain.ProjectFundsReceived;
 import com.ruoyi.project.domain.bo.ProjectInfoBO;
 import com.ruoyi.project.domain.vo.ProjectExpenditureImportVO;
+import com.ruoyi.project.domain.vo.ProjectFundsReceivedVo;
 import com.ruoyi.project.listener.ProjectFundsImportListener;
 import com.ruoyi.project.service.ProjectFundsReceivedService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -54,7 +56,7 @@ public class ProjectFundsController {
 
     /**
      * 新增专项经费到账记录
-     * @param projectFundsReceived
+     * @param projectFundsReceived 经费到账信息
      * @return
      */
     @Log(title = "新增专项经费到账记录", businessType = BusinessType.INSERT)
@@ -63,6 +65,43 @@ public class ProjectFundsController {
     public R<Void> addProjectFundsReceived(@RequestBody @Validated(AddGroup.class) ProjectFundsReceived projectFundsReceived) {
         projectFundsReceivedService.addFundsReceived(projectFundsReceived);
         return R.ok();
+    }
+
+    /**
+     * 修改专项经费到账记录
+     * @param projectFundsReceived 修改后的经费到账信息
+     * @return
+     */
+    @Log(title = "修改专项经费到账记录", businessType = BusinessType.UPDATE)
+    //    @SaCheckPermission("project:funds:editReceived")
+    @PostMapping(value = "/updateFundsReceived")
+    public R<Void> updateFundsReceived(@RequestBody @Validated(AddGroup.class) ProjectFundsReceived projectFundsReceived) {
+        projectFundsReceivedService.updateFundsReceived(projectFundsReceived);
+        return R.ok();
+    }
+
+    /**
+     * 删除专项经费到账记录
+     * @param receivedId 经费到账ID
+     * @return
+     */
+    @Log(title = "删除专项经费到账记录", businessType = BusinessType.DELETE)
+    //    @SaCheckPermission("project:funds:deleteReceived")
+    @GetMapping(value = "/deleteFundsReceived")
+    public R<Void> deleteFundsReceivedById(@RequestParam @Validated(AddGroup.class) Long receivedId) {
+        projectFundsReceivedService.deleteFundsReceivedById(receivedId);
+        return R.ok();
+    }
+
+    /**
+     * 查询某个项目的专项经费到账记录
+     * @param projectId 项目ID
+     * @return
+     */
+    @GetMapping(value = "/getFundsReceived")
+    public R<List<ProjectFundsReceivedVo>> getFundsReceivedByProId(@RequestParam @NotNull Long projectId) {
+        List<ProjectFundsReceivedVo> fundsReceivedVoList = projectFundsReceivedService.getFundsReceivedByProId(projectId);
+        return R.ok(fundsReceivedVoList);
     }
 
 }
