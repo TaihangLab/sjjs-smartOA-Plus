@@ -42,6 +42,15 @@ public class ProjectFundsManagementVO {
      * 自筹经费总额
      */
     private BigDecimal totalFundsZc;
+    /**
+     * 项目经费总额_已支付
+     */
+    private BigDecimal totalFundsAllPaid;
+
+    /**
+     * 项目经费总额_未支付
+     */
+    private BigDecimal totalFundsAllUnpaid;
 
     /**
      * 专项经费总额_已支付

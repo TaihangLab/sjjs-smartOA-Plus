@@ -1,6 +1,5 @@
 package com.ruoyi.web.controller.project;
 
-import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.domain.R;
@@ -12,11 +11,10 @@ import com.ruoyi.common.excel.ExcelResult;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.project.domain.ProjectFundsReceived;
 import com.ruoyi.project.domain.bo.ProjectBaseInfoBO;
-import com.ruoyi.project.domain.bo.ProjectInfoBO;
-import com.ruoyi.project.domain.vo.ProjectBaseInfoVO;
 import com.ruoyi.project.domain.vo.ProjectExpenditureImportVO;
 import com.ruoyi.project.domain.vo.ProjectFundsManagementVO;
 import com.ruoyi.project.listener.ProjectFundsImportListener;
+import com.ruoyi.project.service.ProjectFundsManagementService;
 import com.ruoyi.project.service.ProjectFundsReceivedService;
 import com.ruoyi.project.service.ProjectFundsService;
 import lombok.RequiredArgsConstructor;
@@ -41,11 +39,20 @@ public class ProjectFundsController {
 
     private final ProjectFundsReceivedService projectFundsReceivedService;
     private final ProjectFundsService projectFundsService;
-    @SaCheckPermission("project:funds:getAllList")
+    private final ProjectFundsManagementService projectFundsManagementService;
+
+    /**
+     * 经费管理列表
+     *
+     * @param projectBaseInfoBO
+     * @param pageQuery
+     *
+     * @return {@link TableDataInfo}<{@link ProjectFundsManagementVO}>
+     *///    @SaCheckPermission("project:funds:getAllList")
     @PostMapping("/getProjectList")
     public TableDataInfo<ProjectFundsManagementVO> getProjectList(@RequestBody@Validated(
         QueryGroup.class) ProjectBaseInfoBO projectBaseInfoBO, PageQuery pageQuery){
-        return projectFundsService.queryPageList(projectBaseInfoBO, pageQuery);
+        return projectFundsManagementService.queryPageList(projectBaseInfoBO, pageQuery);
     }
 
     /**
