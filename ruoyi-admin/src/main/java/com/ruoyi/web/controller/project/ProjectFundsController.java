@@ -5,16 +5,19 @@ import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.core.validate.AddGroup;
+import com.ruoyi.common.core.validate.EditGroup;
 import com.ruoyi.common.core.validate.QueryGroup;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.excel.ExcelResult;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.project.domain.ProjectFundsReceived;
 import com.ruoyi.project.domain.bo.ProjectBaseInfoBO;
+import com.ruoyi.project.domain.bo.ProjectExpenditureBO;
 import com.ruoyi.project.domain.vo.ProjectExpenditureImportVO;
 import com.ruoyi.project.domain.vo.ProjectFundsReceivedVo;
 import com.ruoyi.project.domain.vo.ProjectFundsManagementVO;
 import com.ruoyi.project.listener.ProjectFundsImportListener;
+import com.ruoyi.project.service.ProjectExpenditureService;
 import com.ruoyi.project.service.ProjectFundsManagementService;
 import com.ruoyi.project.service.ProjectFundsReceivedService;
 import com.ruoyi.project.service.ProjectFundsService;
@@ -43,6 +46,7 @@ public class ProjectFundsController {
     private final ProjectFundsReceivedService projectFundsReceivedService;
     private final ProjectFundsService projectFundsService;
     private final ProjectFundsManagementService projectFundsManagementService;
+    private final ProjectExpenditureService projectExpenditureService;
 
     /**
      * 经费管理列表
@@ -77,6 +81,21 @@ public class ProjectFundsController {
         return R.ok(result.getList());
     }
 
+    /**
+     * 新增支出记录
+     *
+     * @param projectExpenditureBOList
+     *
+     * @return {@link R}<{@link Void}>
+     */
+    @Log(title = "新增支出记录", businessType = BusinessType.INSERT)
+    //    @SaCheckPermission("project:funds:add")
+    @PostMapping(value = "/add")
+    public R<Void> addProjectExpenditureList(
+        @RequestBody @Validated(EditGroup.class) List<ProjectExpenditureBO> projectExpenditureBOList) {
+        projectExpenditureService.addProjectExpenditureList(projectExpenditureBOList);
+        return R.ok();
+    }
     /**
      * 新增专项经费到账记录
      * @param projectFundsReceived 经费到账信息
