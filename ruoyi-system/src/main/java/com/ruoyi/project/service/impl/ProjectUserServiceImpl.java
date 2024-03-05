@@ -438,7 +438,7 @@ public class ProjectUserServiceImpl implements ProjectUserService {
      * @return
      */
     @Override
-    public List<Long> getProjectIdsByUserId(Long userId) {
+    public List<Long> getProjectIdListByUserId(Long userId) {
         return projectUserMapper.selectList(new LambdaQueryWrapper<ProjectUser>().eq(ProjectUser::getUserId, userId))
             .stream()
             .map(ProjectUser::getProjectId)

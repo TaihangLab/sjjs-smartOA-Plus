@@ -18,6 +18,7 @@ import com.ruoyi.project.mapper.ProjectBaseInfoMapper;
 import com.ruoyi.project.service.ProjectBaseInfoService;
 import com.ruoyi.project.service.ProjectFundsService;
 import com.ruoyi.project.service.ProjectUserService;
+import liquibase.pro.packaged.C;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -147,6 +148,8 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
         return TableDataInfo.build(result);
     }
 
+
+
     /**
      * @param projectBaseInfoBO
      * @param pageQuery
@@ -161,32 +164,38 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
         return TableDataInfo.build(result);
     }
 
+    @Override
+    public  <C> Page<C> queryPageMyList(ProjectBaseInfoBO projectBaseInfoBO, PageQuery pageQuery,Class<C> voClass) {
+        LambdaQueryWrapper<ProjectBaseInfo> lqw = buildMyListQueryWrapper(projectBaseInfoBO);
+        return projectBaseInfoMapper.selectVoPage(pageQuery.build(), lqw,voClass);
+    }
+
     private LambdaQueryWrapper<ProjectBaseInfo> buildMyListQueryWrapper(ProjectBaseInfoBO projectBaseInfoBO) {
         if (projectBaseInfoBO == null) {
             return Wrappers.lambdaQuery();
         }
         LambdaQueryWrapper<ProjectBaseInfo> lqw = buildCommonQueryWrapper(projectBaseInfoBO);
-        List<Long> loginProjectIds = Optional.ofNullable(LoginHelper.getUserId())
-            .map(projectUserService::getProjectIdsByUserId)
+        List<Long> loginProjectIdList = Optional.ofNullable(LoginHelper.getUserId())
+            .map(projectUserService::getProjectIdListByUserId)
             .orElse(Collections.emptyList());
-        if (loginProjectIds.isEmpty()) {
+        if (loginProjectIdList.isEmpty()) {
             lqw.apply("0=1");
             return lqw;
         }
         if (projectBaseInfoBO.getUserId() == null) {
-            lqw.in(ProjectBaseInfo::getProjectId, loginProjectIds);
+            lqw.in(ProjectBaseInfo::getProjectId, loginProjectIdList);
             return lqw;
         }
-        List<Long> userProjectIds = projectUserService.getProjectIdsByUserId(projectBaseInfoBO.getUserId());
-        if (userProjectIds.isEmpty()) {
+        List<Long> userProjectIdList = projectUserService.getProjectIdListByUserId(projectBaseInfoBO.getUserId());
+        if (userProjectIdList.isEmpty()) {
             lqw.apply("0=1");
             return lqw;
         }
-        List<Long> projectIds = getIntersection(loginProjectIds, userProjectIds);
-        if (projectIds.isEmpty()) {
+        List<Long> projectIdList = getIntersection(loginProjectIdList, userProjectIdList);
+        if (projectIdList.isEmpty()) {
             lqw.apply("0=1");
         } else {
-            lqw.in(ProjectBaseInfo::getProjectId, projectIds);
+            lqw.in(ProjectBaseInfo::getProjectId, projectIdList);
         }
         return lqw;
     }
@@ -314,7 +323,7 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
         if (projectBaseInfoBO.getUserId() == null) {
             return lqw;
         }
-        List<Long> projectIdList = projectUserService.getProjectIdsByUserId(projectBaseInfoBO.getUserId());
+        List<Long> projectIdList = projectUserService.getProjectIdListByUserId(projectBaseInfoBO.getUserId());
         if (projectIdList.isEmpty()) {
             lqw.apply("0=1");
         } else {
@@ -360,6 +369,7 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
         if (projectFunds != null) {
             projectBaseInfoVO.setTotalFundsAll(projectFunds.getTotalFundsAll());
             projectBaseInfoVO.setTotalFundsZx(projectFunds.getTotalFundsZx());
+            projectBaseInfoVO.setTotalFundsZc(projectFunds.getTotalFundsZc());
             projectBaseInfoVO.setTotalFundsZxDk(projectFunds.getTotalFundsZxDk());
             projectBaseInfoVO.setZctzDone(projectFunds.getZctzDone());
             projectBaseInfoVO.setZxtzDone(projectFunds.getZxtzDone());

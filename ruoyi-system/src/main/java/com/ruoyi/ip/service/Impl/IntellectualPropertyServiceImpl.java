@@ -167,7 +167,7 @@ public class IntellectualPropertyServiceImpl implements IntellectualPropertyServ
         }
 
         if (intellectualPropertyBO.getUserId() != null) {
-            List<Long> ipIdList = getIpIdListFromUser(intellectualPropertyBO.getUserId());
+            List<Long> ipIdList = getIpIdListFromUserId(intellectualPropertyBO.getUserId());
             if (ipIdList.isEmpty()) {
                 lqw.apply("0=1");
                 return lqw;
@@ -186,11 +186,11 @@ public class IntellectualPropertyServiceImpl implements IntellectualPropertyServ
         return lqw;
     }
 
-    private void setAssignedSubjectName(List<IntellectualPropertyVO> records) {
-        Set<Long> projectIds = records.stream().map(IntellectualPropertyVO::getProjectId).collect(Collectors.toSet());
-        Map<Long, String> projectIdAndNameMapping = projectBaseInfoService.getProjectIdAndNameMappingByProjectIdSet(projectIds);
+    private void setAssignedSubjectName(List<IntellectualPropertyVO> recordList) {
+        Set<Long> projectSet = recordList.stream().map(IntellectualPropertyVO::getProjectId).collect(Collectors.toSet());
+        Map<Long, String> projectIdAndNameMapping = projectBaseInfoService.getProjectIdAndNameMappingByProjectIdSet(projectSet);
 
-        records.forEach(intellectualPropertyVO ->
+        recordList.forEach(intellectualPropertyVO ->
             intellectualPropertyVO.setAssignedSubjectName(
                 projectIdAndNameMapping.getOrDefault(intellectualPropertyVO.getProjectId(), PROJECT_DELETED_REASSOCIATE)
             )
@@ -202,7 +202,7 @@ public class IntellectualPropertyServiceImpl implements IntellectualPropertyServ
      *
      * @return {@link List}<{@link Long}>
      */
-    private List<Long> getIpIdListFromUser(Long userId) {
+    private List<Long> getIpIdListFromUserId(Long userId) {
         return Optional.ofNullable(userId)
             .map(ipUserService::getIpUserListByUserId)
             .orElseGet(Collections::emptyList)

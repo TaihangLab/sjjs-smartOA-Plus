@@ -1,11 +1,13 @@
 package com.ruoyi.project.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.project.domain.ProjectBaseInfo;
 import com.ruoyi.project.domain.bo.ProjectBaseInfoBO;
 import com.ruoyi.project.domain.vo.ProjectBaseInfoVO;
 import com.ruoyi.project.domain.vo.ProjectInfoVO;
+import liquibase.pro.packaged.C;
 
 import java.util.List;
 import java.util.Map;
@@ -79,6 +81,17 @@ public interface ProjectBaseInfoService {
      * @return {@link TableDataInfo}<{@link ProjectBaseInfoVO}>
      */
     TableDataInfo<ProjectBaseInfoVO> queryPageMyList(ProjectBaseInfoBO projectBaseInfoBO, PageQuery pageQuery);
+
+    /**
+     *获取我的项目列表
+     *
+     * @param projectBaseInfoBO
+     * @param pageQuery
+     * @param voClass
+     *
+     * @return {@link Page}<{@link C}>
+     */
+    public <C> Page<C> queryPageMyList(ProjectBaseInfoBO projectBaseInfoBO, PageQuery pageQuery,Class<C> voClass);
 
     /**
      * 获取项目id和名称的映射
