@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="max-height: 700px;">
         <el-row :gutter="10" class="mb8">
             <el-col :span="1.5">
                 <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
@@ -10,8 +10,8 @@
                     v-hasPermi="['system:user:import']">导入</el-button>
             </el-col>
         </el-row>
-        <el-table ref="multipleTable" :data="da" border style="width: 100%" :row-style="{ height: '50px' }"
-            :cell-style="{ padding: '0px' }">
+        <el-table ref="multipleTable" :data="da" border style="width: 100%; max-height: 500px; overflow-y: auto;"
+            :row-style="{ height: '50px' }" :cell-style="{ padding: '0px' }">
             <el-table-column label="日期" :resizable="false" align="center">
                 <!-- 使用 slot-scope 定制显示日期 -->
                 <template slot-scope="scope">
@@ -37,17 +37,30 @@
         </el-table>
         <!--新增支出录入-->
         <el-dialog title="信息录入" :visible.sync="ExpenditureAdd" width="700px" max-hight="400px" append-to-body>
-            <ExpenditureAdd @close-dialog="closeExpenditureDialog"></ExpenditureAdd>
+            <ExpenditureAdd @new-data="handleNewData" @close-dialog="closeExpenditureDialog"></ExpenditureAdd>
         </el-dialog>
         <!--导入支出录入表-->
         <el-dialog title="信息导入" :visible.sync="ExpenditureImport" width="400px" append-to-body>
-            <el-upload class="upload-demo" action="" :on-change="handleChange" :on-remove="handleRemove"
-                :on-exceed="handleExceed"
-                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
-                :auto-upload="false">
-                <!-- 只 能 上 传 xlsx / xls 文 件 -->
-                <el-button size="small" type="primary">点击上传</el-button>
-            </el-upload>
+            <div style="padding: 20px;">
+                <!-- 显示已选择的文件 -->
+                <div v-if="fileTemp" class="selected-file">
+                    已选择文件：{{ fileTemp.name }}
+                </div>
+                <el-upload ref="upload" class="upload-demo" action="" :on-change="handleChange"
+                    :on-remove="handleRemove" :on-exceed="handleExceed" :limit="1" list-type="text"
+                    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+                    :auto-upload="false">
+                    <!-- 使用自定义按钮 -->
+                    <span class="custom-upload-btn">
+                        <div class="upload-text">文件上传</div>
+                    </span>
+                    <div slot="tip" class="el-upload__tip">仅允许导入xls、xlsx格式文件。</div>
+                </el-upload>
+                <div style="margin-top: 5px;">
+                    <el-button size="small" @click="handleCancel">取消</el-button>
+                    <el-button size="small" type="primary" @click="confirmUpload" :disabled="!fileTemp">确认</el-button>
+                </div>
+            </div>
         </el-dialog>
     </div>
 </template>
@@ -79,6 +92,7 @@ export default {
             ExpenditureImport: false,
             expenditureLook: [],
             importedData: [],
+            fileTemp: null, // 存储用户选择的文件
             da: [],
         };
     },
@@ -97,8 +111,8 @@ export default {
             const lastDotIndex = originalName.lastIndexOf('.');
             return lastDotIndex !== -1 ? originalName.substring(0, lastDotIndex) : originalName;
         },
-         // 格式化日期方法
-         formatDate(date) {
+        // 格式化日期方法
+        formatDate(date) {
             // 假设日期格式为 "YYYY-MM-DD"
             const parts = date.split('-');
             if (parts.length === 3) {
@@ -145,8 +159,9 @@ export default {
                 15: '会议/会务费',
                 16: '国内协作费',
                 17: '国际合作交流费',
-                18: '专家咨询费',
-                19: '人员劳务费',
+                18: '会议/差旅/国际合作与交流费',
+                19: '专家咨询费',
+                21: '人员劳务费',
             };
             return secondLevelSubject[row.secondLevelSubject];
         },
@@ -171,9 +186,6 @@ export default {
             this.ExpenditureImport = false;
 
         },
-        limitUpload() {
-
-        },
         //超出最大上传文件数量时的处理方法
         handleExceed() {
             this.$message({
@@ -184,45 +196,92 @@ export default {
         },
         //移除文件的操作方法
         handleRemove(file, fileList) {
-            this.fileTemp = null
+            this.fileTemp = null; // 清空文件名
+            this.$refs.upload.clearFiles(); // 删除已上传的文件
         },
         handleChange(file, fileList) {
-            this.fileTemp = file.raw;
+            this.fileTemp = file.raw; // 将选择的文件存储起来以供预览
+        },
+        handleCancel() {
+            this.fileTemp = null; // 清空文件名
+            this.$refs.upload.clearFiles(); // 删除已上传的文件
+            this.ExpenditureImport = false; // 关闭导入对话框
+        },
+        confirmUpload() {
             if (this.fileTemp) {
-                if ((this.fileTemp.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-                    || (this.fileTemp.type == 'application/vnd.ms-excel')) {
-                    // 调用后端接口，上传数据
-                    const formData = new FormData();
-                    formData.append('file', file.raw);
-                    request.post('/project/funds/importData', formData)
-                        .then(response => {
-                            // 处理后端响应，将解析后的数据设置到列表中
-                            console.log('数据传入', response);
-                            this.da = response.data;
-                            this.$message({
-                                type: 'success',
-                                message: '文件上传成功！'
-                            });
-                        })
-                        .catch(error => {
-                            // 处理上传失败的情况
-                            console.error('文件上传失败：', error);
-                            this.$message.error('文件上传失败，请稍后重试！');
+                // 调用上传方法
+                const formData = new FormData();
+                formData.append('file', this.fileTemp);
+                request.post('/project/funds/importData', formData)
+                    .then(response => {
+                        // 处理后端响应，例如更新数据列表等操作
+                        console.log('文件上传成功！', response);
+                        // 将新数据追加到已有数据列表中
+                        this.da = this.da.concat(response.data);
+                        this.$message({
+                            type: 'success',
+                            message: '文件导入成功！'
                         });
-                } else {
-                    this.ExpenditureImport = false; // 文件格式错误时关闭导入对话框
-                    this.$message({
-                        type: 'warning',
-                        message: '文件格式错误，请删除后重新上传！'
+                        this.ExpenditureImport = false; // 关闭导入对话框
+                        // 清空选择的文件
+                        this.fileTemp = null;
+                        // 删除已上传的文件
+                        this.$refs.upload.clearFiles(); // 假设上传组件的 ref 属性为 upload
+
+                        // 可以在这里处理上传成功后的逻辑，例如重新加载数据列表
+                    })
+                    .catch(error => {
+                        // 处理上传失败情况
+                        console.error('文件上传失败：', error);
+                        this.$message.error('文件上传失败，请稍后重试！');
                     });
-                }
             } else {
+                // 如果没有选择文件，给出提示
                 this.$message({
                     type: 'warning',
-                    message: '请上传文件！'
+                    message: '请先选择要上传的文件！'
                 });
             }
+        },
+        handleNewData(newData) {
+            // 处理来自子组件的新数据
+            this.da = this.da.concat(newData);
+            console.log('新数据:', this.da);
+            // 关闭ExpenditureAdd窗口
+            this.ExpenditureAdd = false;
         },
     },
 };
 </script>
+
+<style>
+.custom-upload-btn {
+    /* 添加虚线框 */
+    border: 2px dashed #dddfe0;
+    border-radius: 10px;
+    padding: 40px;
+    /* 增加内边距 */
+    cursor: pointer;
+    /* 鼠标样式改为手型 */
+    display: flex;
+    /* 设置为flex布局 */
+    justify-content: center;
+    /* 水平居中 */
+    align-items: center;
+    /* 垂直居中 */
+    width: 300px;
+    /* 设置框的宽度 */
+    height: 200px;
+    /* 设置框的高度 */
+}
+
+.custom-upload-btn:hover {
+    /* 鼠标悬停时改变颜色 */
+    border-color: #409eff;
+}
+
+.upload-text {
+    font-size: 16px;
+    color: #409eff;
+}
+</style>
