@@ -1,5 +1,5 @@
 <template>
-    <el-card header="专项经费详情" shadow="hover">
+    <el-card header="自筹经费详情" shadow="hover">
         <el-divider class="custom-divider"><i class="el-icon-caret-right"></i>直接经费<i class="el-icon-caret-left"></i></el-divider>
         <el-card v-for="(card1, index1) in this.$props.cards1" :key="index1" shadow="hover"
                  @mouseover.native="$set(isButtonShowList1, index1, true)"
@@ -7,14 +7,14 @@
             <template slot="header" >
                 <div class="header-container" >
                     <el-select class="select-container" v-model="card1.value" placeholder="请选择一级目录" size="medium">
-                        <el-option v-for="option in categoryOptions1" :key="option.value" :label="option.label" :value="option.value"></el-option>
+                        <el-option v-for="option in categoryOptions2" :key="option.value" :label="option.label" :value="option.value"></el-option>
                     </el-select>
                     <el-input class="custom-input" v-model="card1.content" type="number" size="medium"></el-input>
                     <el-button icon="el-icon-circle-plus" circle type="success" plain @click="addCard(cards1, cards2)"
                                v-show="isButtonShowList1[index1]"
                     ></el-button>
                     <el-button  icon="el-icon-remove" circle type="danger" plain @click="removeCard(index1, cards1, cards2)"
-                               v-show="isButtonShowList1[index1]"
+                                v-show="isButtonShowList1[index1]"
                     ></el-button>
                     <el-button icon="el-icon-circle-plus" circle type="success" plain @click="addCard2(index1, cards2)"
                                v-show="isButtonShowList1[index1]"
@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import categoryOptions1 from "@/views/project/components/fundkeys";
+import {categoryOptions2} from "@/views/project/components/fundkeys";
 export default {
     props: {
         cards1: {
@@ -84,7 +84,7 @@ export default {
     data() {
         return {
             isTableVisible: [[]],
-            categoryOptions1: categoryOptions1,
+            categoryOptions2: categoryOptions2,
             isButtonShowList1: [],
             isButtonShowList2: [],
         };
@@ -104,21 +104,20 @@ export default {
         filteredSecondOptions() {
             return index1 => {
                 const selectedFirstValue = this.$props.cards1[index1].value;
-                const firstOption = this.categoryOptions1.find(option => option.value === selectedFirstValue);
+                const firstOption = this.categoryOptions2.find(option => option.value === selectedFirstValue);
                 return firstOption ? firstOption.children || [] : [];
             };
         },
-        // 计算属性，根据当前选中的一级和二级目录值动态过滤出对应的三级目录选项.......
+        // 计算属性，根据当前选中的一级和二级目录值动态过滤出对应的三级目录选项
         filteredThirdOptions() {
             return (index1, index2) => {
                 const selectedFirstValue = this.$props.cards1[index1].value;
-                const firstOption = this.categoryOptions1.find(option => option.value === selectedFirstValue);
+                const firstOption = this.categoryOptions2.find(option => option.value === selectedFirstValue);
                 if (firstOption) {
                     const selectedSecondValue = this.$props.cards2[index1][index2].value;
                     const secondOption = firstOption.children.find(option => option.value === selectedSecondValue);
                     return secondOption ? secondOption.children || [] : [];
                 }
-
                 return [];
             };
         }

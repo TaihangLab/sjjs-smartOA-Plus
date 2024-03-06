@@ -1,3 +1,4 @@
+// 专项直接经费
 const categoryOptions1 = [
     {
         label: '设备费',
@@ -213,7 +214,7 @@ const categoryOptions1 = [
         children: [
             {
                 label: '人员劳务费',
-                value: 'ryhlwbzfRylwZxZ',
+                value: 'ryhlwbzfRylwZxZj',
             },
         ]
     },
@@ -223,6 +224,233 @@ const categoryOptions1 = [
     },
 ];
 export default categoryOptions1;
+/*自筹直接经费*/
+export const categoryOptions2 = [
+    {
+        label: '设备费',
+        value: 'sbfZcZj',
+        children: [
+            {
+                label: '购置设备费',
+                value: 'sbfGzsbZcZj',
+            },
+            {
+                label: '试制设备费',
+                value: 'sbfSzsbZcZj',
+            },
+            {
+                label: '设备升级改造费',
+                value: 'sbfSbsjgzZcZj',
+            },
+            {
+                label: '设备租赁费',
+                value: 'sbfSbzlZcZj',
+            },
+        ]
+    },
+    {
+        label: '业务费',
+        value: 'ywfZcZj',
+        children: [
+            {
+                label: '材料费',
+                value: 'ywfClfZcZj',
+            },
+            {
+                label: '资料费',
+                value: 'ywfZlfZcZj',
+            },
+            {
+                label: '数据/样本采集费',
+                value: 'ywfSjybcjfZcZj',
+            },
+            {
+                label: '测试化验加工费',
+                value: 'ywfCshyjgfZcZj',
+            },
+            {
+                label: '燃料动力费',
+                value: 'ywfRldlfZcZj',
+            },
+            {
+                label: '办公费',
+                value: 'ywfBgfZcZj',
+            },
+            {
+                label: '印刷/出版费',
+                value: 'ywfYscbfZcZj',
+            },
+            {
+                label: '知识产权事务费',
+                value: 'ywfZscqswfZcZj',
+            },
+            {
+                label: '车辆使用费',
+                value: 'ywfClsyfZcZj',
+            },
+            {
+                label: '出版/文献/信息传播/知识产权事务费',
+                value: 'ywfCbwxxxcbzscqswfZcZj',
+                children: [
+                    {
+                        label: '知识产权事务费',
+                        value: 'ywfCbwxxxcbzscqswfZscqswfZcZj',
+                    },
+                    {
+                        label: '印刷打印制作费',
+                        value: 'ywfCbwxxxcbzscqswfYsdyzzfZcZj',
+                    },
+                    {
+                        label: '文献数据库费',
+                        value: 'ywfCbwxxxcbzscqswfWxsjkfZcZj',
+                    },
+                    {
+                        label: '信息传播费',
+                        value: 'ywfCbwxxxcbzscqswfXxcbfZcZj',
+                    },
+                ]
+            },
+            {
+                label: '差旅费',
+                value: 'ywfChlfZcZj',
+            },
+            {
+                label: '会议/会务费',
+                value: 'ywfHyhwfZcZj',
+            },
+            {
+                label: '国内协作费',
+                value: 'ywfGnxzfZcZj',
+            },
+            {
+                label: '国际合作交流费',
+                value: 'ywfGjhzjlfZcZj',
+            },
+            {
+                label: '会议/差旅/国际合作与交流费',
+                value: 'ywfHyclgjhzyjlfZcZj',
+                children: [
+                    {
+                        label: '会议费',
+                        value: 'ywfHyclgjhzyjlfHyfZcZj',
+                    },
+                    {
+                        label: '差旅费',
+                        value: 'ywfHyclgjhzyjlfClfZcZj',
+                    },
+                    {
+                        label: '国际合作费',
+                        value: 'ywfHyclgjhzyjlfGjhzfZcZj',
+                    },
+                ]
+            },
+        ]
+    },
+    {
+        label: '劳务费',
+        value: 'lwfZcZj',
+        children: [
+            {
+                label: '专家咨询费',
+                value: 'lwfZjzxfZcZj',
+            },
+            {
+                label: '人员劳务费',
+                value: 'lwfRylwfZcZj',
+            },
+        ]
+    },
+    {
+        label: '材料费',
+        value: 'clfZcZj',
+        children: [
+            {
+                label: '材料费',
+                value: 'clfClfZcZj',
+            },
+        ]
+    },
+    {
+        label: '科研活动费',
+        value: 'kyhdfZcZj',
+        children: [
+            {
+                label: '资料费',
+                value: 'kyhdfZlZcZj',
+            },
+            {
+                label: '数据/样本采集费',
+                value: 'kyhdfSjybcjZcZj',
+            },
+            {
+                label: '测试化验加工费',
+                value: 'kyhdfCshyjgZcZj',
+            },
+            {
+                label: '燃料动力费',
+                value: 'kyhdfRldlZcZj',
+            },
+            {
+                label: '办公费',
+                value: 'kyhdfBgZcZj',
+            },
+            {
+                label: '印刷/出版费',
+                value: 'kyhdfYscbZcZj',
+            },
+            {
+                label: '知识产权事务费',
+                value: 'kyhdfZscqswZcZj',
+            },
+            {
+                label: '车辆使用费',
+                value: 'kyhdfClsyZcZj',
+            },
+        ]
+    },
+    {
+        label: '科研服务费',
+        value: 'kyfwfZcZj',
+        children: [
+            {
+                label: '会议/会务费',
+                value: 'kyfwfHyhwZcZj',
+            },
+            {
+                label: '差旅费',
+                value: 'kyfwfClZcZj',
+            },
+            {
+                label: '国内协作费',
+                value: 'kyfwfGnxzZcZj',
+            },
+            {
+                label: '国际合作交流费',
+                value: 'kyfwfGjhzjlZcZj',
+            },
+            {
+                label: '专家咨询费',
+                value: 'kyfwfZjzxZcZj',
+            },
+        ]
+    },
+    {
+        label: '人员和劳务补助费',
+        value: 'ryhlwbzfZcZj',
+        children: [
+            {
+                label: '人员劳务费',
+                value: 'ryhlwbzfRylwZcZj',
+            },
+        ]
+    },
+    {
+        label: '绩效支出',
+        value: 'jxzcZcZj',
+    },
+];
+
+
 
 // 将金额字段加入到categories中
 export function dealData(categories, fundsData) {
@@ -242,6 +470,7 @@ export function dealData(categories, fundsData) {
         }
     });
 }
+/*按一级二级三级分别将数据处理到cards1Form、cards2Form、tableDataForm中*/
 export function continueDealData(categories, cards1Form, cards2Form, tableDataForm) {
     categories.forEach(item => {
         if (item.content && item.content !== "0") {

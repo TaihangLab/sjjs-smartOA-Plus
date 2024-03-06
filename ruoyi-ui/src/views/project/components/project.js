@@ -668,8 +668,6 @@ export function getProject(projectId,
             Object.keys(projectFundsVO).map(key => {
                 projectSpecialFundForm.push({ key: key, value: projectFundsVO[key] });
             });
-            console.log("After filling:", projectSpecialFundForm.length); // 显示填充后的数组长度
-            console.log("First item:", projectSpecialFundForm[0]); // 尝试访问第一个元素
             /**
              *  项目计划
              */
