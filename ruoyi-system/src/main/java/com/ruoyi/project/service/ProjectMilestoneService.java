@@ -26,15 +26,6 @@ public interface ProjectMilestoneService {
     int insertProjectMilestone(ProjectMilestoneBo projectMilestoneBo);
 
     /**
-     * 新增多个项目大事记
-     *
-     * @param projectMilestones
-     *
-     * @return boolean
-     */
-    boolean insertProjectMilestoneList(List<ProjectMilestone> projectMilestones);
-
-    /**
      * 通过projectId删除项目大事记
      *
      * @param projectId

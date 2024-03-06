@@ -1,8 +1,12 @@
 package com.ruoyi.project.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.project.domain.ProjectBalance;
+import com.ruoyi.project.domain.ProjectFunds;
+import com.ruoyi.project.domain.vo.ProjectBalanceVO;
 import com.ruoyi.project.mapper.ProjectBalanceMapper;
+import com.ruoyi.project.mapper.ProjectFundsMapper;
 import com.ruoyi.project.service.ProjectBalanceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +26,9 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor
 public class ProjectBalanceServiceImpl implements ProjectBalanceService {
+
+    private final ProjectFundsMapper projectFundsMapper;
+
     private final ProjectBalanceMapper projectBalanceMapper;
 
     @Override
@@ -29,5 +36,25 @@ public class ProjectBalanceServiceImpl implements ProjectBalanceService {
         return projectBalanceMapper.selectList(
                 new LambdaQueryWrapper<ProjectBalance>().in(ProjectBalance::getProjectId, projectIdList)).stream()
             .collect(Collectors.toMap(ProjectBalance::getProjectId, projectBalance -> projectBalance));
+    }
+
+    /**
+     * 根据项目ID查询项目经费预算和支出明细及汇总
+     *
+     * @param projectId
+     * @return
+     */
+    @Override
+    public ProjectBalanceVO getFundsAndBalanceByProjectId(Long projectId) {
+        ProjectBalanceVO projectBalanceVO = new ProjectBalanceVO();
+        ProjectFunds projectFunds = projectFundsMapper.selectOne(new LambdaQueryWrapper<ProjectFunds>()
+            .eq(ProjectFunds::getProjectId, projectId));
+
+        ProjectBalance projectBalance = projectBalanceMapper.selectOne(new LambdaQueryWrapper<ProjectBalance>()
+            .eq(ProjectBalance::getProjectId, projectId));
+
+        projectBalanceVO.setProjectBalance(projectBalance);
+        projectBalanceVO.setProjectFunds(projectFunds);
+        return projectBalanceVO;
     }
 }

@@ -29,9 +29,6 @@ public class ProjectFundsServiceImpl implements ProjectFundsService {
 
     private final ProjectFundsMapper projectFundsMapper;
 
-
-
-
     /**
      * 根据项目ID查询所有经费
      *
@@ -106,5 +103,16 @@ public class ProjectFundsServiceImpl implements ProjectFundsService {
         if (!isUpdated) {
 	        projectFundsMapper.insert(projectFunds);
         }
+    }
+
+    /**
+     * 根据项目ID获取项目经费
+     *
+     * @param projectId
+     * @return
+     */
+    public ProjectFunds getProjectFundsMapByProjectId(Long projectId) {
+        return projectFundsMapper.selectOne(new LambdaQueryWrapper<ProjectFunds>()
+            .eq(ProjectFunds::getProjectId,projectId));
     }
 }

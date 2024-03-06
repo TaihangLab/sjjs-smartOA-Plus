@@ -1,5 +1,7 @@
 package com.ruoyi.project.mapper;
 
+import com.ruoyi.common.annotation.DataColumn;
+import com.ruoyi.common.annotation.DataPermission;
 import com.ruoyi.common.core.mapper.BaseMapperPlus;
 import com.ruoyi.project.domain.ProjectBaseInfo;
 import com.ruoyi.project.domain.vo.ProjectBaseInfoVO;
