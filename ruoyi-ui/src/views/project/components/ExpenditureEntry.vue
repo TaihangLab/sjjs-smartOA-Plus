@@ -30,10 +30,13 @@
             </el-table-column>
             <el-table-column label="专项/自筹" :resizable="false" align="center" prop="zxzc" :formatter="zxzcFormatter">
             </el-table-column>
-            <el-table-column label="科目粗分" :resizable="false" align="center" prop="firstLevelSubject"
+            <el-table-column label="一级科目" :resizable="false" align="center" prop="firstLevelSubject"
                 :formatter="firstLevelSubjectFormatter">
             </el-table-column>
-            <el-table-column label="科目细分" :resizable="false" align="center" prop="secondLevelSubject"
+            <el-table-column label="二级科目" :resizable="false" align="center" prop="secondLevelSubject"
+                :formatter="secondLevelSubjectFormatter">
+            </el-table-column>
+            <el-table-column label="三级科目" :resizable="false" align="center" prop="secondLevelSubject"
                 :formatter="secondLevelSubjectFormatter">
             </el-table-column>
             <el-table-column label="金额" :resizable="false" align="center" prop="amount" width="150px">

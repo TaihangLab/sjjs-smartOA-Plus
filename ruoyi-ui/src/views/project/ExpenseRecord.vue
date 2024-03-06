@@ -43,22 +43,24 @@
                     <el-table-column label="项目名称" :resizable="false" align="center" prop="assignedSubjectName"
                         width="300">
                     </el-table-column>
-                    <el-table-column label="课题名称" :resizable="false" align="center" prop="ipName" width="300">
+                    <el-table-column label="课题名称" :resizable="false" align="center" prop="assignedSubjectSection" width="300">
                     </el-table-column>
-                    <el-table-column label="级别" :resizable="false" align="center" prop="ipType" :formatter="allIpType"
+                    <el-table-column label="级别" :resizable="false" align="center" prop="projectLevel" 
                         width="200">
                     </el-table-column>
-                    <el-table-column label="专项经费预算（万元）" :resizable="false" align="center" prop="" width="200">
+                    <el-table-column label="项目经费总额（万元）" :resizable="false" align="center" prop="totalFundsAll" width="200">
                     </el-table-column>
-                    <el-table-column label="专项经费已支付（万元）" :resizable="false" align="center" prop="" width="200">
+                    <el-table-column label="专项经费预算（万元）" :resizable="false" align="center" prop="totalFundsZx" width="200">
                     </el-table-column>
-                    <el-table-column label="专项经费未支付（万元）" :resizable="false" align="center" prop="" width="200">
+                    <el-table-column label="专项经费已支付（万元）" :resizable="false" align="center" prop="totalFundsZxPaid" width="200">
                     </el-table-column>
-                    <el-table-column label="自筹经费预算（万元）" :resizable="false" align="center" prop="" width="200">
+                    <el-table-column label="专项经费未支付（万元）" :resizable="false" align="center" prop="totalFundsZxUnpaid" width="200">
                     </el-table-column>
-                    <el-table-column label="自筹经费已支付（万元）" :resizable="false" align="center" prop="" width="200">
+                    <el-table-column label="自筹经费预算（万元）" :resizable="false" align="center" prop="totalFundsZc" width="200">
                     </el-table-column>
-                    <el-table-column label="自筹经费未支付（万元）" :resizable="false" align="center" prop="" width="200">
+                    <el-table-column label="自筹经费已支付（万元）" :resizable="false" align="center" prop="totalFundsZcPaid" width="200">
+                    </el-table-column>
+                    <el-table-column label="自筹经费未支付（万元）" :resizable="false" align="center" prop="totalFundsZcUnpaid" width="200">
                     </el-table-column>
                     <el-table-column label="操作" :resizable="false" align="center" min-width="250px" fixed="right">
                         <template v-slot="scope">
@@ -116,19 +118,10 @@ export default {
     data() {
         return {
             projecttree: undefined,
-            ipStatus: {
-                0: '专利受理',
-                1: '专利授权',
-                2: '软著已获取',
-                3: '标准正在申报',
-                4: '标准已通过',
-                5: '论文已发表',
-            },
-            ipType: {
-                0: '国内发明专利',
-                1: '软件著作权',
-                2: '论文',
-                3: '标准',
+            projectLevel: {
+                0: '国家级',
+                1: '省级',
+                2: '企业级',
             },
             total: 0,
             projectEstablishTime: [],
@@ -170,7 +163,7 @@ export default {
         async checkIp() {
             this.getDeptAndUserList();
             this.getProjectTree();
-            this.checkmembers();
+            this.checkfunds();
         },
 
         // 按项目级别-项目搜索
@@ -187,7 +180,6 @@ export default {
                     console.error('获取用户数据时出错：', error);
                 });
         },
-
         // 按部门-人员搜索
         async getDeptAndUserList() {
             // this.queryParam.pageNum = 1;
@@ -313,21 +305,21 @@ export default {
             this.intellectualDialogVisibleEdit = false;
             this.resetQuery();
         },
-        // 查看用户列表
-        checkmembers() {
+        // 查看经费列表
+        checkfunds() {
             request({
-                url: '/ip/list',
+                url: '/project/funds/getProjectList',
                 method: 'post',
                 data: this.datas,
                 params: this.queryParam,
             })
                 .then((resp) => {
-                    // 处理获取的用户数据
+                    // 处理获取的经费数据
                     this.iplist = resp.rows;
                     this.total = resp.total;
                 })
                 .catch((error) => {
-                    console.error('获取用户数据时出错：', error);
+                    console.error('获取经费数据时出错：', error);
                 });
         },
         handleDelete(row) {
