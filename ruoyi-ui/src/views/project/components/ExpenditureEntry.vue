@@ -37,10 +37,10 @@
         </el-table>
         <!--新增支出录入-->
         <el-dialog title="信息录入" :visible.sync="ExpenditureAdd" width="700px" max-hight="400px" append-to-body>
-            <ExpenditureAdd @close-dialog="closeExpenditureDialog"></ExpenditureAdd>
+            <ExpenditureAdd @new-data="handleNewData" @close-dialog="closeExpenditureDialog"></ExpenditureAdd>
         </el-dialog>
         <!--导入支出录入表-->
-        <el-dialog title="信息导入" :visible.sync="ExpenditureImport" width="400px" append-to-body center>
+        <el-dialog title="信息导入" :visible.sync="ExpenditureImport" width="400px" append-to-body>
             <div style="padding: 20px;">
                 <!-- 显示已选择的文件 -->
                 <div v-if="fileTemp" class="selected-file">
@@ -159,8 +159,9 @@ export default {
                 15: '会议/会务费',
                 16: '国内协作费',
                 17: '国际合作交流费',
-                18: '专家咨询费',
-                19: '人员劳务费',
+                18: '会议/差旅/国际合作与交流费',
+                19: '专家咨询费',
+                21: '人员劳务费',
             };
             return secondLevelSubject[row.secondLevelSubject];
         },
@@ -241,7 +242,14 @@ export default {
                     message: '请先选择要上传的文件！'
                 });
             }
-        }
+        },
+        handleNewData(newData) {
+            // 处理来自子组件的新数据
+            this.da = this.da.concat(newData);
+            console.log('新数据:', this.da);
+            // 关闭ExpenditureAdd窗口
+            this.ExpenditureAdd = false;
+        },
     },
 };
 </script>
