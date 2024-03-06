@@ -3,6 +3,7 @@ package com.ruoyi.project.mapper;
 import com.ruoyi.common.core.mapper.BaseMapperPlus;
 import com.ruoyi.project.domain.ProjectBalance;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.ruoyi.project.domain.vo.ProjectBalanceVO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -12,7 +13,7 @@ import org.apache.ibatis.annotations.Mapper;
 * @Entity com.ruoyi.project.domain.ProjectBalance
 */
 @Mapper
-public interface ProjectBalanceMapper extends BaseMapperPlus<ProjectBalanceMapper,ProjectBalance,ProjectBalance> {
+public interface ProjectBalanceMapper extends BaseMapperPlus<ProjectBalanceMapper,ProjectBalance, ProjectBalanceVO> {
 
 }
 
