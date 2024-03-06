@@ -111,65 +111,65 @@ export default {
                 secondLevelSubjectId: '0',
                 secondLevelSubjectName: '购置设备费'
             }, {
-                secondLevelSubject: '1',
+                secondLevelSubjectId: '1',
                 secondLevelSubjectName: '试制设备费'
             }, {
-                secondLevelSubject: '2',
+                secondLevelSubjectId: '2',
                 secondLevelSubjectName: '设备升级改造费'
             }, {
-                secondLevelSubject: '3',
+                secondLevelSubjectId: '3',
                 secondLevelSubjectName: '设备租赁费'
             }, {
-                secondLevelSubject: '4',
+                secondLevelSubjectId: '4',
                 secondLevelSubjectName: '材料费'
             }, {
-                secondLevelSubject: '5',
+                secondLevelSubjectId: '5',
                 secondLevelSubjectName: '资料费'
             }, {
-                secondLevelSubject: '6',
+                secondLevelSubjectId: '6',
                 secondLevelSubjectName: '数据/样本采集费'
             }, {
-                secondLevelSubject: '7',
+                secondLevelSubjectId: '7',
                 secondLevelSubjectName: '测试化验加工费'
             }, {
-                secondLevelSubject: '8',
+                secondLevelSubjectId: '8',
                 secondLevelSubjectName: '燃料动力费'
             }, {
-                secondLevelSubject: '9',
+                secondLevelSubjectId: '9',
                 secondLevelSubjectName: '办公费'
             }, {
-                secondLevelSubject: '10',
+                secondLevelSubjectId: '10',
                 secondLevelSubjectName: '印刷/出版费'
             }, {
-                secondLevelSubject: '11',
+                secondLevelSubjectId: '11',
                 secondLevelSubjectName: '知识产权事务费'
             }, {
-                secondLevelSubject: '12',
+                secondLevelSubjectId: '12',
                 secondLevelSubjectName: '车辆使用费'
             }, {
-                secondLevelSubject: '13',
+                secondLevelSubjectId: '13',
                 secondLevelSubjectName: '出版/文献/信息传播/知识产权事务费'
             }, {
-                secondLevelSubject: '14',
+                secondLevelSubjectId: '14',
                 secondLevelSubjectName: '差旅费'
             },
             {
-                secondLevelSubject: '15',
+                secondLevelSubjectId: '15',
                 secondLevelSubjectName: '会议/会务费'
             }, {
-                secondLevelSubject: '16',
+                secondLevelSubjectId: '16',
                 secondLevelSubjectName: '国内协作费'
             }, {
-                secondLevelSubject: '17',
+                secondLevelSubjectId: '17',
                 secondLevelSubjectName: '国际合作交流费'
             }, {
-                secondLevelSubject: '18',
+                secondLevelSubjectId: '18',
                 secondLevelSubjectName: '会议/差旅/国际合作与交流费'
             }, {
-                secondLevelSubject: '19',
+                secondLevelSubjectId: '19',
                 secondLevelSubjectName: '专家咨询费'
             }, {
-                secondLevelSubject: '20',
+                secondLevelSubjectId: '20',
                 secondLevelSubjectName: '人员劳务费'
             }],
             value: '',
