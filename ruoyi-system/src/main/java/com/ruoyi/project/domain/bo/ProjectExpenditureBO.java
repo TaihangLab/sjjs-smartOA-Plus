@@ -1,32 +1,27 @@
-package com.ruoyi.project.domain;
+package com.ruoyi.project.domain.bo;
 
-import com.baomidou.mybatisplus.annotation.*;
-import com.ruoyi.common.core.domain.BaseEntity;
+import com.ruoyi.common.core.validate.EditGroup;
 import com.ruoyi.common.enums.FirstLevelSubjectEnum;
 import com.ruoyi.common.enums.SecondLevelSubjectEnum;
 import com.ruoyi.common.enums.ZxZcEnum;
 import lombok.Data;
 
-import java.io.Serializable;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
- * 项目支出表
+ * 经费支出BO
  *
  * @author bailingnan
- * @TableName project_expenditure
- * @date 2024/03/01
+ * @date 2024/03/05
  */
-@TableName(value = "project_expenditure")
 @Data
-public class ProjectExpenditure extends BaseEntity implements Serializable {
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
+public class ProjectExpenditureBO {
     /**
      * 支出id
      */
-    @TableId(type = IdType.AUTO)
+    @NotNull(message = "支出id不能为空", groups = {EditGroup.class})
     private Long expenditureId;
     /**
      * 项目id
@@ -64,10 +59,4 @@ public class ProjectExpenditure extends BaseEntity implements Serializable {
      * 支出金额
      */
     private BigDecimal amount;
-    /**
-     * 是否删除，2删除，0未删除
-     */
-    @TableLogic
-    @TableField(select = false)
-    private Integer deleted;
 }

@@ -28,7 +28,8 @@ npm run build:stage
 # 构建生产环境
 npm run build:prod
 ```
-## `Error: error:0308010C:digital envelope routines::unsupported`解决方法
+## macOS`Error: error:0308010C:digital envelope routines::unsupported`解决方法
+终端输入:
 ```bash
 export NODE_OPTIONS=--openssl-legacy-provider
 ```

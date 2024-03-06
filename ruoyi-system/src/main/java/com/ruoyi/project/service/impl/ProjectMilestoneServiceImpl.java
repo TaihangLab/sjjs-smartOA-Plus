@@ -76,20 +76,6 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
     }
 
     /**
-     * 新增多个项目大事记
-     *
-     * @param projectMilestones 项目指标信息
-     * @return 结果
-     */
-    @Override
-    public boolean insertProjectMilestoneList(List<ProjectMilestone> projectMilestones) {
-        if (projectMilestones.isEmpty()) {
-            return false;
-        }
-        return projectMilestoneMapper.insertBatch(projectMilestones);
-    }
-
-    /**
      * 删除某一项目对应的全部项目大事记
      *
      * @param projectId 项目ID

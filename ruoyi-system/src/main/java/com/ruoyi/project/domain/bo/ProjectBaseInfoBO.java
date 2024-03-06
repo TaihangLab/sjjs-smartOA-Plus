@@ -1,7 +1,5 @@
 package com.ruoyi.project.domain.bo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.constant.DateConstants;
 import com.ruoyi.common.core.domain.BaseEntity;
@@ -33,7 +31,6 @@ public class ProjectBaseInfoBO extends BaseEntity {
     /**
      * 项目id
      */
-    @TableId(type = IdType.AUTO)
     @NotNull(message = "项目id不能为空", groups = {EditGroup.class})
     private Long projectId;
 

@@ -55,4 +55,12 @@ public interface ProjectFundsService {
      * @return {@link Map}<{@link Long}, {@link ProjectFunds}>
      */
     Map<Long, ProjectFunds> getProjectFundsMapByProjectIdList(List<Long> projectIdList);
+
+    /**
+     * 根据项目ID获取项目经费
+     *
+     * @param projectId
+     * @return
+     */
+    ProjectFunds getProjectFundsMapByProjectId(Long projectId);
 }
