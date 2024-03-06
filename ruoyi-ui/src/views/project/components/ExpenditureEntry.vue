@@ -242,7 +242,7 @@ export default {
             this.fileTemp = null; // 清空文件名
             this.$refs.upload.clearFiles(); // 删除已上传的文件
             this.ExpenditureImport = false; // 关闭导入对话框
-        },
+        },    
         confirmUpload() {
             if (this.fileTemp) {
                 // 调用上传方法

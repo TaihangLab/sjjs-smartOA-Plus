@@ -159,13 +159,11 @@ export default {
         this.checkIp();
     },
     methods: {
-
         async checkIp() {
             this.getDeptAndUserList();
             this.getProjectTree();
             this.checkfunds();
         },
-
         // 按项目级别-项目搜索
         getProjectTree() {
             request({
