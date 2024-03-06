@@ -351,7 +351,7 @@ export default {
             this.fetchData();
         },
         fetchData() {
-            this.checkmembers();
+            this.checkfunds();
         },
     },
 
