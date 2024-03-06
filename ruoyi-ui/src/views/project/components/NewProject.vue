@@ -64,12 +64,16 @@
                 <ProjectSpecialFund v-show="stepID===10" :cards1="cards1Form" :cards2="cards2Form" :table-data="tableDataForm"
                                     ref="projectSpecialFund"></ProjectSpecialFund>
             </el-collapse-transition>
+            <el-collapse-transition>
+                <ProjectSelfFund v-show="stepID===11" :cards1="zcCards1Form" :cards2="zcCards2Form" :table-data="zcTableDataForm"
+                                    ref="projectSelfFund"></ProjectSelfFund>
+            </el-collapse-transition>
         </el-main>
 
         <el-footer>
             <el-button v-show="stepID > 0" style="margin-top: 12px;" @click="previous">上一步</el-button>
             <el-button style="margin-top: 12px;" @click="next" type="primary">{{ nextButtonText }}</el-button>
-            <el-button v-show="stepID < 8" style="margin-top: 12px;" @click="submit" type="success">现在提交</el-button>
+            <el-button v-show="stepID < 12" style="margin-top: 12px;" @click="submit" type="success">现在提交</el-button>
             <!--            重置要求确认-->
             <el-popconfirm
                 title="确定要重置吗?"
@@ -105,8 +109,9 @@ import {addProject, getProject, updateProject} from "@/views/project/components/
 import {resetObject} from "@/views/project/components/utils";
 import ProjectProgress from "@/views/project/components/ProjectProgress.vue";
 import ProjectSpecialFund from "@/views/project/components/ProjectSpecialFund.vue";
-import categoryOptions1, {reorganizeData} from "@/views/project/components/fundkeys";
+import categoryOptions1, {categoryOptions2, reorganizeData} from "@/views/project/components/fundkeys";
 import item from "@/layout/components/Sidebar/Item.vue";
+import ProjectSelfFund from "@/views/project/components/ProjectSelfFund.vue";
 
 const TOTAL_STEPS = 11;
 
@@ -114,6 +119,7 @@ export default {
     name      : "NewProject",
     props     : ['visible', "updateId"],
     components: {
+        ProjectSelfFund,
         ProjectSpecialFund,
         ProjectProgress,
         ProjectPlan,
@@ -137,13 +143,11 @@ export default {
             await getProject(this.updateId, this.projectInfoForm, this.projectMemberForm,
                 this.projectFundsForm, this.zxFundsDetailForm, this.zcFundsDetailForm,
                 this.fundsSourceForm, this.projectIndicatorForm, this.projectPlanForm,
-                this.otherAttachmentForm, this.projectProgressForm, this.projectSpecialFundsForm).then(() => {
+                this.otherAttachmentForm, this.projectProgressForm, this.projectAllFundsForm).then(() => {
                 this.categoryOption1 = categoryOptions1;
-                reorganizeData(this.categoryOption1, this.projectSpecialFundsForm, this.cards1Form, this.cards2Form, this.tableDataForm);
-                console.log("this.categoryOption1", this.categoryOption1);
-                console.log("this.cards1Form",this.cards1Form);
-                console.log("this.cards2Form",this.cards2Form);
-                console.log("this.tableDataForm",this.tableDataForm);
+                this.categoryOption2 = categoryOptions2;
+                reorganizeData(this.categoryOption1, this.projectAllFundsForm, this.cards1Form, this.cards2Form, this.tableDataForm);
+                reorganizeData(this.categoryOption2, this.projectAllFundsForm, this.zcCards1Form, this.zcCards2Form, this.zcTableDataForm);
             });
         }
 
@@ -153,7 +157,7 @@ export default {
         return {
             stepID        : 0,
             isStepHover   : false,
-            titles        : ["项目信息", "项目成员", "项目经费", "专项经费", "自筹经费", "经费来源", "项目指标", "项目计划", "项目申报附件", "项目推进情况","专项经费"],
+            titles        : ["项目信息", "项目成员", "项目经费", "专项经费", "自筹经费", "经费来源", "项目指标", "项目计划", "项目申报附件", "项目推进情况", "专项经费", "自筹经费"],
             nextButtonText: '下一步',
 
             projectInfoForm     : {},
@@ -170,9 +174,12 @@ export default {
             cards1Form: [],
             cards2Form: [],
             tableDataForm: [],
-            projectSpecialFundsForm: [],
-            reorganizedData: [],
+            zcCards1Form: [],
+            zcCards2Form: [],
+            zcTableDataForm: [],
+            projectAllFundsForm: [],
             categoryOption1: [],
+            categoryOption2: [],
         };
     },
 
@@ -228,6 +235,7 @@ export default {
             resetObject(this.projectProgressForm);
             // this.$refs.projectProgress.reset();
             this.$refs.projectSpecialFund.reset();
+            this.$refs.projectSelfFund.reset();
             this.stepID = 0;
         },
         /**
@@ -248,6 +256,10 @@ export default {
             }
             const loading = Loading.service({fullscreen: true, lock: true, text: '努力加载中'});
             if (this.$props.updateId) {
+                const projectUpdateFundForm = {};
+                this.projectFundForm(this.cards1Form, this.cards2Form, this.tableDataForm, projectUpdateFundForm);
+                this.projectFundForm(this.zcCards1Form, this.zcCards2Form, this.zcTableDataForm, projectUpdateFundForm);
+
                 updateProject(this.$props.updateId,
                     this.projectInfoForm,
                     this.projectMemberForm,
@@ -259,7 +271,7 @@ export default {
                     this.projectPlanForm,
                     this.otherAttachmentForm,
                     this.projectProgressForm,
-                    this.projectSpecialFundForm(this.cards1Form, this.cards2Form, this.tableDataForm),
+                    projectUpdateFundForm,
                 )
                     .then(resp => {
                         this.$message({
@@ -274,7 +286,6 @@ export default {
                 this.$emit('update:visible', false);
                 // this.$emit("refresh");
                 setTimeout(() => location.reload(), 900);
-
                 return;
             }
 
@@ -292,6 +303,9 @@ export default {
              * @param projectProgressForm
              * @returns {Promise}
              */
+            const projectAddFundForm = {};
+            this.projectFundForm(this.cards1Form, this.cards2Form, this.tableDataForm, projectAddFundForm);
+            this.projectFundForm(this.zcCards1Form, this.zcCards2Form, this.zcTableDataForm, projectAddFundForm);
             addProject(this.projectInfoForm,
                 this.projectMemberForm,
                 this.projectFundsForm,
@@ -302,7 +316,7 @@ export default {
                 this.projectPlanForm,
                 this.otherAttachmentForm,
                 this.projectProgressForm,
-                this.projectSpecialFundForm(this.cards1Form, this.cards2Form, this.tableDataForm),
+                projectAddFundForm,
             )
                 .then(resp => {
                     this.$message({
@@ -318,8 +332,7 @@ export default {
             // this.$emit("refresh");
             setTimeout(() => location.reload(), 900);
         },
-        projectSpecialFundForm(cards1Form, cards2Form, tableDataForm) {
-            const result = {};
+        projectFundForm(cards1Form, cards2Form, tableDataForm, result) {
             // 转换一级选择器的数据
             cards1Form.forEach(item => {
                 result[item.value] = item.content; // 使用value作为键，content作为值
@@ -340,7 +353,6 @@ export default {
                     });
                 });
             });
-            return result;
         },
     },
 
@@ -351,7 +363,7 @@ export default {
          * @param oldid
          */
         stepID(newid, oldid) {
-            if (newid > TOTAL_STEPS - 2) {
+            if (newid > TOTAL_STEPS - 1) {
                 this.nextButtonText = '完成';
             } else {
                 this.nextButtonText = '下一步';
