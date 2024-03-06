@@ -173,9 +173,6 @@ export default {
                 secondLevelSubjectName: '人员劳务费'
             }],
             value: '',
-            params: {
-                ipId: null
-            },
             form: {
                 amount: '',
                 zxzc: '',

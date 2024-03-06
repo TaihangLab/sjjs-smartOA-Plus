@@ -9,6 +9,10 @@
                 <el-button type="info" plain icon="el-icon-upload2" size="mini" @click="handleImport"
                     v-hasPermi="['system:user:import']">导入</el-button>
             </el-col>
+            <div style="display: flex; justify-content: flex-end;margin-right: 5px;">
+                <el-button type="primary" size="mini" @click="addFunds">上传<i
+                        class="el-icon-upload el-icon--right"></i></el-button>
+            </div>
         </el-row>
         <el-table ref="multipleTable" :data="da" border style="width: 100%; max-height: 500px; overflow-y: auto;"
             :row-style="{ height: '50px' }" :cell-style="{ padding: '0px' }">
@@ -26,17 +30,20 @@
             </el-table-column>
             <el-table-column label="专项/自筹" :resizable="false" align="center" prop="zxzc" :formatter="zxzcFormatter">
             </el-table-column>
-            <el-table-column label="科目粗分" :resizable="false" align="center" prop="firstLevelSubject"
+            <el-table-column label="一级科目" :resizable="false" align="center" prop="firstLevelSubject"
                 :formatter="firstLevelSubjectFormatter">
             </el-table-column>
-            <el-table-column label="科目细分" :resizable="false" align="center" prop="secondLevelSubject"
+            <el-table-column label="二级科目" :resizable="false" align="center" prop="secondLevelSubject"
+                :formatter="secondLevelSubjectFormatter">
+            </el-table-column>
+            <el-table-column label="三级科目" :resizable="false" align="center" prop="secondLevelSubject"
                 :formatter="secondLevelSubjectFormatter">
             </el-table-column>
             <el-table-column label="金额" :resizable="false" align="center" prop="amount" width="150px">
             </el-table-column>
         </el-table>
         <!--新增支出录入-->
-        <el-dialog title="信息录入" :visible.sync="ExpenditureAdd" width="700px" max-hight="400px" append-to-body>
+        <el-dialog title="信息录入" :visible.sync="ExpenditureAdd" width="700px" max-height="400px" append-to-body>
             <ExpenditureAdd @new-data="handleNewData" @close-dialog="closeExpenditureDialog"></ExpenditureAdd>
         </el-dialog>
         <!--导入支出录入表-->
@@ -181,6 +188,35 @@ export default {
         handleImport() {
             this.ExpenditureImport = true;
         },
+        /** 上传按钮操作 */
+        addFunds() {
+            if (this.da.length === 0) {
+                this.$message({
+                    type: 'warning',
+                    message: '没有要上传的数据！'
+                });
+                return;
+            }
+            request({
+                url: '/project/funds/add',
+                method: 'post',
+                data: this.da
+            }).then((resp) => {
+                console.log(resp);
+                this.$message({
+                    type: 'success',
+                    message: '上传成功！'
+                });
+                // 清空数据列表
+                this.da = [];
+            }).catch(error => {
+                console.error("上传失败", error);
+                this.$message({
+                    type: 'error',
+                    message: '上传失败，请稍后重试！'
+                });
+            });
+        },
         closeExpenditureDialog() {
             this.ExpenditureAdd = false;
             this.ExpenditureImport = false;
@@ -206,7 +242,7 @@ export default {
             this.fileTemp = null; // 清空文件名
             this.$refs.upload.clearFiles(); // 删除已上传的文件
             this.ExpenditureImport = false; // 关闭导入对话框
-        },
+        },    
         confirmUpload() {
             if (this.fileTemp) {
                 // 调用上传方法
@@ -246,10 +282,13 @@ export default {
         handleNewData(newData) {
             // 处理来自子组件的新数据
             this.da = this.da.concat(newData);
-            console.log('新数据:', this.da);
             // 关闭ExpenditureAdd窗口
             this.ExpenditureAdd = false;
         },
+        clearDataOnPageClose() {
+            // 当页面关闭时，清空数据列表
+            this.da = [];
+        }
     },
 };
 </script>
