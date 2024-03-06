@@ -108,7 +108,7 @@ export default {
                 return firstOption ? firstOption.children || [] : [];
             };
         },
-        // 计算属性，根据当前选中的一级和二级目录值动态过滤出对应的三级目录选项
+        // 计算属性，根据当前选中的一级和二级目录值动态过滤出对应的三级目录选项.......
         filteredThirdOptions() {
             return (index1, index2) => {
                 const selectedFirstValue = this.$props.cards1[index1].value;
@@ -118,6 +118,7 @@ export default {
                     const secondOption = firstOption.children.find(option => option.value === selectedSecondValue);
                     return secondOption ? secondOption.children || [] : [];
                 }
+
                 return [];
             };
         }
