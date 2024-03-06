@@ -61,7 +61,8 @@
                                  ref="projectProgress"></ProjectProgress>
             </el-collapse-transition>
             <el-collapse-transition>
-                <ProjectSpecialFund v-show="stepID===10" :cards1="cards1Form" :cards2="cards2Form" :table-data="tableDataForm"></ProjectSpecialFund>
+                <ProjectSpecialFund v-show="stepID===10" :cards1="cards1Form" :cards2="cards2Form" :table-data="tableDataForm"
+                                    ref="projectSpecialFund"></ProjectSpecialFund>
             </el-collapse-transition>
         </el-main>
 
@@ -104,6 +105,7 @@ import {addProject, getProject, updateProject} from "@/views/project/components/
 import {resetObject} from "@/views/project/components/utils";
 import ProjectProgress from "@/views/project/components/ProjectProgress.vue";
 import ProjectSpecialFund from "@/views/project/components/ProjectSpecialFund.vue";
+import categoryOptions1, {reorganizeData} from "@/views/project/components/fundkeys";
 import item from "@/layout/components/Sidebar/Item.vue";
 
 const TOTAL_STEPS = 11;
@@ -127,17 +129,24 @@ export default {
         ProjectFunds,
 
     },
-    mounted() {
+    mounted: async function () {
         /**
          * 如果是修改项目，需要获取项目的信息
          */
         if (this.$props.updateId) {
-            getProject(this.updateId, this.projectInfoForm, this.projectMemberForm,
-                this.projectFundsForm, this.zxFundsDetailForm,
-                this.zcFundsDetailForm, this.fundsSourceForm,
-                this.projectIndicatorForm, this.projectPlanForm,
-                this.otherAttachmentForm, this.projectProgressForm)
+            await getProject(this.updateId, this.projectInfoForm, this.projectMemberForm,
+                this.projectFundsForm, this.zxFundsDetailForm, this.zcFundsDetailForm,
+                this.fundsSourceForm, this.projectIndicatorForm, this.projectPlanForm,
+                this.otherAttachmentForm, this.projectProgressForm, this.projectSpecialFundsForm).then(() => {
+                this.categoryOption1 = categoryOptions1;
+                reorganizeData(this.categoryOption1, this.projectSpecialFundsForm, this.cards1Form, this.cards2Form, this.tableDataForm);
+                console.log("this.categoryOption1", this.categoryOption1);
+                console.log("this.cards1Form",this.cards1Form);
+                console.log("this.cards2Form",this.cards2Form);
+                console.log("this.tableDataForm",this.tableDataForm);
+            });
         }
+
 
     },
     data() {
@@ -161,10 +170,14 @@ export default {
             cards1Form: [],
             cards2Form: [],
             tableDataForm: [],
+            projectSpecialFundsForm: [],
+            reorganizedData: [],
+            categoryOption1: [],
         };
     },
 
     methods: {
+
         /**
          * 下一步按钮
          */
@@ -214,6 +227,7 @@ export default {
             this.$refs.otherAttachment.$refs.fileUpload.reset();
             resetObject(this.projectProgressForm);
             // this.$refs.projectProgress.reset();
+            this.$refs.projectSpecialFund.reset();
             this.stepID = 0;
         },
         /**
@@ -245,6 +259,7 @@ export default {
                     this.projectPlanForm,
                     this.otherAttachmentForm,
                     this.projectProgressForm,
+                    this.projectSpecialFundForm(this.cards1Form, this.cards2Form, this.tableDataForm),
                 )
                     .then(resp => {
                         this.$message({
@@ -307,11 +322,11 @@ export default {
             const result = {};
             // 转换一级选择器的数据
             cards1Form.forEach(item => {
-                result[item.header] = item.content; // 使用header作为键，content作为值
+                result[item.value] = item.content; // 使用value作为键，content作为值
             });
             cards2Form.forEach(item =>{
                 item.forEach(item1 =>{
-                    result[item1.header] = item1.content;
+                    result[item1.value] = item1.content;
                 })
             })
             // 转换三级选择器的数据
@@ -321,11 +336,10 @@ export default {
                 level1.forEach(level2 => {
                     // 遍历二级数组中的对象
                     level2.forEach(item => {
-                        result[item.header] = item.content; // 使用header作为键，content作为值
+                        result[item.value] = item.content; // 使用value作为键，content作为值
                     });
                 });
             });
-            console.log("projectSpecialFundForm",result);
             return result;
         },
     },
