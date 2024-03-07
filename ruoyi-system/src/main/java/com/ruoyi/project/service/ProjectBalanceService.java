@@ -36,4 +36,15 @@ public interface ProjectBalanceService {
      * @param projectBalance
      */
     void insertProjectBalance(ProjectBalance projectBalance);
+
+    /**
+     * 根据projectId获取项目余额
+     *
+     * @param projectId
+     *
+     * @return {@link ProjectBalance}
+     */
+    ProjectBalance getProjectBalanceByProjectId(Long projectId);
+
+    void updateProjectBalance(ProjectBalance projectBalance);
 }

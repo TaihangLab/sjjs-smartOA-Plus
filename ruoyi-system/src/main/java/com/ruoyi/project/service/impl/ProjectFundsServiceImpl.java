@@ -2,6 +2,7 @@ package com.ruoyi.project.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.project.domain.ProjectBalance;
 import com.ruoyi.project.domain.ProjectFunds;
@@ -69,9 +70,6 @@ public class ProjectFundsServiceImpl implements ProjectFundsService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void insertProjectFunds(ProjectFundsBO projectFundsBO, Long projectId) {
-        if (projectFundsBO == null) {
-            return;
-        }
         ProjectFunds projectFunds = new ProjectFunds();
         BeanCopyUtils.copy(projectFundsBO, projectFunds);
         projectFunds.setProjectId(projectId);
@@ -95,7 +93,7 @@ public class ProjectFundsServiceImpl implements ProjectFundsService {
         projectBalance.setFundsId(projectFunds.getFundsId());
         projectBalance.setProjectId(projectFunds.getProjectId());
         fundsMap.forEach((key, value) -> {
-            if (value != null && fundsMapping.containsKey(key)) {
+            if (fundsMapping.containsKey(key)) {
                 BigDecimal amount = (BigDecimal)value;
                 String balanceFieldName = unpaidReverseMapping.get(fundsMapping.get(key));
                 if (balanceFieldName != null) {
@@ -125,14 +123,56 @@ public class ProjectFundsServiceImpl implements ProjectFundsService {
      * @param projectId
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void updateProjectFunds(ProjectFundsBO projectFundsBO, Long projectId) {
-        if (projectFundsBO == null) {
-	        deleteProjectFundsById(projectId);
-            return;
-        }
         ProjectFunds projectFunds = new ProjectFunds();
         BeanCopyUtils.copy(projectFundsBO, projectFunds);
-	    saveOrUpdateProjectFunds(projectFunds, projectId);
+        ProjectFunds projectFundsOld = projectFundsMapper.selectOne(
+            new LambdaQueryWrapper<ProjectFunds>().eq(ProjectFunds::getProjectId, projectId));
+        ProjectBalance projectBalance = projectBalanceService.getProjectBalanceByProjectId(projectId);
+        updateBalance(projectFunds, projectFundsOld, projectBalance);
+        projectFundsMapper.update(projectFunds,
+            new LambdaUpdateWrapper<ProjectFunds>().eq(ProjectFunds::getProjectId, projectId));
+    }
+
+    private void updateBalance(ProjectFunds projectFunds, ProjectFunds projectFundsOld, ProjectBalance projectBalance) {
+        Map<String, Object> fundsMap = BeanCopyUtils.copyToMap(projectFunds);
+        Map<String, Object> fundsOldMap = BeanCopyUtils.copyToMap(projectFundsOld);
+        fundsMap.forEach((key, value) -> {
+            if (fundsMapping.containsKey(key)) {
+                BigDecimal amount = (BigDecimal)value;
+                BigDecimal amountOld = (BigDecimal)fundsOldMap.get(key);
+                String unPaidBalanceFieldName = unpaidReverseMapping.get(fundsMapping.get(key));
+                String paidBalanceFieldName = paidReverseMapping.get(fundsMapping.get(key));
+                if (amount.compareTo(amountOld) > 0) {
+                    try {
+                        BigDecimal unPaidAmount =
+                            (BigDecimal)FieldUtils.readField(projectBalance, unPaidBalanceFieldName, true);
+                        unPaidAmount = unPaidAmount.add(amount.subtract(amountOld));
+                        FieldUtils.writeField(projectBalance, unPaidBalanceFieldName, unPaidAmount, true);
+                    } catch (IllegalAccessException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else if (amount.compareTo(amountOld) < 0) {
+                    try {
+                        BigDecimal paidAmount =
+                            (BigDecimal)FieldUtils.readField(projectBalance, paidBalanceFieldName, true);
+                        //如果已支付余额大于修改后预算，抛出异常
+                        if (paidAmount.compareTo(amount) > 0) {
+                            throw new ServiceException("已支付金额大于修改后的预算");
+                        }
+                        BigDecimal unPaidAmount =
+                            (BigDecimal)FieldUtils.readField(projectBalance, unPaidBalanceFieldName, true);
+                        unPaidAmount = unPaidAmount.subtract(amountOld.subtract(amount));
+                        FieldUtils.writeField(projectBalance, unPaidBalanceFieldName, unPaidAmount, true);
+                    } catch (IllegalAccessException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        });
+        //插入修改后的余额记录
+        projectBalanceService.updateProjectBalance(projectBalance);
     }
 
     /**
@@ -149,19 +189,13 @@ public class ProjectFundsServiceImpl implements ProjectFundsService {
     }
 
 
-    private void saveOrUpdateProjectFunds(ProjectFunds projectFunds, Long projectId) {
-        // 更新或插入操作
-        boolean isUpdated = projectFundsMapper.update(projectFunds, new LambdaUpdateWrapper<ProjectFunds>().eq(ProjectFunds::getProjectId, projectId)) > 0;
-        if (!isUpdated) {
-	        projectFundsMapper.insert(projectFunds);
-        }
-    }
 
     /**
      * 根据项目ID获取项目经费
      *
      * @param projectId
-     * @return
+     *
+     * @return {@link ProjectFunds}
      */
     public ProjectFunds getProjectFundsMapByProjectId(Long projectId) {
         return projectFundsMapper.selectOne(new LambdaQueryWrapper<ProjectFunds>()
