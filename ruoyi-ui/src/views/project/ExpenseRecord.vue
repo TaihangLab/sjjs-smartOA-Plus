@@ -101,18 +101,15 @@ import { listUser, deptTreeSelect } from "@/api/system/user";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 import request from '@/utils/request';
 import CheckIntellectual from "@/views/project/components/CheckIntellectual.vue";
-import AppropriationAccount from "@/views/project/components/ExpensesIncome/checkExpensesIncome/CheckAppropriationAccount.vue";
-import CheckExpense from "@/views/project/components/CheckExpense.vue";
-
 import AppropriationAccount from "@/views/project/components/AppropriationAccount.vue";
 import ExpenditureEntry from "@/views/project/components/ExpenditureEntry.vue";
-import ProjectDetail from "@/views/project/components/ProjectDetail.vue";
 import CheckDetail from "@/views/project/components/ExpensesIncome/checkExpensesIncome/CheckDetail.vue";
 import AddIntellectual from "@/views/project/components/AddIntellectual.vue";
 export default {
     components: {CheckDetail, CheckIntellectual, AddIntellectual,ExpenditureEntry,AppropriationAccount},
     data() {
         return {
+            dialogDetailLook: false,
             projecttree: undefined,
             total: 0,
             projectEstablishTime: [],
@@ -266,6 +263,10 @@ export default {
         handleDisburse(projectId) {
             this.expenditureDialogVisibleEdit = true;
             this.projectId = projectId;
+        },
+        lookDetail(ipId) {
+            this.dialogDetailLook = true;
+
         },
         //经费到账
         handleIncome(ipId) {
