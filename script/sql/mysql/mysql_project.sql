@@ -485,7 +485,7 @@ create table project_balance
     ywf_cshyjgf_zx_zj_unpaid                 decimal(12, 6) default 0.000000 not null comment '业务费_测试化验加工费_专项_直接_未支付',
     ywf_cshyjgf_zc_zj_paid                   decimal(12, 6) default 0.000000 not null comment '业务费_测试化验加工费_自筹_直接_已支付',
     ywf_cshyjgf_zc_zj_unpaid                 decimal(12, 6) default 0.000000 not null comment '业务费_测试化验加工费_自筹_直接_未支付',
-    ywf_rldlf_zx_zj_paid                     decimal(12, 6) default 0.000000 not null comment '业务费_燃料动力费_专项_直接_未支付',
+    ywf_rldlf_zx_zj_paid                     decimal(12, 6) default 0.000000 not null comment '业务费_燃料动力费_专项_直接_已支付',
     ywf_rldlf_zx_zj_unpaid                   decimal(12, 6) default 0.000000 not null comment '业务费_燃料动力费_专项_直接_未支付',
     ywf_rldlf_zc_zj_paid                     decimal(12, 6) default 0.000000 not null comment '业务费_燃料动力费_自筹_直接_已支付',
     ywf_rldlf_zc_zj_unpaid                   decimal(12, 6) default 0.000000 not null comment '业务费_燃料动力费_自筹_直接_未支付',

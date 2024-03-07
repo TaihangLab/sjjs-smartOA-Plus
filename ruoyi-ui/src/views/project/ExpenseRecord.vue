@@ -10,62 +10,61 @@
                     <el-option v-for="(label, value) in ipType" :label="label" :value="value" :key="value"></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="项目状态">
-                <el-select v-model="responsibleJobTitle" placeholder="请选择知识产权状态">
-                    <el-option v-for="(label, value) in ipStatus" :label="label" :value="value" :key="value"></el-option>
-                </el-select>
-            </el-form-item>
             <el-form-item label="立项时间">
                 <el-date-picker v-model="projectEstablishTime" type="daterange" unlink-panels clearable
-                    start-placeholder="请输入查询范围" end-placeholder="如：2000-01-01" value-format="yyyy-MM-dd" @change="getList"
-                    :picker-options="pickerOptions" @keyup.enter.native="handleQuery"></el-date-picker>
+                    start-placeholder="请输入查询范围" end-placeholder="如：2000-01-01" value-format="yyyy-MM-dd"
+                    @change="getList" :picker-options="pickerOptions"
+                    @keyup.enter.native="handleQuery"></el-date-picker>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
                 <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
             </el-form-item>
         </el-form>
-        <el-row :gutter="10" class="mb8" style="margin-left: 20px;margin-top: 10px;">
-            <el-col :span="1.5">
-                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-                    v-hasPermi="['project:ip:add']">新增
-                </el-button>
-            </el-col>
-        </el-row>
-
         <el-card class="box-card" style="margin: auto;">
             <div>
-                <el-table ref="multipleTable" :data="iplist" border style="width: 100%" :row-style="{ height: '50px' }"
-                    :cell-style="{ padding: '0px' }">
-                    <!--                <el-table-column type="selection" :resizable="false" align="center" width="40"></el-table-column>-->
-                    <el-table-column label="项目名称" :resizable="false" align="center" prop="assignedSubjectName" width="300">
+                <el-table ref="multipleTable" :data="projectlist" border style="width: 100%"
+                    :row-style="{ height: '50px' }" :cell-style="{ padding: '0px' }">
+                    <!--                 <el-table-column type="selection" :resizable="false" align="center" width="40"></el-table-column>-->
+                    <el-table-column label="项目名称" :resizable="false" align="center" prop="assignedSubjectName"
+                        width="300">
                     </el-table-column>
-                    <el-table-column label="课题名称" :resizable="false" align="center" prop="ipName" width="300">
+                    <el-table-column label="课题名称" :resizable="false" align="center" prop="assignedSubjectSection"
+                        width="300">
                     </el-table-column>
-                    <el-table-column label="级别" :resizable="false" align="center" prop="ipType" :formatter="allIpType"
+                    <el-table-column label="级别" :resizable="false" align="center" prop="projectLevel"
+                        :formatter="projectLevelFormatter" width="200">
+                    </el-table-column>
+                    <el-table-column label="项目经费总额（万元）" :resizable="false" align="center" prop="totalFundsAll"
                         width="200">
                     </el-table-column>
-                    <el-table-column label="专项经费预算（万元）" :resizable="false" align="center" prop="" width="200">
+                    <el-table-column label="专项经费预算（万元）" :resizable="false" align="center" prop="totalFundsZx"
+                        width="200">
                     </el-table-column>
-                    <el-table-column label="专项经费已支付（万元）" :resizable="false" align="center" prop="" width="200">
+                    <el-table-column label="专项经费已支付（万元）" :resizable="false" align="center" prop="totalFundsZxPaid"
+                        width="200">
                     </el-table-column>
-                    <el-table-column label="专项经费未支付（万元）" :resizable="false" align="center" prop="" width="200">
+                    <el-table-column label="专项经费未支付（万元）" :resizable="false" align="center" prop="totalFundsZxUnpaid"
+                        width="200">
                     </el-table-column>
-                    <el-table-column label="自筹经费预算（万元）" :resizable="false" align="center" prop="" width="200">
+                    <el-table-column label="自筹经费预算（万元）" :resizable="false" align="center" prop="totalFundsZc"
+                        width="200">
                     </el-table-column>
-                    <el-table-column label="自筹经费已支付（万元）" :resizable="false" align="center" prop="" width="200">
+                    <el-table-column label="自筹经费已支付（万元）" :resizable="false" align="center" prop="totalFundsZcPaid"
+                        width="200">
                     </el-table-column>
-                    <el-table-column label="自筹经费未支付（万元）" :resizable="false" align="center" prop="" width="200">
+                    <el-table-column label="自筹经费未支付（万元）" :resizable="false" align="center" prop="totalFundsZcUnpaid"
+                        width="200">
                     </el-table-column>
                     <el-table-column label="操作" :resizable="false" align="center" min-width="250px" fixed="right">
                         <template v-slot="scope">
                             <el-button size="mini" type="text" icon="el-icon-tickets"
                                 @click="lookDetail(scope.row.ipId)">详情</el-button>
                             <el-button size="mini" type="text" icon="el-icon-notebook-2"
-                                @click="handleDisburse(scope.row.ipId)">支出录入
+                                @click="handleDisburse(scope.row.projectId)">支出录入
                             </el-button>
                             <el-button size="mini" type="text" icon="el-icon-finished"
-                                @click="handleIncome(scope.row.ipId)">经费到账
+                                @click="handleIncome(scope.row.projectId)">经费到账
                             </el-button>
                         </template>
                     </el-table-column>
@@ -79,12 +78,14 @@
                     <AddIntellectual @close-dialog="closeIntellectualDialog"></AddIntellectual>
                 </el-dialog>
                 <!--经费到账-->
-                <el-dialog title="经费到账" :visible.sync="appropriationlDialogVisibleEdit" width="700px">
-                    <AppropriationAccount :ipId="Number(ipId)" @close-dialog="closeExpenselDialog"></AppropriationAccount>
+                <el-dialog title="经费到账" :visible.sync="appropriationlDialogVisibleEdit" width="70%">
+                    <AppropriationAccount :ipId="Number(ipId)">
+                    </AppropriationAccount>
                 </el-dialog>
                 <!--支出录入-->
-                <el-dialog title="支出录入" :visible.sync="expenditureDialogVisibleEdit" width="1500px">
-                    <ExpenditureEntry :ipId="Number(ipId)" @close-dialog="closeExpenselDialog"></ExpenditureEntry>
+                <el-dialog title="支出录入" :visible.sync="expenditureDialogVisibleEdit" width="90%"
+                    @close="closeExpenselDialog">
+                    <ExpenditureEntry ref="ExpenditureEntry" :projectId="Number(projectId)"></ExpenditureEntry>
                 </el-dialog>
             </div>
             <el-pagination :current-page="queryParam.pageNum" :page-size="queryParam.pageSize"
@@ -94,12 +95,16 @@
         </el-card>
     </div>
 </template>
+
 <script>
 import { listUser, deptTreeSelect } from "@/api/system/user";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 import request from '@/utils/request';
 import CheckIntellectual from "@/views/project/components/CheckIntellectual.vue";
 import AppropriationAccount from "@/views/project/components/ExpensesIncome/checkExpensesIncome/CheckAppropriationAccount.vue";
+import CheckExpense from "@/views/project/components/CheckExpense.vue";
+
+import AppropriationAccount from "@/views/project/components/AppropriationAccount.vue";
 import ExpenditureEntry from "@/views/project/components/ExpenditureEntry.vue";
 import ProjectDetail from "@/views/project/components/ProjectDetail.vue";
 import CheckDetail from "@/views/project/components/ExpensesIncome/checkExpensesIncome/CheckDetail.vue";
@@ -109,20 +114,6 @@ export default {
     data() {
         return {
             projecttree: undefined,
-            ipStatus: {
-                0: '专利受理',
-                1: '专利授权',
-                2: '软著已获取',
-                3: '标准正在申报',
-                4: '标准已通过',
-                5: '论文已发表',
-            },
-            ipType: {
-                0: '国内发明专利',
-                1: '软件著作权',
-                2: '论文',
-                3: '标准',
-            },
             total: 0,
             projectEstablishTime: [],
             responsibleIp: undefined,
@@ -131,10 +122,9 @@ export default {
             responsiblePerson: [],
             responsibleproject: [],
             cascaderOptions: [],
-            ipId: undefined,
-            iplist: undefined,
-            dialogDetailLook: false,
-            intellectualDialogVisibleAdd: false,
+            projectId: undefined,
+            projectlist: undefined,
+            dialogExpenseLook: false,
             appropriationlDialogVisibleEdit: false,
             expenditureDialogVisibleEdit: false,
             datas: {
@@ -156,16 +146,23 @@ export default {
         };
     },
     created() {
-        this.checkIp();
+        this.checkFundsList();
     },
     methods: {
-
-        async checkIp() {
+        async checkFundsList() {
             this.getDeptAndUserList();
             this.getProjectTree();
-            this.checkmembers();
+            this.checkfunds();
         },
-
+        // 级别
+        projectLevelFormatter(row) {
+            const projectLevel = {
+                0: '国家级',
+                1: '省级',
+                2: '企业级',
+            };
+            return projectLevel[row.projectLevel];
+        },
         // 按项目级别-项目搜索
         getProjectTree() {
             request({
@@ -180,7 +177,6 @@ export default {
                     console.error('获取用户数据时出错：', error);
                 });
         },
-
         // 按部门-人员搜索
         async getDeptAndUserList() {
             // this.queryParam.pageNum = 1;
@@ -262,91 +258,49 @@ export default {
             this.ipId = undefined;
             this.checkmembers();
         },
-
-        allJobTitle(row, column, cellValue) {
-            // 使用映射关系来获取对应的文字描述
-            return this.ipStatus[cellValue] || cellValue;
-        },
-        allIpType(row, column, cellValue) {
-            // 使用映射关系来获取对应的文字描述
-            return this.ipType[cellValue] || cellValue;
-        },
-        lookDetail(ipId) {
-            this.dialogDetailLook = true;
-            this.ipId = ipId;
-        },
-        handleAdd() {
-            this.intellectualDialogVisibleAdd = true;
+        lookExpense(projectId) {
+            this.dialogExpenseLook = true;
+            this.projectId = projectId;
         },
         //支出录入
-        handleDisburse(ipId) {
+        handleDisburse(projectId) {
             this.expenditureDialogVisibleEdit = true;
-            this.ipId = ipId;
+            this.projectId = projectId;
         },
         //经费到账
         handleIncome(ipId) {
             this.appropriationlDialogVisibleEdit = true;
             this.ipId = ipId;
         },
-        closeDetailDialogLook() {
+        closeExpenseDialogLook() {
             this.resetQuery();
         },
-        closeIntellectualDialog() {
+        closeExpenseDialog() {
             this.resetQuery();
         },
         // 关闭弹窗的方法
         closeExpenselDialog() {
-            this.intellectualDialogVisibleAdd = false;
-            this.appropriationlDialogVisibleEdit = false;
             this.expenditureDialogVisibleEdit = false;
-            this.resetQuery();
+            if (this.$refs.ExpenditureEntry) {
+                this.$refs.ExpenditureEntry.clearDataOnPageClose();
+            }
         },
-        // 关闭弹窗的方法
-        closeIntellectualDialogs() {
-            this.intellectualDialogVisibleEdit = false;
-            this.resetQuery();
-        },
-        // handleUpdate(ipId) {
-        //     this.intellectualDialogVisibleEdit = true;
-        //     this.ipId = ipId;
-        // },
-        // 查看用户列表
-        checkmembers() {
+        // 查看经费列表
+        checkfunds() {
             request({
-                url: '/ip/list',
+                url: '/project/funds/getProjectList',
                 method: 'post',
                 data: this.datas,
                 params: this.queryParam,
             })
                 .then((resp) => {
-                    // 处理获取的用户数据
-                    this.iplist = resp.rows;
+                    // 处理获取的经费数据
+                    this.projectlist = resp.rows;
                     this.total = resp.total;
                 })
                 .catch((error) => {
-                    console.error('获取用户数据时出错：', error);
+                    console.error('获取经费数据时出错：', error);
                 });
-        },
-        handleDelete(row) {
-            const ipId = row.ipId;  // 假设属性名为ipId
-            this.$confirm('确认删除该数据项？').then(() => {
-                return this.deleteIp(ipId);  // 调用deleteIp方法
-            }).then(() => {
-                this.checkmembers();  // 删除后刷新列表
-                this.$message.success("删除成功");
-            }).catch(() => {
-                console.error('删除失败');
-            });
-            this.ipId = undefined;
-        },
-        deleteIp(ipId) {
-            return request({
-                url: '/ip/delete',
-                method: 'get',
-                params: {
-                    ipId: ipId,  // 传递ipId参数
-                },
-            });
         },
         sizeChangeHandle(val) {
             this.$set(this.queryParam, 'pageSize', val);
@@ -358,12 +312,13 @@ export default {
             this.fetchData();
         },
         fetchData() {
-            this.checkmembers();
+            this.checkfunds();
         },
     },
 
 };
 </script>
+
 <style>
 .box-card {
     width: 100%;

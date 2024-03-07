@@ -1,7 +1,6 @@
 package com.ruoyi.project.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.project.domain.ProjectBalance;
 import com.ruoyi.project.domain.ProjectFunds;
 import com.ruoyi.project.domain.vo.ProjectBalanceVO;
@@ -56,5 +55,10 @@ public class ProjectBalanceServiceImpl implements ProjectBalanceService {
         projectBalanceVO.setProjectBalance(projectBalance);
         projectBalanceVO.setProjectFunds(projectFunds);
         return projectBalanceVO;
+    }
+
+    @Override
+    public void insertProjectBalance(ProjectBalance projectBalance) {
+        projectBalanceMapper.insert(projectBalance);
     }
 }
