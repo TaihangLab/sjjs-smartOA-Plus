@@ -5,7 +5,7 @@
                 <el-tab-pane label="基本信息" name="first">
                     <div style="margin-top: 10px;"></div>
                     <el-descriptions-item label="基本信息" :span="2"></el-descriptions-item>
-                    <el-descriptions class="margin-top" title="" :column="2" :size="size" :labelStyle="{ width: '18%' }"
+                    <el-descriptions class="margin-top" title="" :column="2" :size="size" :labelStyle="{ width: '19%' }"
                         :contentStyle="{ width: '32%' }" border>
                         <el-descriptions-item label="项目名称">{{
                             this.projectdetails.projectInfoVO.assignedSubjectName
@@ -86,34 +86,6 @@
                         </el-descriptions-item>
                     </el-descriptions>
                     <el-collapse v-model="activeNames">
-<!--                        <el-collapse-item style="font-size: 20px;" name="1">-->
-<!--                            <template slot="title">-->
-<!--                                <span style="font-size: 14px;">项目成果情况</span>-->
-<!--                            </template>-->
-<!--                            <el-descriptions class="margin-top" title="" :column="2" :size="size"-->
-<!--                                :labelStyle="{ width: '18%' }" :contentStyle="{ width: '32%' }" border>-->
-<!--                                <el-descriptions-item label="获奖情况（项）">{{-->
-<!--                                    this.projectdetails.projectInfoVO.awardDetails-->
-<!--                                }}-->
-<!--                                </el-descriptions-item>-->
-<!--                                <el-descriptions-item label="论文情况（项）">{{-->
-<!--                                    this.projectdetails.projectInfoVO.publicationDetails-->
-<!--                                }}-->
-<!--                                </el-descriptions-item>-->
-<!--                                <el-descriptions-item label="专利情况">{{-->
-<!--                                    this.projectdetails.projectInfoVO.patentDetails-->
-<!--                                }}-->
-<!--                                </el-descriptions-item>-->
-<!--                                <el-descriptions-item label="软著情况">{{-->
-<!--                                    this.projectdetails.projectInfoVO.softwareCopyrightDetails-->
-<!--                                }}-->
-<!--                                </el-descriptions-item>-->
-<!--                                <el-descriptions-item label="标准情况">{{-->
-<!--                                    this.projectdetails.projectInfoVO.standardDetails-->
-<!--                                }}-->
-<!--                                </el-descriptions-item>-->
-<!--                            </el-descriptions>-->
-<!--                        </el-collapse-item>-->
                         <el-collapse-item style="font-size: 20px;" name="2">
                             <template slot="title">
                                 <span style="font-size: 14px;">项目简介</span>

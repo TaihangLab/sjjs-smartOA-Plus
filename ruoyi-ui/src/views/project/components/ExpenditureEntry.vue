@@ -10,7 +10,7 @@
                     v-hasPermi="['system:user:import']">导入</el-button>
             </el-col>
             <div style="display: flex; justify-content: flex-end;margin-right: 5px;">
-                <el-button type="primary" size="mini" @click="addFunds">上传<i
+                <el-button type="primary" size="mini" @click="addFunds">提交<i
                         class="el-icon-upload el-icon--right"></i></el-button>
             </div>
         </el-row>
@@ -78,12 +78,7 @@ import ExpenditureAdd from "@/views/project/components/ExpenditureAdd.vue";
 
 export default {
     components: { ExpenditureAdd },
-    props: {
-        ipId: {
-            type: [Number, String],
-            required: true,
-        },
-    },
+    props: ['projectId'],
     data() {
         return {
             contentStyle: {
@@ -91,7 +86,7 @@ export default {
                 'width': '60%',
             },
             params: {
-                ipId: null,
+                projectId: null,
             },
             // 遮罩层
             loading: true,
@@ -104,13 +99,16 @@ export default {
         };
     },
     watch: {
-        ipId: {
+        projectId: {
             handler(newVal) {
-                this.params.ipId = newVal;
+                this.params.projectId = newVal;
                 // this.checkExpenditure();
             },
             immediate: true, // 立即执行一次
         },
+    },
+    mounted() {
+        console.log('projectId:', this.projectId);
     },
     methods: {
         /** 下载按钮操作 */
@@ -242,7 +240,7 @@ export default {
             this.fileTemp = null; // 清空文件名
             this.$refs.upload.clearFiles(); // 删除已上传的文件
             this.ExpenditureImport = false; // 关闭导入对话框
-        },    
+        },
         confirmUpload() {
             if (this.fileTemp) {
                 // 调用上传方法

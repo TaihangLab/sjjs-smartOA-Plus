@@ -11,7 +11,7 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="专项/自筹" prop="zxzc">
-                        <el-select v-model="form.zxzc" placeholder="请选择类别">
+                        <el-select v-model="form.zxzc" placeholder="请选择项目类别">
                             <el-option v-for="item in zxzcOptions" :key="item.zxzcId" :label="item.zxzcName"
                                 :value="item.zxzcId" :disabled="item.status === 1"></el-option>
                         </el-select>
@@ -25,25 +25,14 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="科研粗分" prop="firstLevelSubject">
-                        <el-select v-model="form.firstLevelSubject" placeholder="请选择类别">
+                    <el-form-item label="一级科目" prop="firstLevelSubject">
+                        <el-select v-model="form.firstLevelSubject" placeholder="请选择一级科目">
                             <el-option v-for="item in firstLevelSubjectOptions" :key="item.firstLevelSubjectId"
                                 :label="item.firstLevelSubjectName" :value="item.firstLevelSubjectId"
                                 :disabled="item.status === 1"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
-                <el-col :span="12">
-                    <el-form-item label="科研细分" prop="secondLevelSubject">
-                        <el-select v-model="form.secondLevelSubject" placeholder="请选择类别">
-                            <el-option v-for="item in secondLevelSubjectOptions" :key="item.secondLevelSubjectId"
-                                :label="item.secondLevelSubjectName" :value="item.secondLevelSubjectId"
-                                :disabled="item.status === 1"></el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
                 <el-col :span="12">
                     <el-form-item label="日期" prop="expenditureDate">
                         <el-col :span="11">
@@ -52,9 +41,31 @@
                         </el-col>
                     </el-form-item>
                 </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="二级科目" prop="secondLevelSubject">
+                        <el-select v-model="form.secondLevelSubject" placeholder="请选择二级科目">
+                            <el-option v-for="item in secondLevelSubjectOptions" :key="item.secondLevelSubjectId"
+                                :label="item.secondLevelSubjectName" :value="item.secondLevelSubjectId"
+                                :disabled="item.status === 1"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
                 <el-col :span="12">
                     <el-form-item label="金额" prop="amount">
                         <el-input v-model="form.amount" style="width: 192px"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="三级科目" prop="secondLevelSubject">
+                        <el-select v-model="form.secondLevelSubject" placeholder="请选择三级科目">
+                            <el-option v-for="item in secondLevelSubjectOptions" :key="item.secondLevelSubjectId"
+                                :label="item.secondLevelSubjectName" :value="item.secondLevelSubjectId"
+                                :disabled="item.status === 1"></el-option>
+                        </el-select>
                     </el-form-item>
                 </el-col>
             </el-row>
