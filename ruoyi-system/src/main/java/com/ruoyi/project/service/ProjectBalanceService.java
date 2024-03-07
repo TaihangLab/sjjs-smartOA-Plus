@@ -29,4 +29,11 @@ public interface ProjectBalanceService {
      * @return
      */
     ProjectBalanceVO getFundsAndBalanceByProjectId(Long projectId);
+
+    /**
+     * 添加余额记录
+     *
+     * @param projectBalance
+     */
+    void insertProjectBalance(ProjectBalance projectBalance);
 }
