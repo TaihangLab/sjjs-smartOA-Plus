@@ -63,41 +63,53 @@ public class ProjectFundsReceivedServiceImpl implements ProjectFundsReceivedServ
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     public int addFundsReceived(ProjectFundsReceived fundsReceived) {
-        // 检查参数是否为null
         if (fundsReceived == null) {
             throw new RuntimeException("fundsReceived cannot be null");
         }
 
+        // 插入项目大事记记录并获取 milestoneId
+        Long milestoneId = insertProjectMilestone(fundsReceived);
+
+        // 设置专项经费到账信息的 milestoneId
+        fundsReceived.setMilestoneId(milestoneId);
+
         // 插入专项经费到账信息到数据库
         int rows = projectFundsReceivedMapper.insert(fundsReceived);
 
-        // 获取到账金额、来款单位和到账日期
+        // 汇算总额
+        calculateTotalReceivedAmountByProId(fundsReceived.getProjectId());
+
+        return rows;
+    }
+
+    /**
+     * 经费到账同步项目大事记记录并返回 milestoneId
+     *
+     * @param fundsReceived 专项经费到账对象
+     * @return 插入记录的 milestoneId
+     */
+    private Long insertProjectMilestone(ProjectFundsReceived fundsReceived) {
         BigDecimal amountReceived = fundsReceived.getAmountReceived();
         String receivedFrom = fundsReceived.getReceivedFrom();
         LocalDate receivedDate = fundsReceived.getReceivedDate();
         ProjectMilestoneBo milestoneBo = new ProjectMilestoneBo();
 
-        // 如果插入成功，则创建一个项目大事记记录
-        if (rows > 0) {
-            // 设置大事记标题为“专项经费到账”
-            milestoneBo.setMilestoneTitle("专项经费到账");
-            // 设置大事记备注，包括到账日期、到账金额和来款单位信息
-            milestoneBo.setMilestoneRemark("专项经费到账日期：" + receivedDate.toString() + ",到账金额：" + amountReceived.toString() + ",到账日期：" + receivedFrom);
-            // 如果存在ossId，则创建一个ossIds列表，并将ossId加入列表，再设置给大事记对象
-            if (!fundsReceived.getOssIds().isEmpty()) {
-                List<Long> ossIds = new ArrayList<>(fundsReceived.getOssIds());
-                milestoneBo.setOssIds(ossIds);
-            }
-            milestoneBo.setProjectId(fundsReceived.getProjectId());
-            // 设置大事记日期为到账日期
-            milestoneBo.setMilestoneDate(receivedDate);
+        // 设置大事记标题为“专项经费到账”
+        milestoneBo.setMilestoneTitle("专项经费到账");
+        // 设置大事记备注，包括到账日期、到账金额和来款单位信息
+        milestoneBo.setMilestoneRemark("专项经费到账日期：" + receivedDate.toString() + ",到账金额：" + amountReceived.toString() + ",到账日期：" + receivedFrom);
+        // 如果存在ossId，则创建一个ossIds列表，并将ossId加入列表，再设置给大事记对象
+        if (!fundsReceived.getOssIds().isEmpty()) {
+            List<Long> ossIds = new ArrayList<>(fundsReceived.getOssIds());
+            milestoneBo.setOssIds(ossIds);
         }
-        // 调用项目大事记服务的方法插入项目大事记记录，并返回结果
-        int result = projectMilestoneService.insertProjectMilestone(milestoneBo);
+        milestoneBo.setProjectId(fundsReceived.getProjectId());
+        // 设置大事记日期为到账日期
+        milestoneBo.setMilestoneDate(receivedDate);
 
-        // 汇算总额
-        calculateTotalReceivedAmountByProId(fundsReceived.getProjectId());
-        return result;
+        // 调用项目大事记服务的方法插入项目大事记记录，并获取 milestoneId
+        projectMilestoneService.insertProjectMilestone(milestoneBo);
+        return milestoneBo.getMilestoneId();
     }
 
 

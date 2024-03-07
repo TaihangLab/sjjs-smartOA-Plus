@@ -22,12 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/project/balance")
 public class ProjectBalanceController {
+
     private final ProjectBalanceService projectBalanceService;
 
     /**
      * 根据项目ID查询项目经费预算和支出明细及汇总
      *
-     * @param projectId
+     * @param projectId 项目ID
      * @return
      */
     @GetMapping(value = "/fundsAndBalance")
