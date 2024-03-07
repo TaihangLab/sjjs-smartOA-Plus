@@ -93,7 +93,7 @@
                                 </el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
-                    </template> 
+                    </template>
                 </el-table-column>
             </el-table>
             <!-- 详情打开的界面 -->
@@ -117,7 +117,7 @@
                 <AddEvents :projectId="projectId.toString()" :visible.sync="eventsDialogVisibleAdd"
                            @close-dialog="closeEventsDialog">
                 </AddEvents>
-            </el-dialog>    
+            </el-dialog>
             <!-- 页号 -->
             <el-pagination :current-page="this.queryParam.pageNum" :page-size="this.queryParam.pageSize"
                            :page-sizes="[5, 10, 20, 50, 100]" :total="total"
