@@ -30,14 +30,15 @@
             </el-table-column>
             <el-table-column label="专项/自筹" :resizable="false" align="center" prop="zxzc" :formatter="zxzcFormatter">
             </el-table-column>
+            <el-table-column label="直接/间接" :resizable="false" align="center" prop="zjjj" :formatter="zjjjFormatter">
+            </el-table-column>
             <el-table-column label="一级科目" :resizable="false" align="center" prop="firstLevelSubject"
                 :formatter="firstLevelSubjectFormatter">
             </el-table-column>
             <el-table-column label="二级科目" :resizable="false" align="center" prop="secondLevelSubject"
                 :formatter="secondLevelSubjectFormatter">
             </el-table-column>
-            <el-table-column label="三级科目" :resizable="false" align="center" prop="secondLevelSubject"
-                :formatter="secondLevelSubjectFormatter">
+            <el-table-column label="三级科目" :resizable="false" align="center" prop="thirdLevelSubject">
             </el-table-column>
             <el-table-column label="金额" :resizable="false" align="center" prop="amount" width="150px">
             </el-table-column>
@@ -129,7 +130,7 @@ export default {
             // 如果日期格式不正确，直接返回原始日期
             return date;
         },
-        // 科目粗分
+        // 一级科目
         firstLevelSubjectFormatter(row) {
             const firstLevelSubject = {
                 0: '设备费',
@@ -143,7 +144,7 @@ export default {
             };
             return firstLevelSubject[row.firstLevelSubject];
         },
-        // 科目细分
+        // 二级科目
         secondLevelSubjectFormatter(row) {
             const secondLevelSubject = {
                 0: '购置设备费',
@@ -170,6 +171,20 @@ export default {
             };
             return secondLevelSubject[row.secondLevelSubject];
         },
+        // 三级科目
+        thirdLevelSubjectFormatter(row) {
+            const thirdLevelSubject = {
+                0: '设备费',
+                1: '业务费',
+                2: '劳务费',
+                3: '材料费',
+                4: '科研活动费',
+                5: '科研服务费',
+                6: '人员和劳务补助费',
+                7: '绩效支出',
+            };
+            return thirdLevelSubject[row.thirdLevelSubject];
+        },
         // 专项自筹
         zxzcFormatter(row) {
             const zxzc = {
@@ -177,6 +192,14 @@ export default {
                 1: '自筹',
             };
             return zxzc[row.zxzc];
+        },
+        // 专项自筹
+        zjjjFormatter(row) {
+            const zjjj = {
+                0: '直接',
+                1: '间接',
+            };
+            return zjjj[row.zjjj];
         },
         /** 新增按钮操作 */
         handleAdd() {
@@ -186,7 +209,7 @@ export default {
         handleImport() {
             this.ExpenditureImport = true;
         },
-        /** 上传按钮操作 */
+        /** 提交按钮操作 */
         addFunds() {
             if (this.da.length === 0) {
                 this.$message({
@@ -195,10 +218,29 @@ export default {
                 });
                 return;
             }
+
+            // 将 this.da 格式化为服务器期望的数组格式
+            const expenditureData = this.da.map(item => ({
+                // 假设以下属性适用于 ProjectExpenditureBO 对象，请根据实际情况调整
+                expenditureDate: item.expenditureDate,
+                projectName: item.projectName,
+                voucherNo: item.voucherNo,
+                expenditureAbstract: item.expenditureAbstract,
+                zxzc: item.zxzc,
+                zjjj: item.zjjj,
+                firstLevelSubject: item.firstLevelSubject,
+                secondLevelSubject: item.secondLevelSubject,
+                thirdLevelSubject: item.thirdLevelSubject,
+                amount: item.amount
+            }));
+
             request({
                 url: '/project/funds/add',
                 method: 'post',
-                data: this.da
+                data: {
+                    projectId: this.params.projectId,
+                    expenditureData: expenditureData // 修改这里为格式化后的数组
+                }
             }).then((resp) => {
                 console.log(resp);
                 this.$message({
@@ -261,8 +303,6 @@ export default {
                         this.fileTemp = null;
                         // 删除已上传的文件
                         this.$refs.upload.clearFiles(); // 假设上传组件的 ref 属性为 upload
-
-                        // 可以在这里处理上传成功后的逻辑，例如重新加载数据列表
                     })
                     .catch(error => {
                         // 处理上传失败情况

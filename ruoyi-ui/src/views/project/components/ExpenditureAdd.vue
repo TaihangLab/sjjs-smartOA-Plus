@@ -18,8 +18,11 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="凭证号" prop="voucherNo">
-                        <el-input v-model="form.voucherNo" style="width: 192px"></el-input>
+                    <el-form-item label="直接/间接" prop="zjjj">
+                        <el-select v-model="form.zjjj" placeholder="请选择项目类别">
+                            <el-option v-for="item in zjjjOptions" :key="item.zjjjId" :label="item.zjjjName"
+                                :value="item.zjjjId" :disabled="item.status === 1"></el-option>
+                        </el-select>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -29,6 +32,22 @@
                         <el-select v-model="form.firstLevelSubject" placeholder="请选择一级科目">
                             <el-option v-for="item in firstLevelSubjectOptions" :key="item.firstLevelSubjectId"
                                 :label="item.firstLevelSubjectName" :value="item.firstLevelSubjectId"
+                                :disabled="item.status === 1"></el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="凭证号" prop="voucherNo">
+                        <el-input v-model="form.voucherNo" style="width: 192px"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="二级科目" prop="secondLevelSubject">
+                        <el-select v-model="form.secondLevelSubject" placeholder="请选择二级科目">
+                            <el-option v-for="item in secondLevelSubjectOptions" :key="item.secondLevelSubjectId"
+                                :label="item.secondLevelSubjectName" :value="item.secondLevelSubjectId"
                                 :disabled="item.status === 1"></el-option>
                         </el-select>
                     </el-form-item>
@@ -44,10 +63,10 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="二级科目" prop="secondLevelSubject">
-                        <el-select v-model="form.secondLevelSubject" placeholder="请选择二级科目">
-                            <el-option v-for="item in secondLevelSubjectOptions" :key="item.secondLevelSubjectId"
-                                :label="item.secondLevelSubjectName" :value="item.secondLevelSubjectId"
+                    <el-form-item label="三级科目" prop="thirdLevelSubject">
+                        <el-select v-model="form.thirdLevelSubject" placeholder="请选择三级科目">
+                            <el-option v-for="item in thirdLevelSubjectOptions" :key="item.thirdLevelSubjecttId"
+                                :label="item.thirdLevelSubjectName" :value="item.thirdLevelSubjecttId"
                                 :disabled="item.status === 1"></el-option>
                         </el-select>
                     </el-form-item>
@@ -55,17 +74,6 @@
                 <el-col :span="12">
                     <el-form-item label="金额" prop="amount">
                         <el-input v-model="form.amount" style="width: 192px"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item label="三级科目" prop="secondLevelSubject">
-                        <el-select v-model="form.secondLevelSubject" placeholder="请选择三级科目">
-                            <el-option v-for="item in secondLevelSubjectOptions" :key="item.secondLevelSubjectId"
-                                :label="item.secondLevelSubjectName" :value="item.secondLevelSubjectId"
-                                :disabled="item.status === 1"></el-option>
-                        </el-select>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -82,7 +90,7 @@
 <script>
 
 export default {
-    props: ['ipId'],
+    props: ['projectId'],
     data() {
         return {
             props: { multiple: true },
@@ -94,7 +102,15 @@ export default {
                 zxzcId: '1',
                 zxzcName: '自筹'
             },],
-            // 科研粗分
+            // 直接间接
+            zjjjOptions: [{
+                zjjjId: '0',
+                zjjjName: '直接'
+            }, {
+                zjjjId: '1',
+                zjjjName: '间接'
+            },],
+            // 一级科目
             firstLevelSubjectOptions: [{
                 firstLevelSubjectId: '0',
                 firstLevelSubjectName: '知识产权事物费'
@@ -117,7 +133,7 @@ export default {
                 firstLevelSubjectId: '6',
                 firstLevelSubjectName: '国际合作费'
             }],
-            // 科研细分
+            // 二级科目
             secondLevelSubjectOptions: [{
                 secondLevelSubjectId: '0',
                 secondLevelSubjectName: '购置设备费'
@@ -183,6 +199,7 @@ export default {
                 secondLevelSubjectId: '20',
                 secondLevelSubjectName: '人员劳务费'
             }],
+            // 三级科目
             value: '',
             form: {
                 amount: '',
