@@ -55,6 +55,10 @@ public class ProjectExpenditure extends BaseEntity implements Serializable {
      * 专项/自筹,0专项,1自筹
      */
     private Integer zxzc;
+    /**
+     * 直接/间接
+     */
+    private Integer zjjj;
 
     /**
      * 一级科目

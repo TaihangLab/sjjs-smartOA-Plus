@@ -4,9 +4,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.format.DateTimeFormat;
 import com.ruoyi.common.annotation.ExcelEnumFormat;
 import com.ruoyi.common.convert.ExcelEnumConvert;
-import com.ruoyi.common.enums.FirstLevelSubjectEnum;
-import com.ruoyi.common.enums.SecondLevelSubjectEnum;
-import com.ruoyi.common.enums.ZxZcEnum;
+import com.ruoyi.common.enums.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -51,18 +49,32 @@ public class ProjectExpenditureImportVO implements Serializable {
     @ExcelProperty(value = "专项/自筹", converter = ExcelEnumConvert.class)
     @ExcelEnumFormat(enumClass = ZxZcEnum.class, textField = "description")
     private ZxZcEnum zxzc;
+
+    /**
+     * 直接/间接,0直接,1间接
+     */
+    @ExcelProperty(value = "直接/间接", converter = ExcelEnumConvert.class)
+    @ExcelEnumFormat(enumClass = ZjJjEnum.class, textField = "description")
+    private ZjJjEnum zjjj;
+
     /**
      * 一级科目
      */
-    @ExcelProperty(value = "科目粗分", converter = ExcelEnumConvert.class)
+    @ExcelProperty(value = "一级科目", converter = ExcelEnumConvert.class)
     @ExcelEnumFormat(enumClass = FirstLevelSubjectEnum.class, textField = "description")
     private FirstLevelSubjectEnum firstLevelSubject;
     /**
      * 二级科目
      */
-    @ExcelProperty(value = "科目细分", converter = ExcelEnumConvert.class)
+    @ExcelProperty(value = "二级科目", converter = ExcelEnumConvert.class)
     @ExcelEnumFormat(enumClass = SecondLevelSubjectEnum.class, textField = "description")
     private SecondLevelSubjectEnum secondLevelSubject;
+    /**
+     * 三级科目
+     */
+    @ExcelProperty(value = "三级科目", converter = ExcelEnumConvert.class)
+    @ExcelEnumFormat(enumClass = ThirdLevelSubjectEnum.class, textField = "description")
+    private ThirdLevelSubjectEnum thirdLevelSubject;
     /**
      * 支出金额
      */

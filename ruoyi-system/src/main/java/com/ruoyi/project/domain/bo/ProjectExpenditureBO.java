@@ -1,9 +1,7 @@
 package com.ruoyi.project.domain.bo;
 
 import com.ruoyi.common.core.validate.EditGroup;
-import com.ruoyi.common.enums.FirstLevelSubjectEnum;
-import com.ruoyi.common.enums.SecondLevelSubjectEnum;
-import com.ruoyi.common.enums.ZxZcEnum;
+import com.ruoyi.common.enums.*;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -48,6 +46,10 @@ public class ProjectExpenditureBO {
      */
     private ZxZcEnum zxzc;
     /**
+     * 直接/间接
+     */
+    private ZjJjEnum zjjj;
+    /**
      * 一级科目
      */
     private FirstLevelSubjectEnum firstLevelSubject;
@@ -55,6 +57,10 @@ public class ProjectExpenditureBO {
      * 二级科目
      */
     private SecondLevelSubjectEnum secondLevelSubject;
+    /**
+     * 三级科目
+     */
+    private ThirdLevelSubjectEnum thirdLevelSubject;
     /**
      * 支出金额
      */
