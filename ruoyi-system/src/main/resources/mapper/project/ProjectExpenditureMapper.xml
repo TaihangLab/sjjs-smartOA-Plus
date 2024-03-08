@@ -12,6 +12,7 @@
         <result property="voucherNo" column="voucher_no" jdbcType="VARCHAR"/>
         <result property="expenditureAbstract" column="expenditure_abstract" jdbcType="VARCHAR"/>
         <result property="zxzc" column="zxzc" jdbcType="TINYINT"/>
+        <result property="zjjj" column="zjjj" jdbcType="TINYINT"/>
         <result property="firstLevelSubject" column="first_level_subject" jdbcType="TINYINT"/>
         <result property="secondLevelSubject" column="second_level_subject" jdbcType="TINYINT"/>
         <result property="thirdLevelSubject" column="third_level_subject" jdbcType="TINYINT"/>
@@ -26,7 +27,7 @@
     <sql id="Base_Column_List">
         expenditure_id,project_id,expenditure_date,
         project_name,voucher_no,expenditure_abstract,
-        zxzc,first_level_subject,second_level_subject,
+        zxzc,zjjj,first_level_subject,second_level_subject,
         third_level_subject,amount,create_time,
         update_time,create_by,update_by,
         deleted

@@ -19,7 +19,7 @@
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
                 <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-            </el-form-item>     
+            </el-form-item>
         </el-form>
         <el-card class="box-card" style="margin: auto;">
             <div>
@@ -71,12 +71,12 @@
                 </el-table>
                 <!-- 详情打开的界面 -->
                 <el-dialog :visible.sync="dialogDetailLook" width="50%">
-                    <CheckDetail :ipId="Number(217)" @close-dialog="closeDetailDialogLook"></CheckDetail>
+                    <CheckDetail :ipId="Number(217)" ></CheckDetail>
                 </el-dialog>
                 <!--经费到账-->
-                <el-dialog title="经费到账" :visible.sync="appropriationlDialogVisibleEdit" width="70%">
-                    <AppropriationAccount :ipId="Number(ipId)">
-                    </AppropriationAccount>
+                <el-dialog title="经费到账" :visible.sync="appropriationlDialogVisibleEdit" width="60%"
+                    @close="closeIncomeDialog">
+                    <AppropriationAccount :projectId="Number(218)" ></AppropriationAccount>
                 </el-dialog>
                 <!--支出录入-->
                 <el-dialog title="支出录入" :visible.sync="expenditureDialogVisibleEdit" width="90%"
@@ -261,12 +261,17 @@ export default {
         },
         lookDetail(ipId) {
             this.dialogDetailLook = true;
-
         },
         //经费到账
         handleIncome(ipId) {
             this.appropriationlDialogVisibleEdit = true;
             this.ipId = ipId;
+        },
+        closeIncomeDialog() {
+            this.appropriationlDialogVisibleEdit = false;
+            // if (this.$refs.ExpenditureEntry) {
+            //     this.$refs.ExpenditureEntry.clearDataOnPageClose();
+            // }
         },
         closeExpenseDialogLook() {
             this.resetQuery();

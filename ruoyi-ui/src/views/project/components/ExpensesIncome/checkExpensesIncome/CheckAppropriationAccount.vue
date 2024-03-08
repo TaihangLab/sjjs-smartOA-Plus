@@ -1,5 +1,5 @@
 <template>
-    <div v-if="this.$props.appropriationAccount && this.$props.appropriationAccount.length > 0">
+    <div>
         <div style="margin-top: 10px;"></div>
         <el-table v-loading="loading" :data="this.$props.appropriationAccount" style=" margin: 0; padding: 0;">
             <el-table-column label="拨款金额" align="center" prop="amountReceived" :show-overflow-tooltip="true" width="150"/>

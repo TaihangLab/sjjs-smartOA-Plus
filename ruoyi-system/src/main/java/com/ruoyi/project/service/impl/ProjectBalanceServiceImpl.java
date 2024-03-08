@@ -61,4 +61,15 @@ public class ProjectBalanceServiceImpl implements ProjectBalanceService {
     public void insertProjectBalance(ProjectBalance projectBalance) {
         projectBalanceMapper.insert(projectBalance);
     }
+
+    @Override
+    public ProjectBalance getProjectBalanceByProjectId(Long projectId) {
+        return projectBalanceMapper.selectOne(
+            new LambdaQueryWrapper<ProjectBalance>().eq(ProjectBalance::getProjectId, projectId));
+    }
+
+    @Override
+    public void updateProjectBalance(ProjectBalance projectBalance) {
+        projectBalanceMapper.updateById(projectBalance);
+    }
 }
