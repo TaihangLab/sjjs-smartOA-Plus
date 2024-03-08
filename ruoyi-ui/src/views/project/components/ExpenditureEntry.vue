@@ -234,13 +234,15 @@ export default {
                 amount: item.amount
             }));
 
+            const requestData = [{
+                projectId: this.params.projectId,
+                expenditureData: expenditureData
+            }];
+
             request({
                 url: '/project/funds/add',
                 method: 'post',
-                data: {
-                    projectId: this.params.projectId,
-                    expenditureData: expenditureData // 修改这里为格式化后的数组
-                }
+                data: requestData
             }).then((resp) => {
                 console.log(resp);
                 this.$message({
@@ -257,6 +259,7 @@ export default {
                 });
             });
         },
+
         closeExpenditureDialog() {
             this.ExpenditureAdd = false;
             this.ExpenditureImport = false;
