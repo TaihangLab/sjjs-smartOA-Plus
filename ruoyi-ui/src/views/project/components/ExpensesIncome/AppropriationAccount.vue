@@ -1,18 +1,18 @@
 <template>
     <div >
         <el-row :gutter="10" class="mb8">
-            <el-col :span="2">
+            <el-col :span="1.5">
                 <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
             </el-col>
-            <el-col :span="2">
-                <el-button type="success" plain icon="el-icon-edit" size="mini" @click="handleEdit">修改</el-button>
+            <el-col :span="1.5">
+                <el-button type="success" :disabled="single" plain icon="el-icon-edit" size="mini" @click="handleEdit">修改</el-button>
             </el-col>
-            <el-col :span="2">
+            <el-col :span="1.5">
                 <el-button type="danger" plain icon="el-icon-delete" size="mini" @click="handleDelete">删除</el-button>
             </el-col>
         </el-row>
         <div style="margin-top: 10px;"></div>
-        <el-table v-loading="loading" :data="this.appropriationAccount"
+        <el-table v-loading="loading" :data="this.appropriationAccount" @selection-change="handleSelectionChange"
                   style="width: 100%; max-height: 500px; overflow-y: auto;" border>
             <el-table-column type="selection" width="50" align="center" />
             <el-table-column label="拨款金额" align="center" prop="amountReceived" :show-overflow-tooltip="true" width="130"/>
@@ -60,6 +60,10 @@ export default {
     },
     data() {
         return{
+            // 选中数组
+            rowsData: [],
+            // 非单个禁用
+            single: true,
             formData: {},
             paymentTypes: {
                 0: '发票',
@@ -81,6 +85,12 @@ export default {
         },
     },
     methods: {
+        // 多选框选中数据
+        handleSelectionChange(selection) {
+            this.rowsData = selection.map((item) => item);
+            this.single = selection.length != 1;
+            this.multiple = !selection.length;
+        },
         downloadFile(file) {
             // 实现下载功能
             this.$download.oss(file.ossId)
@@ -118,7 +128,13 @@ export default {
             this.appropriationAccountDialogVisibleAdd = true;
         },
         handleEdit(rowData) {
-            this.formData = {...rowData}; // 使用对象扩展运算符深拷贝数据
+            this.resetQuery();
+            console.log("this.rowsData", this.rowsData);
+            if (this.rowsData.length > 0) {
+                this.formData = {...this.rowsData[0]};
+            } else {
+                this.formData = {...rowData}; // 使用对象扩展运算符深拷贝数据
+            }
             this.appropriationAccountDialogVisibleEdit = true;
         },
         deleteReceivedId(receivedId) {
