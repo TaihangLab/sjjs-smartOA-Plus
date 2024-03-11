@@ -8,7 +8,7 @@
                 <el-button type="success" :disabled="single" plain icon="el-icon-edit" size="mini" @click="handleEdit">修改</el-button>
             </el-col>
             <el-col :span="1.5">
-                <el-button type="danger" plain icon="el-icon-delete" size="mini" @click="handleDelete">删除</el-button>
+                <el-button type="danger" :disabled="multiple" plain icon="el-icon-delete" size="mini" @click="handleDelete">删除</el-button>
             </el-col>
         </el-row>
         <div style="margin-top: 10px;"></div>
@@ -64,6 +64,8 @@ export default {
             rowsData: [],
             // 非单个禁用
             single: true,
+            // 非多个禁用
+            multiple: true,
             formData: {},
             paymentTypes: {
                 0: '发票',
@@ -99,6 +101,7 @@ export default {
             // 使用映射关系来获取对应的文字描述
             return this.paymentTypes[cellValue] || cellValue;
         },
+        // 查询实时的数据
         checkDetail(newVal) {
             const loading = this.$loading({
                 lock: true,
@@ -129,7 +132,6 @@ export default {
         },
         handleEdit(rowData) {
             this.resetQuery();
-            console.log("this.rowsData", this.rowsData);
             if (this.rowsData.length > 0) {
                 this.formData = {...this.rowsData[0]};
             } else {
@@ -137,6 +139,7 @@ export default {
             }
             this.appropriationAccountDialogVisibleEdit = true;
         },
+        // 删除receivedId对应的数据
         deleteReceivedId(receivedId) {
             return request({
                 url: '/project/funds/deleteFundsReceived',
@@ -152,15 +155,33 @@ export default {
             this.appropriationAccountDialogVisibleEdit = false;
             this.resetQuery();
         },
+        // 删除一条或者多条数据
         handleDelete(row) {
-            this.$confirm('确认删除该数据项？').then(() => {
-                return this.deleteReceivedId(row);  // 调用deleteIp方法
-            }).then(() => {
-                this.checkDetail(this.$props.projectId);  // 删除后刷新列表
-                this.$message.success("删除成功");
-            }).catch(() => {
-                console.error('删除失败');
-            });
+            this.resetQuery();
+            if (this.rowsData.length > 0) {
+                // 使用Promise.all等待所有删除操作完成
+                Promise.all(this.rowsData.map(item => this.deleteReceivedId(item.receivedId)))
+                    .then(() => {
+                        // 所有删除操作成功完成后执行的代码
+                        this.resetQuery(); // 可能需要更新列表显示等
+                        this.$message.success("删除成功");
+                    })
+                    .catch(error => {
+                        // 如果任何一个删除操作失败
+                        console.error('删除失败', error);
+                        // 根据实际需要处理错误，例如提示用户
+                        this.$message.error("部分或全部删除失败");
+                    });
+            } else {
+                this.$confirm('确认删除该数据项？').then(() => {
+                    return this.deleteReceivedId(row);  // 调用deleteIp方法
+                }).then(() => {
+                    this.resetQuery();
+                    this.$message.success("删除成功");
+                }).catch(() => {
+                    console.error('删除失败');
+                });
+            }
         },
         // 处理按钮点击事件重置
         resetQuery(){

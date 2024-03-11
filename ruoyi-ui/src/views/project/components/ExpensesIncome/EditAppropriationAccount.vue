@@ -89,6 +89,7 @@ export default {
         },
     },
     methods: {
+        // 将父组件传过来的数据传给对应的复现接口数据
         dealData(newVal){
             this.form.projectId = newVal.projectId;
             this.form.receivedId = newVal.receivedId;
@@ -101,6 +102,7 @@ export default {
             // // 使用.map()方法从newVal.sysOsses中提取每个item的ossId
             this.ossIds = (newVal.sysOsses || []).map(item => item.ossId);
         },
+        // 确认修改操作
         onSubmit() {
             this.form.ossIds = this.ossIds;
             request({
