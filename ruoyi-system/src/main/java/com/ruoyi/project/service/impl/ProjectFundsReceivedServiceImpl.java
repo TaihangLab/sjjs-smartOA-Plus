@@ -191,12 +191,15 @@ public class ProjectFundsReceivedServiceImpl implements ProjectFundsReceivedServ
                 totalAmount = totalAmount.add(fundsReceived.getAmountReceived());
             }
         }
-        //写入project_funds表
-        ProjectFunds projectFunds = projectFundsService.getProjectFundsMapByProjectId(projectId);
-        ProjectFundsBO projectFundsBO = new ProjectFundsBO();
-        BeanCopyUtils.copy(projectFunds,projectFundsBO);
-        projectFundsBO.setTotalFundsZxDk(totalAmount);
-        projectFundsService.updateProjectFunds(projectFundsBO, projectId);
+//        //写入project_funds表
+//        ProjectFunds projectFunds = projectFundsService.getProjectFundsMapByProjectId(projectId);
+//        ProjectFundsBO projectFundsBO = new ProjectFundsBO();
+//        BeanCopyUtils.copy(projectFunds,projectFundsBO);
+//        projectFundsBO.setTotalFundsZxDk(totalAmount);
+//        projectFundsService.updateProjectFunds(projectFundsBO, projectId);
+
+        //更新project_funds中的totalFundsZxDk
+        projectFundsService.updateTotalFundsZxDk(totalAmount,projectId);
     }
 
 }

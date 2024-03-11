@@ -176,6 +176,18 @@ public class ProjectFundsServiceImpl implements ProjectFundsService {
     }
 
     /**
+     * 更新专项到账总额
+     * @param TotalFundsZxDk 最新专项到账总额
+     * @param projectId 项目ID
+     */
+    public void updateTotalFundsZxDk(BigDecimal TotalFundsZxDk, Long projectId){
+        LambdaUpdateWrapper<ProjectFunds> projectFundsLambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+        projectFundsLambdaUpdateWrapper.eq(ProjectFunds::getProjectId,projectId)
+            .set(TotalFundsZxDk != null,ProjectFunds::getTotalFundsZxDk,TotalFundsZxDk);
+        projectFundsMapper.update(null,projectFundsLambdaUpdateWrapper);
+    }
+
+    /**
      * 根据项目id获取项目经费信息Map
      *
      * @param projectIdList
