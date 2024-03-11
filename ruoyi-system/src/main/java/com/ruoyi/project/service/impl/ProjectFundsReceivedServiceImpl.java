@@ -152,7 +152,8 @@ public class ProjectFundsReceivedServiceImpl implements ProjectFundsReceivedServ
 
         List<ProjectFundsReceived> projectFundsReceiveds = projectFundsReceivedMapper.selectList(
             new LambdaQueryWrapper<ProjectFundsReceived>()
-                .eq(ProjectFundsReceived::getProjectId, projectId));
+                .eq(ProjectFundsReceived::getProjectId, projectId)
+                .orderByDesc(ProjectFundsReceived::getReceivedDate));
         List<ProjectFundsReceivedVo> projectFundsReceivedVos = new ArrayList<>();
 
         for (ProjectFundsReceived projectFundsReceived : projectFundsReceiveds) {
