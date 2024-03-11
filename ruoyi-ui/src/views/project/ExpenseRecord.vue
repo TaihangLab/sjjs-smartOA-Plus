@@ -76,7 +76,7 @@
                 <!--经费到账-->
                 <el-dialog title="经费到账" :visible.sync="appropriationlDialogVisibleEdit" width="60%"
                     @close="closeIncomeDialog">
-                    <AppropriationAccount :projectId="Number(218)" ></AppropriationAccount>
+                    <AppropriationAccount :projectId="Number(projectId)" ></AppropriationAccount>
                 </el-dialog>
                 <!--支出录入-->
                 <el-dialog title="支出录入" :visible.sync="expenditureDialogVisibleEdit" width="90%"
