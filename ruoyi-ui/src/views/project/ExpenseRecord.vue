@@ -71,16 +71,16 @@
                 </el-table>
                 <!-- 详情打开的界面 -->
                 <el-dialog :visible.sync="dialogDetailLook" width="50%">
-                    <CheckDetail :ipId="Number(217)" @close-dialog="closeDetailDialogLook"></CheckDetail>
+                    <CheckDetail :ipId="Number(217)" ></CheckDetail>
                 </el-dialog>
                 <!--新增知识产权-->
                 <el-dialog title="新增知识产权" :visible.sync="intellectualDialogVisibleAdd" width="700px">
                     <AddIntellectual @close-dialog="closeIntellectualDialog"></AddIntellectual>
                 </el-dialog>
                 <!--经费到账-->
-                <el-dialog title="经费到账" :visible.sync="appropriationlDialogVisibleEdit" width="70%">
-                    <AppropriationAccount :ipId="Number(ipId)">
-                    </AppropriationAccount>
+                <el-dialog title="经费到账" :visible.sync="appropriationlDialogVisibleEdit" width="60%"
+                    @close="closeIncomeDialog">
+                    <AppropriationAccount :projectId="Number(218)" ></AppropriationAccount>
                 </el-dialog>
                 <!--支出录入-->
                 <el-dialog title="支出录入" :visible.sync="expenditureDialogVisibleEdit" width="90%"
@@ -101,7 +101,7 @@ import { listUser, deptTreeSelect } from "@/api/system/user";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 import request from '@/utils/request';
 import CheckIntellectual from "@/views/project/components/CheckIntellectual.vue";
-import AppropriationAccount from "@/views/project/components/AppropriationAccount.vue";
+import AppropriationAccount from "@/views/project/components/ExpensesIncome/AppropriationAccount.vue";
 import ExpenditureEntry from "@/views/project/components/ExpenditureEntry.vue";
 import CheckDetail from "@/views/project/components/ExpensesIncome/checkExpensesIncome/CheckDetail.vue";
 import AddIntellectual from "@/views/project/components/AddIntellectual.vue";
@@ -266,12 +266,17 @@ export default {
         },
         lookDetail(ipId) {
             this.dialogDetailLook = true;
-
         },
         //经费到账
         handleIncome(ipId) {
             this.appropriationlDialogVisibleEdit = true;
             this.ipId = ipId;
+        },
+        closeIncomeDialog() {
+            this.appropriationlDialogVisibleEdit = false;
+            // if (this.$refs.ExpenditureEntry) {
+            //     this.$refs.ExpenditureEntry.clearDataOnPageClose();
+            // }
         },
         closeExpenseDialogLook() {
             this.resetQuery();
