@@ -3,6 +3,23 @@
         <div id="curtain">
             <h1 data-heading="数">数据技术</h1>
         </div>
+        <el-carousel :interval="4000" type="card" height="300px">
+            <el-carousel-item>
+                <a href="https://www.baidu.com" target="_blank">
+                    <img src="../assets/images/01.jpg" alt="Image 1" style="width: 100%;">
+                </a>
+            </el-carousel-item>
+            <el-carousel-item>
+                <a href="https://www.jd.com" target="_blank">
+                    <img src="../assets/images/02.jpg" alt="Image 2" style="width: 100%;">
+                </a>
+            </el-carousel-item>
+            <el-carousel-item>
+                <a href="https://www.taobao.com" target="_blank">
+                    <img src="../assets/images/03.jpg" alt="Image 3" style="width: 100%;">
+                </a>
+            </el-carousel-item>
+        </el-carousel>
         <!-- 通知公告 -->
         <el-row style="margin-top: 20px;">
             <el-col :span="12">
@@ -439,6 +456,7 @@ $shadow: rgba($yellow, .5);
     width: 100%;
     height: 60px;
     border-radius: 30px;
+    margin-bottom: 15px;
 }
 
 h1 {

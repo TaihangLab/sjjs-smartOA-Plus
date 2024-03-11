@@ -4,6 +4,7 @@ import com.ruoyi.project.domain.ProjectFunds;
 import com.ruoyi.project.domain.bo.ProjectFundsBO;
 import com.ruoyi.project.domain.vo.ProjectFundsVO;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -46,6 +47,13 @@ public interface ProjectFundsService {
      * @param projectId
      */
     void updateProjectFunds(ProjectFundsBO projectFundsBO, Long projectId);
+
+    /**
+     * 更新专项到账总额
+     * @param TotalFundsZxDk
+     * @param projectId
+     */
+    void updateTotalFundsZxDk(BigDecimal TotalFundsZxDk, Long projectId);
 
     /**
      * 根据项目id获取项目经费信息Map
