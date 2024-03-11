@@ -99,7 +99,7 @@ export default {
             this.form.receivedDate = newVal.receivedDate;
             this.sysOsses = newVal.sysOsses;
             // // 使用.map()方法从newVal.sysOsses中提取每个item的ossId
-            this.ossIds = newVal.sysOsses.map(item => item.ossId);
+            this.ossIds = (newVal.sysOsses || []).map(item => item.ossId);
         },
         onSubmit() {
             this.form.ossIds = this.ossIds;

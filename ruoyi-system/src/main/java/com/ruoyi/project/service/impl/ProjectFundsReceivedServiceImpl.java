@@ -152,7 +152,8 @@ public class ProjectFundsReceivedServiceImpl implements ProjectFundsReceivedServ
 
         List<ProjectFundsReceived> projectFundsReceiveds = projectFundsReceivedMapper.selectList(
             new LambdaQueryWrapper<ProjectFundsReceived>()
-                .eq(ProjectFundsReceived::getProjectId, projectId));
+                .eq(ProjectFundsReceived::getProjectId, projectId)
+                .orderByDesc(ProjectFundsReceived::getReceivedDate));
         List<ProjectFundsReceivedVo> projectFundsReceivedVos = new ArrayList<>();
 
         for (ProjectFundsReceived projectFundsReceived : projectFundsReceiveds) {
@@ -191,12 +192,15 @@ public class ProjectFundsReceivedServiceImpl implements ProjectFundsReceivedServ
                 totalAmount = totalAmount.add(fundsReceived.getAmountReceived());
             }
         }
-        //写入project_funds表
-        ProjectFunds projectFunds = projectFundsService.getProjectFundsMapByProjectId(projectId);
-        ProjectFundsBO projectFundsBO = new ProjectFundsBO();
-        BeanCopyUtils.copy(projectFunds,projectFundsBO);
-        projectFundsBO.setTotalFundsZxDk(totalAmount);
-        projectFundsService.updateProjectFunds(projectFundsBO, projectId);
+//        //写入project_funds表
+//        ProjectFunds projectFunds = projectFundsService.getProjectFundsMapByProjectId(projectId);
+//        ProjectFundsBO projectFundsBO = new ProjectFundsBO();
+//        BeanCopyUtils.copy(projectFunds,projectFundsBO);
+//        projectFundsBO.setTotalFundsZxDk(totalAmount);
+//        projectFundsService.updateProjectFunds(projectFundsBO, projectId);
+
+        //更新project_funds中的totalFundsZxDk
+        projectFundsService.updateTotalFundsZxDk(totalAmount,projectId);
     }
 
 }
