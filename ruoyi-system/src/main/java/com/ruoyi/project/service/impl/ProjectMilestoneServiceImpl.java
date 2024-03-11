@@ -63,11 +63,11 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
         if (insertedRows > 0) {
             Long milestoneId = projectMilestone.getMilestoneId(); // 获取生成的 milestoneId
             projectMilestoneBo.setMilestoneId(milestoneId);//给BO对象赋值milestoneId，在经费到账时需要调用
-            if (!projectMilestoneBo.getOssIds().isEmpty()) {
-                for (Long ossid : projectMilestoneBo.getOssIds()) {
+            if (projectMilestoneBo.getOssIds() != null && !projectMilestoneBo.getOssIds().isEmpty()) {
+                for (Long ossId : projectMilestoneBo.getOssIds()) {
                     ProjectMilestoneOss projectMilestoneOss = new ProjectMilestoneOss();
                     projectMilestoneOss.setMilestoneId(milestoneId);
-                    projectMilestoneOss.setOssId(ossid);
+                    projectMilestoneOss.setOssId(ossId);
 	                projectMilestoneOssMapper.insert(projectMilestoneOss);
                 }
             }
