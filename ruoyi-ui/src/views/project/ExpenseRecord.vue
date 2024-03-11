@@ -59,7 +59,7 @@
                     <el-table-column label="操作" :resizable="false" align="center" min-width="250px" fixed="right">
                         <template v-slot="scope">
                             <el-button size="mini" type="text" icon="el-icon-tickets"
-                                @click="lookDetail(scope.row.ipId)">详情</el-button>
+                                @click="lookDetail(scope.row.projectId)">详情</el-button>
                             <el-button size="mini" type="text" icon="el-icon-notebook-2"
                                 @click="handleDisburse(scope.row.projectId)">支出录入
                             </el-button>
@@ -71,7 +71,7 @@
                 </el-table>
                 <!-- 详情打开的界面 -->
                 <el-dialog :visible.sync="dialogDetailLook" width="50%">
-                    <CheckDetail :ipId="Number(217)" ></CheckDetail>
+                    <CheckDetail :projectId="Number(projectId)" ></CheckDetail>
                 </el-dialog>
                 <!--经费到账-->
                 <el-dialog title="经费到账" :visible.sync="appropriationlDialogVisibleEdit" width="60%"
@@ -96,7 +96,7 @@
 import { listUser, deptTreeSelect } from "@/api/system/user";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 import request from '@/utils/request';
-import AppropriationAccount from "@/views/project/components/AppropriationAccount.vue";
+import AppropriationAccount from "@/views/project/components/ExpensesIncome/AppropriationAccount.vue";
 import ExpenditureEntry from "@/views/project/components/ExpenditureEntry.vue";
 import CheckDetail from "@/views/project/components/ExpensesIncome/checkExpensesIncome/CheckDetail.vue";
 
@@ -250,22 +250,19 @@ export default {
             this.ipId = undefined;
             this.checkmembers();
         },
-        lookExpense(projectId) {
-            this.dialogExpenseLook = true;
-            this.projectId = projectId;
-        },
         //支出录入
         handleDisburse(projectId) {
             this.expenditureDialogVisibleEdit = true;
             this.projectId = projectId;
         },
-        lookDetail(ipId) {
+        lookDetail(projectId) {
             this.dialogDetailLook = true;
+            this.projectId = projectId;
         },
         //经费到账
-        handleIncome(ipId) {
+        handleIncome(projectId) {
             this.appropriationlDialogVisibleEdit = true;
-            this.ipId = ipId;
+            this.projectId = projectId;
         },
         closeIncomeDialog() {
             this.appropriationlDialogVisibleEdit = false;
