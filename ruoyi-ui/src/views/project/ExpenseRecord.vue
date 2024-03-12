@@ -70,7 +70,7 @@
                     </el-table-column>
                 </el-table>
                 <!-- 详情打开的界面 -->
-                <el-dialog :visible.sync="dialogDetailLook" width="50%">
+                <el-dialog :visible.sync="dialogDetailLook" width="85%">
                     <CheckDetail :projectId="Number(projectId)" ></CheckDetail>
                 </el-dialog>
                 <!--经费到账-->
