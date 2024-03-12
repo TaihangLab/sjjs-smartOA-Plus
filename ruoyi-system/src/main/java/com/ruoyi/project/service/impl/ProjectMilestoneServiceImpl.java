@@ -99,11 +99,10 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
      */
     @Override
     public List<ProjectMilestoneCategoryEnum> selectCategoryAll() {
-        List<ProjectMilestoneCategoryEnum> milestoneCategoryEunms = projectMilestoneCategoryMapper.selectList()
+        return projectMilestoneCategoryMapper.selectList()
             .stream()
             .map(ProjectMilestoneCategory::getMilestoneCategoryType)
             .collect(Collectors.toList());
-        return milestoneCategoryEunms;
     }
 
 
@@ -251,14 +250,12 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
             .map(ProjectMilestoneCategory::getMilestoneCategoryId)
             .collect(Collectors.toList());
 
-        List<Long> milestoneIds = projectMilestoneCategoryRelationMapper.selectList(
+        return projectMilestoneCategoryRelationMapper.selectList(
                 new LambdaQueryWrapper<ProjectMilestoneCategoryRelation>()
                     .in(!milestoneCategoryIds.isEmpty(), ProjectMilestoneCategoryRelation::getMilestoneCategoryId, milestoneCategoryIds))
             .stream()
             .map(ProjectMilestoneCategoryRelation::getMilestoneId)
             .collect(Collectors.toList());
-
-        return milestoneIds;
     }
 
 
