@@ -128,9 +128,8 @@
                 </CheckAppropriationAccount>
             </el-tab-pane>
             <el-tab-pane label="其他" name="fourth">
-                <div>
-                    其他
-                </div>
+                <FundSituation>
+                </FundSituation>
             </el-tab-pane>
         </el-tabs>
     </div>
@@ -139,12 +138,11 @@
 import request from '@/utils/request';
 import { defineComponent } from "vue";
 import CheckAppropriationAccount from "@/views/project/components/ExpensesIncome/checkExpensesIncome/CheckAppropriationAccount.vue";
+import FundSituation from "@/views/project/components/ExpensesIncome/checkExpensesIncome/FundSituation.vue";
 
 export default {
     name: "CheckDetail",
-    components: {
-        CheckAppropriationAccount
-    },
+    components: {CheckAppropriationAccount,FundSituation},
     props: {
         projectId: {
             type: [Number, String],
