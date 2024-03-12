@@ -2,11 +2,10 @@
     <el-card class="box-card" style="margin: auto;">
         <div>
             <el-table ref="multipleTable" :data="projectList" border style="width: 100%" :row-style="{ height: '50px' }"
-                      :key="tableKey"
-                      :cell-style="{ padding: '0px' }">
+                :key="tableKey" :cell-style="{ padding: '0px' }">
                 <!--                <el-table-column type="selection" :resizable="false" align="center" width="40"></el-table-column>-->
-                <el-table-column label="项目名称" :resizable="false" align="center" prop="assignedSubjectName"
-                                 width="150" fixed="left">
+                <el-table-column label="项目名称" :resizable="false" align="center" prop="assignedSubjectName" width="150"
+                    fixed="left">
                 </el-table-column>
                 <el-table-column label="项目牵头单位" :resizable="false" align="center" prop="leadingUnit" width="180">
                 </el-table-column>
@@ -15,13 +14,13 @@
                 <el-table-column label="项目负责人" :resizable="false" align="center" prop="projectLeader" width="180">
                 </el-table-column>
                 <el-table-column label="项目级别" :resizable="false" align="center" prop="projectLevel"
-                                 :formatter="projectLevelss" width="110">
+                    :formatter="projectLevelss" width="110">
                 </el-table-column>
                 <el-table-column label="是否牵头单位" :resizable="false" align="center" prop="hasLeadingRole"
-                                 :formatter="hasLeadingRoles" width="150">
+                    :formatter="hasLeadingRoles" width="150">
                 </el-table-column>
                 <el-table-column label="负责课题" :resizable="false" align="center" prop="assignedSubjectSection"
-                                 width="150">
+                    width="150">
                 </el-table-column>
                 <el-table-column label="公司负责人" :resizable="false" align="center" prop="companyLeader" width="180">
                 </el-table-column>
@@ -29,67 +28,58 @@
                 </el-table-column>
                 <el-table-column label="科研项目管理人" :resizable="false" align="center" prop="researchManager" width="180">
                 </el-table-column>
-                <el-table-column label="立项时间" :resizable="false" align="center" prop="projectEstablishTime"
-                                 width="170">
+                <el-table-column label="立项时间" :resizable="false" align="center" prop="projectEstablishTime" width="170">
                 </el-table-column>
                 <el-table-column label="项目计划验收时间" :resizable="false" align="center"
-                                 prop="projectScheduledCompletionTime"
-                                 width="170">
+                    prop="projectScheduledCompletionTime" width="170">
                 </el-table-column>
                 <el-table-column label="项目推进情况" :resizable="false" align="center" prop="projectProgressStatus"
-                                 :formatter="projectProgressStatuss" width="150">
+                    :formatter="projectProgressStatuss" width="150">
                 </el-table-column>
-                <el-table-column label="合作单位" :resizable="false" align="center" prop="collaboratingUnit"
-                                  width="150">
+                <el-table-column label="合作单位" :resizable="false" align="center" prop="collaboratingUnit" width="150">
                 </el-table-column>
-                <el-table-column label="经费总额" :resizable="false" align="center" prop="totalFundsAll"
-                                  width="150">
+                <el-table-column label="经费总额" :resizable="false" align="center" prop="totalFundsAll" width="150">
                 </el-table-column>
-                <el-table-column label="专项经费总额" :resizable="false" align="center" prop="totalFundsZx"
-                                  width="150">
+                <el-table-column label="专项经费总额" :resizable="false" align="center" prop="totalFundsZx" width="150">
                 </el-table-column>
-                <el-table-column label="专项到款总额" :resizable="false" align="center" prop="totalFundsZxDk"
-                                  width="150">
+                <el-table-column label="专项到款总额" :resizable="false" align="center" prop="totalFundsZxDk" width="150">
                 </el-table-column>
-                <el-table-column label="已完成自筹投资" :resizable="false" align="center" prop="zctzDone"
-                                  width="150">
+                <el-table-column label="已完成自筹投资" :resizable="false" align="center" prop="zctzDone" width="150">
                 </el-table-column>
-                <el-table-column label="已完成专项投资" :resizable="false" align="center" prop="zxtzDone"
-                                  width="150">
+                <el-table-column label="已完成专项投资" :resizable="false" align="center" prop="zxtzDone" width="150">
                 </el-table-column>、
-                <el-table-column label="自筹经费公司配套" :resizable="false" align="center" prop="zcGspt"
-                                  width="150">
+                <el-table-column label="自筹经费公司配套" :resizable="false" align="center" prop="zcGspt" width="150">
                 </el-table-column>
-                <el-table-column label="专项经费公司留存（计划）" :resizable="false" align="center" prop="zxGslc"
-                                  width="150">
+                <el-table-column label="专项经费公司留存（计划）" :resizable="false" align="center" prop="zxGslc" width="150">
                 </el-table-column>
-                <el-table-column label="更新时间" :resizable="false" align="center" prop="updateTime"
-                                 width="170">
+                <el-table-column label="更新时间" :resizable="false" align="center" prop="updateTime" width="170">
                 </el-table-column>
                 <el-table-column label="操作" :resizable="false" align="center" min-width="230px" fixed="right">
                     <template v-slot="scope">
                         <el-button size="mini" type="text" icon="el-icon-tickets"
-                                   @click="lookEdit(scope.$index, scope.row)" v-hasPermi="['project:list:getDetails']">详情
+                            @click="lookEdit(scope.$index, scope.row)" v-hasPermi="['project:list:getDetails']">详情
                         </el-button>
                         <el-button size="mini" type="text" icon="el-icon-edit" v-if="buttonType === 1"
-                                   @click="handleUpdate(scope.row)" v-hasPermi="['project:my:edit']" >修改
+                            @click="handleUpdate(scope.row)" v-hasPermi="['project:my:edit']">修改
                         </el-button>
                         <el-button size="mini" type="text" icon="el-icon-delete" v-if="buttonType === 1"
-                                   @click="handleDelete(scope.row)" v-hasPermi="['project:my:delete']">删除
+                            @click="handleDelete(scope.row)" v-hasPermi="['project:my:delete']">删除
                         </el-button>
                         <el-button v-if="buttonType !== 1" size="mini" type="text" icon="el-icon-reading"
-                                   @click="handleDropdownCommand({ 'command': 'view', 'row': scope.row })" v-hasPermi="['project:list:queryMilestone']">大事记
+                            @click="handleDropdownCommand({ 'command': 'view', 'row': scope.row })"
+                            v-hasPermi="['project:list:queryMilestone']">大事记
                         </el-button>
                         <el-dropdown v-else size="mini" @command="handleDropdownCommand">
-                            <el-button size="mini" type="text" icon="el-icon-reading" v-hasPermi="['project:list:queryMilestone']">大事记</el-button>
+                            <el-button size="mini" type="text" icon="el-icon-reading"
+                                v-hasPermi="['project:list:queryMilestone']">大事记</el-button>
                             <el-dropdown-menu v-slot="dropdown">
-                                <el-dropdown-item :command="{ 'command': 'view', 'row': scope.row }"
-                                                  icon="el-icon-view" v-hasPermi="['project:list:queryMilestone']">查看
+                                <el-dropdown-item :command="{ 'command': 'view', 'row': scope.row }" icon="el-icon-view"
+                                    v-hasPermi="['project:list:queryMilestone']">查看
                                 </el-dropdown-item>
                                 <!-- 根据 buttonType 的值有条件地渲染 "新增" 按钮 -->
                                 <el-dropdown-item v-if="buttonType === 1"
-                                                  :command="{ 'command': 'add', 'row': scope.row }"
-                                                  icon="el-icon-document-add" v-hasPermi="['project:my:milestoneadd']">新增
+                                    :command="{ 'command': 'add', 'row': scope.row }" icon="el-icon-document-add"
+                                    v-hasPermi="['project:my:milestoneadd']">新增
                                 </el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
@@ -98,38 +88,35 @@
             </el-table>
             <!-- 详情打开的界面 -->
             <el-dialog :model="formLook" v-show="dialogFormVisibleLook" :visible.sync="dialogFormVisibleLook"
-                       width="50%">
+                width="50%">
                 <div class="dialog-content">
                     <ProjectDetail :visible.sync="dialogFormVisibleLook" :formLook="formLook"></ProjectDetail>
                 </div>
             </el-dialog>
             <!-- 大事记查看打开的界面 -->
             <el-dialog :visible.sync="eventsDialogVisibleLook" width="50%" v-if="eventsDialogVisibleLook"
-                       :key="refreshEventsPage" @open="handleEventsDialogOpen" :modal="false">
+                :key="refreshEventsPage" @open="handleEventsDialogOpen" :modal="false">
                 <div style="max-height: 600px; overflow-y: auto;">
                     <CheckEvents :projectId="projectId.toString()" :visible.sync="eventsDialogVisibleLook"
-                                 :buttonType="parseInt(buttonType)">
+                        :buttonType="parseInt(buttonType)">
                     </CheckEvents>
                 </div>
             </el-dialog>
             <!--新增大事记-->
             <el-dialog :visible.sync="eventsDialogVisibleAdd" width="50%">
                 <AddEvents :projectId="projectId.toString()" :visible.sync="eventsDialogVisibleAdd"
-                           @close-dialog="closeEventsDialog">
+                    @close-dialog="closeEventsDialog">
                 </AddEvents>
             </el-dialog>
             <!-- 页号 -->
             <el-pagination :current-page="this.queryParam.pageNum" :page-size="this.queryParam.pageSize"
-                           :page-sizes="[5, 10, 20, 50, 100]" :total="total"
-                           layout="total ,sizes,prev,pager,next,jumper"
-                           style="margin-top: 30px" @size-change="sizeChangeHandle"
-                           @current-change="CurrentChangeHandle">
+                :page-sizes="[5, 10, 20, 50, 100]" :total="total" layout="total ,sizes,prev,pager,next,jumper"
+                style="margin-top: 30px" @size-change="sizeChangeHandle" @current-change="CurrentChangeHandle">
             </el-pagination>
             <!-- 修改项目弹出的对话框-->
-            <el-dialog title="修改项目" :visible.sync="newProjectDialogVisible" fullscreen
-                       :key="refreshUpdateDialog">
-                <NewProject :visible.sync="newProjectDialogVisible" :updateId="updateId" @refresh="refreshList"
-                ></NewProject>
+            <el-dialog title="修改项目" :visible.sync="newProjectDialogVisible" fullscreen :key="refreshUpdateDialog">
+                <NewProject :visible.sync="newProjectDialogVisible" :updateId="updateId" @refresh="refreshList">
+                </NewProject>
             </el-dialog>
         </div>
     </el-card>
@@ -142,21 +129,21 @@ import AddEvents from "@/views/project/components/AddEvents.vue";
 import NewProject from "@/views/project/components/NewProject.vue";
 
 export default {
-    name      : "Project",
-    props     : {
+    name: "Project",
+    props: {
         projectListLook: {
-            type    : Array,
+            type: Array,
             required: true,
         },
-        myProjectLook  : {
-            type    : Array,
+        myProjectLook: {
+            type: Array,
             required: true,
         },
-        buttonType     : {
+        buttonType: {
             type: Number,
         },
-        total          : {
-            type    : Number, // 你的数据类型可以根据实际情况进行调整
+        total: {
+            type: Number, // 你的数据类型可以根据实际情况进行调整
             required: true, // 如果希望 total 是必须的，请设置为 true
         },
 
@@ -169,21 +156,21 @@ export default {
     },
     data() {
         return {
-            tableKey               : true,
-            hasCooperativeUnit     : {
+            tableKey: true,
+            hasCooperativeUnit: {
                 0: '有',
                 1: '无',
             },
-            hasLeadingRole         : {
+            hasLeadingRole: {
                 0: '是',
                 1: '否',
             },
-            projectLevel           : {
+            projectLevel: {
                 0: '国家级',
                 1: '省部级',
                 2: '企业级',
             },
-            projectProgressStatus  : {
+            projectProgressStatus: {
                 0: '正在需求申报',
                 1: '已完成需求申报',
                 2: '正在项目申报',
@@ -193,23 +180,23 @@ export default {
                 6: '已完成验收',
                 7: '未通过评审',
             },
-            refreshUpdateDialog    : false,
-            updateId               : '',
+            refreshUpdateDialog: false,
+            updateId: '',
             newProjectDialogVisible: false,
-            queryParam             : {
-                pageNum : 1,
+            queryParam: {
+                pageNum: 1,
                 pageSize: 10,
             },
-            projectId              : '',
-            rowCenter              : {
+            projectId: '',
+            rowCenter: {
                 "text-align": "center"
             },
-            size                   : '',
-            border                 : true,
-            visible                : true,
-            refreshEventsPage      : false,
-            toggleDetails          : true, // 控制详细信息项的显示/隐藏
-            eventsDialogKey        : 0,
+            size: '',
+            border: true,
+            visible: true,
+            refreshEventsPage: false,
+            toggleDetails: true, // 控制详细信息项的显示/隐藏
+            eventsDialogKey: 0,
             //搜索框
             dataFrom: {},
             //新增
@@ -217,19 +204,19 @@ export default {
             //查看
             formLook: {},
             //编辑
-            formChange             : {},
-            projectList            : [],
-            pageIndex              : 1,
-            pageSize               : 5,
-            begin                  : 0,
-            end                    : this.pageSize - 1,
-            dialogFormVisible      : false, //默认关闭新建用户界面
+            formChange: {},
+            projectList: [],
+            pageIndex: 1,
+            pageSize: 5,
+            begin: 0,
+            end: this.pageSize - 1,
+            dialogFormVisible: false, //默认关闭新建用户界面
             dialogFormVisibleChange: false, //默认关闭编辑用户界面
-            dialogFormVisibleLook  : false,
+            dialogFormVisibleLook: false,
             eventsDialogVisibleLook: false,
-            eventsDialogVisibleAdd : false,
-            dataListFrom           : "getDataList",//当前数据来源于搜索还是全局
-            activeName             : 'first',
+            eventsDialogVisibleAdd: false,
+            dataListFrom: "getDataList",//当前数据来源于搜索还是全局
+            activeName: 'first',
         };
     },
 
@@ -253,12 +240,12 @@ export default {
         // hry
         handleUpdate(row) {
             this.updateId = row.projectId;
-            this.refreshUpdateDialog     = !this.refreshUpdateDialog;
+            this.refreshUpdateDialog = !this.refreshUpdateDialog;
             this.newProjectDialogVisible = true;
         },
         /** 删除按钮操作 */
         handleDelete(row) {
-            const projectId              = row.projectId;
+            const projectId = row.projectId;
             const assignedSubjectSection = row.assignedSubjectSection;
             this.$modal.confirm('负责课题：' + assignedSubjectSection + '，确认删除该数据项？'
             ).then(() => {
@@ -274,7 +261,7 @@ export default {
         // 删除用户
         deleteUser(projectId) {
             return request({
-                url   : '/project/my/delete',
+                url: '/project/my/delete',
                 method: 'get',
                 params: {
                     projectId: projectId,
@@ -304,10 +291,10 @@ export default {
         handleDropdownCommand(command) {
             if (command.command === 'view') {
                 this.eventsDialogVisibleLook = true;
-                this.projectId               = command.row.projectId;
+                this.projectId = command.row.projectId;
             } else if (command.command === 'add') {
                 // 处理新增操作，可以添加相应的逻辑
-                this.projectId              = command.row.projectId;
+                this.projectId = command.row.projectId;
                 this.eventsDialogVisibleAdd = true; // 处理新增操作
             }
         },
@@ -326,7 +313,7 @@ export default {
         },
 
     },
-    watch  : {
+    watch: {
 
         projectListLook: {
             handler(newVal) {
@@ -334,17 +321,17 @@ export default {
             },
             deep: true,
         },
-        myProjectLook  : {
+        myProjectLook: {
             handler(newVal) {
                 this.projectList = [...newVal];
             },
             deep: true,
         },
-        queryParam     : {
+        queryParam: {
             handler(newVal, oldVal) {
                 // 在这里处理 queryParam 变化的逻辑
                 const pageSizeChanged = newVal.pageSize !== oldVal.pageSize;
-                const pageNumChanged  = newVal.pageNum !== oldVal.pageNum;
+                const pageNumChanged = newVal.pageNum !== oldVal.pageNum;
             },
             deep: true, // 深度监测对象内部属性的变化
         },
@@ -357,7 +344,9 @@ export default {
 
 <style scoped>
 .dialog-content {
-    max-height: 700px; /* 适当设置最大高度 */
-    overflow-y: auto; /* 添加垂直滚动条 */
+    max-height: 700px;
+    /* 适当设置最大高度 */
+    overflow-y: auto;
+    /* 添加垂直滚动条 */
 }
 </style>

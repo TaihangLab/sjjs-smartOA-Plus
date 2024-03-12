@@ -1,61 +1,9 @@
 <template>
-    <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="基本信息" name="first">
-            <div style="margin-top: 10px;"></div>
-            <el-descriptions-item label="基本信息" :span="2"></el-descriptions-item>
-            <el-descriptions class="margin-top" title="" :column="2" :size="size" :labelStyle="{ width: '19%' }"
-                :contentStyle="{ width: '32%' }" border>
-                <el-descriptions-item label="项目名称">
-                </el-descriptions-item>
-                <el-descriptions-item label="项目任务书编号">
-                </el-descriptions-item>
-                <el-descriptions-item label="负责课题">
-                </el-descriptions-item>
-                <el-descriptions-item label="课题任务书编号">
-                </el-descriptions-item>
-                <el-descriptions-item label="项目牵头单位">
-                </el-descriptions-item>
-                <el-descriptions-item label="是否牵头单位">
-                </el-descriptions-item>
-                <el-descriptions-item label="项目专员/联系人">
-                </el-descriptions-item>
-                <el-descriptions-item label="项目级别">
-                </el-descriptions-item>
-                <el-descriptions-item label="项目来源">
-                </el-descriptions-item>
-                <el-descriptions-item label="立项时间">
-                </el-descriptions-item>
-                <el-descriptions-item label="项目计划验收时间">
-                </el-descriptions-item>
-                <el-descriptions-item label="项目执行时间（年）">
-                </el-descriptions-item>
-                <el-descriptions-item label="项目推进情况">
-                </el-descriptions-item>
-                <el-descriptions-item label="合作单位">
-                </el-descriptions-item>
-                <el-descriptions-item label="涉及专家、团队">
-                </el-descriptions-item>
-                <el-descriptions-item label="项目经费总额">
-                </el-descriptions-item>
-                <el-descriptions-item label="专项经费">
-                </el-descriptions-item>
-                <el-descriptions-item label="自筹经费">
-                </el-descriptions-item>
-            </el-descriptions>
-            <el-collapse v-model="activeNames">
-                <el-collapse-item style="font-size: 20px;" name="2">
-                    <template slot="title">
-                        <span style="font-size: 14px;">项目简介</span>
-                    </template>
-                    <div class="unselectable-textbox" style="font-size: 14px; color: #606266;">
-                    </div>
-                </el-collapse-item>
-            </el-collapse>
-        </el-tab-pane>
-        <el-tab-pane label="支出信息" name="second">
-            <el-table ref="multipleTable" :data="da" border style="width: 100%; max-height: 500px; overflow-y: auto;"
-            :row-style="{ height: '50px' }" :cell-style="{ padding: '0px' }">
-            <el-table-column label="日期" :resizable="false" align="center">
+    <div>
+        <el-table ref="multipleTable" :data="expenditureEntry" border
+            style="width: 100%; max-height: 500px; overflow-y: auto;" :row-style="{ height: '50px' }"
+            :cell-style="{ padding: '0px' }">
+            <el-table-column label="日期" :resizable="false" align="center" width="100px">
                 <!-- 使用 slot-scope 定制显示日期 -->
                 <template slot-scope="scope">
                     {{ formatDate(scope.row.expenditureDate) }}
@@ -63,7 +11,7 @@
             </el-table-column>
             <el-table-column label="项目名称" :resizable="false" align="center" prop="projectName" width="250px">
             </el-table-column>
-            <el-table-column label="凭证号" :resizable="false" align="center" prop="voucherNo" width="100px">
+            <el-table-column label="凭证号" :resizable="false" align="center" prop="voucherNo" width="80px">
             </el-table-column>
             <el-table-column label="摘要" :resizable="false" align="center" prop="expenditureAbstract" min-width="400px">
             </el-table-column>
@@ -78,28 +26,49 @@
             <el-table-column label="三级科目" :resizable="false" align="center" prop="secondLevelSubject"
                 :formatter="secondLevelSubjectFormatter">
             </el-table-column>
-            <el-table-column label="金额" :resizable="false" align="center" prop="amount" width="150px">
+            <el-table-column label="金额" :resizable="false" align="center" prop="amount" width="100px">
+            </el-table-column>
+            <el-table-column label="导入时间" :resizable="false" align="center" prop="createTime" width="160px">
+            </el-table-column>
+            <el-table-column :label="'操作'" :resizable="false" align="center" min-width="80px">
+                <template slot-scope="scope">
+                    <el-button size="mini" type="text" icon="el-icon-refresh-left"
+                        @click="handleDelete(scope.row.receivedId)">撤销
+                    </el-button>
+                </template>
             </el-table-column>
         </el-table>
-        </el-tab-pane>
-        <el-tab-pane label="经费信息" name="third">经费信息</el-tab-pane>
-    </el-tabs>
+    </div>
 </template>
 
 <script>
-import request from "@/utils/request";
+import request from '@/utils/request';
+
 
 export default {
+    name: "ExpenditureCheck",
+    props: {
+        projectId: {
+            type: [Number, String],
+            required: true,
+        },
+    },
     data() {
         return {
-            activeName: 'second',
-            da: [],
-        };
+            // 遮罩层
+            loading: true,
+            expenditureEntry: undefined,
+        }
+    },
+    watch: {
+        projectId: {
+            handler(newVal) {
+                this.checkExpenditureEntryDetail();
+            },
+            immediate: true, // 立即执行一次
+        },
     },
     methods: {
-        handleClick(tab, event) {
-            console.log(tab, event);
-        },
         // 格式化日期方法
         formatDate(date) {
             // 假设日期格式为 "YYYY-MM-DD"
@@ -162,6 +131,25 @@ export default {
             };
             return zxzc[row.zxzc];
         },
-    }
-};
+
+        // 查看支出信息
+        checkExpenditureEntryDetail() {
+            request({
+                url: '/project/funds/getProjectExpenditure',
+                method: 'get',
+                params: {
+                    projectId: this.$props.projectId,
+                },
+            })
+                .then((resp) => {
+                    this.expenditureEntry = resp.data;
+                    loading.close();
+                })
+                .catch((error) => {
+                    console.error('获取用户数据时出错：', error);
+                    loading.close();
+                });
+        },
+    },
+}
 </script>
