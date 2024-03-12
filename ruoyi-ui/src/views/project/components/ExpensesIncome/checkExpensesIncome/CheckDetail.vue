@@ -263,6 +263,7 @@ export default {
             };
             return zxzc[row.zxzc];
         },
+        // 查看详情
         checkDetail() {
             request({
                 url: '/project/list/getDetails',
@@ -280,6 +281,7 @@ export default {
                     loading.close();
                 });
         },
+        // 查看支出信息
         checkExpenditureEntryDetail() {
             request({
                 url: '/project/funds/getProjectExpenditure',
@@ -297,6 +299,7 @@ export default {
                     loading.close();
                 });
         },
+        // 查看经费到账
         checkFundsReceivedDetail() {
             // 使用正确的用户列表接口，假设接口为 /user/list
             request({
