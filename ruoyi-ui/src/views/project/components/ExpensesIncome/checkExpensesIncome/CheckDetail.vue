@@ -81,13 +81,16 @@
                         </el-descriptions-item>
                 </el-descriptions>
                 <el-collapse v-model="activeNames">
-                    <el-collapse-item style="font-size: 20px;" name="2">
-                        <template slot="title">
-                            <span style="font-size: 14px;">项目简介</span>
-                        </template>
-                        <div class="unselectable-textbox" style="font-size: 14px; color: #606266;">
-                        </div>
-                    </el-collapse-item>
+                    <el-collapse v-model="activeNames">
+                        <el-collapse-item style="font-size: 20px;" name="2">
+                            <template slot="title">
+                                <span style="font-size: 14px;">项目简介</span>
+                            </template>
+                            <div class="unselectable-textbox" style="font-size: 14px; color: #606266;">
+                                {{ projectdescription }}
+                            </div>
+                        </el-collapse-item>
+                    </el-collapse>
                 </el-collapse>
             </el-tab-pane>
             <el-tab-pane label="支出信息" name="second">
@@ -154,6 +157,7 @@ export default {
             // 遮罩层
             loading: true,
             appropriationAccount: undefined,
+            projectdescription: undefined,
             expenditureEntry:undefined,
             lookDetail: undefined,
             hasLeading: {
@@ -272,6 +276,7 @@ export default {
             })
                 .then((resp) => {
                     this.lookDetail = resp.data;
+                    this.projectdescription = this.lookDetail.projectInfoVO.projectDescription;
                     loading.close();
                 })
                 .catch((error) => {
