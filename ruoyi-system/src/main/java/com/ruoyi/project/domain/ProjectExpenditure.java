@@ -2,14 +2,12 @@ package com.ruoyi.project.domain;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.ruoyi.common.core.domain.BaseEntity;
-import com.ruoyi.common.enums.FirstLevelSubjectEnum;
-import com.ruoyi.common.enums.SecondLevelSubjectEnum;
-import com.ruoyi.common.enums.ThirdLevelSubjectEnum;
+import com.ruoyi.common.enums.*;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  * 项目支出表
@@ -34,7 +32,8 @@ public class ProjectExpenditure extends BaseEntity implements Serializable {
     /**
      * 支出日期
      */
-    private LocalDateTime expenditureDate;
+
+    private LocalDate expenditureDate;
 
     /**
      * 项目名称
@@ -54,11 +53,11 @@ public class ProjectExpenditure extends BaseEntity implements Serializable {
     /**
      * 专项/自筹,0专项,1自筹
      */
-    private Integer zxzc;
+    private ZxZcEnum zxzc;
     /**
      * 直接/间接
      */
-    private Integer zjjj;
+    private ZjJjEnum zjjj;
 
     /**
      * 一级科目

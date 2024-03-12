@@ -7,11 +7,16 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.enums.ProjectMilestoneCategoryEnum;
 import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.project.domain.ProjectMilestone;
+import com.ruoyi.project.domain.ProjectMilestoneCategory;
+import com.ruoyi.project.domain.ProjectMilestoneCategoryRelation;
 import com.ruoyi.project.domain.ProjectMilestoneOss;
 import com.ruoyi.project.domain.bo.ProjectMilestoneBo;
 import com.ruoyi.project.domain.vo.ProjectMilestoneVo;
+import com.ruoyi.project.mapper.ProjectMilestoneCategoryMapper;
+import com.ruoyi.project.mapper.ProjectMilestoneCategoryRelationMapper;
 import com.ruoyi.project.mapper.ProjectMilestoneMapper;
 import com.ruoyi.project.mapper.ProjectMilestoneOssMapper;
 import com.ruoyi.project.service.ProjectMilestoneService;
@@ -40,8 +45,11 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
     private final ProjectMilestoneMapper projectMilestoneMapper;
 
     private final ProjectMilestoneOssMapper projectMilestoneOssMapper;
+    private final ProjectMilestoneCategoryMapper projectMilestoneCategoryMapper;
 
     private final SysOssMapper sysOssMapper;
+    private final ProjectMilestoneCategoryRelationMapper projectMilestoneCategoryRelationMapper;
+
 
     /**
      * 新增单个项目大事记
@@ -52,28 +60,51 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int insertProjectMilestone(ProjectMilestoneBo projectMilestoneBo) {
+
         if (projectMilestoneBo == null) {
             throw new IllegalArgumentException("projectMilestoneBo cannot be null");
         }
         ProjectMilestone projectMilestone = new ProjectMilestone();
+
         BeanCopyUtils.copy(projectMilestoneBo, projectMilestone);
 
         // 插入 projectMilestone
         int insertedRows = projectMilestoneMapper.insert(projectMilestone);
+
         if (insertedRows > 0) {
             Long milestoneId = projectMilestone.getMilestoneId(); // 获取生成的 milestoneId
+            if (!projectMilestoneBo.getProjectMilestoneCategoryRelationList().isEmpty()) {
+                List<ProjectMilestoneCategoryRelation> projectMilestoneCategoryRelationList = projectMilestoneBo.getProjectMilestoneCategoryRelationList();
+                for (ProjectMilestoneCategoryRelation projectMilestoneCategoryRelation : projectMilestoneCategoryRelationList) {
+                    projectMilestoneCategoryRelationMapper.insert(projectMilestoneCategoryRelation);
+                }
+
+            }
             projectMilestoneBo.setMilestoneId(milestoneId);//给BO对象赋值milestoneId，在经费到账时需要调用
             if (projectMilestoneBo.getOssIds() != null && !projectMilestoneBo.getOssIds().isEmpty()) {
                 for (Long ossId : projectMilestoneBo.getOssIds()) {
                     ProjectMilestoneOss projectMilestoneOss = new ProjectMilestoneOss();
                     projectMilestoneOss.setMilestoneId(milestoneId);
                     projectMilestoneOss.setOssId(ossId);
-	                projectMilestoneOssMapper.insert(projectMilestoneOss);
+                    projectMilestoneOssMapper.insert(projectMilestoneOss);
                 }
             }
         }
         return insertedRows;
     }
+
+
+    /**
+     * 查询所有大事记分类
+     */
+    @Override
+    public List<ProjectMilestoneCategoryEnum> selectCategoryAll() {
+        return projectMilestoneCategoryMapper.selectList()
+            .stream()
+            .map(ProjectMilestoneCategory::getMilestoneCategoryType)
+            .collect(Collectors.toList());
+    }
+
 
     /**
      * 删除某一项目对应的全部项目大事记
@@ -101,7 +132,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
 
         // 2. 使用大事记 ID 删除每个大事记对应的 OSS 对象
         if (!milestoneIds.isEmpty()) {
-	        projectMilestoneOssMapper.delete(new LambdaQueryWrapper<ProjectMilestoneOss>()
+            projectMilestoneOssMapper.delete(new LambdaQueryWrapper<ProjectMilestoneOss>()
                 .in(ProjectMilestoneOss::getMilestoneId, milestoneIds));
         }
 
@@ -125,7 +156,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
 
         // 如果存在相关记录，则执行删除操作；否则直接返回
         if (count > 0) {
-	        projectMilestoneOssMapper.delete(new LambdaQueryWrapper<ProjectMilestoneOss>()
+            projectMilestoneOssMapper.delete(new LambdaQueryWrapper<ProjectMilestoneOss>()
                 .eq(ProjectMilestoneOss::getMilestoneId, milestoneId));
         }
 
@@ -155,7 +186,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
         if (updatedRows > 0) {
             // 删除旧的关联关系
             Long milestoneId = projectMilestoneBo.getMilestoneId();
-	        projectMilestoneOssMapper.delete(new LambdaQueryWrapper<ProjectMilestoneOss>()
+            projectMilestoneOssMapper.delete(new LambdaQueryWrapper<ProjectMilestoneOss>()
                 .eq(ProjectMilestoneOss::getMilestoneId, milestoneId));
 
             // 插入新的关联关系
@@ -165,12 +196,13 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
                     ProjectMilestoneOss projectMilestoneOss = new ProjectMilestoneOss();
                     projectMilestoneOss.setMilestoneId(milestoneId);
                     projectMilestoneOss.setOssId(ossId);
-	                projectMilestoneOssMapper.insert(projectMilestoneOss);
+                    projectMilestoneOssMapper.insert(projectMilestoneOss);
                 }
             }
         }
         return updatedRows;
     }
+
 
     /**
      * 根据查询条件查询对应的大事纪
@@ -180,9 +212,16 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
      */
     @Override
     public List<ProjectMilestoneVo> queryMilestoneList(ProjectMilestoneBo projectMilestoneBo) {
+
+        /**
+         * 调用根据分类去查对应的大事记
+         * */
+        List<Long> milestoneIds = getMilestoneIdByType(projectMilestoneBo);
+
         LambdaQueryWrapper<ProjectMilestone> lambdaQueryWrapper = new LambdaQueryWrapper<>();
 
         lambdaQueryWrapper
+
             .eq(ProjectMilestone::getProjectId, projectMilestoneBo.getProjectId())
             //拼一个恒成立的条件，避免sql语句and后无条件导致报错
             .and(wrapper -> wrapper.apply("1=1")
@@ -190,12 +229,55 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
                 .or()
                 .like(StringUtils.isNotBlank(projectMilestoneBo.getKeyword()), ProjectMilestone::getMilestoneRemark, projectMilestoneBo.getKeyword()))
             .ge(projectMilestoneBo.getMilestoneStaTime() != null, ProjectMilestone::getMilestoneDate, projectMilestoneBo.getMilestoneStaTime())
-            .le(projectMilestoneBo.getMilestoneEndTime() != null, ProjectMilestone::getMilestoneDate, projectMilestoneBo.getMilestoneEndTime());
+            .le(projectMilestoneBo.getMilestoneEndTime() != null, ProjectMilestone::getMilestoneDate, projectMilestoneBo.getMilestoneEndTime())
+            .in(!milestoneIds.isEmpty(), ProjectMilestone::getMilestoneId, milestoneIds);
 
         List<ProjectMilestone> projectMilestones = projectMilestoneMapper.selectList(lambdaQueryWrapper);
 
         return buildMilestoneVos(projectMilestones);
+
     }
+
+    /**
+     * 根据分类去查对应的大事记
+     */
+    private List<Long> getMilestoneIdByType(ProjectMilestoneBo projectMilestoneBo) {
+
+        List<Long> milestoneCategoryIds = projectMilestoneCategoryMapper.selectList(
+                new LambdaQueryWrapper<ProjectMilestoneCategory>()
+                    .eq(ProjectMilestoneCategory::getMilestoneCategoryType, projectMilestoneBo.getMilestoneCategoryType()))
+            .stream()
+            .map(ProjectMilestoneCategory::getMilestoneCategoryId)
+            .collect(Collectors.toList());
+
+        return projectMilestoneCategoryRelationMapper.selectList(
+                new LambdaQueryWrapper<ProjectMilestoneCategoryRelation>()
+                    .in(!milestoneCategoryIds.isEmpty(), ProjectMilestoneCategoryRelation::getMilestoneCategoryId, milestoneCategoryIds))
+            .stream()
+            .map(ProjectMilestoneCategoryRelation::getMilestoneId)
+            .collect(Collectors.toList());
+    }
+
+
+    /**
+     * 根据大事记id去查对应的类型
+     */
+    private Set<ProjectMilestoneCategoryEnum> getCategoryEnumsByMilestoneId(Long milestoneId) {
+
+        Set<Long> categoryIds = projectMilestoneCategoryRelationMapper.selectList(
+                new LambdaQueryWrapper<ProjectMilestoneCategoryRelation>()
+                    .eq(ProjectMilestoneCategoryRelation::getMilestoneId, milestoneId))
+            .stream()
+            .map(ProjectMilestoneCategoryRelation::getMilestoneCategoryId)
+            .collect(Collectors.toSet());
+
+        return projectMilestoneCategoryMapper.selectList(
+                new LambdaQueryWrapper<ProjectMilestoneCategory>()
+                    .in(!categoryIds.isEmpty(), ProjectMilestoneCategory::getMilestoneCategoryId, categoryIds))
+            .stream()
+            .map(ProjectMilestoneCategory::getMilestoneCategoryType).collect(Collectors.toCollection(TreeSet::new));
+    }
+
 
     /**
      * 将ProjectMilestone列表中的必要属性赋给ProjectMilestoneVo对象，生成ProjectMilestoneVo列表
@@ -209,6 +291,9 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
         for (ProjectMilestone milestone : milestones) {
             ProjectMilestoneVo milestoneVo = new ProjectMilestoneVo();
             BeanCopyUtils.copy(milestone, milestoneVo);
+
+            Set<ProjectMilestoneCategoryEnum> categoryEnums = getCategoryEnumsByMilestoneId(milestone.getMilestoneId());
+            milestoneVo.setCategoryTypeSet(categoryEnums);
 
             List<Long> ossIds = projectMilestoneOssMapper.selectList(
                     new LambdaQueryWrapper<ProjectMilestoneOss>().eq(ProjectMilestoneOss::getMilestoneId, milestone.getMilestoneId()))

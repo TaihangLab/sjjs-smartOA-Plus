@@ -6,6 +6,7 @@ import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.core.validate.QueryGroup;
+import com.ruoyi.common.enums.ProjectMilestoneCategoryEnum;
 import com.ruoyi.project.domain.bo.ProjectBaseInfoBO;
 import com.ruoyi.project.domain.bo.ProjectMilestoneBo;
 import com.ruoyi.project.domain.vo.ProjectBaseInfoVO;
@@ -40,6 +41,7 @@ public class ProjectListController extends BaseController {
 
     private final ProjectBaseInfoService projectBaseInfoService;
 
+
     /**
      * 获取所有项目列表
      *
@@ -68,19 +70,6 @@ public class ProjectListController extends BaseController {
     }
 
 //    /**
-//     * 根据项目id新增项目指标
-//     *
-//     * @param projectTargets the project targets
-//     * @return the r
-//     */
-////    @SaCheckPermission("project:list:addtargetlist")
-//    @Log(title = "新增项目指标列表",businessType = BusinessType.INSERT)
-//    @PostMapping("/targetadd")
-//    public R<Void> addTargetList(@RequestBody List<ProjectTarget> projectTargets){
-//        return toAjax(projectTargetService.insertProjectTargetList(projectTargets));
-//    }
-
-//    /**
 //     * 根据项目id删除项目指标
 //     *
 //     * @param projectId the project id
@@ -104,6 +93,15 @@ public class ProjectListController extends BaseController {
     @PostMapping("/milestonequery")
     public R<List<ProjectMilestoneVo>> queryMilestone(@RequestBody ProjectMilestoneBo projectMilestoneBo){
         return R.ok(projectMilestoneService.queryMilestoneList(projectMilestoneBo));
+    }
+
+    /**
+     * 获取大事记分类选择框列表
+     * */
+    @GetMapping("/milestoneCategorySelect")
+    public R<List<ProjectMilestoneCategoryEnum>> milestoneCategorySelect() {
+        List<ProjectMilestoneCategoryEnum> projectMilestoneCategoryEnums = projectMilestoneService.selectCategoryAll();
+        return R.ok(projectMilestoneCategoryEnums);
     }
 
 }
