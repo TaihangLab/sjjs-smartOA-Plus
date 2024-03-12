@@ -64,8 +64,6 @@ public interface ProjectMilestoneService {
     List<ProjectMilestoneVo> queryMilestoneList(ProjectMilestoneBo projectMilestoneBo);
 
 
-
-
     /**
      * 获取大事记列表
      *
@@ -80,22 +78,5 @@ public interface ProjectMilestoneService {
      * 查询所有大事记分类
      * */
     List<ProjectMilestoneCategoryEnum> selectCategoryAll();
-
-    /**
-     * 新增大事记与分类的关系
-     */
-    List<Integer> insertMilestoneCategoryRelation(ProjectMilestoneBo projectMilestoneBo);
-
-    /**
-     * 根据大事记分类去查对应的大事记id
-     * */
-    List<Long> getMilestoneIdByType(ProjectMilestoneBo projectMilestoneBo);
-
-    /**
-     * 根据大事记id去查对应的类型
-     * */
-    Set<ProjectMilestoneCategoryEnum> getCategoryEnumsByMilestoneId(Long milestoneId);
-
-
 
 }

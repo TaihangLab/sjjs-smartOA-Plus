@@ -103,22 +103,8 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
             .stream()
             .map(ProjectMilestoneCategory::getMilestoneCategoryType)
             .collect(Collectors.toList());
-        return milestoneCategoryEunms ;
+        return milestoneCategoryEunms;
     }
-
-    /**
-     * 新增大事记与分类的关系
-     */
-    @Override
-    public List<Integer> insertMilestoneCategoryRelation(ProjectMilestoneBo projectMilestoneBo) {
-        List<Integer> insertCategoryRelations = new ArrayList<>();
-        for (ProjectMilestoneCategoryRelation MilestoneCategoryRelation : projectMilestoneBo.getProjectMilestoneCategoryRelationList()) {
-            int insertCategoryRelation = projectMilestoneCategoryRelationMapper.insert(MilestoneCategoryRelation);
-            insertCategoryRelations.add(insertCategoryRelation);
-        }
-        return insertCategoryRelations;
-    }
-
 
 
     /**
@@ -256,8 +242,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
     /**
      * 根据分类去查对应的大事记
      */
-    @Override
-    public List<Long> getMilestoneIdByType(ProjectMilestoneBo projectMilestoneBo) {
+    private List<Long> getMilestoneIdByType(ProjectMilestoneBo projectMilestoneBo) {
 
         List<Long> milestoneCategoryIds = projectMilestoneCategoryMapper.selectList(
                 new LambdaQueryWrapper<ProjectMilestoneCategory>()
@@ -268,7 +253,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
 
         List<Long> milestoneIds = projectMilestoneCategoryRelationMapper.selectList(
                 new LambdaQueryWrapper<ProjectMilestoneCategoryRelation>()
-                    .in(!milestoneCategoryIds.isEmpty(),ProjectMilestoneCategoryRelation::getMilestoneCategoryId, milestoneCategoryIds))
+                    .in(!milestoneCategoryIds.isEmpty(), ProjectMilestoneCategoryRelation::getMilestoneCategoryId, milestoneCategoryIds))
             .stream()
             .map(ProjectMilestoneCategoryRelation::getMilestoneId)
             .collect(Collectors.toList());
@@ -280,10 +265,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
     /**
      * 根据大事记id去查对应的类型
      */
-    @Override
-    public Set<ProjectMilestoneCategoryEnum> getCategoryEnumsByMilestoneId(Long milestoneId) {
-
-        Set<ProjectMilestoneCategoryEnum> categoryEnums = new TreeSet<>();
+    private Set<ProjectMilestoneCategoryEnum> getCategoryEnumsByMilestoneId(Long milestoneId) {
 
         Set<Long> categoryIds = projectMilestoneCategoryRelationMapper.selectList(
                 new LambdaQueryWrapper<ProjectMilestoneCategoryRelation>()
@@ -292,13 +274,11 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
             .map(ProjectMilestoneCategoryRelation::getMilestoneCategoryId)
             .collect(Collectors.toSet());
 
-        categoryEnums.addAll(projectMilestoneCategoryMapper.selectList(
+        return projectMilestoneCategoryMapper.selectList(
                 new LambdaQueryWrapper<ProjectMilestoneCategory>()
-                    .in(categoryIds.isEmpty(),ProjectMilestoneCategory::getMilestoneCategoryId, categoryIds))
+                    .in(!categoryIds.isEmpty(), ProjectMilestoneCategory::getMilestoneCategoryId, categoryIds))
             .stream()
-            .map(ProjectMilestoneCategory::getMilestoneCategoryType)
-            .collect(Collectors.toSet()));
-        return categoryEnums;
+            .map(ProjectMilestoneCategory::getMilestoneCategoryType).collect(Collectors.toCollection(TreeSet::new));
     }
 
 

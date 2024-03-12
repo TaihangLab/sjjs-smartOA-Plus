@@ -113,18 +113,6 @@ public class ProjectMyController extends BaseController {
     }
 
     /**
-     * 新增大事记与分类关系
-     */
-    @Log(title = "新增项目大事纪分类关系", businessType = BusinessType.INSERT)
-//    @SaCheckPermission("project:my:milestoneCategoryRelationAdd")
-    @PostMapping(value = "/milestoneCategoryRelationAdd")
-    public R<Void> addMilestoneCategoryRelation(@Validated @RequestBody ProjectMilestoneBo projectMilestoneBo) {
-
-        projectMilestoneService.insertMilestoneCategoryRelation(projectMilestoneBo);
-        return R.ok();
-    }
-
-    /**
      * 删除项目大事纪
      *
      * @param milestoneId
