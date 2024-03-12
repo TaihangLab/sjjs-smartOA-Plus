@@ -1,5 +1,6 @@
 package com.ruoyi.project.service;
 
+import com.ruoyi.project.domain.ProjectExpenditure;
 import com.ruoyi.project.domain.bo.ProjectExpenditureBO;
 
 import java.util.List;
@@ -17,4 +18,11 @@ public interface ProjectExpenditureService {
      * @param projectExpenditureBOList
      */
     void addProjectExpenditureList(List<ProjectExpenditureBO> projectExpenditureBOList);
+
+    /**
+     * 查询项目支出明细
+     * @param projectId
+     * @return
+     */
+    public List<ProjectExpenditure> getProjectExpenditureByProId(Long projectId);
 }

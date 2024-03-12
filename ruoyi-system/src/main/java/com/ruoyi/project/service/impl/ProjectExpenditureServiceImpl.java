@@ -1,5 +1,6 @@
 package com.ruoyi.project.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.project.domain.ProjectExpenditure;
 import com.ruoyi.project.domain.bo.ProjectExpenditureBO;
@@ -34,5 +35,15 @@ public class ProjectExpenditureServiceImpl implements ProjectExpenditureService{
         List<ProjectExpenditure> projectExpenditureList =
             BeanCopyUtils.copyList(projectExpenditureBOList, ProjectExpenditure.class);
         projectExpenditureMapper.insertBatch(projectExpenditureList);
+    }
+
+    /**
+     * 查询项目支出明细
+     * @param projectId
+     * @return
+     */
+    public List<ProjectExpenditure> getProjectExpenditureByProId(Long projectId){
+        return projectExpenditureMapper.selectList(new LambdaQueryWrapper<ProjectExpenditure>()
+            .eq(ProjectExpenditure::getProjectId,projectId));
     }
 }

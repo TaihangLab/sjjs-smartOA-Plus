@@ -41,7 +41,7 @@ public enum SecondLevelSubjectEnum implements IEnum<Integer> {
     /**
      * 资料费
      */
-    DOCUMENTATION_COST(5, "资料费"),
+    DOCUMENTATION_FEE(5, "资料费"),
     /**
      * 数据样本采集费
      */
@@ -90,7 +90,7 @@ public enum SecondLevelSubjectEnum implements IEnum<Integer> {
     /**
      * 国际合作交流费
      */
-    INTERNATIONAL_COOPERATION_EXCHANGE_FEES(17, "国际合作交流费"),
+    INTERNATIONAL_COOPERATION_EXCHANGE_FEE(17, "国际合作交流费"),
     /**
      * 专家咨询费
      */
@@ -98,7 +98,11 @@ public enum SecondLevelSubjectEnum implements IEnum<Integer> {
     /**
      * 人员劳务费
      */
-    PERSONNEL_SERVICE_FEE(19, "人员劳务费");
+    PERSONNEL_SERVICE_FEE(19, "人员劳务费"),
+    /**
+     * 无
+     */
+    NONE(20, "无");
 
     static {
         // 通过名称构建缓存,通过EnumCache.findByName(StatusEnum.class,"SUCCESS",null);调用能获取枚举

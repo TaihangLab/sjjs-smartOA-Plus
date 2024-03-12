@@ -10,6 +10,7 @@ import com.ruoyi.common.core.validate.QueryGroup;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.excel.ExcelResult;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.project.domain.ProjectExpenditure;
 import com.ruoyi.project.domain.ProjectFundsReceived;
 import com.ruoyi.project.domain.bo.ProjectBaseInfoBO;
 import com.ruoyi.project.domain.bo.ProjectExpenditureBO;
@@ -144,6 +145,17 @@ public class ProjectFundsController {
     public R<List<ProjectFundsReceivedVo>> getFundsReceivedByProId(@RequestParam @NotNull Long projectId) {
         List<ProjectFundsReceivedVo> fundsReceivedVoList = projectFundsReceivedService.getFundsReceivedByProId(projectId);
         return R.ok(fundsReceivedVoList);
+    }
+
+    /**
+     * 查询项目支出明细
+     * @param projectId 项目ID
+     * @return
+     */
+    @GetMapping(value = "/getProjectExpenditure")
+    public R<List<ProjectExpenditure>> getProjectExpenditureByProId(@RequestParam @NotNull Long projectId) {
+        List<ProjectExpenditure> projectExpenditures = projectExpenditureService.getProjectExpenditureByProId(projectId);
+        return R.ok(projectExpenditures);
     }
 
 }
