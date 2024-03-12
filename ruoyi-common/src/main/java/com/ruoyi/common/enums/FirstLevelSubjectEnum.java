@@ -49,7 +49,7 @@ public enum FirstLevelSubjectEnum implements IEnum<Integer> {
     /**
      * 绩效支出
      */
-    PERFORMANCE_EXPENDITURE(7, "绩效支出");
+    PERFORMANCE_FEE(7, "绩效支出");
 
     static {
         // 通过名称构建缓存,通过EnumCache.findByName(StatusEnum.class,"SUCCESS",null);调用能获取枚举
