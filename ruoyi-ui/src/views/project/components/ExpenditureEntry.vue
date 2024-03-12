@@ -219,9 +219,9 @@ export default {
                 return;
             }
 
-            // 将 this.da 格式化为服务器期望的数组格式
-            const expenditureData = this.da.map(item => ({
-                // 假设以下属性适用于 ProjectExpenditureBO 对象，请根据实际情况调整
+            // 构建符合期望格式的请求数据
+            const requestData = this.da.map(item => ({
+                projectId: this.params.projectId,
                 expenditureDate: item.expenditureDate,
                 projectName: item.projectName,
                 voucherNo: item.voucherNo,
@@ -233,11 +233,6 @@ export default {
                 thirdLevelSubject: item.thirdLevelSubject,
                 amount: item.amount
             }));
-
-            const requestData = [{
-                projectId: this.params.projectId,
-                expenditureData: expenditureData
-            }];
 
             request({
                 url: '/project/funds/add',

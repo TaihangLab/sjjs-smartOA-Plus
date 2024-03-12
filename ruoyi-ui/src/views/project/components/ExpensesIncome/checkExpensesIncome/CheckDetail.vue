@@ -1,6 +1,6 @@
 <template>
     <div class="sticky-container">
-        <el-tabs>
+        <el-tabs @tab-click="handleTabClick">
             <el-tab-pane label="基本信息" name="first">
                 <div style="margin-top: 10px;"></div>
                 <el-descriptions-item label="基本信息" :span="2"></el-descriptions-item>
@@ -91,7 +91,7 @@
                 </el-collapse>
             </el-tab-pane>
             <el-tab-pane label="支出信息" name="second">
-                <el-table ref="multipleTable" :data="da" border
+                <el-table ref="multipleTable" :data="expenditureEntry" border
                     style="width: 100%; max-height: 500px; overflow-y: auto;" :row-style="{ height: '50px' }"
                     :cell-style="{ padding: '0px' }">
                     <el-table-column label="日期" :resizable="false" align="center">
@@ -156,8 +156,8 @@ export default {
             // 遮罩层
             loading: true,
             appropriationAccount: undefined,
+            expenditureEntry:undefined,
             lookDetail: undefined,
-            da: [],
             hasLeading: {
                 0: '否',
                 1: '是',
@@ -182,18 +182,24 @@ export default {
         projectId: {
             handler(newVal) {
                 this.checkDetail();
+                this.checkExpenditureEntryDetail();
                 this.checkFundsReceivedDetail();
             },
             immediate: true, // 立即执行一次
         },
     },
     created() {
+        this.handleTabClick({ name: 'first' });
         console.log('projectId:', this.$props.projectId);
     },
-
     methods: {
-        handleClick(tab, event) {
+        handleClick(tab, event) { 
             console.log(tab, event);
+        },
+        handleTabClick(tab) {
+            if (tab.name === 'second') {
+                this.checkExpenditureEntryDetail();
+            }
         },
         // 格式化日期方法
         formatDate(date) {
@@ -258,13 +264,6 @@ export default {
             return zxzc[row.zxzc];
         },
         checkDetail() {
-            const loading = this.$loading({
-                lock: true,
-                text: '努力加载中',
-                spinner: 'el-icon-loading',
-                fullscreen: true,
-                background: 'rgba(200, 200, 200, 1)'
-            });
             request({
                 url: '/project/list/getDetails',
                 method: 'get',
@@ -274,7 +273,23 @@ export default {
             })
                 .then((resp) => {
                     this.lookDetail = resp.data;
-                    console.log('数据', this.lookDetail)
+                    loading.close();
+                })
+                .catch((error) => {
+                    console.error('获取用户数据时出错：', error);
+                    loading.close();
+                });
+        },
+        checkExpenditureEntryDetail() {
+            request({
+                url: '/project/funds/getProjectExpenditure',
+                method: 'get',
+                params: {
+                    projectId: this.$props.projectId,
+                },
+            })
+                .then((resp) => {
+                    this.expenditureEntry = resp.data;
                     loading.close();
                 })
                 .catch((error) => {
@@ -283,13 +298,6 @@ export default {
                 });
         },
         checkFundsReceivedDetail() {
-            const loading = this.$loading({
-                lock: true,
-                text: '努力加载中',
-                spinner: 'el-icon-loading',
-                fullscreen: true,
-                background: 'rgba(200, 200, 200, 1)'
-            });
             // 使用正确的用户列表接口，假设接口为 /user/list
             request({
                 url: '/project/funds/getFundsReceived',
