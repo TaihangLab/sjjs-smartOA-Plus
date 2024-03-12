@@ -10,19 +10,25 @@ import com.ruoyi.common.core.validate.AddGroup;
 import com.ruoyi.common.core.validate.EditGroup;
 import com.ruoyi.common.core.validate.QueryGroup;
 import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.enums.ProjectmilestoneCategoryEnum;
+import com.ruoyi.project.domain.ProjectMilestone;
+import com.ruoyi.project.domain.ProjectMilestoneCategory;
 import com.ruoyi.project.domain.bo.ProjectBaseInfoBO;
 import com.ruoyi.project.domain.bo.ProjectInfoBO;
 import com.ruoyi.project.domain.bo.ProjectMilestoneBo;
 import com.ruoyi.project.domain.vo.ProjectBaseInfoVO;
+import com.ruoyi.project.domain.vo.ProjectMilestoneVo;
 import com.ruoyi.project.service.ProjectBaseInfoService;
 import com.ruoyi.project.service.ProjectMilestoneService;
 import com.ruoyi.project.service.ProjectService;
+import com.ruoyi.project.service.impl.ProjectMilestoneServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 
 /**
@@ -117,6 +123,18 @@ public class ProjectMyController extends BaseController {
         return toAjax(projectMilestoneService.insertProjectMilestone(projectMilestoneBo));
     }
 
+/**
+ * 新增大事记与分类关系
+ * */
+@Log(title = "新增项目大事纪分类关系", businessType = BusinessType.INSERT)
+@SaCheckPermission("project:my:milestonecategoryrelationadd")
+@PostMapping(value = "/milestonecategoryrelationadd")
+public R<Void> addMilestoneCategoryRelation(@Validated @RequestBody ProjectMilestoneBo projectMilestoneBo){
+
+    projectMilestoneService.insertMilestoneCategoryRelation(projectMilestoneBo);
+    return R.ok();
+}
+
     /**
      * 删除项目大事纪
      *
@@ -158,5 +176,38 @@ public class ProjectMyController extends BaseController {
     public R<Void> edit(@Validated @RequestBody ProjectMilestoneBo projectMilestoneBo) {
         return toAjax(projectMilestoneService.updateMilestone(projectMilestoneBo));
     }
+
+
+//    /**
+//     * 大事记分类
+//     * */
+//    @Log(title = "获取大事记分类", businessType = BusinessType.UPDATE)
+//    @SaCheckPermission("project:my:getCategory")
+//    @PutMapping("/getCategory")
+//    public List<ProjectMilestoneVo> getCategory(){
+//        return projectMilestoneService.selectCategory();
+//    }
+//
+//    /**
+//     * 根据分类id查询对应大事记
+//     * */
+//    @Log(title = "根据分类查大事记", businessType = BusinessType.UPDATE)
+//    @SaCheckPermission("project:my:getCategory")
+//    @GetMapping ("/selectMilestone")
+//    public List<ProjectMilestone>selectmilestone( ProjectmilestoneCategoryEnum CategoryType){
+//        List<ProjectMilestone> milestone=projectMilestoneService.selectmilestone(CategoryType);
+//        return milestone;
+//
+//    }
+///**
+// * 根据大事记title查询分类
+// * */
+//@Log(title = "根据大事记title查询分类", businessType = BusinessType.UPDATE)
+//@SaCheckPermission("project:my:getCategory")
+//@GetMapping ("/selectCategoryById")
+//    public List<ProjectMilestoneCategory> selectCategoryById(String milestoneTitle){
+//        List<ProjectMilestoneCategory> milestonetype=projectMilestoneService.selectmilestonetype(milestoneTitle);
+//        return milestonetype;
+//    }
 
 }

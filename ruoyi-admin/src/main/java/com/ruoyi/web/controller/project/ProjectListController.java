@@ -6,6 +6,8 @@ import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.core.validate.QueryGroup;
+import com.ruoyi.common.enums.ProjectmilestoneCategoryEnum;
+import com.ruoyi.project.domain.ProjectMilestoneCategory;
 import com.ruoyi.project.domain.bo.ProjectBaseInfoBO;
 import com.ruoyi.project.domain.bo.ProjectMilestoneBo;
 import com.ruoyi.project.domain.vo.ProjectBaseInfoVO;
@@ -14,12 +16,14 @@ import com.ruoyi.project.domain.vo.ProjectMilestoneVo;
 import com.ruoyi.project.service.ProjectBaseInfoService;
 import com.ruoyi.project.service.ProjectMilestoneService;
 import com.ruoyi.project.service.ProjectService;
+import com.ruoyi.system.domain.SysPost;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -39,6 +43,7 @@ public class ProjectListController extends BaseController {
     private final ProjectService projectService;
 
     private final ProjectBaseInfoService projectBaseInfoService;
+
 
     /**
      * 获取所有项目列表
@@ -105,5 +110,16 @@ public class ProjectListController extends BaseController {
     public R<List<ProjectMilestoneVo>> queryMilestone(@RequestBody ProjectMilestoneBo projectMilestoneBo){
         return R.ok(projectMilestoneService.queryMilestoneList(projectMilestoneBo));
     }
+
+    /**
+     * 获取大事记分类选择框列表
+     * */
+    @GetMapping("/milestoneCategorySelect")
+    public R<List<ProjectmilestoneCategoryEnum>> milestoneCategorySelect() {
+        List<ProjectmilestoneCategoryEnum> projectmilestoneCategoryEnums = projectMilestoneService.selectCategoryAll();
+        return R.ok(projectmilestoneCategoryEnums);
+    }
+
+
 
 }

@@ -10,6 +10,7 @@
         <result property="milestoneTitle" column="milestone_title"/>
         <result property="milestoneRemark" column="milestone_remark"/>
         <result property="milestoneDate" column="milestone_date"/>
+        <result property="milestoneCategoryId" column="milestone_category_id"/>
     </resultMap>
 
 </mapper>

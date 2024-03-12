@@ -3,6 +3,7 @@ package com.ruoyi.project.domain;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.ruoyi.common.enums.ProjectmilestoneCategoryEnum;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -42,5 +43,6 @@ public class ProjectMilestone {
      * 大事记时间
      */
     private LocalDate milestoneDate;
+
 
 }
