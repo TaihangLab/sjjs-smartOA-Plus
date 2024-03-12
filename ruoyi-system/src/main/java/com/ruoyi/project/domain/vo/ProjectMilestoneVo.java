@@ -1,10 +1,11 @@
 package com.ruoyi.project.domain.vo;
 
+import com.ruoyi.common.enums.ProjectMilestoneCategoryEnum;
 import com.ruoyi.system.domain.SysOss;
 import lombok.Data;
-
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 大事记VO
@@ -12,6 +13,8 @@ import java.util.List;
  * @author bailingnan
  * @date 2024/02/06
  */
+
+
 @Data
 public class ProjectMilestoneVo {
 
@@ -44,4 +47,9 @@ public class ProjectMilestoneVo {
      * 项目大事纪对应的oss对象
      */
     private List<SysOss> sysOsses;
+
+    /**
+     * 项目大事记分类列表
+     */
+    private Set<ProjectMilestoneCategoryEnum> CategoryTypeSet;
 }
