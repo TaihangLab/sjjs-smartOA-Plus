@@ -10,25 +10,19 @@ import com.ruoyi.common.core.validate.AddGroup;
 import com.ruoyi.common.core.validate.EditGroup;
 import com.ruoyi.common.core.validate.QueryGroup;
 import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.common.enums.ProjectmilestoneCategoryEnum;
-import com.ruoyi.project.domain.ProjectMilestone;
-import com.ruoyi.project.domain.ProjectMilestoneCategory;
 import com.ruoyi.project.domain.bo.ProjectBaseInfoBO;
 import com.ruoyi.project.domain.bo.ProjectInfoBO;
 import com.ruoyi.project.domain.bo.ProjectMilestoneBo;
 import com.ruoyi.project.domain.vo.ProjectBaseInfoVO;
-import com.ruoyi.project.domain.vo.ProjectMilestoneVo;
 import com.ruoyi.project.service.ProjectBaseInfoService;
 import com.ruoyi.project.service.ProjectMilestoneService;
 import com.ruoyi.project.service.ProjectService;
-import com.ruoyi.project.service.impl.ProjectMilestoneServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 
 /**
@@ -53,7 +47,6 @@ public class ProjectMyController extends BaseController {
      *
      * @param projectBaseInfoBO 项目基本信息
      * @param pageQuery         分页查询条件
-     *
      * @return 我的项目列表
      */
     @SaCheckPermission("project:my:getMyList")
@@ -67,14 +60,13 @@ public class ProjectMyController extends BaseController {
      * 添加项目
      *
      * @param projectInfoBO 项目信息
-     *
      * @return 结果
      */
     @Log(title = "新增项目信息", businessType = BusinessType.INSERT)
     @SaCheckPermission("project:my:add")
     @PostMapping("/add")
     public R<Void> addProject(@RequestBody @Validated(AddGroup.class) ProjectInfoBO projectInfoBO) {
-	    projectService.addProject(projectInfoBO);
+        projectService.addProject(projectInfoBO);
         return R.ok();
     }
 
@@ -82,14 +74,13 @@ public class ProjectMyController extends BaseController {
      * 修改项目
      *
      * @param projectInfoBO 项目信息
-     *
      * @return 编辑结果
      */
     @Log(title = "编辑项目信息", businessType = BusinessType.UPDATE)
     @SaCheckPermission("project:my:edit")
     @PostMapping("/edit")
     public R<Void> editProject(@RequestBody @Validated(EditGroup.class) ProjectInfoBO projectInfoBO) {
-	    projectService.updateProject(projectInfoBO);
+        projectService.updateProject(projectInfoBO);
         return R.ok();
     }
 
@@ -97,14 +88,13 @@ public class ProjectMyController extends BaseController {
      * 删除项目
      *
      * @param projectId 项目ID
-     *
      * @return 删除结果
      */
     @Log(title = "删除项目信息", businessType = BusinessType.DELETE)
     @SaCheckPermission("project:my:delete")
     @GetMapping("/delete")
     public R<Void> deleteProject(@RequestParam @NotNull Long projectId) {
-	    projectService.deleteProject(projectId);
+        projectService.deleteProject(projectId);
         return R.ok();
     }
 
@@ -113,7 +103,6 @@ public class ProjectMyController extends BaseController {
      * 新增项目大事纪
      *
      * @param projectMilestoneBo
-     *
      * @return {@link R}<{@link Void}>
      */
     @Log(title = "新增项目大事纪", businessType = BusinessType.INSERT)
@@ -123,23 +112,22 @@ public class ProjectMyController extends BaseController {
         return toAjax(projectMilestoneService.insertProjectMilestone(projectMilestoneBo));
     }
 
-/**
- * 新增大事记与分类关系
- * */
-@Log(title = "新增项目大事纪分类关系", businessType = BusinessType.INSERT)
-@SaCheckPermission("project:my:milestonecategoryrelationadd")
-@PostMapping(value = "/milestonecategoryrelationadd")
-public R<Void> addMilestoneCategoryRelation(@Validated @RequestBody ProjectMilestoneBo projectMilestoneBo){
+    /**
+     * 新增大事记与分类关系
+     */
+    @Log(title = "新增项目大事纪分类关系", businessType = BusinessType.INSERT)
+//    @SaCheckPermission("project:my:milestoneCategoryRelationAdd")
+    @PostMapping(value = "/milestoneCategoryRelationAdd")
+    public R<Void> addMilestoneCategoryRelation(@Validated @RequestBody ProjectMilestoneBo projectMilestoneBo) {
 
-    projectMilestoneService.insertMilestoneCategoryRelation(projectMilestoneBo);
-    return R.ok();
-}
+        projectMilestoneService.insertMilestoneCategoryRelation(projectMilestoneBo);
+        return R.ok();
+    }
 
     /**
      * 删除项目大事纪
      *
      * @param milestoneId
-     *
      * @return {@link R}<{@link Void}>
      */
     @Log(title = "删除单条项目大事纪", businessType = BusinessType.DELETE)
@@ -153,7 +141,6 @@ public R<Void> addMilestoneCategoryRelation(@Validated @RequestBody ProjectMiles
      * 删除某个项目对应的大事纪
      *
      * @param projectId
-     *
      * @return {@link R}<{@link Void}>
      */
     @Log(title = "删除某个项目对应的大事纪", businessType = BusinessType.DELETE)
@@ -167,7 +154,6 @@ public R<Void> addMilestoneCategoryRelation(@Validated @RequestBody ProjectMiles
      * 修改大事纪
      *
      * @param projectMilestoneBo
-     *
      * @return {@link R}<{@link Void}>
      */
     @Log(title = "修改项目大事纪", businessType = BusinessType.UPDATE)
@@ -176,38 +162,5 @@ public R<Void> addMilestoneCategoryRelation(@Validated @RequestBody ProjectMiles
     public R<Void> edit(@Validated @RequestBody ProjectMilestoneBo projectMilestoneBo) {
         return toAjax(projectMilestoneService.updateMilestone(projectMilestoneBo));
     }
-
-
-//    /**
-//     * 大事记分类
-//     * */
-//    @Log(title = "获取大事记分类", businessType = BusinessType.UPDATE)
-//    @SaCheckPermission("project:my:getCategory")
-//    @PutMapping("/getCategory")
-//    public List<ProjectMilestoneVo> getCategory(){
-//        return projectMilestoneService.selectCategory();
-//    }
-//
-//    /**
-//     * 根据分类id查询对应大事记
-//     * */
-//    @Log(title = "根据分类查大事记", businessType = BusinessType.UPDATE)
-//    @SaCheckPermission("project:my:getCategory")
-//    @GetMapping ("/selectMilestone")
-//    public List<ProjectMilestone>selectmilestone( ProjectmilestoneCategoryEnum CategoryType){
-//        List<ProjectMilestone> milestone=projectMilestoneService.selectmilestone(CategoryType);
-//        return milestone;
-//
-//    }
-///**
-// * 根据大事记title查询分类
-// * */
-//@Log(title = "根据大事记title查询分类", businessType = BusinessType.UPDATE)
-//@SaCheckPermission("project:my:getCategory")
-//@GetMapping ("/selectCategoryById")
-//    public List<ProjectMilestoneCategory> selectCategoryById(String milestoneTitle){
-//        List<ProjectMilestoneCategory> milestonetype=projectMilestoneService.selectmilestonetype(milestoneTitle);
-//        return milestonetype;
-//    }
 
 }

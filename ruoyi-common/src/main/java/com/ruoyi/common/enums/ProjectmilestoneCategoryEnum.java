@@ -8,7 +8,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum ProjectmilestoneCategoryEnum implements IEnum<Integer> {
+public enum ProjectMilestoneCategoryEnum implements IEnum<Integer> {
     /**
      * 第一类别
      * **/

@@ -1,14 +1,13 @@
 package com.ruoyi.project.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.page.TableDataInfo;
-import com.ruoyi.common.enums.ProjectmilestoneCategoryEnum;
+import com.ruoyi.common.enums.ProjectMilestoneCategoryEnum;
 import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.project.domain.ProjectMilestone;
 import com.ruoyi.project.domain.ProjectMilestoneCategory;
@@ -24,7 +23,6 @@ import com.ruoyi.project.service.ProjectMilestoneService;
 import com.ruoyi.system.domain.SysOss;
 import com.ruoyi.system.domain.vo.SysOssVo;
 import com.ruoyi.system.mapper.SysOssMapper;
-import liquibase.pro.packaged.L;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -100,8 +98,8 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
      * 查询所有大事记分类
      */
     @Override
-    public List<ProjectmilestoneCategoryEnum> selectCategoryAll() {
-        List<ProjectmilestoneCategoryEnum> milestoneCategoryEunms = projectMilestoneCategoryMapper.selectList()
+    public List<ProjectMilestoneCategoryEnum> selectCategoryAll() {
+        List<ProjectMilestoneCategoryEnum> milestoneCategoryEunms = projectMilestoneCategoryMapper.selectList()
             .stream()
             .map(ProjectMilestoneCategory::getMilestoneCategoryType)
             .collect(Collectors.toList());
@@ -283,9 +281,9 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
      * 根据大事记id去查对应的类型
      */
     @Override
-    public Set<ProjectmilestoneCategoryEnum> getCategoryEnumsByMilestoneId(Long milestoneId) {
+    public Set<ProjectMilestoneCategoryEnum> getCategoryEnumsByMilestoneId(Long milestoneId) {
 
-        Set<ProjectmilestoneCategoryEnum> categoryEnums = new TreeSet<>();
+        Set<ProjectMilestoneCategoryEnum> categoryEnums = new TreeSet<>();
 
         Set<Long> categoryIds = projectMilestoneCategoryRelationMapper.selectList(
                 new LambdaQueryWrapper<ProjectMilestoneCategoryRelation>()
@@ -317,7 +315,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
             ProjectMilestoneVo milestoneVo = new ProjectMilestoneVo();
             BeanCopyUtils.copy(milestone, milestoneVo);
 
-            Set<ProjectmilestoneCategoryEnum> categoryEnums = getCategoryEnumsByMilestoneId(milestone.getMilestoneId());
+            Set<ProjectMilestoneCategoryEnum> categoryEnums = getCategoryEnumsByMilestoneId(milestone.getMilestoneId());
             milestoneVo.setCategoryTypeSet(categoryEnums);
 
             List<Long> ossIds = projectMilestoneOssMapper.selectList(

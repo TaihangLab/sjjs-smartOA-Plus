@@ -3,7 +3,7 @@ package com.ruoyi.project.domain;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.ruoyi.common.enums.ProjectmilestoneCategoryEnum;
+import com.ruoyi.common.enums.ProjectMilestoneCategoryEnum;
 import lombok.Data;
 
 /**
@@ -24,6 +24,6 @@ public class ProjectMilestoneCategory {
     /**
      * 分类名称
      */
-    private  ProjectmilestoneCategoryEnum  milestoneCategoryType;
+    private ProjectMilestoneCategoryEnum milestoneCategoryType;
 
 }

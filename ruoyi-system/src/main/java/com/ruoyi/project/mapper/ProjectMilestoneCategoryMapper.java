@@ -2,7 +2,7 @@ package com.ruoyi.project.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ruoyi.common.core.mapper.BaseMapperPlus;
-import com.ruoyi.common.enums.ProjectmilestoneCategoryEnum;
+import com.ruoyi.common.enums.ProjectMilestoneCategoryEnum;
 import com.ruoyi.project.domain.ProjectMilestone;
 import com.ruoyi.project.domain.ProjectMilestoneCategory;
 import com.ruoyi.project.domain.vo.ProjectMilestoneVo;

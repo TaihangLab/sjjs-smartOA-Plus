@@ -6,8 +6,7 @@ import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.core.validate.QueryGroup;
-import com.ruoyi.common.enums.ProjectmilestoneCategoryEnum;
-import com.ruoyi.project.domain.ProjectMilestoneCategory;
+import com.ruoyi.common.enums.ProjectMilestoneCategoryEnum;
 import com.ruoyi.project.domain.bo.ProjectBaseInfoBO;
 import com.ruoyi.project.domain.bo.ProjectMilestoneBo;
 import com.ruoyi.project.domain.vo.ProjectBaseInfoVO;
@@ -16,14 +15,12 @@ import com.ruoyi.project.domain.vo.ProjectMilestoneVo;
 import com.ruoyi.project.service.ProjectBaseInfoService;
 import com.ruoyi.project.service.ProjectMilestoneService;
 import com.ruoyi.project.service.ProjectService;
-import com.ruoyi.system.domain.SysPost;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -73,19 +70,6 @@ public class ProjectListController extends BaseController {
     }
 
 //    /**
-//     * 根据项目id新增项目指标
-//     *
-//     * @param projectTargets the project targets
-//     * @return the r
-//     */
-////    @SaCheckPermission("project:list:addtargetlist")
-//    @Log(title = "新增项目指标列表",businessType = BusinessType.INSERT)
-//    @PostMapping("/targetadd")
-//    public R<Void> addTargetList(@RequestBody List<ProjectTarget> projectTargets){
-//        return toAjax(projectTargetService.insertProjectTargetList(projectTargets));
-//    }
-
-//    /**
 //     * 根据项目id删除项目指标
 //     *
 //     * @param projectId the project id
@@ -115,11 +99,9 @@ public class ProjectListController extends BaseController {
      * 获取大事记分类选择框列表
      * */
     @GetMapping("/milestoneCategorySelect")
-    public R<List<ProjectmilestoneCategoryEnum>> milestoneCategorySelect() {
-        List<ProjectmilestoneCategoryEnum> projectmilestoneCategoryEnums = projectMilestoneService.selectCategoryAll();
-        return R.ok(projectmilestoneCategoryEnums);
+    public R<List<ProjectMilestoneCategoryEnum>> milestoneCategorySelect() {
+        List<ProjectMilestoneCategoryEnum> projectMilestoneCategoryEnums = projectMilestoneService.selectCategoryAll();
+        return R.ok(projectMilestoneCategoryEnums);
     }
-
-
 
 }
