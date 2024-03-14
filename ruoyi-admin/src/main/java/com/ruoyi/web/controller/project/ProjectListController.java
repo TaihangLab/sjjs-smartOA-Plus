@@ -34,7 +34,6 @@ import java.util.List;
 @RequestMapping("/project/list")
 public class ProjectListController extends BaseController {
 
-
     private final ProjectMilestoneService projectMilestoneService;
 
     private final ProjectService projectService;
@@ -69,19 +68,6 @@ public class ProjectListController extends BaseController {
         return R.ok(projectService.getProjectDetails(projectId));
     }
 
-//    /**
-//     * 根据项目id删除项目指标
-//     *
-//     * @param projectId the project id
-//     * @return the r
-//     */
-////    @SaCheckPermission("project:list:deletetargetlist")
-//    @Log(title = "删除项目指标列表",businessType = BusinessType.DELETE)
-//    @DeleteMapping("/targetdelete")
-//    public R<Void> deleteTargetList(@RequestParam Long projectId){
-//        return toAjax(projectTargetService.deleteTargetByProjectId(projectId));
-//    }
-
     /**
      * 根据项目id查询项目大事纪
      *
@@ -100,8 +86,8 @@ public class ProjectListController extends BaseController {
      * */
     @GetMapping("/milestoneCategorySelect")
     public R<List<ProjectMilestoneCategoryEnum>> milestoneCategorySelect() {
-        List<ProjectMilestoneCategoryEnum> projectMilestoneCategoryEnums = projectMilestoneService.selectCategoryAll();
-        return R.ok(projectMilestoneCategoryEnums);
+        List<ProjectMilestoneCategoryEnum> projectMilestoneCategorys = projectMilestoneService.selectCategoryAll();
+        return R.ok(projectMilestoneCategorys);
     }
 
 }

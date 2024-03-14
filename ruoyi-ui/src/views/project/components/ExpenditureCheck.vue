@@ -32,7 +32,7 @@
             </el-table-column>
             <el-table-column :label="'操作'" :resizable="false" align="center" min-width="80px">
                 <template slot-scope="scope">
-                    <el-button size="mini" type="text" icon="el-icon-refresh-left"
+                    <el-button size="mini" type="text" icon="el-icon-refresh-left" fixed="right"
                         @click="handleDelete(scope.row.receivedId)">撤销
                     </el-button>
                 </template>
@@ -43,7 +43,6 @@
 
 <script>
 import request from '@/utils/request';
-
 
 export default {
     name: "ExpenditureCheck",
