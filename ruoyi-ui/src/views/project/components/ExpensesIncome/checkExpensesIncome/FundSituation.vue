@@ -83,7 +83,7 @@ export default {
             this.tableDataList[0].selfUnpaid = 16;
             this.tableDataList[0].totalPaid = 17;
             this.tableDataList[0].totalUnpaid = 18;
-            this.tableDataList[2][0].totalUnpaid = 18;
+            this.tableDataList[2][0].totalUnpaid = 19;
         }
     },
 };
