@@ -2,6 +2,7 @@ package com.ruoyi.project.domain;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 import lombok.Getter;
 
 /**
@@ -9,7 +10,7 @@ import lombok.Getter;
  */
 
 @TableName("project_milestone_category_relation")
-@Getter
+@Data
 public class ProjectMilestoneCategoryRelation {
 
     /**
