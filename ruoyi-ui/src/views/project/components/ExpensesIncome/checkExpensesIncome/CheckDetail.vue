@@ -94,6 +94,7 @@
                 </el-collapse>
             </el-tab-pane>
             <el-tab-pane label="支出信息" name="second">
+                <div style="margin-top: 10px;"></div>
                 <el-table ref="multipleTable" :data="expenditureEntry" border
                     style="width: 100%; max-height: 500px; overflow-y: auto;" :row-style="{ height: '50px' }"
                     :cell-style="{ padding: '0px' }">
@@ -195,7 +196,7 @@ export default {
         console.log('projectId:', this.$props.projectId);
     },
     methods: {
-        handleClick(tab, event) { 
+        handleClick(tab, event) {
             console.log(tab, event);
         },
         handleTabClick(tab) {

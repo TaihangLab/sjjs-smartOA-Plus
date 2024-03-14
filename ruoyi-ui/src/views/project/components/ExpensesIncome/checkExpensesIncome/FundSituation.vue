@@ -1,105 +1,118 @@
+
 <template>
     <div>
-        <el-table :data="tableDataList" border height="550px" v-loading="loading">
-            <template v-for="(item, index) in headerList">
-                <el-table-column v-if="index === 0" align="center" :label="item.mon" :key="index" :prop="item.key_str">
+        <div style="margin-top: 10px;"></div>
+        <el-table :data="tableDataList" border height="550px" v-loading="loading" @expand-change="handleExpandChange" >
+            <!-- 展开行功能 -->
+            <el-table-column type="expand" label="操作" cell-class-name="custom-cell-bg">
+                <template slot-scope="props">
+                    <el-table :data="props.row.children" :show-header="false" style="width: 100%">
+                        <!-- 子节点的具体信息展示，这里以名称为例，根据需要添加更多信息 -->
+                        <el-table-column type="index" label="序号" align="center" cell-class-name="custom-cell-bg">
+                        </el-table-column>
+                        <el-table-column align="center" label="预算科目名称" prop="categoryName" cell-class-name="custom-cell-bg">
+                        </el-table-column>
+
+                        <el-table-column align="center" label="预算">
+                            <el-table-column align="center" label="合计" prop="budget">
+                            </el-table-column>
+                            <el-table-column align="center" label="专项经费" prop="specialBudget">
+                            </el-table-column>
+                            <el-table-column align="center" label="自筹经费" prop="selfBudget">
+                            </el-table-column>
+                        </el-table-column>
+
+                        <el-table-column align="center" label="专项已支付" prop="specialPaid"></el-table-column>
+                        <el-table-column align="center" label="专项未支付" prop="specialUnpaid"></el-table-column>
+                        <el-table-column align="center" label="自筹已支付" prop="selfPaid"></el-table-column>
+                        <el-table-column align="center" label="自筹未支付" prop="selfUnpaid"></el-table-column>
+                        <el-table-column align="center" label="已支付" prop="totalPaid"></el-table-column>
+                        <el-table-column align="center" label="未支付" prop="totalUnpaid"></el-table-column>
+                    </el-table>
+                </template>
+            </el-table-column>
+
+            <!-- 原始列定义 -->
+            <el-table-column align="center" label="预算科目名称" prop="categoryName" cell-class-name="custom-cell-bg">
+            </el-table-column>
+
+            <el-table-column align="center" label="预算">
+                <el-table-column align="center" label="合计" prop="budget">
                 </el-table-column>
-                <el-table-column v-else align="center" :label="item.mon" :key="`asdf_${index}`">
-                    <el-table-column align="center" label="保费总计">
-                        <template slot="header">
-                            <div>保费总计</div>
-                            <div>(占比)</div>
-                        </template>
-                        <template slot-scope="{ row }">
-                            <div>{{ row[`${item.key_str}`].premium || 0 }}</div>
-                            <div>({{ row[`${item.key_str}`].premium_rate || 0 }}%)</div>
-                        </template>
-                    </el-table-column>
-                    <el-table-column align="center" label="出单件数">
-                        <template slot="header">
-                            <div>出单件数</div>
-                            <div>(占比)</div>
-                        </template>
-                        <template slot-scope="{ row }">
-                            <div>{{ row[`${item.key_str}`].quantity || 0 }}</div>
-                            <div>({{ row[`${item.key_str}`].quantity_rate || 0 }}%)</div>
-                        </template>
-                    </el-table-column>
+                <el-table-column align="center" label="专项经费" prop="specialBudget">
                 </el-table-column>
-            </template>
+                <el-table-column align="center" label="自筹经费" prop="selfBudget">
+                </el-table-column>
+            </el-table-column>
+
+            <el-table-column align="center" label="专项已支付" prop="specialPaid"></el-table-column>
+            <el-table-column align="center" label="专项未支付" prop="specialUnpaid"></el-table-column>
+            <el-table-column align="center" label="自筹已支付" prop="selfPaid"></el-table-column>
+            <el-table-column align="center" label="自筹未支付" prop="selfUnpaid"></el-table-column>
+            <el-table-column align="center" label="已支付" prop="totalPaid"></el-table-column>
+            <el-table-column align="center" label="未支付" prop="totalUnpaid"></el-table-column>
         </el-table>
     </div>
 </template>
 
 <script>
+import categoryOptions1 from "@/views/project/components/fundkeys";
+
 export default {
     data() {
         return {
-            headerList: [
-                {
-                    mon: "公司",
-                    key_str: "company_name"
-                },
-                {
-                    mon: "合计",
-                    key_str: "key0"
-                },
-                {
-                    mon: "2022年08月",
-                    key_str: "key8"
-                },
-
-                {
-                    mon: "2022年07月",
-                    key_str: "key7"
-                },
-                {
-                    mon: "2022年06月",
-                    key_str: "key5"
-                },
-                {
-                    mon: "2022年05月",
-                    key_str: "key5"
-                },
-                {
-                    mon: "2022年04月",
-                    key_str: "key4"
-                },
-                {
-                    mon: "2022年03月",
-                    key_str: "key3"
-                },
-
-            ],
-            tableDataList: [
-                {
-                    company_id: 2,
-                    company_name: "公司1",
-                    key0: { premium: 15, quantity: 10, premium_rate: 6, quantity_rate: 6 },
-                    key1: { premium: 0, quantity: 0, premium_rate: 0, quantity_rate: 0 },
-                    key2: { premium: 1, quantity: 1, premium_rate: 0, quantity_rate: 0 },
-                    key3: { premium: 2, quantity: 2, premium_rate: 0, quantity_rate: 0 },
-                    key4: { premium: 3, quantity: 3, premium_rate: 0, quantity_rate: 0 },
-                    key5: { premium: 4, quantity: 4, premium_rate: 0, quantity_rate: 0 },
-                    key5: { premium: 5, quantity: 5, premium_rate: 0, quantity_rate: 0 },
-                    key7: { premium: 6, quantity: 6, premium_rate: 0, quantity_rate: 0 },
-                    key8: { premium: 7, quantity: 7, premium_rate: 0, quantity_rate: 0 }
-                },
-                {
-                    company_id: 3,
-                    company_name: "公司2",
-                    key0: { premium: 24, quantity: 9, premium_rate: 9, quantity_rate: 9 },
-                    key1: { premium: 8, quantity: 0, premium_rate: 0, quantity_rate: 0 },
-                    key2: { premium: 5, quantity: 0, premium_rate: 0, quantity_rate: 0 },
-                    key3: { premium: 6, quantity: 0, premium_rate: 0, quantity_rate: 0 },
-                    key4: { premium: 6, quantity: 0, premium_rate: 0, quantity_rate: 0 },
-                    key5: { premium: 6, quantity: 0, premium_rate: 0, quantity_rate: 0 },
-                    key5: { premium: 6, quantity: 0, premium_rate: 0, quantity_rate: 0 },
-                    key7: { premium: 6, quantity: 0, premium_rate: 0, quantity_rate: 0 },
-                    key8: { premium: 6, quantity: 0, premium_rate: 0, quantity_rate: 0 }
-                }
-            ],
+            tableDataList: [],
+            loading: false, // Assuming you have a loading state
         };
-    }
+    },
+    methods: {
+        handleExpandChange(row, expandedRows) {
+            this.$nextTick(() => {
+                // 检查是否有展开的行，根据实际情况调整
+                if (expandedRows.length > 0) {
+                    // 如果有展开的行，找到展开内容并调整样式
+                    const expandedCells = document.querySelectorAll('.el-table__expanded-cell');
+                    expandedCells.forEach(cell => {
+                        cell.style.padding = '0'; // 移除内边距
+                        // 对 cell 内的其他可能影响布局的元素进行样式调整
+                    });
+                }
+            });
+        },
+        convertCategoryData(categoryOptions) {
+            const processCategory = (category) => {
+                const row = {
+                    categoryName: category.label,
+                    // Assuming these properties are calculated or retrieved somehow
+                    budget: Math.random() * 1000, // Placeholder for budget
+                    specialBudget: Math.random() * 500, // Placeholder for special budget
+                    selfBudget: Math.random() * 500, // Placeholder for self budget
+                    specialPaid: Math.random() * 300, // Placeholder for special paid
+                    specialUnpaid: Math.random() * 200, // Placeholder for special unpaid
+                    selfPaid: Math.random() * 300, // Placeholder for self paid
+                    selfUnpaid: Math.random() * 200, // Placeholder for self unpaid
+                    totalPaid: Math.random() * 600, // Placeholder for total paid
+                    totalUnpaid: Math.random() * 400, // Placeholder for total unpaid
+                    children: [],
+                };
+
+                if (category.children && category.children.length > 0) {
+                    row.children = category.children.map(child => processCategory(child));
+                }
+
+                return row;
+            };
+
+            return categoryOptions.map(category => processCategory(category));
+        },
+    },
+    mounted() {
+        this.tableDataList = this.convertCategoryData(categoryOptions1);
+    },
 };
 </script>
+<style scoped>
+.custom-bg-color {
+    background-color: #f0f9ff; /* 您希望的表头背景色 */
+}
+</style>
