@@ -83,7 +83,26 @@ export default {
             this.tableDataList[0].selfUnpaid = 16;
             this.tableDataList[0].totalPaid = 17;
             this.tableDataList[0].totalUnpaid = 18;
-            this.tableDataList[2][0].totalUnpaid = 19;
+            this.tableDataList[2].children[0].totalUnpaid = 19;
+            /* 科研活动费 */
+            this.tableDataList[6].budget = 10;
+            this.tableDataList[6].specialBudget = newVal.projectFunds.kyhdfZcZj;
+            this.tableDataList[6].selfBudget = newVal.projectFunds.kyhdfZlZxZj;
+            this.tableDataList[6].specialPaid = newVal.projectBalance.kyhdfZxZjPaid;
+            this.tableDataList[6].specialUnpaid = newVal.projectBalance.kyhdfZxZjUnpaid;
+            this.tableDataList[6].selfPaid = newVal.projectBalance.kyhdfZcZjPaid;
+            this.tableDataList[6].selfUnpaid = newVal.projectBalance.kyhdfZcZjUnpaid;
+            this.tableDataList[6].totalPaid = newVal.projectBalance.kyhdfZxZjUnpaid;
+            this.tableDataList[6].totalUnpaid = newVal.projectBalance.kyhdfZxZjUnpaid;
+            /* 科研活动费_资料费 */
+            this.tableDataList[6].children[0].specialBudget = newVal.projectFunds.kyhdfZlZxJj;
+            this.tableDataList[6].children[0].selfBudget = newVal.projectFunds.kyhdfZlZcJj;
+            this.tableDataList[6].children[0].specialPaid = newVal.projectBalance.kyhdfZlZxZjPaid;
+            this.tableDataList[6].children[0].specialUnpaid = newVal.projectBalance.kyhdfZlZxZjUnpaid;
+            this.tableDataList[6].children[0].selfPaid = newVal.projectBalance.kyhdfZlZcZjPaid;
+            this.tableDataList[6].children[0].selfUnpaid = newVal.projectBalance.kyhdfZlZcZjUnpaid;
+            // this.tableDataList[6].children[0].totalPaid = newVal.projectBalance.kyhdfZxZjUnpaid;
+            // this.tableDataList[6].children[0].totalUnpaid = newVal.projectBalance.kyhdfZxZjUnpaid;
         }
     },
 };
