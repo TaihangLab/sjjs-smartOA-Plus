@@ -513,4 +513,211 @@ export function reorganizeData(categories, fundsData, cards1Form, cards2Form, ta
     continueDealData(categories, cards1Form, cards2Form, tableDataForm);
 }
 
+export const categoryOptions3 = [
+    {
+        id: 0,
+        label: '一、经费支出',
+    },
+    {
+        id: 1,
+        label: '（一）直接费用',
+    },
+    {
+        id: 2,
+        label: '1.设备费',
+        children: [
+            {
+                id: 21,
+                label: '购置设备费',
 
+            },
+            {
+                id: 22,
+                label: '试制设备费',
+
+            },
+            {
+                id: 23,
+                label: '设备升级改造费',
+
+            },
+            {
+                id: 24,
+                label: '设备租赁费',
+
+            },
+        ]
+    },
+    {
+        id: 3,
+        label: '2.业务费',
+        children: [
+            {
+                id: 30,
+                label: '材料费',
+            },
+            {
+                id: 31,
+                label: '资料费',
+            },
+            {
+                id: 32,
+                label: '数据/样本采集费',
+            },
+            {
+                id: 33,
+                label: '测试化验加工费',
+            },
+            {
+                id: 34,
+                label: '燃料动力费',
+            },
+            {
+                id: 35,
+                label: '办公费',
+            },
+            {
+                id: 36,
+                label: '印刷/出版费',
+            },
+            {
+                id: 37,
+                label: '知识产权事务费',
+            },
+            {
+                id: 38,
+                label: '车辆使用费',
+            },
+            {
+                id: 39,
+                label: '出版/文献/信息传播/知识产权事务费',
+            },
+            {
+                id: 310,
+                label: '差旅费',
+            },
+            {
+                id: 311,
+                label: '会议/会务费',
+            },
+            {
+                id: 312,
+                label: '国内协作费',
+            },
+            {
+                id: 313,
+                label: '国际合作交流费',
+            },
+            {
+                id: 314,
+                label: '会议/差旅/国际合作与交流费',
+            },
+        ]
+    },
+    {
+        id: 4,
+        label: '3.劳务费',
+        children: [
+            {
+                id: 40,
+                label: '专家咨询费',
+            },
+            {
+                id: 41,
+                label: '人员劳务费',
+            },
+        ]
+    },
+    {
+        id: 5,
+        label: '4.材料费',
+        children: [
+            {
+                id: 50,
+                label: '材料费',
+            },
+        ]
+    },
+    {
+        id: 6,
+        label: '5.科研活动费',
+        children: [
+            {
+                id: 60,
+                label: '资料费',
+            },
+            {
+                id: 61,
+                label: '数据/样本采集费',
+            },
+            {
+                id: 62,
+                label: '测试化验加工费',
+            },
+            {
+                id: 63,
+                label: '燃料动力费',
+            },
+            {
+                id: 64,
+                label: '办公费',
+            },
+            {
+                id: 65,
+                label: '印刷/出版费',
+            },
+            {
+                id: 66,
+                label: '知识产权事务费',
+            },
+            {
+                id: 67,
+                label: '车辆使用费',
+            },
+        ]
+    },
+    {
+        id: 7,
+        label: '6.科研服务费',
+        children: [
+            {
+                id: 70,
+                label: '会议/会务费',
+            },
+            {
+                id: 71,
+                label: '差旅费',
+            },
+            {
+                id: 72,
+                label: '国内协作费',
+            },
+            {
+                id: 73,
+                label: '国际合作交流费',
+            },
+            {
+                id: 74,
+                label: '专家咨询费',
+            },
+        ]
+    },
+    {
+        id: 8,
+        label: '7.人员和劳务补助费',
+        children: [
+            {
+                id: 80,
+                label: '人员劳务费',
+            },
+        ]
+    },
+    {
+        id: 9,
+        label: '（二）间接费用',
+    },
+    {
+        id: 10,
+        label: '绩效支出',
+    },
+];
