@@ -1,8 +1,7 @@
-
 <template>
     <div>
         <div style="margin-top: 10px;"></div>
-        <el-table :data="tableDataList" border height="550px" v-loading="loading" @expand-change="handleExpandChange" >
+        <el-table :data="tableDataList" border :cell-style="columnStyle" height="550px" v-loading="loading" @expand-change="handleExpandChange">
             <!-- 展开行功能 -->
             <el-table-column type="expand" label="操作" cell-class-name="custom-cell-bg">
                 <template slot-scope="props">
@@ -10,9 +9,9 @@
                         <!-- 子节点的具体信息展示，这里以名称为例，根据需要添加更多信息 -->
                         <el-table-column type="index" label="序号" align="center" cell-class-name="custom-cell-bg">
                         </el-table-column>
-                        <el-table-column align="center" label="预算科目名称" prop="categoryName" cell-class-name="custom-cell-bg">
+                        <el-table-column align="center" label="预算科目名称" prop="categoryName"
+                            cell-class-name="custom-cell-bg">
                         </el-table-column>
-
                         <el-table-column align="center" label="预算">
                             <el-table-column align="center" label="合计" prop="budget">
                             </el-table-column>
@@ -21,7 +20,6 @@
                             <el-table-column align="center" label="自筹经费" prop="selfBudget">
                             </el-table-column>
                         </el-table-column>
-
                         <el-table-column align="center" label="专项已支付" prop="specialPaid"></el-table-column>
                         <el-table-column align="center" label="专项未支付" prop="specialUnpaid"></el-table-column>
                         <el-table-column align="center" label="自筹已支付" prop="selfPaid"></el-table-column>
@@ -31,11 +29,9 @@
                     </el-table>
                 </template>
             </el-table-column>
-
             <!-- 原始列定义 -->
             <el-table-column align="center" label="预算科目名称" prop="categoryName" cell-class-name="custom-cell-bg">
             </el-table-column>
-
             <el-table-column align="center" label="预算">
                 <el-table-column align="center" label="合计" prop="budget">
                 </el-table-column>
@@ -44,7 +40,6 @@
                 <el-table-column align="center" label="自筹经费" prop="selfBudget">
                 </el-table-column>
             </el-table-column>
-
             <el-table-column align="center" label="专项已支付" prop="specialPaid"></el-table-column>
             <el-table-column align="center" label="专项未支付" prop="specialUnpaid"></el-table-column>
             <el-table-column align="center" label="自筹已支付" prop="selfPaid"></el-table-column>
@@ -66,6 +61,17 @@ export default {
         };
     },
     methods: {
+        columnStyle({ row, column, rowIndex, columnIndex }) {
+	          if (columnIndex == 0 || columnIndex == 1) {
+		        //第二三第四列的背景色就改变了2和3都是列数的下标
+		        if (columnIndex == 3 || columnIndex == 4) {
+		          //字体颜色
+		          return "background:#f0f9ff;color:blue;cursor: pointer";
+		        }
+		        return "background:#f0f9ff";
+		      }
+
+	   	 },
         handleExpandChange(row, expandedRows) {
             this.$nextTick(() => {
                 // 检查是否有展开的行，根据实际情况调整
@@ -113,6 +119,7 @@ export default {
 </script>
 <style scoped>
 .custom-bg-color {
-    background-color: #f0f9ff; /* 您希望的表头背景色 */
+    background-color: #f0f9ff;
+    /* 您希望的表头背景色 */
 }
 </style>
