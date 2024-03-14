@@ -60,9 +60,17 @@
                         <template v-slot="scope">
                             <el-button size="mini" type="text" icon="el-icon-tickets"
                                 @click="lookDetail(scope.row.projectId)">详情</el-button>
-                            <el-button size="mini" type="text" icon="el-icon-notebook-2"
-                                @click="handleDisburse(scope.row.projectId)">支出录入
-                            </el-button>
+                            <el-dropdown size="mini" @command="handleDropdownCommand">
+                                <el-button size="mini" type="text" icon="el-icon-notebook-2">支出录入</el-button>
+                                <el-dropdown-menu v-slot="dropdown">
+                                    <el-dropdown-item :command="{ 'command': 'view', 'row': scope.row }"
+                                        icon="el-icon-view">查看
+                                    </el-dropdown-item>
+                                    <el-dropdown-item :command="{ 'command': 'add', 'row': scope.row }"
+                                        icon="el-icon-document-add">录入
+                                    </el-dropdown-item>
+                                </el-dropdown-menu>
+                            </el-dropdown>
                             <el-button size="mini" type="text" icon="el-icon-finished"
                                 @click="handleIncome(scope.row.projectId)">经费到账
                             </el-button>
@@ -70,18 +78,23 @@
                     </el-table-column>
                 </el-table>
                 <!-- 详情打开的界面 -->
-                <el-dialog :visible.sync="dialogDetailLook" width="85%">
-                    <CheckDetail :projectId="Number(projectId)" ></CheckDetail>
+                <el-dialog :visible.sync="dialogDetailLook" width="86%">
+                    <CheckDetail :projectId="Number(projectId)"></CheckDetail>
                 </el-dialog>
                 <!--经费到账-->
                 <el-dialog title="经费到账" :visible.sync="appropriationlDialogVisibleEdit" width="60%"
                     @close="closeIncomeDialog">
-                    <AppropriationAccount :projectId="Number(projectId)" ></AppropriationAccount>
+                    <AppropriationAccount :projectId="Number(projectId)"></AppropriationAccount>
                 </el-dialog>
                 <!--支出录入-->
                 <el-dialog title="支出录入" :visible.sync="expenditureDialogVisibleEdit" width="90%"
                     @close="closeExpenselDialog">
                     <ExpenditureEntry ref="ExpenditureEntry" :projectId="Number(projectId)"></ExpenditureEntry>
+                </el-dialog>
+                <!--支出查看-->
+                <el-dialog title="支出查看" :visible.sync="expenditureDialogVisibleCheck" width="90%"
+                    @close="closeExpenselCheckDialog">
+                    <ExpenditureCheck :projectId="Number(projectId)"></ExpenditureCheck>
                 </el-dialog>
             </div>
             <el-pagination :current-page="queryParam.pageNum" :page-size="queryParam.pageSize"
@@ -98,10 +111,11 @@ import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 import request from '@/utils/request';
 import AppropriationAccount from "@/views/project/components/ExpensesIncome/AppropriationAccount.vue";
 import ExpenditureEntry from "@/views/project/components/ExpenditureEntry.vue";
+import ExpenditureCheck from "@/views/project/components/ExpenditureCheck.vue";
 import CheckDetail from "@/views/project/components/ExpensesIncome/checkExpensesIncome/CheckDetail.vue";
 
 export default {
-    components: {CheckDetail,  ExpenditureEntry,AppropriationAccount},
+    components: { CheckDetail, ExpenditureEntry, AppropriationAccount, ExpenditureCheck },
     data() {
         return {
             dialogDetailLook: false,
@@ -119,6 +133,7 @@ export default {
             dialogExpenseLook: false,
             appropriationlDialogVisibleEdit: false,
             expenditureDialogVisibleEdit: false,
+            expenditureDialogVisibleCheck: false,
             datas: {
                 "projectId": undefined,
                 "ipName": undefined,
@@ -250,11 +265,6 @@ export default {
             this.ipId = undefined;
             this.checkmembers();
         },
-        //支出录入
-        handleDisburse(projectId) {
-            this.expenditureDialogVisibleEdit = true;
-            this.projectId = projectId;
-        },
         lookDetail(projectId) {
             this.dialogDetailLook = true;
             this.projectId = projectId;
@@ -266,9 +276,6 @@ export default {
         },
         closeIncomeDialog() {
             this.appropriationlDialogVisibleEdit = false;
-            // if (this.$refs.ExpenditureEntry) {
-            //     this.$refs.ExpenditureEntry.clearDataOnPageClose();
-            // }
         },
         closeExpenseDialogLook() {
             this.resetQuery();
@@ -282,6 +289,9 @@ export default {
             if (this.$refs.ExpenditureEntry) {
                 this.$refs.ExpenditureEntry.clearDataOnPageClose();
             }
+        },
+        closeExpenselCheckDialog() {
+            this.expenditureDialogVisibleCheck = false;
         },
         // 查看经费列表
         checkfunds() {
@@ -299,6 +309,16 @@ export default {
                 .catch((error) => {
                     console.error('获取经费数据时出错：', error);
                 });
+        },
+        handleDropdownCommand(command) {
+            if (command.command === 'view') {
+                this.expenditureDialogVisibleCheck = true;
+                this.projectId = command.row.projectId;
+            } else if (command.command === 'add') {
+                // 处理新增操作，可以添加相应的逻辑
+                this.projectId = command.row.projectId;
+                this.expenditureDialogVisibleEdit = true; // 处理新增操作
+            }
         },
         sizeChangeHandle(val) {
             this.$set(this.queryParam, 'pageSize', val);
