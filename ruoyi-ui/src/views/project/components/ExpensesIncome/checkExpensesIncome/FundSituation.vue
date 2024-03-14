@@ -296,6 +296,26 @@ export default {
             // this.tableDataList[4].children[1].totalPaid = newVal.projectBalance.;
             // this.tableDataList[4].children[1].totalUnpaid = newVal.projectBalance.;
 
+            /* 材料费 */
+            this.tableDataList[5].budget = 10;
+            this.tableDataList[5].specialBudget = newVal.projectFunds.clfZxZj;
+            this.tableDataList[5].selfBudget = newVal.projectFunds.clfZcZj;
+            this.tableDataList[5].specialPaid = newVal.projectBalance.clfZxZjPaid;
+            this.tableDataList[5].specialUnpaid = newVal.projectBalance.clfZxZjUnpaid;
+            this.tableDataList[5].selfPaid = newVal.projectBalance.clfZcZjPaid;
+            this.tableDataList[5].selfUnpaid = newVal.projectBalance.clfZcZjUnpaid;
+            // this.tableDataList[5].totalPaid = newVal.projectBalance.kyhdfZxZjUnpaid;
+            // this.tableDataList[5].totalUnpaid = newVal.projectBalance.kyhdfZxZjUnpaid;
+            /* 材料费_材料费 */
+            this.tableDataList[5].children[0].specialBudget = newVal.projectFunds.clfClfZxZj;
+            this.tableDataList[5].children[0].selfBudget = newVal.projectFunds.clfClfZcZj;
+            this.tableDataList[5].children[0].specialPaid = newVal.projectBalance.clfClfZxZjPaid;
+            this.tableDataList[5].children[0].specialUnpaid = newVal.projectBalance.clfClfZxZjUnpaid;
+            this.tableDataList[5].children[0].selfPaid = newVal.projectBalance.clfClfZcZjPaid;
+            this.tableDataList[5].children[0].selfUnpaid = newVal.projectBalance.clfClfZcZjUnpaid;
+            // this.tableDataList[5].children[0].totalPaid = newVal.projectBalance.kyhdfZxZjUnpaid;
+            // this.tableDataList[5].children[0].totalUnpaid = newVal.projectBalance.kyhdfZxZjUnpaid;
+
             /* 科研活动费 */
             this.tableDataList[6].budget = 10;
             this.tableDataList[6].specialBudget = newVal.projectFunds.kyhdfZcZj;
@@ -452,21 +472,6 @@ export default {
             this.tableDataList[8].children[0].selfUnpaid = newVal.projectBalance.ryhlwbzfRylwZcZjUnpaid;
             // this.tableDataList[8].children[0].totalPaid = newVal.projectBalance.kyhdfZxZjUnpaid;
             // this.tableDataList[8].children[0].totalUnpaid = newVal.projectBalance.kyhdfZxZjUnpaid;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         }
     },
 };
