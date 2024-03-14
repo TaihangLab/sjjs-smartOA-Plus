@@ -25,11 +25,25 @@
 import { categoryOptions3 } from "@/views/project/components/fundkeys";
 
 export default {
+    props: {
+        checkOthers: {
+            type: Array,
+            required: true,
+        },
+    },
     data() {
         return {
             tableDataList: categoryOptions3,
             loading: false, // Assuming you have a loading state
         };
+    },
+    watch: {
+        checkOthers: {
+            handler(newVal) {
+                this.handleData(newVal);
+            },
+            immediate: true, // 立即执行一次
+        },
     },
     methods: {
         columnStyle({ row, column, rowIndex, columnIndex }) {
@@ -58,18 +72,25 @@ export default {
                 return 'row-hover';
             }
             return '';
+        },
+        handleData(newVal) {
+            this.tableDataList[0].budget = 10;
+            this.tableDataList[0].specialBudget = 11;
+            this.tableDataList[0].selfBudget = 12;
+            this.tableDataList[0].specialPaid = 13;
+            this.tableDataList[0].specialUnpaid = 14;
+            this.tableDataList[0].selfPaid = 15;
+            this.tableDataList[0].selfUnpaid = 16;
+            this.tableDataList[0].totalPaid = 17;
+            this.tableDataList[0].totalUnpaid = 18;
+            this.tableDataList[2][0].totalUnpaid = 18;
         }
     },
 };
 </script>
 <style scoped>
-.row-hover {
-    background-color: #eef1f6 !important;
-    /* 悬浮行的背景色 */
-}
-
 ::v-deep .el-table__body tr.current-row>td {
-    background-color: rgb(44, 133, 44) !important;
+    background-color: rgb(57, 133, 57) !important;
     color: #eef1f6
 }
 </style>

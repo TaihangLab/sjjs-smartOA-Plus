@@ -132,7 +132,7 @@
                 </CheckAppropriationAccount>
             </el-tab-pane>
             <el-tab-pane label="其他" name="fourth">
-                <FundSituation>
+                <FundSituation  :checkOthers="this.checkOthers">
                 </FundSituation>
             </el-tab-pane>
         </el-tabs>
@@ -157,6 +157,7 @@ export default {
         return {
             // 遮罩层
             loading: true,
+            checkOthers: undefined,
             appropriationAccount: undefined,
             projectdescription: undefined,
             expenditureEntry:undefined,
@@ -187,6 +188,7 @@ export default {
                 this.checkDetail();
                 this.checkExpenditureEntryDetail();
                 this.checkFundsReceivedDetail();
+                this.checkOther();
             },
             immediate: true, // 立即执行一次
         },
@@ -315,6 +317,25 @@ export default {
             })
                 .then((resp) => {
                     this.appropriationAccount = resp.data;
+                    loading.close();
+                })
+                .catch((error) => {
+                    console.error('获取用户数据时出错：', error);
+                    loading.close();
+                });
+        },
+        // 查看其他
+        checkOther() {
+            // 使用正确的用户列表接口，假设接口为 /user/list
+            request({
+                url: '/project/balance/fundsAndBalance',
+                method: 'get',
+                params: {
+                    projectId: this.$props.projectId,
+                },
+            })
+                .then((resp) => {
+                    this.checkOthers = resp.data;
                     loading.close();
                 })
                 .catch((error) => {
