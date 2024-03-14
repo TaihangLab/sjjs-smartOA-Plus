@@ -4,8 +4,8 @@
             <el-tab-pane label="基本信息" name="first">
                 <div style="margin-top: 10px;"></div>
                 <el-descriptions-item label="基本信息" :span="2"></el-descriptions-item>
-                <el-descriptions class="margin-top" title="" :column="2" :size="size" :labelStyle="{ width: '19%' }"
-                    :contentStyle="{ width: '32%' }" border>
+                <el-descriptions class="margin-top" title="" :column="3" :size="size" :labelStyle="{ width: '15%' }"
+                    :contentStyle="{ width: '20%' }" border>
                     <el-descriptions-item label="项目名称">{{
                     this.lookDetail.projectInfoVO.assignedSubjectName
                 }}

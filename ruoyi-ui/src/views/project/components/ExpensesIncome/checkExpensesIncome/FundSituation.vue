@@ -89,8 +89,18 @@ export default {
 };
 </script>
 <style scoped>
+.row-hover {
+    background-color: #eef1f6 !important;
+    /* 悬浮行的背景色 */
+}
+
+::v-deep .el-table tbody tr:hover>td {
+    background-color: rgb(44, 133, 44) !important;
+    color: #eef1f6
+}
+
 ::v-deep .el-table__body tr.current-row>td {
-    background-color: rgb(57, 133, 57) !important;
+    background-color: rgb(44, 133, 44) !important;
     color: #eef1f6
 }
 </style>
