@@ -84,6 +84,7 @@ public class ProjectMilestoneBo extends BaseEntity {
      */
     private Long milestoneCategoryId;
 
+
     /**
      * 大事记对应的分类
      */
