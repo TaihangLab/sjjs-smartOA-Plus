@@ -4,7 +4,11 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="拨款金额" prop="amountReceived">
-                        <el-input v-model="form.amountReceived" style="width: 192px"></el-input>
+                        <el-input v-model="form.amountReceived" style="width: 192px">
+                            <template v-slot:append>
+                                <span style="font-size: 12px; color: #F56C6C;">万元</span>
+                            </template>
+                        </el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">

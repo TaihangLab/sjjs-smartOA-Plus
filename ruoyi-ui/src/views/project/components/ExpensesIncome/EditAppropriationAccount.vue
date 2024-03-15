@@ -4,14 +4,18 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="拨款金额" prop="amountReceived">
-                        <el-input v-model="form.amountReceived" style="width: 192px"></el-input>
+                        <el-input v-model="form.amountReceived" style="width: 192px">
+                            <template v-slot:append>
+                                <span style="font-size: 12px; color: #F56C6C;">万元</span>
+                            </template>
+                        </el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="到账类型" prop="receivedType">
-                        <el-select v-model="form.receivedType" placeholder="请选择类型">
+                        <el-select v-model="form.receivedType" placeholder="请选择类型" style="width: 192px">
                             <el-option v-for="item in paymentTypes" :key="item.typeId" :label="item.typeName"
-                                       :value="item.typeId" :disabled="item.status === 1"></el-option>
+                                       :value="item.typeId" :disabled="item.status === 1" ></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>

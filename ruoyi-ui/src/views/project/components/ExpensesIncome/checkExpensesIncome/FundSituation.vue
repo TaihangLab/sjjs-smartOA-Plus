@@ -2,10 +2,18 @@
     <div>
         <div style="margin-top: 10px;"></div>
         <el-table @row-mouseenter="handleRowMouseEnter" @row-mouseleave="handleRowMouseLeave"
-            :row-class-name="getRowClassName" :data="tableDataList" style="width: 100%;"
-            height="550px" row-key="id" border :cell-style="columnStyle"
+            :row-class-name="getRowClassName" :data="tableDataList" style="width: 100%"
+            height="569px" row-key="id" border :cell-style="columnStyle"
             :tree-props="{ children: 'children', hasChildren: 'hasChildren' }" highlight-current-row>
-            <el-table-column prop="label" label="预算科目名称" sortable width="180"></el-table-column>
+            <el-table-column prop="label" width="180" >
+                <template slot="header" slot-scope="scope">
+                    <div style="text-align: center;">
+                        <span>预算科目名称</span>
+                        <br>
+                        <span style="font-size: 12px; color: #F56C6C;">（单位：万元）</span>
+                    </div>
+                </template>
+            </el-table-column>
             <el-table-column align="center" label="预算">
                 <el-table-column align="center" label="合计" prop="budget"></el-table-column>
                 <el-table-column align="center" label="专项经费" prop="specialBudget"></el-table-column>
@@ -74,6 +82,28 @@ export default {
             return '';
         },
         handleData(newVal) {
+            /* 一、经费支出 */
+            this.tableDataList[0].budget = newVal.projectFunds.totalFundsAll;
+            this.tableDataList[0].specialBudget = newVal.projectFunds.totalFundsZx;
+            this.tableDataList[0].selfBudget = newVal.projectFunds.totalFundsZc;
+            this.tableDataList[0].specialPaid = newVal.projectBalance.totalFundsZxPaid;
+            this.tableDataList[0].specialUnpaid = newVal.projectBalance.totalFundsZxUnpaid;
+            this.tableDataList[0].selfPaid = newVal.projectBalance.totalFundsZcPaid;
+            this.tableDataList[0].selfUnpaid = newVal.projectBalance.totalFundsZcUnpaid;
+            this.tableDataList[0].totalPaid = newVal.projectBalance.totalFundsAllPaid;
+            this.tableDataList[0].totalUnpaid = newVal.projectBalance.totalFundsAllUnpaid;
+
+            /* （一）直接费用 */
+            this.tableDataList[1].budget = 10;
+            this.tableDataList[1].specialBudget = newVal.projectFunds.totalFundsZxZj;
+            this.tableDataList[1].selfBudget = newVal.projectFunds.totalFundsZcZj;
+            this.tableDataList[1].specialPaid = newVal.projectBalance.totalFundsZxZjPaid;
+            this.tableDataList[1].specialUnpaid = newVal.projectBalance.totalFundsZxZjUnpaid;
+            // this.tableDataList[1].selfPaid = newVal.projectBalance.;
+            // this.tableDataList[1].selfUnpaid = newVal.projectBalance.;
+            // // this.tableDataList[1].totalPaid = newVal.projectBalance.;
+            // // this.tableDataList[1].totalUnpaid = newVal.projectBalance.;
+
             /* 设备费 */
             this.tableDataList[2].budget = 10;
             this.tableDataList[2].specialBudget = newVal.projectFunds.sbfZxZj;
@@ -398,6 +428,7 @@ export default {
             this.tableDataList[6].children[7].selfUnpaid = newVal.projectBalance.kyhdfClsyZcZjUnpaid;
             // this.tableDataList[6].children[7].totalPaid = newVal.projectBalance.kyhdfZxZjUnpaid;
             // this.tableDataList[6].children[7].totalUnpaid = newVal.projectBalance.kyhdfZxZjUnpaid;
+
             /* 科研服务费 */
             this.tableDataList[7].budget = 10;
             this.tableDataList[7].specialBudget = newVal.projectFunds.kyfwfZxZj;
@@ -453,6 +484,7 @@ export default {
             this.tableDataList[7].children[4].selfUnpaid = newVal.projectBalance.kyfwfZjzxZcZjUnpaid;
             // this.tableDataList[7].children[4].totalPaid = newVal.projectBalance.kyhdfZxZjUnpaid;
             // this.tableDataList[7].children[4].totalUnpaid = newVal.projectBalance.kyhdfZxZjUnpaid;
+
             /* 人员和劳务补助费 */
             this.tableDataList[8].budget = 10;
             this.tableDataList[8].specialBudget = newVal.projectFunds.ryhlwbzfZxZj;
@@ -472,6 +504,28 @@ export default {
             this.tableDataList[8].children[0].selfUnpaid = newVal.projectBalance.ryhlwbzfRylwZcZjUnpaid;
             // this.tableDataList[8].children[0].totalPaid = newVal.projectBalance.kyhdfZxZjUnpaid;
             // this.tableDataList[8].children[0].totalUnpaid = newVal.projectBalance.kyhdfZxZjUnpaid;
+
+            /* （二）间接费用 */
+            this.tableDataList[9].budget = 10;
+            this.tableDataList[9].specialBudget = newVal.projectFunds.totalFundsZxJj;
+            this.tableDataList[9].selfBudget = newVal.projectFunds.totalFundsZcJj;
+            this.tableDataList[9].specialPaid = newVal.projectBalance.totalFundsZxJjPaid;
+            this.tableDataList[9].specialUnpaid = newVal.projectBalance.totalFundsZxJjUnpaid;
+            // this.tableDataList[9].selfPaid = newVal.projectBalance.;
+            // this.tableDataList[9].selfUnpaid = newVal.projectBalance.;
+            // // this.tableDataList[9].totalPaid = newVal.projectBalance.;
+            // // this.tableDataList[9].totalUnpaid = newVal.projectBalance.;
+
+            /* 其中：绩效支出 */
+            this.tableDataList[10].budget = 10;
+            this.tableDataList[10].specialBudget = newVal.projectFunds.jxzcZxZj;
+            this.tableDataList[10].selfBudget = newVal.projectFunds.jxzcZcZj;
+            // this.tableDataList[10].specialPaid = newVal.projectBalance.;
+            // this.tableDataList[10].specialUnpaid = newVal.projectBalance.;
+            // this.tableDataList[10].selfPaid = newVal.projectBalance.;
+            // this.tableDataList[10].selfUnpaid = newVal.projectBalance.;
+            // // this.tableDataList[10].totalPaid = newVal.projectBalance.;
+            // // this.tableDataList[10].totalUnpaid = newVal.projectBalance.;
         }
     },
 };

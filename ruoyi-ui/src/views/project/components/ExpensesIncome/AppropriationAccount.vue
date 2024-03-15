@@ -15,7 +15,14 @@
         <el-table v-loading="loading" :data="this.appropriationAccount" @selection-change="handleSelectionChange"
                   style="width: 100%; max-height: 500px; overflow-y: auto;" border>
             <el-table-column type="selection" width="50" align="center" />
-            <el-table-column label="拨款金额" align="center" prop="amountReceived" :show-overflow-tooltip="true" width="130"/>
+            <el-table-column align="center" prop="amountReceived" :show-overflow-tooltip="true" width="130">
+                <template slot="header" slot-scope="scope">
+                    <div style="text-align: center;">
+                        <span>拨款金额</span>
+                        <span style="font-size: 12px; color: #F56C6C;">（万元）</span>
+                    </div>
+                </template>
+            </el-table-column>
             <el-table-column label="到账类型" align="center" prop="receivedType" :formatter="paymentType" :show-overflow-tooltip="true" width="100"/>
             <el-table-column label="来款单位" align="center" prop="receivedFrom" :show-overflow-tooltip="true" width="150"/>
             <el-table-column label="到账时间" align="center" prop="receivedDate" :show-overflow-tooltip="true" width="130"/>
