@@ -51,5 +51,5 @@ public class ProjectMilestoneVo {
     /**
      * 项目大事记分类列表
      */
-    private Set<ProjectMilestoneCategoryEnum> CategoryTypeSet;
+    private Set<ProjectMilestoneCategoryEnum> categoryTypeSet;
 }

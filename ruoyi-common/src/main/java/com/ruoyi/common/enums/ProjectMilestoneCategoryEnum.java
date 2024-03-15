@@ -5,9 +5,11 @@ import com.baomidou.mybatisplus.annotation.IEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
 @AllArgsConstructor
+@ToString
 public enum ProjectMilestoneCategoryEnum implements IEnum<Integer> {
 
     DECLARATION(1,"申报书"),
