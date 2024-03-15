@@ -718,6 +718,6 @@ export const categoryOptions3 = [
     },
     {
         id: 10,
-        label: '绩效支出',
+        label: '其中：绩效支出',
     },
 ];
