@@ -1,5 +1,6 @@
 package com.ruoyi.project.service.impl;
 
+import cn.hutool.core.lang.Opt;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
@@ -30,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * 项目大事记
@@ -135,10 +137,17 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
             projectMilestoneOssMapper.delete(new LambdaQueryWrapper<ProjectMilestoneOss>()
                 .in(ProjectMilestoneOss::getMilestoneId, milestoneIds));
         }
+        //2.删除该项目下的大事记分类关系
+        if (!milestoneIds.isEmpty()) {
+            projectMilestoneCategoryRelationMapper.delete(new LambdaQueryWrapper<ProjectMilestoneCategoryRelation>()
+                .in(ProjectMilestoneCategoryRelation::getMilestoneId, milestoneIds));
+        }
 
         // 3. 删除该项目下的所有大事记
         return projectMilestoneMapper.delete(new LambdaQueryWrapper<ProjectMilestone>()
             .eq(ProjectMilestone::getProjectId, projectId));
+
+
     }
 
     /**
@@ -151,13 +160,22 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
     @Transactional(rollbackFor = Exception.class)
     public int deleteProjectMilestone(Long milestoneId) {
         // 先检查是否存在与 milestoneId 相关的 ProjectMilestoneOss 记录
-        long count = projectMilestoneOssMapper.selectCount(new LambdaQueryWrapper<ProjectMilestoneOss>()
+        long count1 = projectMilestoneOssMapper.selectCount(new LambdaQueryWrapper<ProjectMilestoneOss>()
             .eq(ProjectMilestoneOss::getMilestoneId, milestoneId));
 
         // 如果存在相关记录，则执行删除操作；否则直接返回
-        if (count > 0) {
+        if (count1 > 0) {
             projectMilestoneOssMapper.delete(new LambdaQueryWrapper<ProjectMilestoneOss>()
                 .eq(ProjectMilestoneOss::getMilestoneId, milestoneId));
+        }
+
+        //检查是否存在与milestoneId相关的ProjectMilestoneCategoryRelation记录
+        Long count2 = projectMilestoneCategoryRelationMapper.selectCount(new LambdaQueryWrapper<ProjectMilestoneCategoryRelation>()
+            .eq(ProjectMilestoneCategoryRelation::getMilestoneId, milestoneId));
+        //如果存在相关记录，则删除，否则直接返回
+        if (count2 > 0) {
+            projectMilestoneCategoryRelationMapper.delete(new LambdaQueryWrapper<ProjectMilestoneCategoryRelation>().
+                eq(ProjectMilestoneCategoryRelation::getMilestoneId, milestoneId));
         }
 
         // 删除 ProjectMilestone 表中的指定 milestoneId 的记录
@@ -174,6 +192,8 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int updateMilestone(ProjectMilestoneBo projectMilestoneBo) {
+
+
         if (projectMilestoneBo == null) {
             throw new IllegalArgumentException("projectMilestoneBo cannot be null");
         }
@@ -182,8 +202,10 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
         lambdaUpdateWrapper.set(ProjectMilestone::getMilestoneRemark, projectMilestoneBo.getMilestoneRemark())
             .set(ProjectMilestone::getMilestoneTitle, projectMilestoneBo.getMilestoneTitle())
             .set(ProjectMilestone::getMilestoneDate, projectMilestoneBo.getMilestoneDate());
+
         int updatedRows = projectMilestoneMapper.update(new ProjectMilestone(), lambdaUpdateWrapper);
         if (updatedRows > 0) {
+
             // 删除旧的关联关系
             Long milestoneId = projectMilestoneBo.getMilestoneId();
             projectMilestoneOssMapper.delete(new LambdaQueryWrapper<ProjectMilestoneOss>()
@@ -199,8 +221,29 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
                     projectMilestoneOssMapper.insert(projectMilestoneOss);
                 }
             }
+
+            updateMilestoneCategoryRelation(projectMilestoneBo);
+
         }
         return updatedRows;
+    }
+
+
+    private void updateMilestoneCategoryRelation(ProjectMilestoneBo projectMilestoneBo) {
+//        删除旧的分类关系
+        Long milestoneId = projectMilestoneBo.getMilestoneId();
+        projectMilestoneCategoryRelationMapper.delete(new LambdaQueryWrapper<ProjectMilestoneCategoryRelation>()
+            .eq(ProjectMilestoneCategoryRelation::getMilestoneId, milestoneId));
+//        插入新的分类关系
+        List<ProjectMilestoneCategoryRelation> projectMilestoneCategoryRelationList = projectMilestoneBo.getProjectMilestoneCategoryRelationList();
+       if(!projectMilestoneCategoryRelationList.isEmpty()) {
+           for (ProjectMilestoneCategoryRelation projectMilestoneCategoryRelation : projectMilestoneCategoryRelationList) {
+               Long milestoneCategoryId = projectMilestoneCategoryRelation.getMilestoneCategoryId();
+               projectMilestoneCategoryRelation.setMilestoneId(milestoneId);
+               projectMilestoneCategoryRelation.setMilestoneCategoryId(milestoneCategoryId);
+               projectMilestoneCategoryRelationMapper.insert(projectMilestoneCategoryRelation);
+           }
+       }
     }
 
 
