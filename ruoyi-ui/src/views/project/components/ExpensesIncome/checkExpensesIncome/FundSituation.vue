@@ -2,7 +2,7 @@
     <div>
         <div style="margin-top: 10px;"></div>
         <el-table @row-mouseenter="handleRowMouseEnter" @row-mouseleave="handleRowMouseLeave"
-            :row-class-name="getRowClassName" :data="tableDataList" style="width: 100%;margin-bottom: 20px;"
+            :row-class-name="getRowClassName" :data="tableDataList" style="width: 100%;"
             height="550px" row-key="id" border :cell-style="columnStyle"
             :tree-props="{ children: 'children', hasChildren: 'hasChildren' }" highlight-current-row>
             <el-table-column prop="label" label="预算科目名称" sortable width="180"></el-table-column>

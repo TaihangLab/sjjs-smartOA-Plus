@@ -1,8 +1,8 @@
 <template>
     <div class="block">
         <div v-if="timelineItems.length" class="fixed-container">
-            <el-input placeholder="请输入关键字" v-model="searchKeyword" class="input-with-select" size="mini" :clearable="true"
-                @keyup.enter.native="handleQuery" style="border-radius: 0;"></el-input>
+            <el-input placeholder="请输入关键字" v-model="searchKeyword" class="input-with-select" size="mini"
+                :clearable="true" @keyup.enter.native="handleQuery" style="border-radius: 0;"></el-input>
             <el-date-picker v-model="dateRange" type="daterange" unlink-panels clearable start-placeholder="请输入查询范围"
                 end-placeholder="如：2000-01-01" value-format="yyyy-MM-dd" @keyup.enter.native="handleQuery"
                 :picker-options="pickerOptions" size="mini"></el-date-picker>
@@ -15,19 +15,21 @@
                 <el-card style="width: 90%; display: flex; flex-direction: column;">
                     <h4>名称：{{ item.milestoneTitle }}</h4>
                     <p>详情：{{ item.milestoneRemark }}</p>
+                    <el-tag v-for="(type, index) in item.categoryTypeSet" :key="index" :type="getLabelType(type)"
+                        effect="light" plain size="mini" :style="{ color: getTextColor(type), marginRight: '8px' }">
+                        {{ getLabel(type) }}
+                    </el-tag>
                     <div class="attachments-container">
-<!--                        <el-link v-for="(oss, ossIndex) in item.sysOsses" :key="ossIndex" :href="oss.url" target="_blank"-->
-<!--                            :underline="false" class="attachment-item">-->
-<!--                            {{ oss.originalName }}-->
-<!--                        </el-link>-->
-                        <el-button v-for="(oss, ossIndex) in item.sysOsses" :key="ossIndex" size="mini" type="text" icon="el-icon-download" @click="handleDownload(oss)">
+                        <el-button v-for="(oss, ossIndex) in item.sysOsses" :key="ossIndex" size="mini" type="text"
+                            icon="el-icon-download" @click="handleDownload(oss)">
                             {{ oss.originalName }}</el-button>
                     </div>
                     <div style="margin-top: 10px;">
                         <el-button type="success" icon="el-icon-edit" size="mini" circle @click="editMilestone(item)"
                             v-if="buttonType === 1" v-hasPermi="['project:my:milestoneedit']"></el-button>
                         <el-button type="danger" icon="el-icon-delete" size="mini" circle
-                            @click="confirmDeleteMilestone(item)" v-if="buttonType === 1" v-hasPermi="['project:my:milestonedelete']"></el-button>
+                            @click="confirmDeleteMilestone(item)" v-if="buttonType === 1"
+                            v-hasPermi="['project:my:milestonedelete']"></el-button>
                     </div>
                 </el-card>
             </el-timeline-item>
@@ -46,8 +48,8 @@
                     </el-form-item>
                     <el-form-item label="时间" prop="milestoneDate">
                         <el-col :span="11">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="form.milestoneDate" style="width: 100%;"
-                                value-format="yyyy-MM-dd"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="form.milestoneDate"
+                                style="width: 100%;" value-format="yyyy-MM-dd"></el-date-picker>
                         </el-col>
                     </el-form-item>
                     <el-form-item label="详请" prop="milestoneRemark">
@@ -108,6 +110,33 @@ export default {
                 ossIds: [],
             },
             ossids: [],
+            categoryTypeSet: [],
+            labelMappings: {
+                0: '其他',
+                1: '大事记标签',
+                2: '申报书',
+                3: '任务书',
+                4: '科研协作合同',
+                5: '专项经费文件',
+                6: '经费管理表',
+                7: '中期文件',
+                8: '验收文件',
+                9: '结题文件',
+                10: '知识产权',
+                11: '论文',
+                12: '专利',
+                13: '软著',
+                14: '标准',
+                15: '示范应用',
+                16: '获奖',
+                17: '报告',
+                18: '专家咨询',
+                19: '经费变更',
+                20: '人员变更',
+                21: '批复文件',
+                22: '通知',
+                23: '合同'
+            },
             rules: {
                 milestoneTitle: [
                     { required: true, message: '请输入名称', trigger: 'blur' },
@@ -166,30 +195,9 @@ export default {
     },
 
     mounted() {
-        // 获取数据
-        request({
-            url: '/project/list/milestonequery',
-            method: 'post',
-            data: {
-                projectId: this.projectId,
-                keyword: this.keyword,
-                milestoneStaTime: this.milestoneStaTime,
-                milestoneEndTime: this.milestoneEndTime
-            }
-        })
-            .then((resp) => {
-                // 根据 milestoneDate 对 timelineItems 进行排序
-                this.timelineItems = resp.data.sort((a, b) => {
-                    return new Date(a.milestoneDate) - new Date(b.milestoneDate);
-                });
-                this.timelineItems.forEach(item => {
-                    this.milestoneIds.push(item.milestoneId);
-                });
-            })
-            .catch((error) => {
-                console.error('获取数据时出错：', error);
-            })
+        this.fetchMilestoneList();
     },
+
     methods: {
         /** 下载按钮操作 */
         handleDownload(row) {
@@ -262,7 +270,7 @@ export default {
                 milestoneStaTime: this.milestoneStaTime,
                 milestoneEndTime: this.milestoneEndTime,
             };
-            // 重新获取数据逻辑
+
             request({
                 url: '/project/list/milestonequery',
                 method: 'post',
@@ -274,8 +282,23 @@ export default {
                     this.timelineItems = resp.data.sort((a, b) => {
                         return new Date(a.milestoneDate) - new Date(b.milestoneDate);
                     });
+                    // 清空 milestoneIds 数组
+                    this.milestoneIds = [];
+                    // 清空 categoryTypeSet 数组
+                    this.categoryTypeSet = [];
+                    // 获取标签数据
+                    // 获取标签数据
                     this.timelineItems.forEach(item => {
+                        console.log('Item CategoryTypeSet:', item.categoryTypeSet); // 添加这行
                         this.milestoneIds.push(item.milestoneId);
+                        // 假设标签数据存储在 item.categoryTypeSet 中
+                        // 将响应式数组转换为普通数组，然后再推入 categoryTypeSet
+                        const types = Array.from(item.categoryTypeSet);
+                        types.forEach(type => {
+                            if (!this.categoryTypeSet.includes(type)) {
+                                this.categoryTypeSet.push(type);
+                            }
+                        });
                     });
                     this.$forceUpdate();
                 })
@@ -283,16 +306,116 @@ export default {
                     console.error('获取数据时出错：', error);
                 });
         },
-        handleQuery() {
-            // 设置搜索参数
-            const searchData = {
-                projectId: this.projectId,
-                keyword: this.searchKeyword,
-                milestoneStaTime: this.dateRange[0],
-                milestoneEndTime: this.dateRange[1],
-            };
-
-            this.fetchMilestoneList(searchData);
+        getLabelType(typeId) {
+            // 根据标签类型返回不同的标签类型
+            switch (typeId) {
+                case 0:
+                    return 'default'; // 其他
+                case 1:
+                    return 'danger'; // 大事记标签
+                case 2:
+                    return 'primary'; // 申报书
+                case 3:
+                    return 'success'; // 任务书
+                case 4:
+                    return 'info'; // 科研协作合同
+                case 5:
+                    return 'warning'; // 专项经费文件
+                case 6:
+                    return 'purple'; // 经费管理表
+                case 7:
+                    return 'deep-blue'; // 中期文件
+                case 8:
+                    return 'teal'; // 验收文件
+                case 9:
+                    return 'amber'; // 结题文件
+                case 10:
+                    return 'cyan'; // 知识产权
+                case 11:
+                    return 'flame'; // 论文
+                case 12:
+                    return 'purple'; // 专利
+                case 13:
+                    return 'amber'; // 软著
+                case 14:
+                    return 'blue'; // 标准
+                case 15:
+                    return 'success'; // 示范应用
+                case 16:
+                    return 'danger'; // 获奖
+                case 17:
+                    return 'purple'; // 报告
+                case 18:
+                    return 'info'; // 专家咨询
+                case 19:
+                    return 'cyan'; // 经费变更
+                case 20:
+                    return 'deep-blue'; // 人员变更
+                case 21:
+                    return 'teal'; // 批复文件
+                case 22:
+                    return 'flame'; // 通知
+                case 23:
+                    return 'default'; // 合同
+                default:
+                    return 'default';
+            }
+        },
+        getLabel(typeId) {
+            return this.labelMappings[typeId] || '未知'; // 如果找不到对应的文字，返回 '未知'
+        },
+        getTextColor(typeId) {
+            // 根据标签类型返回不同的字体颜色
+            switch (typeId) {
+                case 0:
+                    return '#999'; // 其他 - 灰色
+                case 1:
+                    return '#f50'; // 大事记标签 - 红色
+                case 2:
+                    return '#2db7f5'; // 申报书 - 蓝色
+                case 3:
+                    return '#87d068'; // 任务书 - 绿色
+                case 4:
+                    return '#eb2f96'; // 科研协作合同 - 紫红色
+                case 5:
+                    return '#ff6600'; // 专项经费文件 - 橙色
+                case 6:
+                    return '#722ed1'; // 经费管理表 - 紫色
+                case 7:
+                    return '#1890ff'; // 中期文件 - 深蓝色
+                case 8:
+                    return '#52c41a'; // 验收文件 - 青绿色
+                case 9:
+                    return '#fa8c16'; // 结题文件 - 琥珀色
+                case 10:
+                    return '#13c2c2'; // 知识产权 - 青色
+                case 11:
+                    return '#fa541c'; // 论文 - 火焰色
+                case 12:
+                    return '#722ed1'; // 专利 - 紫色
+                case 13:
+                    return '#fa8c16'; // 软著 - 琥珀色
+                case 14:
+                    return '#2db7f5'; // 标准 - 蓝色
+                case 15:
+                    return '#87d068'; // 示范应用 - 绿色
+                case 16:
+                    return '#f50'; // 获奖 - 红色
+                case 17:
+                    return '#722ed1'; // 报告 - 紫色
+                case 18:
+                    return '#eb2f96'; // 专家咨询 - 紫红色
+                case 19:
+                    return '#13c2c2'; // 经费变更 - 青色
+                case 20:
+                    return '#1890ff'; // 人员变更 - 深蓝色
+                case 21:
+                    return '#52c41a'; // 批复文件 - 青绿色
+                case 22:
+                    return '#fa541c'; // 通知 - 火焰色
+                case 23:
+                    return '#108ee9'; // 合同 - 默认蓝色
+            }
         },
         handleQuery() {
             // 设置搜索参数
@@ -314,10 +437,8 @@ export default {
         close() {
             this.$refs.eventsDialogEdit.close();
         },
-        mounted() {
-            this.fetchMilestoneList();
-        },
     },
+
 };
 </script>
 
@@ -345,5 +466,3 @@ export default {
     margin-right: 20px;
 }
 </style>
-
-

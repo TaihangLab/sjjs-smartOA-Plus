@@ -165,7 +165,8 @@ export default {
             hasLeading: {
                 0: '否',
                 1: '是',
-            }, projectLevel: {
+            }, 
+            projectLevel: {
                 0: '国家级',
                 1: '省部级',
                 2: '企业级',
