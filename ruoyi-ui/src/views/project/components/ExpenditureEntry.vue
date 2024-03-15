@@ -40,7 +40,13 @@
             </el-table-column>
             <el-table-column label="三级科目" :resizable="false" align="center" prop="thirdLevelSubject">
             </el-table-column>
-            <el-table-column label="金额" :resizable="false" align="center" prop="amount" width="150px">
+            <el-table-column :resizable="false" align="center" prop="amount" width="150px">
+                <template slot="header" slot-scope="scope">
+                    <div style="text-align: center;">
+                        <span>金额</span>
+                        <span style="font-size: 12px; color: #F56C6C;">（万元）</span>
+                    </div>
+                </template>
             </el-table-column>
         </el-table>
         <!--新增支出录入-->

@@ -5,7 +5,15 @@
             :row-class-name="getRowClassName" :data="tableDataList" style="width: 100%"
             height="569px" row-key="id" border :cell-style="columnStyle"
             :tree-props="{ children: 'children', hasChildren: 'hasChildren' }" highlight-current-row>
-            <el-table-column prop="label" label="预算科目名称" sortable width="180"></el-table-column>
+            <el-table-column prop="label" width="180" >
+                <template slot="header" slot-scope="scope">
+                    <div style="text-align: center;">
+                        <span>预算科目名称</span>
+                        <br>
+                        <span style="font-size: 12px; color: #F56C6C;">（单位：万元）</span>
+                    </div>
+                </template>
+            </el-table-column>
             <el-table-column align="center" label="预算">
                 <el-table-column align="center" label="合计" prop="budget"></el-table-column>
                 <el-table-column align="center" label="专项经费" prop="specialBudget"></el-table-column>
