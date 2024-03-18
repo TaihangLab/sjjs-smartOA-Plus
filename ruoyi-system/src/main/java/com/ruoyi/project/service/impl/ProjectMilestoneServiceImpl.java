@@ -229,6 +229,11 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
     }
 
 
+    /**
+     * 更新项目大事记分类
+     *
+     * @param projectMilestoneBo 修改后的大事记
+     */
     private void updateMilestoneCategoryRelation(ProjectMilestoneBo projectMilestoneBo) {
 //        删除旧的分类关系
         Long milestoneId = projectMilestoneBo.getMilestoneId();
@@ -303,10 +308,13 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
 
 
     /**
-     * 根据大事记id去查对应的类型
+     * 根据大事记id查询对应的类型集合
+     * @param milestoneId 大事记的ID
+     * @return 返回一个TreeSet，包含对应大事记的所有类型枚举
      */
     private Set<ProjectMilestoneCategoryEnum> getCategoryEnumsByMilestoneId(Long milestoneId) {
 
+        // 根据大事记ID查询关联的分类ID集合
         Set<Long> categoryIds = projectMilestoneCategoryRelationMapper.selectList(
                 new LambdaQueryWrapper<ProjectMilestoneCategoryRelation>()
                     .eq(ProjectMilestoneCategoryRelation::getMilestoneId, milestoneId))
@@ -314,6 +322,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
             .map(ProjectMilestoneCategoryRelation::getMilestoneCategoryId)
             .collect(Collectors.toSet());
 
+        // 根据分类ID集合查询对应的分类类型，并转换为TreeSet返回
         return projectMilestoneCategoryMapper.selectList(
                 new LambdaQueryWrapper<ProjectMilestoneCategory>()
                     .in(!categoryIds.isEmpty(), ProjectMilestoneCategory::getMilestoneCategoryId, categoryIds))

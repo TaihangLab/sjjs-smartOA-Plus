@@ -18,7 +18,7 @@ public enum ProjectMilestoneCategoryEnum implements IEnum<Integer> {
 
     RESEARCH_COLLABORATION(3,"科研协作合同"),
 
-    SPECIAL_FUNDS(4,"专项经费相关文件"),
+    SPECIAL_FUNDS(4,"专项经费文件"),
 
     FUND_MANAGEMENT(5,"经费管理表"),
 
@@ -56,8 +56,7 @@ public enum ProjectMilestoneCategoryEnum implements IEnum<Integer> {
 
     CONTRACT(22,"合同"),
 
-    OTHER(0,"其它")
-    ;
+    OTHER(0,"其它");
 
     @EnumValue
     @JsonValue
