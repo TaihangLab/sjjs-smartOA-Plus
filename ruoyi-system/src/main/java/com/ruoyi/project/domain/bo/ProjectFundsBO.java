@@ -26,6 +26,16 @@ public class ProjectFundsBO {
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
     private BigDecimal totalFundsAll = BigDecimal.ZERO;
     /**
+     * 直接经费总额
+     */
+    @DecimalMin(value = "0.000000", message = "金额不能为负数")
+    private BigDecimal totalFundsZj = BigDecimal.ZERO;
+    /**
+     * 间接经费总额
+     */
+    @DecimalMin(value = "0.000000", message = "金额不能为负数")
+    private BigDecimal totalFundsJj = BigDecimal.ZERO;
+    /**
      * 专项经费总额
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
@@ -60,6 +70,11 @@ public class ProjectFundsBO {
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
     private BigDecimal sbfZx = BigDecimal.ZERO;
+    /**
+     * 设备费_直接
+     */
+    @DecimalMin(value = "0.000000", message = "金额不能为负数")
+    private BigDecimal sbfZj = BigDecimal.ZERO;
     /**
      * 专项直接费用
      */
@@ -140,6 +155,11 @@ public class ProjectFundsBO {
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
     private BigDecimal sbfSbzlZcZj = BigDecimal.ZERO;
+    /**
+     * 业务费_直接
+     */
+    @DecimalMin(value = "0.000000", message = "金额不能为负数")
+    private BigDecimal ywfZj;
     /**
      * 业务费_专项_直接
      */

@@ -21,6 +21,14 @@ public class ProjectFundsVO {
      */
     private BigDecimal totalFundsZx;
     /**
+     * 直接经费总额
+     */
+    private BigDecimal totalFundsZj;
+    /**
+     * 间接经费总额
+     */
+    private BigDecimal totalFundsJj;
+    /**
      * 专项到款总额
      */
     private BigDecimal totalFundsZxDk;
@@ -44,6 +52,10 @@ public class ProjectFundsVO {
      * 专项设备费
      */
     private BigDecimal sbfZx;
+    /**
+     * 设备费_直接
+     */
+    private BigDecimal sbfZj;
     /**
      * 专项直接费用
      */
@@ -108,6 +120,10 @@ public class ProjectFundsVO {
      * 设备费_设备租赁费_自筹_直接
      */
     private BigDecimal sbfSbzlZcZj;
+    /**
+     * 业务费_直接
+     */
+    private BigDecimal ywfZj;
     /**
      * 业务费_专项_直接
      */
