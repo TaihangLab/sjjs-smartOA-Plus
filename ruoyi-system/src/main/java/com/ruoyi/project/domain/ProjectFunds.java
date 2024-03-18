@@ -35,6 +35,16 @@ public class ProjectFunds implements Serializable {
     @FundsFieldDescription(value = "项目经费总额")
     private BigDecimal totalFundsAll;
     /**
+     * 直接经费总额
+     */
+    @FundsFieldDescription(value = "直接经费总额")
+    private BigDecimal totalFundsZj;
+    /**
+     * 间接经费总额
+     */
+    @FundsFieldDescription(value = "间接经费总额")
+    private BigDecimal totalFundsJj;
+    /**
      * 专项经费总额
      */
     @FundsFieldDescription(value = "专项经费总额")
@@ -64,6 +74,11 @@ public class ProjectFunds implements Serializable {
      */
     @FundsFieldDescription("专项设备费")
     private BigDecimal sbfZx;
+    /**
+     * 设备费_直接
+     */
+    @FundsFieldDescription("设备费_直接")
+    private BigDecimal sbfZj;
     /**
      * 专项直接费用
      */
@@ -144,6 +159,11 @@ public class ProjectFunds implements Serializable {
      */
     @FundsFieldDescription("设备费_设备租赁费_自筹_直接")
     private BigDecimal sbfSbzlZcZj;
+    /**
+     * 业务费_直接
+     */
+    @FundsFieldDescription("业务费_直接")
+    private BigDecimal ywfZj;
     /**
      * 业务费_专项_直接
      */
@@ -285,6 +305,11 @@ public class ProjectFunds implements Serializable {
     @FundsFieldDescription("业务费_国内合作交流费_自筹_直接")
     private BigDecimal ywfGjhzjlfZcZj;
     /**
+     * 业务费_会议/差旅/国际合作与交流费_直接
+     */
+    @FundsFieldDescription("业务费_会议/差旅/国际合作与交流费_直接")
+    private BigDecimal ywfHyclgjhzyjlfZj;
+    /**
      * 业务费_会议/差旅/国际合作与交流费_专项_直接
      */
     @FundsFieldDescription("业务费_会议/差旅/国际合作与交流费_专项_直接")
@@ -324,6 +349,11 @@ public class ProjectFunds implements Serializable {
      */
     @FundsFieldDescription("业务费_会议/差旅/国际合作与交流费_国际合作费_自筹_直接")
     private BigDecimal ywfHyclgjhzyjlfGjhzfZcZj;
+    /**
+     * 业务费_出版/文献/信息传播/知识产权事务费_直接
+     */
+    @FundsFieldDescription("业务费_出版/文献/信息传播/知识产权事务费_直接")
+    private BigDecimal ywfCbwxxxcbzscqswfZj;
     /**
      * 业务费_出版/文献/信息传播/知识产权事务费_专项_直接
      */
@@ -375,6 +405,11 @@ public class ProjectFunds implements Serializable {
     @FundsFieldDescription("业务费_出版/文献/信息传播/知识产权事务费_信息传播费_自筹_直接")
     private BigDecimal ywfCbwxxxcbzscqswfXxcbfZcZj;
     /**
+     * 劳务费_直接
+     */
+    @FundsFieldDescription("劳务费_直接")
+    private BigDecimal lwfZj;
+    /**
      * 劳务费_专项_直接
      */
     @FundsFieldDescription("劳务费_专项_直接")
@@ -405,6 +440,11 @@ public class ProjectFunds implements Serializable {
     @FundsFieldDescription("劳务费_人员劳务费_自筹_直接")
     private BigDecimal lwfRylwfZcZj;
     /**
+     * 材料费_直接
+     */
+    @FundsFieldDescription("材料费_直接")
+    private BigDecimal clfZj;
+    /**
      * 材料费_专项_直接
      */
     @FundsFieldDescription("材料费_专项_直接")
@@ -424,6 +464,11 @@ public class ProjectFunds implements Serializable {
      */
     @FundsFieldDescription("材料费_材料费_自筹_直接")
     private BigDecimal clfClfZcZj;
+    /**
+     * 科研活动费_直接
+     */
+    @FundsFieldDescription("科研活动费_直接")
+    private BigDecimal kyhdfZj;
     /**
      * 科研活动费_专项_直接
      */
@@ -515,6 +560,11 @@ public class ProjectFunds implements Serializable {
     @FundsFieldDescription("科研活动费_车辆使用费_自筹_直接")
     private BigDecimal kyhdfClsyZcZj;
     /**
+     * 科研服务费_直接
+     */
+    @FundsFieldDescription("科研服务费_直接")
+    private BigDecimal kyfwfZj;
+    /**
      * 科研服务费_专项_直接
      */
     @FundsFieldDescription("科研服务费_专项_直接")
@@ -575,6 +625,11 @@ public class ProjectFunds implements Serializable {
     @FundsFieldDescription("科研服务费_国内协作费_自筹_直接")
     private BigDecimal kyfwfGnxzZcZj;
     /**
+     * 人员和劳务补助费_直接
+     */
+    @FundsFieldDescription("人员和劳务补助费_直接")
+    private BigDecimal ryhlwbzfZj;
+    /**
      * 人员和劳务补助费_专项_直接
      */
     @FundsFieldDescription("人员和劳务补助费_专项_直接")
@@ -594,6 +649,11 @@ public class ProjectFunds implements Serializable {
      */
     @FundsFieldDescription("人员和劳务补助费_人员劳务费_自筹_直接")
     private BigDecimal ryhlwbzfRylwZcZj;
+    /**
+     * 绩效支出_直接
+     */
+    @FundsFieldDescription("绩效支出_直接")
+    private BigDecimal jxzcZj;
     /**
      * 绩效支出_专项_直接
      */

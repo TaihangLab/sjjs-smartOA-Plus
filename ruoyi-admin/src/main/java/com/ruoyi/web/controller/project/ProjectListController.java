@@ -82,12 +82,11 @@ public class ProjectListController extends BaseController {
     }
 
     /**
-     * 获取大事记分类选择框列表
+     * 新增大事记时获取大事记分类选择框列表
      * */
     @GetMapping("/milestoneCategorySelect")
     public R<List<ProjectMilestoneCategoryEnum>> milestoneCategorySelect() {
-        List<ProjectMilestoneCategoryEnum> projectMilestoneCategorys = projectMilestoneService.selectCategoryAll();
-        return R.ok(projectMilestoneCategorys);
+        return R.ok(projectMilestoneService.selectCategoryAll());
     }
 
 }

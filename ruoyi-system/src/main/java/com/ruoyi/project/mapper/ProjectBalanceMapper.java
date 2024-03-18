@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 /**
 * @author bailingnan
 * @description 针对表【project_balance(项目余额表（单位：万元）)】的数据库操作Mapper
- * @createDate 2024-03-06 10:42:57
+ * @createDate 2024-03-18 10:41:45
 * @Entity com.ruoyi.project.domain.ProjectBalance
 */
 @Mapper
