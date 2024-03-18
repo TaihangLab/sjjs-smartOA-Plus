@@ -75,7 +75,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
 
         if (insertedRows > 0) {
             Long milestoneId = projectMilestone.getMilestoneId(); // 获取生成的 milestoneId
-            if (!projectMilestoneBo.getProjectMilestoneCategoryRelationList().isEmpty()) {
+            if (projectMilestoneBo.getProjectMilestoneCategoryRelationList() != null && !projectMilestoneBo.getProjectMilestoneCategoryRelationList().isEmpty()) {
                 List<ProjectMilestoneCategoryRelation> projectMilestoneCategoryRelationList = projectMilestoneBo.getProjectMilestoneCategoryRelationList();
                 for (ProjectMilestoneCategoryRelation projectMilestoneCategoryRelation : projectMilestoneCategoryRelationList) {
                     projectMilestoneCategoryRelationMapper.insert(projectMilestoneCategoryRelation);
@@ -241,14 +241,14 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
             .eq(ProjectMilestoneCategoryRelation::getMilestoneId, milestoneId));
 //        插入新的分类关系
         List<ProjectMilestoneCategoryRelation> projectMilestoneCategoryRelationList = projectMilestoneBo.getProjectMilestoneCategoryRelationList();
-       if(!projectMilestoneCategoryRelationList.isEmpty()) {
-           for (ProjectMilestoneCategoryRelation projectMilestoneCategoryRelation : projectMilestoneCategoryRelationList) {
-               Long milestoneCategoryId = projectMilestoneCategoryRelation.getMilestoneCategoryId();
-               projectMilestoneCategoryRelation.setMilestoneId(milestoneId);
-               projectMilestoneCategoryRelation.setMilestoneCategoryId(milestoneCategoryId);
-               projectMilestoneCategoryRelationMapper.insert(projectMilestoneCategoryRelation);
-           }
-       }
+        if (projectMilestoneCategoryRelationList != null && !projectMilestoneCategoryRelationList.isEmpty()) {
+            for (ProjectMilestoneCategoryRelation projectMilestoneCategoryRelation : projectMilestoneCategoryRelationList) {
+                Long milestoneCategoryId = projectMilestoneCategoryRelation.getMilestoneCategoryId();
+                projectMilestoneCategoryRelation.setMilestoneId(milestoneId);
+                projectMilestoneCategoryRelation.setMilestoneCategoryId(milestoneCategoryId);
+                projectMilestoneCategoryRelationMapper.insert(projectMilestoneCategoryRelation);
+            }
+        }
     }
 
 
@@ -261,10 +261,12 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
     @Override
     public List<ProjectMilestoneVo> queryMilestoneList(ProjectMilestoneBo projectMilestoneBo) {
 
-        /**
-         * 调用根据分类去查对应的大事记
-         * */
-        List<Long> milestoneIds = getMilestoneIdByType(projectMilestoneBo);
+        List<Long> milestoneIds = new ArrayList<>();
+        //根据分类去查对应的大事记
+        if (projectMilestoneBo.getMilestoneCategoryType() != null) {
+            List<Long> milestoneIdByType = getMilestoneIdByType(projectMilestoneBo);
+            milestoneIds.addAll(milestoneIdByType);
+        }
 
         LambdaQueryWrapper<ProjectMilestone> lambdaQueryWrapper = new LambdaQueryWrapper<>();
 
@@ -309,6 +311,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
 
     /**
      * 根据大事记id查询对应的类型集合
+     *
      * @param milestoneId 大事记的ID
      * @return 返回一个TreeSet，包含对应大事记的所有类型枚举
      */
