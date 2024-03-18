@@ -6,6 +6,9 @@
             <el-date-picker v-model="dateRange" type="daterange" unlink-panels clearable start-placeholder="请输入查询范围"
                 end-placeholder="如：2000-01-01" value-format="yyyy-MM-dd" @keyup.enter.native="handleQuery"
                 :picker-options="pickerOptions" size="mini"></el-date-picker>
+            <el-cascader v-model="milestoneCategorySelect" :options="categorySelect" size="mini" clearable
+                placeholder="请选择标签" @keyup.enter.native="handleQuery">
+            </el-cascader>
             <el-button type="primary" icon="el-icon-search" @click="handleQuery" size="mini"
                 class="no-border-radius"></el-button>
         </div>
@@ -14,11 +17,11 @@
                 placement="top" :icon="item.icon" :style="{ '--icon-color': '#0bbd87' }">
                 <el-card style="width: 90%; display: flex; flex-direction: column;">
                     <h4>名称：{{ item.milestoneTitle }}</h4>
-                    <p>详情：{{ item.milestoneRemark }}</p>
                     <el-tag v-for="(type, index) in item.categoryTypeSet" :key="index" :type="getLabelType(type)"
                         effect="light" plain size="mini" :style="{ color: getTextColor(type), marginRight: '8px' }">
                         {{ getLabel(type) }}
                     </el-tag>
+                    <p>详情：{{ item.milestoneRemark }}</p>
                     <div class="attachments-container">
                         <el-button v-for="(oss, ossIndex) in item.sysOsses" :key="ossIndex" size="mini" type="text"
                             icon="el-icon-download" @click="handleDownload(oss)">
@@ -94,10 +97,12 @@ export default {
             visible: true,
             select: '',
             keyword: '',
+            milestoneCategoryType: '',
             searchKeyword: '',
             milestoneStaTime: '',
             milestoneEndTime: '',
             projectEstablishTime: '',
+            projectLevel: [],
             dateRange: [],
             timelineItems: [],
             milestoneIds: [],
@@ -111,6 +116,8 @@ export default {
             },
             ossids: [],
             categoryTypeSet: [],
+            milestoneCategorySelect: [],
+            categorySelect: [],
             labelMappings: {
                 0: '其他',
                 1: '大事记标签',
@@ -193,9 +200,9 @@ export default {
             },
         };
     },
-
     mounted() {
         this.fetchMilestoneList();
+        this.milestoneCategorySelectList();
     },
 
     methods: {
@@ -264,13 +271,15 @@ export default {
                 });
         },
         fetchMilestoneList() {
+            console.log('Searchdata:', this.searchData);
+            console.log('milestoneCategoryType:', this.milestoneCategoryType);
             const combinedSearchData = {
                 projectId: this.projectId,
                 keyword: this.searchKeyword,
                 milestoneStaTime: this.milestoneStaTime,
                 milestoneEndTime: this.milestoneEndTime,
+                milestoneCategoryType: this.milestoneCategorySelect.join(','),
             };
-
             request({
                 url: '/project/list/milestonequery',
                 method: 'post',
@@ -287,12 +296,8 @@ export default {
                     // 清空 categoryTypeSet 数组
                     this.categoryTypeSet = [];
                     // 获取标签数据
-                    // 获取标签数据
                     this.timelineItems.forEach(item => {
-                        console.log('Item CategoryTypeSet:', item.categoryTypeSet); // 添加这行
                         this.milestoneIds.push(item.milestoneId);
-                        // 假设标签数据存储在 item.categoryTypeSet 中
-                        // 将响应式数组转换为普通数组，然后再推入 categoryTypeSet
                         const types = Array.from(item.categoryTypeSet);
                         types.forEach(type => {
                             if (!this.categoryTypeSet.includes(type)) {
@@ -301,6 +306,29 @@ export default {
                         });
                     });
                     this.$forceUpdate();
+                })
+                .catch((error) => {
+                    console.error('获取数据时出错：', error);
+                });
+        },
+        milestoneCategorySelectList() {
+            const combinedSearchData = {
+                projectId: this.projectId,
+                keyword: this.searchKeyword,
+                milestoneStaTime: this.milestoneStaTime,
+                milestoneEndTime: this.milestoneEndTime,
+            };
+            request({
+                url: '/project/list/milestoneCategorySelect',
+                method: 'get',
+                data: combinedSearchData,
+            })
+                .then((resp) => {
+                    // 将数字值转换为 labelMappings 中的文字描述
+                    this.categorySelect = resp.data.map(item => ({
+                        label: this.getLabel(item),
+                        value: item
+                    }));
                 })
                 .catch((error) => {
                     console.error('获取数据时出错：', error);
@@ -424,7 +452,10 @@ export default {
                 keyword: this.searchKeyword,
                 milestoneStaTime: '',
                 milestoneEndTime: '',
+                milestoneCategoryType: this.milestoneCategorySelect.join(','),
             };
+            console.log('Search data:', searchData);
+            // 判断是否选择了时间范围
             if (this.dateRange && this.dateRange.length === 2) {
                 this.milestoneStaTime = this.dateRange[0];
                 this.milestoneEndTime = this.dateRange[1];
@@ -432,20 +463,20 @@ export default {
                 this.milestoneStaTime = undefined;
                 this.milestoneEndTime = undefined;
             }
+            // 发起请求，获取符合搜索条件的数据
             this.fetchMilestoneList(searchData);
         },
         close() {
             this.$refs.eventsDialogEdit.close();
         },
     },
-
 };
 </script>
 
 <style>
 .fixed-container {
     position: fixed;
-    left: 52%;
+    left: 49%;
     width: 40%;
     margin-top: -25px;
     transform: translate(-50%, -50%);
