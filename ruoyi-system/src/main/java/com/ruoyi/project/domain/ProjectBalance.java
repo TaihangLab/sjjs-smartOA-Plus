@@ -173,6 +173,16 @@ public class ProjectBalance implements Serializable {
     private BigDecimal sbfZcZjUnpaid;
 
     /**
+     * 设备费_购置设备费_直接_已支付
+     */
+    private BigDecimal sbfGzsbZjPaid;
+
+    /**
+     * 设备费_购置设备费_直接_未支付
+     */
+    private BigDecimal sbfGzsbZjUnpaid;
+
+    /**
      * 设备费_购置设备费_专项_直接_已支付
      */
     private BigDecimal sbfGzsbZxZjPaid;
@@ -191,6 +201,16 @@ public class ProjectBalance implements Serializable {
      * 设备费_购置设备费_自筹_直接_未支付
      */
     private BigDecimal sbfGzsbZcZjUnpaid;
+
+    /**
+     * 设备费_试制设备费_直接_未支付
+     */
+    private BigDecimal sbfSzsbZjUnpaid;
+
+    /**
+     * 设备费_试制设备费_直接_已支付
+     */
+    private BigDecimal sbfSzsbZjPaid;
 
     /**
      * 设备费_试制设备费_专项_直接_未支付
@@ -213,6 +233,16 @@ public class ProjectBalance implements Serializable {
     private BigDecimal sbfSzsbZcZjUnpaid;
 
     /**
+     * 设备费_设备升级改造费_直接_已支付
+     */
+    private BigDecimal sbfSbsjgzZjPaid;
+
+    /**
+     * 设备费_设备升级改造费_直接_未支付
+     */
+    private BigDecimal sbfSbsjgzZjUnpaid;
+
+    /**
      * 设备费_设备升级改造费_专项_直接_已支付
      */
     private BigDecimal sbfSbsjgzZxZjPaid;
@@ -231,6 +261,16 @@ public class ProjectBalance implements Serializable {
      * 设备费_设备升级改造费_自筹_直接_未支付
      */
     private BigDecimal sbfSbsjgzZcZjUnpaid;
+
+    /**
+     * 设备费_设备租赁费_直接_已支付
+     */
+    private BigDecimal sbfSbzlZjPaid;
+
+    /**
+     * 设备费_设备租赁费_直接_未支付
+     */
+    private BigDecimal sbfSbzlZjUnpaid;
 
     /**
      * 设备费_设备租赁费_专项_直接_已支付
@@ -283,6 +323,16 @@ public class ProjectBalance implements Serializable {
     private BigDecimal ywfZcZjUnpaid;
 
     /**
+     * 业务费_材料费_直接_已支付
+     */
+    private BigDecimal ywfClfZjPaid;
+
+    /**
+     * 业务费_材料费_直接_未支付
+     */
+    private BigDecimal ywfClfZjUnpaid;
+
+    /**
      * 业务费_材料费_专项_直接_已支付
      */
     private BigDecimal ywfClfZxZjPaid;
@@ -301,6 +351,16 @@ public class ProjectBalance implements Serializable {
      * 业务费_材料费_自筹_直接_未支付
      */
     private BigDecimal ywfClfZcZjUnpaid;
+
+    /**
+     * 业务费_资料费_直接_已支付
+     */
+    private BigDecimal ywfZlfZjPaid;
+
+    /**
+     * 业务费_资料费_直接_未支付
+     */
+    private BigDecimal ywfZlfZjUnpaid;
 
     /**
      * 业务费_资料费_专项_直接_已支付
@@ -323,6 +383,16 @@ public class ProjectBalance implements Serializable {
     private BigDecimal ywfZlfZcZjUnpaid;
 
     /**
+     * 业务费_数据样本采集费_直接_已支付
+     */
+    private BigDecimal ywfSjybcjfZjPaid;
+
+    /**
+     * 业务费_数据样本采集费_直接_未支付
+     */
+    private BigDecimal ywfSjybcjfZjUnpaid;
+
+    /**
      * 业务费_数据样本采集费_专项_直接_已支付
      */
     private BigDecimal ywfSjybcjfZxZjPaid;
@@ -341,6 +411,16 @@ public class ProjectBalance implements Serializable {
      * 业务费_数据样本采集费_自筹_直接_未支付
      */
     private BigDecimal ywfSjybcjfZcZjUnpaid;
+
+    /**
+     * 业务费_测试化验加工费_直接_已支付
+     */
+    private BigDecimal ywfCshyjgfZjPaid;
+
+    /**
+     * 业务费_测试化验加工费_直接_未支付
+     */
+    private BigDecimal ywfCshyjgfZjUnpaid;
 
     /**
      * 业务费_测试化验加工费_专项_直接_已支付
@@ -363,6 +443,16 @@ public class ProjectBalance implements Serializable {
     private BigDecimal ywfCshyjgfZcZjUnpaid;
 
     /**
+     * 业务费_燃料动力费_直接_已支付
+     */
+    private BigDecimal ywfRldlfZjPaid;
+
+    /**
+     * 业务费_燃料动力费_直接_未支付
+     */
+    private BigDecimal ywfRldlfZjUnpaid;
+
+    /**
      * 业务费_燃料动力费_专项_直接_已支付
      */
     private BigDecimal ywfRldlfZxZjPaid;
@@ -381,6 +471,16 @@ public class ProjectBalance implements Serializable {
      * 业务费_燃料动力费_自筹_直接_未支付
      */
     private BigDecimal ywfRldlfZcZjUnpaid;
+
+    /**
+     * 业务费_办公费_直接_已支付
+     */
+    private BigDecimal ywfBgfZjPaid;
+
+    /**
+     * 业务费_办公费_直接_未支付
+     */
+    private BigDecimal ywfBgfZjUnpaid;
 
     /**
      * 业务费_办公费_专项_直接_已支付
@@ -403,6 +503,16 @@ public class ProjectBalance implements Serializable {
     private BigDecimal ywfBgfZcZjUnpaid;
 
     /**
+     * 业务费_印刷出版费_直接_已支付
+     */
+    private BigDecimal ywfYscbfZjPaid;
+
+    /**
+     * 业务费_印刷出版费_直接_未支付
+     */
+    private BigDecimal ywfYscbfZjUnpaid;
+
+    /**
      * 业务费_印刷出版费_专项_直接_已支付
      */
     private BigDecimal ywfYscbfZxZjPaid;
@@ -421,6 +531,16 @@ public class ProjectBalance implements Serializable {
      * 业务费_印刷出版费_自筹_直接_未支付
      */
     private BigDecimal ywfYscbfZcZjUnpaid;
+
+    /**
+     * 业务费_知识产权事务费_直接_已支付
+     */
+    private BigDecimal ywfZscqswfZjPaid;
+
+    /**
+     * 业务费_知识产权事务费_直接_未支付
+     */
+    private BigDecimal ywfZscqswfZjUnpaid;
 
     /**
      * 业务费_知识产权事务费_专项_直接_已支付
@@ -443,6 +563,16 @@ public class ProjectBalance implements Serializable {
     private BigDecimal ywfZscqswfZcZjUnpaid;
 
     /**
+     * 业务费_车辆使用费_直接_已支付
+     */
+    private BigDecimal ywfClsyfZjPaid;
+
+    /**
+     * 业务费_车辆使用费_直接_已支付
+     */
+    private BigDecimal ywfClsyfZjUnpaid;
+
+    /**
      * 业务费_车辆使用费_专项_直接_已支付
      */
     private BigDecimal ywfClsyfZxZjPaid;
@@ -461,6 +591,16 @@ public class ProjectBalance implements Serializable {
      * 业务费_车辆使用费_自筹_直接_未支付
      */
     private BigDecimal ywfClsyfZcZjUnpaid;
+
+    /**
+     * 业务费_差旅费_直接_已支付
+     */
+    private BigDecimal ywfChlfZjPaid;
+
+    /**
+     * 业务费_差旅费_直接_未支付
+     */
+    private BigDecimal ywfChlfZjUnpaid;
 
     /**
      * 业务费_差旅费_专项_直接_已支付
@@ -483,6 +623,16 @@ public class ProjectBalance implements Serializable {
     private BigDecimal ywfChlfZcZjUnpaid;
 
     /**
+     * 业务费_会议会务费_直接_已支付
+     */
+    private BigDecimal ywfHyhwfZjPaid;
+
+    /**
+     * 业务费_会议会务费_直接_未支付
+     */
+    private BigDecimal ywfHyhwfZjUnpaid;
+
+    /**
      * 业务费_会议会务费_专项_直接_已支付
      */
     private BigDecimal ywfHyhwfZxZjPaid;
@@ -503,6 +653,16 @@ public class ProjectBalance implements Serializable {
     private BigDecimal ywfHyhwfZcZjUnpaid;
 
     /**
+     * 业务费_国内协作费_直接_已支付
+     */
+    private BigDecimal ywfGnxzfZjPaid;
+
+    /**
+     * 业务费_国内协作费_直接_未支付
+     */
+    private BigDecimal ywfGnxzfZjUnpaid;
+
+    /**
      * 业务费_国内协作费_专项_直接_已支付
      */
     private BigDecimal ywfGnxzfZxZjPaid;
@@ -521,6 +681,16 @@ public class ProjectBalance implements Serializable {
      * 业务费_国内协作费_自筹_直接_未支付
      */
     private BigDecimal ywfGnxzfZcZjUnpaid;
+
+    /**
+     * 业务费_国际合作交流费_直接_已支付
+     */
+    private BigDecimal ywfGjhzjlfZjPaid;
+
+    /**
+     * 业务费_国际合作交流费_直接_未支付
+     */
+    private BigDecimal ywfGjhzjlfZjUnpaid;
 
     /**
      * 业务费_国际合作交流费_专项_直接_已支付
@@ -573,6 +743,16 @@ public class ProjectBalance implements Serializable {
     private BigDecimal ywfHyclgjhzyjlfZcZjUnpaid;
 
     /**
+     * 业务费_会议/差旅/国际合作与交流费_会议费_直接_已支付
+     */
+    private BigDecimal ywfHyclgjhzyjlfHyfZjPaid;
+
+    /**
+     * 业务费_会议/差旅/国际合作与交流费_会议费_直接_未支付
+     */
+    private BigDecimal ywfHyclgjhzyjlfHyfZjUnpaid;
+
+    /**
      * 业务费_会议/差旅/国际合作与交流费_会议费_专项_直接_已支付
      */
     private BigDecimal ywfHyclgjhzyjlfHyfZxZjPaid;
@@ -593,6 +773,16 @@ public class ProjectBalance implements Serializable {
     private BigDecimal ywfHyclgjhzyjlfHyfZcZjUnpaid;
 
     /**
+     * 业务费_会议/差旅/国际合作与交流费_差旅费_直接_已支付
+     */
+    private BigDecimal ywfHyclgjhzyjlfClfZjPaid;
+
+    /**
+     * 业务费_会议/差旅/国际合作与交流费_差旅费_直接_未支付
+     */
+    private BigDecimal ywfHyclgjhzyjlfClfZjUnpaid;
+
+    /**
      * 业务费_会议/差旅/国际合作与交流费_差旅费_专项_直接_已支付
      */
     private BigDecimal ywfHyclgjhzyjlfClfZxZjPaid;
@@ -611,6 +801,16 @@ public class ProjectBalance implements Serializable {
      * 业务费_会议/差旅/国际合作与交流费_差旅费_自筹_直接_未支付
      */
     private BigDecimal ywfHyclgjhzyjlfClfZcZjUnpaid;
+
+    /**
+     * 业务费_会议/差旅/国际合作与交流费_国际合作费_直接_已支付
+     */
+    private BigDecimal ywfHyclgjhzyjlfGjhzfZjPaid;
+
+    /**
+     * 业务费_会议/差旅/国际合作与交流费_国际合作费_直接_未支付
+     */
+    private BigDecimal ywfHyclgjhzyjlfGjhzfZjUnpaid;
 
     /**
      * 业务费_会议/差旅/国际合作与交流费_国际合作费_专项_直接_已支付
@@ -663,6 +863,16 @@ public class ProjectBalance implements Serializable {
     private BigDecimal ywfCbwxxxcbzscqswfZcZjUnpaid;
 
     /**
+     * 业务费_出版/文献/信息传播/知识产权事务费_知识产权事务费_直接_已支付
+     */
+    private BigDecimal ywfCbwxxxcbzscqswfZscqswfZjPaid;
+
+    /**
+     * 业务费_出版/文献/信息传播/知识产权事务费_知识产权事务费_直接_未支付
+     */
+    private BigDecimal ywfCbwxxxcbzscqswfZscqswfZjUnpaid;
+
+    /**
      * 业务费_出版/文献/信息传播/知识产权事务费_知识产权事务费_专项_直接_已支付
      */
     private BigDecimal ywfCbwxxxcbzscqswfZscqswfZxZjPaid;
@@ -681,6 +891,16 @@ public class ProjectBalance implements Serializable {
      * 业务费_出版/文献/信息传播/知识产权事务费_知识产权事务费_自筹_直接_未支付
      */
     private BigDecimal ywfCbwxxxcbzscqswfZscqswfZcZjUnpaid;
+
+    /**
+     * 业务费_出版/文献/信息传播/知识产权事务费_印刷打印制作费_直接_已支付
+     */
+    private BigDecimal ywfCbwxxxcbzscqswfYsdyzzfZjPaid;
+
+    /**
+     * 业务费_出版/文献/信息传播/知识产权事务费_印刷打印制作费_直接_未支付
+     */
+    private BigDecimal ywfCbwxxxcbzscqswfYsdyzzfZjUnpaid;
 
     /**
      * 业务费_出版/文献/信息传播/知识产权事务费_印刷打印制作费_专项_直接_已支付
@@ -703,6 +923,16 @@ public class ProjectBalance implements Serializable {
     private BigDecimal ywfCbwxxxcbzscqswfYsdyzzfZcZjUnpaid;
 
     /**
+     * 业务费_出版/文献/信息传播/知识产权事务费_文献数据库费_直接_已支付
+     */
+    private BigDecimal ywfCbwxxxcbzscqswfWxsjkfZjPaid;
+
+    /**
+     * 业务费_出版/文献/信息传播/知识产权事务费_文献数据库费_直接_未支付
+     */
+    private BigDecimal ywfCbwxxxcbzscqswfWxsjkfZjUnpaid;
+
+    /**
      * 业务费_出版/文献/信息传播/知识产权事务费_文献数据库费_专项_直接_已支付
      */
     private BigDecimal ywfCbwxxxcbzscqswfWxsjkfZxZjPaid;
@@ -721,6 +951,16 @@ public class ProjectBalance implements Serializable {
      * 业务费_出版/文献/信息传播/知识产权事务费_文献数据库费_自筹_直接_未支付
      */
     private BigDecimal ywfCbwxxxcbzscqswfWxsjkfZcZjUnpaid;
+
+    /**
+     * 业务费_出版/文献/信息传播/知识产权事务费_信息传播费_直接_已支付
+     */
+    private BigDecimal ywfCbwxxxcbzscqswfXxcbfZjPaid;
+
+    /**
+     * 业务费_出版/文献/信息传播/知识产权事务费_信息传播费_直接_未支付
+     */
+    private BigDecimal ywfCbwxxxcbzscqswfXxcbfZjUnpaid;
 
     /**
      * 业务费_出版/文献/信息传播/知识产权事务费_信息传播费_专项_直接_已支付
@@ -773,6 +1013,16 @@ public class ProjectBalance implements Serializable {
     private BigDecimal lwfZcZjUnpaid;
 
     /**
+     * 劳务费_专家咨询费_直接_已支付
+     */
+    private BigDecimal lwfZjzxfZjPaid;
+
+    /**
+     * 劳务费_专家咨询费_直接_未支付
+     */
+    private BigDecimal lwfZjzxfZjUnpaid;
+
+    /**
      * 劳务费_专家咨询费_专项_直接_已支付
      */
     private BigDecimal lwfZjzxfZxZjPaid;
@@ -791,6 +1041,16 @@ public class ProjectBalance implements Serializable {
      * 劳务费_专家咨询费_自筹_直接_未支付
      */
     private BigDecimal lwfZjzxfZcZjUnpaid;
+
+    /**
+     * 劳务费_人员劳务费_直接_已支付
+     */
+    private BigDecimal lwfRylwfZjPaid;
+
+    /**
+     * 劳务费_人员劳务费_直接_未支付
+     */
+    private BigDecimal lwfRylwfZjUnpaid;
 
     /**
      * 劳务费_人员劳务费_专项_直接_已支付
@@ -843,6 +1103,16 @@ public class ProjectBalance implements Serializable {
     private BigDecimal clfZcZjUnpaid;
 
     /**
+     * 材料费_材料费_直接_已支付
+     */
+    private BigDecimal clfClfZjPaid;
+
+    /**
+     * 材料费_材料费_直接_未支付
+     */
+    private BigDecimal clfClfZjUnpaid;
+
+    /**
      * 材料费_材料费_专项_直接_已支付
      */
     private BigDecimal clfClfZxZjPaid;
@@ -893,6 +1163,16 @@ public class ProjectBalance implements Serializable {
     private BigDecimal kyhdfZcZjUnpaid;
 
     /**
+     * 科研活动费_资料费_直接_已支付
+     */
+    private BigDecimal kyhdfZlZjPaid;
+
+    /**
+     * 科研活动费_资料费_直接_未支付
+     */
+    private BigDecimal kyhdfZlZjUnpaid;
+
+    /**
      * 科研活动费_资料费_专项_直接_已支付
      */
     private BigDecimal kyhdfZlZxZjPaid;
@@ -911,6 +1191,16 @@ public class ProjectBalance implements Serializable {
      * 科研活动费_资料费_自筹_直接_未支付
      */
     private BigDecimal kyhdfZlZcZjUnpaid;
+
+    /**
+     * 科研活动费_测试化验加工费_直接_已支付
+     */
+    private BigDecimal kyhdfCshyjgZjPaid;
+
+    /**
+     * 科研活动费_测试化验加工费_直接_未支付
+     */
+    private BigDecimal kyhdfCshyjgZjUnpaid;
 
     /**
      * 科研活动费_测试化验加工费_专项_直接_已支付
@@ -933,6 +1223,16 @@ public class ProjectBalance implements Serializable {
     private BigDecimal kyhdfCshyjgZcZjUnpaid;
 
     /**
+     * 科研活动费_办公费_直接_已支付
+     */
+    private BigDecimal kyhdfBgZjPaid;
+
+    /**
+     * 科研活动费_办公费_直接_未支付
+     */
+    private BigDecimal kyhdfBgZjUnpaid;
+
+    /**
      * 科研活动费_办公费_专项_直接_已支付
      */
     private BigDecimal kyhdfBgZxZjPaid;
@@ -951,6 +1251,16 @@ public class ProjectBalance implements Serializable {
      * 科研活动费_办公费_自筹_直接_未支付
      */
     private BigDecimal kyhdfBgZcZjUnpaid;
+
+    /**
+     * 科研活动费_数据/样本采集费_直接_已支付
+     */
+    private BigDecimal kyhdfSjybcjZjPaid;
+
+    /**
+     * 科研活动费_数据/样本采集费_直接_未支付
+     */
+    private BigDecimal kyhdfSjybcjZjUnpaid;
 
     /**
      * 科研活动费_数据/样本采集费_专项_直接_已支付
@@ -973,6 +1283,16 @@ public class ProjectBalance implements Serializable {
     private BigDecimal kyhdfSjybcjZcZjUnpaid;
 
     /**
+     * 科研活动费_印刷/出版费_直接_已支付
+     */
+    private BigDecimal kyhdfYscbZjPaid;
+
+    /**
+     * 科研活动费_印刷/出版费_直接_未支付
+     */
+    private BigDecimal kyhdfYscbZjUnpaid;
+
+    /**
      * 科研活动费_印刷/出版费_专项_直接_已支付
      */
     private BigDecimal kyhdfYscbZxZjPaid;
@@ -991,6 +1311,16 @@ public class ProjectBalance implements Serializable {
      * 科研活动费_印刷/出版费_自筹_直接_未支付
      */
     private BigDecimal kyhdfYscbZcZjUnpaid;
+
+    /**
+     * 科研活动费_知识产权事务费_直接_已支付
+     */
+    private BigDecimal kyhdfZscqswZjPaid;
+
+    /**
+     * 科研活动费_知识产权事务费_直接_未支付
+     */
+    private BigDecimal kyhdfZscqswZjUnpaid;
 
     /**
      * 科研活动费_知识产权事务费_专项_直接_已支付
@@ -1013,6 +1343,16 @@ public class ProjectBalance implements Serializable {
     private BigDecimal kyhdfZscqswZcZjUnpaid;
 
     /**
+     * 科研活动费_燃料动力费_直接_已支付
+     */
+    private BigDecimal kyhdfRldlZjPaid;
+
+    /**
+     * 科研活动费_燃料动力费_直接_未支付
+     */
+    private BigDecimal kyhdfRldlZjUnpaid;
+
+    /**
      * 科研活动费_燃料动力费_专项_直接_已支付
      */
     private BigDecimal kyhdfRldlZxZjPaid;
@@ -1031,6 +1371,16 @@ public class ProjectBalance implements Serializable {
      * 科研活动费_燃料动力费_自筹_直接_未支付
      */
     private BigDecimal kyhdfRldlZcZjUnpaid;
+
+    /**
+     * 科研活动费_车辆使用费_直接_已支付
+     */
+    private BigDecimal kyhdfClsyZjPaid;
+
+    /**
+     * 科研活动费_车辆使用费_直接_未支付
+     */
+    private BigDecimal kyhdfClsyZjUnpaid;
 
     /**
      * 科研活动费_车辆使用费_专项_直接_已支付
@@ -1083,6 +1433,16 @@ public class ProjectBalance implements Serializable {
     private BigDecimal kyfwfZcZjUnpaid;
 
     /**
+     * 科研服务费_专家咨询费_直接_已支付
+     */
+    private BigDecimal kyfwfZjzxZjPaid;
+
+    /**
+     * 科研服务费_专家咨询费_直接_未支付
+     */
+    private BigDecimal kyfwfZjzxZjUnpaid;
+
+    /**
      * 科研服务费_专家咨询费_专项_直接_已支付
      */
     private BigDecimal kyfwfZjzxZxZjPaid;
@@ -1101,6 +1461,16 @@ public class ProjectBalance implements Serializable {
      * 科研服务费_专家咨询费_自筹_直接_未支付
      */
     private BigDecimal kyfwfZjzxZcZjUnpaid;
+
+    /**
+     * 科研服务费_差旅费_直接_已支付
+     */
+    private BigDecimal kyfwfClZjPaid;
+
+    /**
+     * 科研服务费_差旅费_直接_未支付
+     */
+    private BigDecimal kyfwfClZjUnpaid;
 
     /**
      * 科研服务费_差旅费_专项_直接_已支付
@@ -1123,6 +1493,16 @@ public class ProjectBalance implements Serializable {
     private BigDecimal kyfwfClZcZjUnpaid;
 
     /**
+     * 科研服务费_会议/会务费_直接_已支付
+     */
+    private BigDecimal kyfwfHyhwZjPaid;
+
+    /**
+     * 科研服务费_会议/会务费_直接_未支付
+     */
+    private BigDecimal kyfwfHyhwZjUnpaid;
+
+    /**
      * 科研服务费_会议/会务费_专项_直接_已支付
      */
     private BigDecimal kyfwfHyhwZxZjPaid;
@@ -1143,6 +1523,16 @@ public class ProjectBalance implements Serializable {
     private BigDecimal kyfwfHyhwZcZjUnpaid;
 
     /**
+     * 科研服务费_国际合作交流_直接_已支付
+     */
+    private BigDecimal kyfwfGjhzjlZjPaid;
+
+    /**
+     * 科研服务费_国际合作交流_直接_未支付
+     */
+    private BigDecimal kyfwfGjhzjlZjUnpaid;
+
+    /**
      * 科研服务费_国际合作交流_专项_直接_已支付
      */
     private BigDecimal kyfwfGjhzjlZxZjPaid;
@@ -1161,6 +1551,16 @@ public class ProjectBalance implements Serializable {
      * 科研服务费_国际合作交流_自筹_直接_未支付
      */
     private BigDecimal kyfwfGjhzjlZcZjUnpaid;
+
+    /**
+     * 科研服务费_国内协作费_直接_已支付
+     */
+    private BigDecimal kyfwfGnxzZjPaid;
+
+    /**
+     * 科研服务费_国内协作费_直接_未支付
+     */
+    private BigDecimal kyfwfGnxzZjUnpaid;
 
     /**
      * 科研服务费_国内协作费_专项_直接_已支付
@@ -1213,6 +1613,16 @@ public class ProjectBalance implements Serializable {
     private BigDecimal ryhlwbzfZcZjUnpaid;
 
     /**
+     * 人员和劳务补助费_人员劳务费_直接_已支付
+     */
+    private BigDecimal ryhlwbzfRylwZjPaid;
+
+    /**
+     * 人员和劳务补助费_人员劳务费_直接_未支付
+     */
+    private BigDecimal ryhlwbzfRylwZjUnpaid;
+
+    /**
      * 人员和劳务补助费_人员劳务费_专项_直接_已支付
      */
     private BigDecimal ryhlwbzfRylwZxZjPaid;
@@ -1233,34 +1643,34 @@ public class ProjectBalance implements Serializable {
     private BigDecimal ryhlwbzfRylwZcZjUnpaid;
 
     /**
-     * 绩效支出_直接_已支付
+     * 绩效支出_间接_已支付
      */
-    private BigDecimal jxzcZjPaid;
+    private BigDecimal jxzcJjPaid;
 
     /**
-     * 绩效支出_直接_未支付
+     * 绩效支出_间接_未支付
      */
-    private BigDecimal jxzcZjUnpaid;
+    private BigDecimal jxzcJjUnpaid;
 
     /**
-     * 绩效支出_专项_直接_已支付
+     * 绩效支出_专项_间接_已支付
      */
-    private BigDecimal jxzcZxZjPaid;
+    private BigDecimal jxzcZxJjPaid;
 
     /**
-     * 绩效支出_专项_直接_未支付
+     * 绩效支出_专项_间接_未支付
      */
-    private BigDecimal jxzcZxZjUnpaid;
+    private BigDecimal jxzcZxJjUnpaid;
 
     /**
-     * 绩效支出_自筹_直接_已支付
+     * 绩效支出_自筹_间接_已支付
      */
-    private BigDecimal jxzcZcZjPaid;
+    private BigDecimal jxzcZcJjPaid;
 
     /**
-     * 绩效支出_自筹_直接_未支付
+     * 绩效支出_自筹_间接_未支付
      */
-    private BigDecimal jxzcZcZjUnpaid;
+    private BigDecimal jxzcZcJjUnpaid;
 
     /**
      * 间接费用_其他支出_专项_已支付
