@@ -79,4 +79,8 @@ public interface ProjectMilestoneService {
      * */
     List<ProjectMilestoneCategoryEnum> selectCategoryAll();
 
+    /**
+     * 根据项目id查询大事记分类列表
+     * */
+    Set<ProjectMilestoneCategoryEnum> getCategoryEnumsByProjectId(Long projectId);
 }

@@ -75,7 +75,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
 
         if (insertedRows > 0) {
             Long milestoneId = projectMilestone.getMilestoneId(); // 获取生成的 milestoneId
-            if (projectMilestoneBo.getProjectMilestoneCategoryRelationList() != null && !projectMilestoneBo.getProjectMilestoneCategoryRelationList().isEmpty()) {
+            if (!projectMilestoneBo.getProjectMilestoneCategoryRelationList().isEmpty()) {
                 List<ProjectMilestoneCategoryRelation> projectMilestoneCategoryRelationList = projectMilestoneBo.getProjectMilestoneCategoryRelationList();
                 for (ProjectMilestoneCategoryRelation projectMilestoneCategoryRelation : projectMilestoneCategoryRelationList) {
                     projectMilestoneCategoryRelationMapper.insert(projectMilestoneCategoryRelation);
@@ -229,11 +229,6 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
     }
 
 
-    /**
-     * 更新项目大事记分类
-     *
-     * @param projectMilestoneBo 修改后的大事记
-     */
     private void updateMilestoneCategoryRelation(ProjectMilestoneBo projectMilestoneBo) {
 //        删除旧的分类关系
         Long milestoneId = projectMilestoneBo.getMilestoneId();
@@ -241,7 +236,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
             .eq(ProjectMilestoneCategoryRelation::getMilestoneId, milestoneId));
 //        插入新的分类关系
         List<ProjectMilestoneCategoryRelation> projectMilestoneCategoryRelationList = projectMilestoneBo.getProjectMilestoneCategoryRelationList();
-        if (projectMilestoneCategoryRelationList != null && !projectMilestoneCategoryRelationList.isEmpty()) {
+        if (!projectMilestoneCategoryRelationList.isEmpty()) {
             for (ProjectMilestoneCategoryRelation projectMilestoneCategoryRelation : projectMilestoneCategoryRelationList) {
                 Long milestoneCategoryId = projectMilestoneCategoryRelation.getMilestoneCategoryId();
                 projectMilestoneCategoryRelation.setMilestoneId(milestoneId);
@@ -261,12 +256,10 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
     @Override
     public List<ProjectMilestoneVo> queryMilestoneList(ProjectMilestoneBo projectMilestoneBo) {
 
-        List<Long> milestoneIds = new ArrayList<>();
-        //根据分类去查对应的大事记
-        if (projectMilestoneBo.getMilestoneCategoryType() != null) {
-            List<Long> milestoneIdByType = getMilestoneIdByType(projectMilestoneBo);
-            milestoneIds.addAll(milestoneIdByType);
-        }
+        /**
+         * 调用根据分类去查对应的大事记
+         * */
+        List<Long> milestoneIds = getMilestoneIdByType(projectMilestoneBo);
 
         LambdaQueryWrapper<ProjectMilestone> lambdaQueryWrapper = new LambdaQueryWrapper<>();
 
@@ -310,27 +303,25 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
 
 
     /**
-     * 根据大事记id查询对应的类型集合
-     *
-     * @param milestoneId 大事记的ID
-     * @return 返回一个TreeSet，包含对应大事记的所有类型枚举
+     * 根据大事记id去查对应的类型
      */
     private Set<ProjectMilestoneCategoryEnum> getCategoryEnumsByMilestoneId(Long milestoneId) {
+        TreeSet<ProjectMilestoneCategoryEnum> milestoneCategoryEnums = new TreeSet<>();
 
-        // 根据大事记ID查询关联的分类ID集合
         Set<Long> categoryIds = projectMilestoneCategoryRelationMapper.selectList(
                 new LambdaQueryWrapper<ProjectMilestoneCategoryRelation>()
-                    .eq(ProjectMilestoneCategoryRelation::getMilestoneId, milestoneId))
+                    .in(ProjectMilestoneCategoryRelation::getMilestoneId, milestoneId))
             .stream()
             .map(ProjectMilestoneCategoryRelation::getMilestoneCategoryId)
             .collect(Collectors.toSet());
 
-        // 根据分类ID集合查询对应的分类类型，并转换为TreeSet返回
-        return projectMilestoneCategoryMapper.selectList(
+        milestoneCategoryEnums = projectMilestoneCategoryMapper.selectList(
                 new LambdaQueryWrapper<ProjectMilestoneCategory>()
                     .in(!categoryIds.isEmpty(), ProjectMilestoneCategory::getMilestoneCategoryId, categoryIds))
             .stream()
             .map(ProjectMilestoneCategory::getMilestoneCategoryType).collect(Collectors.toCollection(TreeSet::new));
+
+        return milestoneCategoryEnums;
     }
 
 
@@ -370,6 +361,38 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
         return milestoneVos;
     }
 
+    /**
+     * 根据项目id去查类型列表
+     */
+    @Override
+    public Set<ProjectMilestoneCategoryEnum> getCategoryEnumsByProjectId(Long projectId) {
+        Set<ProjectMilestoneCategoryEnum> allCatrgoryType = new TreeSet<>();
+        if(!(projectId==null)){
+            Set<Long> milestoneIds = projectMilestoneMapper.selectList(
+                    new LambdaQueryWrapper<ProjectMilestone>()
+                        .eq(ProjectMilestone::getProjectId, projectId))
+                .stream()
+                .map(ProjectMilestone::getMilestoneId)
+                .collect(Collectors.toSet());
+            Set<Long> milestoneCategoryIds = projectMilestoneCategoryRelationMapper.selectList(
+                    new LambdaQueryWrapper<ProjectMilestoneCategoryRelation>()
+                        .in(!milestoneIds.isEmpty(), ProjectMilestoneCategoryRelation::getMilestoneId, milestoneIds))
+                .stream()
+                .map(ProjectMilestoneCategoryRelation::getMilestoneCategoryId)
+                .collect(Collectors.toSet());
+            for (Long milestoneCategoryId : milestoneCategoryIds) {
+                Set<ProjectMilestoneCategoryEnum> milestoneCategoryEnums = projectMilestoneCategoryMapper.selectList(
+                        new LambdaQueryWrapper<ProjectMilestoneCategory>()
+                            .eq(ProjectMilestoneCategory::getMilestoneCategoryId, milestoneCategoryId))
+                    .stream()
+                    .map(ProjectMilestoneCategory::getMilestoneCategoryType)
+                    .collect(Collectors.toSet());
+                allCatrgoryType.addAll(milestoneCategoryEnums);
+            }
+        }
+
+        return allCatrgoryType;
+    }
 
     /**
      * 分页查询项目附件（大事记附件）
