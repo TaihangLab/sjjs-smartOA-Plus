@@ -18,7 +18,6 @@ public class ProjectFundsBO {
     /**
      * 项目ID
      */
-    @DecimalMin(value = "0.000000", message = "金额不能为负数")
     private Long projectId;
     /**
      * 项目经费总额
@@ -1036,16 +1035,22 @@ public class ProjectFundsBO {
     private BigDecimal jxzcZcJj = BigDecimal.ZERO;
 
     /**
-     * 间接费用_其他支出_专项
+     * 其他支出_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal othersZx = BigDecimal.ZERO;
+    private BigDecimal othersJj = BigDecimal.ZERO;
 
     /**
-     * 间接费用_其他支出_自筹
+     * 其他支出_专项_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal othersZc = BigDecimal.ZERO;
+    private BigDecimal othersZxJj = BigDecimal.ZERO;
+
+    /**
+     * 其他支出_自筹_间接
+     */
+    @DecimalMin(value = "0.000000", message = "金额不能为负数")
+    private BigDecimal othersZcJj = BigDecimal.ZERO;
 
     /**
      * 经费来源_专项
@@ -1078,6 +1083,12 @@ public class ProjectFundsBO {
     private BigDecimal jflyQtzjZc = BigDecimal.ZERO;
 
     /**
+     * 设备费_间接
+     */
+    @DecimalMin(value = "0.000000", message = "金额不能为负数")
+    private BigDecimal sbfJj = BigDecimal.ZERO;
+
+    /**
      * 设备费_专项_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
@@ -1090,88 +1101,10 @@ public class ProjectFundsBO {
     private BigDecimal sbfZcJj = BigDecimal.ZERO;
 
     /**
-     * 设备费_购置设备费_专项_间接
+     * 材料费_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal sbfGzsbZxJj = BigDecimal.ZERO;
-
-    /**
-     * 设备费_购置设备费_自筹_间接
-     */
-    @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal sbfGzsbZcJj = BigDecimal.ZERO;
-
-    /**
-     * 设备费_试制设备费_专项_间接
-     */
-    @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal sbfSzsbZxJj = BigDecimal.ZERO;
-
-    /**
-     * 设备费_试制设备费_自筹_间接
-     */
-    @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal sbfSzsbZcJj = BigDecimal.ZERO;
-
-    /**
-     * 设备费_设备升级改造费_专项_间接
-     */
-    @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal sbfSbsjgzZxJj = BigDecimal.ZERO;
-
-    /**
-     * 设备费_设备升级改造费_自筹_间接
-     */
-    @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal sbfSbsjgzZcJj = BigDecimal.ZERO;
-
-    /**
-     * 设备费_设备租赁费_专项_间接
-     */
-    @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal sbfSbzlZxJj = BigDecimal.ZERO;
-
-    /**
-     * 设备费_设备租赁费_自筹_间接
-     */
-    @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal sbfSbzlZcJj = BigDecimal.ZERO;
-
-    /**
-     * 劳务费_专项_间接
-     */
-    @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal lwfZxJj = BigDecimal.ZERO;
-
-    /**
-     * 劳务费_自筹_间接
-     */
-    @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal lwfZcJj = BigDecimal.ZERO;
-
-    /**
-     * 劳务费_专家咨询费_专项_间接
-     */
-    @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal lwfZjzxfZxJj = BigDecimal.ZERO;
-
-    /**
-     * 劳务费_专家咨询费_自筹_间接
-     */
-    @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal lwfZjzxfZcJj = BigDecimal.ZERO;
-
-    /**
-     * 劳务费_人员劳务费_专项_间接
-     */
-    @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal lwfRylwfZxJj = BigDecimal.ZERO;
-
-    /**
-     * 劳务费_人员劳务费_自筹_间接
-     */
-    @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal lwfRylwfZcJj = BigDecimal.ZERO;
+    private BigDecimal clfJj = BigDecimal.ZERO;
 
     /**
      * 材料费_专项_间接
@@ -1186,218 +1119,254 @@ public class ProjectFundsBO {
     private BigDecimal clfZcJj = BigDecimal.ZERO;
 
     /**
-     * 材料费_材料费_专项_间接
+     * 管理费_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal clfClfZxJj = BigDecimal.ZERO;
+    private BigDecimal glfJj = BigDecimal.ZERO;
 
     /**
-     * 材料费_材料费_自筹_间接
+     * 管理费_专项_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal clfClfZcJj = BigDecimal.ZERO;
+    private BigDecimal glfZxJj = BigDecimal.ZERO;
 
     /**
-     * 科研活动费_专项_间接
+     * 管理费_自筹_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal kyhdfZxJj = BigDecimal.ZERO;
+    private BigDecimal glfZcJj = BigDecimal.ZERO;
 
     /**
-     * 科研活动费_自筹_间接
+     * 房屋租赁费_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal kyhdfZcJj = BigDecimal.ZERO;
+    private BigDecimal fwzjfJj = BigDecimal.ZERO;
 
     /**
-     * 科研活动费_资料费_专项_间接
+     * 房屋租赁费_自筹_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal kyhdfZlZxJj = BigDecimal.ZERO;
+    private BigDecimal fwzjfZcJj = BigDecimal.ZERO;
 
     /**
-     * 科研活动费_资料费_自筹_间接
+     * 房屋租赁费_专项_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal kyhdfZlZcJj = BigDecimal.ZERO;
+    private BigDecimal fwzjfZxJj = BigDecimal.ZERO;
 
     /**
-     * 科研活动费_测试化验加工费_专项_间接
+     * 日常水电暖费_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal kyhdfCshyjgZxJj = BigDecimal.ZERO;
+    private BigDecimal rcsdnfJj = BigDecimal.ZERO;
 
     /**
-     * 科研活动费_测试化验加工费_自筹_间接
+     * 日常水电暖费_专项_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal kyhdfCshyjgZcJj = BigDecimal.ZERO;
+    private BigDecimal rcsdnfZxJj = BigDecimal.ZERO;
 
     /**
-     * 科研活动费_办公费_专项_间接
+     * 日常水电暖费_自筹_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal kyhdfBgZxJj = BigDecimal.ZERO;
+    private BigDecimal rcsdnfZcJj = BigDecimal.ZERO;
 
     /**
-     * 科研活动费_办公费_自筹_间接
+     * 资料费_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal kyhdfBgZcJj = BigDecimal.ZERO;
+    private BigDecimal zlfJj = BigDecimal.ZERO;
 
     /**
-     * 科研活动费_数据/样本采集费_专项_间接
+     * 资料费_专项_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal kyhdfSjybcjZxJj = BigDecimal.ZERO;
+    private BigDecimal zlfZxJj = BigDecimal.ZERO;
 
     /**
-     * 科研活动费_数据/样本采集费_自筹_间接
+     * 资料费_自筹_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal kyhdfSjybcjZcJj = BigDecimal.ZERO;
+    private BigDecimal zlfZcJj = BigDecimal.ZERO;
 
     /**
-     * 科研活动费_印刷/出版费_专项_间接
+     * 数据样本采集费_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal kyhdfYscbZxJj = BigDecimal.ZERO;
+    private BigDecimal sjybcjfJj = BigDecimal.ZERO;
 
     /**
-     * 科研活动费_印刷/出版费_自筹_间接
+     * 数据样本采集费_专项_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal kyhdfYscbZcJj = BigDecimal.ZERO;
+    private BigDecimal sjybcjfZxJj = BigDecimal.ZERO;
 
     /**
-     * 科研活动费_知识产权事务费_专项_间接
+     * 数据样本采集费_自筹_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal kyhdfZscqswZxJj = BigDecimal.ZERO;
+    private BigDecimal sjybcjfZcJj = BigDecimal.ZERO;
 
     /**
-     * 科研活动费_知识产权事务费_自筹_间接
+     * 测试化验加工费_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal kyhdfZscqswZcJj = BigDecimal.ZERO;
+    private BigDecimal cshyjgfJj = BigDecimal.ZERO;
 
     /**
-     * 科研活动费_燃料动力费_专项_间接
+     * 测试化验加工费_专项_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal kyhdfRldlZxJj = BigDecimal.ZERO;
+    private BigDecimal cshyjgfZxJj = BigDecimal.ZERO;
 
     /**
-     * 科研活动费_燃料动力费_自筹_间接
+     * 测试化验加工费_自筹_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal kyhdfRldlZcJj = BigDecimal.ZERO;
+    private BigDecimal cshyjgfZcJj = BigDecimal.ZERO;
 
     /**
-     * 科研活动费_车辆使用费_专项_间接
+     * 燃料动力费_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal kyhdfClsyZxJj = BigDecimal.ZERO;
+    private BigDecimal rldlfJj = BigDecimal.ZERO;
 
     /**
-     * 科研活动费_车辆使用费_自筹_间接
+     * 燃料动力费_专项_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal kyhdfClsyZcJj = BigDecimal.ZERO;
+    private BigDecimal rldlfZxJj = BigDecimal.ZERO;
 
     /**
-     * 科研服务费_专项_间接
+     * 燃料动力费_自筹_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal kyfwfZxJj = BigDecimal.ZERO;
+    private BigDecimal rldlfZcJj = BigDecimal.ZERO;
 
     /**
-     * 科研服务费_自筹_间接
+     * 办公费_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal kyfwfZcJj = BigDecimal.ZERO;
+    private BigDecimal bgfJj = BigDecimal.ZERO;
 
     /**
-     * 科研服务费_专家咨询费_专项_间接
+     * 办公费_专项_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal kyfwfZjzxZxJj = BigDecimal.ZERO;
+    private BigDecimal bgfZxJj = BigDecimal.ZERO;
 
     /**
-     * 科研服务费_专家咨询费_自筹_间接
+     * 办公费_自筹_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal kyfwfZjzxZcJj = BigDecimal.ZERO;
+    private BigDecimal bgfZcJj = BigDecimal.ZERO;
 
     /**
-     * 科研服务费_差旅费_专项_间接
+     * 印刷出版费_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal kyfwfClZxJj = BigDecimal.ZERO;
+    private BigDecimal yscbfJj = BigDecimal.ZERO;
 
     /**
-     * 科研服务费_差旅费_自筹_间接
+     * 印刷出版费_专项_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal kyfwfClZcJj = BigDecimal.ZERO;
+    private BigDecimal yscbfZxJj = BigDecimal.ZERO;
 
     /**
-     * 科研服务费_会议/会务费_专项_间接
+     * 印刷出版费_自筹_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal kyfwfHyhwZxJj = BigDecimal.ZERO;
+    private BigDecimal yscbfZcJj = BigDecimal.ZERO;
 
     /**
-     * 科研服务费_会议/会务费_自筹_间接
+     * 知识产权事务费_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal kyfwfHyhwZcJj = BigDecimal.ZERO;
+    private BigDecimal zscqswfJj = BigDecimal.ZERO;
 
     /**
-     * 科研服务费_国际合作交流_专项_间接
+     * 知识产权事务费_专项_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal kyfwfGjhzjlZxJj = BigDecimal.ZERO;
+    private BigDecimal zscqswfZxJj = BigDecimal.ZERO;
 
     /**
-     * 科研服务费_国际合作交流_自筹_间接
+     * 知识产权事务费_自筹_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal kyfwfGjhzjlZcJj = BigDecimal.ZERO;
+    private BigDecimal zscqswfZcJj = BigDecimal.ZERO;
 
     /**
-     * 科研服务费_国内协作费_专项_间接
+     * 车辆使用费_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal kyfwfGnxzZxJj = BigDecimal.ZERO;
+    private BigDecimal clsyfJj = BigDecimal.ZERO;
 
     /**
-     * 科研服务费_国内协作费_自筹_间接
+     * 车辆使用费_专项_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal kyfwfGnxzZcJj = BigDecimal.ZERO;
+    private BigDecimal clsyfZxJj = BigDecimal.ZERO;
 
     /**
-     * 人员和劳务补助费_专项_间接
+     * 车辆使用费_自筹_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal ryhlwbzfZxJj = BigDecimal.ZERO;
+    private BigDecimal clsyfZcJj = BigDecimal.ZERO;
 
     /**
-     * 人员和劳务补助费_自筹_间接
+     * 差旅费_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal ryhlwbzfZcJj = BigDecimal.ZERO;
+    private BigDecimal chlfJj = BigDecimal.ZERO;
 
     /**
-     * 人员和劳务补助费_人员劳务费_专项_间接
+     * 差旅费_专项_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal ryhlwbzfRylwZxJj = BigDecimal.ZERO;
+    private BigDecimal chlfZxJj = BigDecimal.ZERO;
 
     /**
-     * 人员和劳务补助费_人员劳务费_自筹_间接
+     * 差旅费_自筹_间接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
-    private BigDecimal ryhlwbzfRylwZcJj = BigDecimal.ZERO;
+    private BigDecimal chlfZcJj = BigDecimal.ZERO;
+
+    /**
+     * 会议会务费_间接
+     */
+    @DecimalMin(value = "0.000000", message = "金额不能为负数")
+    private BigDecimal hyhwfJj = BigDecimal.ZERO;
+
+    /**
+     * 会议会务费_专项_间接
+     */
+    @DecimalMin(value = "0.000000", message = "金额不能为负数")
+    private BigDecimal hyhwfZxJj = BigDecimal.ZERO;
+
+    /**
+     * 会议会务费_自筹_间接
+     */
+    @DecimalMin(value = "0.000000", message = "金额不能为负数")
+    private BigDecimal hyhwfZcJj = BigDecimal.ZERO;
+
+    /**
+     * 专家咨询费_间接
+     */
+    @DecimalMin(value = "0.000000", message = "金额不能为负数")
+    private BigDecimal zjzxfJj = BigDecimal.ZERO;
+
+    /**
+     * 专家咨询费_专项_间接
+     */
+    @DecimalMin(value = "0.000000", message = "金额不能为负数")
+    private BigDecimal zjzxfZxJj = BigDecimal.ZERO;
+
+    /**
+     * 专家咨询费_自筹_间接
+     */
+    @DecimalMin(value = "0.000000", message = "金额不能为负数")
+    private BigDecimal zjzxfZcJj = BigDecimal.ZERO;
 }

@@ -858,14 +858,19 @@ public class ProjectFundsVO {
     private BigDecimal jxzcZcJj;
 
     /**
-     * 间接费用_其他支出_专项
+     * 其他支出_间接
      */
-    private BigDecimal othersZx;
+    private BigDecimal othersJj;
 
     /**
-     * 间接费用_其他支出_自筹
+     * 其他支出_专项_间接
      */
-    private BigDecimal othersZc;
+    private BigDecimal othersZxJj;
+
+    /**
+     * 其他支出_自筹_间接
+     */
+    private BigDecimal othersZcJj;
 
     /**
      * 经费来源_专项
@@ -893,6 +898,11 @@ public class ProjectFundsVO {
     private BigDecimal jflyQtzjZc;
 
     /**
+     * 设备费_间接
+     */
+    private BigDecimal sbfJj;
+
+    /**
      * 设备费_专项_间接
      */
     private BigDecimal sbfZxJj;
@@ -903,74 +913,9 @@ public class ProjectFundsVO {
     private BigDecimal sbfZcJj;
 
     /**
-     * 设备费_购置设备费_专项_间接
+     * 材料费_间接
      */
-    private BigDecimal sbfGzsbZxJj;
-
-    /**
-     * 设备费_购置设备费_自筹_间接
-     */
-    private BigDecimal sbfGzsbZcJj;
-
-    /**
-     * 设备费_试制设备费_专项_间接
-     */
-    private BigDecimal sbfSzsbZxJj;
-
-    /**
-     * 设备费_试制设备费_自筹_间接
-     */
-    private BigDecimal sbfSzsbZcJj;
-
-    /**
-     * 设备费_设备升级改造费_专项_间接
-     */
-    private BigDecimal sbfSbsjgzZxJj;
-
-    /**
-     * 设备费_设备升级改造费_自筹_间接
-     */
-    private BigDecimal sbfSbsjgzZcJj;
-
-    /**
-     * 设备费_设备租赁费_专项_间接
-     */
-    private BigDecimal sbfSbzlZxJj;
-
-    /**
-     * 设备费_设备租赁费_自筹_间接
-     */
-    private BigDecimal sbfSbzlZcJj;
-
-    /**
-     * 劳务费_专项_间接
-     */
-    private BigDecimal lwfZxJj;
-
-    /**
-     * 劳务费_自筹_间接
-     */
-    private BigDecimal lwfZcJj;
-
-    /**
-     * 劳务费_专家咨询费_专项_间接
-     */
-    private BigDecimal lwfZjzxfZxJj;
-
-    /**
-     * 劳务费_专家咨询费_自筹_间接
-     */
-    private BigDecimal lwfZjzxfZcJj;
-
-    /**
-     * 劳务费_人员劳务费_专项_间接
-     */
-    private BigDecimal lwfRylwfZxJj;
-
-    /**
-     * 劳务费_人员劳务费_自筹_间接
-     */
-    private BigDecimal lwfRylwfZcJj;
+    private BigDecimal clfJj;
 
     /**
      * 材料费_专项_间接
@@ -983,182 +928,212 @@ public class ProjectFundsVO {
     private BigDecimal clfZcJj;
 
     /**
-     * 材料费_材料费_专项_间接
+     * 管理费_间接
      */
-    private BigDecimal clfClfZxJj;
+    private BigDecimal glfJj;
 
     /**
-     * 材料费_材料费_自筹_间接
+     * 管理费_专项_间接
      */
-    private BigDecimal clfClfZcJj;
+    private BigDecimal glfZxJj;
 
     /**
-     * 科研活动费_专项_间接
+     * 管理费_自筹_间接
      */
-    private BigDecimal kyhdfZxJj;
+    private BigDecimal glfZcJj;
 
     /**
-     * 科研活动费_自筹_间接
+     * 房屋租赁费_间接
      */
-    private BigDecimal kyhdfZcJj;
+    private BigDecimal fwzjfJj;
 
     /**
-     * 科研活动费_资料费_专项_间接
+     * 房屋租赁费_自筹_间接
      */
-    private BigDecimal kyhdfZlZxJj;
+    private BigDecimal fwzjfZcJj;
 
     /**
-     * 科研活动费_资料费_自筹_间接
+     * 房屋租赁费_专项_间接
      */
-    private BigDecimal kyhdfZlZcJj;
+    private BigDecimal fwzjfZxJj;
 
     /**
-     * 科研活动费_测试化验加工费_专项_间接
+     * 日常水电暖费_间接
      */
-    private BigDecimal kyhdfCshyjgZxJj;
+    private BigDecimal rcsdnfJj;
 
     /**
-     * 科研活动费_测试化验加工费_自筹_间接
+     * 日常水电暖费_专项_间接
      */
-    private BigDecimal kyhdfCshyjgZcJj;
+    private BigDecimal rcsdnfZxJj;
 
     /**
-     * 科研活动费_办公费_专项_间接
+     * 日常水电暖费_自筹_间接
      */
-    private BigDecimal kyhdfBgZxJj;
+    private BigDecimal rcsdnfZcJj;
 
     /**
-     * 科研活动费_办公费_自筹_间接
+     * 资料费_间接
      */
-    private BigDecimal kyhdfBgZcJj;
+    private BigDecimal zlfJj;
 
     /**
-     * 科研活动费_数据/样本采集费_专项_间接
+     * 资料费_专项_间接
      */
-    private BigDecimal kyhdfSjybcjZxJj;
+    private BigDecimal zlfZxJj;
 
     /**
-     * 科研活动费_数据/样本采集费_自筹_间接
+     * 资料费_自筹_间接
      */
-    private BigDecimal kyhdfSjybcjZcJj;
+    private BigDecimal zlfZcJj;
 
     /**
-     * 科研活动费_印刷/出版费_专项_间接
+     * 数据样本采集费_间接
      */
-    private BigDecimal kyhdfYscbZxJj;
+    private BigDecimal sjybcjfJj;
 
     /**
-     * 科研活动费_印刷/出版费_自筹_间接
+     * 数据样本采集费_专项_间接
      */
-    private BigDecimal kyhdfYscbZcJj;
+    private BigDecimal sjybcjfZxJj;
 
     /**
-     * 科研活动费_知识产权事务费_专项_间接
+     * 数据样本采集费_自筹_间接
      */
-    private BigDecimal kyhdfZscqswZxJj;
+    private BigDecimal sjybcjfZcJj;
 
     /**
-     * 科研活动费_知识产权事务费_自筹_间接
+     * 测试化验加工费_间接
      */
-    private BigDecimal kyhdfZscqswZcJj;
+    private BigDecimal cshyjgfJj;
 
     /**
-     * 科研活动费_燃料动力费_专项_间接
+     * 测试化验加工费_专项_间接
      */
-    private BigDecimal kyhdfRldlZxJj;
+    private BigDecimal cshyjgfZxJj;
 
     /**
-     * 科研活动费_燃料动力费_自筹_间接
+     * 测试化验加工费_自筹_间接
      */
-    private BigDecimal kyhdfRldlZcJj;
+    private BigDecimal cshyjgfZcJj;
 
     /**
-     * 科研活动费_车辆使用费_专项_间接
+     * 燃料动力费_间接
      */
-    private BigDecimal kyhdfClsyZxJj;
+    private BigDecimal rldlfJj;
 
     /**
-     * 科研活动费_车辆使用费_自筹_间接
+     * 燃料动力费_专项_间接
      */
-    private BigDecimal kyhdfClsyZcJj;
+    private BigDecimal rldlfZxJj;
 
     /**
-     * 科研服务费_专项_间接
+     * 燃料动力费_自筹_间接
      */
-    private BigDecimal kyfwfZxJj;
+    private BigDecimal rldlfZcJj;
 
     /**
-     * 科研服务费_自筹_间接
+     * 办公费_间接
      */
-    private BigDecimal kyfwfZcJj;
+    private BigDecimal bgfJj;
 
     /**
-     * 科研服务费_专家咨询费_专项_间接
+     * 办公费_专项_间接
      */
-    private BigDecimal kyfwfZjzxZxJj;
+    private BigDecimal bgfZxJj;
 
     /**
-     * 科研服务费_专家咨询费_自筹_间接
+     * 办公费_自筹_间接
      */
-    private BigDecimal kyfwfZjzxZcJj;
+    private BigDecimal bgfZcJj;
 
     /**
-     * 科研服务费_差旅费_专项_间接
+     * 印刷出版费_间接
      */
-    private BigDecimal kyfwfClZxJj;
+    private BigDecimal yscbfJj;
 
     /**
-     * 科研服务费_差旅费_自筹_间接
+     * 印刷出版费_专项_间接
      */
-    private BigDecimal kyfwfClZcJj;
+    private BigDecimal yscbfZxJj;
 
     /**
-     * 科研服务费_会议/会务费_专项_间接
+     * 印刷出版费_自筹_间接
      */
-    private BigDecimal kyfwfHyhwZxJj;
+    private BigDecimal yscbfZcJj;
 
     /**
-     * 科研服务费_会议/会务费_自筹_间接
+     * 知识产权事务费_间接
      */
-    private BigDecimal kyfwfHyhwZcJj;
+    private BigDecimal zscqswfJj;
 
     /**
-     * 科研服务费_国际合作交流_专项_间接
+     * 知识产权事务费_专项_间接
      */
-    private BigDecimal kyfwfGjhzjlZxJj;
+    private BigDecimal zscqswfZxJj;
 
     /**
-     * 科研服务费_国际合作交流_自筹_间接
+     * 知识产权事务费_自筹_间接
      */
-    private BigDecimal kyfwfGjhzjlZcJj;
+    private BigDecimal zscqswfZcJj;
 
     /**
-     * 科研服务费_国内协作费_专项_间接
+     * 车辆使用费_间接
      */
-    private BigDecimal kyfwfGnxzZxJj;
+    private BigDecimal clsyfJj;
 
     /**
-     * 科研服务费_国内协作费_自筹_间接
+     * 车辆使用费_专项_间接
      */
-    private BigDecimal kyfwfGnxzZcJj;
+    private BigDecimal clsyfZxJj;
 
     /**
-     * 人员和劳务补助费_专项_间接
+     * 车辆使用费_自筹_间接
      */
-    private BigDecimal ryhlwbzfZxJj;
+    private BigDecimal clsyfZcJj;
 
     /**
-     * 人员和劳务补助费_自筹_间接
+     * 差旅费_间接
      */
-    private BigDecimal ryhlwbzfZcJj;
+    private BigDecimal chlfJj;
 
     /**
-     * 人员和劳务补助费_人员劳务费_专项_间接
+     * 差旅费_专项_间接
      */
-    private BigDecimal ryhlwbzfRylwZxJj;
+    private BigDecimal chlfZxJj;
 
     /**
-     * 人员和劳务补助费_人员劳务费_自筹_间接
+     * 差旅费_自筹_间接
      */
-    private BigDecimal ryhlwbzfRylwZcJj;
+    private BigDecimal chlfZcJj;
+
+    /**
+     * 会议会务费_间接
+     */
+    private BigDecimal hyhwfJj;
+
+    /**
+     * 会议会务费_专项_间接
+     */
+    private BigDecimal hyhwfZxJj;
+
+    /**
+     * 会议会务费_自筹_间接
+     */
+    private BigDecimal hyhwfZcJj;
+
+    /**
+     * 专家咨询费_间接
+     */
+    private BigDecimal zjzxfJj;
+
+    /**
+     * 专家咨询费_专项_间接
+     */
+    private BigDecimal zjzxfZxJj;
+
+    /**
+     * 专家咨询费_自筹_间接
+     */
+    private BigDecimal zjzxfZcJj;
 }
