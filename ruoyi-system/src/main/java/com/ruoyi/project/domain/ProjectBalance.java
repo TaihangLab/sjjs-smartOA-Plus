@@ -1673,6 +1673,16 @@ public class ProjectBalance implements Serializable {
     private BigDecimal jxzcZcJjUnpaid;
 
     /**
+     * 其他支出_间接_已支付
+     */
+    private BigDecimal othersJjPaid;
+
+    /**
+     * 其他支出_间接_未支付
+     */
+    private BigDecimal othersJjUnpaid;
+
+    /**
      * 间接费用_其他支出_专项_已支付
      */
     private BigDecimal othersZxPaid;
@@ -1693,309 +1703,484 @@ public class ProjectBalance implements Serializable {
     private BigDecimal othersZcUnpaid;
 
     /**
-     * 经费来源_专项
+     * 设备费_间接_已支付
      */
-    private BigDecimal jflyZx;
+    private BigDecimal sbfJjPaid;
 
     /**
-     * 经费来源_自筹
+     * 设备费_间接_未支付
      */
-    private BigDecimal jflyZc;
+    private BigDecimal sbfJjUnpaid;
 
     /**
-     * 经费来源_其他财政拨款_自筹
+     * 设备费_专项_间接_已支付
      */
-    private BigDecimal jflyQtczbkZc;
+    private BigDecimal sbfZxJjPaid;
 
     /**
-     * 经费来源_单位自有货币资金_自筹
+     * 设备费_专项_间接_未支付
      */
-    private BigDecimal jflyDwzyhbzjZc;
+    private BigDecimal sbfZxJjUnpaid;
 
     /**
-     * 经费来源_其他资金_自筹
+     * 设备费_自筹_间接_已支付
      */
-    private BigDecimal jflyQtzjZc;
+    private BigDecimal sbfZcJjPaid;
 
     /**
-     * 设备费_专项_间接
+     * 设备费_自筹_间接_未支付
      */
-    private BigDecimal sbfZxJj;
+    private BigDecimal sbfZcJjUnpaid;
 
     /**
-     * 设备费_自筹_间接
+     * 材料费_间接_已支付
      */
-    private BigDecimal sbfZcJj;
+    private BigDecimal clfJjPaid;
 
     /**
-     * 设备费_购置设备费_专项_间接
+     * 材料费_间接_未支付
      */
-    private BigDecimal sbfGzsbZxJj;
+    private BigDecimal clfJjUnpaid;
 
     /**
-     * 设备费_购置设备费_自筹_间接
+     * 材料费_专项_间接_已支付
      */
-    private BigDecimal sbfGzsbZcJj;
+    private BigDecimal clfZxJjPaid;
 
     /**
-     * 设备费_试制设备费_专项_间接
+     * 材料费_专项_间接_未支付
      */
-    private BigDecimal sbfSzsbZxJj;
+    private BigDecimal clfZxJjUnpaid;
 
     /**
-     * 设备费_试制设备费_自筹_间接
+     * 材料费_自筹_间接_已支付
      */
-    private BigDecimal sbfSzsbZcJj;
+    private BigDecimal clfZcJjPaid;
 
     /**
-     * 设备费_设备升级改造费_专项_间接
+     * 材料费_自筹_间接_未支付
      */
-    private BigDecimal sbfSbsjgzZxJj;
+    private BigDecimal clfZcJjUnpaid;
 
     /**
-     * 设备费_设备升级改造费_自筹_间接
+     * 管理费_间接_已支付
      */
-    private BigDecimal sbfSbsjgzZcJj;
+    private BigDecimal glfJjPaid;
 
     /**
-     * 设备费_设备租赁费_专项_间接
+     * 管理费_间接_未支付
      */
-    private BigDecimal sbfSbzlZxJj;
+    private BigDecimal glfJjUnpaid;
 
     /**
-     * 设备费_设备租赁费_自筹_间接
+     * 管理费_专项_间接_已支付
      */
-    private BigDecimal sbfSbzlZcJj;
+    private BigDecimal glfZxJjPaid;
 
     /**
-     * 劳务费_专项_间接
+     * 管理费_专项_间接_未支付
      */
-    private BigDecimal lwfZxJj;
+    private BigDecimal glfZxJjUnpaid;
 
     /**
-     * 劳务费_自筹_间接
+     * 管理费_自筹_间接_已支付
      */
-    private BigDecimal lwfZcJj;
+    private BigDecimal glfZcJjPaid;
 
     /**
-     * 劳务费_专家咨询费_专项_间接
+     * 管理费_自筹_间接_未支付
      */
-    private BigDecimal lwfZjzxfZxJj;
+    private BigDecimal glfZcJjUnpaid;
 
     /**
-     * 劳务费_专家咨询费_自筹_间接
+     * 房屋租赁费_间接_已支付
      */
-    private BigDecimal lwfZjzxfZcJj;
+    private BigDecimal fwzjfJjPaid;
 
     /**
-     * 劳务费_人员劳务费_专项_间接
+     * 房屋租赁费_间接_未支付
      */
-    private BigDecimal lwfRylwfZxJj;
+    private BigDecimal fwzjfJjUnpaid;
 
     /**
-     * 劳务费_人员劳务费_自筹_间接
+     * 房屋租赁费_专项_间接_已支付
      */
-    private BigDecimal lwfRylwfZcJj;
+    private BigDecimal fwzjfZxJjPaid;
 
     /**
-     * 材料费_专项_间接
+     * 房屋租赁费_专项_间接_未支付
      */
-    private BigDecimal clfZxJj;
+    private BigDecimal fwzjfZxJjUnpaid;
 
     /**
-     * 材料费_自筹_间接
+     * 房屋租赁费_自筹_间接_未支付
      */
-    private BigDecimal clfZcJj;
+    private BigDecimal fwzjfZcJjUnpaid;
 
     /**
-     * 材料费_材料费_专项_间接
+     * 房屋租赁费_自筹_间接_已支付
      */
-    private BigDecimal clfClfZxJj;
+    private BigDecimal fwzjfZcJjPaid;
 
     /**
-     * 材料费_材料费_自筹_间接
+     * 日常水电暖费_间接_未支付
      */
-    private BigDecimal clfClfZcJj;
+    private BigDecimal rcsdnfJjUnpaid;
 
     /**
-     * 科研活动费_专项_间接
+     * 日常水电暖费_间接_已支付
      */
-    private BigDecimal kyhdfZxJj;
+    private BigDecimal rcsdnfJjPaid;
 
     /**
-     * 科研活动费_自筹_间接
+     * 日常水电暖费_专项_间接_未支付
      */
-    private BigDecimal kyhdfZcJj;
+    private BigDecimal rcsdnfZxJjUnpaid;
 
     /**
-     * 科研活动费_资料费_专项_间接
+     * 日常水电暖费_专项_间接_已支付
      */
-    private BigDecimal kyhdfZlZxJj;
+    private BigDecimal rcsdnfZxJjPaid;
 
     /**
-     * 科研活动费_资料费_自筹_间接
+     * 日常水电暖费_自筹_间接_已支付
      */
-    private BigDecimal kyhdfZlZcJj;
+    private BigDecimal rcsdnfZcJjPaid;
 
     /**
-     * 科研活动费_测试化验加工费_专项_间接
+     * 日常水电暖费_自筹_间接_未支付
      */
-    private BigDecimal kyhdfCshyjgZxJj;
+    private BigDecimal rcsdnfZcJjUnpaid;
 
     /**
-     * 科研活动费_测试化验加工费_自筹_间接
+     * 资料费_间接_已支付
      */
-    private BigDecimal kyhdfCshyjgZcJj;
+    private BigDecimal zlfJjPaid;
 
     /**
-     * 科研活动费_办公费_专项_间接
+     * 资料费_间接_未支付
      */
-    private BigDecimal kyhdfBgZxJj;
+    private BigDecimal zlfJjUnpaid;
 
     /**
-     * 科研活动费_办公费_自筹_间接
+     * 资料费_专项_间接_已支付
      */
-    private BigDecimal kyhdfBgZcJj;
+    private BigDecimal zlfZxJjPaid;
 
     /**
-     * 科研活动费_数据/样本采集费_专项_间接
+     * 资料费_专项_间接_未支付
      */
-    private BigDecimal kyhdfSjybcjZxJj;
+    private BigDecimal zlfZxJjUnpaid;
 
     /**
-     * 科研活动费_数据/样本采集费_自筹_间接
+     * 资料费_自筹_间接_已支付
      */
-    private BigDecimal kyhdfSjybcjZcJj;
+    private BigDecimal zlfZcJjPaid;
 
     /**
-     * 科研活动费_印刷/出版费_专项_间接
+     * 资料费_自筹_间接_未支付
      */
-    private BigDecimal kyhdfYscbZxJj;
+    private BigDecimal zlfZcJjUnpaid;
 
     /**
-     * 科研活动费_印刷/出版费_自筹_间接
+     * 数据样本采集费_间接_已支付
      */
-    private BigDecimal kyhdfYscbZcJj;
+    private BigDecimal sjybcjfJjPaid;
 
     /**
-     * 科研活动费_知识产权事务费_专项_间接
+     * 数据样本采集费_间接_未支付
      */
-    private BigDecimal kyhdfZscqswZxJj;
+    private BigDecimal sjybcjfJjUnpaid;
 
     /**
-     * 科研活动费_知识产权事务费_自筹_间接
+     * 数据样本采集费_专项_间接_已支付
      */
-    private BigDecimal kyhdfZscqswZcJj;
+    private BigDecimal sjybcjfZxJjPaid;
 
     /**
-     * 科研活动费_燃料动力费_专项_间接
+     * 数据样本采集费_专项_间接_未支付
      */
-    private BigDecimal kyhdfRldlZxJj;
+    private BigDecimal sjybcjfZxJjUnpaid;
 
     /**
-     * 科研活动费_燃料动力费_自筹_间接
+     * 数据样本采集费_自筹_间接_已支付
      */
-    private BigDecimal kyhdfRldlZcJj;
+    private BigDecimal sjybcjfZcJjPaid;
 
     /**
-     * 科研活动费_车辆使用费_专项_间接
+     * 数据样本采集费_自筹_间接_未支付
      */
-    private BigDecimal kyhdfClsyZxJj;
+    private BigDecimal sjybcjfZcJjUnpaid;
 
     /**
-     * 科研活动费_车辆使用费_自筹_间接
+     * 测试化验加工费_间接_已支付
      */
-    private BigDecimal kyhdfClsyZcJj;
+    private BigDecimal cshyjgfJjPaid;
 
     /**
-     * 科研服务费_专项_间接
+     * 测试化验加工费_间接_未支付
      */
-    private BigDecimal kyfwfZxJj;
+    private BigDecimal cshyjgfJjUnpaid;
 
     /**
-     * 科研服务费_自筹_间接
+     * 测试化验加工费_专项_间接_已支付
      */
-    private BigDecimal kyfwfZcJj;
+    private BigDecimal cshyjgfZxJjPaid;
 
     /**
-     * 科研服务费_专家咨询费_专项_间接
+     * 测试化验加工费_专项_间接_未支付
      */
-    private BigDecimal kyfwfZjzxZxJj;
+    private BigDecimal cshyjgfZxJjUnpaid;
 
     /**
-     * 科研服务费_专家咨询费_自筹_间接
+     * 测试化验加工费_自筹_间接_已支付
      */
-    private BigDecimal kyfwfZjzxZcJj;
+    private BigDecimal cshyjgfZcJjPaid;
 
     /**
-     * 科研服务费_差旅费_专项_间接
+     * 测试化验加工费_自筹_间接_未支付
      */
-    private BigDecimal kyfwfClZxJj;
+    private BigDecimal cshyjgfZcJjUnpaid;
 
     /**
-     * 科研服务费_差旅费_自筹_间接
+     * 燃料动力费_间接_已支付
      */
-    private BigDecimal kyfwfClZcJj;
+    private BigDecimal rldlfJjPaid;
 
     /**
-     * 科研服务费_会议/会务费_专项_间接
+     * 燃料动力费_间接_未支付
      */
-    private BigDecimal kyfwfHyhwZxJj;
+    private BigDecimal rldlfJjUnpaid;
 
     /**
-     * 科研服务费_会议/会务费_自筹_间接
+     * 燃料动力费_专项_间接_已支付
      */
-    private BigDecimal kyfwfHyhwZcJj;
+    private BigDecimal rldlfZxJjPaid;
 
     /**
-     * 科研服务费_国际合作交流_专项_间接
+     * 燃料动力费_专项_间接_未支付
      */
-    private BigDecimal kyfwfGjhzjlZxJj;
+    private BigDecimal rldlfZxJjUnpaid;
 
     /**
-     * 科研服务费_国际合作交流_自筹_间接
+     * 燃料动力费_自筹_间接_已支付
      */
-    private BigDecimal kyfwfGjhzjlZcJj;
+    private BigDecimal rldlfZcJjPaid;
 
     /**
-     * 科研服务费_国内协作费_专项_间接
+     * 燃料动力费_自筹_间接_未支付
      */
-    private BigDecimal kyfwfGnxzZxJj;
+    private BigDecimal rldlfZcJjUnpaid;
 
     /**
-     * 科研服务费_国内协作费_自筹_间接
+     * 办公费_间接_已支付
      */
-    private BigDecimal kyfwfGnxzZcJj;
+    private BigDecimal bgfJjPaid;
 
     /**
-     * 人员和劳务补助费_专项_间接
+     * 办公费_间接_未支付
      */
-    private BigDecimal ryhlwbzfZxJj;
+    private BigDecimal bgfJjUnpaid;
 
     /**
-     * 人员和劳务补助费_自筹_间接
+     * 办公费_专项_间接_已支付
      */
-    private BigDecimal ryhlwbzfZcJj;
+    private BigDecimal bgfZxJjPaid;
 
     /**
-     * 人员和劳务补助费_人员劳务费_专项_间接
+     * 办公费_专项_间接_未支付
      */
-    private BigDecimal ryhlwbzfRylwZxJj;
+    private BigDecimal bgfZxJjUnpaid;
 
     /**
-     * 人员和劳务补助费_人员劳务费_自筹_间接
+     * 办公费_自筹_间接_已支付
      */
-    private BigDecimal ryhlwbzfRylwZcJj;
+    private BigDecimal bgfZcJjPaid;
 
     /**
-     * 绩效支出_专项_间接
+     * 办公费_自筹_间接_未支付
      */
-    private BigDecimal jxzcZxJj;
+    private BigDecimal bgfZcJjUnpaid;
 
     /**
-     * 绩效支出_自筹_间接
+     * 印刷出版费_间接_已支付
      */
-    private BigDecimal jxzcZcJj;
+    private BigDecimal yscbfJjPaid;
+
+    /**
+     * 印刷出版费_间接_未支付
+     */
+    private BigDecimal yscbfJjUnpaid;
+
+    /**
+     * 印刷出版费_专项_间接_已支付
+     */
+    private BigDecimal yscbfZxJjPaid;
+
+    /**
+     * 印刷出版费_专项_间接_未支付
+     */
+    private BigDecimal yscbfZxJjUnpaid;
+
+    /**
+     * 印刷出版费_自筹_间接_已支付
+     */
+    private BigDecimal yscbfZcJjPaid;
+
+    /**
+     * 印刷出版费_自筹_间接_未支付
+     */
+    private BigDecimal yscbfZcJjUnpaid;
+
+    /**
+     * 知识产权事务费_间接_已支付
+     */
+    private BigDecimal zscqswfJjPaid;
+
+    /**
+     * 知识产权事务费_间接_未支付
+     */
+    private BigDecimal zscqswfJjUnpaid;
+
+    /**
+     * 知识产权事务费_专项_间接_已支付
+     */
+    private BigDecimal zscqswfZxJjPaid;
+
+    /**
+     * 知识产权事务费_专项_间接_未支付
+     */
+    private BigDecimal zscqswfZxJjUnpaid;
+
+    /**
+     * 知识产权事务费_自筹_间接_已支付
+     */
+    private BigDecimal zscqswfZcJjPaid;
+
+    /**
+     * 知识产权事务费_自筹_间接_未支付
+     */
+    private BigDecimal zscqswfZcJjUnpaid;
+
+    /**
+     * 车辆使用费_间接_已支付
+     */
+    private BigDecimal clsyfJjPaid;
+
+    /**
+     * 车辆使用费_间接_未支付
+     */
+    private BigDecimal clsyfJjUnpaid;
+
+    /**
+     * 车辆使用费_专项_间接_已支付
+     */
+    private BigDecimal clsyfZxJjPaid;
+
+    /**
+     * 车辆使用费_专项_间接_未支付
+     */
+    private BigDecimal clsyfZxJjUnpaid;
+
+    /**
+     * 车辆使用费_自筹_间接_已支付
+     */
+    private BigDecimal clsyfZcJjPaid;
+
+    /**
+     * 车辆使用费_自筹_间接_未支付
+     */
+    private BigDecimal clsyfZcJjUnpaid;
+
+    /**
+     * 差旅费_间接_已支付
+     */
+    private BigDecimal chlfJjPaid;
+
+    /**
+     * 差旅费_间接_未支付
+     */
+    private BigDecimal chlfJjUnpaid;
+
+    /**
+     * 差旅费_专项_间接_已支付
+     */
+    private BigDecimal chlfZxJjPaid;
+
+    /**
+     * 差旅费_专项_间接_未支付
+     */
+    private BigDecimal chlfZxJjUnpaid;
+
+    /**
+     * 差旅费_自筹_间接_已支付
+     */
+    private BigDecimal chlfZcJjPaid;
+
+    /**
+     * 差旅费_自筹_间接_未支付
+     */
+    private BigDecimal chlfZcJjUnpaid;
+
+    /**
+     * 会议会务费_间接_已支付
+     */
+    private BigDecimal hyhwfJjPaid;
+
+    /**
+     * 会议会务费_间接_未支付
+     */
+    private BigDecimal hyhwfJjUnpaid;
+
+    /**
+     * 会议会务费_专项_间接_已支付
+     */
+    private BigDecimal hyhwfZxJjPaid;
+
+    /**
+     * 会议会务费_专项_间接_未支付
+     */
+    private BigDecimal hyhwfZxJjUnpaid;
+
+    /**
+     * 会议会务费_自筹_间接_已支付
+     */
+    private BigDecimal hyhwfZcJjPaid;
+
+    /**
+     * 会议会务费_自筹_间接_未支付
+     */
+    private BigDecimal hyhwfZcJjUnpaid;
+
+    /**
+     * 专家咨询费_间接_已支付
+     */
+    private BigDecimal zjzxfJjPaid;
+
+    /**
+     * 专家咨询费_间接_未支付
+     */
+    private BigDecimal zjzxfJjUnpaid;
+
+    /**
+     * 专家咨询费_专项_间接_已支付
+     */
+    private BigDecimal zjzxfZxJjPaid;
+
+    /**
+     * 专家咨询费_专项_间接_未支付
+     */
+    private BigDecimal zjzxfZxJjUnpaid;
+
+    /**
+     * 专家咨询费_自筹_间接_已支付
+     */
+    private BigDecimal zjzxfZcJjPaid;
+
+    /**
+     * 专家咨询费_自筹_间接_未支付
+     */
+    private BigDecimal zjzxfZcJjUnpaid;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
