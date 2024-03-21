@@ -258,7 +258,7 @@ public class ProjectFundsVO {
     private BigDecimal ywfRldlfZcZj;
 
     /**
-     * 业务费_办公费_专项_直接
+     * 业务费_办公费_直接
      */
     private BigDecimal ywfBgfZj;
 

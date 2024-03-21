@@ -315,7 +315,7 @@ public class ProjectFundsBO {
     private BigDecimal ywfRldlfZcZj = BigDecimal.ZERO;
 
     /**
-     * 业务费_办公费_专项_直接
+     * 业务费_办公费_直接
      */
     @DecimalMin(value = "0.000000", message = "金额不能为负数")
     private BigDecimal ywfBgfZj = BigDecimal.ZERO;
