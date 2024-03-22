@@ -47,4 +47,6 @@ public interface ProjectBalanceService {
     ProjectBalance getProjectBalanceByProjectId(Long projectId);
 
     void updateProjectBalance(ProjectBalance projectBalance);
+
+    void batchUpdateProjectBalance(List<ProjectBalance> projectBalanceList);
 }
