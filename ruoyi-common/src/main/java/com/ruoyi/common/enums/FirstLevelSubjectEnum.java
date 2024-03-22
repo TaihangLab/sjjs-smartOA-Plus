@@ -49,7 +49,69 @@ public enum FirstLevelSubjectEnum implements IEnum<Integer> {
     /**
      * 绩效支出
      */
-    PERFORMANCE_FEE(7, "绩效支出");
+    PERFORMANCE_FEE(7, "绩效支出"),
+    /**
+     * 管理费
+     */
+    MANAGEMENT_FEE(8, "管理费"),
+    /**
+     * 房屋租赁费
+     */
+    HOUSE_RENTAL_FEE(9, "房屋租赁费"),
+    /**
+     * 日常水电暖费
+     */
+    DAILY_WATER_ELECTRICITY_HEATING_FEE(10, "日常水电暖费"),
+    /**
+     * 资料费
+     */
+    DOCUMENTATION_FEE(11, "资料费"),
+    /**
+     * 数据样本采集费
+     */
+    DATA_SAMPLE_COLLECTION_FEE(12, "数据样本采集费"),
+    /**
+     * 测试化验加工费
+     */
+    TEST_ASSAY_PROCESSING_FEE(13, "测试化验加工费"),
+    /**
+     * 燃料动力费
+     */
+    FUEL_POWER_FEE(14, "燃料动力费"),
+    /**
+     * 办公费
+     */
+    OFFICE_FEE(15, "办公费"),
+    /**
+     * 印刷/出版费
+     */
+    PRINTING_PUBLISHING_FEE(16, "印刷/出版费"),
+    /**
+     * 知识产权事务费
+     */
+    INTELLECTUAL_PROPERTY_AFFAIRS_FEE(17, "知识产权事务费"),
+    /**
+     * 车辆使用费
+     */
+    VEHICLE_USAGE_FEE(18, "车辆使用费"),
+    /**
+     * 差旅费
+     */
+    TRAVEL_FEE(19, "差旅费"),
+    /**
+     * 会议/会务费
+     */
+    MEETING_SERVICE_FEE(20, "会议/会务费"),
+    /**
+     * 专家咨询费
+     */
+    EXPERT_CONSULTATION_FEE(21, "专家咨询费"),
+    /**
+     * 其他费用
+     */
+    OTHER_FEE(22, "其他费用");
+
+
 
     static {
         // 通过名称构建缓存,通过EnumCache.findByName(StatusEnum.class,"SUCCESS",null);调用能获取枚举

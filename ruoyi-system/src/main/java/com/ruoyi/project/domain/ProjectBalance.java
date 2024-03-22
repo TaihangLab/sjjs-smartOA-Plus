@@ -2017,25 +2017,25 @@ public class ProjectBalance implements Serializable {
     /**
      * 间接费用_其他支出_专项_已支付
      */
-    @PaidFieldDescription("间接费用_其他支出_专项")
+    @PaidFieldDescription("其他支出_专项_间接")
     private BigDecimal othersZxPaid;
 
     /**
      * 间接费用_其他支出_专项_未支付
      */
-    @UnPaidFieldDescription("间接费用_其他支出_专项")
+    @UnPaidFieldDescription("其他支出_专项_间接")
     private BigDecimal othersZxUnpaid;
 
     /**
      * 间接费用_其他支出_自筹_已支付
      */
-    @PaidFieldDescription("间接费用_其他支出_自筹")
+    @PaidFieldDescription("其他支出_自筹_间接")
     private BigDecimal othersZcPaid;
 
     /**
      * 间接费用_其他支出_自筹_未支付
      */
-    @UnPaidFieldDescription("间接费用_其他支出_自筹")
+    @UnPaidFieldDescription("其他支出_自筹_间接")
     private BigDecimal othersZcUnpaid;
 
     /**
