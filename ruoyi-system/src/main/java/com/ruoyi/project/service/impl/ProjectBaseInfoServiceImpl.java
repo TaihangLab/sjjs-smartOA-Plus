@@ -9,16 +9,17 @@ import com.ruoyi.common.enums.ProjectLevelEnum;
 import com.ruoyi.common.enums.ProjectUserRoleEnum;
 import com.ruoyi.common.helper.LoginHelper;
 import com.ruoyi.common.utils.BeanCopyUtils;
+import com.ruoyi.project.domain.ProjectBalance;
 import com.ruoyi.project.domain.ProjectBaseInfo;
 import com.ruoyi.project.domain.ProjectFunds;
 import com.ruoyi.project.domain.bo.ProjectBaseInfoBO;
 import com.ruoyi.project.domain.vo.ProjectBaseInfoVO;
 import com.ruoyi.project.domain.vo.ProjectInfoVO;
 import com.ruoyi.project.mapper.ProjectBaseInfoMapper;
+import com.ruoyi.project.service.ProjectBalanceService;
 import com.ruoyi.project.service.ProjectBaseInfoService;
 import com.ruoyi.project.service.ProjectFundsService;
 import com.ruoyi.project.service.ProjectUserService;
-import liquibase.pro.packaged.C;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -46,6 +47,8 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
     private final ProjectUserService projectUserService;
 
     private final ProjectFundsService projectFundsService;
+
+    private final ProjectBalanceService projectBalanceService;
 
     /**
      * @param projectId
@@ -339,12 +342,17 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
         List<Long> projectIdList = projectBaseInfoVOList.stream().map(ProjectBaseInfoVO::getProjectId).collect(Collectors.toList());
         //获取经费对应信息
         Map<Long, ProjectFunds> projectFundsMap = projectFundsService.getProjectFundsMapByProjectIdList(projectIdList);
+        //获取余额对应信息
+        Map<Long, ProjectBalance> projectBalanceMap =
+            projectBalanceService.getProjectBalanceMapByPorjectIdList(projectIdList);
 
         projectBaseInfoVOList.forEach(projectBaseInfoVO -> {
             Long projectId = projectBaseInfoVO.getProjectId();
             //处理经费
             ProjectFunds projectFunds = projectFundsMap.get(projectId);
-	        setFunds(projectBaseInfoVO, projectFunds);
+            //处理余额
+            ProjectBalance projectBalance = projectBalanceMap.get(projectId);
+            setFunds(projectBaseInfoVO, projectFunds, projectBalance);
 	        setUsers(projectBaseInfoVO, projectId);
         });
     }
@@ -365,14 +373,17 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
         return lqw;
     }
 
-    private void setFunds(ProjectBaseInfoVO projectBaseInfoVO, ProjectFunds projectFunds) {
+    private void setFunds(ProjectBaseInfoVO projectBaseInfoVO, ProjectFunds projectFunds,
+        ProjectBalance projectBalance) {
         if (projectFunds != null) {
             projectBaseInfoVO.setTotalFundsAll(projectFunds.getTotalFundsAll());
             projectBaseInfoVO.setTotalFundsZx(projectFunds.getTotalFundsZx());
             projectBaseInfoVO.setTotalFundsZc(projectFunds.getTotalFundsZc());
             projectBaseInfoVO.setTotalFundsZxDk(projectFunds.getTotalFundsZxDk());
-            projectBaseInfoVO.setZctzDone(projectFunds.getZctzDone());
-            projectBaseInfoVO.setZxtzDone(projectFunds.getZxtzDone());
+            //            projectBaseInfoVO.setZctzDone(projectFunds.getZctzDone());
+            //            projectBaseInfoVO.setZxtzDone(projectFunds.getZxtzDone());
+            projectBaseInfoVO.setZctzDone(projectBalance.getTotalFundsZcPaid());
+            projectBaseInfoVO.setZxtzDone(projectBalance.getTotalFundsZxPaid());
             projectBaseInfoVO.setZcGspt(projectFunds.getZcGspt());
             projectBaseInfoVO.setZxGslc(projectFunds.getZxGslc());
         }
