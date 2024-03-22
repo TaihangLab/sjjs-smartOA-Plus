@@ -21,7 +21,9 @@ public enum ThirdLevelSubjectEnum implements IEnum<Integer> {
     /**
      * 无
      */
-    NONE(0, "无"), INTELLECTUAL_PROPERTY_AFFAIRS_FEE(1, "知识产权事务费"),
+    NONE(0, "无"),
+
+    INTELLECTUAL_PROPERTY_AFFAIRS_FEE(1, "知识产权事务费"),
     PRINTING_AND_PRODUCTION_FEE(2, "印刷打印制作费"), LITERATURE_DATABASE_FEE(3, "文献数据库费"),
     INFORMATION_DISSEMINATION_FEE(4, "信息传播费"), CONFERENCE_FEE(5, "会议费"), TRAVEL_FEE(6, "差旅费"),
     INTERNATIONAL_COOPERATION_FEE(7, "国际合作费");

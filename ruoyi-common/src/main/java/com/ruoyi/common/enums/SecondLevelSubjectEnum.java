@@ -100,9 +100,13 @@ public enum SecondLevelSubjectEnum implements IEnum<Integer> {
      */
     PERSONNEL_SERVICE_FEE(19, "人员劳务费"),
     /**
+     * 会议/差旅/国际合作与交流费
+     */
+    CONFERENCE_TRAVEL_INTERNATIONAL_COOPERATION_COMMUNICATION_FEE(20, "会议/差旅/国际合作与交流费"),
+    /**
      * 无
      */
-    NONE(20, "无");
+    NONE(21, "无");
 
     static {
         // 通过名称构建缓存,通过EnumCache.findByName(StatusEnum.class,"SUCCESS",null);调用能获取枚举
