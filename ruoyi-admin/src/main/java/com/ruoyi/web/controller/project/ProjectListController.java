@@ -94,7 +94,7 @@ public class ProjectListController extends BaseController {
      * 根据项目id搜索大事记分类
      */
     @SaCheckPermission("project:list:milestoneCategorySelectSet")
-    @PostMapping("/milestoneCategorySelectSet")
+    @GetMapping("/milestoneCategorySelectSet")
     public R<Set<ProjectMilestoneCategoryEnum>> milestoneCategorySelectSet(@RequestParam @NotNull Long projectId) {
         return R.ok( projectMilestoneService.getCategoryEnumsByProjectId(projectId));
     }

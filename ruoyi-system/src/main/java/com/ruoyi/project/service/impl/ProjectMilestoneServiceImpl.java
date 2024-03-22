@@ -366,7 +366,6 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
 
             milestoneVos.add(milestoneVo);
         }
-
         return milestoneVos;
     }
 
