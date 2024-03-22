@@ -12,7 +12,7 @@
             <el-button type="primary" icon="el-icon-search" @click="handleQuery" size="mini"
                 class="no-border-radius"></el-button>
         </div>
-        <el-timeline v-if="timelineItems.length">
+        <el-timeline v-show="showTimeline">
             <el-timeline-item v-for="item in timelineItems" :key="item.milestoneId" :timestamp="item.milestoneDate"
                 placement="top" :icon="item.icon" :style="{ '--icon-color': '#0bbd87' }">
                 <el-card style="width: 90%; display: flex; flex-direction: column;">
@@ -27,7 +27,7 @@
                             icon="el-icon-download" @click="handleDownload(oss)">
                             {{ oss.originalName }}</el-button>
                     </div>
-                    <div style="margin-top: 10px;">
+                    <div style="margin-top: 10px;"> 
                         <el-button type="success" icon="el-icon-edit" size="mini" circle @click="editMilestone(item)"
                             v-if="buttonType === 1" v-hasPermi="['project:my:milestoneedit']"></el-button>
                         <el-button type="danger" icon="el-icon-delete" size="mini" circle
@@ -35,9 +35,10 @@
                             v-hasPermi="['project:my:milestonedelete']"></el-button>
                     </div>
                 </el-card>
-            </el-timeline-item>
-        </el-timeline>
-        <div v-else class="no-data-message" style="color: #909399; font-size: 14px; text-align: center;">
+            </el-timeline-item> 
+        </el-timeline> 
+        <div v-show="!showTimeline" class="no-data-message"
+            style="color: #909399; font-size: 14px; text-align: center;">
             暂无大事记数据
         </div>
         <!-- 修改大事记页面弹出框 -->
@@ -94,6 +95,7 @@ export default {
     data() {
         return {
             eventsDialogVisibleEdit: false,
+            showTimeline: false,
             visible: true,
             select: '',
             keyword: '',
@@ -118,6 +120,9 @@ export default {
             categoryTypeSet: [],
             milestoneCategorySelect: [],
             categorySelect: [],
+            params: {
+                projectId: null,
+            },
             labelMappings: {
                 0: '其他',
                 1: '申报书',
@@ -270,8 +275,6 @@ export default {
                 });
         },
         fetchMilestoneList() {
-            console.log('Searchdata:', this.searchData);
-            console.log('milestoneCategoryType:', this.milestoneCategoryType);
             const combinedSearchData = {
                 projectId: this.projectId,
                 keyword: this.searchKeyword,
@@ -290,6 +293,7 @@ export default {
                     this.timelineItems = resp.data.sort((a, b) => {
                         return new Date(a.milestoneDate) - new Date(b.milestoneDate);
                     });
+
                     // 清空 milestoneIds 数组
                     this.milestoneIds = [];
                     // 清空 categoryTypeSet 数组
@@ -305,12 +309,14 @@ export default {
                         });
                     });
                     this.$forceUpdate();
+                    this.updateTimelineDisplay();
                 })
                 .catch((error) => {
                     console.error('获取数据时出错：', error);
                 });
         },
         milestoneCategorySelectList() {
+            this.params.projectId = this.$props.projectId;
             const combinedSearchData = {
                 projectId: this.projectId,
                 keyword: this.searchKeyword,
@@ -318,9 +324,10 @@ export default {
                 milestoneEndTime: this.milestoneEndTime,
             };
             request({
-                url: '/project/list/milestoneCategorySelect',
+                url: '/project/list/milestoneCategorySelectSet',
                 method: 'get',
                 data: combinedSearchData,
+                params: this.params,
             })
                 .then((resp) => {
                     // 将数字值转换为 labelMappings 中的文字描述
@@ -464,6 +471,20 @@ export default {
             }
             // 发起请求，获取符合搜索条件的数据
             this.fetchMilestoneList(searchData);
+            // 显示搜索框
+            this.updateTimelineDisplay();
+        },
+        updateTimelineDisplay() {
+            // 检查是否有大事记项
+            const hasMilestones = this.timelineItems.length > 0;
+            // 检查搜索结果是否为空
+            const hasSearchResults = this.searchKeyword.trim() !== '';
+            // 根据两个条件确定是否显示搜索框
+            if (hasMilestones && !hasSearchResults) {
+                this.showTimeline = true; // 显示大事记时间轴
+            } else {
+                this.showTimeline = false; // 隐藏大事记时间轴
+            }
         },
         close() {
             this.$refs.eventsDialogEdit.close();
