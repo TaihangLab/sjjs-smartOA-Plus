@@ -366,9 +366,42 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
 
             milestoneVos.add(milestoneVo);
         }
-
         return milestoneVos;
     }
+
+    /**
+     * 根据项目id去查类型列表
+     */
+    @Override
+    public Set<ProjectMilestoneCategoryEnum> getCategoryEnumsByProjectId(Long projectId) {
+        Set<ProjectMilestoneCategoryEnum> allCatrgoryType = new TreeSet<>();
+        if(!(projectId==null)){
+            Set<Long> milestoneIds = projectMilestoneMapper.selectList(
+                    new LambdaQueryWrapper<ProjectMilestone>()
+                        .eq(ProjectMilestone::getProjectId, projectId))
+                .stream()
+                .map(ProjectMilestone::getMilestoneId)
+                .collect(Collectors.toSet());
+            Set<Long> milestoneCategoryIds = projectMilestoneCategoryRelationMapper.selectList(
+                    new LambdaQueryWrapper<ProjectMilestoneCategoryRelation>()
+                        .in(!milestoneIds.isEmpty(), ProjectMilestoneCategoryRelation::getMilestoneId, milestoneIds))
+                .stream()
+                .map(ProjectMilestoneCategoryRelation::getMilestoneCategoryId)
+                .collect(Collectors.toSet());
+            for (Long milestoneCategoryId : milestoneCategoryIds) {
+                Set<ProjectMilestoneCategoryEnum> milestoneCategoryEnums = projectMilestoneCategoryMapper.selectList(
+                        new LambdaQueryWrapper<ProjectMilestoneCategory>()
+                            .eq(ProjectMilestoneCategory::getMilestoneCategoryId, milestoneCategoryId))
+                    .stream()
+                    .map(ProjectMilestoneCategory::getMilestoneCategoryType)
+                    .collect(Collectors.toSet());
+                allCatrgoryType.addAll(milestoneCategoryEnums);
+            }
+        }
+
+        return allCatrgoryType;
+    }
+
 
 
     /**

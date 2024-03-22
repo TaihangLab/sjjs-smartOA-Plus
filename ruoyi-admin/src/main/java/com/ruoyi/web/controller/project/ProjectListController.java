@@ -21,10 +21,14 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Set;
+
+import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 
 
 /**
  * 项目管理
+ *
  * @author bailingnan
  * @date 2024/02/06
  */
@@ -46,12 +50,11 @@ public class ProjectListController extends BaseController {
      *
      * @param projectBaseInfoBO 项目基本信息
      * @param pageQuery         分页查询条件
-     *
      * @return 所有项目列表
      */
     //    @SaCheckPermission("project:list:getAllList")
     @PostMapping("/getAllList")
-    public TableDataInfo<ProjectBaseInfoVO> getAllProjectList(@RequestBody@Validated(QueryGroup.class)ProjectBaseInfoBO projectBaseInfoBO, PageQuery pageQuery){
+    public TableDataInfo<ProjectBaseInfoVO> getAllProjectList(@RequestBody @Validated(QueryGroup.class) ProjectBaseInfoBO projectBaseInfoBO, PageQuery pageQuery) {
         return projectBaseInfoService.queryPageAllList(projectBaseInfoBO, pageQuery);
     }
 
@@ -59,7 +62,6 @@ public class ProjectListController extends BaseController {
      * 获取项目详情
      *
      * @param projectId 项目ID
-     *
      * @return 返回项目详情对象
      */
     @SaCheckPermission("project:list:getDetails")
@@ -72,21 +74,28 @@ public class ProjectListController extends BaseController {
      * 根据项目id查询项目大事纪
      *
      * @param projectMilestoneBo
-     *
      * @return 结果
      */
     @SaCheckPermission("project:list:queryMilestone")
     @PostMapping("/milestonequery")
-    public R<List<ProjectMilestoneVo>> queryMilestone(@RequestBody ProjectMilestoneBo projectMilestoneBo){
+    public R<List<ProjectMilestoneVo>> queryMilestone(@RequestBody ProjectMilestoneBo projectMilestoneBo) {
         return R.ok(projectMilestoneService.queryMilestoneList(projectMilestoneBo));
     }
 
     /**
      * 新增大事记时获取大事记分类选择框列表
-     * */
+     */
     @GetMapping("/milestoneCategorySelect")
     public R<List<ProjectMilestoneCategoryEnum>> milestoneCategorySelect() {
         return R.ok(projectMilestoneService.selectCategoryAll());
     }
 
+    /**
+     * 根据项目id搜索大事记分类
+     */
+    @SaCheckPermission("project:list:milestoneCategorySelectSet")
+    @GetMapping("/milestoneCategorySelectSet")
+    public R<Set<ProjectMilestoneCategoryEnum>> milestoneCategorySelectSet(@RequestParam @NotNull Long projectId) {
+        return R.ok( projectMilestoneService.getCategoryEnumsByProjectId(projectId));
+    }
 }
