@@ -10,7 +10,8 @@
                     :row-style="{ height: '50px' }" :cell-style="{ padding: '0px' }">
                     <el-table-column label="姓名" :resizable="false" align="center" prop="nickName">
                     </el-table-column>
-                    <el-table-column label="职称" :resizable="false" align="center" prop="jobTitle" :formatter="jobTitles">
+                    <el-table-column label="职称" :resizable="false" align="center" prop="jobTitle"
+                        :formatter="jobTitles">
                     </el-table-column>
                     <el-table-column label="学历" :resizable="false" align="center" prop="diploma" :formatter="diplomas">
                     </el-table-column>
@@ -39,19 +40,19 @@
                         <template slot-scope="scope">
                             <div width="120">
                                 <el-tag v-if="scope.row.fileSuffix === '.pdf'" type="success" size="mini">{{
-                                    scope.row.fileSuffix }}</el-tag>
+            scope.row.fileSuffix }}</el-tag>
                                 <el-tag v-else-if="scope.row.fileSuffix === '.docx'" type="warning" size="mini">{{
-                                    scope.row.fileSuffix }}</el-tag>
+            scope.row.fileSuffix }}</el-tag>
                                 <el-tag v-else-if="scope.row.fileSuffix === '.doc'" type="warning" size="mini">{{
-                                    scope.row.fileSuffix }}</el-tag>
+            scope.row.fileSuffix }}</el-tag>
                                 <el-tag v-else-if="scope.row.fileSuffix === '.xls'" size="mini">{{ scope.row.fileSuffix
-                                }}</el-tag>
+                                    }}</el-tag>
                                 <el-tag v-else-if="scope.row.fileSuffix === '.xlsx'" size="mini">{{ scope.row.fileSuffix
-                                }}</el-tag>
+                                    }}</el-tag>
                                 <el-tag v-else-if="scope.row.fileSuffix === '.ppt'" type="danger" size="mini">{{
-                                    scope.row.fileSuffix }}</el-tag>
+            scope.row.fileSuffix }}</el-tag>
                                 <el-tag v-else-if="scope.row.fileSuffix === '.pptx'" type="danger" size="mini">{{
-                                    scope.row.fileSuffix }}</el-tag>
+            scope.row.fileSuffix }}</el-tag>
                                 <el-tag v-else type="info" size="mini">{{ scope.row.fileSuffix }}</el-tag>
                             </div>
                         </template>
@@ -60,7 +61,8 @@
                     </el-table-column>
                     <el-table-column :label="'操作'" :resizable="false" align="center" min-width="100px">
                         <template slot-scope="scope">
-                            <el-button size="mini" type="text" icon="el-icon-download" @click="handleDownload(scope.row)">下载</el-button>
+                            <el-button size="mini" type="text" icon="el-icon-download"
+                                @click="handleDownload(scope.row)">下载</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -153,4 +155,3 @@ export default {
     },
 };
 </script>
-

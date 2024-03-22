@@ -6,7 +6,7 @@
             <el-date-picker v-model="dateRange" type="daterange" unlink-panels clearable start-placeholder="请输入查询范围"
                 end-placeholder="如：2000-01-01" value-format="yyyy-MM-dd" @keyup.enter.native="handleQuery"
                 :picker-options="pickerOptions" size="mini"></el-date-picker>
-            <el-cascader v-model="milestoneCategorySelect" :options="categorySelect" size="mini" clearable
+            <el-cascader v-model="milestoneCategorySelectSet" :options="categorySelect" size="mini" clearable
                 placeholder="请选择标签" @keyup.enter.native="handleQuery">
             </el-cascader>
             <el-button type="primary" icon="el-icon-search" @click="handleQuery" size="mini"
@@ -118,7 +118,7 @@ export default {
             },
             ossids: [],
             categoryTypeSet: [],
-            milestoneCategorySelect: [],
+            milestoneCategorySelectSet: [],
             categorySelect: [],
             params: {
                 projectId: null,
@@ -206,7 +206,7 @@ export default {
     },
     mounted() {
         this.fetchMilestoneList();
-        this.milestoneCategorySelectList();
+        this.milestoneCategorySelectSetList();
     },
 
     methods: {
@@ -280,7 +280,7 @@ export default {
                 keyword: this.searchKeyword,
                 milestoneStaTime: this.milestoneStaTime,
                 milestoneEndTime: this.milestoneEndTime,
-                milestoneCategoryType: this.milestoneCategorySelect.join(','),
+                milestoneCategoryType: this.milestoneCategorySelectSet.join(','),
             };
             request({
                 url: '/project/list/milestonequery',
@@ -315,7 +315,7 @@ export default {
                     console.error('获取数据时出错：', error);
                 });
         },
-        milestoneCategorySelectList() {
+        milestoneCategorySelectSetList() {
             this.params.projectId = this.$props.projectId;
             const combinedSearchData = {
                 projectId: this.projectId,
@@ -458,7 +458,7 @@ export default {
                 keyword: this.searchKeyword,
                 milestoneStaTime: '',
                 milestoneEndTime: '',
-                milestoneCategoryType: this.milestoneCategorySelect.join(','),
+                milestoneCategoryType: this.milestoneCategorySelectSet.join(','),
             };
             console.log('Search data:', searchData);
             // 判断是否选择了时间范围
