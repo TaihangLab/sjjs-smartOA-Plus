@@ -75,12 +75,16 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
 
         if (insertedRows > 0) {
             Long milestoneId = projectMilestone.getMilestoneId(); // 获取生成的 milestoneId
-            if (projectMilestoneBo.getProjectMilestoneCategoryRelationList() != null && !projectMilestoneBo.getProjectMilestoneCategoryRelationList().isEmpty()) {
-                List<ProjectMilestoneCategoryRelation> projectMilestoneCategoryRelationList = projectMilestoneBo.getProjectMilestoneCategoryRelationList();
-                for (ProjectMilestoneCategoryRelation projectMilestoneCategoryRelation : projectMilestoneCategoryRelationList) {
+            if (projectMilestoneBo.getProjectMilestoneCategoryEnumList() != null && !projectMilestoneBo.getProjectMilestoneCategoryEnumList().isEmpty()) {
+                List<ProjectMilestoneCategoryEnum> projectMilestoneCategoryEnumList = projectMilestoneBo.getProjectMilestoneCategoryEnumList();
+                for (ProjectMilestoneCategoryEnum projectMilestoneCategoryEnum : projectMilestoneCategoryEnumList) {
+                    ProjectMilestoneCategoryRelation projectMilestoneCategoryRelation = new ProjectMilestoneCategoryRelation();
+                    projectMilestoneCategoryRelation.setMilestoneId(milestoneId);
+                    projectMilestoneCategoryRelation.setMilestoneCategoryId(projectMilestoneCategoryMapper
+                        .selectOne(new LambdaQueryWrapper<ProjectMilestoneCategory>()
+                            .eq(ProjectMilestoneCategory::getMilestoneCategoryType, projectMilestoneCategoryEnum)).getMilestoneCategoryId());
                     projectMilestoneCategoryRelationMapper.insert(projectMilestoneCategoryRelation);
                 }
-
             }
             projectMilestoneBo.setMilestoneId(milestoneId);//给BO对象赋值milestoneId，在经费到账时需要调用
             if (projectMilestoneBo.getOssIds() != null && !projectMilestoneBo.getOssIds().isEmpty()) {
@@ -240,12 +244,14 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
         projectMilestoneCategoryRelationMapper.delete(new LambdaQueryWrapper<ProjectMilestoneCategoryRelation>()
             .eq(ProjectMilestoneCategoryRelation::getMilestoneId, milestoneId));
 //        插入新的分类关系
-        List<ProjectMilestoneCategoryRelation> projectMilestoneCategoryRelationList = projectMilestoneBo.getProjectMilestoneCategoryRelationList();
-        if (projectMilestoneCategoryRelationList != null && !projectMilestoneCategoryRelationList.isEmpty()) {
-            for (ProjectMilestoneCategoryRelation projectMilestoneCategoryRelation : projectMilestoneCategoryRelationList) {
-                Long milestoneCategoryId = projectMilestoneCategoryRelation.getMilestoneCategoryId();
+        if (projectMilestoneBo.getProjectMilestoneCategoryEnumList() != null && !projectMilestoneBo.getProjectMilestoneCategoryEnumList().isEmpty()) {
+            List<ProjectMilestoneCategoryEnum> projectMilestoneCategoryEnumList = projectMilestoneBo.getProjectMilestoneCategoryEnumList();
+            for (ProjectMilestoneCategoryEnum projectMilestoneCategoryEnum : projectMilestoneCategoryEnumList) {
+                ProjectMilestoneCategoryRelation projectMilestoneCategoryRelation = new ProjectMilestoneCategoryRelation();
                 projectMilestoneCategoryRelation.setMilestoneId(milestoneId);
-                projectMilestoneCategoryRelation.setMilestoneCategoryId(milestoneCategoryId);
+                projectMilestoneCategoryRelation.setMilestoneCategoryId(projectMilestoneCategoryMapper
+                    .selectOne(new LambdaQueryWrapper<ProjectMilestoneCategory>()
+                        .eq(ProjectMilestoneCategory::getMilestoneCategoryType, projectMilestoneCategoryEnum)).getMilestoneCategoryId());
                 projectMilestoneCategoryRelationMapper.insert(projectMilestoneCategoryRelation);
             }
         }
@@ -326,11 +332,16 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
             .collect(Collectors.toSet());
 
         // 根据分类ID集合查询对应的分类类型，并转换为TreeSet返回
-        return projectMilestoneCategoryMapper.selectList(
-                new LambdaQueryWrapper<ProjectMilestoneCategory>()
-                    .in(!categoryIds.isEmpty(), ProjectMilestoneCategory::getMilestoneCategoryId, categoryIds))
-            .stream()
-            .map(ProjectMilestoneCategory::getMilestoneCategoryType).collect(Collectors.toCollection(TreeSet::new));
+        if (categoryIds.isEmpty()) {
+            return new TreeSet<>();
+        } else {
+            return projectMilestoneCategoryMapper.selectList(
+                    new LambdaQueryWrapper<ProjectMilestoneCategory>()
+                        .in(ProjectMilestoneCategory::getMilestoneCategoryId, categoryIds))
+                .stream()
+                .map(ProjectMilestoneCategory::getMilestoneCategoryType)
+                .collect(Collectors.toCollection(TreeSet::new));
+        }
     }
 
 
@@ -348,6 +359,7 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
             BeanCopyUtils.copy(milestone, milestoneVo);
 
             Set<ProjectMilestoneCategoryEnum> categoryEnums = getCategoryEnumsByMilestoneId(milestone.getMilestoneId());
+            log.info("categoryEnums:{}", categoryEnums);
             milestoneVo.setCategoryTypeSet(categoryEnums);
 
             List<Long> ossIds = projectMilestoneOssMapper.selectList(
