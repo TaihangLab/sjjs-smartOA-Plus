@@ -338,7 +338,6 @@ export default {
                     this.timelineItems = resp.data.sort((a, b) => {
                         return new Date(a.milestoneDate) - new Date(b.milestoneDate);
                     });
-
                     // 清空 milestoneIds 数组
                     this.milestoneIds = [];
                     // 清空 categoryTypeSet 数组
@@ -521,7 +520,7 @@ export default {
                 keyword: this.searchKeyword,
                 milestoneStaTime: '',
                 milestoneEndTime: '',
-                milestoneType: this.milestoneCategorySelectSet.join(','),
+                // milestoneType: this.milestoneCategorySelectSet.join(','),
             };
             console.log('Search data:', searchData);
             // 判断是否选择了时间范围
@@ -532,6 +531,12 @@ export default {
                 this.milestoneStaTime = undefined;
                 this.milestoneEndTime = undefined;
             }
+            // 判断是否选择了标签
+            if (this.milestoneCategorySelectSet.length > 0) {
+                this.milestoneType = this.milestoneCategorySelectSet.join(',');
+            } else {
+                delete this.milestoneType; // 如果未选择标签，则删除 milestoneType 字段
+            }
             // 发起请求，获取符合搜索条件的数据
             this.fetchMilestoneList(searchData);
             // 显示搜索框
@@ -540,10 +545,8 @@ export default {
         updateTimelineDisplay() {
             // 检查是否有大事记项
             const hasMilestones = this.timelineItems.length > 0;
-            // 检查搜索结果是否为空
-            const hasSearchResults = this.searchKeyword.trim() !== '';
-            // 根据两个条件确定是否显示搜索框
-            if (hasMilestones && !hasSearchResults) {
+            // 根据是否有大事记项确定是否显示大事记时间轴
+            if (hasMilestones) {
                 this.showTimeline = true; // 显示大事记时间轴
             } else {
                 this.showTimeline = false; // 隐藏大事记时间轴
