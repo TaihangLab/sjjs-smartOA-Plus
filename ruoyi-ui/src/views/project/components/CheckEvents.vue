@@ -1,3 +1,4 @@
+User
 <template>
     <div class="block">
         <div v-if="timelineItems.length" class="fixed-container">
@@ -55,7 +56,7 @@
                         style="display: flex; align-items: center;">
                         <div class="tag-container">
                             <div class="selected-tags">
-                                <el-tag v-for="(type, index) in categoryTypeSet" :key="index" closable
+                                <el-tag v-for="(type, index) in projectMilestoneTypes" :key="index" closable
                                     @close="handleClose(type)" :type="getLabelType(type)"
                                     :style="{ color: getTextColor(type), marginRight: '8px' }">
                                     {{ getLabel(type) }}
@@ -117,7 +118,7 @@ export default {
             visible: true,
             select: '',
             keyword: '',
-            milestoneType: '',
+            milestoneCategoryType: '',
             searchKeyword: '',
             milestoneStaTime: '',
             milestoneEndTime: '',
@@ -133,6 +134,7 @@ export default {
                 milestoneRemark: '',
                 milestoneDate: '',
                 ossIds: [],
+                projectMilestoneTypes: [],
             },
             ossids: [],
             categoryTypeSet: [],
@@ -140,7 +142,7 @@ export default {
             categorySelect: [],
             tagOptions: [], // 标签选项从 milestoneCategorySelectList 方法中获取
             selectedTag: '', // 用户选择的标签（中文文字）
-            dynamicTags: [], // 用于存储用户选择的标签（中文文字）
+            projectMilestoneTypes: [], // 用于存储用户选择的标签（中文文字）
             params: {
                 projectId: null,
             },
@@ -236,12 +238,13 @@ export default {
             this.$download.oss(row.ossId)
         },
         addTag() {
-            if (this.selectedTag && !this.categoryTypeSet.includes(this.selectedTag)) {
-                this.categoryTypeSet.push(this.selectedTag); // 将选择的标签添加到 categoryTypeSet 数组中
+            if (this.selectedTag && !this.projectMilestoneTypes.includes(this.selectedTag)) {
+                // 将选择的标签添加到已有标签列表中
+                this.projectMilestoneTypes = [...this.projectMilestoneTypes, this.selectedTag];
             }
         },
         handleClose(tag) {
-            this.categoryTypeSet.splice(this.categoryTypeSet.indexOf(tag), 1);
+            this.projectMilestoneTypes.splice(this.projectMilestoneTypes.indexOf(tag), 1);
         },
         editMilestone(item) {
             this.form.milestoneId = item.milestoneId;
@@ -252,8 +255,8 @@ export default {
             this.form.sysOsses = item.sysOsses;
             // 获取已有的ossids
             this.ossids = item.sysOsses.map(item => item.ossId);
-            // 将对应的标签数据存储到 categoryTypeSet 中
-            this.categoryTypeSet = item.categoryTypeSet;
+            // 将对应的标签数据存储到 projectMilestoneCategoryEnumList 中
+            this.projectMilestoneTypes = item.categoryTypeSet.slice(); // 保存原有标签信息
         },
         deleteMilestone(item) {
             const milestoneId = item.milestoneId;
@@ -288,7 +291,18 @@ export default {
                 this.$message.error('请填写完整的信息');
                 return;
             }
-            // this.form.ossIds = this.ossids.map(item => item.ossId);
+            // 将动态标签列表 dynamicTags 中的文字转换为对应的数字并放入 projectMilestoneCategoryEnumList
+            const categoryEnumList = this.projectMilestoneTypes.map(tag => {
+                for (const typeId in this.labelMappings) {
+                    if (this.labelMappings[typeId] === tag) {
+                        return typeId;
+                    }
+                }
+                return null; // 如果找不到对应的数字，则返回null
+            }).filter(tagId => tagId !== null); // 过滤掉找不到对应数字的标签
+            // 合并原有标签和新增标签
+            const mergedTags = [...new Set([...this.form.projectMilestoneTypes, ...categoryEnumList])];
+            this.form.projectMilestoneTypes = mergedTags; // 将合并后的标签列表赋值给表单数据
             this.form.ossIds = this.ossids;
             // 请求修改接口
             request({
@@ -311,7 +325,7 @@ export default {
                 keyword: this.searchKeyword,
                 milestoneStaTime: this.milestoneStaTime,
                 milestoneEndTime: this.milestoneEndTime,
-                milestoneType: this.milestoneCategorySelectSet.join(','),
+                milestoneCategoryType: this.milestoneCategorySelectSet.join(','),
             };
             request({
                 url: '/project/list/milestonequery',
@@ -507,7 +521,7 @@ export default {
                 keyword: this.searchKeyword,
                 milestoneStaTime: '',
                 milestoneEndTime: '',
-                milestoneType: this.milestoneCategorySelectSet.join(','),
+                milestoneCategoryType: this.milestoneCategorySelectSet.join(','),
             };
             console.log('Search data:', searchData);
             // 判断是否选择了时间范围

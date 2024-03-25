@@ -9,7 +9,7 @@
         style="display: flex; align-items: center;">
         <div class="tag-container">
           <div class="selected-tags">
-            <el-tag v-for="(tag, index) in projectMilestoneCategoryEnumList" :key="index" closable @close="handleClose(tag)"
+            <el-tag v-for="(tag, index) in projectMilestoneTypes" :key="index" closable @close="handleClose(tag)"
               :type="getTagType(tag)" :style="{ color: getTextColor(tag) }">
               {{ tag }}
             </el-tag>
@@ -141,7 +141,6 @@ export default {
 
       this.reset();
     },
-
     addTag() {
       if (this.selectedTag && !this.projectMilestoneTypes.includes(this.selectedTag)) {
         this.projectMilestoneTypes.push(this.selectedTag); // 将选择的标签添加到 dynamicTags 数组中
