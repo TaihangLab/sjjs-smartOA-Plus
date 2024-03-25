@@ -1,6 +1,6 @@
 package com.ruoyi.project.domain.vo;
 
-import com.ruoyi.common.enums.ProjectMilestoneCategoryEnum;
+import com.ruoyi.common.enums.ProjectMilestoneTypeEnum;
 import com.ruoyi.system.domain.SysOss;
 import lombok.Data;
 import java.time.LocalDate;
@@ -51,5 +51,5 @@ public class ProjectMilestoneVo {
     /**
      * 项目大事记分类列表
      */
-    private Set<ProjectMilestoneCategoryEnum> categoryTypeSet;
+    private Set<ProjectMilestoneTypeEnum> categoryTypeSet;
 }

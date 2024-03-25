@@ -58,12 +58,12 @@ export default {
         milestoneRemark: '',
         milestoneDate: '',
         ossIds: [],
-        projectMilestoneCategoryEnumList: [],
+        projectMilestoneTypes: [],
       },
       ossids: [],
       tagOptions: [], // 标签选项从 milestoneCategorySelectList 方法中获取
       selectedTag: '', // 用户选择的标签（中文文字）
-      projectMilestoneCategoryEnumList: [], // 用于存储用户选择的标签（中文文字）
+      projectMilestoneTypes: [], // 用于存储用户选择的标签（中文文字）
       rules: {
         milestoneTitle: [
           { required: true, message: '请输入名称', trigger: 'blur' },
@@ -111,8 +111,8 @@ export default {
         return;
       }
 
-      // 将动态标签列表 dynamicTags 中的文字转换为对应的数字并放入 projectMilestoneCategoryEnumList
-      const categoryEnumList = this.projectMilestoneCategoryEnumList.map(tag => {
+      // 将动态标签列表 dynamicTags 中的文字转换为对应的数字并放入 projectMilestoneTypes
+      const categoryEnumList = this.projectMilestoneTypes.map(tag => {
         for (const typeId in this.labelMappings) {
           if (this.labelMappings[typeId] === tag) {
             return typeId;
@@ -121,7 +121,7 @@ export default {
         return null; // 如果找不到对应的数字，则返回null
       }).filter(tagId => tagId !== null); // 过滤掉找不到对应数字的标签
 
-      this.form.projectMilestoneCategoryEnumList = categoryEnumList; // 将转换后的标签数字列表赋值给表单数据
+      this.form.projectMilestoneTypes = categoryEnumList; // 将转换后的标签数字列表赋值给表单数据
 
       this.form.ossIds = this.ossids;
 
@@ -143,12 +143,12 @@ export default {
     },
 
     addTag() {
-      if (this.selectedTag && !this.projectMilestoneCategoryEnumList.includes(this.selectedTag)) {
-        this.projectMilestoneCategoryEnumList.push(this.selectedTag); // 将选择的标签添加到 dynamicTags 数组中
+      if (this.selectedTag && !this.projectMilestoneTypes.includes(this.selectedTag)) {
+        this.projectMilestoneTypes.push(this.selectedTag); // 将选择的标签添加到 dynamicTags 数组中
       }
     },
     handleClose(tag) {
-      this.projectMilestoneCategoryEnumList.splice(this.projectMilestoneCategoryEnumList.indexOf(tag), 1);
+      this.projectMilestoneTypes.splice(this.projectMilestoneTypes.indexOf(tag), 1);
     },
     milestoneCategorySelectList() {
       request({
@@ -288,7 +288,7 @@ export default {
       this.ossids = [];
       this.fileList = [];
       this.selectedTag = ''; // 重置选择的标签
-      this.projectMilestoneCategoryEnumList = []; // 重置动态标签列表
+      this.projectMilestoneTypes = []; // 重置动态标签列表
     },
   },
   // 监听projectId的变化

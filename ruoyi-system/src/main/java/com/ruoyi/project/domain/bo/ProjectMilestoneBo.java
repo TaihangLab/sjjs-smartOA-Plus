@@ -4,9 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.core.domain.BaseEntity;
 import com.ruoyi.common.core.validate.AddGroup;
 import com.ruoyi.common.core.validate.EditGroup;
-import com.ruoyi.common.enums.ProjectMilestoneCategoryEnum;
+import com.ruoyi.common.enums.ProjectMilestoneTypeEnum;
 import com.ruoyi.common.xss.Xss;
-import com.ruoyi.project.domain.ProjectMilestoneCategoryRelation;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -88,13 +87,12 @@ public class ProjectMilestoneBo extends BaseEntity {
     /**
      * 大事记对应的分类
      */
-    private ProjectMilestoneCategoryEnum milestoneCategoryType;
+    private ProjectMilestoneTypeEnum milestoneType;
 
     /**
      * 大事记分类列表
      */
-    private List<ProjectMilestoneCategoryEnum> projectMilestoneCategoryEnumList;
-
+    private List<ProjectMilestoneTypeEnum> projectMilestoneTypes;
 
 }
 

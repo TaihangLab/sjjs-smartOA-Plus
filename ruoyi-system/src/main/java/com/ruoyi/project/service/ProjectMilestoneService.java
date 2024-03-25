@@ -2,8 +2,7 @@ package com.ruoyi.project.service;
 
 import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.page.TableDataInfo;
-import com.ruoyi.common.enums.ProjectMilestoneCategoryEnum;
-import com.ruoyi.project.domain.ProjectMilestoneCategoryRelation;
+import com.ruoyi.common.enums.ProjectMilestoneTypeEnum;
 import com.ruoyi.project.domain.bo.ProjectMilestoneBo;
 import com.ruoyi.project.domain.vo.ProjectMilestoneVo;
 import com.ruoyi.system.domain.vo.SysOssVo;
@@ -77,10 +76,10 @@ public interface ProjectMilestoneService {
     /**
      * 查询所有大事记分类
      * */
-    List<ProjectMilestoneCategoryEnum> selectCategoryAll();
+    List<ProjectMilestoneTypeEnum> selectCategoryAll();
 
     /**
      * 根据项目id查询大事记分类列表
      * */
-    Set<ProjectMilestoneCategoryEnum> getCategoryEnumsByProjectId(Long projectId);
+    Set<ProjectMilestoneTypeEnum> getCategoryEnumsByProjectId(Long projectId);
 }

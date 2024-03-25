@@ -6,7 +6,7 @@ import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.core.validate.QueryGroup;
-import com.ruoyi.common.enums.ProjectMilestoneCategoryEnum;
+import com.ruoyi.common.enums.ProjectMilestoneTypeEnum;
 import com.ruoyi.project.domain.bo.ProjectBaseInfoBO;
 import com.ruoyi.project.domain.bo.ProjectMilestoneBo;
 import com.ruoyi.project.domain.vo.ProjectBaseInfoVO;
@@ -86,7 +86,7 @@ public class ProjectListController extends BaseController {
      * 新增大事记时获取大事记分类选择框列表
      */
     @GetMapping("/milestoneCategorySelect")
-    public R<List<ProjectMilestoneCategoryEnum>> milestoneCategorySelect() {
+    public R<List<ProjectMilestoneTypeEnum>> milestoneCategorySelect() {
         return R.ok(projectMilestoneService.selectCategoryAll());
     }
 
@@ -95,7 +95,7 @@ public class ProjectListController extends BaseController {
      */
     @SaCheckPermission("project:list:milestoneCategorySelectSet")
     @GetMapping("/milestoneCategorySelectSet")
-    public R<Set<ProjectMilestoneCategoryEnum>> milestoneCategorySelectSet(@RequestParam @NotNull Long projectId) {
+    public R<Set<ProjectMilestoneTypeEnum>> milestoneCategorySelectSet(@RequestParam @NotNull Long projectId) {
         return R.ok( projectMilestoneService.getCategoryEnumsByProjectId(projectId));
     }
 }

@@ -117,7 +117,7 @@ export default {
             visible: true,
             select: '',
             keyword: '',
-            milestoneCategoryType: '',
+            milestoneType: '',
             searchKeyword: '',
             milestoneStaTime: '',
             milestoneEndTime: '',
@@ -133,7 +133,7 @@ export default {
                 milestoneRemark: '',
                 milestoneDate: '',
                 ossIds: [],
-            }, 
+            },
             ossids: [],
             categoryTypeSet: [],
             milestoneCategorySelectSet: [],
@@ -311,7 +311,7 @@ export default {
                 keyword: this.searchKeyword,
                 milestoneStaTime: this.milestoneStaTime,
                 milestoneEndTime: this.milestoneEndTime,
-                milestoneCategoryType: this.milestoneCategorySelectSet.join(','),
+                milestoneType: this.milestoneCategorySelectSet.join(','),
             };
             request({
                 url: '/project/list/milestonequery',
@@ -507,7 +507,7 @@ export default {
                 keyword: this.searchKeyword,
                 milestoneStaTime: '',
                 milestoneEndTime: '',
-                milestoneCategoryType: this.milestoneCategorySelectSet.join(','),
+                milestoneType: this.milestoneCategorySelectSet.join(','),
             };
             console.log('Search data:', searchData);
             // 判断是否选择了时间范围

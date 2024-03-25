@@ -10,7 +10,7 @@ import lombok.ToString;
 @Getter
 @AllArgsConstructor
 @ToString
-public enum ProjectMilestoneCategoryEnum implements IEnum<Integer> {
+public enum ProjectMilestoneTypeEnum implements IEnum<Integer> {
 
     DECLARATION(1,"申报书"),
 
