@@ -1,6 +1,7 @@
 package com.ruoyi.project.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.ruoyi.common.enums.ProjectMilestoneCategoryEnum;
 import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.project.domain.ProjectFunds;
 import com.ruoyi.project.domain.ProjectFundsReceived;
@@ -93,7 +94,8 @@ public class ProjectFundsReceivedServiceImpl implements ProjectFundsReceivedServ
         String receivedFrom = fundsReceived.getReceivedFrom();
         LocalDate receivedDate = fundsReceived.getReceivedDate();
         ProjectMilestoneBo milestoneBo = new ProjectMilestoneBo();
-
+        // 设置大事记标签为“专项经费文件”
+//        milestoneBo.setMilestoneCategoryType(ProjectMilestoneCategoryEnum.SPECIAL_FUNDS);
         // 设置大事记标题为“专项经费到账”
         milestoneBo.setMilestoneTitle("专项经费到账");
         // 设置大事记备注，包括到账日期、到账金额和来款单位信息

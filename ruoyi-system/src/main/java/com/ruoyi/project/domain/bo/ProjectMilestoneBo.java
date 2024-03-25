@@ -91,9 +91,9 @@ public class ProjectMilestoneBo extends BaseEntity {
     private ProjectMilestoneCategoryEnum milestoneCategoryType;
 
     /**
-     * 大事记分类关系列表
+     * 大事记分类列表
      */
-    private List<ProjectMilestoneCategoryRelation> projectMilestoneCategoryRelationList;
+    private List<ProjectMilestoneCategoryEnum> projectMilestoneCategoryEnumList;
 
 
 }

@@ -72,4 +72,9 @@ public class ProjectBalanceServiceImpl implements ProjectBalanceService {
     public void updateProjectBalance(ProjectBalance projectBalance) {
         projectBalanceMapper.updateById(projectBalance);
     }
+
+    @Override
+    public void batchUpdateProjectBalance(List<ProjectBalance> projectBalanceList) {
+        projectBalanceList.forEach(projectBalanceMapper::updateById);
+    }
 }

@@ -516,7 +516,7 @@ public class GlobalMappingConfig {
         ThirdLevelSubjectEnum thirdLevelSubjectEnum) {
         TypeKey key =
             new TypeKey(zxZcEnum, zjJjEnum, firstLevelSubjectEnum, secondLevelSubjectEnum, thirdLevelSubjectEnum);
-        return expenditureMapping.get(key); // 根据标签组合查找并返回对象类型
+        return expenditureMapping.get(key);
     }
 }
 

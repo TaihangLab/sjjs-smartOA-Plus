@@ -19,10 +19,12 @@ public interface ProjectExpenditureService {
      */
     void addProjectExpenditureList(List<ProjectExpenditureBO> projectExpenditureBOList);
 
+    void deleteProjectExpenditureByProjectId(Long projectId);
+
     /**
      * 查询项目支出明细
      * @param projectId
      * @return
      */
-    public List<ProjectExpenditure> getProjectExpenditureByProId(Long projectId);
+    List<ProjectExpenditure> getProjectExpenditureByProId(Long projectId);
 }
