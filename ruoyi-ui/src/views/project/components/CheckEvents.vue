@@ -27,7 +27,7 @@
                             icon="el-icon-download" @click="handleDownload(oss)">
                             {{ oss.originalName }}</el-button>
                     </div>
-                    <div style="margin-top: 10px;"> 
+                    <div style="margin-top: 10px;">
                         <el-button type="success" icon="el-icon-edit" size="mini" circle @click="editMilestone(item)"
                             v-if="buttonType === 1" v-hasPermi="['project:my:milestoneedit']"></el-button>
                         <el-button type="danger" icon="el-icon-delete" size="mini" circle
@@ -35,8 +35,8 @@
                             v-hasPermi="['project:my:milestonedelete']"></el-button>
                     </div>
                 </el-card>
-            </el-timeline-item> 
-        </el-timeline> 
+            </el-timeline-item>
+        </el-timeline>
         <div v-show="!showTimeline" class="no-data-message"
             style="color: #909399; font-size: 14px; text-align: center;">
             暂无大事记数据
@@ -49,6 +49,24 @@
                 <el-form ref="form" :rules="rules" :model="form" label-width="80px">
                     <el-form-item label="名称" prop="milestoneTitle">
                         <el-input v-model="form.milestoneTitle"></el-input>
+                    </el-form-item>
+                    <!-- 标签选择 -->
+                    <el-form-item label="标签" prop="tags" class="add_advice" id="adviceTag"
+                        style="display: flex; align-items: center;">
+                        <div class="tag-container">
+                            <div class="selected-tags">
+                                <el-tag v-for="(type, index) in categoryTypeSet" :key="index" closable
+                                    @close="handleClose(type)" :type="getLabelType(type)"
+                                    :style="{ color: getTextColor(type), marginRight: '8px' }">
+                                    {{ getLabel(type) }}
+                                </el-tag>
+                            </div>
+                            <el-select size="mini" v-model="selectedTag" placeholder="请选择" @change="addTag"
+                                style="flex: 1;width: 120px;">
+                                <el-option v-for="tag in tagOptions" :key="tag.value" :label="tag.label"
+                                    :value="tag.label"></el-option>
+                            </el-select>
+                        </div>
                     </el-form-item>
                     <el-form-item label="时间" prop="milestoneDate">
                         <el-col :span="11">
@@ -115,11 +133,14 @@ export default {
                 milestoneRemark: '',
                 milestoneDate: '',
                 ossIds: [],
-            },
+            }, 
             ossids: [],
             categoryTypeSet: [],
             milestoneCategorySelectSet: [],
             categorySelect: [],
+            tagOptions: [], // 标签选项从 milestoneCategorySelectList 方法中获取
+            selectedTag: '', // 用户选择的标签（中文文字）
+            dynamicTags: [], // 用于存储用户选择的标签（中文文字）
             params: {
                 projectId: null,
             },
@@ -207,12 +228,20 @@ export default {
     mounted() {
         this.fetchMilestoneList();
         this.milestoneCategorySelectSetList();
+        this.milestoneCategorySelectList();
     },
-
     methods: {
         /** 下载按钮操作 */
         handleDownload(row) {
             this.$download.oss(row.ossId)
+        },
+        addTag() {
+            if (this.selectedTag && !this.categoryTypeSet.includes(this.selectedTag)) {
+                this.categoryTypeSet.push(this.selectedTag); // 将选择的标签添加到 categoryTypeSet 数组中
+            }
+        },
+        handleClose(tag) {
+            this.categoryTypeSet.splice(this.categoryTypeSet.indexOf(tag), 1);
         },
         editMilestone(item) {
             this.form.milestoneId = item.milestoneId;
@@ -223,6 +252,8 @@ export default {
             this.form.sysOsses = item.sysOsses;
             // 获取已有的ossids
             this.ossids = item.sysOsses.map(item => item.ossId);
+            // 将对应的标签数据存储到 categoryTypeSet 中
+            this.categoryTypeSet = item.categoryTypeSet;
         },
         deleteMilestone(item) {
             const milestoneId = item.milestoneId;
@@ -340,6 +371,23 @@ export default {
                     console.error('获取数据时出错：', error);
                 });
         },
+        milestoneCategorySelectList() {
+            request({
+                url: '/project/list/milestoneCategorySelect',
+                method: 'get',
+                data: this.data,
+            })
+                .then((resp) => {
+                    // 将数字值转换为 labelMappings 中的文字描述
+                    this.tagOptions = resp.data.map(item => ({
+                        label: this.getLabel(item),
+                        value: item
+                    }));
+                })
+                .catch((error) => {
+                    console.error('获取数据时出错：', error);
+                });
+        },
         getLabelType(typeId) {
             // 根据标签类型返回不同的标签类型
             switch (typeId) {
@@ -396,7 +444,8 @@ export default {
             }
         },
         getLabel(typeId) {
-            return this.labelMappings[typeId] || '未知'; // 如果找不到对应的文字，返回 '未知'
+            // 如果标签值在labelMappings中有对应的文字描述，则返回对应的描述，否则返回标签值本身
+            return this.labelMappings[typeId] || typeId.toString();
         },
         getTextColor(typeId) {
             // 根据标签类型返回不同的字体颜色
