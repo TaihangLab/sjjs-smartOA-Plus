@@ -227,6 +227,10 @@ export default {
             },
         };
     },
+    created() {
+        // 初始化 Form Project Milestone Types 为 Project Milestone Types 的副本
+        this.form.projectMilestoneTypes = [...this.projectMilestoneTypes];
+    },
     mounted() {
         this.fetchMilestoneList();
         this.milestoneCategorySelectSetList();
@@ -244,8 +248,32 @@ export default {
             }
         },
         handleClose(tag) {
-            this.projectMilestoneTypes.splice(this.projectMilestoneTypes.indexOf(tag), 1);
+            // 从 projectMilestoneTypes 数组中移除被关闭的标签
+            const index = this.projectMilestoneTypes.indexOf(tag);
+            if (index !== -1) {
+                this.projectMilestoneTypes.splice(index, 1); // 使用splice方法删除标签
+            }
+
+            // 从 form.projectMilestoneTypes 数组中移除被关闭的标签对应的数字 ID
+            const typeId = this.getLabelId(tag);
+            if (typeId !== null) {
+                const formIndex = this.form.projectMilestoneTypes.indexOf(typeId);
+                if (formIndex !== -1) {
+                    this.form.projectMilestoneTypes.splice(formIndex, 1); // 使用splice方法删除标签对应的数字 ID
+                }
+            }
         },
+
+        // 辅助方法，根据标签获取对应的数字 ID
+        getLabelId(label) {
+            for (const typeId in this.labelMappings) {
+                if (this.labelMappings[typeId] === label) {
+                    return typeId;
+                }
+            }
+            return null; // 如果找不到对应的数字，则返回null
+        },
+
         editMilestone(item) {
             this.form.milestoneId = item.milestoneId;
             this.form.milestoneTitle = item.milestoneTitle;
@@ -255,8 +283,8 @@ export default {
             this.form.sysOsses = item.sysOsses;
             // 获取已有的ossids
             this.ossids = item.sysOsses.map(item => item.ossId);
-            // 将对应的标签数据存储到 projectMilestoneCategoryEnumList 中
-            this.projectMilestoneTypes = item.categoryTypeSet.slice(); // 保存原有标签信息
+            // 将对应的标签数据存储到 projectMilestoneTypes 中，并保留原有标签信息
+            this.projectMilestoneTypes = [...item.categoryTypeSet]; // 保存原有标签信息
         },
         deleteMilestone(item) {
             const milestoneId = item.milestoneId;
@@ -291,19 +319,22 @@ export default {
                 this.$message.error('请填写完整的信息');
                 return;
             }
-            // 将动态标签列表 dynamicTags 中的文字转换为对应的数字并放入 projectMilestoneCategoryEnumList
-            const categoryEnumList = this.projectMilestoneTypes.map(tag => {
-                for (const typeId in this.labelMappings) {
-                    if (this.labelMappings[typeId] === tag) {
-                        return typeId;
-                    }
-                }
-                return null; // 如果找不到对应的数字，则返回null
-            }).filter(tagId => tagId !== null); // 过滤掉找不到对应数字的标签
-            // 合并原有标签和新增标签
-            const mergedTags = [...new Set([...this.form.projectMilestoneTypes, ...categoryEnumList])];
-            this.form.projectMilestoneTypes = mergedTags; // 将合并后的标签列表赋值给表单数据
+
+            // 如果有新增标签，才执行新增标签的逻辑
+            if (this.projectMilestoneTypes.length > 0) {
+                // 将动态标签列表 projectMilestoneTypes 中的文字转换为对应的数字并放入 categoryEnumList
+                const categoryEnumList = this.projectMilestoneTypes.map(tag => {
+                    return this.getLabelId(tag);
+                }).filter(tagId => tagId !== null); // 过滤掉找不到对应数字的标签
+
+                // 合并原有标签和新增标签
+                const mergedTags = [...new Set([...this.form.projectMilestoneTypes, ...categoryEnumList])];
+                // 新增标签时将 mergedTags 中的值添加到 this.form.projectMilestoneTypes 中
+                this.form.projectMilestoneTypes = mergedTags;
+            }
+
             this.form.ossIds = this.ossids;
+
             // 请求修改接口
             request({
                 url: '/project/my/milestoneedit',
@@ -314,11 +345,18 @@ export default {
                     this.$modal.msgSuccess("修改成功");
                     this.eventsDialogVisibleEdit = false;
                     this.fetchMilestoneList();
+
+                    // 更新 form 中的标签数组，删除目标标签
+                    this.form.projectMilestoneTypes = this.form.projectMilestoneTypes.filter(tag => !this.projectMilestoneTypes.includes(tag));
+
+                    // 清空 projectMilestoneTypes 数组，以便下次使用
+                    this.projectMilestoneTypes = [];
                 })
                 .catch((error) => {
                     console.error("修改失败", error);
                 });
         },
+
         fetchMilestoneList() {
             const combinedSearchData = {
                 projectId: this.projectId,
@@ -520,7 +558,7 @@ export default {
                 keyword: this.searchKeyword,
                 milestoneStaTime: '',
                 milestoneEndTime: '',
-                // milestoneType: this.milestoneCategorySelectSet.join(','),
+                milestoneType: this.milestoneCategorySelectSet.join(','),
             };
             console.log('Search data:', searchData);
             // 判断是否选择了时间范围
@@ -530,12 +568,6 @@ export default {
             } else {
                 this.milestoneStaTime = undefined;
                 this.milestoneEndTime = undefined;
-            }
-            // 判断是否选择了标签
-            if (this.milestoneCategorySelectSet.length > 0) {
-                this.milestoneType = this.milestoneCategorySelectSet.join(',');
-            } else {
-                delete this.milestoneType; // 如果未选择标签，则删除 milestoneType 字段
             }
             // 发起请求，获取符合搜索条件的数据
             this.fetchMilestoneList(searchData);
