@@ -269,8 +269,6 @@ export default {
         addTag() {
             const selectdId = this.getLabelId(this.selectedTag)
             this.projectMilestoneTypes = [...this.projectMilestoneTypes, selectdId];
-            
-
         },
         handleClose(typeId) {
             // 从 projectMilestoneTypes 数组中移除被关闭的标签
@@ -281,7 +279,6 @@ export default {
                 }
             }
         },
-
         // 辅助方法，根据标签获取对应的数字 ID
         getLabelId(label) {
             return this.labelIdMappings[label] !== undefined ? this.labelIdMappings[label] : -1;
@@ -332,15 +329,6 @@ export default {
                 this.$message.error('请填写完整的信息');
                 return;
             }
-            // 将动态标签列表 dynamicTags 中的文字转换为对应的数字并放入 projectMilestoneCategoryEnumList
-            const categoryEnumList = this.projectMilestoneTypes.map(tag => {
-                for (const typeId in this.labelMappings) {
-                    if (this.labelMappings[typeId] === tag) {
-                        return typeId;
-                    }
-                }
-                return null; // 如果找不到对应的数字，则返回null
-            }).filter(tagId => tagId !== null); // 过滤掉找不到对应数字的标签
             this.form.projectMilestoneTypes = this.projectMilestoneTypes;
             this.form.ossIds = this.ossids;
             // 请求修改接口
