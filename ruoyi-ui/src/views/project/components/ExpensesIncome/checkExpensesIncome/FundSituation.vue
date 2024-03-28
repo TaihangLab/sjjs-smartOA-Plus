@@ -432,7 +432,7 @@ export default {
             /* 科研服务费 */
             this.tableDataList[7].budget = newVal.projectFunds.kyfwfZj;
             this.tableDataList[7].specialBudget = newVal.projectFunds.kyfwfZxZj;
-            this.tableDataList[7].selfBudget = newVal.projectFunds.kyfwfZjzxZcZj;
+            this.tableDataList[7].selfBudget = newVal.projectFunds.kyfwfZcZj;
             this.tableDataList[7].specialPaid = newVal.projectBalance.kyfwfZxZjPaid;
             this.tableDataList[7].specialUnpaid = newVal.projectBalance.kyfwfZxZjUnpaid;
             this.tableDataList[7].selfPaid = newVal.projectBalance.kyfwfZcZjPaid;
@@ -477,7 +477,7 @@ export default {
             this.tableDataList[7].children[3].totalUnpaid = newVal.projectBalance.kyfwfGjhzjlZjUnpaid;
             /* 科研服务费_专家咨询费*/
             this.tableDataList[7].children[4].specialBudget = newVal.projectFunds.kyfwfZjzxZxZj;
-            this.tableDataList[7].children[4].selfBudget = newVal.projectFunds.kyfwfClZxZj;
+            this.tableDataList[7].children[4].selfBudget = newVal.projectFunds.kyfwfZjzxZcZj;
             this.tableDataList[7].children[4].specialPaid = newVal.projectBalance.kyfwfZjzxZxZjPaid;
             this.tableDataList[7].children[4].specialUnpaid = newVal.projectBalance.kyfwfZjzxZxZjUnpaid;
             this.tableDataList[7].children[4].selfPaid = newVal.projectBalance.kyfwfZjzxZcZjPaid;
