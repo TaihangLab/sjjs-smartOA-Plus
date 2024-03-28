@@ -62,11 +62,11 @@
             </el-collapse-transition>
             <el-collapse-transition>
                 <ProjectSpecialFund v-show="stepID===10" :cards1="cards1Form" :cards2="cards2Form" :table-data="tableDataForm"
-                                    ref="projectSpecialFund"></ProjectSpecialFund>
+                                    :cards3="cards3Form" ref="projectSpecialFund"></ProjectSpecialFund>
             </el-collapse-transition>
             <el-collapse-transition>
                 <ProjectSelfFund v-show="stepID===11" :cards1="zcCards1Form" :cards2="zcCards2Form" :table-data="zcTableDataForm"
-                                    ref="projectSelfFund"></ProjectSelfFund>
+                                 :cards3="zcCards3Form" ref="projectSelfFund"></ProjectSelfFund>
             </el-collapse-transition>
         </el-main>
 
@@ -109,7 +109,7 @@ import {addProject, getProject, updateProject} from "@/views/project/components/
 import {resetObject} from "@/views/project/components/utils";
 import ProjectProgress from "@/views/project/components/ProjectProgress.vue";
 import ProjectSpecialFund from "@/views/project/components/ProjectSpecialFund.vue";
-import categoryOptions1, {categoryOptions2, reorganizeData} from "@/views/project/components/fundkeys";
+import categoryOptions1, {categoryOptions2, categoryOptions4, categoryOptions5, reorganizeData, reorganizeJJData} from "@/views/project/components/fundkeys";
 import item from "@/layout/components/Sidebar/Item.vue";
 import ProjectSelfFund from "@/views/project/components/ProjectSelfFund.vue";
 
@@ -146,12 +146,14 @@ export default {
                 this.otherAttachmentForm, this.projectProgressForm, this.projectAllFundsForm).then(() => {
                 this.categoryOption1 = categoryOptions1;
                 this.categoryOption2 = categoryOptions2;
+                this.categoryOption4 = categoryOptions4;
+                this.categoryOption5 = categoryOptions5;
                 reorganizeData(this.categoryOption1, this.projectAllFundsForm, this.cards1Form, this.cards2Form, this.tableDataForm);
                 reorganizeData(this.categoryOption2, this.projectAllFundsForm, this.zcCards1Form, this.zcCards2Form, this.zcTableDataForm);
+                reorganizeJJData(this.categoryOption4, this.projectAllFundsForm, this.cards3Form);
+                reorganizeJJData(this.categoryOption5, this.projectAllFundsForm, this.zcCards3Form);
             });
         }
-
-
     },
     data() {
         return {
@@ -173,13 +175,17 @@ export default {
             projectProgressForm : {},
             cards1Form: [],
             cards2Form: [],
+            cards3Form: [],
             tableDataForm: [],
             zcCards1Form: [],
             zcCards2Form: [],
+            zcCards3Form: [],
             zcTableDataForm: [],
             projectAllFundsForm: [],
             categoryOption1: [],
             categoryOption2: [],
+            categoryOption4: [],
+            categoryOption5: [],
         };
     },
 
@@ -259,7 +265,8 @@ export default {
                 const projectUpdateFundForm = {};
                 this.projectFundForm(this.cards1Form, this.cards2Form, this.tableDataForm, projectUpdateFundForm);
                 this.projectFundForm(this.zcCards1Form, this.zcCards2Form, this.zcTableDataForm, projectUpdateFundForm);
-
+                this.jProjectFundForm(this.cards3Form, projectUpdateFundForm);
+                this.jProjectFundForm(this.zcCards3Form, projectUpdateFundForm);
                 updateProject(this.$props.updateId,
                     this.projectInfoForm,
                     this.projectMemberForm,
@@ -306,6 +313,9 @@ export default {
             const projectAddFundForm = {};
             this.projectFundForm(this.cards1Form, this.cards2Form, this.tableDataForm, projectAddFundForm);
             this.projectFundForm(this.zcCards1Form, this.zcCards2Form, this.zcTableDataForm, projectAddFundForm);
+            this.jProjectFundForm(this.cards3Form, projectAddFundForm);
+            this.jProjectFundForm(this.zcCards3Form, projectAddFundForm);
+
             addProject(this.projectInfoForm,
                 this.projectMemberForm,
                 this.projectFundsForm,
@@ -352,6 +362,15 @@ export default {
                         result[item.value] = item.content; // 使用value作为键，content作为值
                     });
                 });
+            });
+        },
+        jProjectFundForm(cards3Form, result) {
+            // 转换一级选择器的数据
+            cards3Form.forEach(item => {
+                if(item.content && item.content!==0) {
+                    result[item.value] = item.content; // 使用value作为键，content作为值
+                }
+
             });
         },
     },

@@ -84,97 +84,110 @@
                         </template>
                         {{ this.$props.projectfund.sbfZxZj}}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
-                        contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center; "
+                        contentStyle="width: 12%">
                         <template slot="label">
                             购置设备费
                         </template>
                         {{ this.$props.projectfund.sbfGzsbZxZj}}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
-                        contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center; "
+                        contentStyle="width: 12%">
                         <template slot="label">
                             试制设备费
                         </template>
                         {{ this.$props.projectfund.sbfSzsbZxZj}}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
-                        contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center; "
+                        contentStyle="width: 12%">
                         <template slot="label">
-                            设备改造与租赁费
+                            设备升级改造费
                         </template>
                         {{ this.$props.projectfund.sbfSbgzyzlZxZj}}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="font-weight: 550;" :span="3">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center; "
+                                          contentStyle="width: 12%">
+                        <template slot="label">
+                            设备租赁费
+                        </template>
+                        {{ this.$props.projectfund.sbfSbgzyzlZxZj}}
+                    </el-descriptions-item>
+                </el-descriptions>
+                <el-descriptions class="margin-top" :column="3" border>
+                    <el-descriptions-item labelStyle="font-weight: 550; width: 18%;" contentStyle="width: 72%" :span="3">
                         <template slot="label">
                             {{ "\xa0\xa0\xa0" }}2.材料费
                         </template>
                         {{ this.$props.projectfund.clfZxZj}}
                     </el-descriptions-item>
+                </el-descriptions>
+                <el-descriptions class="margin-top" :column="3" border>
                     <el-descriptions-item labelStyle="font-weight: 550;" :span="3">
                         <template slot="label">
                             {{ "\xa0\xa0\xa0" }}3.科研活动费
                         </template>
                         {{ this.$props.projectfund.kyhdfZxZj }}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
-                        contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center;"
+                        contentStyle="width: 12%">
                         <template slot="label">
                             资料费
                         </template>
                         {{ this.$props.projectfund.kyhdfZlZxZj}}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
-                        contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center; "
+                        contentStyle="width: 12%">
                         <template slot="label">
                             测试化验加工费
                         </template>
                         {{ this.$props.projectfund.kyhdfCshyjgZxZj}}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
-                        contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center; "
+                        contentStyle="width: 12%">
                         <template slot="label">
                             数据/样本采集费
                         </template>
                         {{ this.$props.projectfund.kyhdfSjybcjZxZj}}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
-                        contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center; "
+                        contentStyle="width: 12%">
                         <template slot="label">
                             印刷/出版费
                         </template>
                         {{ this.$props.projectfund.kyhdfYscbZxZj}}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
-                        contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center; "
+                        contentStyle="width: 12%">
                         <template slot="label">
                             知识产权事务费
                         </template>
                         {{ this.$props.projectfund.kyhdfZscqswZxZj}}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
-                        contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center; "
+                        contentStyle="width: 12%">
                         <template slot="label">
                             办公费
                         </template>
                         {{ this.$props.projectfund.kyhdfBgZxZj}}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center;  width: auto;"
-                        contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center;"
+                        contentStyle="width: 12%">
                         <template slot="label">
                             燃料动力费
                         </template>
                         {{ this.$props.projectfund.kyhdfRldlZxZj}}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center;  width: auto;"
-                        contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center;"
+                        contentStyle="width: 12%">
                         <template slot="label">
                             车辆使用费
                         </template>
                         {{ this.$props.projectfund.kyhdfClsyZxZj}}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center;  width: auto;"
-                        contentStyle="width: 15%">
+                </el-descriptions>
+                <el-descriptions class="margin-top" :column="3" border>
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center;"
+                        contentStyle="width: 12%">
                         <template slot="label">
                         </template>
                     </el-descriptions-item>
@@ -184,43 +197,43 @@
                         </template>
                         {{ this.$props.projectfund.kyfwfZxZj }}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
-                                          contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center;"
+                                          contentStyle="width: 12%">
                         <template slot="label">
                             专家咨询费
                         </template>
                         {{ this.$props.projectfund.kyfwfZjzxZxZj}}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
-                                          contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center;"
+                                          contentStyle="width: 12%">
                         <template slot="label">
                             差旅费
                         </template>
                         {{ this.$props.projectfund.kyfwfClZxZj}}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
-                                          contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center;"
+                                          contentStyle="width: 12%">
                         <template slot="label">
                             会议/会务费
                         </template>
                         {{ this.$props.projectfund.kyfwfHyhwZxZj }}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center;  width: auto;"
-                                          contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center;"
+                                          contentStyle="width: 12%">
                         <template slot="label">
                             国际合作交流费
                         </template>
                         {{ this.$props.projectfund.kyfwfGjhzjlZxZj}}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center;  width: auto;"
-                                          contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center;"
+                                          contentStyle="width: 12%">
                         <template slot="label">
                             国内协作费
                         </template>
                         {{ this.$props.projectfund.kyfwfGnxzZxZj}}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center;  width: auto;"
-                                          contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center;"
+                                          contentStyle="width: 12%">
                         <template slot="label">
                         </template>
                     </el-descriptions-item>
@@ -242,22 +255,22 @@
                         </template>
                         {{ this.$props.projectfund.sbfZxJj }}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
-                        contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center;"
+                        contentStyle="width: 12%">
                         <template slot="label">
                             购置设备费
                         </template>
                         {{ this.$props.projectfund.sbfGzsbZxJj}}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
-                        contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center;"
+                        contentStyle="width: 12%">
                         <template slot="label">
                             试制设备费
                         </template>
                         {{ this.$props.projectfund.sbfSzsbZxJj}}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
-                        contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center;"
+                        contentStyle="width: 12%">
                         <template slot="label">
                             设备改造与租赁费
                         </template>
@@ -275,64 +288,64 @@
                         </template>
                         {{ this.$props.projectfund.kyhdfZxJj }}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
-                        contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center;"
+                        contentStyle="width: 12%">
                         <template slot="label">
                             资料费
                         </template>
                         {{ this.$props.projectfund.kyhdfZlZxJj}}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
-                        contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center;"
+                        contentStyle="width: 12%">
                         <template slot="label">
                             测试化验加工费
                         </template>
                         {{ this.$props.projectfund.kyhdfCshyjgZxJj}}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
-                        contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center;"
+                        contentStyle="width: 12%">
                         <template slot="label">
                             数据/样本采集费
                         </template>
                         {{ this.$props.projectfund.kyhdfSjybcjZxJj}}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
-                        contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center;"
+                        contentStyle="width: 12%">
                         <template slot="label">
                             印刷/出版费
                         </template>
                         {{ this.$props.projectfund.kyhdfYscbZxJj}}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
-                        contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center;"
+                        contentStyle="width: 12%">
                         <template slot="label">
                             知识产权事务费
                         </template>
                         {{ this.$props.projectfund.kyhdfZscqswZxJj}}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
-                        contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center;"
+                        contentStyle="width: 12%">
                         <template slot="label">
                             办公费
                         </template>
                         {{ this.$props.projectfund.kyhdfBgZxJj}}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center;  width: auto;"
-                        contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center;"
+                        contentStyle="width: 12%">
                         <template slot="label">
                             燃料动力费
                         </template>
                         {{ this.$props.projectfund.kyhdfRldlZxJj}}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center;  width: auto;"
-                        contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center;"
+                        contentStyle="width: 12%">
                         <template slot="label">
                             车辆使用费
                         </template>
                         {{ this.$props.projectfund.kyhdfClsyZxJj}}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center;  width: auto;"
-                        contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center;"
+                        contentStyle="width: 12%">
                         <template slot="label">
                         </template>
                     </el-descriptions-item>
@@ -342,43 +355,43 @@
                         </template>
                         {{ this.$props.projectfund.kyfwfZxJj }}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
-                                          contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center;"
+                                          contentStyle="width: 12%">
                         <template slot="label">
                             专家咨询费
                         </template>
                         {{ this.$props.projectfund.kyfwfZjzxZxJj}}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
-                                          contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center;"
+                                          contentStyle="width: 12%">
                         <template slot="label">
                             差旅费
                         </template>
                         {{ this.$props.projectfund.kyfwfClZxJj}}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center; width: auto;"
-                                          contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center;"
+                                          contentStyle="width: 12%">
                         <template slot="label">
                             会议/会务费
                         </template>
                         {{ this.$props.projectfund.kyfwfHyhwZxJj }}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center;  width: auto;"
-                                          contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center;"
+                                          contentStyle="width: 12%">
                         <template slot="label">
                             国际合作交流费
                         </template>
                         {{ this.$props.projectfund.kyfwfGjhzjlZxJj}}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center;  width: auto;"
-                                          contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center;"
+                                          contentStyle="width: 12%">
                         <template slot="label">
                             国内协作费
                         </template>
                         {{ this.$props.projectfund.kyfwfGnxzZxJj}}
                     </el-descriptions-item>
-                    <el-descriptions-item labelStyle="width: 15%; text-align: center;  width: auto;"
-                                          contentStyle="width: 15%">
+                    <el-descriptions-item labelStyle="width: 18%; text-align: center; "
+                                          contentStyle="width: 12%">
                         <template slot="label">
                         </template>
                     </el-descriptions-item>

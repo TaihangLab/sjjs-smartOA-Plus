@@ -444,24 +444,169 @@ export const categoryOptions2 = [
             },
         ]
     },
+];
+
+
+/*专项间接经费*/
+export const categoryOptions4 = [
     {
         label: '绩效支出',
-        value: 'jxzcZcZj',
+        value: 'jxzcZxJj',
+    },
+    {
+        label: '管理费',
+        value: 'glfZxJj',
+    },
+    {
+        label: '房屋租赁费',
+        value: 'fwzjfZxJj',
+    },
+    {
+        label: '日常水、电、暖费',
+        value: 'rcsdnfZxJj',
+    },
+    {
+        label: '设备费',
+        value: 'sbfZxJj',
+    },
+    {
+        label: '材料费',
+        value: 'clfZxJj',
+    },
+    {
+        label: '资料费',
+        value: 'zlfZxJj',
+    },
+    {
+        label: '数据/样本采集费',
+        value: 'sjybcjfZxJj',
+    },
+    {
+        label: '测试化验加工费',
+        value: 'cshyjgfZxJj',
+    },
+    {
+        label: '燃料动力费',
+        value: 'rldlfZxJj',
+    },
+    {
+        label: '办公费',
+        value: 'bgfZxJj',
+    },
+    {
+        label: '印刷/出版费',
+        value: 'yscbfZxJj',
+    },
+    {
+        label: '知识产权事务费',
+        value: 'zscqswfZxJj',
+    },
+    {
+        label: '车辆使用费',
+        value: 'clsyfZxJj',
+    },
+    {
+        label: '差旅费',
+        value: 'chlfZxJj',
+    },
+    {
+        label: '会议/会务费',
+        value: 'hyhwfZxJj',
+    },
+    {
+        label: '专家咨询费',
+        value: 'zjzxfZxJj',
+    },
+    {
+        label: '其他',
+        value: 'othersZxJj',
     },
 ];
 
 
+/*自筹间接经费*/
+export const categoryOptions5 = [
+    {
+        label: '绩效支出',
+        value: 'jxzcZcJj',
+    },
+    {
+        label: '管理费',
+        value: 'glfZcJj',
+    },
+    {
+        label: '房屋租赁费',
+        value: 'fwzjfZcJj',
+    },
+    {
+        label: '日常水、电、暖费',
+        value: 'rcsdnfZcJj',
+    },
+    {
+        label: '设备费',
+        value: 'sbfZcJj',
+    },
+    {
+        label: '材料费',
+        value: 'clfZcJj',
+    },
+    {
+        label: '资料费',
+        value: 'zlfZcJj',
+    },
+    {
+        label: '数据/样本采集费',
+        value: 'sjybcjfZcJj',
+    },
+    {
+        label: '测试化验加工费',
+        value: 'cshyjgfZcJj',
+    },
+    {
+        label: '燃料动力费',
+        value: 'rldlfZcJj',
+    },
+    {
+        label: '办公费',
+        value: 'bgfZcJj',
+    },
+    {
+        label: '印刷/出版费',
+        value: 'yscbfZcJj',
+    },
+    {
+        label: '知识产权事务费',
+        value: 'zscqswfZcJj',
+    },
+    {
+        label: '车辆使用费',
+        value: 'clsyfZcJj',
+    },
+    {
+        label: '差旅费',
+        value: 'chlfZcJj',
+    },
+    {
+        label: '会议/会务费',
+        value: 'hyhwfZcJj',
+    },
+    {
+        label: '专家咨询费',
+        value: 'zjzxfZcJj',
+    },
+    {
+        label: '其他',
+        value: 'othersZcJj',
+    },
+];
+
 
 // 将金额字段加入到categories中
 export function dealData(categories, fundsData) {
-    console.log("categories", categories);
-    console.log("fundsData1",fundsData[0]);
     categories.forEach(category => {
-        console.log("category.value:", category.value);
         // 查找与 category.value 匹配的项
         const item = fundsData.find(item => item.key === category.value);
         if (item) {
-            console.log("Match found for:", category.value, "with value:", item.value);
             category.content = item.value;
         }
         // 递归处理子类别
@@ -508,11 +653,37 @@ export function continueDealData(categories, cards1Form, cards2Form, tableDataFo
         }
     });
 }
+
+export function dealJJData(categories, fundsData) {
+    console.log("categories", categories);
+    console.log("fundsData1",fundsData[0]);
+    categories.forEach(category => {
+        // 查找与 category.value 匹配的项
+        const item = fundsData.find(item => item.key === category.value);
+        if (item) {
+            category.content = item.value;
+        }
+    });
+}
+
+export function continueDealJJData(categories, cards1Form) {
+    categories.forEach(item => {
+        if (item.content && item.content !== "0") {
+            cards1Form.push({value: item.value, content: item.content});
+        }
+    });
+}
+
 export function reorganizeData(categories, fundsData, cards1Form, cards2Form, tableDataForm){
     dealData(categories, fundsData);
     continueDealData(categories, cards1Form, cards2Form, tableDataForm);
 }
 
+export function reorganizeJJData(categories, fundsData, cards1Form){
+    dealJJData(categories, fundsData);
+    continueDealJJData(categories, cards1Form);
+}
+/*经费详情列表*/
 export const categoryOptions3 = [
     {
         id: 0,
@@ -715,9 +886,79 @@ export const categoryOptions3 = [
     {
         id: 9,
         label: '（二）间接费用',
-    },
-    {
-        id: 10,
-        label: '其中：绩效支出',
+        children: [
+            {
+                id: 90,
+                label: '绩效支出',
+            },
+            {
+                id: 91,
+                label: '管理费',
+            },
+            {
+                id: 92,
+                label: '房屋租赁费',
+            },
+            {
+                id: 93,
+                label: '日常水、电、暖费',
+            },
+            {
+                id: 94,
+                label: '设备费',
+            },
+            {
+                id: 95,
+                label: '材料费',
+            },
+            {
+                id: 96,
+                label: '资料费',
+            },
+            {
+                id: 97,
+                label: '数据/样本采集费',
+            },
+            {
+                id: 98,
+                label: '测试化验加工费',
+            },
+            {
+                id: 99,
+                label: '燃料动力费',
+            },
+            {
+                id: 910,
+                label: '办公费',
+            },
+            {
+                id: 911,
+                label: '印刷/出版费',
+            },
+            {
+                id: 912,
+                label: '知识产权事务费',
+            },
+            {
+                id: 913,
+                label: '车辆使用费',
+            },
+            {
+                id: 914,
+                label: '差旅费',
+            },
+            {
+                id: 915,
+                label: '会议/会务费',
+            },
+            {
+                id: 916,
+                label: '专家咨询费',
+            },
+            {
+                id: 917,
+                label: '其他',
+            },
+        ]
     },
 ];
