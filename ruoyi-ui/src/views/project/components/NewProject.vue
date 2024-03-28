@@ -27,11 +27,13 @@
             </el-collapse-transition>
 
             <el-collapse-transition>
-                <ZXFundsDetail v-show="stepID===3" :form="zxFundsDetailForm" ref="zxFundsDetail"></ZXFundsDetail>
+                <ProjectSpecialFund v-show="stepID===3" :cards1="cards1Form" :cards2="cards2Form" :table-data="tableDataForm"
+                                    :cards3="cards3Form" ref="projectSpecialFund"></ProjectSpecialFund>
             </el-collapse-transition>
 
             <el-collapse-transition>
-                <ZCFundsDetail v-show="stepID===4" :form="zcFundsDetailForm" ref="zcFundsDetail"></ZCFundsDetail>
+                <ProjectSelfFund v-show="stepID===4" :cards1="zcCards1Form" :cards2="zcCards2Form" :table-data="zcTableDataForm"
+                                 :cards3="zcCards3Form" ref="projectSelfFund"></ProjectSelfFund>
             </el-collapse-transition>
 
             <el-collapse-transition>
@@ -60,32 +62,12 @@
                 <ProjectProgress v-show="stepID===9" :form="projectProgressForm"
                                  ref="projectProgress"></ProjectProgress>
             </el-collapse-transition>
-            <el-collapse-transition>
-                <ProjectSpecialFund v-show="stepID===10" :cards1="cards1Form" :cards2="cards2Form" :table-data="tableDataForm"
-                                    :cards3="cards3Form" ref="projectSpecialFund"></ProjectSpecialFund>
-            </el-collapse-transition>
-            <el-collapse-transition>
-                <ProjectSelfFund v-show="stepID===11" :cards1="zcCards1Form" :cards2="zcCards2Form" :table-data="zcTableDataForm"
-                                 :cards3="zcCards3Form" ref="projectSelfFund"></ProjectSelfFund>
-            </el-collapse-transition>
         </el-main>
 
         <el-footer>
             <el-button v-show="stepID > 0" style="margin-top: 12px;" @click="previous">上一步</el-button>
             <el-button style="margin-top: 12px;" @click="next" type="primary">{{ nextButtonText }}</el-button>
-            <el-button v-show="stepID < 12" style="margin-top: 12px;" @click="submit" type="success">现在提交</el-button>
-            <!--            重置要求确认-->
-            <el-popconfirm
-                title="确定要重置吗?"
-                @confirm="reset"
-                style="margin-left: 10px;"
-            >
-                <template #reference>
-                    <el-button @click.stop="" type="warning">重置</el-button>
-                </template>
-            </el-popconfirm>
-            <!--            <el-button @click="reset" type="warning">重置</el-button>-->
-<!--            <el-button @click="info">log</el-button>-->
+            <el-button v-show="stepID < 10" style="margin-top: 12px;" @click="submit" type="success">现在提交</el-button>
         </el-footer>
     </el-container>
 
@@ -113,7 +95,7 @@ import categoryOptions1, {categoryOptions2, categoryOptions4, categoryOptions5, 
 import item from "@/layout/components/Sidebar/Item.vue";
 import ProjectSelfFund from "@/views/project/components/ProjectSelfFund.vue";
 
-const TOTAL_STEPS = 11;
+const TOTAL_STEPS = 9;
 
 export default {
     name      : "NewProject",
@@ -137,7 +119,7 @@ export default {
     },
     mounted: async function () {
         /**
-         * 如果是修改项目，需要获取项目的信息
+         * 如果是修改项目，需要获取项目的信息  this.zxFundsDetailForm, this.zcFundsDetailForm,弃用
          */
         if (this.$props.updateId) {
             await getProject(this.updateId, this.projectInfoForm, this.projectMemberForm,
@@ -159,14 +141,14 @@ export default {
         return {
             stepID        : 0,
             isStepHover   : false,
-            titles        : ["项目信息", "项目成员", "项目经费", "专项经费", "自筹经费", "经费来源", "项目指标", "项目计划", "项目申报附件", "项目推进情况", "专项经费", "自筹经费"],
+            titles        : ["项目信息", "项目成员", "项目经费", "专项经费", "自筹经费", "经费来源", "项目指标", "项目计划", "项目申报附件", "项目推进情况"],
             nextButtonText: '下一步',
 
             projectInfoForm     : {},
             projectMemberForm   : {members: [], items: []},
             projectFundsForm    : {},
-            zxFundsDetailForm   : {},
-            zcFundsDetailForm   : {},
+            zxFundsDetailForm   : {}, //弃用
+            zcFundsDetailForm   : {}, //弃用
             projectIndicatorForm: {},
             projectPlanForm     : {},
             fundsSourceForm     : {},
@@ -232,8 +214,8 @@ export default {
             resetObject(this.projectInfoForm)
             this.$refs.projectMember.reset();
             resetObject(this.projectFundsForm);
-            resetObject(this.zxFundsDetailForm);
-            resetObject(this.zcFundsDetailForm);
+            resetObject(this.zxFundsDetailForm); //弃用
+            resetObject(this.zcFundsDetailForm); //弃用
             resetObject(this.fundsSourceForm);
             this.$refs.projectPlanForm.reset();
             this.$refs.projectIndicator.reset();
@@ -271,8 +253,8 @@ export default {
                     this.projectInfoForm,
                     this.projectMemberForm,
                     this.projectFundsForm,
-                    this.zxFundsDetailForm,
-                    this.zcFundsDetailForm,
+                    this.zxFundsDetailForm, //弃用
+                    this.zcFundsDetailForm, //弃用
                     this.fundsSourceForm,
                     this.projectIndicatorForm,
                     this.projectPlanForm,
@@ -301,8 +283,8 @@ export default {
              * @param projectInfoForm
              * @param projectMemberForm
              * @param projectFundsForm
-             * @param zxFundsDetailForm
-             * @param zcFundsDetailForm
+             * @param zxFundsDetailForm //弃用
+             * @param zcFundsDetailForm //弃用
              * @param fundsSourceForm
              * @param projectIndicatorForm
              * @param projectPlanForm
@@ -319,8 +301,8 @@ export default {
             addProject(this.projectInfoForm,
                 this.projectMemberForm,
                 this.projectFundsForm,
-                this.zxFundsDetailForm,
-                this.zcFundsDetailForm,
+                this.zxFundsDetailForm, //弃用
+                this.zcFundsDetailForm, //弃用
                 this.fundsSourceForm,
                 this.projectIndicatorForm,
                 this.projectPlanForm,
