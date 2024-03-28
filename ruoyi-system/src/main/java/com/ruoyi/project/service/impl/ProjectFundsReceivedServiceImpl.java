@@ -1,6 +1,7 @@
 package com.ruoyi.project.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.ruoyi.common.enums.ProjectMilestoneTypeEnum;
 import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.project.domain.ProjectFunds;
 import com.ruoyi.project.domain.ProjectFundsReceived;
@@ -19,15 +20,14 @@ import com.ruoyi.system.domain.SysOss;
 import com.ruoyi.system.mapper.SysOssMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.flowable.cmmn.model.Milestone;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -94,7 +94,7 @@ public class ProjectFundsReceivedServiceImpl implements ProjectFundsReceivedServ
         LocalDate receivedDate = fundsReceived.getReceivedDate();
         ProjectMilestoneBo milestoneBo = new ProjectMilestoneBo();
         // 设置大事记标签为“专项经费文件”
-//        milestoneBo.setMilestoneCategoryType(ProjectMilestoneCategoryEnum.SPECIAL_FUNDS);
+        milestoneBo.setProjectMilestoneTypes(Collections.singletonList((ProjectMilestoneTypeEnum.SPECIAL_FUNDS)));
         // 设置大事记标题为“专项经费到账”
         milestoneBo.setMilestoneTitle("专项经费到账");
         // 设置大事记备注，包括到账日期、到账金额和来款单位信息
