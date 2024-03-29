@@ -68,20 +68,18 @@ public class ProjectExpenditureServiceImpl implements ProjectExpenditureService{
     private void processProjectExpenditureBO(ProjectExpenditureBO projectExpenditureBO,
         List<ProjectExpenditure> projectExpenditureListToInsert, List<ProjectBalance> projectBalanceListToInsert)
         throws ServiceException, IllegalAccessException {
-        //判断录入经费的名称是否存在
-        if (GlobalMappingConfig.getObjectByTags(projectExpenditureBO.getZxzc(), projectExpenditureBO.getZjjj(),
-            projectExpenditureBO.getFirstLevelSubject(), projectExpenditureBO.getSecondLevelSubject(),
-            projectExpenditureBO.getThirdLevelSubject()) == null) {
-            log.error("录入的支付经费类型不存在");
-            throw new ServiceException("支付经费类型不存在,凭证号为:" + projectExpenditureBO.getVoucherNo());
-        }
-        //获取经费数额
-        BigDecimal expenditure = projectExpenditureBO.getAmount();
         //获取经费字段
         String field =
             GlobalMappingConfig.getObjectByTags(projectExpenditureBO.getZxzc(), projectExpenditureBO.getZjjj(),
                 projectExpenditureBO.getFirstLevelSubject(), projectExpenditureBO.getSecondLevelSubject(),
                 projectExpenditureBO.getThirdLevelSubject());
+        //判断录入经费的名称是否存在
+        if (field == null) {
+            log.error("录入的支付经费类型不存在");
+            throw new ServiceException("支付经费类型不存在,凭证号为:" + projectExpenditureBO.getVoucherNo());
+        }
+        //获取经费数额
+        BigDecimal expenditure = projectExpenditureBO.getAmount();
         //获取余额
         ProjectBalance projectBalance =
             projectBalanceService.getProjectBalanceByProjectId(projectExpenditureBO.getProjectId());
@@ -114,14 +112,14 @@ public class ProjectExpenditureServiceImpl implements ProjectExpenditureService{
 
     private void performBatchInsertAndUpdate(List<ProjectExpenditure> projectExpenditures,
         List<ProjectBalance> projectBalanceList, List<String> errorMessageList) {
+        if (!errorMessageList.isEmpty()) {
+            throw new RuntimeException("导入失败: " + String.join("; ", errorMessageList));
+        }
         if (!projectExpenditures.isEmpty()) {
             projectExpenditureMapper.insertBatch(projectExpenditures);
         }
         if (!projectBalanceList.isEmpty()) {
             projectBalanceService.batchUpdateProjectBalance(projectBalanceList);
-        }
-        if (!errorMessageList.isEmpty()) {
-            throw new RuntimeException("部分经费导入成功: " + String.join(", ", errorMessageList));
         }
     }
 
