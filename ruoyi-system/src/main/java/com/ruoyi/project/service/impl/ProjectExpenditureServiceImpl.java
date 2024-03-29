@@ -7,6 +7,7 @@ import com.ruoyi.project.config.GlobalMappingConfig;
 import com.ruoyi.project.domain.ProjectBalance;
 import com.ruoyi.project.domain.ProjectExpenditure;
 import com.ruoyi.project.domain.bo.ProjectExpenditureBO;
+import com.ruoyi.project.domain.vo.ProjectExpenditureVO;
 import com.ruoyi.project.mapper.ProjectExpenditureMapper;
 import com.ruoyi.project.service.ProjectBalanceService;
 import com.ruoyi.project.service.ProjectExpenditureService;
@@ -124,8 +125,57 @@ public class ProjectExpenditureServiceImpl implements ProjectExpenditureService{
     }
 
     @Override
-    public void deleteProjectExpenditureByProjectId(Long projectId) {
-        //TODO
+    @Transactional(rollbackFor = Exception.class)
+    public void rollBackProjectExpenditureById(Long expenditureId) throws IllegalAccessException {
+        ProjectExpenditure projectExpenditure = projectExpenditureMapper.selectById(expenditureId);
+        if (projectExpenditure == null) {
+            log.error("支出明细不存在");
+            throw new ServiceException("支出明细不存在");
+        }
+        //回滚支出记录
+        projectExpenditureMapper.deleteById(expenditureId);
+        //回滚经费余额
+        rollBackProjectBalance(projectExpenditure);
+    }
+
+    private void rollBackProjectBalance(ProjectExpenditure projectExpenditure) throws IllegalAccessException {
+        //获取余额
+        ProjectBalance projectBalance =
+            projectBalanceService.getProjectBalanceByProjectId(projectExpenditure.getProjectId());
+        if (projectBalance == null) {
+            log.error("项目余额不存在");
+            throw new ServiceException("项目余额不存在,凭证号为:" + projectExpenditure.getVoucherNo());
+        }
+        //获取经费字段
+        String field = GlobalMappingConfig.getObjectByTags(projectExpenditure.getZxzc(), projectExpenditure.getZjjj(),
+            projectExpenditure.getFirstLevelSubject(), projectExpenditure.getSecondLevelSubject(),
+            projectExpenditure.getThirdLevelSubject());
+        //判断录入经费的名称是否存在
+        if (field == null) {
+            log.error("支出记录的支付经费类型不存在");
+            throw new ServiceException("支付经费类型不存在,凭证号为:" + projectExpenditure.getVoucherNo());
+        }
+        //获取经费数额
+        BigDecimal expenditure = projectExpenditure.getAmount();
+        //获取已支付余额
+        String paidField = paidReverseMapping.get(field);
+        BigDecimal paid = (BigDecimal)FieldUtils.readField(projectBalance, paidField, true);
+        if (expenditure.compareTo(paid) > 0) {
+            log.error("回滚支付经费超出已支付余额");
+            throw new ServiceException("回滚支付经费超出已支付余额,凭证号为:" + projectExpenditure.getVoucherNo());
+        }
+        //回滚已支付余额
+        FieldUtils.writeField(projectBalance, paidField, paid.subtract(expenditure), true);
+        String unpaidField = unpaidReverseMapping.get(field);
+        //回滚未支付金额
+        BigDecimal unpaid = (BigDecimal)FieldUtils.readField(projectBalance, unpaidField, true);
+        FieldUtils.writeField(projectBalance, unpaidField, unpaid.add(expenditure), true);
+        //TODO:更新关联的一二级科目
+        //        String firstLevelSubject = fundsMapping.get(projectExpenditureBO.getFunds());
+        //        String secondLevelSubject = fundsReverseMapping.get(projectExpenditureBO.getFunds());
+        //        projectExpenditureBO.setFirstLevelSubject(firstLevelSubject);
+        //        projectExpenditureBO.setSecondLevelSubject(secondLevelSubject);
+        projectBalanceService.updateProjectBalance(projectBalance);
     }
 
     /**
@@ -133,8 +183,8 @@ public class ProjectExpenditureServiceImpl implements ProjectExpenditureService{
      * @param projectId
      * @return
      */
-    public List<ProjectExpenditure> getProjectExpenditureByProId(Long projectId){
-        return projectExpenditureMapper.selectList(new LambdaQueryWrapper<ProjectExpenditure>()
+    public List<ProjectExpenditureVO> getProjectExpenditureByProId(Long projectId) {
+        return projectExpenditureMapper.selectVoList(new LambdaQueryWrapper<ProjectExpenditure>()
             .eq(ProjectExpenditure::getProjectId,projectId));
     }
 }

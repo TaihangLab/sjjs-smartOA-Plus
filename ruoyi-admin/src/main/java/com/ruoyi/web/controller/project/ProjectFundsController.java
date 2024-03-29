@@ -10,18 +10,17 @@ import com.ruoyi.common.core.validate.QueryGroup;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.excel.ExcelResult;
 import com.ruoyi.common.utils.poi.ExcelUtil;
-import com.ruoyi.project.domain.ProjectExpenditure;
 import com.ruoyi.project.domain.ProjectFundsReceived;
 import com.ruoyi.project.domain.bo.ProjectBaseInfoBO;
 import com.ruoyi.project.domain.bo.ProjectExpenditureBO;
 import com.ruoyi.project.domain.vo.ProjectExpenditureImportVO;
-import com.ruoyi.project.domain.vo.ProjectFundsReceivedVo;
+import com.ruoyi.project.domain.vo.ProjectExpenditureVO;
 import com.ruoyi.project.domain.vo.ProjectFundsManagementVO;
+import com.ruoyi.project.domain.vo.ProjectFundsReceivedVo;
 import com.ruoyi.project.listener.ProjectFundsImportListener;
 import com.ruoyi.project.service.ProjectExpenditureService;
 import com.ruoyi.project.service.ProjectFundsManagementService;
 import com.ruoyi.project.service.ProjectFundsReceivedService;
-import com.ruoyi.project.service.ProjectFundsService;
 import com.ruoyi.project.service.ProjectFundsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -97,6 +96,24 @@ public class ProjectFundsController {
         projectExpenditureService.addProjectExpenditureList(projectExpenditureBOList);
         return R.ok();
     }
+
+    /**
+     * 支出记录回滚
+     *
+     * @param expenditureId
+     *
+     * @return {@link R}<{@link Void}>
+     *
+     * @throws IllegalAccessException
+     */
+    @Log(title = "支出记录回滚", businessType = BusinessType.DELETE)
+    //    @SaCheckPermission("project:funds:add")
+    @GetMapping(value = "/rollback")
+    public R<Void> rollBackProjectExpenditure(@RequestParam @NotNull Long expenditureId) throws IllegalAccessException {
+        projectExpenditureService.rollBackProjectExpenditureById(expenditureId);
+        return R.ok();
+    }
+
     /**
      * 新增专项经费到账记录
      * @param projectFundsReceived 经费到账信息
@@ -153,9 +170,10 @@ public class ProjectFundsController {
      * @return
      */
     @GetMapping(value = "/getProjectExpenditure")
-    public R<List<ProjectExpenditure>> getProjectExpenditureByProId(@RequestParam @NotNull Long projectId) {
-        List<ProjectExpenditure> projectExpenditures = projectExpenditureService.getProjectExpenditureByProId(projectId);
-        return R.ok(projectExpenditures);
+    public R<List<ProjectExpenditureVO>> getProjectExpenditureListByProId(@RequestParam @NotNull Long projectId) {
+        List<ProjectExpenditureVO> projectExpenditureList =
+            projectExpenditureService.getProjectExpenditureByProId(projectId);
+        return R.ok(projectExpenditureList);
     }
 
 }

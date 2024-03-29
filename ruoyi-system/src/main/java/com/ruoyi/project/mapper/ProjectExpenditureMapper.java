@@ -2,6 +2,7 @@ package com.ruoyi.project.mapper;
 
 import com.ruoyi.common.core.mapper.BaseMapperPlus;
 import com.ruoyi.project.domain.ProjectExpenditure;
+import com.ruoyi.project.domain.vo.ProjectExpenditureVO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -12,7 +13,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface ProjectExpenditureMapper
-    extends BaseMapperPlus<ProjectExpenditureMapper, ProjectExpenditure, ProjectExpenditure> {
+    extends BaseMapperPlus<ProjectExpenditureMapper, ProjectExpenditure, ProjectExpenditureVO> {
 
 }
 

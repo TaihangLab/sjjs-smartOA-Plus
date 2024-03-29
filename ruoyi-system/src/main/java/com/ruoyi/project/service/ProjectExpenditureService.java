@@ -1,7 +1,7 @@
 package com.ruoyi.project.service;
 
-import com.ruoyi.project.domain.ProjectExpenditure;
 import com.ruoyi.project.domain.bo.ProjectExpenditureBO;
+import com.ruoyi.project.domain.vo.ProjectExpenditureVO;
 
 import java.util.List;
 
@@ -19,12 +19,17 @@ public interface ProjectExpenditureService {
      */
     void addProjectExpenditureList(List<ProjectExpenditureBO> projectExpenditureBOList);
 
-    void deleteProjectExpenditureByProjectId(Long projectId);
+    /**
+     * 回滚支出记录
+     *
+     * @param expenditureId
+     */
+    void rollBackProjectExpenditureById(Long expenditureId) throws IllegalAccessException;
 
     /**
      * 查询项目支出明细
      * @param projectId
      * @return
      */
-    List<ProjectExpenditure> getProjectExpenditureByProId(Long projectId);
+    List<ProjectExpenditureVO> getProjectExpenditureByProId(Long projectId);
 }
