@@ -79,8 +79,8 @@ public class ProjectExpenditureServiceImpl implements ProjectExpenditureService{
             log.error("录入的支付经费类型不存在");
             throw new ServiceException("支付经费类型不存在,凭证号为:" + projectExpenditureBO.getVoucherNo());
         }
-        //获取经费数额
-        BigDecimal expenditure = projectExpenditureBO.getAmount();
+        //获取经费数额，并转化为万元
+        BigDecimal expenditure = projectExpenditureBO.getAmount().divide(new BigDecimal("10000"));
         //获取余额
         ProjectBalance projectBalance =
             projectBalanceService.getProjectBalanceByProjectId(projectExpenditureBO.getProjectId());
@@ -155,8 +155,8 @@ public class ProjectExpenditureServiceImpl implements ProjectExpenditureService{
             log.error("支出记录的支付经费类型不存在");
             throw new ServiceException("支付经费类型不存在,凭证号为:" + projectExpenditure.getVoucherNo());
         }
-        //获取经费数额
-        BigDecimal expenditure = projectExpenditure.getAmount();
+        //获取经费数额,并转化为万元
+        BigDecimal expenditure = projectExpenditure.getAmount().divide(new BigDecimal("10000"));
         //获取已支付余额
         String paidField = paidReverseMapping.get(field);
         BigDecimal paid = (BigDecimal)FieldUtils.readField(projectBalance, paidField, true);
