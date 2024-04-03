@@ -1,7 +1,7 @@
 package com.ruoyi.web.controller.project;
 
 import com.ruoyi.common.core.domain.R;
-import com.ruoyi.project.domain.vo.ProjectBalanceVO;
+import com.ruoyi.project.domain.vo.ProjectFundsAndBalanceVO;
 import com.ruoyi.project.service.ProjectBalanceService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +32,8 @@ public class ProjectBalanceController {
      * @return
      */
     @GetMapping(value = "/fundsAndBalance")
-    public R<ProjectBalanceVO> getFundsAndBalanceByProjectId(@RequestParam @NonNull Long projectId){
-        ProjectBalanceVO fundsAndBalance = projectBalanceService.getFundsAndBalanceByProjectId(projectId);
+    public R<ProjectFundsAndBalanceVO> getFundsAndBalanceByProjectId(@RequestParam @NonNull Long projectId) {
+        ProjectFundsAndBalanceVO fundsAndBalance = projectBalanceService.getFundsAndBalanceByProjectId(projectId);
         return R.ok(fundsAndBalance);
     }
 }

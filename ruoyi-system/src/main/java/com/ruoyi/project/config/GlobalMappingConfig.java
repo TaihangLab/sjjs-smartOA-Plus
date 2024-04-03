@@ -4,7 +4,8 @@ import com.ruoyi.common.annotation.FundsFieldDescription;
 import com.ruoyi.common.annotation.PaidFieldDescription;
 import com.ruoyi.common.annotation.UnPaidFieldDescription;
 import com.ruoyi.common.enums.*;
-import com.ruoyi.project.domain.ProjectBalance;
+import com.ruoyi.project.domain.ProjectBalancePaid;
+import com.ruoyi.project.domain.ProjectBalanceUnpaid;
 import com.ruoyi.project.domain.ProjectFunds;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -493,7 +494,7 @@ public class GlobalMappingConfig {
 
     @Bean
     public ConcurrentMap<String, String> paidMapping() {
-        return getMapping("paid", ProjectBalance.class, PaidFieldDescription.class);
+        return getMapping("paid", ProjectBalancePaid.class, PaidFieldDescription.class);
     }
 
     @Bean
@@ -503,7 +504,7 @@ public class GlobalMappingConfig {
 
     @Bean
     public ConcurrentMap<String, String> unpaidMapping() {
-        return getMapping("unpaid", ProjectBalance.class, UnPaidFieldDescription.class);
+        return getMapping("unpaid", ProjectBalanceUnpaid.class, UnPaidFieldDescription.class);
     }
 
     @Bean

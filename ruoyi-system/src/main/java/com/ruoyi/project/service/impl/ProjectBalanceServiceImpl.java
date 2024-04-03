@@ -1,10 +1,17 @@
 package com.ruoyi.project.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.project.domain.ProjectBalance;
+import com.ruoyi.project.domain.ProjectBalancePaid;
+import com.ruoyi.project.domain.ProjectBalanceUnpaid;
 import com.ruoyi.project.domain.ProjectFunds;
 import com.ruoyi.project.domain.vo.ProjectBalanceVO;
+import com.ruoyi.project.domain.vo.ProjectFundsAndBalanceVO;
+import com.ruoyi.project.domain.vo.ProjectFundsVO;
 import com.ruoyi.project.mapper.ProjectBalanceMapper;
+import com.ruoyi.project.mapper.ProjectBalancePaidMapper;
+import com.ruoyi.project.mapper.ProjectBalanceUnpaidMapper;
 import com.ruoyi.project.mapper.ProjectFundsMapper;
 import com.ruoyi.project.service.ProjectBalanceService;
 import lombok.RequiredArgsConstructor;
@@ -30,11 +37,22 @@ public class ProjectBalanceServiceImpl implements ProjectBalanceService {
 
     private final ProjectBalanceMapper projectBalanceMapper;
 
+    private final ProjectBalancePaidMapper projectBalancePaidMapper;
+    private final ProjectBalanceUnpaidMapper projectBalanceUnpaidMapper;
+
     @Override
-    public Map<Long, ProjectBalance> getProjectBalanceMapByPorjectIdList(List<Long> projectIdList) {
-        return projectBalanceMapper.selectList(
-                new LambdaQueryWrapper<ProjectBalance>().in(ProjectBalance::getProjectId, projectIdList)).stream()
-            .collect(Collectors.toMap(ProjectBalance::getProjectId, projectBalance -> projectBalance));
+    public Map<Long, ProjectBalancePaid> getProjectBalancePaidMapByPorjectIdList(List<Long> projectIdList) {
+        return projectBalancePaidMapper.selectList(
+                new LambdaQueryWrapper<ProjectBalancePaid>().in(ProjectBalancePaid::getProjectId, projectIdList)).stream()
+            .collect(Collectors.toMap(ProjectBalancePaid::getProjectId, projectBalancePaid -> projectBalancePaid));
+    }
+
+    @Override
+    public Map<Long, ProjectBalanceUnpaid> getProjectBalanceUnpaidMapByPorjectIdList(List<Long> projectIdList) {
+        return projectBalanceUnpaidMapper.selectList(
+                new LambdaQueryWrapper<ProjectBalanceUnpaid>().in(ProjectBalanceUnpaid::getProjectId, projectIdList))
+            .stream().collect(
+                Collectors.toMap(ProjectBalanceUnpaid::getProjectId, projectBalanceUnpaid -> projectBalanceUnpaid));
     }
 
     /**
@@ -44,37 +62,58 @@ public class ProjectBalanceServiceImpl implements ProjectBalanceService {
      * @return
      */
     @Override
-    public ProjectBalanceVO getFundsAndBalanceByProjectId(Long projectId) {
-        ProjectBalanceVO projectBalanceVO = new ProjectBalanceVO();
+    public ProjectFundsAndBalanceVO getFundsAndBalanceByProjectId(Long projectId) {
+        ProjectFundsAndBalanceVO projectFundsAndBalanceVO = new ProjectFundsAndBalanceVO();
         ProjectFunds projectFunds = projectFundsMapper.selectOne(new LambdaQueryWrapper<ProjectFunds>()
             .eq(ProjectFunds::getProjectId, projectId));
 
         ProjectBalance projectBalance = projectBalanceMapper.selectOne(new LambdaQueryWrapper<ProjectBalance>()
             .eq(ProjectBalance::getProjectId, projectId));
 
-        projectBalanceVO.setProjectBalance(projectBalance);
-        projectBalanceVO.setProjectFunds(projectFunds);
-        return projectBalanceVO;
+        projectFundsAndBalanceVO.setProjectBalance(BeanCopyUtils.copy(projectBalance, ProjectBalanceVO.class));
+        projectFundsAndBalanceVO.setProjectFunds(BeanCopyUtils.copy(projectFunds, ProjectFundsVO.class));
+        return projectFundsAndBalanceVO;
     }
 
     @Override
-    public void insertProjectBalance(ProjectBalance projectBalance) {
-        projectBalanceMapper.insert(projectBalance);
+    public void insertProjectBalancePaid(ProjectBalancePaid projectBalancePaid) {
+        projectBalancePaidMapper.insert(projectBalancePaid);
     }
 
     @Override
-    public ProjectBalance getProjectBalanceByProjectId(Long projectId) {
-        return projectBalanceMapper.selectOne(
-            new LambdaQueryWrapper<ProjectBalance>().eq(ProjectBalance::getProjectId, projectId));
+    public void insertProjectBalanceUnpaid(ProjectBalanceUnpaid projectBalanceUnpaid) {
+        projectBalanceUnpaidMapper.insert(projectBalanceUnpaid);
     }
 
     @Override
-    public void updateProjectBalance(ProjectBalance projectBalance) {
-        projectBalanceMapper.updateById(projectBalance);
+    public ProjectBalancePaid getProjectBalancePaidByProjectId(Long projectId) {
+        return projectBalancePaidMapper.selectOne(
+            new LambdaQueryWrapper<ProjectBalancePaid>().eq(ProjectBalancePaid::getProjectId, projectId));
     }
 
     @Override
-    public void batchUpdateProjectBalance(List<ProjectBalance> projectBalanceList) {
-        projectBalanceList.forEach(projectBalanceMapper::updateById);
+    public ProjectBalanceUnpaid getProjectBalanceUnpaidByProjectId(Long projectId) {
+        return projectBalanceUnpaidMapper.selectOne(
+            new LambdaQueryWrapper<ProjectBalanceUnpaid>().eq(ProjectBalanceUnpaid::getProjectId, projectId));
+    }
+
+    @Override
+    public void updateProjectBalancePaid(ProjectBalancePaid projectBalancePaid) {
+        projectBalancePaidMapper.updateById(projectBalancePaid);
+    }
+
+    @Override
+    public void updateProjectBanlanceUnpaid(ProjectBalanceUnpaid projectBalanceUnpaid) {
+        projectBalanceUnpaidMapper.updateById(projectBalanceUnpaid);
+    }
+
+    @Override
+    public void batchUpdateProjectBalancePaid(List<ProjectBalancePaid> projectBalancePaidList) {
+        projectBalancePaidList.forEach(projectBalancePaidMapper::updateById);
+    }
+
+    @Override
+    public void batchUpdateProjectBalanceUnpaid(List<ProjectBalanceUnpaid> projectBalanceUnpaidList) {
+        projectBalanceUnpaidList.forEach(projectBalanceUnpaidMapper::updateById);
     }
 }

@@ -4,7 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.BeanCopyUtils;
-import com.ruoyi.project.domain.ProjectBalance;
+import com.ruoyi.project.domain.ProjectBalancePaid;
+import com.ruoyi.project.domain.ProjectBalanceUnpaid;
 import com.ruoyi.project.domain.ProjectFunds;
 import com.ruoyi.project.domain.bo.ProjectFundsBO;
 import com.ruoyi.project.domain.vo.ProjectFundsVO;
@@ -89,16 +90,19 @@ public class ProjectFundsServiceImpl implements ProjectFundsService {
         if (fundsMap == null || fundsMap.isEmpty()) {
             return;
         }
-        ProjectBalance projectBalance = new ProjectBalance();
-        projectBalance.setFundsId(projectFunds.getFundsId());
-        projectBalance.setProjectId(projectFunds.getProjectId());
+        ProjectBalanceUnpaid projectBalanceUnpaid = new ProjectBalanceUnpaid();
+        ProjectBalancePaid projectBalancePaid = new ProjectBalancePaid();
+        projectBalanceUnpaid.setProjectId(projectFunds.getProjectId());
+        projectBalanceUnpaid.setFundsId(projectFunds.getFundsId());
+        projectBalancePaid.setProjectId(projectFunds.getProjectId());
+        projectBalancePaid.setFundsId(projectFunds.getFundsId());
         fundsMap.forEach((key, value) -> {
             if (fundsMapping.containsKey(key)) {
                 BigDecimal amount = (BigDecimal)value;
                 String balanceFieldName = unpaidReverseMapping.get(fundsMapping.get(key));
                 if (balanceFieldName != null) {
                     try {
-                        FieldUtils.writeField(projectBalance, balanceFieldName, amount, true);
+                        FieldUtils.writeField(projectBalanceUnpaid, balanceFieldName, amount, true);
                     } catch (IllegalAccessException e) {
                         // 日志记录或者其他异常处理
                         log.error("Error writing to field: {}", e.getMessage());
@@ -106,7 +110,8 @@ public class ProjectFundsServiceImpl implements ProjectFundsService {
                 }
             }
         });
-        projectBalanceService.insertProjectBalance(projectBalance);
+        projectBalanceService.insertProjectBalanceUnpaid(projectBalanceUnpaid);
+        projectBalanceService.insertProjectBalancePaid(projectBalancePaid);
     }
 
 
@@ -127,15 +132,17 @@ public class ProjectFundsServiceImpl implements ProjectFundsService {
     public void updateProjectFunds(ProjectFundsBO projectFundsBO, Long projectId) {
         ProjectFunds projectFunds = new ProjectFunds();
         BeanCopyUtils.copy(projectFundsBO, projectFunds);
-        ProjectFunds projectFundsOld = projectFundsMapper.selectOne(
-            new LambdaQueryWrapper<ProjectFunds>().eq(ProjectFunds::getProjectId, projectId));
-        ProjectBalance projectBalance = projectBalanceService.getProjectBalanceByProjectId(projectId);
-        updateBalance(projectFunds, projectFundsOld, projectBalance);
+        //        ProjectFunds projectFundsOld = projectFundsMapper.selectOne(
+        //            new LambdaQueryWrapper<ProjectFunds>().eq(ProjectFunds::getProjectId, projectId));
+        //        ProjectBalancePaid projectBalancePaid=projectBalanceService.getProjectBalancePaidByProjectId(projectId);
+        //        ProjectBalanceUnpaid projectBalanceUnpaid=projectBalanceService.getProjectBalanceUnpaidByProjectId(projectId);
+        //        updateBalance(projectFunds, projectFundsOld, projectBalancePaid,projectBalanceUnpaid);
         projectFundsMapper.update(projectFunds,
             new LambdaUpdateWrapper<ProjectFunds>().eq(ProjectFunds::getProjectId, projectId));
     }
 
-    private void updateBalance(ProjectFunds projectFunds, ProjectFunds projectFundsOld, ProjectBalance projectBalance) {
+    private void updateBalance(ProjectFunds projectFunds, ProjectFunds projectFundsOld,
+        ProjectBalancePaid projectBalancePaid, ProjectBalanceUnpaid projectBalanceUnpaid) {
         Map<String, Object> fundsMap = BeanCopyUtils.copyToMap(projectFunds);
         Map<String, Object> fundsOldMap = BeanCopyUtils.copyToMap(projectFundsOld);
         fundsMap.forEach((key, value) -> {
@@ -147,32 +154,32 @@ public class ProjectFundsServiceImpl implements ProjectFundsService {
                 if (amount.compareTo(amountOld) > 0) {
                     try {
                         BigDecimal unPaidAmount =
-                            (BigDecimal)FieldUtils.readField(projectBalance, unPaidBalanceFieldName, true);
+                            (BigDecimal)FieldUtils.readField(projectBalanceUnpaid, unPaidBalanceFieldName, true);
                         unPaidAmount = unPaidAmount.add(amount.subtract(amountOld));
-                        FieldUtils.writeField(projectBalance, unPaidBalanceFieldName, unPaidAmount, true);
+                        FieldUtils.writeField(projectBalanceUnpaid, unPaidBalanceFieldName, unPaidAmount, true);
                     } catch (IllegalAccessException e) {
                         throw new RuntimeException(e);
                     }
                 } else if (amount.compareTo(amountOld) < 0) {
                     try {
                         BigDecimal paidAmount =
-                            (BigDecimal)FieldUtils.readField(projectBalance, paidBalanceFieldName, true);
+                            (BigDecimal)FieldUtils.readField(projectBalancePaid, paidBalanceFieldName, true);
                         //如果已支付余额大于修改后预算，抛出异常
                         if (paidAmount.compareTo(amount) > 0) {
                             throw new ServiceException("已支付金额大于修改后的预算");
                         }
                         BigDecimal unPaidAmount =
-                            (BigDecimal)FieldUtils.readField(projectBalance, unPaidBalanceFieldName, true);
+                            (BigDecimal)FieldUtils.readField(projectBalanceUnpaid, unPaidBalanceFieldName, true);
                         unPaidAmount = unPaidAmount.subtract(amountOld.subtract(amount));
-                        FieldUtils.writeField(projectBalance, unPaidBalanceFieldName, unPaidAmount, true);
+                        FieldUtils.writeField(projectBalanceUnpaid, unPaidBalanceFieldName, unPaidAmount, true);
                     } catch (IllegalAccessException e) {
                         throw new RuntimeException(e);
                     }
                 }
             }
         });
-        //插入修改后的余额记录
-        projectBalanceService.updateProjectBalance(projectBalance);
+        //插入修改后的未支付余额记录
+        projectBalanceService.updateProjectBanlanceUnpaid(projectBalanceUnpaid);
     }
 
     /**

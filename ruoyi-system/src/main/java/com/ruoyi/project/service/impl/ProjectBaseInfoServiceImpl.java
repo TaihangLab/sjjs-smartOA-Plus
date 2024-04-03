@@ -9,7 +9,7 @@ import com.ruoyi.common.enums.ProjectLevelEnum;
 import com.ruoyi.common.enums.ProjectUserRoleEnum;
 import com.ruoyi.common.helper.LoginHelper;
 import com.ruoyi.common.utils.BeanCopyUtils;
-import com.ruoyi.project.domain.ProjectBalance;
+import com.ruoyi.project.domain.ProjectBalancePaid;
 import com.ruoyi.project.domain.ProjectBaseInfo;
 import com.ruoyi.project.domain.ProjectFunds;
 import com.ruoyi.project.domain.bo.ProjectBaseInfoBO;
@@ -342,17 +342,17 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
         List<Long> projectIdList = projectBaseInfoVOList.stream().map(ProjectBaseInfoVO::getProjectId).collect(Collectors.toList());
         //获取经费对应信息
         Map<Long, ProjectFunds> projectFundsMap = projectFundsService.getProjectFundsMapByProjectIdList(projectIdList);
-        //获取余额对应信息
-        Map<Long, ProjectBalance> projectBalanceMap =
-            projectBalanceService.getProjectBalanceMapByPorjectIdList(projectIdList);
+        //获取已支付余额对应信息
+        Map<Long, ProjectBalancePaid> projectBalancePaidMap =
+            projectBalanceService.getProjectBalancePaidMapByPorjectIdList(projectIdList);
 
         projectBaseInfoVOList.forEach(projectBaseInfoVO -> {
             Long projectId = projectBaseInfoVO.getProjectId();
             //处理经费
             ProjectFunds projectFunds = projectFundsMap.get(projectId);
             //处理余额
-            ProjectBalance projectBalance = projectBalanceMap.get(projectId);
-            setFunds(projectBaseInfoVO, projectFunds, projectBalance);
+            ProjectBalancePaid projectBalancePaid = projectBalancePaidMap.get(projectId);
+            setFunds(projectBaseInfoVO, projectFunds, projectBalancePaid);
 	        setUsers(projectBaseInfoVO, projectId);
         });
     }
@@ -374,7 +374,7 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
     }
 
     private void setFunds(ProjectBaseInfoVO projectBaseInfoVO, ProjectFunds projectFunds,
-        ProjectBalance projectBalance) {
+        ProjectBalancePaid projectBalancePaid) {
         if (projectFunds != null) {
             projectBaseInfoVO.setTotalFundsAll(projectFunds.getTotalFundsAll());
             projectBaseInfoVO.setTotalFundsZx(projectFunds.getTotalFundsZx());
@@ -382,8 +382,8 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
             projectBaseInfoVO.setTotalFundsZxDk(projectFunds.getTotalFundsZxDk());
             //            projectBaseInfoVO.setZctzDone(projectFunds.getZctzDone());
             //            projectBaseInfoVO.setZxtzDone(projectFunds.getZxtzDone());
-            projectBaseInfoVO.setZctzDone(projectBalance.getTotalFundsZcPaid());
-            projectBaseInfoVO.setZxtzDone(projectBalance.getTotalFundsZxPaid());
+            projectBaseInfoVO.setZctzDone(projectBalancePaid.getTotalFundsZcPaid());
+            projectBaseInfoVO.setZxtzDone(projectBalancePaid.getTotalFundsZxPaid());
             projectBaseInfoVO.setZcGspt(projectFunds.getZcGspt());
             projectBaseInfoVO.setZxGslc(projectFunds.getZxGslc());
         }

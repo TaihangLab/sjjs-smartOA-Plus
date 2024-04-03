@@ -1,7 +1,8 @@
 package com.ruoyi.project.service;
 
-import com.ruoyi.project.domain.ProjectBalance;
-import com.ruoyi.project.domain.vo.ProjectBalanceVO;
+import com.ruoyi.project.domain.ProjectBalancePaid;
+import com.ruoyi.project.domain.ProjectBalanceUnpaid;
+import com.ruoyi.project.domain.vo.ProjectFundsAndBalanceVO;
 
 import java.util.List;
 import java.util.Map;
@@ -14,13 +15,23 @@ import java.util.Map;
  */
 public interface ProjectBalanceService {
     /**
-     * 通过项目ID列表获取项目余额Map
+     * 通过项目ID列表获取项目已支付余额Map
      *
      * @param projectIdList
      *
-     * @return {@link Map}<{@link Long},{@link ProjectBalance}>
+     * @return {@link Map}<{@link Long}, {@link ProjectBalancePaid}>
      */
-    Map<Long, ProjectBalance> getProjectBalanceMapByPorjectIdList(List<Long> projectIdList);
+
+    Map<Long, ProjectBalancePaid> getProjectBalancePaidMapByPorjectIdList(List<Long> projectIdList);
+
+    /**
+     * 通过项目ID列表获取项目未支付余额Map
+     *
+     * @param projectIdList
+     *
+     * @return {@link Map}<{@link Long}, {@link ProjectBalanceUnpaid}>
+     */
+    Map<Long, ProjectBalanceUnpaid> getProjectBalanceUnpaidMapByPorjectIdList(List<Long> projectIdList);
 
     /**
      * 根据项目ID查询项目经费预算和支出明细及汇总
@@ -28,26 +39,32 @@ public interface ProjectBalanceService {
      * @param projectId
      * @return
      */
-    ProjectBalanceVO getFundsAndBalanceByProjectId(Long projectId);
+    ProjectFundsAndBalanceVO getFundsAndBalanceByProjectId(Long projectId);
 
     /**
-     * 添加余额记录
+     * 添加已支付余额记录
      *
-     * @param projectBalance
+     * @param projectBalancePaid
      */
-    void insertProjectBalance(ProjectBalance projectBalance);
+    void insertProjectBalancePaid(ProjectBalancePaid projectBalancePaid);
 
     /**
-     * 根据projectId获取项目余额
+     * 添加未支付余额记录
      *
-     * @param projectId
-     *
-     * @return {@link ProjectBalance}
+     * @param projectBalanceUnpaid
      */
-    ProjectBalance getProjectBalanceByProjectId(Long projectId);
+    void insertProjectBalanceUnpaid(ProjectBalanceUnpaid projectBalanceUnpaid);
 
-    void updateProjectBalance(ProjectBalance projectBalance);
+    ProjectBalancePaid getProjectBalancePaidByProjectId(Long projectId);
 
-    void batchUpdateProjectBalance(List<ProjectBalance> projectBalanceList);
+    ProjectBalanceUnpaid getProjectBalanceUnpaidByProjectId(Long projectId);
+
+    void updateProjectBalancePaid(ProjectBalancePaid projectBalancePaid);
+
+    void updateProjectBanlanceUnpaid(ProjectBalanceUnpaid projectBalanceUnpaid);
+
+    void batchUpdateProjectBalancePaid(List<ProjectBalancePaid> projectBalancePaidList);
+
+    void batchUpdateProjectBalanceUnpaid(List<ProjectBalanceUnpaid> projectBalanceUnpaidList);
 
 }

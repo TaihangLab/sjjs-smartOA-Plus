@@ -3,7 +3,8 @@ package com.ruoyi.project.service.impl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.page.TableDataInfo;
-import com.ruoyi.project.domain.ProjectBalance;
+import com.ruoyi.project.domain.ProjectBalancePaid;
+import com.ruoyi.project.domain.ProjectBalanceUnpaid;
 import com.ruoyi.project.domain.ProjectFunds;
 import com.ruoyi.project.domain.bo.ProjectBaseInfoBO;
 import com.ruoyi.project.domain.vo.ProjectFundsManagementVO;
@@ -19,6 +20,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * 经费管理
+ *
+ * @author bailingnan
+ * @date 2024/04/01
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -46,17 +53,20 @@ public class ProjectFundsManagementServiceImpl implements ProjectFundsManagement
             .collect(Collectors.toList());
         //获取经费对应信息
         Map<Long, ProjectFunds> projectFundsMap = projectFundsService.getProjectFundsMapByProjectIdList(projectIdList);
-        //获取余额对应信息
-        Map<Long, ProjectBalance> projectBalanceMap =
-            projectBalanceService.getProjectBalanceMapByPorjectIdList(projectIdList);
+        //获取已支付余额对应信息
+        Map<Long, ProjectBalancePaid> projectBalancePaidMap =
+            projectBalanceService.getProjectBalancePaidMapByPorjectIdList(projectIdList);
+        //获取未支付余额对应信息
+        Map<Long, ProjectBalanceUnpaid> projectBalanceUnpaidMap =
+            projectBalanceService.getProjectBalanceUnpaidMapByPorjectIdList(projectIdList);
 
         projectFundsManagementVOList.forEach(projectFundsManagementVO -> {
             Long projectId = projectFundsManagementVO.getProjectId();
             //处理经费
             ProjectFunds projectFunds = projectFundsMap.get(projectId);
             setFunds(projectFundsManagementVO, projectFunds);
-            ProjectBalance projectBalance = projectBalanceMap.get(projectId);
-            setBalance(projectFundsManagementVO, projectBalance);
+            setBalance(projectFundsManagementVO, projectBalancePaidMap.get(projectId),
+                projectBalanceUnpaidMap.get(projectId));
         });
     }
 
@@ -68,14 +78,15 @@ public class ProjectFundsManagementServiceImpl implements ProjectFundsManagement
         }
     }
 
-    private void setBalance(ProjectFundsManagementVO projectFundsManagementVO, ProjectBalance projectBalance) {
-        if (projectBalance != null) {
-            projectFundsManagementVO.setTotalFundsAllPaid(projectBalance.getTotalFundsAllPaid());
-            projectFundsManagementVO.setTotalFundsZxPaid(projectBalance.getTotalFundsZxPaid());
-            projectFundsManagementVO.setTotalFundsZcPaid(projectBalance.getTotalFundsZcPaid());
-            projectFundsManagementVO.setTotalFundsAllUnpaid(projectBalance.getTotalFundsAllUnpaid());
-            projectFundsManagementVO.setTotalFundsZxUnpaid(projectBalance.getTotalFundsZxUnpaid());
-            projectFundsManagementVO.setTotalFundsZcUnpaid(projectBalance.getTotalFundsZcUnpaid());
+    private void setBalance(ProjectFundsManagementVO projectFundsManagementVO, ProjectBalancePaid projectBalancePaid,
+        ProjectBalanceUnpaid projectBalanceUnpaid) {
+        if (projectBalancePaid != null && projectBalanceUnpaid != null) {
+            projectFundsManagementVO.setTotalFundsAllPaid(projectBalancePaid.getTotalFundsAllPaid());
+            projectFundsManagementVO.setTotalFundsZxPaid(projectBalancePaid.getTotalFundsZxPaid());
+            projectFundsManagementVO.setTotalFundsZcPaid(projectBalancePaid.getTotalFundsZcPaid());
+            projectFundsManagementVO.setTotalFundsAllUnpaid(projectBalanceUnpaid.getTotalFundsAllUnpaid());
+            projectFundsManagementVO.setTotalFundsZxUnpaid(projectBalanceUnpaid.getTotalFundsZxUnpaid());
+            projectFundsManagementVO.setTotalFundsZcUnpaid(projectBalanceUnpaid.getTotalFundsZcUnpaid());
         }
     }
 }

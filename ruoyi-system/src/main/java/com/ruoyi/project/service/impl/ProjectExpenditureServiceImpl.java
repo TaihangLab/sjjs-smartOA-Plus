@@ -4,7 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.project.config.GlobalMappingConfig;
-import com.ruoyi.project.domain.ProjectBalance;
+import com.ruoyi.project.domain.ProjectBalancePaid;
+import com.ruoyi.project.domain.ProjectBalanceUnpaid;
 import com.ruoyi.project.domain.ProjectExpenditure;
 import com.ruoyi.project.domain.bo.ProjectExpenditureBO;
 import com.ruoyi.project.domain.vo.ProjectExpenditureVO;
@@ -52,22 +53,26 @@ public class ProjectExpenditureServiceImpl implements ProjectExpenditureService{
         List<String> errorMessages = new ArrayList<>();
         //缓存可插入的记录
         List<ProjectExpenditure> projectExpenditureListToInsert = new ArrayList<>();
-        List<ProjectBalance> projectBalanceListToInsert = new ArrayList<>();
+        List<ProjectBalancePaid> projectBalancePaidListToInsert = new ArrayList<>();
+        List<ProjectBalanceUnpaid> projectBalanceUnpaidListToInsert = new ArrayList<>();
         //对每一条记录进行判断，判断是否超出预算，更新关联的一二级科目，插入支出明细
         projectExpenditureBOList.forEach(projectExpenditureBO -> {
             try {
                 processProjectExpenditureBO(projectExpenditureBO, projectExpenditureListToInsert,
-                    projectBalanceListToInsert);
+                    projectBalancePaidListToInsert, projectBalanceUnpaidListToInsert);
             } catch (Exception e) {
                 errorMessages.add(e.getMessage());
             }
         });
         // 执行批量插入操作
-        performBatchInsertAndUpdate(projectExpenditureListToInsert, projectBalanceListToInsert, errorMessages);
+        performBatchInsertAndUpdate(projectExpenditureListToInsert, projectBalancePaidListToInsert,
+            projectBalanceUnpaidListToInsert, errorMessages);
     }
 
     private void processProjectExpenditureBO(ProjectExpenditureBO projectExpenditureBO,
-        List<ProjectExpenditure> projectExpenditureListToInsert, List<ProjectBalance> projectBalanceListToInsert)
+        List<ProjectExpenditure> projectExpenditureListToInsert,
+        List<ProjectBalancePaid> projectBalancePaidListToInsert,
+        List<ProjectBalanceUnpaid> projectBalanceUnpaidListToInsert)
         throws ServiceException, IllegalAccessException {
         //获取经费字段
         String field =
@@ -82,25 +87,27 @@ public class ProjectExpenditureServiceImpl implements ProjectExpenditureService{
         //获取经费数额，并转化为万元
         BigDecimal expenditure = projectExpenditureBO.getAmount().divide(new BigDecimal("10000"));
         //获取余额
-        ProjectBalance projectBalance =
-            projectBalanceService.getProjectBalanceByProjectId(projectExpenditureBO.getProjectId());
-        if (projectBalance == null) {
+        ProjectBalancePaid projectBalancePaid =
+            projectBalanceService.getProjectBalancePaidByProjectId(projectExpenditureBO.getProjectId());
+        ProjectBalanceUnpaid projectBalanceUnpaid =
+            projectBalanceService.getProjectBalanceUnpaidByProjectId(projectExpenditureBO.getProjectId());
+        if (projectBalancePaid == null || projectBalanceUnpaid == null) {
             log.error("项目余额不存在");
             throw new ServiceException("项目余额不存在,凭证号为:" + projectExpenditureBO.getVoucherNo());
         }
         //获取未支付余额
         String unpaidField = unpaidReverseMapping.get(field);
-        BigDecimal unpaid = (BigDecimal)FieldUtils.readField(projectBalance, unpaidField, true);
+        BigDecimal unpaid = (BigDecimal)FieldUtils.readField(projectBalanceUnpaid, unpaidField, true);
         if (expenditure.compareTo(unpaid) > 0) {
             log.error("支付经费超出余额");
             throw new ServiceException("支付经费超出余额,凭证号为:" + projectExpenditureBO.getVoucherNo());
         }
         //扣减未支付余额
-        FieldUtils.writeField(projectBalance, unpaidField, unpaid.subtract(expenditure), true);
+        FieldUtils.writeField(projectBalanceUnpaid, unpaidField, unpaid.subtract(expenditure), true);
         String paidField = paidReverseMapping.get(field);
         //添加已支付金额
-        BigDecimal paid = (BigDecimal)FieldUtils.readField(projectBalance, paidField, true);
-        FieldUtils.writeField(projectBalance, paidField, paid.add(expenditure), true);
+        BigDecimal paid = (BigDecimal)FieldUtils.readField(projectBalancePaid, paidField, true);
+        FieldUtils.writeField(projectBalancePaid, paidField, paid.add(expenditure), true);
         //TODO:更新关联的一二级科目
         //        String firstLevelSubject = fundsMapping.get(projectExpenditureBO.getFunds());
         //        String secondLevelSubject = fundsReverseMapping.get(projectExpenditureBO.getFunds());
@@ -108,19 +115,22 @@ public class ProjectExpenditureServiceImpl implements ProjectExpenditureService{
         //        projectExpenditureBO.setSecondLevelSubject(secondLevelSubject);
         //插入支出明细
         projectExpenditureListToInsert.add(BeanCopyUtils.copy(projectExpenditureBO, ProjectExpenditure.class));
-        projectBalanceListToInsert.add(projectBalance);
+        projectBalancePaidListToInsert.add(projectBalancePaid);
+        projectBalanceUnpaidListToInsert.add(projectBalanceUnpaid);
     }
 
     private void performBatchInsertAndUpdate(List<ProjectExpenditure> projectExpenditures,
-        List<ProjectBalance> projectBalanceList, List<String> errorMessageList) {
+        List<ProjectBalancePaid> projectBalancePaidList, List<ProjectBalanceUnpaid> projectBalanceUnpaidList,
+        List<String> errorMessageList) {
         if (!errorMessageList.isEmpty()) {
             throw new RuntimeException("导入失败: " + String.join("; ", errorMessageList));
         }
         if (!projectExpenditures.isEmpty()) {
             projectExpenditureMapper.insertBatch(projectExpenditures);
         }
-        if (!projectBalanceList.isEmpty()) {
-            projectBalanceService.batchUpdateProjectBalance(projectBalanceList);
+        if (!projectBalancePaidList.isEmpty() && !projectBalanceUnpaidList.isEmpty()) {
+            projectBalanceService.batchUpdateProjectBalancePaid(projectBalancePaidList);
+            projectBalanceService.batchUpdateProjectBalanceUnpaid(projectBalanceUnpaidList);
         }
     }
 
@@ -140,9 +150,11 @@ public class ProjectExpenditureServiceImpl implements ProjectExpenditureService{
 
     private void rollBackProjectBalance(ProjectExpenditure projectExpenditure) throws IllegalAccessException {
         //获取余额
-        ProjectBalance projectBalance =
-            projectBalanceService.getProjectBalanceByProjectId(projectExpenditure.getProjectId());
-        if (projectBalance == null) {
+        ProjectBalancePaid projectBalancePaid =
+            projectBalanceService.getProjectBalancePaidByProjectId(projectExpenditure.getProjectId());
+        ProjectBalanceUnpaid projectBalanceUnpaid =
+            projectBalanceService.getProjectBalanceUnpaidByProjectId(projectExpenditure.getProjectId());
+        if (projectBalancePaid == null || projectBalanceUnpaid == null) {
             log.error("项目余额不存在");
             throw new ServiceException("项目余额不存在,凭证号为:" + projectExpenditure.getVoucherNo());
         }
@@ -159,23 +171,24 @@ public class ProjectExpenditureServiceImpl implements ProjectExpenditureService{
         BigDecimal expenditure = projectExpenditure.getAmount().divide(new BigDecimal("10000"));
         //获取已支付余额
         String paidField = paidReverseMapping.get(field);
-        BigDecimal paid = (BigDecimal)FieldUtils.readField(projectBalance, paidField, true);
+        BigDecimal paid = (BigDecimal)FieldUtils.readField(projectBalancePaid, paidField, true);
         if (expenditure.compareTo(paid) > 0) {
             log.error("回滚支付经费超出已支付余额");
             throw new ServiceException("回滚支付经费超出已支付余额,凭证号为:" + projectExpenditure.getVoucherNo());
         }
         //回滚已支付余额
-        FieldUtils.writeField(projectBalance, paidField, paid.subtract(expenditure), true);
+        FieldUtils.writeField(projectBalancePaid, paidField, paid.subtract(expenditure), true);
         String unpaidField = unpaidReverseMapping.get(field);
         //回滚未支付金额
-        BigDecimal unpaid = (BigDecimal)FieldUtils.readField(projectBalance, unpaidField, true);
-        FieldUtils.writeField(projectBalance, unpaidField, unpaid.add(expenditure), true);
+        BigDecimal unpaid = (BigDecimal)FieldUtils.readField(projectBalanceUnpaid, unpaidField, true);
+        FieldUtils.writeField(projectBalanceUnpaid, unpaidField, unpaid.add(expenditure), true);
         //TODO:更新关联的一二级科目
         //        String firstLevelSubject = fundsMapping.get(projectExpenditureBO.getFunds());
         //        String secondLevelSubject = fundsReverseMapping.get(projectExpenditureBO.getFunds());
         //        projectExpenditureBO.setFirstLevelSubject(firstLevelSubject);
         //        projectExpenditureBO.setSecondLevelSubject(secondLevelSubject);
-        projectBalanceService.updateProjectBalance(projectBalance);
+        projectBalanceService.updateProjectBalancePaid(projectBalancePaid);
+        projectBalanceService.updateProjectBanlanceUnpaid(projectBalanceUnpaid);
     }
 
     /**
