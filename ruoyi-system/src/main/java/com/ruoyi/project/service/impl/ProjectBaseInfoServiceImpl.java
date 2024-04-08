@@ -375,7 +375,7 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
 
     private void setFunds(ProjectBaseInfoVO projectBaseInfoVO, ProjectFunds projectFunds,
         ProjectBalancePaid projectBalancePaid) {
-        if (projectFunds != null) {
+        if (projectFunds != null && projectBalancePaid != null) {
             projectBaseInfoVO.setTotalFundsAll(projectFunds.getTotalFundsAll());
             projectBaseInfoVO.setTotalFundsZx(projectFunds.getTotalFundsZx());
             projectBaseInfoVO.setTotalFundsZc(projectFunds.getTotalFundsZc());
