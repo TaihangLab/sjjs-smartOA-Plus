@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Date;
 
 /**
  * ProjectExpenditureVO
@@ -73,4 +74,13 @@ public class ProjectExpenditureVO {
      * 支出金额,单位:元
      */
     private BigDecimal amount;
+    /**
+     * 创建者
+     */
+    private String createBy;
+
+    /**
+     * 创建时间
+     */
+    private Date createTime;
 }
