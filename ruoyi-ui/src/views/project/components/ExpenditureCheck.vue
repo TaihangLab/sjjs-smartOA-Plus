@@ -24,9 +24,9 @@
                 :formatter="secondLevelSubjectFormatter">
             </el-table-column>
             <el-table-column label="三级科目" :resizable="false" align="center" prop="secondLevelSubject"
-                :formatter="secondLevelSubjectFormatter">
+                :formatter="thirdLevelSubjectFormatter">
             </el-table-column>
-            <el-table-column  :resizable="false" align="center" prop="amount" width="100px">
+            <el-table-column :resizable="false" align="center" prop="amount" width="100px">
                 <template slot="header" slot-scope="scope">
                     <div style="text-align: center;">
                         <span>金额</span>
@@ -39,7 +39,7 @@
             <el-table-column :label="'操作'" :resizable="false" align="center" min-width="80px">
                 <template slot-scope="scope">
                     <el-button size="mini" type="text" icon="el-icon-refresh-left" fixed="right"
-                        @click="handleDelete(scope.row.receivedId)">撤销
+                        @click="confirmDeleteExpenditure(scope.row.expenditureId)">撤销
                     </el-button>
                 </template>
             </el-table-column>
@@ -49,6 +49,7 @@
 
 <script>
 import request from '@/utils/request';
+import { MessageBox, Message } from 'element-ui';
 
 export default {
     name: "ExpenditureCheck",
@@ -87,7 +88,7 @@ export default {
             // 如果日期格式不正确，直接返回原始日期
             return date;
         },
-        // 科目粗分
+        // 一级科目
         firstLevelSubjectFormatter(row) {
             const firstLevelSubject = {
                 0: '设备费',
@@ -98,10 +99,25 @@ export default {
                 5: '科研服务费',
                 6: '人员和劳务补助费',
                 7: '绩效支出',
+                8: '管理费',
+                9: '房屋租赁费',
+                10: '日常水电暖费',
+                11: '资料费',
+                12: '数据样本采集费',
+                13: '测试化验加工费',
+                14: '燃料动力费',
+                15: '办公费',
+                16: '印刷/出版费',
+                17: '知识产权事务费',
+                18: '车辆使用费',
+                19: '差旅费',
+                20: '会议/会务费',
+                21: '专家咨询费',
+                22: '其他费用',
             };
             return firstLevelSubject[row.firstLevelSubject];
         },
-        // 科目细分
+        // 二级科目
         secondLevelSubjectFormatter(row) {
             const secondLevelSubject = {
                 0: '购置设备费',
@@ -122,11 +138,26 @@ export default {
                 15: '会议/会务费',
                 16: '国内协作费',
                 17: '国际合作交流费',
-                18: '会议/差旅/国际合作与交流费',
-                19: '专家咨询费',
-                21: '人员劳务费',
+                18: '专家咨询费',
+                19: '人员劳务费',
+                20: '会议/差旅/国际合作与交流费',
+                21: '无',
             };
             return secondLevelSubject[row.secondLevelSubject];
+        },
+        // 三级科目
+        thirdLevelSubjectFormatter(row) {
+            const thirdLevelSubject = {
+                0: '无',
+                1: '知识产权事务费',
+                2: '印刷打印制作费',
+                3: '文献数据库费',
+                4: '信息传播费',
+                5: '会议费',
+                6: '差旅费',
+                7: '国际合作费',
+            };
+            return thirdLevelSubject[row.thirdLevelSubject];
         },
         // 专项自筹
         zxzcFormatter(row) {
@@ -136,7 +167,6 @@ export default {
             };
             return zxzc[row.zxzc];
         },
-
         // 查看支出信息
         checkExpenditureEntryDetail() {
             request({
@@ -148,11 +178,43 @@ export default {
             })
                 .then((resp) => {
                     this.expenditureEntry = resp.data;
-                    loading.close();
+                    this.loading = false; // 关闭遮罩层
                 })
                 .catch((error) => {
                     console.error('获取用户数据时出错：', error);
-                    loading.close();
+                    this.loading = false; // 关闭遮罩层
+                });
+        },
+        confirmDeleteExpenditure(expenditureId) {
+            MessageBox.confirm('确定撤销该录入信息吗？', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+            })
+                .then(() => {
+                    // 用户点击确定按钮时执行撤销逻辑
+                    this.deleteExpenditure(expenditureId);
+                })
+                .catch(() => {
+                    // 用户点击取消按钮时不执行任何操作
+                });
+        },
+        deleteExpenditure(expenditureId) {
+            request({
+                url: `/project/funds/rollback`,
+                method: 'get',
+                params: {
+                    expenditureId: expenditureId
+                }
+            })
+                .then(() => {
+                    // 撤销成功后重新获取支出信息
+                    this.checkExpenditureEntryDetail();
+                })
+                .catch(error => {
+                    console.error('删除支出信息时出错：', error);
+                    // 处理撤销失败情况
+                    Message.error('删除支出信息失败，请稍后重试！');
                 });
         },
     },

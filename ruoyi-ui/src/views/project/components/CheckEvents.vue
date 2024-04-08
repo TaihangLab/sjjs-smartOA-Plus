@@ -1,4 +1,3 @@
-User
 <template>
     <div class="block">
         <div v-if="timelineItems.length" class="fixed-container">

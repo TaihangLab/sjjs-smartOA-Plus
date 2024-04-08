@@ -38,7 +38,8 @@
             <el-table-column label="二级科目" :resizable="false" align="center" prop="secondLevelSubject"
                 :formatter="secondLevelSubjectFormatter">
             </el-table-column>
-            <el-table-column label="三级科目" :resizable="false" align="center" prop="thirdLevelSubject">
+            <el-table-column label="三级科目" :resizable="false" align="center" prop="thirdLevelSubject"
+                :formatter="thirdLevelSubjectFormatter">
             </el-table-column>
             <el-table-column :resizable="false" align="center" prop="amount" width="150px">
                 <template slot="header" slot-scope="scope">
@@ -147,6 +148,21 @@ export default {
                 5: '科研服务费',
                 6: '人员和劳务补助费',
                 7: '绩效支出',
+                8: '管理费',
+                9: '房屋租赁费',
+                10: '日常水电暖费',
+                11: '资料费',
+                12: '数据样本采集费',
+                13: '测试化验加工费',
+                14: '燃料动力费',
+                15: '办公费',
+                16: '印刷/出版费',
+                17: '知识产权事务费',
+                18: '车辆使用费',
+                19: '差旅费',
+                20: '会议/会务费',
+                21: '专家咨询费',
+                22: '其他费用',
             };
             return firstLevelSubject[row.firstLevelSubject];
         },
@@ -171,23 +187,24 @@ export default {
                 15: '会议/会务费',
                 16: '国内协作费',
                 17: '国际合作交流费',
-                18: '会议/差旅/国际合作与交流费',
-                19: '专家咨询费',
-                21: '人员劳务费',
+                18: '专家咨询费',
+                19: '人员劳务费',
+                20: '会议/差旅/国际合作与交流费',
+                21: '无',
             };
             return secondLevelSubject[row.secondLevelSubject];
         },
         // 三级科目
         thirdLevelSubjectFormatter(row) {
             const thirdLevelSubject = {
-                0: '设备费',
-                1: '业务费',
-                2: '劳务费',
-                3: '材料费',
-                4: '科研活动费',
-                5: '科研服务费',
-                6: '人员和劳务补助费',
-                7: '绩效支出',
+                0: '无',
+                1: '知识产权事务费',
+                2: '印刷打印制作费',
+                3: '文献数据库费',
+                4: '信息传播费',
+                5: '会议费',
+                6: '差旅费',
+                7: '国际合作费',
             };
             return thirdLevelSubject[row.thirdLevelSubject];
         },

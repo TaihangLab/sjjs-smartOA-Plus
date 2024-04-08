@@ -65,8 +65,8 @@
                 <el-col :span="12">
                     <el-form-item label="三级科目" prop="thirdLevelSubject">
                         <el-select v-model="form.thirdLevelSubject" placeholder="请选择三级科目">
-                            <el-option v-for="item in thirdLevelSubjectOptions" :key="item.thirdLevelSubjecttId"
-                                :label="item.thirdLevelSubjectName" :value="item.thirdLevelSubjecttId"
+                            <el-option v-for="item in thirdLevelSubjectOptions" :key="item.thirdLevelSubjectId"
+                                :label="item.thirdLevelSubjectName" :value="item.thirdLevelSubjectId"
                                 :disabled="item.status === 1"></el-option>
                         </el-select>
                     </el-form-item>
@@ -113,25 +113,73 @@ export default {
             // 一级科目
             firstLevelSubjectOptions: [{
                 firstLevelSubjectId: '0',
-                firstLevelSubjectName: '知识产权事物费'
+                firstLevelSubjectName: '设备费'
             }, {
                 firstLevelSubjectId: '1',
-                firstLevelSubjectName: '印刷打印制作费'
+                firstLevelSubjectName: '业务费'
             }, {
                 firstLevelSubjectId: '2',
-                firstLevelSubjectName: '文献数据库费'
+                firstLevelSubjectName: '劳务费'
             }, {
                 firstLevelSubjectId: '3',
-                firstLevelSubjectName: '信息传播费'
+                firstLevelSubjectName: '材料费'
             }, {
                 firstLevelSubjectId: '4',
-                firstLevelSubjectName: '会议费'
+                firstLevelSubjectName: '科研活动费'
             }, {
                 firstLevelSubjectId: '5',
-                firstLevelSubjectName: '差旅费'
+                firstLevelSubjectName: '科研服务费'
             }, {
                 firstLevelSubjectId: '6',
-                firstLevelSubjectName: '国际合作费'
+                firstLevelSubjectName: '人员和劳务补助费'
+            }, {
+                firstLevelSubjectId: '7',
+                firstLevelSubjectName: '绩效支出'
+            }, {
+                firstLevelSubjectId: '8',
+                firstLevelSubjectName: '管理费'
+            }, {
+                firstLevelSubjectId: '9',
+                firstLevelSubjectName: '房屋租赁费'
+            }, {
+                firstLevelSubjectId: '10',
+                firstLevelSubjectName: '日常水电暖费'
+            }, {
+                firstLevelSubjectId: '11',
+                firstLevelSubjectName: '差旅费'
+            }, {
+                firstLevelSubjectId: '12',
+                firstLevelSubjectName: '数据样本采集费'
+            }, {
+                firstLevelSubjectId: '13',
+                firstLevelSubjectName: '测试化验加工费'
+            }, {
+                firstLevelSubjectId: '14',
+                firstLevelSubjectName: '燃料动力费'
+            }, {
+                firstLevelSubjectId: '15',
+                firstLevelSubjectName: '办公费'
+            }, {
+                firstLevelSubjectId: '16',
+                firstLevelSubjectName: '印刷/出版费'
+            }, {
+                firstLevelSubjectId: '17',
+                firstLevelSubjectName: '知识产权事务费'
+            }, {
+                firstLevelSubjectId: '18',
+                firstLevelSubjectName: '车辆使用费'
+            }, {
+                firstLevelSubjectId: '19',
+                firstLevelSubjectName: '差旅费'
+            }, {
+                firstLevelSubjectId: '20',
+                firstLevelSubjectName: '会议/会务费'
+            }, {
+                firstLevelSubjectId: '21',
+                firstLevelSubjectName: '专家咨询费'
+            }, {
+                firstLevelSubjectId: '22',
+                firstLevelSubjectName: '其他费用'
             }],
             // 二级科目
             secondLevelSubjectOptions: [{
@@ -191,25 +239,55 @@ export default {
                 secondLevelSubjectName: '国际合作交流费'
             }, {
                 secondLevelSubjectId: '18',
-                secondLevelSubjectName: '会议/差旅/国际合作与交流费'
-            }, {
-                secondLevelSubjectId: '19',
                 secondLevelSubjectName: '专家咨询费'
             }, {
-                secondLevelSubjectId: '20',
+                secondLevelSubjectId: '19',
                 secondLevelSubjectName: '人员劳务费'
+            }, {
+                secondLevelSubjectId: '20',
+                secondLevelSubjectName: '会议/差旅/国际合作与交流费'
+            },{
+                secondLevelSubjectId: '21',
+                secondLevelSubjectName: '无'
             }],
             // 三级科目
+            thirdLevelSubjectOptions: [{
+                thirdLevelSubjectId: '0',
+                thirdLevelSubjectName: '无'
+            }, {
+                thirdLevelSubjectId: '1',
+                thirdLevelSubjectName: '知识产权事务费'
+            }, {
+                thirdLevelSubjectId: '2',
+                thirdLevelSubjectName: '印刷打印制作费'
+            }, {
+                thirdLevelSubjectId: '3',
+                thirdLevelSubjectName: '文献数据库费'
+            }, {
+                thirdLevelSubjectId: '4',
+                thirdLevelSubjectName: '信息传播费'
+            }, {
+                thirdLevelSubjectId: '5',
+                thirdLevelSubjectName: '会议费'
+            }, {
+                thirdLevelSubjectId: '6',
+                thirdLevelSubjectName: '差旅费'
+            }, {
+                thirdLevelSubjectId: '7',
+                thirdLevelSubjectName: '国际合作费'
+            }],
             value: '',
             form: {
                 amount: '',
                 zxzc: '',
+                zjjj: '',
                 projectName: '',
                 voucherNo: '',
                 expenditureAbstract: '',
                 expenditureDate: '',
                 firstLevelSubject: '',
                 secondLevelSubject: '',
+                thirdLevelSubject: '',
             },
             rules: {
                 projectName: [
@@ -226,12 +304,14 @@ export default {
             formDataArray.push({
                 amount: this.form.amount,
                 zxzc: this.form.zxzc,
+                zjjj: this.form.zjjj,
                 projectName: this.form.projectName,
                 voucherNo: this.form.voucherNo,
                 expenditureAbstract: this.form.expenditureAbstract,
                 expenditureDate: this.form.expenditureDate,
                 firstLevelSubject: this.form.firstLevelSubject,
                 secondLevelSubject: this.form.secondLevelSubject,
+                thirdLevelSubject: this.form.thirdLevelSubject,
             });
             // 将包含表单数据的数组作为自定义事件进行发射
             this.$emit('new-data', formDataArray);
@@ -243,12 +323,14 @@ export default {
             this.form = {
                 amount: '',
                 zxzc: '',
+                zjjj: '',
                 projectName: '',
                 voucherNo: '',
                 expenditureAbstract: '',
                 expenditureDate: '',
                 firstLevelSubject: '',
                 secondLevelSubject: '',
+                thirdLevelSubject: '',
             };
         },
     },
