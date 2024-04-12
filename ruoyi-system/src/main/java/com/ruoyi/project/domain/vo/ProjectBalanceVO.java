@@ -1,7 +1,14 @@
 package com.ruoyi.project.domain.vo;
 
+import lombok.Data;
+
 import java.math.BigDecimal;
 
+/**
+ * @author bailingnan
+ * @date 2024/04/12
+ */
+@Data
 public class ProjectBalanceVO {
     /**
      * 项目经费总额_已支付
