@@ -177,7 +177,7 @@ export default {
          * 下一步按钮
          */
         next() {
-            if (this.stepID++ >= TOTAL_STEPS - 1) {
+            if (this.stepID++ > TOTAL_STEPS - 1) {
                 this.submit();
                 // this.$emit('update:visible', false);
                 // this.reset();
