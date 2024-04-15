@@ -2,7 +2,6 @@ package com.ruoyi.project.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ruoyi.common.utils.BeanCopyUtils;
-import com.ruoyi.project.domain.ProjectBalance;
 import com.ruoyi.project.domain.ProjectBalancePaid;
 import com.ruoyi.project.domain.ProjectBalanceUnpaid;
 import com.ruoyi.project.domain.ProjectFunds;
@@ -17,6 +16,7 @@ import com.ruoyi.project.service.ProjectBalanceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -62,15 +62,22 @@ public class ProjectBalanceServiceImpl implements ProjectBalanceService {
      * @return
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public ProjectFundsAndBalanceVO getFundsAndBalanceByProjectId(Long projectId) {
         ProjectFundsAndBalanceVO projectFundsAndBalanceVO = new ProjectFundsAndBalanceVO();
         ProjectFunds projectFunds = projectFundsMapper.selectOne(new LambdaQueryWrapper<ProjectFunds>()
             .eq(ProjectFunds::getProjectId, projectId));
 
-        ProjectBalance projectBalance = projectBalanceMapper.selectOne(new LambdaQueryWrapper<ProjectBalance>()
-            .eq(ProjectBalance::getProjectId, projectId));
+        ProjectBalancePaid projectBalancePaid = projectBalancePaidMapper.selectOne(
+            new LambdaQueryWrapper<ProjectBalancePaid>().eq(ProjectBalancePaid::getProjectId, projectId));
+        ProjectBalanceUnpaid projectBalanceUnpaid = projectBalanceUnpaidMapper.selectOne(
+            new LambdaQueryWrapper<ProjectBalanceUnpaid>().eq(ProjectBalanceUnpaid::getProjectId, projectId));
 
-        projectFundsAndBalanceVO.setProjectBalance(BeanCopyUtils.copy(projectBalance, ProjectBalanceVO.class));
+        ProjectBalanceVO projectBalanceVO = new ProjectBalanceVO();
+        BeanCopyUtils.copy(projectBalancePaid, projectBalanceVO);
+        BeanCopyUtils.copy(projectBalanceUnpaid, projectBalanceVO);
+
+        projectFundsAndBalanceVO.setProjectBalance(projectBalanceVO);
         projectFundsAndBalanceVO.setProjectFunds(BeanCopyUtils.copy(projectFunds, ProjectFundsVO.class));
         return projectFundsAndBalanceVO;
     }
