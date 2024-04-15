@@ -72,7 +72,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="金额" prop="amount">
+                    <el-form-item label="金额（万元）" prop="amount">
                         <el-input v-model="form.amount" style="width: 192px"></el-input>
                     </el-form-item>
                 </el-col>

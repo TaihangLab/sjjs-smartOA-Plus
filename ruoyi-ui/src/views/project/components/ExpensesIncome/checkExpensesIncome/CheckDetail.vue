@@ -211,6 +211,8 @@ export default {
         handleTabClick(tab) {
             if (tab.name === 'second') {
                 this.checkExpenditureEntryDetail();
+            }else if (tab.name === 'fourth'){
+                this.checkOther();
             }
         },
         // 格式化日期方法

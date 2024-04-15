@@ -241,7 +241,6 @@ export default {
                 });
                 return;
             }
-
             // 构建符合期望格式的请求数据
             const requestData = this.da.map(item => ({
                 projectId: this.params.projectId,
@@ -256,7 +255,6 @@ export default {
                 thirdLevelSubject: item.thirdLevelSubject,
                 amount: item.amount
             }));
-
             request({
                 url: '/project/funds/add',
                 method: 'post',
@@ -269,6 +267,7 @@ export default {
                 });
                 // 清空数据列表
                 this.da = [];
+                this.checkOther();
             }).catch(error => {
                 console.error("上传失败", error);
                 this.$message({
@@ -277,7 +276,25 @@ export default {
                 });
             });
         },
-
+        // 查看其他
+        checkOther() {
+            // 使用正确的用户列表接口，假设接口为 /user/list
+            request({
+                url: '/project/balance/fundsAndBalance',
+                method: 'get',
+                params: {
+                    projectId: this.$props.projectId,
+                },
+            })
+                .then((resp) => {
+                    this.checkOthers = resp.data;
+                    loading.close();
+                })
+                .catch((error) => {
+                    console.error('获取用户数据时出错：', error);
+                    loading.close();
+                });
+        },
         closeExpenditureDialog() {
             this.ExpenditureAdd = false;
             this.ExpenditureImport = false;
