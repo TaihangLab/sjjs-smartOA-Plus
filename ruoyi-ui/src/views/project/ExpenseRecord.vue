@@ -1,20 +1,17 @@
 <template>
     <div>
-        <el-form ref="dataForm" :inline="true" class="demo-form-inline" style="margin-left: 30px; margin-top: 20px;">
+        <el-form ref="dataForm" :inline="true" :model="myProjectFrom" class="demo-form-inline" style="margin-left: 30px; margin-top: 20px;">
             <el-form-item label="项目名称">
-                <el-cascader v-model="responsibleproject" :options="this.projecttree" clearable :show-all-levels="false"
-                    placeholder="请选择项目" @keyup.enter.native="handleQuery"></el-cascader>
+                <el-input v-model="datas.assignedSubjectName" clearable placeholder="请输入项目名称"
+                    @keyup.enter.native="handleQuery"></el-input>
+            </el-form-item>
+            <el-form-item label="课题名称">
+                <el-input v-model="datas.assignedSubjectSection" clearable placeholder="请输入课题名称"
+                    @keyup.enter.native="handleQuery"></el-input>
             </el-form-item>
             <el-form-item label="项目级别">
-                <el-select v-model="responsibleType" placeholder="请选择项目级别">
-                    <el-option v-for="(label, value) in ipType" :label="label" :value="value" :key="value"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="立项时间">
-                <el-date-picker v-model="projectEstablishTime" type="daterange" unlink-panels clearable
-                    start-placeholder="请输入查询范围" end-placeholder="如：2000-01-01" value-format="yyyy-MM-dd"
-                    @change="getList" :picker-options="pickerOptions"
-                    @keyup.enter.native="handleQuery"></el-date-picker>
+                <el-cascader v-model="projectLevel" :options="levelOptions" clearable placeholder="请选择项目级别"
+                    @keyup.enter.native="handleQuery"></el-cascader>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -121,13 +118,6 @@ export default {
             dialogDetailLook: false,
             projecttree: undefined,
             total: 0,
-            projectEstablishTime: [],
-            responsibleIp: undefined,
-            responsibleType: undefined,
-            responsibleJobTitle: undefined,
-            responsiblePerson: [],
-            responsibleproject: [],
-            cascaderOptions: [],
             projectId: undefined,
             projectlist: undefined,
             dialogExpenseLook: false,
@@ -142,11 +132,29 @@ export default {
                 "userId": undefined,
                 "ipDateSta": undefined,
                 "ipDateEnd": undefined,
+                assignedSubjectName: undefined,
+                projectLevel: undefined,
+                assignedSubjectSection: undefined,
             },
             queryParam: {
                 pageNum: 1,
                 pageSize: 10,
             },
+            levelOptions: [
+                {
+                    value: 0,
+                    label: '国家级'
+                },
+                {
+                    value: 1,
+                    label: '省级'
+                },
+                {
+                    value: 2,
+                    label: '企业级'
+                }
+            ],
+            projectLevel:[],
             myProjectFrom: {},
             formLook: {},
             pickerOptions: {}
@@ -198,16 +206,6 @@ export default {
             await this.getList(); // 等待用户数据加载完成
             this.cascaderOptions = this.adaptData(this.deptOptions);
         },
-        /** 查询部门下拉树结构 */
-        async getDeptTree() {
-            const response = await deptTreeSelect();
-            this.deptOptions = response.data;
-        },
-        /** 查询用户列表 */
-        async getList() {
-            const response = await listUser();
-            this.userList = response.rows;
-        },
         // 适配数据的方法
         adaptData(data) {
             return data.map(item => {
@@ -234,42 +232,19 @@ export default {
                 return newItem;
             });
         },
-
         // 处理按钮点击事件搜索
         handleQuery() {
-            this.datas.ipName = this.responsibleIp;
-            this.datas.projectId = this.responsibleproject[this.responsibleproject.length - 1];
-            this.datas.userId = this.responsiblePerson[this.responsiblePerson.length - 1];
-            this.datas.ipType = this.responsibleType;
-            this.datas.ipStatus = this.responsibleJobTitle;
-            if (this.projectEstablishTime) {
-                this.datas.ipDateSta = this.projectEstablishTime[0];
-                this.datas.ipDateEnd = this.projectEstablishTime[1];
-            } else {
-                this.datas.ipDateSta = undefined;
-                this.datas.ipDateEnd = undefined;
-            }
-            this.checkmembers();
+            this.datas.projectLevel = this.projectLevel[0];
+            this.checkfunds();
         },
         // 处理按钮点击事件重置
-        resetQuery() {
-            this.datas = {
-                projectId: undefined,
-                ipName: undefined,
-                ipType: undefined,
-                ipStatus: undefined,
-                userId: undefined,
-                ipDateSta: undefined,
-                ipDateEnd: undefined,
-            };
-            this.projectEstablishTime = [];
-            this.responsibleIp = undefined;
-            this.responsibleType = undefined;
-            this.responsibleJobTitle = undefined;
-            this.responsiblePerson = [];
-            this.responsibleproject = [];
-            this.ipId = undefined;
-            this.checkmembers();
+        resetQuery(){
+            this.queryParam.pageNum = 1;
+            this.queryParam.pageSize = 10;
+            this.projectLevel = [];
+            this.assignedSubjectName = undefined,
+            this.assignedSubjectSection = undefined,
+            this.checkfunds();
         },
         lookDetail(projectId) {
             this.dialogDetailLook = true;
