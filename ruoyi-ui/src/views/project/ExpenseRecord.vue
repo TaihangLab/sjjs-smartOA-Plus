@@ -239,13 +239,14 @@ export default {
         },
         // 处理按钮点击事件重置
         resetQuery(){
-            this.queryParam.pageNum = 1;
-            this.queryParam.pageSize = 10;
-            this.projectLevel = [];
-            this.assignedSubjectName = undefined,
-            this.assignedSubjectSection = undefined,
-            this.checkfunds();
-        },
+        // 重置查询参数
+        this.queryParam.pageNum = 1;
+        this.queryParam.pageSize = 10;
+        this.projectLevel = [];
+        this.datas.assignedSubjectName = undefined;
+        this.datas.assignedSubjectSection = undefined;
+        this.checkfunds();
+    },
         lookDetail(projectId) {
             this.dialogDetailLook = true;
             this.projectId = projectId;
