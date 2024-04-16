@@ -61,6 +61,7 @@ public class ProjectExpenditureServiceImpl implements ProjectExpenditureService{
                 processProjectExpenditureBO(projectExpenditureBO, projectExpenditureListToInsert,
                     projectBalancePaidListToInsert, projectBalanceUnpaidListToInsert);
             } catch (Exception e) {
+                log.info("编号为{},导入支出明细失败: {}", projectExpenditureBO.getVoucherNo(), e.getMessage());
                 errorMessages.add(e.getMessage());
             }
         });
