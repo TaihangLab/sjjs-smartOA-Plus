@@ -1,6 +1,6 @@
 <template>
     <div class="sticky-container">
-        <el-tabs @tab-click="handleTabClick">
+        <el-tabs v-model="activeNames" @tab-click="handleTabClick">
             <el-tab-pane label="基本信息" name="first">
                 <div style="margin-top: 10px;"></div>
                 <el-descriptions-item label="基本信息" :span="2"></el-descriptions-item>
@@ -8,9 +8,9 @@
                     :contentStyle="{ width: '20%' }" border>
                     <el-descriptions-item label="项目名称">{{
                     this.lookDetail.projectInfoVO.assignedSubjectName
-                }}
+                        }}
                     </el-descriptions-item>
-                    <el-descriptions-item label="项目任务书编号">>{{
+                    <el-descriptions-item label="项目任务书编号">{{
                         this.lookDetail.projectInfoVO.projectAssignmentSerialNo
                     }}
                     </el-descriptions-item>
@@ -80,8 +80,8 @@
                         }}
                         </el-descriptions-item>
                 </el-descriptions>
-                <el-collapse v-model="activeNames">
-                    <el-collapse v-model="activeNames">
+                <el-collapse >
+                    <el-collapse>
                         <el-collapse-item style="font-size: 20px;" name="2">
                             <template slot="title">
                                 <span style="font-size: 14px;">项目简介</span>
@@ -161,6 +161,7 @@ export default {
     },
     data() {
         return {
+            activeNames: 'first', // 设置初始激活的选项卡
             // 遮罩层
             loading: true,
             checkOthers: undefined,
@@ -171,7 +172,7 @@ export default {
             hasLeading: {
                 0: '否',
                 1: '是',
-            }, 
+            },
             projectLevel: {
                 0: '国家级',
                 1: '省部级',
@@ -192,6 +193,7 @@ export default {
     watch: {
         projectId: {
             handler(newVal) {
+                this.activeNames = 'first';
                 this.checkDetail();
                 this.checkExpenditureEntryDetail();
                 this.checkFundsReceivedDetail();

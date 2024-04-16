@@ -49,6 +49,7 @@ export default {
         checkOthers: {
             handler(newVal) {
                 this.handleData(newVal);
+                console.log("newval", newVal);
             },
             immediate: true, // 立即执行一次
         },
