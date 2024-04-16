@@ -73,9 +73,11 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="金额" prop="amount">
-                        <el-input v-model="form.amount" style="width: 192px"></el-input>
+                        <el-input v-model="form.amount" style="width: 160px"></el-input>
+                        <span style="font-size: 12px; color: #F56C6C;">（元）</span>
                     </el-form-item>
                 </el-col>
+
             </el-row>
             <el-form-item label="摘要">
                 <el-input type="textarea" v-model="form.expenditureAbstract"></el-input>
@@ -246,7 +248,7 @@ export default {
             }, {
                 secondLevelSubjectId: '20',
                 secondLevelSubjectName: '会议/差旅/国际合作与交流费'
-            },{
+            }, {
                 secondLevelSubjectId: '21',
                 secondLevelSubjectName: '无'
             }],
