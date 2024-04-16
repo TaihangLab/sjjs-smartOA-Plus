@@ -148,436 +148,93 @@ export async function addProject(projectInfoForm,
                  */
                 "standardDetails": projectProgressForm.standardDetails,
             },
-            // "projectFundsBO"   : {
-            //     /**
-            //      *  总经费
-            //      */
-            //     "totalFundsAll": projectFundsForm.jfze,
-            //     /**
-            //      *  专项到款总额
-            //      */
-            //     "totalFundsZxDk": projectProgressForm.totalFundsZxDk,
-            //     /**
-            //      *  已完成自筹投资
-            //      */
-            //     "zctzDone": projectProgressForm.zctzDone,
-            //     /**
-            //      *  已完成专项投资
-            //      */
-            //     "zxtzDone": projectProgressForm.zxtzDone,
-            //     /**
-            //      *  自筹经费公司配套
-            //      */
-            //     "zcGspt": projectProgressForm.zcGspt,
-            //     /**
-            //      *  专项经费公司留存（计划）
-            //      */
-            //     "zxGslc": projectProgressForm.zxGslc,
-            //     /**
-            //      *  专项经费总额
-            //      */
-            //     "totalFundsZx": projectFundsForm.zxjfze,
-            //     /**
-            //      *  专项经费设备费
-            //      */
-            //     "sbfZx": projectFundsForm.zxsbf,
-            //     /**
-            //      *  专项经费直接费
-            //      */
-            //     "totalFundsZxZj": projectFundsForm.zxzjx,
-            //     /**
-            //      *  专项经费间接费
-            //      */
-            //     "totalFundsZxJj": projectFundsForm.zxjjy,
-            //     /**
-            //      *  自筹经费总额
-            //      */
-            //     "totalFundsZc": projectFundsForm.zcjfze,
-            //     /**
-            //      *  自筹经费设备费
-            //      */
-            //     "sbfZc": projectFundsForm.zcsbf,
-            //     /**
-            //      *  自筹经费直接费
-            //      */
-            //     "totalFundsZcZj": projectFundsForm.zczjx,
-            //     /**
-            //      *  自筹经费间接费
-            //      */
-            //     "totalFundsZcJj": projectFundsForm.zcjjy,
-            //
-            //     /**
-            //      *  直接专项经费设备费
-            //      */
-            //     "sbfZxZj": zxFundsDetailForm.sbf_zj,
-            //     /**
-            //      *  直接自筹经费设备费
-            //      */
-            //     "sbfZcZj": zcFundsDetailForm.sbf_zj,
-            //     /**
-            //      *  直接专项经费设备费-购置设备费
-            //      */
-            //     "sbfGzsbZxZj": zxFundsDetailForm.gzsbf_zj,
-            //     /**
-            //      *  直接自筹经费设备费-购置设备费
-            //      */
-            //     "sbfGzsbZcZj": zcFundsDetailForm.gzsbf_zj,
-            //     /**
-            //      *  直接专项经费设备费-试制设备费
-            //      */
-            //     "sbfSzsbZxZj": zxFundsDetailForm.szsbf_zj,
-            //     /**
-            //      *  直接自筹经费设备费-试制设备费
-            //      */
-            //     "sbfSzsbZcZj": zcFundsDetailForm.szsbf_zj,
-            //     /**
-            //      *  直接专项经费设备费-设备购置与租赁费
-            //      */
-            //     "sbfSbgzyzlZxZj": zxFundsDetailForm.sbgzyzlf_zj,
-            //     /**
-            //      *  直接自筹经费设备费-设备购置与租赁费
-            //      */
-            //     "sbfSbgzyzlZcZj": zcFundsDetailForm.sbgzyzlf_zj,
-            //     /**
-            //      *  直接专项经费材料费-材料费
-            //      */
-            //     "clfZxZj": zxFundsDetailForm.clf_zj,
-            //     /**
-            //      *  直接自筹经费材料费-材料费
-            //      */
-            //     "clfZcZj": zcFundsDetailForm.clf_zj,
-            //     /**
-            //      *  直接专项经费科研活动费-科研活动费
-            //      */
-            //     "kyhdfZxZj": zxFundsDetailForm.kyhdf_zj,
-            //     /**
-            //      *  直接自筹经费科研活动费-科研活动费
-            //      */
-            //     "kyhdfZcZj": zcFundsDetailForm.kyhdf_zj,
-            //     /**
-            //      *  直接专项经费科研活动费-专利费
-            //      */
-            //     "kyhdfZlZxZj": zxFundsDetailForm.zlf_zj,
-            //     /**
-            //      *  直接自筹经费科研活动费-专利费
-            //      */
-            //     "kyhdfZlZcZj": zcFundsDetailForm.zlf_zj,
-            //     /**
-            //      *  直接专项经费科研活动费-测试化验加工费
-            //      */
-            //     "kyhdfCshyjgZxZj": zxFundsDetailForm.cshyjgf_zj,
-            //     /**
-            //      *  直接自筹经费科研活动费-测试化验加工费
-            //      */
-            //     "kyhdfCshyjgZcZj": zcFundsDetailForm.cshyjgf_zj,
-            //     /**
-            //      *  直接专项经费科研活动费-办公费
-            //      */
-            //     "kyhdfBgZxZj": zxFundsDetailForm.bgf_zj,
-            //     /**
-            //      *  直接自筹经费科研活动费-办公费
-            //      */
-            //     "kyhdfBgZcZj": zcFundsDetailForm.bgf_zj,
-            //     /**
-            //      *  直接专项经费科研活动费-数据样本采集费
-            //      */
-            //     "kyhdfSjybcjZxZj": zxFundsDetailForm.sjybcjf_zj,
-            //     /**
-            //      *  直接自筹经费科研活动费-数据样本采集费
-            //      */
-            //     "kyhdfSjybcjZcZj": zcFundsDetailForm.sjybcjf_zj,
-            //     /**
-            //      *  直接专项经费科研活动费-印刷出版费
-            //      */
-            //     "kyhdfYscbZxZj": zxFundsDetailForm.yscbf_zj,
-            //     /**
-            //      *  直接自筹经费科研活动费-印刷出版费
-            //      */
-            //     "kyhdfYscbZcZj": zcFundsDetailForm.yscbf_zj,
-            //     /**
-            //      *  直接专项经费科研活动费-知识产权事务费
-            //      */
-            //     "kyhdfZscqswZxZj": zxFundsDetailForm.zscqswf_zj,
-            //     /**
-            //      *  直接自筹经费科研活动费-知识产权事务费
-            //      */
-            //     "kyhdfZscqswZcZj": zcFundsDetailForm.zscqswf_zj,
-            //     /**
-            //      *  直接专项经费科研活动费-燃料动力费
-            //      */
-            //     "kyhdfRldlZxZj": zxFundsDetailForm.rldlf_zj,
-            //     /**
-            //      *  直接自筹经费科研活动费-燃料动力费
-            //      */
-            //     "kyhdfRldlZcZj": zcFundsDetailForm.rldlf_zj,
-            //     /**
-            //      *  直接专项经费科研活动费-车辆使用费
-            //      */
-            //     "kyhdfClsyZxZj": zxFundsDetailForm.clsyf_zj,
-            //     /**
-            //      *  直接自筹经费科研活动费-车辆使用费
-            //      */
-            //     "kyhdfClsyZcZj": zcFundsDetailForm.clsyf_zj,
-            //     /**
-            //      *  直接专项经费科服务动费-会议会务费
-            //      */
-            //     "kyfwfZxZj": zxFundsDetailForm.kyfwf_zj,
-            //     /**
-            //      *  直接自筹经费科服务动费-会议会务费
-            //      */
-            //     "kyfwfZcZj": zcFundsDetailForm.kyfwf_zj,
-            //     /**
-            //      *  直接专项经费科服务动费-专家咨询费
-            //      */
-            //     "kyfwfZjzxZxZj": zxFundsDetailForm.zjzxf_zj,
-            //     /**
-            //      *  直接自筹经费科服务动费-专家咨询费
-            //      */
-            //     "kyfwfZjzxZcZj": zcFundsDetailForm.zjzxf_zj,
-            //     /**
-            //      *  直接专项经费科服务动费-差旅费
-            //      */
-            //     "kyfwfClZxZj": zxFundsDetailForm.chlf_zj,
-            //     /**
-            //      *  直接自筹经费科服务动费-差旅费
-            //      */
-            //     "kyfwfClZcZj": zcFundsDetailForm.chlf_zj,
-            //     /**
-            //      *  直接专项经费科服务动费-会议会务费
-            //      */
-            //     "kyfwfHyhwZxZj": zxFundsDetailForm.hyhwf_zj,
-            //     /**
-            //      *  直接自筹经费科服务动费-会议会务费
-            //      */
-            //     "kyfwfHyhwZcZj": zcFundsDetailForm.hyhwf_zj,
-            //     /**
-            //      *  直接专项经费科服务动费-国际合作交流费
-            //      */
-            //     "kyfwfGjhzjlZxZj": zxFundsDetailForm.gjhzjlf_zj,
-            //     /**
-            //      *  直接自筹经费科服务动费-国际合作交流费
-            //      */
-            //     "kyfwfGjhzjlZcZj": zcFundsDetailForm.gjhzjlf_zj,
-            //     /**
-            //      *  直接专项经费科服务动费-国内协作费
-            //      */
-            //     "kyfwfGnxzZxZj": zxFundsDetailForm.gnxzf_zj,
-            //     /**
-            //      *  直接自筹经费科服务动费-国内协作费
-            //      */
-            //     "kyfwfGnxzZcZj": zcFundsDetailForm.gnxzf_zj,
-            //     /**
-            //      *  直接专项经费人员活动费-人员劳务费
-            //      */
-            //     "ryhlwbzfZxZj": zxFundsDetailForm.rylwbzf_zj,
-            //     /**
-            //      *  直接自筹经费人员活动费-人员劳务费
-            //      */
-            //     "ryhlwbzfZcZj": zcFundsDetailForm.rylwbzf_zj,
-            //
-            //
-            //     /**
-            //      *  专项间接绩效支出
-            //      */
-            //     "jxzcZx": zxFundsDetailForm.jxzc_jj,
-            //     /**
-            //      *  自筹间接绩效支出
-            //      */
-            //     "jxzcZc": zcFundsDetailForm.jxzc_jj,
-            //
-            //     /**
-            //      *  经费来源-专项经费自筹
-            //      */
-            //     "jflyZx": fundsSourceForm.zxjfzz,
-            //     /**
-            //      *  经费来源-自筹经费
-            //      */
-            //     "jflyZc": fundsSourceForm.zcjf,
-            //     /**
-            //      *  经费来源-其他财政拨款
-            //      */
-            //     "jflyQtczbkZc": fundsSourceForm.qtczbk,
-            //     /**
-            //      *  经费来源-自有货币基金
-            //      */
-            //     "jflyDwzyhbzjZc": fundsSourceForm.zyhbzj,
-            //     /**
-            //      *  经费来源-其他资金
-            //      */
-            //     "jflyQtzjZc": fundsSourceForm.qtzj,
-            //
-            //     /**
-            //      *  间接专项设备费
-            //      */
-            //     "sbfZxJj": zxFundsDetailForm.sbf_jj,
-            //     /**
-            //      *  间接自筹设备费
-            //      */
-            //     "sbfZcJj": zcFundsDetailForm.sbf_jj,
-            //     /**
-            //      *  间接专项设备费-购置设备费
-            //      */
-            //     "sbfGzsbZxJj": zxFundsDetailForm.gzsbf_jj,
-            //     /**
-            //      *  间接自筹设备费-购置设备费
-            //      */
-            //     "sbfGzsbZcJj": zcFundsDetailForm.gzsbf_jj,
-            //     /**
-            //      *  间接专项设备费-试制设备费
-            //      */
-            //     "sbfSzsbZxJj": zxFundsDetailForm.szsbf_jj,
-            //     /**
-            //      *  间接自筹设备费-试制设备费
-            //      */
-            //     "sbfSzsbZcJj": zcFundsDetailForm.szsbf_jj,
-            //     /**
-            //      *  间接专项设备费-设备购置与租赁费
-            //      */
-            //     "sbfSbgzyzlZxJj": zxFundsDetailForm.sbgzyzlf_jj,
-            //     /**
-            //      *  间接自筹设备费-设备购置与租赁费
-            //      */
-            //     "sbfSbgzyzlZcJj": zcFundsDetailForm.sbgzyzlf_jj,
-            //     /**
-            //      *  间接专项设备费-材料费
-            //      */
-            //     "clfZxJj": zxFundsDetailForm.clf_jj,
-            //     /**
-            //      *  间接自筹设备费-材料费
-            //      */
-            //     "clfZcJj": zcFundsDetailForm.clf_jj,
-            //     /**
-            //      *  间接专项经费科研活动费-科研活动费
-            //      */
-            //     "kyhdfZxJj": zxFundsDetailForm.kyhdf_jj,
-            //     /**
-            //      *  间接自筹经费科研活动费-科研活动费
-            //      */
-            //     "kyhdfZcJj": zcFundsDetailForm.kyhdf_jj,
-            //     /**
-            //      *  间接专项经费科研活动费-专利费
-            //      */
-            //     "kyhdfZlZxJj": zxFundsDetailForm.zlf_jj,
-            //     /**
-            //      *  间接自筹经费科研活动费-专利费
-            //      */
-            //     "kyhdfZlZcJj": zcFundsDetailForm.zlf_jj,
-            //     /**
-            //      *  间接专项经费科研活动费-测试化验加工费
-            //      */
-            //     "kyhdfCshyjgZxJj": zxFundsDetailForm.cshyjgf_jj,
-            //     /**
-            //      *  间接自筹经费科研活动费-测试化验加工费
-            //      */
-            //     "kyhdfCshyjgZcJj": zcFundsDetailForm.cshyjgf_jj,
-            //     /**
-            //      *  间接专项经费科研活动费-办公费
-            //      */
-            //     "kyhdfBgZxJj": zxFundsDetailForm.bgf_jj,
-            //     /**
-            //      *  间接自筹经费科研活动费-办公费
-            //      */
-            //     "kyhdfBgZcJj": zcFundsDetailForm.bgf_jj,
-            //     /**
-            //      *  间接专项经费科研活动费-数据样本采集费
-            //      */
-            //     "kyhdfSjybcjZxJj": zxFundsDetailForm.sjybcjf_jj,
-            //     /**
-            //      *  间接自筹经费科研活动费-数据样本采集费
-            //      */
-            //     "kyhdfSjybcjZcJj": zcFundsDetailForm.sjybcjf_jj,
-            //     /**
-            //      *  间接专项经费科研活动费-印刷出版费
-            //      */
-            //     "kyhdfYscbZxJj": zxFundsDetailForm.yscbf_jj,
-            //     /**
-            //      *  间接自筹经费科研活动费-印刷出版费
-            //      */
-            //     "kyhdfYscbZcJj": zcFundsDetailForm.yscbf_jj,
-            //     /**
-            //      *  间接专项经费科研活动费-知识产权事务费
-            //      */
-            //     "kyhdfZscqswZxJj": zxFundsDetailForm.zscqswf_jj,
-            //     /**
-            //      *  间接自筹经费科研活动费-知识产权事务费
-            //      */
-            //     "kyhdfZscqswZcJj": zcFundsDetailForm.zscqswf_jj,
-            //     /**
-            //      *  间接专项经费科研活动费-燃料动力费
-            //      */
-            //     "kyhdfRldlZxJj": zxFundsDetailForm.rldlf_jj,
-            //     /**
-            //      *  间接自筹经费科研活动费-燃料动力费
-            //      */
-            //     "kyhdfRldlZcJj": zcFundsDetailForm.rldlf_jj,
-            //     /**
-            //      *  间接专项经费科研活动费-车辆使用费
-            //      */
-            //     "kyhdfClsyZxJj": zxFundsDetailForm.clsyf_jj,
-            //     /**
-            //      *  间接自筹经费科研活动费-车辆使用费
-            //      */
-            //     "kyhdfClsyZcJj": zcFundsDetailForm.clsyf_jj,
-            //     /**
-            //      *  间接专项经费科服务动费-科研服务费
-            //      */
-            //     "kyfwfZxJj": zxFundsDetailForm.kyfwf_jj,
-            //     /**
-            //      *  间接自筹经费科服务动费-科研服务费
-            //      */
-            //     "kyfwfZcJj": zcFundsDetailForm.kyfwf_jj,
-            //     /**
-            //      *  间接专项经费科服务动费-专家咨询费
-            //      */
-            //     "kyfwfZjzxZxJj": zxFundsDetailForm.zjzxf_jj,
-            //     /**
-            //      *  间接自筹经费科服务动费-专家咨询费
-            //      */
-            //     "kyfwfZjzxZcJj": zcFundsDetailForm.zjzxf_jj,
-            //     /**
-            //      *  间接专项经费科服务动费-差旅费
-            //      */
-            //     "kyfwfClZxJj": zxFundsDetailForm.chlf_jj,
-            //     /**
-            //      *  间接自筹经费科服务动费-差旅费
-            //      */
-            //     "kyfwfClZcJj": zcFundsDetailForm.chlf_jj,
-            //     /**
-            //      *  间接专项经费科服务动费-会议会务费
-            //      */
-            //     "kyfwfHyhwZxJj": zxFundsDetailForm.hyhwf_jj,
-            //     /**
-            //      *  间接自筹经费科服务动费-会议会务费
-            //      */
-            //     "kyfwfHyhwZcJj": zcFundsDetailForm.hyhwf_jj,
-            //     /**
-            //      *  间接专项经费科服务动费-国际合作交流费
-            //      */
-            //     "kyfwfGjhzjlZxJj": zxFundsDetailForm.gjhzjlf_jj,
-            //     /**
-            //      *  间接自筹经费科服务动费-国际合作交流费
-            //      */
-            //     "kyfwfGjhzjlZcJj": zcFundsDetailForm.gjhzjlf_jj,
-            //     /**
-            //      *  间接专项经费科服务动费-国内协作费
-            //      */
-            //     "kyfwfGnxzZxJj": zxFundsDetailForm.gnxzf_jj,
-            //     /**
-            //      *  间接自筹经费科服务动费-国内协作费
-            //      */
-            //     "kyfwfGnxzZcJj": zcFundsDetailForm.gnxzf_jj,
-            //     /**
-            //      *  间接专项经费人员劳务补助费
-            //      */
-            //     "ryhlwbzfZxJj": zxFundsDetailForm.rylwbzf_jj,
-            //     /**
-            //      *  间接自筹经费人员劳务补助费
-            //      */
-            //     "ryhlwbzfZcJj": zcFundsDetailForm.rylwbzf_jj,
-            // },
-            "projectFundsBO": projectSpecialFundForm,
+            "projectFundsBO": {
+                /**
+                 *  总经费
+                 */
+                "totalFundsAll": projectFundsForm.jfze,
+                /**
+                 *  专项到款总额
+                 */
+                "totalFundsZxDk": projectProgressForm.totalFundsZxDk,
+                /**
+                 *  已完成自筹投资
+                 */
+                "zctzDone": projectProgressForm.zctzDone,
+                /**
+                 *  已完成专项投资
+                 */
+                "zxtzDone": projectProgressForm.zxtzDone,
+                /**
+                 *  自筹经费公司配套
+                 */
+                "zcGspt": projectProgressForm.zcGspt,
+                /**
+                 *  专项经费公司留存（计划）
+                 */
+                "zxGslc": projectProgressForm.zxGslc,
+                /**
+                 *  专项经费总额
+                 */
+                "totalFundsZx": projectFundsForm.zxjfze,
+                /**
+                 *  专项经费设备费
+                 */
+                "sbfZx": projectFundsForm.zxsbf,
+                /**
+                 *  专项经费直接费
+                 */
+                "totalFundsZxZj": projectFundsForm.zxzjx,
+                /**
+                 *  专项经费间接费
+                 */
+                "totalFundsZxJj": projectFundsForm.zxjjy,
+                /**
+                 *  自筹经费总额
+                 */
+                "totalFundsZc": projectFundsForm.zcjfze,
+                /**
+                 *  自筹经费设备费
+                 */
+                "sbfZc": projectFundsForm.zcsbf,
+                /**
+                 *  自筹经费直接费
+                 */
+                "totalFundsZcZj": projectFundsForm.zczjx,
+                /**
+                 *  自筹经费间接费
+                 */
+                "totalFundsZcJj": projectFundsForm.zcjjy,
+
+                /**
+                 *  经费来源-专项经费
+                 */
+                "jflyZx": fundsSourceForm.zxjfzz,
+                /**
+                 *  经费来源-自筹经费
+                 */
+                "jflyZc": fundsSourceForm.zcjf,
+                /**
+                 *  经费来源-其他财政拨款
+                 */
+                "jflyQtczbkZc": fundsSourceForm.qtczbk,
+                /**
+                 *  经费来源-自有货币基金
+                 */
+                "jflyDwzyhbzjZc": fundsSourceForm.zyhbzj,
+                /**
+                 *  经费来源-其他资金
+                 */
+                "jflyQtzjZc": fundsSourceForm.qtzj,
+
+                /**
+                 *  专项经费和自筹经费
+                 */
+                ...projectSpecialFundForm,
+            },
+
             /**
-             *  经费来源
+             *  项目成员
              */
             "projectUserBoList": members,
             /**
@@ -1373,438 +1030,88 @@ export function updateProject(projectId,
                  */
                 "standardDetails": projectProgressForm.standardDetails,
             },
-            /*"projectFundsBO"   : {
-                /!**
+            "projectFundsBO"   : {
+                /**
                  *  专项到款总额
-                 *!/
+                 */
                 "totalFundsZxDk": projectProgressForm.totalFundsZxDk,
-                /!**
+                /**
                  *  已完成自筹投资
-                 *!/
+                 */
                 "zctzDone": projectProgressForm.zctzDone,
-                /!**
+                /**
                  *  已完成专项投资
-                 *!/
+                 */
                 "zxtzDone": projectProgressForm.zxtzDone,
-                /!**
+                /**
                  *  自筹经费公司配套
-                 *!/
+                 */
                 "zcGspt": projectProgressForm.zcGspt,
-                /!**
+                /**
                  *  专项经费公司留存（计划）
-                 *!/
+                 */
                 "zxGslc": projectProgressForm.zxGslc,
-                /!**
+                /**
                  *  总经费
-                 *!/
+                 */
                 "totalFundsAll": projectFundsForm.jfze,
-                /!**
+                /**
                  *  专项经费总额
-                 *!/
+                 */
                 "totalFundsZx": projectFundsForm.zxjfze,
-                /!**
+                /**
                  *  专项经费设备费
-                 *!/
+                 */
                 "sbfZx": projectFundsForm.zxsbf,
-                /!**
+                /**
                  *  专项经费直接费
-                 *!/
+                 */
                 "totalFundsZxZj": projectFundsForm.zxzjx,
-                /!**
+                /**
                  *  专项经费间接费
-                 *!/
+                 */
                 "totalFundsZxJj": projectFundsForm.zxjjy,
-                /!**
+                /**
                  *  自筹经费总额
-                 *!/
+                 */
                 "totalFundsZc": projectFundsForm.zcjfze,
-                /!**
+                /**
                  *  自筹经费设备费
-                 *!/
+                 */
                 "sbfZc": projectFundsForm.zcsbf,
-                /!**
+                /**
                  *  自筹经费直接费
-                 *!/
+                 */
                 "totalFundsZcZj": projectFundsForm.zczjx,
-                /!**
+                /**
                  *  自筹经费间接费
-                 *!/
+                 */
                 "totalFundsZcJj": projectFundsForm.zcjjy,
-
-                /!**
-                 *  直接专项经费设备费-设备费
-                 *!/
-                "sbfZxZj": zxFundsDetailForm.sbf_zj,
-                /!**
-                 *  直接自筹经费设备费-设备费
-                 *!/
-                "sbfZcZj": zcFundsDetailForm.sbf_zj,
-                /!**
-                 *  直接专项经费设备费-购置设备费
-                 *!/
-                "sbfGzsbZxZj": zxFundsDetailForm.gzsbf_zj,
-                /!**
-                 *  直接自筹经费设备费-购置设备费
-                 *!/
-                "sbfGzsbZcZj": zcFundsDetailForm.gzsbf_zj,
-                /!**
-                 *  直接专项经费设备费-试制设备费
-                 *!/
-                "sbfSzsbZxZj": zxFundsDetailForm.szsbf_zj,
-                /!**
-                 *  直接自筹经费设备费-试制设备费
-                 *!/
-                "sbfSzsbZcZj": zcFundsDetailForm.szsbf_zj,
-                /!**
-                 *  直接专项经费设备费-设备购置与租赁费
-                 *!/
-                "sbfSbgzyzlZxZj": zxFundsDetailForm.sbgzyzlf_zj,
-                /!**
-                 *  直接自筹经费设备费-设备购置与租赁费
-                 *!/
-                "sbfSbgzyzlZcZj": zcFundsDetailForm.sbgzyzlf_zj,
-                /!**
-                 *  直接专项经费-材料费
-                 *!/
-                "clfZxZj": zxFundsDetailForm.clf_zj,
-                /!**
-                 *  直接自筹经费费-材料费
-                 *!/
-                "clfZcZj": zcFundsDetailForm.clf_zj,
-                /!**
-                 *  直接专项经费科研活动费-科研活动费
-                 *!/
-                "kyhdfZxZj": zxFundsDetailForm.kyhdf_zj,
-                /!**
-                 *  直接自筹经费科研活动费-科研活动费
-                 *!/
-                "kyhdfZcZj": zcFundsDetailForm.kyhdf_zj,
-                /!**
-                 *  直接专项经费科研活动费-专利费
-                 *!/
-                "kyhdfZlZxZj": zxFundsDetailForm.zlf_zj,
-                /!**
-                 *  直接自筹经费科研活动费-专利费
-                 *!/
-                "kyhdfZlZcZj": zcFundsDetailForm.zlf_zj,
-                /!**
-                 *  直接专项经费科研活动费-测试化验加工费
-                 *!/
-                "kyhdfCshyjgZxZj": zxFundsDetailForm.cshyjgf_zj,
-                /!**
-                 *  直接自筹经费科研活动费-测试化验加工费
-                 *!/
-                "kyhdfCshyjgZcZj": zcFundsDetailForm.cshyjgf_zj,
-                /!**
-                 *  直接专项经费科研活动费-办公费
-                 *!/
-                "kyhdfBgZxZj": zxFundsDetailForm.bgf_zj,
-                /!**
-                 *  直接自筹经费科研活动费-办公费
-                 *!/
-                "kyhdfBgZcZj": zcFundsDetailForm.bgf_zj,
-                /!**
-                 *  直接专项经费科研活动费-数据样本采集费
-                 *!/
-                "kyhdfSjybcjZxZj": zxFundsDetailForm.sjybcjf_zj,
-                /!**
-                 *  直接自筹经费科研活动费-数据样本采集费
-                 *!/
-                "kyhdfSjybcjZcZj": zcFundsDetailForm.sjybcjf_zj,
-                /!**
-                 *  直接专项经费科研活动费-印刷出版费
-                 *!/
-                "kyhdfYscbZxZj": zxFundsDetailForm.yscbf_zj,
-                /!**
-                 *  直接自筹经费科研活动费-印刷出版费
-                 *!/
-                "kyhdfYscbZcZj": zcFundsDetailForm.yscbf_zj,
-                /!**
-                 *  直接专项经费科研活动费-知识产权事务费
-                 *!/
-                "kyhdfZscqswZxZj": zxFundsDetailForm.zscqswf_zj,
-                /!**
-                 *  直接自筹经费科研活动费-知识产权事务费
-                 *!/
-                "kyhdfZscqswZcZj": zcFundsDetailForm.zscqswf_zj,
-                /!**
-                 *  直接专项经费科研活动费-燃料动力费
-                 *!/
-                "kyhdfRldlZxZj": zxFundsDetailForm.rldlf_zj,
-                /!**
-                 *  直接自筹经费科研活动费-燃料动力费
-                 *!/
-                "kyhdfRldlZcZj": zcFundsDetailForm.rldlf_zj,
-                /!**
-                 *  直接专项经费科研活动费-车辆使用费
-                 *!/
-                "kyhdfClsyZxZj": zxFundsDetailForm.clsyf_zj,
-                /!**
-                 *  直接自筹经费科研活动费-车辆使用费
-                 *!/
-                "kyhdfClsyZcZj": zcFundsDetailForm.clsyf_zj,
-                /!**
-                 *  直接专项经费科服务动费-会议会务费
-                 *!/
-                "kyfwfZxZj": zxFundsDetailForm.kyfwf_zj,
-                /!**
-                 *  直接自筹经费科服务动费-会议会务费
-                 *!/
-                "kyfwfZcZj": zcFundsDetailForm.kyfwf_zj,
-                /!**
-                 *  直接专项经费科服务动费-专家咨询费
-                 *!/
-                "kyfwfZjzxZxZj": zxFundsDetailForm.zjzxf_zj,
-                /!**
-                 *  直接自筹经费科服务动费-专家咨询费
-                 *!/
-                "kyfwfZjzxZcZj": zcFundsDetailForm.zjzxf_zj,
-                /!**
-                 *  直接专项经费科服务动费-差旅费
-                 *!/
-                "kyfwfClZxZj": zxFundsDetailForm.chlf_zj,
-                /!**
-                 *  直接自筹经费科服务动费-差旅费
-                 *!/
-                "kyfwfClZcZj": zcFundsDetailForm.chlf_zj,
-                /!**
-                 *  直接专项经费科服务动费-会议会务费
-                 *!/
-                "kyfwfHyhwZxZj": zxFundsDetailForm.hyhwf_zj,
-                /!**
-                 *  直接自筹经费科服务动费-会议会务费
-                 *!/
-                "kyfwfHyhwZcZj": zcFundsDetailForm.hyhwf_zj,
-                /!**
-                 *  直接专项经费科服务动费-国际合作交流费
-                 *!/
-                "kyfwfGjhzjlZxZj": zxFundsDetailForm.gjhzjlf_zj,
-                /!**
-                 *  直接自筹经费科服务动费-国际合作交流费
-                 *!/
-                "kyfwfGjhzjlZcZj": zcFundsDetailForm.gjhzjlf_zj,
-                /!**
-                 *  直接专项经费科服务动费-国内协作费
-                 *!/
-                "kyfwfGnxzZxZj": zxFundsDetailForm.gnxzf_zj,
-                /!**
-                 *  直接自筹经费科服务动费-国内协作费
-                 *!/
-                "kyfwfGnxzZcZj": zcFundsDetailForm.gnxzf_zj,
-                /!**
-                 *  直接专项经费人员劳务补助费
-                 *!/
-                "ryhlwbzfZxZj": zxFundsDetailForm.rylwbzf_zj,
-                /!**
-                 *  直接自筹经费人员劳务补助费
-                 *!/
-                "ryhlwbzfZcZj": zcFundsDetailForm.rylwbzf_zj,
-
-
-                /!**
-                 *  专项间接绩效支出
-                 *!/
-                "jxzcZx": zxFundsDetailForm.jxzc_jj,
-                /!**
-                 *  自筹间接绩效支出
-                 *!/
-                "jxzcZc": zcFundsDetailForm.jxzc_jj,
-
-                /!**
+                /**
                  *  经费来源-专项经费自筹
-                 *!/
+                 */
                 "jflyZx": fundsSourceForm.zxjfzz,
-                /!**
+                /**
                  *  经费来源-自筹经费
-                 *!/
+                 */
                 "jflyZc": fundsSourceForm.zcjf,
-                /!**
+                /**
                  *  经费来源-其他财政拨款
-                 *!/
+                 */
                 "jflyQtczbkZc": fundsSourceForm.qtczbk,
-                /!**
+                /**
                  *  经费来源-自有货币基金
-                 *!/
+                 */
                 "jflyDwzyhbzjZc": fundsSourceForm.zyhbzj,
-                /!**
+                /**
                  *  经费来源-其他资金
-                 *!/
+                 */
                 "jflyQtzjZc": fundsSourceForm.qtzj,
-
-                /!**
-                 *  间接专项设备费
-                 *!/
-                "sbfZxJj": zxFundsDetailForm.sbf_jj,
-                /!**
-                 *  间接自筹设备费
-                 *!/
-                "sbfZcJj": zcFundsDetailForm.sbf_jj,
-                /!**
-                 *  间接专项设备费-购置设备费
-                 *!/
-                "sbfGzsbZxJj": zxFundsDetailForm.gzsbf_jj,
-                /!**
-                 *  间接自筹设备费-购置设备费
-                 *!/
-                "sbfGzsbZcJj": zcFundsDetailForm.gzsbf_jj,
-                /!**
-                 *  间接专项设备费-试制设备费
-                 *!/
-                "sbfSzsbZxJj": zxFundsDetailForm.szsbf_jj,
-                /!**
-                 *  间接自筹设备费-试制设备费
-                 *!/
-                "sbfSzsbZcJj": zcFundsDetailForm.szsbf_jj,
-                /!**
-                 *  间接专项设备费-设备购置与租赁费
-                 *!/
-                "sbfSbgzyzlZxJj": zxFundsDetailForm.sbgzyzlf_jj,
-                /!**
-                 *  间接自筹设备费-设备购置与租赁费
-                 *!/
-                "sbfSbgzyzlZcJj": zcFundsDetailForm.sbgzyzlf_jj,
-                /!**
-                 *  间接专项设备费-材料费
-                 *!/
-                "clfZxJj": zxFundsDetailForm.clf_jj,
-                /!**
-                 *  间接自筹设备费-材料费
-                 *!/
-                "clfZcJj": zcFundsDetailForm.clf_jj,
-                /!**
-                 *  间接专项经费科研活动费-科研活动费
-                 *!/
-                "kyhdfZxJj": zxFundsDetailForm.kyhdf_jj,
-                /!**
-                 *  间接自筹经费科研活动费-科研活动费
-                 *!/
-                "kyhdfZcJj": zcFundsDetailForm.kyhdf_jj,
-                /!**
-                 *  间接专项经费科研活动费-专利费
-                 *!/
-                "kyhdfZlZxJj": zxFundsDetailForm.zlf_jj,
-                /!**
-                 *  间接自筹经费科研活动费-专利费
-                 *!/
-                "kyhdfZlZcJj": zcFundsDetailForm.zlf_jj,
-                /!**
-                 *  间接专项经费科研活动费-测试化验加工费
-                 *!/
-                "kyhdfCshyjgZxJj": zxFundsDetailForm.cshyjgf_jj,
-                /!**
-                 *  间接自筹经费科研活动费-测试化验加工费
-                 *!/
-                "kyhdfCshyjgZcJj": zcFundsDetailForm.cshyjgf_jj,
-                /!**
-                 *  间接专项经费科研活动费-办公费
-                 *!/
-                "kyhdfBgZxJj": zxFundsDetailForm.bgf_jj,
-                /!**
-                 *  间接自筹经费科研活动费-办公费
-                 *!/
-                "kyhdfBgZcJj": zcFundsDetailForm.bgf_jj,
-                /!**
-                 *  间接专项经费科研活动费-数据样本采集费
-                 *!/
-                "kyhdfSjybcjZxJj": zxFundsDetailForm.sjybcjf_jj,
-                /!**
-                 *  间接自筹经费科研活动费-数据样本采集费
-                 *!/
-                "kyhdfSjybcjZcJj": zcFundsDetailForm.sjybcjf_jj,
-                /!**
-                 *  间接专项经费科研活动费-印刷出版费
-                 *!/
-                "kyhdfYscbZxJj": zxFundsDetailForm.yscbf_jj,
-                /!**
-                 *  间接自筹经费科研活动费-印刷出版费
-                 *!/
-                "kyhdfYscbZcJj": zcFundsDetailForm.yscbf_jj,
-                /!**
-                 *  间接专项经费科研活动费-知识产权事务费
-                 *!/
-                "kyhdfZscqswZxJj": zxFundsDetailForm.zscqswf_jj,
-                /!**
-                 *  间接自筹经费科研活动费-知识产权事务费
-                 *!/
-                "kyhdfZscqswZcJj": zcFundsDetailForm.zscqswf_jj,
-                /!**
-                 *  间接专项经费科研活动费-燃料动力费
-                 *!/
-                "kyhdfRldlZxJj": zxFundsDetailForm.rldlf_jj,
-                /!**
-                 *  间接自筹经费科研活动费-燃料动力费
-                 *!/
-                "kyhdfRldlZcJj": zcFundsDetailForm.rldlf_jj,
-                /!**
-                 *  间接专项经费科研活动费-车辆使用费
-                 *!/
-                "kyhdfClsyZxJj": zxFundsDetailForm.clsyf_jj,
-                /!**
-                 *  间接自筹经费科研活动费-车辆使用费
-                 *!/
-                "kyhdfClsyZcJj": zcFundsDetailForm.clsyf_jj,
-                /!**
-                 *  间接专项经费科服务动费-科研服务费
-                 *!/
-                "kyfwfZxJj": zxFundsDetailForm.kyfwf_jj,
-                /!**
-                 *  间接自筹经费科服务动费-科研服务费
-                 *!/
-                "kyfwfZcJj": zcFundsDetailForm.kyfwf_jj,
-                /!**
-                 *  间接专项经费科服务动费-专家咨询费
-                 *!/
-                "kyfwfZjzxZxJj": zxFundsDetailForm.zjzxf_jj,
-                /!**
-                 *  间接自筹经费科服务动费-专家咨询费
-                 *!/
-                "kyfwfZjzxZcJj": zcFundsDetailForm.zjzxf_jj,
-                /!**
-                 *  间接专项经费科服务动费-差旅费
-                 *!/
-                "kyfwfClZxJj": zxFundsDetailForm.chlf_jj,
-                /!**
-                 *  间接自筹经费科服务动费-差旅费
-                 *!/
-                "kyfwfClZcJj": zcFundsDetailForm.chlf_jj,
-                /!**
-                 *  间接专项经费科服务动费-会议会务费
-                 *!/
-                "kyfwfHyhwZxJj": zxFundsDetailForm.hyhwf_jj,
-                /!**
-                 *  间接自筹经费科服务动费-会议会务费
-                 *!/
-                "kyfwfHyhwZcJj": zcFundsDetailForm.hyhwf_jj,
-                /!**
-                 *  间接专项经费科服务动费-国际合作交流费
-                 *!/
-                "kyfwfGjhzjlZxJj": zxFundsDetailForm.gjhzjlf_jj,
-                /!**
-                 *  间接自筹经费科服务动费-国际合作交流费
-                 *!/
-                "kyfwfGjhzjlZcJj": zcFundsDetailForm.gjhzjlf_jj,
-                /!**
-                 *  间接专项经费科服务动费-国内协作费
-                 *!/
-                "kyfwfGnxzZxJj": zxFundsDetailForm.gnxzf_jj,
-                /!**
-                 *  间接自筹经费科服务动费-国内协作费
-                 *!/
-                "kyfwfGnxzZcJj": zcFundsDetailForm.gnxzf_jj,
-                /!**
-                 *  间接专项经费人员劳务补助费
-                 *!/
-                "ryhlwbzfZxJj": zxFundsDetailForm.rylwbzf_jj,
-                /!**
-                 *  间接自筹经费人员劳务补助费
-                 *!/
-                "ryhlwbzfZcJj": zcFundsDetailForm.rylwbzf_jj,
-            },*/
-
-            /**
-             *  经费来源
-             */
-            "projectFundsBO": projectSpecialFundForm,
+                /**
+                 *  专项和自筹
+                 */
+                ...projectSpecialFundForm,
+            },
             "projectUserBoList": members,
             /**
              *  项目指标
