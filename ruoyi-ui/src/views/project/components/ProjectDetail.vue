@@ -190,6 +190,7 @@ export default {
     watch: {
         'formLook.projectId': {
             handler(newProjectId, oldProjectId) {
+                this.activeName = 'first';
                 this.projectdetail(); // 确保在属性变化时调用获取详情的方法
             },
             deep: true,
