@@ -93,7 +93,7 @@ public class ProjectFundsReceivedServiceImpl implements ProjectFundsReceivedServ
         // 设置大事记标题为“专项经费到账”
         milestoneBo.setMilestoneTitle("专项经费到账");
         // 设置大事记备注，包括到账日期、到账金额和来款单位信息
-        milestoneBo.setMilestoneRemark("专项经费到账日期：" + receivedDate.toString() + ", 到账金额：" + amountReceived.toString() + ", 经费来源：" + receivedFrom + ", 到账类型：" + ProjectMilestoneTypeEnum.SPECIAL_FUNDS.getDescription() + " 。");
+        milestoneBo.setMilestoneRemark("专项经费到账日期：" + receivedDate.toString() + ", 到账金额：" + amountReceived.toString() + ", 经费来源：" + receivedFrom + ", 到账类型：" + (fundsReceived.getReceivedType() == 0 ? "发票" : "收据") + " 。");
         // 如果存在ossId，则创建一个ossIds列表，并将ossId加入列表，再设置给大事记对象
         if (!fundsReceived.getOssIds().isEmpty()) {
             List<Long> ossIds = new ArrayList<>(fundsReceived.getOssIds());
