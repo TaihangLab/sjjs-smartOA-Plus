@@ -211,6 +211,22 @@ SET NEW.sbf_zc_zj_paid = NEW.sbf_gzsb_zc_zj_paid + NEW.sbf_szsb_zc_zj_paid + NEW
     -- 更新人员和劳务补助费_直接_已支付
 	SET NEW.ryhlwbzf_zj_paid = NEW.ryhlwbzf_zx_zj_paid + NEW.ryhlwbzf_zc_zj_paid;
 
+	-- 更新专项直接费用_已支付
+	SET NEW.total_funds_zx_zj_paid = NEW.sbf_zx_zj_paid + NEW.ywf_zx_zj_paid + NEW.lwf_zx_zj_paid + NEW.clf_zx_zj_paid + NEW.kyhdf_zx_zj_paid + NEW.kyfwf_zx_zj_paid + NEW.ryhlwbzf_zx_zj_paid;
+
+ 	-- 更新自筹直接费用_已支付
+	SET NEW.total_funds_zc_zj_paid = NEW.sbf_zc_zj_paid + NEW.ywf_zc_zj_paid + NEW.lwf_zc_zj_paid + NEW.clf_zc_zj_paid + NEW.kyhdf_zc_zj_paid + NEW.kyfwf_zc_zj_paid + NEW.ryhlwbzf_zc_zj_paid;
+
+	-- 更新专项间接费用_已支付
+	SET NEW.total_funds_zx_jj_paid = NEW.sbf_zx_jj_paid + NEW.clf_zx_jj_paid + NEW.zlf_zx_jj_paid + NEW.sjybcjf_zx_jj_paid + NEW.cshyjgf_zx_jj_paid + NEW.rldlf_zx_jj_paid + NEW.bgf_zx_jj_paid
+										+ NEW.yscbf_zx_jj_paid + NEW.zscqswf_zx_jj_paid + NEW.clsyf_zx_jj_paid + NEW.chlf_zx_jj_paid + NEW.hyhwf_zx_jj_paid
+										+ NEW.zjzxf_zx_jj_paid + NEW.jxzc_zx_jj_paid + NEW.others_zx_paid + NEW.glf_zx_jj_paid + NEW.fwzjf_zx_jj_paid + NEW.rcsdnf_zx_jj_paid;
+
+	-- 更新自筹间接费用_已支付
+	SET NEW.total_funds_zc_jj_paid = NEW.sbf_zc_jj_paid + NEW.clf_zc_jj_paid + NEW.zlf_zc_jj_paid + NEW.sjybcjf_zc_jj_paid + NEW.cshyjgf_zc_jj_paid + NEW.rldlf_zc_jj_paid + NEW.bgf_zc_jj_paid
+										+ NEW.yscbf_zc_jj_paid + NEW.zscqswf_zc_jj_paid + NEW.clsyf_zc_jj_paid + NEW.chlf_zc_jj_paid + NEW.hyhwf_zc_jj_paid
+										+ NEW.zjzxf_zc_jj_paid + NEW.jxzc_zc_jj_paid + NEW.others_zc_paid + NEW.glf_zc_jj_paid + NEW.fwzjf_zc_jj_paid + NEW.rcsdnf_zc_jj_paid;
+
     -- 更新直接经费总额_已支付
 	SET NEW.total_funds_zj_paid = NEW.sbf_zj_paid + NEW.ywf_zj_paid + NEW.lwf_zj_paid + NEW.clf_zj_paid + NEW.kyhdf_zj_paid + NEW.kyfwf_zj_paid + NEW.ryhlwbzf_zj_paid;
 
@@ -218,15 +234,21 @@ SET NEW.sbf_zc_zj_paid = NEW.sbf_gzsb_zc_zj_paid + NEW.sbf_szsb_zc_zj_paid + NEW
 	SET NEW.total_funds_jj_paid = NEW.jxzc_jj_paid + NEW.others_jj_paid + NEW.sbf_jj_paid + NEW.clf_jj_paid + NEW.glf_jj_paid + NEW.fwzjf_jj_paid + NEW.rcsdnf_jj_paid + NEW.zjzxf_jj_paid
 									+ NEW.jxzc_zx_jj_paid + NEW.sjybcjf_jj_paid + NEW.cshyjgf_jj_paid + NEW.rldlf_jj_paid + NEW.bgf_jj_paid + NEW.yscbf_jj_paid + NEW.zscqswf_jj_paid + NEW.clsyf_jj_paid + NEW.chlf_jj_paid + NEW.hyhwf_jj_paid;
 
-    -- 更新专项经费总额_已支付
-	SET NEW.total_funds_zx_paid = NEW.sbf_zx_zj_paid + NEW.ywf_zx_zj_paid + NEW.lwf_zx_zj_paid + NEW.clf_zx_zj_paid + NEW.kyhdf_zx_zj_paid + NEW.kyfwf_zx_zj_paid + NEW.ryhlwbzf_zx_zj_paid
-									+ NEW.zlf_zx_jj_paid + NEW.others_zx_paid + NEW.sbf_zx_jj_paid + NEW.clf_zx_jj_paid + NEW.glf_zx_jj_paid + NEW.fwzjf_zx_jj_paid + NEW.rcsdnf_zx_jj_paid + NEW.zlf_zx_jj_paid + NEW.sjybcjf_zx_jj_paid + NEW.cshyjgf_zx_jj_paid
-									+ NEW.rldlf_zx_jj_paid + NEW.bgf_zx_jj_paid + NEW.yscbf_zx_jj_paid + NEW.zscqswf_zx_jj_paid + NEW.clsyf_zx_jj_paid + NEW.chlf_zx_jj_paid + NEW.hyhwf_zx_jj_paid + NEW.zjzxf_zx_jj_paid;
+--     更新专项经费总额_已支付
+-- 	SET NEW.total_funds_zx_paid = NEW.sbf_zx_zj_paid + NEW.ywf_zx_zj_paid + NEW.lwf_zx_zj_paid + NEW.clf_zx_zj_paid + NEW.kyhdf_zx_zj_paid + NEW.kyfwf_zx_zj_paid + NEW.ryhlwbzf_zx_zj_paid
+-- 									+ NEW.zlf_zx_jj_paid + NEW.others_zx_paid + NEW.sbf_zx_jj_paid + NEW.clf_zx_jj_paid + NEW.glf_zx_jj_paid + NEW.fwzjf_zx_jj_paid + NEW.rcsdnf_zx_jj_paid + NEW.zlf_zx_jj_paid + NEW.sjybcjf_zx_jj_paid + NEW.cshyjgf_zx_jj_paid
+-- 									+ NEW.rldlf_zx_jj_paid + NEW.bgf_zx_jj_paid + NEW.yscbf_zx_jj_paid + NEW.zscqswf_zx_jj_paid + NEW.clsyf_zx_jj_paid + NEW.chlf_zx_jj_paid + NEW.hyhwf_zx_jj_paid + NEW.zjzxf_zx_jj_paid;
+--
+--     更新自筹经费总额_已支付
+-- 	SET NEW.total_funds_zc_paid = NEW.sbf_zc_zj_paid + NEW.ywf_zc_zj_paid + NEW.lwf_zc_zj_paid + NEW.clf_zc_zj_paid + NEW.kyhdf_zc_zj_paid + NEW.kyfwf_zc_zj_paid + NEW.ryhlwbzf_zc_zj_paid
+-- 									+ NEW.zlf_zc_jj_paid + NEW.others_zc_paid + NEW.sbf_zc_jj_paid + NEW.clf_zc_jj_paid + NEW.glf_zc_jj_paid + NEW.fwzjf_zc_jj_paid + NEW.rcsdnf_zc_jj_paid + NEW.zlf_zc_jj_paid + NEW.sjybcjf_zc_jj_paid + NEW.cshyjgf_zc_jj_paid
+-- 									+ NEW.rldlf_zc_jj_paid + NEW.bgf_zc_jj_paid + NEW.yscbf_zc_jj_paid + NEW.zscqswf_zc_jj_paid + NEW.clsyf_zc_jj_paid + NEW.chlf_zc_jj_paid + NEW.hyhwf_zc_jj_paid + NEW.zjzxf_zc_jj_paid;
 
-    -- 更新自筹经费总额_已支付
-	SET NEW.total_funds_zc_paid = NEW.sbf_zc_zj_paid + NEW.ywf_zc_zj_paid + NEW.lwf_zc_zj_paid + NEW.clf_zc_zj_paid + NEW.kyhdf_zc_zj_paid + NEW.kyfwf_zc_zj_paid + NEW.ryhlwbzf_zc_zj_paid
-									+ NEW.zlf_zc_jj_paid + NEW.others_zc_paid + NEW.sbf_zc_jj_paid + NEW.clf_zc_jj_paid + NEW.glf_zc_jj_paid + NEW.fwzjf_zc_jj_paid + NEW.rcsdnf_zc_jj_paid + NEW.zlf_zc_jj_paid + NEW.sjybcjf_zc_jj_paid + NEW.cshyjgf_zc_jj_paid
-									+ NEW.rldlf_zc_jj_paid + NEW.bgf_zc_jj_paid + NEW.yscbf_zc_jj_paid + NEW.zscqswf_zc_jj_paid + NEW.clsyf_zc_jj_paid + NEW.chlf_zc_jj_paid + NEW.hyhwf_zc_jj_paid + NEW.zjzxf_zc_jj_paid;
+	-- 更新专项经费总额_已支付
+	SET NEW.total_funds_zx_paid = NEW.total_funds_zx_zj_paid + NEW.total_funds_zx_jj_paid;
+
+	-- 更新自筹经费总额_已支付
+	SET NEW.total_funds_zc_paid = NEW.total_funds_zc_zj_paid + NEW.total_funds_zc_jj_paid;
 
     -- 更新项目经费总额_已支付
 	SET NEW.total_funds_all_paid = NEW.total_funds_zj_paid + NEW.total_funds_jj_paid;

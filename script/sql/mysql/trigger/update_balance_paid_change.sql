@@ -210,6 +210,23 @@ UPDATE project_balance_unpaid
 SET ywf_cbwxxxcbzscqswf_xxcbf_zc_zj_unpaid = (SELECT ywf_cbwxxxcbzscqswf_xxcbf_zc_zj FROM project_funds WHERE funds_id = NEW.funds_id) - NEW.ywf_cbwxxxcbzscqswf_xxcbf_zc_zj_paid
 WHERE funds_id = NEW.funds_id;
 
+-- 劳务费
+UPDATE project_balance_unpaid
+SET lwf_zjzxf_zx_zj_unpaid = (SELECT lwf_zjzxf_zx_zj FROM project_funds WHERE funds_id = NEW.funds_id) - NEW.lwf_zjzxf_zx_zj_paid
+WHERE funds_id = NEW.funds_id;
+
+UPDATE project_balance_unpaid
+SET lwf_rylwf_zx_zj_unpaid = (SELECT lwf_rylwf_zx_zj FROM project_funds WHERE funds_id = NEW.funds_id) - NEW.lwf_rylwf_zx_zj_paid
+WHERE funds_id = NEW.funds_id;
+
+UPDATE project_balance_unpaid
+SET lwf_zjzxf_zc_zj_unpaid = (SELECT lwf_zjzxf_zc_zj FROM project_funds WHERE funds_id = NEW.funds_id) - NEW.lwf_zjzxf_zc_zj_paid
+WHERE funds_id = NEW.funds_id;
+
+UPDATE project_balance_unpaid
+SET lwf_rylwf_zc_zj_unpaid = (SELECT lwf_rylwf_zc_zj FROM project_funds WHERE funds_id = NEW.funds_id) - NEW.lwf_rylwf_zc_zj_paid
+WHERE funds_id = NEW.funds_id;
+
 -- 材料费
 
 UPDATE project_balance_unpaid

@@ -211,6 +211,22 @@ SET NEW.sbf_zc_zj_unpaid = NEW.sbf_gzsb_zc_zj_unpaid + NEW.sbf_szsb_zc_zj_unpaid
     -- 更新人员和劳务补助费_直接_未支付
 	SET NEW.ryhlwbzf_zj_unpaid = NEW.ryhlwbzf_zx_zj_unpaid + NEW.ryhlwbzf_zc_zj_unpaid;
 
+    -- 更新专项直接费用_已支付
+	SET NEW.total_funds_zx_zj_unpaid = NEW.sbf_zx_zj_unpaid + NEW.ywf_zx_zj_unpaid + NEW.lwf_zx_zj_unpaid + NEW.clf_zx_zj_unpaid + NEW.kyhdf_zx_zj_unpaid + NEW.kyfwf_zx_zj_unpaid + NEW.ryhlwbzf_zx_zj_unpaid;
+
+ 	-- 更新自筹直接费用_已支付
+	SET NEW.total_funds_zc_zj_unpaid = NEW.sbf_zc_zj_unpaid + NEW.ywf_zc_zj_unpaid + NEW.lwf_zc_zj_unpaid + NEW.clf_zc_zj_unpaid + NEW.kyhdf_zc_zj_unpaid + NEW.kyfwf_zc_zj_unpaid + NEW.ryhlwbzf_zc_zj_unpaid;
+
+	-- 更新专项间接费用_已支付
+	SET NEW.total_funds_zx_jj_unpaid = NEW.sbf_zx_jj_unpaid + NEW.clf_zx_jj_unpaid + NEW.zlf_zx_jj_unpaid + NEW.sjybcjf_zx_jj_unpaid + NEW.cshyjgf_zx_jj_unpaid + NEW.rldlf_zx_jj_unpaid + NEW.bgf_zx_jj_unpaid
+										+ NEW.yscbf_zx_jj_unpaid + NEW.zscqswf_zx_jj_unpaid + NEW.clsyf_zx_jj_unpaid + NEW.chlf_zx_jj_unpaid + NEW.hyhwf_zx_jj_unpaid
+										+ NEW.zjzxf_zx_jj_unpaid + NEW.jxzc_zx_jj_unpaid + NEW.others_zx_unpaid + NEW.glf_zx_jj_unpaid + NEW.fwzjf_zx_jj_unpaid + NEW.rcsdnf_zx_jj_unpaid;
+
+	-- 更新自筹间接费用_已支付
+	SET NEW.total_funds_zc_jj_unpaid = NEW.sbf_zc_jj_unpaid + NEW.clf_zc_jj_unpaid + NEW.zlf_zc_jj_unpaid + NEW.sjybcjf_zc_jj_unpaid + NEW.cshyjgf_zc_jj_unpaid + NEW.rldlf_zc_jj_unpaid + NEW.bgf_zc_jj_unpaid
+										+ NEW.yscbf_zc_jj_unpaid + NEW.zscqswf_zc_jj_unpaid + NEW.clsyf_zc_jj_unpaid + NEW.chlf_zc_jj_unpaid + NEW.hyhwf_zc_jj_unpaid
+										+ NEW.zjzxf_zc_jj_unpaid + NEW.jxzc_zc_jj_unpaid + NEW.others_zc_unpaid + NEW.glf_zc_jj_unpaid + NEW.fwzjf_zc_jj_unpaid + NEW.rcsdnf_zc_jj_unpaid;
+
     -- 更新直接经费总额_未支付
 	SET NEW.total_funds_zj_unpaid = NEW.sbf_zj_unpaid + NEW.ywf_zj_unpaid + NEW.lwf_zj_unpaid + NEW.clf_zj_unpaid + NEW.kyhdf_zj_unpaid + NEW.kyfwf_zj_unpaid + NEW.ryhlwbzf_zj_unpaid;
 
@@ -218,15 +234,21 @@ SET NEW.sbf_zc_zj_unpaid = NEW.sbf_gzsb_zc_zj_unpaid + NEW.sbf_szsb_zc_zj_unpaid
 	SET NEW.total_funds_jj_unpaid = NEW.jxzc_jj_unpaid + NEW.others_jj_unpaid + NEW.sbf_jj_unpaid + NEW.clf_jj_unpaid + NEW.glf_jj_unpaid + NEW.fwzjf_jj_unpaid + NEW.rcsdnf_jj_unpaid + NEW.zjzxf_jj_unpaid
 									+ NEW.jxzc_zx_jj_unpaid + NEW.sjybcjf_jj_unpaid + NEW.cshyjgf_jj_unpaid + NEW.rldlf_jj_unpaid + NEW.bgf_jj_unpaid + NEW.yscbf_jj_unpaid + NEW.zscqswf_jj_unpaid + NEW.clsyf_jj_unpaid + NEW.chlf_jj_unpaid + NEW.hyhwf_jj_unpaid;
 
-    -- 更新专项经费总额_未支付
-	SET NEW.total_funds_zx_unpaid = NEW.sbf_zx_zj_unpaid + NEW.ywf_zx_zj_unpaid + NEW.lwf_zx_zj_unpaid + NEW.clf_zx_zj_unpaid + NEW.kyhdf_zx_zj_unpaid + NEW.kyfwf_zx_zj_unpaid + NEW.ryhlwbzf_zx_zj_unpaid
-									+ NEW.zlf_zx_jj_unpaid + NEW.others_zx_unpaid + NEW.sbf_zx_jj_unpaid + NEW.clf_zx_jj_unpaid + NEW.glf_zx_jj_unpaid + NEW.fwzjf_zx_jj_unpaid + NEW.rcsdnf_zx_jj_unpaid + NEW.zlf_zx_jj_unpaid + NEW.sjybcjf_zx_jj_unpaid + NEW.cshyjgf_zx_jj_unpaid
-									+ NEW.rldlf_zx_jj_unpaid + NEW.bgf_zx_jj_unpaid + NEW.yscbf_zx_jj_unpaid + NEW.zscqswf_zx_jj_unpaid + NEW.clsyf_zx_jj_unpaid + NEW.chlf_zx_jj_unpaid + NEW.hyhwf_zx_jj_unpaid + NEW.zjzxf_zx_jj_unpaid;
+--     更新专项经费总额_未支付
+-- 	SET NEW.total_funds_zx_unpaid = NEW.sbf_zx_zj_unpaid + NEW.ywf_zx_zj_unpaid + NEW.lwf_zx_zj_unpaid + NEW.clf_zx_zj_unpaid + NEW.kyhdf_zx_zj_unpaid + NEW.kyfwf_zx_zj_unpaid + NEW.ryhlwbzf_zx_zj_unpaid
+-- 									+ NEW.zlf_zx_jj_unpaid + NEW.others_zx_unpaid + NEW.sbf_zx_jj_unpaid + NEW.clf_zx_jj_unpaid + NEW.glf_zx_jj_unpaid + NEW.fwzjf_zx_jj_unpaid + NEW.rcsdnf_zx_jj_unpaid + NEW.zlf_zx_jj_unpaid + NEW.sjybcjf_zx_jj_unpaid + NEW.cshyjgf_zx_jj_unpaid
+-- 									+ NEW.rldlf_zx_jj_unpaid + NEW.bgf_zx_jj_unpaid + NEW.yscbf_zx_jj_unpaid + NEW.zscqswf_zx_jj_unpaid + NEW.clsyf_zx_jj_unpaid + NEW.chlf_zx_jj_unpaid + NEW.hyhwf_zx_jj_unpaid + NEW.zjzxf_zx_jj_unpaid;
 
-    -- 更新自筹经费总额_未支付
-	SET NEW.total_funds_zc_unpaid = NEW.sbf_zc_zj_unpaid + NEW.ywf_zc_zj_unpaid + NEW.lwf_zc_zj_unpaid + NEW.clf_zc_zj_unpaid + NEW.kyhdf_zc_zj_unpaid + NEW.kyfwf_zc_zj_unpaid + NEW.ryhlwbzf_zc_zj_unpaid
-									+ NEW.zlf_zc_jj_unpaid + NEW.others_zc_unpaid + NEW.sbf_zc_jj_unpaid + NEW.clf_zc_jj_unpaid + NEW.glf_zc_jj_unpaid + NEW.fwzjf_zc_jj_unpaid + NEW.rcsdnf_zc_jj_unpaid + NEW.zlf_zc_jj_unpaid + NEW.sjybcjf_zc_jj_unpaid + NEW.cshyjgf_zc_jj_unpaid
-									+ NEW.rldlf_zc_jj_unpaid + NEW.bgf_zc_jj_unpaid + NEW.yscbf_zc_jj_unpaid + NEW.zscqswf_zc_jj_unpaid + NEW.clsyf_zc_jj_unpaid + NEW.chlf_zc_jj_unpaid + NEW.hyhwf_zc_jj_unpaid + NEW.zjzxf_zc_jj_unpaid;
+--     更新自筹经费总额_未支付
+-- 	SET NEW.total_funds_zc_unpaid = NEW.sbf_zc_zj_unpaid + NEW.ywf_zc_zj_unpaid + NEW.lwf_zc_zj_unpaid + NEW.clf_zc_zj_unpaid + NEW.kyhdf_zc_zj_unpaid + NEW.kyfwf_zc_zj_unpaid + NEW.ryhlwbzf_zc_zj_unpaid
+-- 									+ NEW.zlf_zc_jj_unpaid + NEW.others_zc_unpaid + NEW.sbf_zc_jj_unpaid + NEW.clf_zc_jj_unpaid + NEW.glf_zc_jj_unpaid + NEW.fwzjf_zc_jj_unpaid + NEW.rcsdnf_zc_jj_unpaid + NEW.zlf_zc_jj_unpaid + NEW.sjybcjf_zc_jj_unpaid + NEW.cshyjgf_zc_jj_unpaid
+-- 									+ NEW.rldlf_zc_jj_unpaid + NEW.bgf_zc_jj_unpaid + NEW.yscbf_zc_jj_unpaid + NEW.zscqswf_zc_jj_unpaid + NEW.clsyf_zc_jj_unpaid + NEW.chlf_zc_jj_unpaid + NEW.hyhwf_zc_jj_unpaid + NEW.zjzxf_zc_jj_unpaid;
+
+   	-- 更新专项经费总额_未支付
+	SET NEW.total_funds_zx_unpaid = NEW.total_funds_zx_zj_unpaid + NEW.total_funds_zx_jj_unpaid;
+
+	-- 更新自筹经费总额_未支付
+	SET NEW.total_funds_zc_unpaid = NEW.total_funds_zc_zj_unpaid + NEW.total_funds_zc_jj_unpaid;
 
     -- 更新项目经费总额_未支付
 	SET NEW.total_funds_all_unpaid = NEW.total_funds_zj_unpaid + NEW.total_funds_jj_unpaid;
