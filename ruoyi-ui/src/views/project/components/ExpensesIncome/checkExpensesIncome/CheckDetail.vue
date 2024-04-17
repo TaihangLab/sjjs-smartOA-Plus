@@ -213,7 +213,10 @@ export default {
         handleTabClick(tab) {
             if (tab.name === 'second') {
                 this.checkExpenditureEntryDetail();
-            }else if (tab.name === 'fourth'){
+            }else if (tab.name === 'third'){
+                this.checkFundsReceivedDetail();
+            }
+            else if (tab.name === 'fourth'){
                 this.checkOther();
             }
         },
