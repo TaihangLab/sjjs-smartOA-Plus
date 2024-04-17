@@ -863,12 +863,12 @@ public class ProjectBalancePaid implements Serializable {
     /**
      * 间接费用_其他支出_专项_已支付
      */
-    @PaidFieldDescription("间接费用_其他支出_专项")
+    @PaidFieldDescription("其他支出_专项_间接")
     private BigDecimal othersZxPaid;
     /**
      * 间接费用_其他支出_自筹_已支付
      */
-    @PaidFieldDescription("间接费用_其他支出_自筹")
+    @PaidFieldDescription("其他支出_自筹_间接")
     private BigDecimal othersZcPaid;
     /**
      * 设备费_间接_已支付
