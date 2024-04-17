@@ -3,15 +3,11 @@ package com.ruoyi.project.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ruoyi.common.enums.ProjectMilestoneTypeEnum;
 import com.ruoyi.common.utils.BeanCopyUtils;
-import com.ruoyi.project.domain.ProjectFunds;
 import com.ruoyi.project.domain.ProjectFundsReceived;
 import com.ruoyi.project.domain.ProjectMilestoneOss;
-import com.ruoyi.project.domain.bo.ProjectFundsBO;
 import com.ruoyi.project.domain.bo.ProjectMilestoneBo;
 import com.ruoyi.project.domain.vo.ProjectFundsReceivedVo;
-import com.ruoyi.project.domain.vo.ProjectMilestoneVo;
 import com.ruoyi.project.mapper.ProjectFundsReceivedMapper;
-import com.ruoyi.project.mapper.ProjectMilestoneMapper;
 import com.ruoyi.project.mapper.ProjectMilestoneOssMapper;
 import com.ruoyi.project.service.ProjectFundsReceivedService;
 import com.ruoyi.project.service.ProjectFundsService;
@@ -51,7 +47,6 @@ public class ProjectFundsReceivedServiceImpl implements ProjectFundsReceivedServ
     private final ProjectMilestoneOssMapper projectMilestoneOssMapper;
 
     private final SysOssMapper sysOssMapper;
-
 
 
     /**
@@ -98,7 +93,7 @@ public class ProjectFundsReceivedServiceImpl implements ProjectFundsReceivedServ
         // 设置大事记标题为“专项经费到账”
         milestoneBo.setMilestoneTitle("专项经费到账");
         // 设置大事记备注，包括到账日期、到账金额和来款单位信息
-        milestoneBo.setMilestoneRemark("专项经费到账日期：" + receivedDate.toString() + ", 到账金额：" + amountReceived.toString() + ", 到账类型：" + receivedFrom+" 。");
+        milestoneBo.setMilestoneRemark("专项经费到账日期：" + receivedDate.toString() + ", 到账金额：" + amountReceived.toString() + ", 经费来源：" + receivedFrom + ", 到账类型：" + ProjectMilestoneTypeEnum.SPECIAL_FUNDS.getDescription() + " 。");
         // 如果存在ossId，则创建一个ossIds列表，并将ossId加入列表，再设置给大事记对象
         if (!fundsReceived.getOssIds().isEmpty()) {
             List<Long> ossIds = new ArrayList<>(fundsReceived.getOssIds());
@@ -127,6 +122,7 @@ public class ProjectFundsReceivedServiceImpl implements ProjectFundsReceivedServ
 
     /**
      * 根据ID删除专项经费到账信息
+     *
      * @param receivedId 到账ID
      * @return
      */
@@ -150,6 +146,7 @@ public class ProjectFundsReceivedServiceImpl implements ProjectFundsReceivedServ
      */
     @Override
     public List<ProjectFundsReceivedVo> getFundsReceivedByProId(Long projectId) {
+
 
         List<ProjectFundsReceived> projectFundsReceiveds = projectFundsReceivedMapper.selectList(
             new LambdaQueryWrapper<ProjectFundsReceived>()
@@ -195,7 +192,7 @@ public class ProjectFundsReceivedServiceImpl implements ProjectFundsReceivedServ
         }
 
         //更新project_funds中的totalFundsZxDk
-        projectFundsService.updateTotalFundsZxDk(totalAmount,projectId);
+        projectFundsService.updateTotalFundsZxDk(totalAmount, projectId);
     }
 
 }
