@@ -173,10 +173,10 @@ public class ProjectExpenditureServiceImpl implements ProjectExpenditureService{
         //获取已支付余额
         String paidField = paidReverseMapping.get(field);
         BigDecimal paid = (BigDecimal)FieldUtils.readField(projectBalancePaid, paidField, true);
-        if (expenditure.compareTo(paid) > 0) {
-            log.error("回滚支付经费超出已支付余额");
-            throw new ServiceException("回滚支付经费超出已支付余额,凭证号为:" + projectExpenditure.getVoucherNo());
-        }
+        //        if (expenditure.compareTo(paid) > 0) {
+        //            log.error("回滚支付经费超出已支付余额");
+        //            throw new ServiceException("回滚支付经费超出已支付余额,凭证号为:" + projectExpenditure.getVoucherNo());
+        //        }
         //回滚已支付余额
         FieldUtils.writeField(projectBalancePaid, paidField, paid.subtract(expenditure), true);
         String unpaidField = unpaidReverseMapping.get(field);
@@ -197,6 +197,7 @@ public class ProjectExpenditureServiceImpl implements ProjectExpenditureService{
      * @param projectId
      * @return
      */
+    @Override
     public List<ProjectExpenditureVO> getProjectExpenditureByProId(Long projectId) {
         return projectExpenditureMapper.selectVoList(new LambdaQueryWrapper<ProjectExpenditure>()
             .eq(ProjectExpenditure::getProjectId,projectId));
