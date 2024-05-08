@@ -99,10 +99,10 @@ public class ProjectExpenditureServiceImpl implements ProjectExpenditureService{
         //获取未支付余额
         String unpaidField = unpaidReverseMapping.get(field);
         BigDecimal unpaid = (BigDecimal)FieldUtils.readField(projectBalanceUnpaid, unpaidField, true);
-        if (expenditure.compareTo(unpaid) > 0) {
-            log.error("支付经费超出余额");
-            throw new ServiceException("支付经费超出余额,凭证号为:" + projectExpenditureBO.getVoucherNo());
-        }
+        //        if (expenditure.compareTo(unpaid) > 0) {
+        //            log.error("支付经费超出余额");
+        //            throw new ServiceException("支付经费超出余额,凭证号为:" + projectExpenditureBO.getVoucherNo());
+        //        }
         //扣减未支付余额
         FieldUtils.writeField(projectBalanceUnpaid, unpaidField, unpaid.subtract(expenditure), true);
         String paidField = paidReverseMapping.get(field);
