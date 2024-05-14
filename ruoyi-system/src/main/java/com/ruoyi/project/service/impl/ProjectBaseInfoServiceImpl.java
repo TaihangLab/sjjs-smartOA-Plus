@@ -151,7 +151,11 @@ public class ProjectBaseInfoServiceImpl implements ProjectBaseInfoService {
         return TableDataInfo.build(result);
     }
 
-
+    @Override
+    public <C> Page<C> queryPageAllList(ProjectBaseInfoBO projectBaseInfoBO, PageQuery pageQuery, Class<C> voClass) {
+        LambdaQueryWrapper<ProjectBaseInfo> lqw = buildAllListQueryWrapper(projectBaseInfoBO);
+        return projectBaseInfoMapper.selectVoPage(pageQuery.build(), lqw, voClass);
+    }
 
     /**
      * @param projectBaseInfoBO

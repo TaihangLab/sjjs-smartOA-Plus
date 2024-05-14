@@ -41,7 +41,7 @@ public class ProjectFundsManagementServiceImpl implements ProjectFundsManagement
     public TableDataInfo<ProjectFundsManagementVO> queryPageList(ProjectBaseInfoBO projectBaseInfoBO,
         PageQuery pageQuery) {
         Page<ProjectFundsManagementVO> page =
-            projectBaseInfoService.queryPageMyList(projectBaseInfoBO, pageQuery, ProjectFundsManagementVO.class);
+            projectBaseInfoService.queryPageAllList(projectBaseInfoBO, pageQuery, ProjectFundsManagementVO.class);
         buildRecords(page.getRecords());
         return TableDataInfo.build(page);
     }
