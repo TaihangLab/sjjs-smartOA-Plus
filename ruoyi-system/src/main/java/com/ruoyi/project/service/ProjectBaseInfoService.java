@@ -7,7 +7,6 @@ import com.ruoyi.project.domain.ProjectBaseInfo;
 import com.ruoyi.project.domain.bo.ProjectBaseInfoBO;
 import com.ruoyi.project.domain.vo.ProjectBaseInfoVO;
 import com.ruoyi.project.domain.vo.ProjectInfoVO;
-import liquibase.pro.packaged.C;
 
 import java.util.List;
 import java.util.Map;
@@ -73,6 +72,16 @@ public interface ProjectBaseInfoService {
     TableDataInfo<ProjectBaseInfoVO> queryPageAllList(ProjectBaseInfoBO projectBaseInfoBO, PageQuery pageQuery);
 
     /**
+     * @param projectBaseInfoBO
+     * @param pageQuery
+     * @param voClass
+     *
+     * @return {@link TableDataInfo }<{@link ProjectBaseInfoVO }>
+     */
+    <C> Page<C> queryPageAllList(ProjectBaseInfoBO projectBaseInfoBO, PageQuery pageQuery, Class<C> voClass);
+
+
+    /**
      * 获取我的项目列表
      *
      * @param projectBaseInfoBO
@@ -91,7 +100,7 @@ public interface ProjectBaseInfoService {
      *
      * @return {@link Page}<{@link C}>
      */
-    public <C> Page<C> queryPageMyList(ProjectBaseInfoBO projectBaseInfoBO, PageQuery pageQuery,Class<C> voClass);
+    <C> Page<C> queryPageMyList(ProjectBaseInfoBO projectBaseInfoBO, PageQuery pageQuery, Class<C> voClass);
 
     /**
      * 获取项目id和名称的映射

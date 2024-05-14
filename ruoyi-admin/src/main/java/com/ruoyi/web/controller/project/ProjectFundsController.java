@@ -1,5 +1,6 @@
 package com.ruoyi.web.controller.project;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.domain.R;
@@ -56,7 +57,7 @@ public class ProjectFundsController {
      *
      * @return {@link TableDataInfo}<{@link ProjectFundsManagementVO}>
      */
-    //    @SaCheckPermission("project:funds:getAllList")
+    @SaCheckPermission("project:funds:getAllList")
     @PostMapping("/getProjectList")
     public TableDataInfo<ProjectFundsManagementVO> getProjectList(@RequestBody@Validated(
         QueryGroup.class) ProjectBaseInfoBO projectBaseInfoBO, PageQuery pageQuery){
