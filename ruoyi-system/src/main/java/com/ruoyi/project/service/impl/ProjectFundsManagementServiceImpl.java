@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ProjectFundsManagementServiceImpl implements ProjectFundsManagementService {
+
     private final ProjectBaseInfoService projectBaseInfoService;
 
     private final ProjectBalanceService projectBalanceService;

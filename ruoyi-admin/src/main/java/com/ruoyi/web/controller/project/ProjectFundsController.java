@@ -55,7 +55,8 @@ public class ProjectFundsController {
      * @param pageQuery
      *
      * @return {@link TableDataInfo}<{@link ProjectFundsManagementVO}>
-     *///    @SaCheckPermission("project:funds:getAllList")
+     */
+    //    @SaCheckPermission("project:funds:getAllList")
     @PostMapping("/getProjectList")
     public TableDataInfo<ProjectFundsManagementVO> getProjectList(@RequestBody@Validated(
         QueryGroup.class) ProjectBaseInfoBO projectBaseInfoBO, PageQuery pageQuery){

@@ -483,7 +483,7 @@ SET zjzxf_zx_jj_unpaid = NEW.zjzxf_zx_jj - (SELECT zjzxf_zx_jj_paid FROM project
 WHERE funds_id = NEW.funds_id;
 
 UPDATE project_balance_unpaid
-SET zjzxf_zx_jj_unpaid = NEW.zjzxf_zx_jj - (SELECT zjzxf_zx_jj_paid FROM project_balance_paid WHERE funds_id = NEW.funds_id)
+SET zjzxf_zc_jj_unpaid = NEW.zjzxf_zc_jj - (SELECT zjzxf_zc_jj_paid FROM project_balance_paid WHERE funds_id = NEW.funds_id)
 WHERE funds_id = NEW.funds_id;
 
 end
