@@ -2,14 +2,14 @@
     <div >
         <el-row :gutter="10" class="mb8">
             <el-col :span="1.5">
-                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd">新增</el-button>
+                <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['project:expense:receivedAdd']">新增</el-button>
             </el-col>
-            <el-col :span="1.5">
+            <!-- <el-col :span="1.5">
                 <el-button type="success" :disabled="single" plain icon="el-icon-edit" size="mini" @click="handleEdit">修改</el-button>
             </el-col>
             <el-col :span="1.5">
                 <el-button type="danger" :disabled="multiple" plain icon="el-icon-delete" size="mini" @click="handleDelete">删除</el-button>
-            </el-col>
+            </el-col> -->
         </el-row>
         <div style="margin-top: 10px;"></div>
         <el-table v-loading="loading" :data="this.appropriationAccount" @selection-change="handleSelectionChange"
@@ -35,9 +35,9 @@
             </el-table-column>
             <el-table-column :label="'操作'" :resizable="false" align="center" min-width="100px" fixed="right">
                 <template slot-scope="scope">
-                    <el-button size="mini" type="text" icon="el-icon-edit" @click="handleEdit(scope.row)">修改
+                    <el-button size="mini" type="text" icon="el-icon-edit" @click="handleEdit(scope.row)" v-hasPermi="['project:expense:receivedEdit']">修改
                     </el-button>
-                    <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row.receivedId)">删除
+                    <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row.receivedId)" v-hasPermi="['project:expense:receivedDelete']">删除
                     </el-button>
                 </template>
             </el-table-column>

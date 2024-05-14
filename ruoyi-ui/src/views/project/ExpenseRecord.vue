@@ -1,6 +1,7 @@
 <template>
     <div>
-        <el-form ref="dataForm" :inline="true" :model="myProjectFrom" class="demo-form-inline" style="margin-left: 30px; margin-top: 20px;">
+        <el-form ref="dataForm" :inline="true" :model="myProjectFrom" class="demo-form-inline"
+            style="margin-left: 30px; margin-top: 20px;">
             <el-form-item label="项目名称">
                 <el-input v-model="datas.assignedSubjectName" clearable placeholder="请输入项目名称"
                     @keyup.enter.native="handleQuery"></el-input>
@@ -56,20 +57,20 @@
                     <el-table-column label="操作" :resizable="false" align="center" min-width="250px" fixed="right">
                         <template v-slot="scope">
                             <el-button size="mini" type="text" icon="el-icon-tickets"
-                                @click="lookDetail(scope.row.projectId)">详情</el-button>
+                                @click="lookDetail(scope.row.projectId)" v-hasPermi="['project:expense:detail']">详情</el-button>
                             <el-dropdown size="mini" @command="handleDropdownCommand">
                                 <el-button size="mini" type="text" icon="el-icon-notebook-2">支出录入</el-button>
                                 <el-dropdown-menu v-slot="dropdown">
                                     <el-dropdown-item :command="{ 'command': 'view', 'row': scope.row }"
-                                        icon="el-icon-view">查看
+                                        icon="el-icon-view" v-hasPermi="['project:expense:view']">查看
                                     </el-dropdown-item>
                                     <el-dropdown-item :command="{ 'command': 'add', 'row': scope.row }"
-                                        icon="el-icon-document-add">录入
+                                        icon="el-icon-document-add" v-hasPermi="['project:expense:add']">录入
                                     </el-dropdown-item>
                                 </el-dropdown-menu>
                             </el-dropdown>
                             <el-button size="mini" type="text" icon="el-icon-finished"
-                                @click="handleIncome(scope.row.projectId)">经费到账
+                                @click="handleIncome(scope.row.projectId)" v-hasPermi="['project:expense:received']">经费到账
                             </el-button>
                         </template>
                     </el-table-column>
@@ -103,7 +104,6 @@
 </template>
 
 <script>
-import { listUser, deptTreeSelect } from "@/api/system/user";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 import request from '@/utils/request';
 import AppropriationAccount from "@/views/project/components/ExpensesIncome/AppropriationAccount.vue";
@@ -154,7 +154,7 @@ export default {
                     label: '企业级'
                 }
             ],
-            projectLevel:[],
+            projectLevel: [],
             myProjectFrom: {},
             formLook: {},
             pickerOptions: {}
@@ -202,8 +202,8 @@ export default {
         async getDeptAndUserList() {
             // this.queryParam.pageNum = 1;
             // this.queryParam.pageSize = 10;
-            await this.getDeptTree(); // 等待部门数据加载完成
-            await this.getList(); // 等待用户数据加载完成
+            // await this.getDeptTree(); // 等待部门数据加载完成
+            // await this.getList(); // 等待用户数据加载完成
             this.cascaderOptions = this.adaptData(this.deptOptions);
         },
         // 适配数据的方法
@@ -238,15 +238,15 @@ export default {
             this.checkfunds();
         },
         // 处理按钮点击事件重置
-        resetQuery(){
-        // 重置查询参数
-        this.queryParam.pageNum = 1;
-        this.queryParam.pageSize = 10;
-        this.projectLevel = [];
-        this.datas.assignedSubjectName = undefined;
-        this.datas.assignedSubjectSection = undefined;
-        this.checkfunds();
-    },
+        resetQuery() {
+            // 重置查询参数
+            this.queryParam.pageNum = 1;
+            this.queryParam.pageSize = 10;
+            this.projectLevel = [];
+            this.datas.assignedSubjectName = undefined;
+            this.datas.assignedSubjectSection = undefined;
+            this.checkfunds();
+        },
         lookDetail(projectId) {
             this.dialogDetailLook = true;
             this.projectId = projectId;
@@ -335,7 +335,6 @@ export default {
             this.checkfunds();
         },
     },
-
 };
 </script>
 

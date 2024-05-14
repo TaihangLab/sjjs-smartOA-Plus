@@ -321,7 +321,6 @@ export default {
         },
         // 查看经费到账
         checkFundsReceivedDetail() {
-            // 使用正确的用户列表接口，假设接口为 /user/list
             request({
                 url: '/project/funds/getFundsReceived',
                 method: 'get',
@@ -340,7 +339,6 @@ export default {
         },
         // 查看其他
         checkOther() {
-            // 使用正确的用户列表接口，假设接口为 /user/list
             request({
                 url: '/project/balance/fundsAndBalance',
                 method: 'get',

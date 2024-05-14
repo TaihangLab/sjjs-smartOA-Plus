@@ -39,7 +39,7 @@
             <el-table-column :label="'操作'" :resizable="false" align="center" min-width="80px">
                 <template slot-scope="scope">
                     <el-button size="mini" type="text" icon="el-icon-refresh-left" fixed="right"
-                        @click="confirmDeleteExpenditure(scope.row.expenditureId)">撤销
+                        @click="confirmDeleteExpenditure(scope.row.expenditureId)" v-hasPermi="['project:expense:cancel']">撤销
                     </el-button>
                 </template>
             </el-table-column>
