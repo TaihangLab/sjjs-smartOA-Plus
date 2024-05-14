@@ -1,10 +1,10 @@
 CREATE DEFINER=`root`@`%` TRIGGER `update_balance_unpaid_sum_change` BEFORE UPDATE ON `project_balance_unpaid` FOR EACH ROW BEGIN
 
-                                                                            -- 更新设备费_专项_直接_未支付
-                                                                            SET NEW.sbf_zx_zj_unpaid = NEW.sbf_gzsb_zx_zj_unpaid + NEW.sbf_szsb_zx_zj_unpaid + NEW.sbf_sbsjgz_zx_zj_unpaid + NEW.sbf_sbzl_zx_zj_unpaid;
+    -- 更新设备费_专项_直接_未支付
+    SET NEW.sbf_zx_zj_unpaid = NEW.sbf_gzsb_zx_zj_unpaid + NEW.sbf_szsb_zx_zj_unpaid + NEW.sbf_sbsjgz_zx_zj_unpaid + NEW.sbf_sbzl_zx_zj_unpaid;
 
--- 更新设备费_自筹_直接_未支付
-SET NEW.sbf_zc_zj_unpaid = NEW.sbf_gzsb_zc_zj_unpaid + NEW.sbf_szsb_zc_zj_unpaid + NEW.sbf_sbsjgz_zc_zj_unpaid + NEW.sbf_sbzl_zc_zj_unpaid;
+    -- 更新设备费_自筹_直接_未支付
+    SET NEW.sbf_zc_zj_unpaid = NEW.sbf_gzsb_zc_zj_unpaid + NEW.sbf_szsb_zc_zj_unpaid + NEW.sbf_sbsjgz_zc_zj_unpaid + NEW.sbf_sbzl_zc_zj_unpaid;
 
     -- 更新设备费_购置设备费_直接_未支付
 	SET NEW.sbf_gzsb_zj_unpaid = NEW.sbf_gzsb_zx_zj_unpaid + NEW.sbf_gzsb_zc_zj_unpaid;
