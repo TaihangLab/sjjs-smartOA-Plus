@@ -16,7 +16,7 @@
         </el-row>
         <el-table ref="multipleTable" :data="da" border style="width: 100%; max-height: 500px; overflow-y: auto;"
             :row-style="{ height: '50px' }" :cell-style="{ padding: '0px' }">
-            <el-table-column label="日期" :resizable="false" align="center">
+            <el-table-column label="日期" :resizable="false" align="center" width="100px">
                 <!-- 使用 slot-scope 定制显示日期 -->
                 <template slot-scope="scope">
                     {{ formatDate(scope.row.expenditureDate) }}
@@ -26,19 +26,19 @@
             </el-table-column>
             <el-table-column label="凭证号" :resizable="false" align="center" prop="voucherNo" width="100px">
             </el-table-column>
-            <el-table-column label="摘要" :resizable="false" align="center" prop="expenditureAbstract" min-width="400px">
+            <el-table-column label="摘要" :resizable="false" align="center" prop="expenditureAbstract" min-width="200px">
             </el-table-column>
             <el-table-column label="专项/自筹" :resizable="false" align="center" prop="zxzc" :formatter="zxzcFormatter">
             </el-table-column>
             <el-table-column label="直接/间接" :resizable="false" align="center" prop="zjjj" :formatter="zjjjFormatter">
             </el-table-column>
-            <el-table-column label="一级科目" :resizable="false" align="center" prop="firstLevelSubject"
+            <el-table-column label="一级科目" :resizable="false" align="center" prop="firstLevelSubject" width="150px"
                 :formatter="firstLevelSubjectFormatter">
             </el-table-column>
-            <el-table-column label="二级科目" :resizable="false" align="center" prop="secondLevelSubject"
+            <el-table-column label="二级科目" :resizable="false" align="center" prop="secondLevelSubject" width="150px"
                 :formatter="secondLevelSubjectFormatter">
             </el-table-column>
-            <el-table-column label="三级科目" :resizable="false" align="center" prop="thirdLevelSubject"
+            <el-table-column label="三级科目" :resizable="false" align="center" prop="thirdLevelSubject" width="150px"
                 :formatter="thirdLevelSubjectFormatter">
             </el-table-column>
             <el-table-column :resizable="false" align="center" prop="amount" width="150px">

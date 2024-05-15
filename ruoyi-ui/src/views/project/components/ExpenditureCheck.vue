@@ -11,22 +11,24 @@
             </el-table-column>
             <el-table-column label="项目名称" :resizable="false" align="center" prop="projectName" width="250px">
             </el-table-column>
-            <el-table-column label="凭证号" :resizable="false" align="center" prop="voucherNo" width="80px">
+            <el-table-column label="凭证号" :resizable="false" align="center" prop="voucherNo" width="100px">
             </el-table-column>
-            <el-table-column label="摘要" :resizable="false" align="center" prop="expenditureAbstract" min-width="400px">
+            <el-table-column label="摘要" :resizable="false" align="center" prop="expenditureAbstract" min-width="200px">
             </el-table-column>
             <el-table-column label="专项/自筹" :resizable="false" align="center" prop="zxzc" :formatter="zxzcFormatter">
             </el-table-column>
-            <el-table-column label="一级科目" :resizable="false" align="center" prop="firstLevelSubject"
+            <el-table-column label="直接/间接" :resizable="false" align="center" prop="zjjj" :formatter="zjjjFormatter">
+            </el-table-column>
+            <el-table-column label="一级科目" :resizable="false" align="center" prop="firstLevelSubject" width="150px"
                 :formatter="firstLevelSubjectFormatter">
             </el-table-column>
-            <el-table-column label="二级科目" :resizable="false" align="center" prop="secondLevelSubject"
+            <el-table-column label="二级科目" :resizable="false" align="center" prop="secondLevelSubject" width="150px"
                 :formatter="secondLevelSubjectFormatter">
             </el-table-column>
-            <el-table-column label="三级科目" :resizable="false" align="center" prop="secondLevelSubject"
+            <el-table-column label="三级科目" :resizable="false" align="center" prop="thirdLevelSubject" width="150px"
                 :formatter="thirdLevelSubjectFormatter">
             </el-table-column>
-            <el-table-column :resizable="false" align="center" prop="amount" width="100px">
+            <el-table-column :resizable="false" align="center" prop="amount" width="150px">
                 <template slot="header" slot-scope="scope">
                     <div style="text-align: center;">
                         <span>金额</span>
@@ -36,10 +38,11 @@
             </el-table-column>
             <el-table-column label="导入时间" :resizable="false" align="center" prop="createTime" width="160px">
             </el-table-column>
-            <el-table-column :label="'操作'" :resizable="false" align="center" min-width="80px">
+            <el-table-column :label="'操作'" :resizable="false" align="center" min-width="80px" fixed="right">
                 <template slot-scope="scope">
-                    <el-button size="mini" type="text" icon="el-icon-refresh-left" fixed="right"
-                        @click="confirmDeleteExpenditure(scope.row.expenditureId)" v-hasPermi="['project:expense:cancel']">撤销
+                    <el-button size="mini" type="text" icon="el-icon-refresh-left"
+                        @click="confirmDeleteExpenditure(scope.row.expenditureId)"
+                        v-hasPermi="['project:expense:cancel']">撤销
                     </el-button>
                 </template>
             </el-table-column>

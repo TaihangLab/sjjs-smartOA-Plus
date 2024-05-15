@@ -24,7 +24,7 @@
                 <el-table ref="multipleTable" :data="projectlist" border style="width: 100%"
                     :row-style="{ height: '50px' }" :cell-style="{ padding: '0px' }">
                     <!--                 <el-table-column type="selection" :resizable="false" align="center" width="40"></el-table-column>-->
-                    <el-table-column label="项目名称" :resizable="false" align="center" prop="assignedSubjectName"
+                    <el-table-column label="项目名称" :resizable="false" align="center" prop="assignedSubjectName" fixed="left"
                         width="300">
                     </el-table-column>
                     <el-table-column label="课题名称" :resizable="false" align="center" prop="assignedSubjectSection"

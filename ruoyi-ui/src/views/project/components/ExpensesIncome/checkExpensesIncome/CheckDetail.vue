@@ -7,80 +7,80 @@
                 <el-descriptions class="margin-top" title="" :column="3" :size="size" :labelStyle="{ width: '15%' }"
                     :contentStyle="{ width: '20%' }" border>
                     <el-descriptions-item label="项目名称">{{
-                    this.lookDetail.projectInfoVO.assignedSubjectName
+                        this.lookDetail.projectInfoVO.assignedSubjectName
                         }}
                     </el-descriptions-item>
                     <el-descriptions-item label="项目任务书编号">{{
                         this.lookDetail.projectInfoVO.projectAssignmentSerialNo
-                    }}
+                        }}
                     </el-descriptions-item>
                     <el-descriptions-item label="负责课题">{{
                         this.lookDetail.projectInfoVO.assignedSubjectSection
-                    }}
+                        }}
                     </el-descriptions-item>
                     <el-descriptions-item label="课题任务书编号">{{
                         this.lookDetail.projectInfoVO.subjectAssignmentSerialNo
-                    }}
+                        }}
                     </el-descriptions-item>
                     <el-descriptions-item label="项目牵头单位">{{
                         this.lookDetail.projectInfoVO.leadingUnit
-                    }}
+                        }}
                     </el-descriptions-item>
                     <el-descriptions-item label="是否牵头单位">{{
                         this.hasLeading[this.lookDetail.projectInfoVO.hasLeadingRole]
-                    }}
+                        }}
                     </el-descriptions-item>
                     <el-descriptions-item label="项目专员/联系人">{{
-                            this.lookDetail.projectInfoVO.projectContact
-                        }}
-                        </el-descriptions-item>
-                        <el-descriptions-item label="项目级别">{{
-                            this.projectLevel[this.lookDetail.projectInfoVO.projectLevel]
-                        }}
-                        </el-descriptions-item>
-                        <el-descriptions-item label="项目来源">{{
-                            this.lookDetail.projectInfoVO.projectSource
-                        }}
-                        </el-descriptions-item>
-                        <el-descriptions-item label="立项时间">{{
-                            this.lookDetail.projectInfoVO.projectEstablishTime
-                        }}
-                        </el-descriptions-item>
-                        <el-descriptions-item label="项目计划验收时间">{{
-                            this.lookDetail.projectInfoVO.projectScheduledCompletionTime
-                        }}
-                        </el-descriptions-item>
-                        <el-descriptions-item label="项目执行时间（年）">{{
-                            this.lookDetail.projectInfoVO.projectDuration
-                        }}
-                        </el-descriptions-item>
-                        <el-descriptions-item label="项目推进情况">{{
-                            this.projectProgressStatus[this.lookDetail.projectInfoVO.projectProgressStatus]
-                        }}
-                        </el-descriptions-item>
-                        <el-descriptions-item label="合作单位">{{
-                            this.lookDetail.projectInfoVO.collaboratingUnit
-                        }}
-                        </el-descriptions-item>
-                        <el-descriptions-item label="涉及专家、团队">{{
-                            this.lookDetail.projectInfoVO.expertTeam
-                        }}
-                        </el-descriptions-item>
-                        <el-descriptions-item label="项目经费总额">{{
-                            this.lookDetail.projectFundsVO.totalFundsAll
-                        }}
-                        </el-descriptions-item>
-<!--                        <el-descriptions-item>{{ }}</el-descriptions-item>-->
-                        <el-descriptions-item label="专项经费">{{
-                            this.lookDetail.projectFundsVO.totalFundsZx
-                        }}
-                        </el-descriptions-item>
-                        <el-descriptions-item label="自筹经费">{{
-                            this.lookDetail.projectFundsVO.totalFundsZc
-                        }}
-                        </el-descriptions-item>
+                        this.lookDetail.projectInfoVO.projectContact
+                    }}
+                    </el-descriptions-item>
+                    <el-descriptions-item label="项目级别">{{
+                        this.projectLevel[this.lookDetail.projectInfoVO.projectLevel]
+                    }}
+                    </el-descriptions-item>
+                    <el-descriptions-item label="项目来源">{{
+                        this.lookDetail.projectInfoVO.projectSource
+                    }}
+                    </el-descriptions-item>
+                    <el-descriptions-item label="立项时间">{{
+                        this.lookDetail.projectInfoVO.projectEstablishTime
+                    }}
+                    </el-descriptions-item>
+                    <el-descriptions-item label="项目计划验收时间">{{
+                        this.lookDetail.projectInfoVO.projectScheduledCompletionTime
+                    }}
+                    </el-descriptions-item>
+                    <el-descriptions-item label="项目执行时间（年）">{{
+                        this.lookDetail.projectInfoVO.projectDuration
+                    }}
+                    </el-descriptions-item>
+                    <el-descriptions-item label="项目推进情况">{{
+                        this.projectProgressStatus[this.lookDetail.projectInfoVO.projectProgressStatus]
+                    }}
+                    </el-descriptions-item>
+                    <el-descriptions-item label="合作单位">{{
+                        this.lookDetail.projectInfoVO.collaboratingUnit
+                    }}
+                    </el-descriptions-item>
+                    <el-descriptions-item label="涉及专家、团队">{{
+                        this.lookDetail.projectInfoVO.expertTeam
+                    }}
+                    </el-descriptions-item>
+                    <el-descriptions-item label="项目经费总额">{{
+                        this.lookDetail.projectFundsVO.totalFundsAll
+                    }}
+                    </el-descriptions-item>
+                    <!--                        <el-descriptions-item>{{ }}</el-descriptions-item>-->
+                    <el-descriptions-item label="专项经费">{{
+                        this.lookDetail.projectFundsVO.totalFundsZx
+                    }}
+                    </el-descriptions-item>
+                    <el-descriptions-item label="自筹经费">{{
+                        this.lookDetail.projectFundsVO.totalFundsZc
+                    }}
+                    </el-descriptions-item>
                 </el-descriptions>
-                <el-collapse >
+                <el-collapse>
                     <el-collapse>
                         <el-collapse-item style="font-size: 20px;" name="2">
                             <template slot="title">
@@ -93,12 +93,12 @@
                     </el-collapse>
                 </el-collapse>
             </el-tab-pane>
-            <el-tab-pane label="支出信息" name="second">
+            <el-tab-pane label="支出明细" name="second">
                 <div style="margin-top: 10px;"></div>
                 <el-table ref="multipleTable" :data="expenditureEntry" border
                     style="width: 100%; max-height: 500px; overflow-y: auto;" :row-style="{ height: '50px' }"
                     :cell-style="{ padding: '0px' }">
-                    <el-table-column label="日期" :resizable="false" align="center">
+                    <el-table-column label="日期" :resizable="false" align="center" width="100px">
                         <!-- 使用 slot-scope 定制显示日期 -->
                         <template slot-scope="scope">
                             {{ formatDate(scope.row.expenditureDate) }}
@@ -109,19 +109,22 @@
                     <el-table-column label="凭证号" :resizable="false" align="center" prop="voucherNo" width="100px">
                     </el-table-column>
                     <el-table-column label="摘要" :resizable="false" align="center" prop="expenditureAbstract"
-                        min-width="400px">
+                        min-width="200px">
                     </el-table-column>
                     <el-table-column label="专项/自筹" :resizable="false" align="center" prop="zxzc"
                         :formatter="zxzcFormatter">
                     </el-table-column>
+                    <el-table-column label="直接/间接" :resizable="false" align="center" prop="zjjj"
+                        :formatter="zjjjFormatter">
+                    </el-table-column>
                     <el-table-column label="一级科目" :resizable="false" align="center" prop="firstLevelSubject"
-                        :formatter="firstLevelSubjectFormatter">
+                        width="150px" :formatter="firstLevelSubjectFormatter">
                     </el-table-column>
                     <el-table-column label="二级科目" :resizable="false" align="center" prop="secondLevelSubject"
-                        :formatter="secondLevelSubjectFormatter">
+                        width="150px" :formatter="secondLevelSubjectFormatter">
                     </el-table-column>
-                    <el-table-column label="三级科目" :resizable="false" align="center" prop="secondLevelSubject"
-                        :formatter="secondLevelSubjectFormatter">
+                    <el-table-column label="三级科目" :resizable="false" align="center" prop="thirdLevelSubject"
+                        width="150px" :formatter="thirdLevelSubjectFormatter">
                     </el-table-column>
                     <el-table-column :resizable="false" align="center" prop="amount" width="150px">
                         <template slot="header" slot-scope="scope">
@@ -137,8 +140,8 @@
                 <CheckAppropriationAccount :appropriationAccount="this.appropriationAccount">
                 </CheckAppropriationAccount>
             </el-tab-pane>
-            <el-tab-pane label="其他" name="fourth">
-                <FundSituation  :checkOthers="this.checkOthers">
+            <el-tab-pane label="经费支出情况" name="fourth">
+                <FundSituation :checkOthers="this.checkOthers">
                 </FundSituation>
             </el-tab-pane>
         </el-tabs>
@@ -152,7 +155,7 @@ import FundSituation from "@/views/project/components/ExpensesIncome/checkExpens
 
 export default {
     name: "CheckDetail",
-    components: {CheckAppropriationAccount,FundSituation},
+    components: { CheckAppropriationAccount, FundSituation },
     props: {
         projectId: {
             type: [Number, String],
@@ -167,7 +170,7 @@ export default {
             checkOthers: undefined,
             appropriationAccount: undefined,
             projectdescription: undefined,
-            expenditureEntry:undefined,
+            expenditureEntry: undefined,
             lookDetail: undefined,
             hasLeading: {
                 0: '否',
@@ -213,10 +216,10 @@ export default {
         handleTabClick(tab) {
             if (tab.name === 'second') {
                 this.checkExpenditureEntryDetail();
-            }else if (tab.name === 'third'){
+            } else if (tab.name === 'third') {
                 this.checkFundsReceivedDetail();
             }
-            else if (tab.name === 'fourth'){
+            else if (tab.name === 'fourth') {
                 this.checkOther();
             }
         },
