@@ -57,7 +57,7 @@ public class ProjectFundsController {
      *
      * @return {@link TableDataInfo}<{@link ProjectFundsManagementVO}>
      */
-    @SaCheckPermission("project:funds:getAllList")
+    @SaCheckPermission("project:expense:getAllList")
     @PostMapping("/getProjectList")
     public TableDataInfo<ProjectFundsManagementVO> getProjectList(@RequestBody@Validated(
         QueryGroup.class) ProjectBaseInfoBO projectBaseInfoBO, PageQuery pageQuery){
@@ -74,7 +74,7 @@ public class ProjectFundsController {
      * @throws Exception
      */
     @Log(title = "经费支出导入", businessType = BusinessType.IMPORT)
-    //    @SaCheckPermission("project:funds:import")
+    @SaCheckPermission("project:expense:import")
     @PostMapping(value = "/importData", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public R<List<ProjectExpenditureImportVO>> importData(@RequestPart("file") MultipartFile file) throws Exception {
         ExcelResult<ProjectExpenditureImportVO> result =
@@ -91,7 +91,7 @@ public class ProjectFundsController {
      * @return {@link R}<{@link Void}>
      */
     @Log(title = "新增支出记录", businessType = BusinessType.INSERT)
-    //    @SaCheckPermission("project:funds:add")
+    @SaCheckPermission("project:expense:add")
     @PostMapping(value = "/add")
     public R<Void> addProjectExpenditureList(
         @RequestBody @Validated(EditGroup.class) List<ProjectExpenditureBO> projectExpenditureBOList) {
@@ -109,7 +109,7 @@ public class ProjectFundsController {
      * @throws IllegalAccessException
      */
     @Log(title = "支出记录回滚", businessType = BusinessType.DELETE)
-    //    @SaCheckPermission("project:funds:add")
+    @SaCheckPermission("project:expense:cancel")
     @GetMapping(value = "/rollback")
     public R<Void> rollBackProjectExpenditure(@RequestParam @NotNull Long expenditureId) throws IllegalAccessException {
         projectExpenditureService.rollBackProjectExpenditureById(expenditureId);
@@ -122,7 +122,7 @@ public class ProjectFundsController {
      * @return
      */
     @Log(title = "新增专项经费到账记录", businessType = BusinessType.INSERT)
-    //    @SaCheckPermission("project:funds:addReceived")
+    @SaCheckPermission("project:expense:receivedAdd")
     @PostMapping(value = "/addFundsReceived")
     public R<Void> addProjectFundsReceived(@RequestBody @Validated(AddGroup.class) ProjectFundsReceived projectFundsReceived) {
         projectFundsReceivedService.addFundsReceived(projectFundsReceived);
@@ -135,7 +135,7 @@ public class ProjectFundsController {
      * @return
      */
     @Log(title = "修改专项经费到账记录", businessType = BusinessType.UPDATE)
-    //    @SaCheckPermission("project:funds:editReceived")
+    @SaCheckPermission("project:expense:receivedEdit")
     @PostMapping(value = "/updateFundsReceived")
     public R<Void> updateFundsReceived(@RequestBody @Validated(AddGroup.class) ProjectFundsReceived projectFundsReceived) {
         projectFundsReceivedService.updateFundsReceived(projectFundsReceived);
@@ -148,7 +148,7 @@ public class ProjectFundsController {
      * @return
      */
     @Log(title = "删除专项经费到账记录", businessType = BusinessType.DELETE)
-    //    @SaCheckPermission("project:funds:deleteReceived")
+    @SaCheckPermission("project:expense:receivedDelete")
     @GetMapping(value = "/deleteFundsReceived")
     public R<Void> deleteFundsReceivedById(@RequestParam @Validated(AddGroup.class) Long receivedId) {
         projectFundsReceivedService.deleteFundsReceivedById(receivedId);
@@ -171,6 +171,7 @@ public class ProjectFundsController {
      * @param projectId 项目ID
      * @return
      */
+    @SaCheckPermission("project:expense:view")
     @GetMapping(value = "/getProjectExpenditure")
     public R<List<ProjectExpenditureVO>> getProjectExpenditureListByProId(@RequestParam @NotNull Long projectId) {
         List<ProjectExpenditureVO> projectExpenditureList =

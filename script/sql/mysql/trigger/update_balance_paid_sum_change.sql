@@ -1,10 +1,10 @@
 CREATE DEFINER=`root`@`%` TRIGGER `update_balance_paid_sum_change` BEFORE UPDATE ON `project_balance_paid` FOR EACH ROW BEGIN
 
-                                                                          -- 更新设备费_专项_直接_已支付
-                                                                          SET NEW.sbf_zx_zj_paid = NEW.sbf_gzsb_zx_zj_paid + NEW.sbf_szsb_zx_zj_paid + NEW.sbf_sbsjgz_zx_zj_paid + NEW.sbf_sbzl_zx_zj_paid;
+    -- 更新设备费_专项_直接_已支付
+    SET NEW.sbf_zx_zj_paid = NEW.sbf_gzsb_zx_zj_paid + NEW.sbf_szsb_zx_zj_paid + NEW.sbf_sbsjgz_zx_zj_paid + NEW.sbf_sbzl_zx_zj_paid;
 
--- 更新设备费_自筹_直接_已支付
-SET NEW.sbf_zc_zj_paid = NEW.sbf_gzsb_zc_zj_paid + NEW.sbf_szsb_zc_zj_paid + NEW.sbf_sbsjgz_zc_zj_paid + NEW.sbf_sbzl_zc_zj_paid;
+    -- 更新设备费_自筹_直接_已支付
+    SET NEW.sbf_zc_zj_paid = NEW.sbf_gzsb_zc_zj_paid + NEW.sbf_szsb_zc_zj_paid + NEW.sbf_sbsjgz_zc_zj_paid + NEW.sbf_sbzl_zc_zj_paid;
 
     -- 更新设备费_购置设备费_直接_已支付
 	SET NEW.sbf_gzsb_zj_paid = NEW.sbf_gzsb_zx_zj_paid + NEW.sbf_gzsb_zc_zj_paid;
