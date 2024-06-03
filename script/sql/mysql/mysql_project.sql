@@ -473,7 +473,7 @@ create index ip_oss_ip_id_oss_id_index
 DROP TABLE IF EXISTS `ip_user`;
 create table ip_user
 (
-    id      bigint not null comment 'id'
+    id bigint auto_increment comment 'id'
         primary key,
     ip_id   bigint not null comment '知识产权id',
     user_id bigint not null comment '成员id'
