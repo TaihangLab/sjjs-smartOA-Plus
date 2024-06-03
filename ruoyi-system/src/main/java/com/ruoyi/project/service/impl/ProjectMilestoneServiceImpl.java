@@ -1,6 +1,5 @@
 package com.ruoyi.project.service.impl;
 
-import cn.hutool.core.lang.Opt;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
@@ -8,12 +7,19 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ruoyi.common.core.domain.PageQuery;
 import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.enums.IntellectualPropertyTypeEnum;
 import com.ruoyi.common.enums.ProjectMilestoneTypeEnum;
 import com.ruoyi.common.utils.BeanCopyUtils;
-import com.ruoyi.project.domain.*;
+import com.ruoyi.ip.domain.bo.IntellectualPropertyBO;
+import com.ruoyi.ip.service.IntellectualPropertyService;
+import com.ruoyi.project.domain.ProjectMilestone;
+import com.ruoyi.project.domain.ProjectMilestoneOss;
+import com.ruoyi.project.domain.ProjectMilestoneType;
 import com.ruoyi.project.domain.bo.ProjectMilestoneBo;
 import com.ruoyi.project.domain.vo.ProjectMilestoneVo;
-import com.ruoyi.project.mapper.*;
+import com.ruoyi.project.mapper.ProjectMilestoneMapper;
+import com.ruoyi.project.mapper.ProjectMilestoneOssMapper;
+import com.ruoyi.project.mapper.ProjectMilestoneTypeMapper;
 import com.ruoyi.project.service.ProjectMilestoneService;
 import com.ruoyi.system.domain.SysOss;
 import com.ruoyi.system.domain.vo.SysOssVo;
@@ -45,6 +51,8 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
 
     private final ProjectMilestoneTypeMapper projectMilestoneTypeMapper;
 
+    private final IntellectualPropertyService intellectualPropertyService;
+
 
     /**
      * 新增单个项目大事记
@@ -60,36 +68,97 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
             throw new IllegalArgumentException("projectMilestoneBo cannot be null");
         }
         ProjectMilestone projectMilestone = new ProjectMilestone();
-
         BeanCopyUtils.copy(projectMilestoneBo, projectMilestone);
 
         // 插入 projectMilestone
         int insertedRows = projectMilestoneMapper.insert(projectMilestone);
-
-        if (insertedRows > 0) {
-            Long milestoneId = projectMilestone.getMilestoneId(); // 获取生成的 milestoneId
-            if (projectMilestoneBo.getProjectMilestoneTypes() != null && !projectMilestoneBo.getProjectMilestoneTypes().isEmpty()) {
-                List<ProjectMilestoneTypeEnum> projectMilestoneTypes = projectMilestoneBo.getProjectMilestoneTypes();
-                projectMilestoneTypes.forEach(projectMilestoneCategoryEnum -> {
-                    ProjectMilestoneType projectMilestoneType = new ProjectMilestoneType();
-                    projectMilestoneType.setMilestoneType(projectMilestoneCategoryEnum);
-                    projectMilestoneType.setMilestoneId(milestoneId);
-                    log.info("projectMilestoneType:{}", projectMilestoneType);
-                    projectMilestoneTypeMapper.insert(projectMilestoneType);
-                });
-            }
-            projectMilestoneBo.setMilestoneId(milestoneId);//给BO对象赋值milestoneId，在经费到账时需要调用
-            if (projectMilestoneBo.getOssIds() != null && !projectMilestoneBo.getOssIds().isEmpty()) {
-                for (Long ossId : projectMilestoneBo.getOssIds()) {
-                    ProjectMilestoneOss projectMilestoneOss = new ProjectMilestoneOss();
-                    projectMilestoneOss.setMilestoneId(milestoneId);
-                    projectMilestoneOss.setOssId(ossId);
-                    projectMilestoneOssMapper.insert(projectMilestoneOss);
-                }
-            }
+        if (insertedRows <= 0) {
+            return insertedRows;
         }
+
+        Long milestoneId = projectMilestone.getMilestoneId(); // 获取生成的 milestoneId
+        projectMilestoneBo.setMilestoneId(milestoneId); // 给BO对象赋值milestoneId，在经费到账时需要调用
+
+        if (projectMilestoneBo.getProjectMilestoneTypes() != null && !projectMilestoneBo.getProjectMilestoneTypes()
+            .isEmpty()) {
+            List<ProjectMilestoneTypeEnum> projectMilestoneTypes = projectMilestoneBo.getProjectMilestoneTypes();
+            boolean hasIntellectualPropertyOnly = projectMilestoneTypes.contains(
+                ProjectMilestoneTypeEnum.INTELLECTUAL_PROPERTY) && !projectMilestoneTypes.contains(
+                ProjectMilestoneTypeEnum.PAPER) && !projectMilestoneTypes.contains(
+                ProjectMilestoneTypeEnum.PATENT) && !projectMilestoneTypes.contains(
+                ProjectMilestoneTypeEnum.SOFTNESS) && !projectMilestoneTypes.contains(
+                ProjectMilestoneTypeEnum.STANDARD);
+
+            if (hasIntellectualPropertyOnly) {
+                IntellectualPropertyBO intellectualPropertyBO = convertToIntellectualPropertyBO(projectMilestoneBo);
+                intellectualPropertyService.insertIntellectualProperty(intellectualPropertyBO);
+            }
+
+            projectMilestoneTypes.forEach(type -> {
+                insertProjectMilestoneType(type, milestoneId);
+                insertIntellectualPropertyIfNecessary(type, projectMilestoneBo);
+            });
+        }
+
+        if (projectMilestoneBo.getOssIds() != null && !projectMilestoneBo.getOssIds().isEmpty()) {
+            projectMilestoneBo.getOssIds().forEach(ossId -> {
+                ProjectMilestoneOss projectMilestoneOss = new ProjectMilestoneOss();
+                projectMilestoneOss.setMilestoneId(milestoneId);
+                projectMilestoneOss.setOssId(ossId);
+                projectMilestoneOssMapper.insert(projectMilestoneOss);
+            });
+        }
+
         return insertedRows;
     }
+
+    private IntellectualPropertyBO convertToIntellectualPropertyBO(ProjectMilestoneBo projectMilestoneBo) {
+        IntellectualPropertyBO intellectualPropertyBO = new IntellectualPropertyBO();
+        intellectualPropertyBO.setProjectId(projectMilestoneBo.getProjectId());
+        intellectualPropertyBO.setIpName(projectMilestoneBo.getMilestoneTitle());
+        intellectualPropertyBO.setIpDate(projectMilestoneBo.getMilestoneDate());
+        intellectualPropertyBO.setOssIdList(projectMilestoneBo.getOssIds());
+        log.info("Converting projectMilestoneBo to intellectualPropertyBO: {}", intellectualPropertyBO);
+        return intellectualPropertyBO;
+    }
+
+    private void insertProjectMilestoneType(ProjectMilestoneTypeEnum type, Long milestoneId) {
+        ProjectMilestoneType projectMilestoneType = new ProjectMilestoneType();
+        projectMilestoneType.setMilestoneType(type);
+        projectMilestoneType.setMilestoneId(milestoneId);
+        log.info("Inserting projectMilestoneType: {}", projectMilestoneType);
+        projectMilestoneTypeMapper.insert(projectMilestoneType);
+    }
+
+    private void insertIntellectualPropertyIfNecessary(ProjectMilestoneTypeEnum type,
+        ProjectMilestoneBo projectMilestoneBo) {
+        IntellectualPropertyBO intellectualPropertyBO;
+        switch (type) {
+            case PAPER:
+                intellectualPropertyBO = convertToIntellectualPropertyBO(projectMilestoneBo);
+                intellectualPropertyBO.setIpType(IntellectualPropertyTypeEnum.PAPER);
+                intellectualPropertyService.insertIntellectualProperty(intellectualPropertyBO);
+                break;
+            case PATENT:
+                intellectualPropertyBO = convertToIntellectualPropertyBO(projectMilestoneBo);
+                intellectualPropertyBO.setIpType(IntellectualPropertyTypeEnum.DOMESTIC_INVENTION_PATENT);
+                intellectualPropertyService.insertIntellectualProperty(intellectualPropertyBO);
+                break;
+            case SOFTNESS:
+                intellectualPropertyBO = convertToIntellectualPropertyBO(projectMilestoneBo);
+                intellectualPropertyBO.setIpType(IntellectualPropertyTypeEnum.SOFTWARE_COPYRIGHT);
+                intellectualPropertyService.insertIntellectualProperty(intellectualPropertyBO);
+                break;
+            case STANDARD:
+                intellectualPropertyBO = convertToIntellectualPropertyBO(projectMilestoneBo);
+                intellectualPropertyBO.setIpType(IntellectualPropertyTypeEnum.STANDARD);
+                intellectualPropertyService.insertIntellectualProperty(intellectualPropertyBO);
+                break;
+            default:
+                break;
+        }
+    }
+
 
 
     /**
