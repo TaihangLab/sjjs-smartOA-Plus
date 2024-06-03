@@ -46,8 +46,7 @@
 
 <script>
 import {getToken} from "@/utils/auth";
-import {listByIds, delOss} from "@/api/system/oss";
-import item from "@/layout/components/Sidebar/Item.vue";
+import {delOss, listByIds} from "@/api/system/oss";
 
 export default {
     name: "FileUpload",
@@ -74,12 +73,12 @@ export default {
         // 大小限制(MB)
         fileSize: {
             type: Number,
-            default: 20,
+            default: 500,
         },
         // 文件类型, 例如['png', 'jpg', 'jpeg']
         fileType: {
             type: Array,
-            default: () => ["doc", "xls", "ppt", "txt", "pdf", "docx", "pptx", "xlsx", 'png', 'jpg', 'jpeg', 'zip'],
+            default: () => ["doc", "xls", "ppt", "txt", "pdf", "docx", "pptx", "xlsx", 'png', 'jpg', 'jpeg', 'zip', 'rar'],
         },
         // 是否显示提示
         isShowTip: {

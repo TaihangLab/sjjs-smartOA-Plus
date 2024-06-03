@@ -48,7 +48,7 @@ public class ProjectBaseInfoBO extends BaseEntity {
     private String assignedSubjectName;
 
     /**
-     * 科研项目管理人
+     * 科研项目管理人员
      */
     private String projectContact;
 

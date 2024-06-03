@@ -43,8 +43,8 @@
 </template>
 
 <script>
-import { getToken } from "@/utils/auth";
-import { listByIds, delOss } from "@/api/system/oss";
+import {getToken} from "@/utils/auth";
+import {delOss, listByIds} from "@/api/system/oss";
 
 export default {
   props: {
@@ -57,7 +57,7 @@ export default {
     // 大小限制(MB)
     fileSize: {
        type: Number,
-      default: 5,
+        default: 500,
     },
     // 文件类型, 例如['png', 'jpg', 'jpeg']
     fileType: {
