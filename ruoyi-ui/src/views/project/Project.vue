@@ -162,8 +162,8 @@ export default {
                 1: '无',
             },
             hasLeadingRole: {
-                0: '是',
-                1: '否',
+                0: '否',
+                1: '是',
             },
             projectLevel: {
                 0: '国家级',
