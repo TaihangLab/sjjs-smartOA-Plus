@@ -383,13 +383,15 @@ create index project_milestone_project_id_index
 -- ----------------------------
 -- 6、项目大事纪分类表
 -- ----------------------------
-DROP TABLE IF EXISTS `project_milestone_category`;
-CREATE TABLE `project_milestone_category`
+DROP TABLE IF EXISTS `project_milestone_type`;
+create table project_milestone_type
 (
-    `milestone_category_id`   bigint not null AUTO_INCREMENT COMMENT '类别id',
-    `milestone_category_type` tinyint default null COMMENT '分类名称',
-    primary key (`milestone_category_id`)
-) comment '项目大事纪分类表'  charset=utf8mb4;
+    id             bigint auto_increment comment '主键'
+        primary key,
+    milestone_id   bigint  not null comment '大事记ID',
+    milestone_type tinyint not null comment '大事记类型'
+)
+    collate = utf8mb4_bin;
 
 -- ----------------------------
 -- 6、项目大事纪分类关系表
