@@ -160,6 +160,33 @@ public class IntellectualPropertyServiceImpl implements IntellectualPropertyServ
         return ipTypeStatistics;
     }
 
+    @Override
+    public void deleteIntellectualPropertyByMilestoneId(Long milestoneId) {
+        if (milestoneId == null) {
+            return;
+        }
+        intellectualPropertyMapper.delete(
+            new LambdaQueryWrapper<IntellectualProperty>().eq(IntellectualProperty::getMilestoneId, milestoneId));
+    }
+
+    @Override
+    public void deleteIntellectualPropertyByMilstoneIdList(List<Long> milstoneIdList) {
+        if (milstoneIdList == null || milstoneIdList.isEmpty()) {
+            return;
+        }
+        intellectualPropertyMapper.delete(
+            new LambdaQueryWrapper<IntellectualProperty>().in(IntellectualProperty::getMilestoneId, milstoneIdList));
+    }
+
+    @Override
+    public void deleteIntellectualPropertyByProjectId(Long projectId) {
+        if (projectId == null) {
+            return;
+        }
+        intellectualPropertyMapper.delete(
+            new LambdaQueryWrapper<IntellectualProperty>().eq(IntellectualProperty::getProjectId, projectId));
+    }
+
     private LambdaQueryWrapper<IntellectualProperty> buildIntellectualPropertyQueryWrapper(IntellectualPropertyBO intellectualPropertyBO) {
         LambdaQueryWrapper<IntellectualProperty> lqw = new LambdaQueryWrapper<>();
         if (intellectualPropertyBO == null) {

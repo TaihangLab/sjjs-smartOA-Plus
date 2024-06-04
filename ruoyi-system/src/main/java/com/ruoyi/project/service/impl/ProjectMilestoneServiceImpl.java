@@ -112,21 +112,49 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
         return insertedRows;
     }
 
-    private IntellectualPropertyBO convertToIntellectualPropertyBO(ProjectMilestoneBo projectMilestoneBo) {
-        IntellectualPropertyBO intellectualPropertyBO = new IntellectualPropertyBO();
-        intellectualPropertyBO.setProjectId(projectMilestoneBo.getProjectId());
-        intellectualPropertyBO.setIpName(projectMilestoneBo.getMilestoneTitle());
-        intellectualPropertyBO.setIpDate(projectMilestoneBo.getMilestoneDate());
-        intellectualPropertyBO.setOssIdList(projectMilestoneBo.getOssIds());
-        log.info("Converting projectMilestoneBo to intellectualPropertyBO: {}", intellectualPropertyBO);
-        return intellectualPropertyBO;
+    /**
+     * 删除某一项目对应的全部项目大事记
+     *
+     * @param projectId 项目ID
+     * @return 结果
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public int deleteMilestoneByProjectId(Long projectId) {
+        // 1. 根据项目 ID 获取该项目下所有的大事记 ID
+        List<ProjectMilestone> projectMilestones = projectMilestoneMapper.selectList(
+            new LambdaQueryWrapper<ProjectMilestone>()
+                .eq(ProjectMilestone::getProjectId, projectId));
+
+        // 如果该项目下没有大事记，则直接返回
+        if (projectMilestones.isEmpty()) {
+            return 0;
+        }
+
+        // 提取大事记 ID 列表
+        List<Long> milestoneIds = projectMilestones.stream()
+            .map(ProjectMilestone::getMilestoneId)
+            .collect(Collectors.toList());
+
+        // 2. 使用大事记 ID 删除每个大事记对应的 OSS 对象
+        if (!milestoneIds.isEmpty()) {
+            projectMilestoneOssMapper.delete(new LambdaQueryWrapper<ProjectMilestoneOss>()
+                .in(ProjectMilestoneOss::getMilestoneId, milestoneIds));
+            projectMilestoneTypeMapper.delete(
+                new LambdaQueryWrapper<ProjectMilestoneType>().in(ProjectMilestoneType::getMilestoneId, milestoneIds));
+            intellectualPropertyService.deleteIntellectualPropertyByMilstoneIdList(milestoneIds);
+        }
+
+        // 3. 删除该项目下的所有大事记
+        return projectMilestoneMapper.delete(new LambdaQueryWrapper<ProjectMilestone>()
+            .eq(ProjectMilestone::getProjectId, projectId));
+
     }
 
     private void insertProjectMilestoneType(ProjectMilestoneTypeEnum type, Long milestoneId) {
         ProjectMilestoneType projectMilestoneType = new ProjectMilestoneType();
         projectMilestoneType.setMilestoneType(type);
         projectMilestoneType.setMilestoneId(milestoneId);
-        log.info("Inserting projectMilestoneType: {}", projectMilestoneType);
         projectMilestoneTypeMapper.insert(projectMilestoneType);
     }
 
@@ -169,48 +197,6 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
         return Arrays.asList(ProjectMilestoneTypeEnum.values());
     }
 
-
-    /**
-     * 删除某一项目对应的全部项目大事记
-     *
-     * @param projectId 项目ID
-     * @return 结果
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public int deleteMilestoneByProjectId(Long projectId) {
-        // 1. 根据项目 ID 获取该项目下所有的大事记 ID
-        List<ProjectMilestone> projectMilestones = projectMilestoneMapper.selectList(
-            new LambdaQueryWrapper<ProjectMilestone>()
-                .eq(ProjectMilestone::getProjectId, projectId));
-
-        // 如果该项目下没有大事记，则直接返回
-        if (projectMilestones.isEmpty()) {
-            return 0;
-        }
-
-        // 提取大事记 ID 列表
-        List<Long> milestoneIds = projectMilestones.stream()
-            .map(ProjectMilestone::getMilestoneId)
-            .collect(Collectors.toList());
-
-        // 2. 使用大事记 ID 删除每个大事记对应的 OSS 对象
-        if (!milestoneIds.isEmpty()) {
-            projectMilestoneOssMapper.delete(new LambdaQueryWrapper<ProjectMilestoneOss>()
-                .in(ProjectMilestoneOss::getMilestoneId, milestoneIds));
-        }
-
-        if (!milestoneIds.isEmpty()) {
-            projectMilestoneTypeMapper.delete(new LambdaQueryWrapper<ProjectMilestoneType>()
-                .in(ProjectMilestoneType::getMilestoneId, milestoneIds));
-        }
-
-        // 3. 删除该项目下的所有大事记
-        return projectMilestoneMapper.delete(new LambdaQueryWrapper<ProjectMilestone>()
-            .eq(ProjectMilestone::getProjectId, projectId));
-
-    }
-
     /**
      * 删除单条目大事记
      *
@@ -238,6 +224,8 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
                 .eq(ProjectMilestoneType::getMilestoneId, milestoneId));
         }
 
+        intellectualPropertyService.deleteIntellectualPropertyByMilestoneId(milestoneId);
+
         // 删除 ProjectMilestone 表中的指定 milestoneId 的记录
         return projectMilestoneMapper.delete(new LambdaQueryWrapper<ProjectMilestone>()
             .eq(ProjectMilestone::getMilestoneId, milestoneId));
@@ -252,7 +240,6 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int updateMilestone(ProjectMilestoneBo projectMilestoneBo) {
-
 
         if (projectMilestoneBo == null) {
             throw new IllegalArgumentException("projectMilestoneBo cannot be null");
@@ -285,20 +272,39 @@ public class ProjectMilestoneServiceImpl implements ProjectMilestoneService {
             //删除旧的分类关系
             projectMilestoneTypeMapper.delete(new LambdaQueryWrapper<ProjectMilestoneType>()
                 .eq(ProjectMilestoneType::getMilestoneId, milestoneId));
-
+            intellectualPropertyService.deleteIntellectualPropertyByMilestoneId(milestoneId);
             // 插入新的分类关系
-            List<ProjectMilestoneTypeEnum> projectMilestoneCategoryEnumList = projectMilestoneBo.getProjectMilestoneTypes();
-            if (projectMilestoneCategoryEnumList != null && !projectMilestoneCategoryEnumList.isEmpty()) {
-                for (ProjectMilestoneTypeEnum projectMilestoneCategoryEnum : projectMilestoneCategoryEnumList) {
-                    ProjectMilestoneType projectMilestoneType = new ProjectMilestoneType();
-                    projectMilestoneType.setMilestoneId(milestoneId);
-                    projectMilestoneType.setMilestoneType(projectMilestoneCategoryEnum);
-                    projectMilestoneTypeMapper.insert(projectMilestoneType);
-                }
-            }
+            List<ProjectMilestoneTypeEnum> projectMilestoneTypes = projectMilestoneBo.getProjectMilestoneTypes();
+            if (projectMilestoneTypes != null && !projectMilestoneTypes.isEmpty()) {
+                boolean hasIntellectualPropertyOnly = projectMilestoneTypes.contains(
+                    ProjectMilestoneTypeEnum.INTELLECTUAL_PROPERTY) && !projectMilestoneTypes.contains(
+                    ProjectMilestoneTypeEnum.PAPER) && !projectMilestoneTypes.contains(
+                    ProjectMilestoneTypeEnum.PATENT) && !projectMilestoneTypes.contains(
+                    ProjectMilestoneTypeEnum.SOFTNESS) && !projectMilestoneTypes.contains(
+                    ProjectMilestoneTypeEnum.STANDARD);
 
+                if (hasIntellectualPropertyOnly) {
+                    IntellectualPropertyBO intellectualPropertyBO = convertToIntellectualPropertyBO(projectMilestoneBo);
+                    intellectualPropertyService.insertIntellectualProperty(intellectualPropertyBO);
+                }
+
+                projectMilestoneTypes.forEach(type -> {
+                    insertProjectMilestoneType(type, milestoneId);
+                    insertIntellectualPropertyIfNecessary(type, projectMilestoneBo);
+                });
+            }
         }
         return updatedRows;
+    }
+
+    private IntellectualPropertyBO convertToIntellectualPropertyBO(ProjectMilestoneBo projectMilestoneBo) {
+        IntellectualPropertyBO intellectualPropertyBO = new IntellectualPropertyBO();
+        intellectualPropertyBO.setProjectId(projectMilestoneBo.getProjectId());
+        intellectualPropertyBO.setIpName(projectMilestoneBo.getMilestoneTitle());
+        intellectualPropertyBO.setIpDate(projectMilestoneBo.getMilestoneDate());
+        intellectualPropertyBO.setOssIdList(projectMilestoneBo.getOssIds());
+        intellectualPropertyBO.setMilestoneId(projectMilestoneBo.getMilestoneId());
+        return intellectualPropertyBO;
     }
 
     /**

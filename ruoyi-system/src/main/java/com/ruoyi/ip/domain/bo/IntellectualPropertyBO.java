@@ -47,6 +47,10 @@ public class IntellectualPropertyBO {
      */
     @JsonFormat(pattern = DateConstants.YYYY_MM_DD)
     private LocalDate ipDate;
+    /**
+     * 大事记id
+     */
+    private Long milestoneId;
 
     /**
      * 知识产权成员id列表

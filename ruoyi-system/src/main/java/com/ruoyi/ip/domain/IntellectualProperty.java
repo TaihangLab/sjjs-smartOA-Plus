@@ -49,6 +49,10 @@ public class IntellectualProperty extends BaseEntity implements Serializable {
      */
     private LocalDate ipDate;
     /**
+     * 大事记id
+     */
+    private Long milestoneId;
+    /**
      * 是否删除
      */
     @TableLogic

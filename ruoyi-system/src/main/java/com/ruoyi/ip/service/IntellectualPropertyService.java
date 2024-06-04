@@ -6,6 +6,7 @@ import com.ruoyi.ip.domain.bo.IntellectualPropertyBO;
 import com.ruoyi.ip.domain.vo.IntellectualPropertyDetailVO;
 import com.ruoyi.ip.domain.vo.IntellectualPropertyVO;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -61,4 +62,25 @@ public interface IntellectualPropertyService {
      * @return {@link Map}<{@link String}, {@link Integer}>
      */
     Map<String, Integer> getIpTypeStatistics();
+
+    /**
+     * 根据大事记Id删除知识产权
+     *
+     * @param milestoneId
+     */
+    void deleteIntellectualPropertyByMilestoneId(Long milestoneId);
+
+    /**
+     * 根据大事记Id列表删除知识产权
+     *
+     * @param milstoneIdList
+     */
+    void deleteIntellectualPropertyByMilstoneIdList(List<Long> milstoneIdList);
+
+    /**
+     * 根据项目Id删除知识产权
+     *
+     * @param projectId
+     */
+    void deleteIntellectualPropertyByProjectId(Long projectId);
 }
