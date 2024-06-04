@@ -446,6 +446,7 @@ create table intellectual_property
     ip_type     tinyint null comment '知识产权类别,国内发明专利0、软件著作权1、论文2、标准3',
     ip_status   tinyint null comment '知识产权状态,专利受理0，专利授权1，软著已获取2，标准正在申报3，标准已通过4，论文已发表5',
     ip_date     date null comment '获得日期',
+    milestone_id bigint null comment '大事记id',
     create_time datetime null comment '创建时间',
     update_time datetime null comment '更新时间',
     create_by   varchar(100) default '' null comment '创建人',
