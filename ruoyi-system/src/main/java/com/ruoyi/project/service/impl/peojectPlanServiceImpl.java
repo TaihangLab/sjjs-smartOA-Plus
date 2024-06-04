@@ -12,10 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -91,39 +89,8 @@ public class peojectPlanServiceImpl implements projectPlanService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateProjectPlanList(List<ProjectPlanBO> projectPlanBOList, Long projectId) {
-        List<ProjectPlan> oldProjectPlanList = projectPlanMapper.selectList(new LambdaQueryWrapper<ProjectPlan>().eq(ProjectPlan::getProjectId, projectId));
-        if (projectPlanBOList == null || projectPlanBOList.isEmpty()) {
-            if (oldProjectPlanList.isEmpty()) {
-                return;
-            } else {
-	            deleteProjectPlanByProjectId(projectId);
-                return;
-            }
-        } else {
-            if (oldProjectPlanList.isEmpty()) {
-	            insertProjectPlanList(projectPlanBOList, projectId);
-                return;
-            }
-        }
-        List<ProjectPlan> newProjectPlanList = projectPlanBOList.stream()
-            .map(bo -> projectPlanConverter(bo, projectId))
-            .collect(Collectors.toList());
-        // 转换为 HashSet 提高查找效率
-        Set<ProjectPlan> oldProjectPlanSet = new HashSet<>(oldProjectPlanList);
-        Set<ProjectPlan> newProjectPlanSet = new HashSet<>(newProjectPlanList);
-        // 使用 Stream API 计算差集
-        List<ProjectPlan> addProjectPlanList = newProjectPlanList.stream()
-            .filter(projectPlan -> !oldProjectPlanSet.contains(projectPlan))
-            .collect(Collectors.toList());
-        List<ProjectPlan> delProjectPlanList = oldProjectPlanList.stream()
-            .filter(projectPlan -> !newProjectPlanSet.contains(projectPlan))
-            .collect(Collectors.toList());
-        if (!addProjectPlanList.isEmpty()) {
-	        insertProjectPlanList(addProjectPlanList);
-        }
-        if (!delProjectPlanList.isEmpty()) {
-	        deleteProjectPlanByStageIdList(delProjectPlanList.stream().map(ProjectPlan::getStageId).collect(Collectors.toList()));
-        }
+        deleteProjectPlanByProjectId(projectId);
+        insertProjectPlanList(projectPlanBOList, projectId);
     }
 
     private ProjectPlan projectPlanConverter(ProjectPlanBO bo, Long projectId) {
