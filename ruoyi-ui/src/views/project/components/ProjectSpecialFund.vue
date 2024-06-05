@@ -11,13 +11,13 @@
                      @mouseleave.native="$set(isButtonShowList1, index1, false)" class="custom-card">
                 <template slot="header" >
                     <div class="header-container" >
+                        <el-button class="remove3-button" icon="el-icon-circle-plus" circle type="success" plain @click="addCard(cards1, cards2)"
+                                   v-show="isButtonShowList1[index1]"
+                        ></el-button>
                         <el-select class="select-container" v-model="card1.value" placeholder="请选择一级目录" size="medium">
                             <el-option v-for="option in categoryOptions1" :key="option.value" :label="option.label" :value="option.value"></el-option>
                         </el-select>
                         <el-input class="custom-input" v-model="card1.content" type="number" size="medium"></el-input>
-                        <el-button icon="el-icon-circle-plus" circle type="success" plain @click="addCard(cards1, cards2)"
-                                   v-show="isButtonShowList1[index1]"
-                        ></el-button>
                         <el-button  icon="el-icon-remove" circle type="danger" plain @click="removeCard(index1, cards1, cards2)"
                                    v-show="isButtonShowList1[index1]"
                         ></el-button>
@@ -201,10 +201,14 @@ export default {
         },
         // 删除当前一级目录
         removeCard(index1) {
-            this.$props.cards1.splice(index1, 1);
-            this.$props.cards2.splice(index1, 1);
-            this.$props.tableData.splice(index1, 1);
-            this.isTableVisible.splice(index1, 1);
+            if (this.$props.cards1.length > 1) {
+                this.$props.cards1.splice(index1, 1);
+                this.$props.cards2.splice(index1, 1);
+                this.$props.tableData.splice(index1, 1);
+                this.isTableVisible.splice(index1, 1);
+            } else {
+                console.warn('Cannot delete the last item in cards1');
+            }
         },
         // 删除当前二级目录
         removeCard2(index1, index2) {
@@ -239,7 +243,11 @@ export default {
             this.$props.cards3.push({ content: '', value: '' });
         },
         removeIndirectCost(index) {
-            this.$props.cards3.splice(index, 1);
+            if (this.$props.cards3.length > 1) {
+                this.$props.cards3.splice(index, 1);
+            } else {
+                console.warn('Cannot delete the last item in cards3');
+            }
         },
         // 重置表单
         reset() {
@@ -271,6 +279,9 @@ export default {
 }
 .remove2-button {
     margin-right: -10px;
+}
+.remove3-button {
+    margin-right: 10px;
 }
 .el-button {
     border: none;
