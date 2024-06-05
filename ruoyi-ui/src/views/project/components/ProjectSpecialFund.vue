@@ -3,7 +3,7 @@
         <el-card shadow="hover">
             <template slot="header" >
                 <div class="card-header-content">
-                    <i class="el-icon-caret-right"></i> 直接经费 <i class="el-icon-caret-left"></i>
+                    <i class="el-icon-caret-right"></i> 直接经费（万元） <i class="el-icon-caret-left"></i>
                 </div>
             </template>
             <el-card v-for="(card1, index1) in this.$props.cards1" :key="index1" shadow="hover"
@@ -70,7 +70,7 @@
         <el-card style="margin-top: 4px;" shadow="hover">
             <template slot="header" >
                 <div class="card-header-content">
-                    <i class="el-icon-caret-right"></i> 间接经费 <i class="el-icon-caret-left"></i>
+                    <i class="el-icon-caret-right"></i> 间接经费（万元） <i class="el-icon-caret-left"></i>
                 </div>
             </template>
             <div class="card-container">
