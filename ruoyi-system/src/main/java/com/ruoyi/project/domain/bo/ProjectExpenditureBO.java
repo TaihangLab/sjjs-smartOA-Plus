@@ -1,6 +1,9 @@
 package com.ruoyi.project.domain.bo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ruoyi.common.constant.DateConstants;
 import com.ruoyi.common.core.validate.EditGroup;
+import com.ruoyi.common.core.validate.QueryGroup;
 import com.ruoyi.common.enums.*;
 import lombok.Data;
 
@@ -24,6 +27,7 @@ public class ProjectExpenditureBO {
     /**
      * 项目id
      */
+    @NotNull(message = "项目id不能为空", groups = {QueryGroup.class})
     private Long projectId;
     /**
      * 支出日期
@@ -65,4 +69,15 @@ public class ProjectExpenditureBO {
      * 支出金额
      */
     private BigDecimal amount;
+    /**
+     * 支出日期开始查询时间
+     */
+    @JsonFormat(pattern = DateConstants.YYYY_MM_DD)
+    private LocalDate expenditureDateSta;
+
+    /**
+     * 支出日期结束查询时间
+     */
+    @JsonFormat(pattern = DateConstants.YYYY_MM_DD)
+    private LocalDate expenditureDateEnd;
 }

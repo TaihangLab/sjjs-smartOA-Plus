@@ -167,16 +167,16 @@ public class ProjectFundsController {
     }
 
     /**
-     * 查询项目支出明细
-     * @param projectId 项目ID
-     * @return
+     * 查询支出明细
+     * @param projectExpenditureBO
+     *
+     * @return {@link R }<{@link List }<{@link ProjectExpenditureVO }>>
      */
     @SaCheckPermission("project:expense:view")
-    @GetMapping(value = "/getProjectExpenditure")
-    public R<List<ProjectExpenditureVO>> getProjectExpenditureListByProId(@RequestParam @NotNull Long projectId) {
-        List<ProjectExpenditureVO> projectExpenditureList =
-            projectExpenditureService.getProjectExpenditureByProId(projectId);
-        return R.ok(projectExpenditureList);
+    @PostMapping(value = "/getProjectExpenditure")
+    public TableDataInfo<ProjectExpenditureVO> getProjectExpenditureListByProId(
+        @RequestBody @Validated(QueryGroup.class) ProjectExpenditureBO projectExpenditureBO, PageQuery pageQuery) {
+        return projectExpenditureService.getProjectExpenditureByProId(projectExpenditureBO, pageQuery);
     }
 
 }

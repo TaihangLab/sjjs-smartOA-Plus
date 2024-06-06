@@ -1,6 +1,9 @@
 package com.ruoyi.project.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ruoyi.common.core.domain.PageQuery;
+import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.project.config.GlobalMappingConfig;
@@ -194,12 +197,35 @@ public class ProjectExpenditureServiceImpl implements ProjectExpenditureService{
 
     /**
      * 查询项目支出明细
-     * @param projectId
+     *
+     * @param projectExpenditureBO
+     * @param pageQuery
+     *
      * @return
      */
     @Override
-    public List<ProjectExpenditureVO> getProjectExpenditureByProId(Long projectId) {
-        return projectExpenditureMapper.selectVoList(new LambdaQueryWrapper<ProjectExpenditure>()
-            .eq(ProjectExpenditure::getProjectId,projectId));
+    public TableDataInfo<ProjectExpenditureVO> getProjectExpenditureByProId(ProjectExpenditureBO projectExpenditureBO,
+        PageQuery pageQuery) {
+        LambdaQueryWrapper<ProjectExpenditure> lqw = buildQueryWrapper(projectExpenditureBO);
+        Page<ProjectExpenditureVO> result = projectExpenditureMapper.selectVoPage(pageQuery.build(), lqw);
+        return TableDataInfo.build(result);
+    }
+
+    private LambdaQueryWrapper<ProjectExpenditure> buildQueryWrapper(ProjectExpenditureBO projectExpenditureBO) {
+        LambdaQueryWrapper<ProjectExpenditure> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(projectExpenditureBO.getProjectId() != null, ProjectExpenditure::getProjectId,
+            projectExpenditureBO.getProjectId());
+        lqw.ge(projectExpenditureBO.getExpenditureDateSta() != null, ProjectExpenditure::getExpenditureDate,
+            projectExpenditureBO.getExpenditureDateSta());
+        lqw.le(projectExpenditureBO.getExpenditureDateEnd() != null, ProjectExpenditure::getExpenditureDate,
+            projectExpenditureBO.getExpenditureDateEnd());
+        lqw.eq(projectExpenditureBO.getFirstLevelSubject() != null, ProjectExpenditure::getFirstLevelSubject,
+            projectExpenditureBO.getFirstLevelSubject());
+        lqw.eq(projectExpenditureBO.getSecondLevelSubject() != null, ProjectExpenditure::getSecondLevelSubject,
+            projectExpenditureBO.getSecondLevelSubject());
+        lqw.eq(projectExpenditureBO.getThirdLevelSubject() != null, ProjectExpenditure::getThirdLevelSubject,
+            projectExpenditureBO.getThirdLevelSubject());
+        lqw.orderByDesc(ProjectExpenditure::getExpenditureDate);
+        return lqw;
     }
 }

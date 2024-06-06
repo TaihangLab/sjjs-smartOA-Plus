@@ -1,5 +1,7 @@
 package com.ruoyi.project.service;
 
+import com.ruoyi.common.core.domain.PageQuery;
+import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.project.domain.bo.ProjectExpenditureBO;
 import com.ruoyi.project.domain.vo.ProjectExpenditureVO;
 
@@ -28,8 +30,12 @@ public interface ProjectExpenditureService {
 
     /**
      * 查询项目支出明细
-     * @param projectId
+     *
+     * @param projectExpenditureBO
+     * @param pageQuery
+     *
      * @return
      */
-    List<ProjectExpenditureVO> getProjectExpenditureByProId(Long projectId);
+    TableDataInfo<ProjectExpenditureVO> getProjectExpenditureByProId(ProjectExpenditureBO projectExpenditureBO,
+        PageQuery pageQuery);
 }
