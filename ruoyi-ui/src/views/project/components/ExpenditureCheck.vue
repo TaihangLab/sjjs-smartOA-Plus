@@ -1,10 +1,57 @@
 <template>
     <div>
+        <el-form
+            ref="dataForm"
+            :inline="true"
+            :model="filters"
+            class="demo-form-inline"
+            style="margin-left: 30px; margin-top: 20px;"
+        >
+            <el-form-item label="一级科目">
+                <el-select v-model="filters.firstLevelSubject" placeholder="请选择一级科目" clearable>
+                    <el-option
+                        v-for="item in subjectData.firstLevelSubjects"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                    ></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="二级科目">
+                <el-select v-model="filters.secondLevelSubject" placeholder="请选择二级科目" clearable>
+                    <el-option
+                        v-for="item in subjectData.secondLevelSubjects"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                    ></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="三级科目">
+                <el-select v-model="filters.thirdLevelSubject" placeholder="请选择三级科目" clearable>
+                    <el-option
+                        v-for="item in subjectData.thirdLevelSubjects"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                    ></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="起始时间">
+                <el-date-picker v-model="filters.startDate" type="date" placeholder="请选择起始时间" value-format="yyyy-MM-dd"></el-date-picker>
+            </el-form-item>
+            <el-form-item label="结束时间">
+                <el-date-picker v-model="filters.endDate" type="date" placeholder="请选择结束时间" value-format="yyyy-MM-dd"></el-date-picker>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+                <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+            </el-form-item>
+        </el-form>
         <el-table ref="multipleTable" :data="expenditureEntry" border
-            style="width: 100%; max-height: 500px; overflow-y: auto;" :row-style="{ height: '50px' }"
-            :cell-style="{ padding: '0px' }">
+                  style="width: 100%; max-height: 800px; overflow-y: auto;" :row-style="{ height: '50px' }"
+                  :cell-style="{ padding: '0px' }">
             <el-table-column label="日期" :resizable="false" align="center" width="100px">
-                <!-- 使用 slot-scope 定制显示日期 -->
                 <template slot-scope="scope">
                     {{ formatDate(scope.row.expenditureDate) }}
                 </template>
@@ -19,17 +66,14 @@
             </el-table-column>
             <el-table-column label="直接/间接" :resizable="false" align="center" prop="zjjj" :formatter="zjjjFormatter">
             </el-table-column>
-            <el-table-column label="一级科目" :resizable="false" align="center" prop="firstLevelSubject" width="150px"
-                :formatter="firstLevelSubjectFormatter">
+            <el-table-column label="一级科目" :resizable="false" align="center" prop="firstLevelSubject" width="150px" :formatter="subjectFormatter('firstLevelSubjects')">
             </el-table-column>
-            <el-table-column label="二级科目" :resizable="false" align="center" prop="secondLevelSubject" width="150px"
-                :formatter="secondLevelSubjectFormatter">
+            <el-table-column label="二级科目" :resizable="false" align="center" prop="secondLevelSubject" width="150px" :formatter="subjectFormatter('secondLevelSubjects')">
             </el-table-column>
-            <el-table-column label="三级科目" :resizable="false" align="center" prop="thirdLevelSubject" width="150px"
-                :formatter="thirdLevelSubjectFormatter">
+            <el-table-column label="三级科目" :resizable="false" align="center" prop="thirdLevelSubject" width="150px" :formatter="subjectFormatter('thirdLevelSubjects')">
             </el-table-column>
             <el-table-column :resizable="false" align="center" prop="amount" width="150px">
-                <template slot="header" slot-scope="scope">
+                <template slot="header">
                     <div style="text-align: center;">
                         <span>金额</span>
                         <span style="font-size: 12px; color: #F56C6C;">（元）</span>
@@ -38,21 +82,27 @@
             </el-table-column>
             <el-table-column label="导入时间" :resizable="false" align="center" prop="createTime" width="160px">
             </el-table-column>
-            <el-table-column :label="'操作'" :resizable="false" align="center" min-width="80px" fixed="right">
+            <el-table-column label="操作" :resizable="false" align="center" min-width="80px" fixed="right">
                 <template slot-scope="scope">
                     <el-button size="mini" type="text" icon="el-icon-refresh-left"
-                        @click="confirmDeleteExpenditure(scope.row.expenditureId)"
-                        v-hasPermi="['project:expense:cancel']">撤销
+                               @click="confirmDeleteExpenditure(scope.row.expenditureId)"
+                               v-hasPermi="['project:expense:cancel']">撤销
                     </el-button>
                 </template>
             </el-table-column>
         </el-table>
+        <el-pagination :current-page="queryParam.pageNum" :page-size="queryParam.pageSize"
+                       :page-sizes="[5, 10, 20, 50, 100]" :total="total"
+                       layout="total, sizes, prev, pager, next, jumper"
+                       style="margin-top: 30px" @size-change="sizeChangeHandle" @current-change="CurrentChangeHandle">
+        </el-pagination>
     </div>
 </template>
 
 <script>
 import request from '@/utils/request';
 import { MessageBox, Message } from 'element-ui';
+import { getExpenditure } from "@/api/project/expenditure";
 
 export default {
     name: "ExpenditureCheck",
@@ -64,23 +114,93 @@ export default {
     },
     data() {
         return {
-            // 遮罩层
             loading: true,
             expenditureEntry: undefined,
-        }
+            total: 0, // 总条数
+            queryParam: {
+                pageNum: 1,
+                pageSize: 10,
+            },
+            filters: {
+                firstLevelSubject: '',
+                secondLevelSubject: '',
+                thirdLevelSubject: '',
+                startDate: '',
+                endDate: '',
+            },
+            subjectData: {
+                firstLevelSubjects: [
+                    { value: '0', label: '设备费' },
+                    { value: '1', label: '业务费' },
+                    { value: '2', label: '劳务费' },
+                    { value: '3', label: '材料费' },
+                    { value: '4', label: '科研活动费' },
+                    { value: '5', label: '科研服务费' },
+                    { value: '6', label: '人员和劳务补助费' },
+                    { value: '7', label: '绩效支出' },
+                    { value: '8', label: '管理费' },
+                    { value: '9', label: '房屋租赁费' },
+                    { value: '10', label: '日常水电暖费' },
+                    { value: '11', label: '资料费' },
+                    { value: '12', label: '数据样本采集费' },
+                    { value: '13', label: '测试化验加工费' },
+                    { value: '14', label: '燃料动力费' },
+                    { value: '15', label: '办公费' },
+                    { value: '16', label: '印刷/出版费' },
+                    { value: '17', label: '知识产权事务费' },
+                    { value: '18', label: '车辆使用费' },
+                    { value: '19', label: '差旅费' },
+                    { value: '20', label: '会议/会务费' },
+                    { value: '21', label: '专家咨询费' },
+                    { value: '22', label: '其他费用' },
+                ],
+                secondLevelSubjects: [
+                    { value: '0', label: '购置设备费' },
+                    { value: '1', label: '试制设备费' },
+                    { value: '2', label: '设备升级改造费' },
+                    { value: '3', label: '设备租赁费' },
+                    { value: '4', label: '材料费' },
+                    { value: '5', label: '资料费' },
+                    { value: '6', label: '数据样本采集费' },
+                    { value: '7', label: '测试化验加工费' },
+                    { value: '8', label: '燃料动力费' },
+                    { value: '9', label: '办公费' },
+                    { value: '10', label: '印刷/出版费' },
+                    { value: '11', label: '知识产权事务费' },
+                    { value: '12', label: '车辆使用费' },
+                    { value: '13', label: '出版/文献/信息传播/知识产权事务费' },
+                    { value: '14', label: '差旅费' },
+                    { value: '15', label: '会议/会务费' },
+                    { value: '16', label: '国内协作费' },
+                    { value: '17', label: '国际合作交流费' },
+                    { value: '18', label: '专家咨询费' },
+                    { value: '19', label: '人员劳务费' },
+                    { value: '20', label: '会议/差旅/国际合作与交流费' },
+                    { value: '21', label: '无' },
+                ],
+                thirdLevelSubjects: [
+                    { value: '0', label: '无' },
+                    { value: '1', label: '知识产权事务费' },
+                    { value: '2', label: '印刷打印制作费' },
+                    { value: '3', label: '文献数据库费' },
+                    { value: '4', label: '信息传播费' },
+                    { value: '5', label: '会议费' },
+                    { value: '6', label: '差旅费' },
+                    { value: '7', label: '国际合作费' },
+                ],
+            },
+        };
     },
     watch: {
         projectId: {
             handler(newVal) {
                 this.checkExpenditureEntryDetail();
             },
-            immediate: true, // 立即执行一次
+            immediate: true,
         },
     },
     methods: {
-        // 格式化日期方法
         formatDate(date) {
-            // 假设日期格式为 "YYYY-MM-DD"
             const parts = date.split('-');
             if (parts.length === 3) {
                 const year = parts[0];
@@ -88,81 +208,14 @@ export default {
                 const day = parts[2];
                 return `${year}-${month}-${day}`;
             }
-            // 如果日期格式不正确，直接返回原始日期
             return date;
         },
-        // 一级科目
-        firstLevelSubjectFormatter(row) {
-            const firstLevelSubject = {
-                0: '设备费',
-                1: '业务费',
-                2: '劳务费',
-                3: '材料费',
-                4: '科研活动费',
-                5: '科研服务费',
-                6: '人员和劳务补助费',
-                7: '绩效支出',
-                8: '管理费',
-                9: '房屋租赁费',
-                10: '日常水电暖费',
-                11: '资料费',
-                12: '数据样本采集费',
-                13: '测试化验加工费',
-                14: '燃料动力费',
-                15: '办公费',
-                16: '印刷/出版费',
-                17: '知识产权事务费',
-                18: '车辆使用费',
-                19: '差旅费',
-                20: '会议/会务费',
-                21: '专家咨询费',
-                22: '其他费用',
+        subjectFormatter(level) {
+            return (row, column, value) => {
+                const subject = this.subjectData[level].find(item => item.value === value.toString());
+                return subject ? subject.label : '';
             };
-            return firstLevelSubject[row.firstLevelSubject];
         },
-        // 二级科目
-        secondLevelSubjectFormatter(row) {
-            const secondLevelSubject = {
-                0: '购置设备费',
-                1: '试制设备费',
-                2: '设备升级改造费',
-                3: '设备租赁费',
-                4: '材料费',
-                5: '资料费',
-                6: '数据样本采集费',
-                7: '测试化验加工费',
-                8: '燃料动力费',
-                9: '办公费',
-                10: '印刷/出版费',
-                11: '知识产权事务费',
-                12: '车辆使用费',
-                13: '出版/文献/信息传播/知识产权事务费',
-                14: '差旅费',
-                15: '会议/会务费',
-                16: '国内协作费',
-                17: '国际合作交流费',
-                18: '专家咨询费',
-                19: '人员劳务费',
-                20: '会议/差旅/国际合作与交流费',
-                21: '无',
-            };
-            return secondLevelSubject[row.secondLevelSubject];
-        },
-        // 三级科目
-        thirdLevelSubjectFormatter(row) {
-            const thirdLevelSubject = {
-                0: '无',
-                1: '知识产权事务费',
-                2: '印刷打印制作费',
-                3: '文献数据库费',
-                4: '信息传播费',
-                5: '会议费',
-                6: '差旅费',
-                7: '国际合作费',
-            };
-            return thirdLevelSubject[row.thirdLevelSubject];
-        },
-        // 专项自筹
         zxzcFormatter(row) {
             const zxzc = {
                 0: '专项',
@@ -170,22 +223,44 @@ export default {
             };
             return zxzc[row.zxzc];
         },
-        // 查看支出信息
-        checkExpenditureEntryDetail() {
-            request({
-                url: '/project/funds/getProjectExpenditure',
-                method: 'get',
-                params: {
-                    projectId: this.$props.projectId,
-                },
-            })
+        zjjjFormatter (row) {
+            const zjjj = {
+                0: '直接',
+                1: '间接',
+            };
+            return zjjj[row.zjjj];
+        },
+        handleQuery() {
+            const bodyData = {
+                projectId: this.$props.projectId,
+                firstLevelSubject: this.filters.firstLevelSubject,
+                secondLevelSubject: this.filters.secondLevelSubject,
+                thirdLevelSubject: this.filters.thirdLevelSubject,
+                expenditureDateSta: this.filters.startDate,
+                expenditureDateEnd: this.filters.endDate,
+            };
+            getExpenditure(bodyData,this.queryParam)
                 .then((resp) => {
-                    this.expenditureEntry = resp.data;
-                    this.loading = false; // 关闭遮罩层
+                this.expenditureEntry = resp.rows;
+                this.total = resp.total;
+                this.loading = false;
+            })
+                .catch(() => {
+                    this.loading = false;
+                });
+        },
+        checkExpenditureEntryDetail() {
+            const bodyData = {
+                projectId: this.$props.projectId,
+            };
+            getExpenditure(bodyData, this.queryParam)
+                .then((resp) => {
+                    this.expenditureEntry = resp.rows;
+                    this.total = resp.total;
+                    this.loading = false;
                 })
-                .catch((error) => {
-                    console.error('获取用户数据时出错：', error);
-                    this.loading = false; // 关闭遮罩层
+                .catch(() => {
+                    this.loading = false;
                 });
         },
         confirmDeleteExpenditure(expenditureId) {
@@ -193,33 +268,33 @@ export default {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning',
-            })
-                .then(() => {
-                    // 用户点击确定按钮时执行撤销逻辑
-                    this.deleteExpenditure(expenditureId);
-                })
-                .catch(() => {
-                    // 用户点击取消按钮时不执行任何操作
-                });
+            }).then(() => {
+                this.deleteExpenditure(expenditureId);
+            });
         },
         deleteExpenditure(expenditureId) {
             request({
                 url: `/project/funds/rollback`,
                 method: 'get',
                 params: {
-                    expenditureId: expenditureId
-                }
+                    expenditureId: expenditureId,
+                },
             })
                 .then(() => {
-                    // 撤销成功后重新获取支出信息
                     this.checkExpenditureEntryDetail();
                 })
                 .catch(error => {
-                    console.error('删除支出信息时出错：', error);
-                    // 处理撤销失败情况
                     Message.error('删除支出信息失败，请稍后重试！');
                 });
         },
+        sizeChangeHandle(size) {
+            this.queryParam.pageSize = size;
+            this.checkExpenditureEntryDetail();
+        },
+        CurrentChangeHandle(page) {
+            this.queryParam.pageNum = page;
+            this.checkExpenditureEntryDetail();
+        },
     },
-}
+};
 </script>

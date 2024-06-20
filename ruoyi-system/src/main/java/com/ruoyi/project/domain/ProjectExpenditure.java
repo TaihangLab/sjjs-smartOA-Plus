@@ -55,7 +55,7 @@ public class ProjectExpenditure extends BaseEntity implements Serializable {
      */
     private ZxZcEnum zxzc;
     /**
-     * 直接/间接
+     * 直接/间接，0 直接,1 间接
      */
     private ZjJjEnum zjjj;
 

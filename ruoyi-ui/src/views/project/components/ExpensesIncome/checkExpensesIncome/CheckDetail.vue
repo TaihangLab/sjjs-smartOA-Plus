@@ -152,6 +152,7 @@ import request from '@/utils/request';
 import { defineComponent } from "vue";
 import CheckAppropriationAccount from "@/views/project/components/ExpensesIncome/checkExpensesIncome/CheckAppropriationAccount.vue";
 import FundSituation from "@/views/project/components/ExpensesIncome/checkExpensesIncome/FundSituation.vue";
+import {getExpenditure} from "@/api/project/expenditure";
 
 export default {
     name: "CheckDetail",
@@ -306,20 +307,34 @@ export default {
         },
         // 查看支出信息
         checkExpenditureEntryDetail() {
-            request({
-                url: '/project/funds/getProjectExpenditure',
-                method: 'get',
-                params: {
-                    projectId: this.$props.projectId,
-                },
-            })
+            // request({
+            //     url: '/project/funds/getProjectExpenditure',
+            //     method: 'get',
+            //     params: {
+            //         projectId: this.$props.projectId,
+            //     },
+            // })
+            //     .then((resp) => {
+            //         this.expenditureEntry = resp.data;
+            //         loading.close();
+            //     })
+            //     .catch((error) => {
+            //         console.error('获取用户数据时出错：', error);
+            //         loading.close();
+            //     });
+            const bodyData = {
+                projectId: this.$props.projectId,
+            };
+            console.log("bodyData",bodyData)
+            getExpenditure(bodyData, this.queryParam)
                 .then((resp) => {
-                    this.expenditureEntry = resp.data;
-                    loading.close();
+                    console.log("111", resp.rows);
+                    this.expenditureEntry = resp.rows;
+                    this.loading = false; // 关闭遮罩层
                 })
                 .catch((error) => {
                     console.error('获取用户数据时出错：', error);
-                    loading.close();
+                    this.loading = false; // 关闭遮罩层
                 });
         },
         // 查看经费到账

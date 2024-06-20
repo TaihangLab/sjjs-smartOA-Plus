@@ -110,6 +110,7 @@ import AppropriationAccount from "@/views/project/components/ExpensesIncome/Appr
 import ExpenditureEntry from "@/views/project/components/ExpenditureEntry.vue";
 import ExpenditureCheck from "@/views/project/components/ExpenditureCheck.vue";
 import CheckDetail from "@/views/project/components/ExpensesIncome/checkExpensesIncome/CheckDetail.vue";
+import {getExpenditure} from "@/api/project/expenditure";
 
 export default {
     components: { CheckDetail, ExpenditureEntry, AppropriationAccount, ExpenditureCheck },
@@ -140,6 +141,10 @@ export default {
                 pageNum: 1,
                 pageSize: 10,
             },
+            expenditureQueryParam: {
+                pageNum: 1,
+                pageSize: 10,
+            },
             levelOptions: [
                 {
                     value: 0,
@@ -162,14 +167,8 @@ export default {
     },
     created() {
         this.checkFundsList();
-        this.handleTabClick({ name: 'view' });
     },
     methods: {
-        handleTabClick(tab) {
-            if (tab.name === 'view') {
-                this.checkExpenditureEntryDetail();
-            }
-        },
         async checkFundsList() {
             this.getDeptAndUserList();
             this.getProjectTree();
@@ -259,12 +258,6 @@ export default {
         closeIncomeDialog() {
             this.appropriationlDialogVisibleEdit = false;
         },
-        closeExpenseDialogLook() {
-            this.resetQuery();
-        },
-        closeExpenseDialog() {
-            this.resetQuery();
-        },
         // 关闭弹窗的方法
         closeExpenselDialog() {
             this.expenditureDialogVisibleEdit = false;
@@ -296,31 +289,11 @@ export default {
             if (command.command === 'view') {
                 this.expenditureDialogVisibleCheck = true;
                 this.projectId = command.row.projectId;
-                this.checkExpenditureEntryDetail();
             } else if (command.command === 'add') {
                 // 处理新增操作，可以添加相应的逻辑
                 this.projectId = command.row.projectId;
                 this.expenditureDialogVisibleEdit = true; // 处理新增操作
-                this.checkExpenditureEntryDetail();
             }
-        },
-        // 查看支出信息
-        checkExpenditureEntryDetail() {
-            request({
-                url: '/project/funds/getProjectExpenditure',
-                method: 'get',
-                params: {
-                    projectId: this.$props.projectId,
-                },
-            })
-                .then((resp) => {
-                    this.expenditureEntry = resp.data;
-                    this.loading = false; // 关闭遮罩层
-                })
-                .catch((error) => {
-                    console.error('获取用户数据时出错：', error);
-                    this.loading = false; // 关闭遮罩层
-                });
         },
         sizeChangeHandle(val) {
             this.$set(this.queryParam, 'pageSize', val);
