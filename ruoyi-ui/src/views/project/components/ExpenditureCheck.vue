@@ -100,7 +100,6 @@
 </template>
 
 <script>
-import request from '@/utils/request';
 import { MessageBox, Message } from 'element-ui';
 import {getExpenditure, rollbackExpenditure} from "@/api/project/expenditure";
 

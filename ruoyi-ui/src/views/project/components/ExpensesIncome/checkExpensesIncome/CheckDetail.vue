@@ -278,6 +278,19 @@ export default {
             };
             return secondLevelSubject[row.secondLevelSubject];
         },
+        thirdLevelSubjectFormatter (row) {
+            const thirdLevelSubject = {
+                0: '无',
+                1: '知识产权事务费',
+                2: '印刷打印制作费',
+                3: '文献数据库费',
+                4: '信息传播费',
+                5: '会议费',
+                6: '差旅费',
+                7: '国际合作费',
+            };
+            return thirdLevelSubject[row.thirdLevelSubject];
+        },
         // 专项自筹
         zxzcFormatter(row) {
             const zxzc = {
@@ -285,6 +298,13 @@ export default {
                 1: '自筹',
             };
             return zxzc[row.zxzc];
+        },
+        zjjjFormatter (row) {
+            const zjjj = {
+                0: '直接',
+                1: '间接',
+            };
+            return zjjj[row.zjjj];
         },
         // 查看详情
         checkDetail() {
@@ -307,28 +327,11 @@ export default {
         },
         // 查看支出信息
         checkExpenditureEntryDetail() {
-            // request({
-            //     url: '/project/funds/getProjectExpenditure',
-            //     method: 'get',
-            //     params: {
-            //         projectId: this.$props.projectId,
-            //     },
-            // })
-            //     .then((resp) => {
-            //         this.expenditureEntry = resp.data;
-            //         loading.close();
-            //     })
-            //     .catch((error) => {
-            //         console.error('获取用户数据时出错：', error);
-            //         loading.close();
-            //     });
             const bodyData = {
                 projectId: this.$props.projectId,
             };
-            console.log("bodyData",bodyData)
             getExpenditure(bodyData, this.queryParam)
                 .then((resp) => {
-                    console.log("111", resp.rows);
                     this.expenditureEntry = resp.rows;
                     this.loading = false; // 关闭遮罩层
                 })
@@ -366,12 +369,8 @@ export default {
             })
                 .then((resp) => {
                     this.checkOthers = resp.data;
-                    loading.close();
+
                 })
-                .catch((error) => {
-                    console.error('获取用户数据时出错：', error);
-                    loading.close();
-                });
         },
     },
 }
