@@ -102,7 +102,7 @@
 <script>
 import request from '@/utils/request';
 import { MessageBox, Message } from 'element-ui';
-import { getExpenditure } from "@/api/project/expenditure";
+import {getExpenditure, rollbackExpenditure} from "@/api/project/expenditure";
 
 export default {
     name: "ExpenditureCheck",
@@ -273,13 +273,7 @@ export default {
             });
         },
         deleteExpenditure(expenditureId) {
-            request({
-                url: `/project/funds/rollback`,
-                method: 'get',
-                params: {
-                    expenditureId: expenditureId,
-                },
-            })
+            rollbackExpenditure(expenditureId)
                 .then(() => {
                     this.checkExpenditureEntryDetail();
                 })
@@ -293,6 +287,21 @@ export default {
         },
         CurrentChangeHandle(page) {
             this.queryParam.pageNum = page;
+            this.checkExpenditureEntryDetail();
+        },
+        resetQuery() {
+            // 重置所有过滤字段为默认值
+            this.filters.firstLevelSubject = '';
+            this.filters.secondLevelSubject = '';
+            this.filters.thirdLevelSubject = '';
+            this.filters.startDate = '';
+            this.filters.endDate = '';
+
+            // 重置分页参数
+            this.queryParam.pageNum = 1;
+            this.queryParam.pageSize = 10;
+
+            // 使用重置的过滤条件和分页参数重新获取数据
             this.checkExpenditureEntryDetail();
         },
     },

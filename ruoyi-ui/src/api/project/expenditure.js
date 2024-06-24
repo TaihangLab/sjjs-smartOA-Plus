@@ -9,3 +9,14 @@ export function getExpenditure(bodyData, queryParam) {
         params: queryParam,
     });
 }
+
+// 删除支出信息
+export function rollbackExpenditure(expenditureId) {
+    return request({
+        url: '/project/funds/rollback',
+        method: 'get',
+        params: {
+            expenditureId: expenditureId,
+        },
+    });
+}

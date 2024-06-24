@@ -110,7 +110,6 @@ import AppropriationAccount from "@/views/project/components/ExpensesIncome/Appr
 import ExpenditureEntry from "@/views/project/components/ExpenditureEntry.vue";
 import ExpenditureCheck from "@/views/project/components/ExpenditureCheck.vue";
 import CheckDetail from "@/views/project/components/ExpensesIncome/checkExpensesIncome/CheckDetail.vue";
-import {getExpenditure} from "@/api/project/expenditure";
 
 export default {
     components: { CheckDetail, ExpenditureEntry, AppropriationAccount, ExpenditureCheck },
