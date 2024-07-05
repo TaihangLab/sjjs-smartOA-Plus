@@ -21,9 +21,9 @@
         </el-form>
         <el-card class="box-card" style="margin: auto;">
             <div>
-                <el-table ref="multipleTable" :data="projectlist" border style="width: 100%"
+                <el-table ref="multipleTable" :data="projectList" border style="width: 100%"
                     :row-style="{ height: '50px' }" :cell-style="{ padding: '0px' }">
-                    <!--                 <el-table-column type="selection" :resizable="false" align="center" width="40"></el-table-column>-->
+                    <!--<el-table-column type="selection" :resizable="false" align="center" width="40"></el-table-column>-->
                     <el-table-column label="项目名称" :resizable="false" align="center" prop="assignedSubjectName" fixed="left"
                         width="300">
                     </el-table-column>
@@ -116,10 +116,10 @@ export default {
     data() {
         return {
             dialogDetailLook: false,
-            projecttree: undefined,
+            projectTree: undefined,
             total: 0,
             projectId: undefined,
-            projectlist: undefined,
+            projectList: undefined,
             dialogExpenseLook: false,
             appropriationlDialogVisibleEdit: false,
             expenditureDialogVisibleEdit: false,
@@ -190,7 +190,7 @@ export default {
                 params: this.header,
             })
                 .then((resp) => {
-                    this.projecttree = resp.data;
+                    this.projectTree = resp.data;
                 })
                 .catch((error) => {
                     console.error('获取用户数据时出错：', error);
@@ -198,10 +198,6 @@ export default {
         },
         // 按部门-人员搜索
         async getDeptAndUserList() {
-            // this.queryParam.pageNum = 1;
-            // this.queryParam.pageSize = 10;
-            // await this.getDeptTree(); // 等待部门数据加载完成
-            // await this.getList(); // 等待用户数据加载完成
             this.cascaderOptions = this.adaptData(this.deptOptions);
         },
         // 适配数据的方法
@@ -277,7 +273,7 @@ export default {
             })
                 .then((resp) => {
                     // 处理获取的经费数据
-                    this.projectlist = resp.rows;
+                    this.projectList = resp.rows;
                     this.total = resp.total;
                 })
                 .catch((error) => {

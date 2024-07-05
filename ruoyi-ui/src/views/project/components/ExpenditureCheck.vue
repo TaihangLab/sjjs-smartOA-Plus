@@ -46,11 +46,17 @@
             <el-form-item>
                 <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
                 <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+                <el-button type="success" icon="el-icon-download" size="mini" @click="handleExport">导出</el-button>
             </el-form-item>
         </el-form>
         <el-table ref="multipleTable" :data="expenditureEntry" border
                   style="width: 100%; max-height: 800px; overflow-y: auto;" :row-style="{ height: '50px' }"
-                  :cell-style="{ padding: '0px' }">
+                  :cell-style="{ padding: '0px' }" @selection-change="handleSelectionChange">
+            <el-table-column
+                type="selection"
+                width="55"
+                align="center"
+            ></el-table-column>
             <el-table-column label="日期" :resizable="false" align="center" width="100px">
                 <template slot-scope="scope">
                     {{ formatDate(scope.row.expenditureDate) }}
@@ -101,7 +107,7 @@
 
 <script>
 import { MessageBox, Message } from 'element-ui';
-import {getExpenditure, rollbackExpenditure} from "@/api/project/expenditure";
+import {exportExpenditure, getExpenditure, rollbackExpenditure} from "@/api/project/expenditure";
 
 export default {
     name: "ExpenditureCheck",
@@ -188,6 +194,7 @@ export default {
                     { value: '7', label: '国际合作费' },
                 ],
             },
+            selectedExpenditures: [],
         };
     },
     watch: {
@@ -303,6 +310,20 @@ export default {
             // 使用重置的过滤条件和分页参数重新获取数据
             this.checkExpenditureEntryDetail();
         },
+        handleSelectionChange(selection) {
+            this.selectedExpenditures = selection;
+        },
+        handleExport() {
+            const selectedIds = this.selectedExpenditures.map(expenditure => expenditure.expenditureId);
+            const projectExpenditureBO = {
+                expenditureIds: selectedIds,
+            };
+            this.download(
+                "/project/funds/exportData",  // URL
+                projectExpenditureBO,
+                `支出明细数据_${new Date().getTime()}.xlsx`  // 文件名
+            );
+        }
     },
 };
 </script>

@@ -10,26 +10,28 @@ import com.ruoyi.common.core.validate.EditGroup;
 import com.ruoyi.common.core.validate.QueryGroup;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.excel.ExcelResult;
+import com.ruoyi.common.utils.BeanCopyUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.project.domain.ProjectExpenditure;
 import com.ruoyi.project.domain.ProjectFundsReceived;
 import com.ruoyi.project.domain.bo.ProjectBaseInfoBO;
 import com.ruoyi.project.domain.bo.ProjectExpenditureBO;
-import com.ruoyi.project.domain.vo.ProjectExpenditureImportVO;
-import com.ruoyi.project.domain.vo.ProjectExpenditureVO;
-import com.ruoyi.project.domain.vo.ProjectFundsManagementVO;
-import com.ruoyi.project.domain.vo.ProjectFundsReceivedVo;
+import com.ruoyi.project.domain.vo.*;
 import com.ruoyi.project.listener.ProjectFundsImportListener;
 import com.ruoyi.project.service.ProjectExpenditureService;
 import com.ruoyi.project.service.ProjectFundsManagementService;
 import com.ruoyi.project.service.ProjectFundsReceivedService;
 import com.ruoyi.project.service.ProjectFundsService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,6 +41,7 @@ import java.util.List;
  * @date 2024/2/26
  */
 @Validated
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/project/funds")
@@ -81,6 +84,24 @@ public class ProjectFundsController {
             ExcelUtil.importExcel(file.getInputStream(), ProjectExpenditureImportVO.class,
                 new ProjectFundsImportListener());
         return R.ok(result.getList());
+    }
+
+    /**
+     * 导出数据
+     *
+     * @param projectExpenditureBO 支出ID
+     *
+     * @param response
+     */
+    @Log(title = "经费支出导出", businessType = BusinessType.EXPORT)
+//    @SaCheckPermission("project:expense:export")
+    @PostMapping("/exportData")
+    public void export(ProjectExpenditureBO projectExpenditureBO, HttpServletResponse response) {
+        log.info("收到的请求参数: {}", projectExpenditureBO);
+        List<ProjectExpenditure> projectExpenditures = projectExpenditureService.getProjectExpenditureByProId(projectExpenditureBO);
+        log.info("查询到的数据: {}", projectExpenditures);
+        List<ProjectExpenditureExportVO> projectExpenditureExportVOS = BeanCopyUtils.copyList(projectExpenditures, ProjectExpenditureExportVO.class);
+        ExcelUtil.exportExcel(projectExpenditureExportVOS, "支出明细数据", ProjectExpenditureExportVO.class, response);
     }
 
     /**

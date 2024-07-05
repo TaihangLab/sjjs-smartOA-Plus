@@ -20,3 +20,13 @@ export function rollbackExpenditure(expenditureId) {
         },
     });
 }
+
+// 导出支出信息
+export function exportExpenditure(projectExpenditureBO) {
+    return request({
+        url: '/project/funds/exportData',
+        method: 'post',
+        data: projectExpenditureBO,
+        responseType: 'blob',
+    });
+}

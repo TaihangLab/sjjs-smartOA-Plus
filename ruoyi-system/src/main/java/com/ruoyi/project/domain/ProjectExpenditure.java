@@ -54,6 +54,7 @@ public class ProjectExpenditure extends BaseEntity implements Serializable {
      * 专项/自筹,0专项,1自筹
      */
     private ZxZcEnum zxzc;
+
     /**
      * 直接/间接，0 直接,1 间接
      */
@@ -78,6 +79,7 @@ public class ProjectExpenditure extends BaseEntity implements Serializable {
      * 支出金额,单位:元
      */
     private BigDecimal amount;
+
     /**
      * 是否删除，2删除，0未删除
      */

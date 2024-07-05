@@ -31,7 +31,7 @@ public class ExcelEnumConvert implements Converter<Object> {
 
     @Override
     public CellDataTypeEnum supportExcelTypeKey() {
-        return null;
+        return CellDataTypeEnum.STRING;
     }
 
     @Override
@@ -61,7 +61,16 @@ public class ExcelEnumConvert implements Converter<Object> {
         //        Map<Object, String> enumValueMap = beforeConvert(contentProperty);
         //        String value = Convert.toStr(enumValueMap.get(object), "");
         //        return new WriteCellData<>(value);
-        return new WriteCellData<>(object.toString());
+//        return new WriteCellData<>(object.toString());
+        if (object == null) {
+            return new WriteCellData<>("");
+        }
+
+        ExcelEnumFormat anno = getAnnotation(contentProperty.getField());
+        Map<Object, String> enumValueMap = beforeConvert(contentProperty);
+
+        String description = enumValueMap.get(getEnumValue(object, anno.codeField()));
+        return new WriteCellData<>(description);
     }
 
     private ExcelEnumFormat getAnnotation(Field field) {
@@ -78,5 +87,9 @@ public class ExcelEnumConvert implements Converter<Object> {
             enumValueMap.put(codeValue, textValue);
         }
         return enumValueMap;
+    }
+
+    private Object getEnumValue(Object enumInstance, String codeField) {
+        return ReflectUtils.invokeGetter(enumInstance, codeField);
     }
 }

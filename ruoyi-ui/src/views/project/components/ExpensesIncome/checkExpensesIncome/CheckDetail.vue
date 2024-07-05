@@ -208,12 +208,8 @@ export default {
     },
     created() {
         this.handleTabClick({ name: 'first' });
-        console.log('projectId:', this.$props.projectId);
     },
     methods: {
-        handleClick(tab, event) {
-            console.log(tab, event);
-        },
         handleTabClick(tab) {
             if (tab.name === 'second') {
                 this.checkExpenditureEntryDetail();
@@ -314,31 +310,21 @@ export default {
                 params: {
                     projectId: this.$props.projectId,
                 },
-            })
-                .then((resp) => {
+            }).then((resp) => {
                     this.lookDetail = resp.data;
                     this.projectdescription = this.lookDetail.projectInfoVO.projectDescription;
                     loading.close();
                 })
-                .catch((error) => {
-                    console.error('获取用户数据时出错：', error);
-                    loading.close();
-                });
         },
         // 查看支出信息
         checkExpenditureEntryDetail() {
             const bodyData = {
                 projectId: this.$props.projectId,
             };
-            getExpenditure(bodyData, this.queryParam)
-                .then((resp) => {
+            getExpenditure(bodyData, this.queryParam).then((resp) => {
                     this.expenditureEntry = resp.rows;
                     this.loading = false; // 关闭遮罩层
                 })
-                .catch((error) => {
-                    console.error('获取用户数据时出错：', error);
-                    this.loading = false; // 关闭遮罩层
-                });
         },
         // 查看经费到账
         checkFundsReceivedDetail() {
@@ -348,15 +334,10 @@ export default {
                 params: {
                     projectId: this.$props.projectId,
                 },
-            })
-                .then((resp) => {
+            }).then((resp) => {
                     this.appropriationAccount = resp.data;
                     loading.close();
                 })
-                .catch((error) => {
-                    console.error('获取用户数据时出错：', error);
-                    loading.close();
-                });
         },
         // 查看其他
         checkOther() {
@@ -366,10 +347,8 @@ export default {
                 params: {
                     projectId: this.$props.projectId,
                 },
-            })
-                .then((resp) => {
+            }).then((resp) => {
                     this.checkOthers = resp.data;
-
                 })
         },
     },

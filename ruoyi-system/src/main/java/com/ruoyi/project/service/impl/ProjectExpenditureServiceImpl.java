@@ -45,6 +45,16 @@ public class ProjectExpenditureServiceImpl implements ProjectExpenditureService{
     private final ConcurrentMap<String, String> unpaidMapping;
     private final ConcurrentMap<String, String> unpaidReverseMapping;
 
+    /**
+     * 根据支出id获取支出信息
+     * @param ExpenditureIdList 支出id列表
+     * @return 支出信息
+     */
+    @Override
+    public List<ProjectExpenditure> getProjectExpenditureByExpId(List<Long> ExpenditureIdList){
+        List<ProjectExpenditure> projectExpenditureList = projectExpenditureMapper.selectBatchIds(ExpenditureIdList);
+        return projectExpenditureList;
+    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -211,8 +221,23 @@ public class ProjectExpenditureServiceImpl implements ProjectExpenditureService{
         return TableDataInfo.build(result);
     }
 
+    /**
+     * 根据项目id查询支出明细
+     *
+     * @param projectExpenditureBO
+     *
+     * @return
+     */
+    @Override
+    public List<ProjectExpenditure> getProjectExpenditureByProId(ProjectExpenditureBO projectExpenditureBO) {
+        return projectExpenditureMapper.selectList(buildQueryWrapper(projectExpenditureBO));
+    }
+
     private LambdaQueryWrapper<ProjectExpenditure> buildQueryWrapper(ProjectExpenditureBO projectExpenditureBO) {
         LambdaQueryWrapper<ProjectExpenditure> lqw = new LambdaQueryWrapper<>();
+        if (projectExpenditureBO.getExpenditureIds() != null && !projectExpenditureBO.getExpenditureIds().isEmpty()) {
+            lqw.in(ProjectExpenditure::getExpenditureId, projectExpenditureBO.getExpenditureIds());
+        }
         lqw.eq(projectExpenditureBO.getProjectId() != null, ProjectExpenditure::getProjectId,
             projectExpenditureBO.getProjectId());
         lqw.ge(projectExpenditureBO.getExpenditureDateSta() != null, ProjectExpenditure::getExpenditureDate,

@@ -146,8 +146,6 @@ public class ProjectFundsReceivedServiceImpl implements ProjectFundsReceivedServ
      */
     @Override
     public List<ProjectFundsReceivedVo> getFundsReceivedByProId(Long projectId) {
-
-
         List<ProjectFundsReceived> projectFundsReceiveds = projectFundsReceivedMapper.selectList(
             new LambdaQueryWrapper<ProjectFundsReceived>()
                 .eq(ProjectFundsReceived::getProjectId, projectId)

@@ -10,6 +10,7 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * 经费支出BO
@@ -24,6 +25,11 @@ public class ProjectExpenditureBO {
      */
     @NotNull(message = "支出id不能为空", groups = {EditGroup.class})
     private Long expenditureId;
+
+    /**
+     * 支出id集合
+     */
+    private List<Long> expenditureIds;
     /**
      * 项目id
      */
