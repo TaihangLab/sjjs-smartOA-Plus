@@ -83,7 +83,7 @@
 <script>
 import request from "@/utils/request";
 import ExpenditureAdd from "@/views/project/components/ExpenditureAdd.vue";
-import {fundsAndBalance} from "@/api/project/expenditure";
+import {fundsAndBalance} from "@/api/project/funds";
 
 export default {
     components: { ExpenditureAdd },

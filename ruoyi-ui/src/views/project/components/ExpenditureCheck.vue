@@ -107,7 +107,7 @@
 
 <script>
 import { MessageBox, Message } from 'element-ui';
-import {exportExpenditure, fundsAndBalance, getExpenditure, rollbackExpenditure} from "@/api/project/expenditure";
+import {exportExpenditure, fundsAndBalance, getExpenditure, rollbackExpenditure} from "@/api/project/funds";
 import {formatDate} from "@/utils";
 
 export default {

@@ -93,6 +93,10 @@
                     </el-collapse>
                 </el-collapse>
             </el-tab-pane>
+            <el-tab-pane label="经费到账" name="third">
+                <CheckAppropriationAccount :appropriationAccount="this.appropriationAccount">
+                </CheckAppropriationAccount>
+            </el-tab-pane>
             <el-tab-pane label="支出明细" name="second">
                 <div style="margin-top: 10px;"></div>
                 <el-table ref="multipleTable" :data="expenditureEntry" border
@@ -136,11 +140,8 @@
                     </el-table-column>
                 </el-table>
             </el-tab-pane>
-            <el-tab-pane label="经费到账" name="third">
-                <CheckAppropriationAccount :appropriationAccount="this.appropriationAccount">
-                </CheckAppropriationAccount>
-            </el-tab-pane>
-            <el-tab-pane label="经费支出情况" name="fourth">
+
+            <el-tab-pane label="经费明细汇总" name="fourth">
                 <FundSituation :checkOthers="this.checkOthers">
                 </FundSituation>
             </el-tab-pane>
@@ -151,7 +152,7 @@
 import request from '@/utils/request';
 import CheckAppropriationAccount from "@/views/project/components/ExpensesIncome/checkExpensesIncome/CheckAppropriationAccount.vue";
 import FundSituation from "@/views/project/components/ExpensesIncome/checkExpensesIncome/FundSituation.vue";
-import {fundsAndBalance, getExpenditure, getFundsReceived} from "@/api/project/expenditure";
+import {fundsAndBalance, getExpenditure, getFundsReceived} from "@/api/project/funds";
 
 export default {
     name: "CheckDetail",
@@ -322,7 +323,7 @@ export default {
             };
             getExpenditure(bodyData, this.queryParam).then((resp) => {
                     this.expenditureEntry = resp.rows;
-                    this.loading = false; // 关闭遮罩层
+                    this.loading = false;
                 })
         },
         // 查看经费到账
