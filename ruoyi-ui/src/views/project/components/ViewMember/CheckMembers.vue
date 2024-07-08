@@ -78,7 +78,7 @@ export default {
                 'width': '60%',
             },
             //label样式
-            activeNames: ['0'],
+            activeNames: ['1','2','3'],
             labelStyle: { 'color': '#000', 'width': '30%', },
             params:{
                 userId: undefined,
@@ -87,21 +87,20 @@ export default {
         };
     },
     created() {
-        this.cheakproject();
+        this.checkProject();
     },
     watch: {
         memberid: {
             handler(newVal) {
                 // 监听到memberid变化时，重新获取项目详情数据
                 this.params.userId = newVal;
-                this.activeNames = ['0'];
-                this.cheakproject();
+                this.checkProject();
             },
             immediate: true, // 立即执行一次
         },
     },
     methods: {
-        cheakproject() {
+        checkProject() {
             this.params.userId = this.$props.memberid;
             request({
                 url: '/project/user/getDetails',
