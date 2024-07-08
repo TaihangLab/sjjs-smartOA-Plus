@@ -149,10 +149,9 @@
 </template>
 <script>
 import request from '@/utils/request';
-import { defineComponent } from "vue";
 import CheckAppropriationAccount from "@/views/project/components/ExpensesIncome/checkExpensesIncome/CheckAppropriationAccount.vue";
 import FundSituation from "@/views/project/components/ExpensesIncome/checkExpensesIncome/FundSituation.vue";
-import {getExpenditure} from "@/api/project/expenditure";
+import {fundsAndBalance, getExpenditure, getFundsReceived} from "@/api/project/expenditure";
 
 export default {
     name: "CheckDetail",
@@ -328,30 +327,19 @@ export default {
         },
         // 查看经费到账
         checkFundsReceivedDetail() {
-            request({
-                url: '/project/funds/getFundsReceived',
-                method: 'get',
-                params: {
-                    projectId: this.$props.projectId,
-                },
-            }).then((resp) => {
+            getFundsReceived(this.$props.projectId)
+                .then((resp) => {
                     this.appropriationAccount = resp.data;
-                    loading.close();
                 })
         },
-        // 查看其他
+        //查看预算及支出汇总
         checkOther() {
-            request({
-                url: '/project/balance/fundsAndBalance',
-                method: 'get',
-                params: {
-                    projectId: this.$props.projectId,
-                },
-            }).then((resp) => {
+            fundsAndBalance(this.$props.projectId)
+                .then((resp) => {
                     this.checkOthers = resp.data;
-                })
-        },
-    },
+                });
+        }
+    }
 }
 </script>
 

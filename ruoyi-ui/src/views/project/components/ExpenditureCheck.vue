@@ -107,7 +107,7 @@
 
 <script>
 import { MessageBox, Message } from 'element-ui';
-import {exportExpenditure, getExpenditure, rollbackExpenditure} from "@/api/project/expenditure";
+import {exportExpenditure, fundsAndBalance, getExpenditure, rollbackExpenditure} from "@/api/project/expenditure";
 import {formatDate} from "@/utils";
 
 export default {
@@ -263,7 +263,7 @@ export default {
                 type: 'warning',
             }).then(() => {
                 this.deleteExpenditure(expenditureId);
-            });
+            })
         },
         deleteExpenditure(expenditureId) {
             rollbackExpenditure(expenditureId)

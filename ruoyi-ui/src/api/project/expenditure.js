@@ -30,3 +30,25 @@ export function exportExpenditure(projectExpenditureBO) {
         responseType: 'blob',
     });
 }
+
+// 查看预算及支出汇总
+export function fundsAndBalance(projectId) {
+    return request({
+        url: '/project/balance/fundsAndBalance',
+        method: 'get',
+        params: {
+            projectId: projectId,
+        },
+    });
+}
+
+// 查看经费到账
+export function getFundsReceived(projectId) {
+    return request({
+        url: '/project/funds/getFundsReceived',
+        method: 'get',
+        params: {
+            projectId: projectId,
+        },
+    });
+}

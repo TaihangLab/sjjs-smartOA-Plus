@@ -83,6 +83,7 @@
 <script>
 import request from "@/utils/request";
 import ExpenditureAdd from "@/views/project/components/ExpenditureAdd.vue";
+import {fundsAndBalance} from "@/api/project/expenditure";
 
 export default {
     components: { ExpenditureAdd },
@@ -276,23 +277,11 @@ export default {
                 });
             });
         },
-        // 查看其他
+        //查看预算及支出汇总
         checkOther() {
-            // 使用正确的用户列表接口，假设接口为 /user/list
-            request({
-                url: '/project/balance/fundsAndBalance',
-                method: 'get',
-                params: {
-                    projectId: this.$props.projectId,
-                },
-            })
+            fundsAndBalance(this.$props.projectId)
                 .then((resp) => {
                     this.checkOthers = resp.data;
-                    loading.close();
-                })
-                .catch((error) => {
-                    console.error('获取用户数据时出错：', error);
-                    loading.close();
                 });
         },
         closeExpenditureDialog() {
