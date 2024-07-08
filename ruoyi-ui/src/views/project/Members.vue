@@ -73,7 +73,7 @@
                 <!-- 详情打开的界面 -->
                 <el-dialog :visible.sync="dialogMembersLook" width="50%">
                     <div class="dialog-content">
-                        <CheckMembers :memberid="this.memberid"></CheckMembers>
+                        <CheckMembers :memberId="this.memberId"></CheckMembers>
                     </div>
                 </el-dialog>
             </div>
@@ -90,6 +90,7 @@ import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 import request from '@/utils/request';
 import CheckProject from "./CheckProject.vue";
 import CheckMembers from "@/views/project/components/ViewMember/CheckMembers.vue";
+import {getAllList} from "@/api/project/user";
 export default {
     components: {CheckMembers, CheckProject},
     data(){
@@ -115,7 +116,7 @@ export default {
             total: 0,
             responsiblePerson: [],
             cascaderOptions: [],
-            memberid: undefined,
+            memberId: undefined,
             memberslist: undefined,
             dialogMembersLook: false,
             datas: {
@@ -149,7 +150,7 @@ export default {
             await this.getList(); // 等待用户数据加载完成
             this.cascaderOptions = this.adaptData(this.deptOptions);
             this.getProjectTree();
-            this.checkmembers();
+            this.checkMembers();
         },
         /** 查询部门下拉树结构 */
         async getDeptTree() {
@@ -191,7 +192,7 @@ export default {
         handleQuery() {
             this.datas.projectId = this.responsibleproject[this.responsibleproject.length - 1];
             this.datas.userId = this.responsiblePerson[this.responsiblePerson.length - 1];
-            this.checkmembers();
+            this.checkMembers();
         },
         resetQuery(){
             this.responsibleproject = [];
@@ -200,37 +201,21 @@ export default {
             this.datas.projectId = undefined;
             this.queryParam.pageNum = 1;
             this.queryParam.pageSize = 10;
-            this.checkmembers();
-        },
-        handleQueryRequest(queryParams) {
-            // 执行后端查询等操作
-            if (queryParams && Object.keys(queryParams).length > 0) {
-                this.datas = queryParams;
-            }
-            this.queryParam.pageNum = 1;
-            this.checkmembers();
+            this.checkMembers();
         },
         //详情按钮
         lookMembers(userId) {
             this.dialogMembersLook = true;
-            this.memberid = userId;
+            this.memberId = userId;
         },
         // 查看用户列表
-        checkmembers() {
-            request({
-                url: '/project/user/getAllList',
-                method: 'post',
-                data: this.datas,
-                params: this.queryParam,
-            })
+        checkMembers() {
+            getAllList(this.datas, this.queryParam)
                 .then((resp) => {
                     // 处理获取的用户数据
                     this.memberslist = resp.rows;
                     this.total = resp.total;
                 })
-                .catch((error) => {
-                    console.error('获取用户数据时出错：', error);
-                });
         },
         getProjectTree(){
             request({

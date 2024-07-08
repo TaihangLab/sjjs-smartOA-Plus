@@ -67,10 +67,10 @@
 </template>
 
 <script>
-import request from "@/utils/request";
+import {getDetails} from "@/api/project/user";
 
 export default {
-    props: ['memberid'],
+    props: ['memberId'],
     data() {
         return {
             contentStyle: {
@@ -90,9 +90,9 @@ export default {
         this.checkProject();
     },
     watch: {
-        memberid: {
+        memberId: {
             handler(newVal) {
-                // 监听到memberid变化时，重新获取项目详情数据
+                // 监听到memberId变化时，重新获取项目详情数据
                 this.params.userId = newVal;
                 this.checkProject();
             },
@@ -101,18 +101,11 @@ export default {
     },
     methods: {
         checkProject() {
-            this.params.userId = this.$props.memberid;
-            request({
-                url: '/project/user/getDetails',
-                method: 'get',
-                params: this.params,
-            })
+            this.params.userId = this.$props.memberId;
+            getDetails(this.params)
                 .then((resp) => {
                     this.projectListLook = resp.data;
                 })
-                .catch((error) => {
-                    console.error('获取数据时出错：', error);
-                });
         },
     },
 };
