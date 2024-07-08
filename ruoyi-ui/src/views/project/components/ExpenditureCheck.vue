@@ -108,6 +108,7 @@
 <script>
 import { MessageBox, Message } from 'element-ui';
 import {exportExpenditure, getExpenditure, rollbackExpenditure} from "@/api/project/expenditure";
+import {formatDate} from "@/utils";
 
 export default {
     name: "ExpenditureCheck",
@@ -200,7 +201,7 @@ export default {
     watch: {
         projectId: {
             handler(newVal) {
-                this.checkExpenditureEntryDetail();
+                this.handleQuery();
             },
             immediate: true,
         },
@@ -255,20 +256,6 @@ export default {
                     this.loading = false;
                 });
         },
-        checkExpenditureEntryDetail() {
-            const bodyData = {
-                projectId: this.$props.projectId,
-            };
-            getExpenditure(bodyData, this.queryParam)
-                .then((resp) => {
-                    this.expenditureEntry = resp.rows;
-                    this.total = resp.total;
-                    this.loading = false;
-                })
-                .catch(() => {
-                    this.loading = false;
-                });
-        },
         confirmDeleteExpenditure(expenditureId) {
             MessageBox.confirm('确定撤销该录入信息吗？', '提示', {
                 confirmButtonText: '确定',
@@ -281,7 +268,7 @@ export default {
         deleteExpenditure(expenditureId) {
             rollbackExpenditure(expenditureId)
                 .then(() => {
-                    this.checkExpenditureEntryDetail();
+                    this.handleQuery();
                 })
                 .catch(error => {
                     Message.error('删除支出信息失败，请稍后重试！');
@@ -289,11 +276,11 @@ export default {
         },
         sizeChangeHandle(size) {
             this.queryParam.pageSize = size;
-            this.checkExpenditureEntryDetail();
+            this.handleQuery();
         },
         CurrentChangeHandle(page) {
             this.queryParam.pageNum = page;
-            this.checkExpenditureEntryDetail();
+            this.handleQuery();
         },
         resetQuery() {
             // 重置所有过滤字段为默认值
@@ -308,7 +295,7 @@ export default {
             this.queryParam.pageSize = 10;
 
             // 使用重置的过滤条件和分页参数重新获取数据
-            this.checkExpenditureEntryDetail();
+            this.handleQuery();
         },
         handleSelectionChange(selection) {
             this.selectedExpenditures = selection;
@@ -318,10 +305,11 @@ export default {
             const projectExpenditureBO = {
                 expenditureIds: selectedIds,
             };
+            const formattedDate = formatDate(new Date());
             this.download(
                 "/project/funds/exportData",  // URL
                 projectExpenditureBO,
-                `支出明细数据_${new Date().getTime()}.xlsx`  // 文件名
+                `支出明细数据_${formattedDate}.xlsx`   // 文件名
             );
         }
     },

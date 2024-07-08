@@ -2,6 +2,7 @@ package com.ruoyi.project.domain.vo;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.format.DateTimeFormat;
+import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.ruoyi.common.annotation.ExcelEnumFormat;
 import com.ruoyi.common.convert.ExcelEnumConvert;
 import com.ruoyi.common.enums.*;
@@ -25,6 +26,7 @@ public class ProjectExpenditureExportVO implements Serializable {
     /**
      * 支出日期
      */
+    @ColumnWidth(value = 15)
     @ExcelProperty(value = "日期")
     @DateTimeFormat("yyyy/MM/dd")
     private LocalDate expenditureDate;
