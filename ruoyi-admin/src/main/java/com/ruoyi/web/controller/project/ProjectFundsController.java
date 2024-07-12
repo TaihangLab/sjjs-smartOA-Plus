@@ -94,12 +94,10 @@ public class ProjectFundsController {
      * @param response
      */
     @Log(title = "经费支出导出", businessType = BusinessType.EXPORT)
-//    @SaCheckPermission("project:expense:export")
+    @SaCheckPermission("project:expense:export")
     @PostMapping("/exportData")
     public void export(ProjectExpenditureBO projectExpenditureBO, HttpServletResponse response) {
-        log.info("收到的请求参数: {}", projectExpenditureBO);
         List<ProjectExpenditure> projectExpenditures = projectExpenditureService.getProjectExpenditureByProId(projectExpenditureBO);
-        log.info("查询到的数据: {}", projectExpenditures);
         List<ProjectExpenditureExportVO> projectExpenditureExportVOS = BeanCopyUtils.copyList(projectExpenditures, ProjectExpenditureExportVO.class);
         ExcelUtil.exportExcel(projectExpenditureExportVOS, "支出明细数据", ProjectExpenditureExportVO.class, response);
     }
@@ -199,5 +197,4 @@ public class ProjectFundsController {
         @RequestBody @Validated(QueryGroup.class) ProjectExpenditureBO projectExpenditureBO, PageQuery pageQuery) {
         return projectExpenditureService.getProjectExpenditureByProId(projectExpenditureBO, pageQuery);
     }
-
 }
