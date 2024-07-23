@@ -12,8 +12,7 @@
                 :show-overflow-tooltip="true" />
             <el-table-column label="所属部门" align="center" prop="deptName" v-if="columns[4].visible"
                 :show-overflow-tooltip="true" />
-            <el-table-column label="项目角色" align="center" prop="projectUserRole" v-if="columns[5].visible"
-                             :formatter="formatProjectUserRole" :show-overflow-tooltip="true" />
+            <el-table-column label="项目角色" align="center" prop="projectUserRole" v-if="columns[5].visible" :formatter="formatProjectUserRole" :show-overflow-tooltip="true" />
         </el-table>
     </div>
 </template>

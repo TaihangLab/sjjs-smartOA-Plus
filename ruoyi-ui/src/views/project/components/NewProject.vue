@@ -274,7 +274,7 @@ export default {
                     })
                 this.$emit('update:visible', false);
                 // this.$emit("refresh");
-                setTimeout(() => location.reload(), 900);
+                // setTimeout(() => location.reload(), 900);
                 return;
             }
 

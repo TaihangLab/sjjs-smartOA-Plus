@@ -59,7 +59,7 @@ export default {
         reloadProjectList(queryParam){
             this.queryParam = queryParam;
             this.getprojectList(); // 调用原来的获取数据方法
-            this.projectKey += 1; // 修改 key 强制组件重新加载
+            this.projectKey += 1;  // 修改 key 强制组件重新加载
         },
         handleQueryRequest(queryParams) {
             // 执行后端查询等操作
