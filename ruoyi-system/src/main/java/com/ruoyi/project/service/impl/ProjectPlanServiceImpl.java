@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @RequiredArgsConstructor
-public class peojectPlanServiceImpl implements projectPlanService {
+public class ProjectPlanServiceImpl implements projectPlanService {
     private final ProjectPlanMapper projectPlanMapper;
 
 
